@@ -25,6 +25,7 @@ Allowed evidence labels are used verbatim.
 | Local $F_{30}$ periodic branch does not numerically hit the tied curve | ORDINARY NUMERICAL EVIDENCE | Coordinate offsets cross zero at separated $u$ values; not validated continuation |
 | Initial tight-pair torque $\dot h(0)=-B^2(A^{-2}-A)<0$ | EXACT SYMBOLIC IDENTITY | Skinny limit; does not by itself bound the full encounter |
 | Skinny $B^{11/2}$ angular momentum and $B^{11}$ miss scale | CONJECTURAL | Formal frozen-tide asymptotics; uniform remainders absent |
+| Segment virial and initial-vector force-projection identities | PROVED ANALYTICALLY | Necessary for a hypothetical collision-free second brake; no contradiction yet |
 
 ## Dimension count (guidance only)
 

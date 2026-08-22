@@ -18,6 +18,8 @@ Indispensable unresolved obligations:
    parameters; analyticity alone is irrelevant.
 5. If continuation/degree is used, classify every way zeros can enter through
    collision, escape, infinite return time, or the parameter endpoints.
+6. If the integrated-force route is used, prove a genuine global projection or
+   cancellation inequality; positivity only at the initial instant is local.
 
 Smallest mandatory falsification tests: $u=1/3$ (exact $4{:}3{:}5$, near the
 published Li--Liao $F_{30}$ orbit), $u=1/2$ in the opposite ordering, small
