@@ -44,6 +44,16 @@ numerical/family-intersection evidence.
 6. **Primitive/rational equivalence.**  Simultaneous mass--length scaling,
    Euclid parametrization including the parity reduction, leg exchange, and
    the second-brake lemma were proved exactly.
+7. **Validated restricted Jacobi sign.** In the collision-regularized
+   rectilinear restricted limit, CAPD interval Taylor integration on 256
+   overlapping launch-speed slabs proves
+   \[
+   h'(\pi/4)>14/625>0
+   \]
+   for the parabolic-separatrix Jacobi field. Compactification $z=2/x^2$ then
+   puts the time-$\pi$ map under McGehee's degenerate stable-manifold theorem;
+   stable tangents contract, contradicting the validated Jacobi growth under
+   hypothetical tangency. Thus the restricted crossing is transverse.
 
 ## Conjecture status
 
@@ -206,10 +216,10 @@ theorem.
    \[
    h'(\pi/4)>0
    \]
-   forces $h$ to grow and rules out tangency once parabolic-manifold
-   differentiability is formalized. Ordinary integration gives
-   $h'(\pi/4)\approx0.0378487$ and a stable/unstable slope difference near
-   $-0.90623$; neither decimal is validated.
+   forces $h$ to grow. CAPD interval integration now proves the stronger
+   rational bound $h'(\pi/4)>14/625$. The analytic compactified-map argument
+   then proves stable/unstable transversality. The slope difference near
+   $-0.90623$ remains only an ordinary numerical estimate of its magnitude.
 
 These results strengthen the outcome as a major Level-E structural reduction,
 not a proof of the rational or strong real conjecture. No real or rational
@@ -234,15 +244,20 @@ uv run python -m scripts.probe_double_radial
 uv run python -m scripts.continue_f30
 uv run python -m scripts.probe_dynamics --u 1/3 --t-end 4 \
   --samples 20001 --rtol 1e-13 --atol 1e-15 --max-step 0.001
+
+# after building pinned CAPD 6.1.0 with native intervals
+sh scripts/run_capd_restricted_transversality.sh \
+  /path/to/CAPD /path/to/CAPD/build-native
 ```
 
-The repository contains pinned dependencies in `uv.lock` and 42 deterministic
-tests.
+The repository contains pinned Python dependencies in `uv.lock`, a pinned CAPD
+commit in the verifier wrapper, and 44 deterministic symbolic/unit tests.
 
 ## Single highest-leverage next action
 
-Use a validated Taylor/interval integrator on the regularized half-cycle to
-prove $h'(\pi/4)>0$ uniformly for $\sqrt8<v<4$, and write the accompanying
-McGehee differentiability lemma. This is the smallest isolated gap that would
-turn the observed restricted stable/unstable crossing into a theorem; the
-next step would then be uniform true-orbit phase matching.
+Prove uniform true-orbit phase matching through the
+$O(B^{-3/2})$ regularized tight-binary cycles, with an $o(1)$ lifted phase
+error on a nonsingular incoming restricted section. Restricted transversality
+is now a theorem, so this matching result would transfer the escape/capture
+threshold geometry to finite $B$; captured-branch second-brake exclusion would
+still remain.

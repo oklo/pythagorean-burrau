@@ -1,5 +1,34 @@
 # Experiment log
 
+## 2026-08-22: validated restricted Jacobi sign
+
+- Reparameterized the restricted base/Jacobi equations by eccentric anomaly,
+  making the first binary collision the regular endpoint $\psi=\pi/2$.
+- Pinned CAPD 6.1.0 at commit
+  `731079217a9254ea2948d742df2b170895effe7f` and built its native directed-
+  rounding interval backend.
+- Covered $v\in[14/5,4]$ by 256 independently integrated overlapping slabs.
+  Every final normalized derivative enclosure satisfied
+  $q'(\pi/4)>1/125$.
+- Combined this with $\sqrt8<v_*<4$ to prove
+  $h'(\pi/4)>14/625$.
+- The smallest interval lower endpoint was about $0.00813572$, on the slab
+  adjacent to $v=4$; this decimal records the certificate margin and is not
+  used in place of the rational $1/125$ comparison.
+- Closed the analytic implication by compactifying $z=2/x^2$. The resulting
+  analytic time-$\pi$ map satisfies McGehee's degree-four sector hypotheses;
+  tangents to its fixed-phase stable graph contract, while the validated field
+  would keep the compact tangent bounded away from zero under tangency.
+
+Evidence level: **PROVED BY COMPUTER-ASSISTED ARGUMENT** for the finite sign
+and the resulting restricted stable/unstable transversality theorem. Reproduce
+the computer-assisted part with:
+
+```bash
+sh scripts/run_capd_restricted_transversality.sh \
+  /path/to/CAPD /path/to/CAPD/build-native
+```
+
 ## 2026-08-22: reference clock and finite separatrix splitting
 
 - Derived the exact point-mass outer fall to every nonsingular radius and the

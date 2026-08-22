@@ -23,3 +23,16 @@ uv run python -m scripts.derive_restricted_scattering
 uv run python -m scripts.derive_finite_plunge
 uv run python -m scripts.probe_restricted_transversality --cutoffs 10 20 40
 ```
+
+The rigorous finite restricted-transversality certificate additionally uses
+CAPD 6.1.0 pinned at commit
+`731079217a9254ea2948d742df2b170895effe7f`. After building CAPD with
+`-DCAPD_INTERVAL_TYPE=NATIVE`, run:
+
+```bash
+sh scripts/run_capd_restricted_transversality.sh \
+  /path/to/CAPD /path/to/CAPD/build-native
+```
+
+Full derivation and trusted-computing-base details are in
+`docs/COMPUTER_ASSISTED_TRANSVERSALITY.md`.

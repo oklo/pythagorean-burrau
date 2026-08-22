@@ -68,24 +68,23 @@ including
 \]
 through $O(B^{-3/2})$ regularized cycles. At parabolic infinity, explicitly
 fix the $|\theta|^{-1/3}$ time-translation mode; otherwise the naive phase
-Jacobi field makes the Melnikov integral a zero boundary term. A gauge-free
-alternative is to construct the incoming and outgoing parabolic curves
-$V_u(\phi),V_s(\phi)$ on $z=0$ and prove
+Jacobi field makes the Melnikov integral a zero boundary term. The completed
+gauge-free alternative constructs the incoming and outgoing parabolic curves
+$V_u(\phi),V_s(\phi)$ on $z=0$ and proves
 \[
 V_u'(0)-V_s'(0)=2V_u'(0)\ne0.
 \]
-Even after this, prove uniform finite-$B$ persistence and exclude a second
-brake for phases on the captured side. Escape/capture classification alone is
-not the conjecture.
+The remaining task is to prove uniform finite-$B$ persistence and exclude a
+second brake for phases on the captured side. Escape/capture classification
+alone is not the conjecture.
 
-The restricted transversality sign now has a finite sufficient certificate.
-For the even homogeneous Jacobi field $h''=a h$ with
-$h(0)=v_*$ and $h'(0)=0$, prove $h'(\pi/4)>0$. Exact comparison gives
-$\sqrt8<v_*<4$, proves $h>0$ through the collision, and proves $a>0$ after
-$\pi/8$; hence the one remaining sign forces $h$ to grow forever. A
-computer-assisted proof needs only a validated enclosure of $v_*$ and this
-regularized half-cycle, followed by a short McGehee differentiability argument
-identifying growth with $V_u'(0)-V_s'(0)\ne0$.
+Restricted transversality is closed. CAPD interval Taylor integration proves
+$h'(\pi/4)>14/625$, while the compactified time-$\pi$ map satisfies
+McGehee's sector hypotheses. Tangents to its fixed-phase stable curve contract;
+under a hypothetical tangency, $h=z'-\eta_{\rm pin}$ would be such a tangent,
+but the validated sign forces it to grow. The remaining obligations are all
+finite-$B$: uniform matching, persistence and signed displacement of the
+separatrix, and exclusion of second brakes throughout the captured branches.
 
 ## Adversarial checklist
 
@@ -98,4 +97,12 @@ into an infinite claim.
 The first-encounter and terminal-escape theorems received independent
 adversarial derivations. The audit explicitly checked near-collision
 interpretation, reduced-mass conventions, Levi--Civita conjugations, time
-scaling, all leading constants, and the maximal-bootstrap closure.
+scaling, all leading constants, and the maximal-bootstrap closure. An
+independent audit reproduced the CAPD field, time transformation, interval
+cover, normalization, and sign. It found and prompted repair of an inward-
+rounded decimal display; the proof now records exact hexadecimal endpoints
+and uses only the rational lower bound $1/125$. A separate adversarial audit
+rederived the compactification and $O_7$ map, checked McGehee's hypotheses and
+the tangent contraction, and required three repairs now included in the proof:
+exact time-map factorization, the explicit Lipschitz estimate, and the
+three-component phase-gauge subtraction.

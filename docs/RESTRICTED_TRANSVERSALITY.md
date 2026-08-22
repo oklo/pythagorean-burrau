@@ -111,7 +111,7 @@ $3<\pi<22/7$, $\sqrt2>7/5$, and $\sqrt3>5/3$; the left side is then greater
 than $5389/8820>5/14>1/(2\sqrt2)$. Since $z$ thereafter increases and
 $r\le1$, (5) gives $4z^2-r^2/2>0$. \(\square\)
 
-## Finite sign target
+## Finite sign theorem
 
 The preceding lemmas yield the following sufficient condition:
 \[
@@ -119,21 +119,31 @@ The preceding lemmas yield the following sufficient condition:
 \tag{6}
 \]
 Indeed, $h(\theta_c)>0$ and $a>0$ thereafter. If (6) holds, then both $h$
-and $h'$ remain positive and $h$ grows rather than approaching the decaying
-parabolic time-translation mode. After the standard McGehee differentiability
-of the two parabolic curves is established in the collision-regularized
-$e=1$ problem, this rules out tangency at the symmetric crossing and proves
-$V_u'(0)-V_s'(0)\ne0$.
+and $h'$ remain positive and $h$ grows.
 
-Thus the infinite-time transversality problem has a finite candidate
-certificate: enclose $v_*$ and the solution of (3) only up to
-$\theta_c=\pi/4$, then prove (6). Ordinary integration gives
+The finite sign is now validated on a larger interval than necessary. In
+eccentric anomaly $r=\cos^2\psi$, $d\theta=r\,d\psi$, normalize $q=h/v$ and
+put $p=dq/d\theta$. CAPD interval Taylor integration on 256 overlapping
+velocity slabs proves
 \[
-v_*\approx2.90511145,\qquad
-h'(\theta_c)\approx0.03785>0.
+p(\pi/2)>\frac1{125}
+\qquad\hbox{for every }v\in[14/5,4].
+\tag{7}
 \]
-Status of the decimals: **ORDINARY NUMERICAL EVIDENCE**. Status of (1), the
-Wronskian positivity lemma, and the finite implication from (6):
-**PROVED ANALYTICALLY**. A validated enclosure of (6), plus a written
-parabolic-manifold differentiability lemma, would complete the restricted
-transversality theorem.
+Since $14/5<\sqrt8<v_*<4$, this gives the rigorous bound
+\[
+\boxed{h'(\theta_c)>\frac{14}{625}>0.}
+\tag{8}
+\]
+The equations, source pin, enclosure output, and reproduction commands are in
+`COMPUTER_ASSISTED_TRANSVERSALITY.md`.
+
+Status of (1), the Wronskian positivity lemma, and the growth implication from
+(6): **PROVED ANALYTICALLY**. Status of (7)--(8): **PROVED BY
+COMPUTER-ASSISTED ARGUMENT**. The analytic compactification, verification of
+McGehee's sector hypotheses, and tangent-contraction contradiction are proved
+in `PARABOLIC_MANIFOLD.md`. Together they give
+\[
+\boxed{V_u'(0)-V_s'(0)\ne0.}
+\]
+Thus restricted transversality is **PROVED BY COMPUTER-ASSISTED ARGUMENT**.

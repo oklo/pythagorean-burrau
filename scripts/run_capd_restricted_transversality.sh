@@ -17,11 +17,27 @@ if [ "$ACTUAL_CAPD_COMMIT" != "$PINNED_CAPD_COMMIT" ]; then
   exit 2
 fi
 
+if ! git -C "$CAPD_SOURCE_DIR" diff --quiet || \
+   ! git -C "$CAPD_SOURCE_DIR" diff --cached --quiet; then
+  echo "CAPD tracked source tree has local modifications" >&2
+  exit 2
+fi
+
 CAPD_CONFIG="$CAPD_BUILD_DIR/bin/capd-config"
 if [ ! -x "$CAPD_CONFIG" ]; then
   echo "missing $CAPD_CONFIG; configure CAPD with -DCAPD_INTERVAL_TYPE=NATIVE" >&2
   exit 2
 fi
+
+CAPD_FLAGS=$("$CAPD_CONFIG" --cflags --libs)
+case " $CAPD_FLAGS " in
+  *" -D__USE_NATIVE__ "*) ;;
+  *) echo "CAPD build is not the required NATIVE interval build" >&2; exit 2 ;;
+esac
+case " $CAPD_FLAGS " in
+  *" -frounding-math "*) ;;
+  *) echo "CAPD build flags omit -frounding-math" >&2; exit 2 ;;
+esac
 
 REPOSITORY_DIR=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 OUTPUT_BINARY=${TMPDIR:-/tmp}/restricted_transversality_capd
@@ -29,6 +45,10 @@ OUTPUT_BINARY=${TMPDIR:-/tmp}/restricted_transversality_capd
 # capd-config deliberately supplies -frounding-math and -D__USE_NATIVE__.
 # shellcheck disable=SC2046
 c++ "$REPOSITORY_DIR/src/verification/restricted_transversality_capd.cpp" \
-  $("$CAPD_CONFIG" --cflags --libs) -o "$OUTPUT_BINARY"
+  $CAPD_FLAGS -o "$OUTPUT_BINARY"
 
-"$OUTPUT_BINARY"
+if [ "${CAPD_VERBOSE:-0}" = "1" ]; then
+  "$OUTPUT_BINARY" --verbose
+else
+  "$OUTPUT_BINARY"
+fi

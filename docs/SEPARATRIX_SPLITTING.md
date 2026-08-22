@@ -1,10 +1,10 @@
 # Finite-parameter splitting of the skinny separatrix
 
 This note expands the exact late-scaled Jacobi field around the proved
-equal-heavy restricted separatrix.  It identifies the first terms permitted
-by symmetry.  The whole-line splitting functional below is formal until a
-uniform incoming matching theorem and differentiability at parabolic infinity
-are proved.
+equal-heavy restricted separatrix. It identifies the first terms permitted by
+symmetry. The whole-line splitting functional below remains formal until a
+uniform incoming matching theorem and gauge-specific convergence are proved;
+the equivalent finite-section transversality is now proved separately.
 
 ## Exact finite-$\epsilon$ field
 
@@ -225,11 +225,14 @@ $z=\pm L$, give
 
 This is **ORDINARY NUMERICAL EVIDENCE**, reproduced by
 `scripts/probe_restricted_transversality.py`; it is not an enclosure of the
-infinite-endpoint curves.
+infinite-endpoint slopes or their magnitude.
 
 The last column is the finite Jacobi-field target derived in
-`RESTRICTED_TRANSVERSALITY.md`. A rigorous positive enclosure of that column
-would avoid validating an infinite scattering tail.
+`RESTRICTED_TRANSVERSALITY.md`. CAPD interval integration now proves
+$h'(\pi/4)>14/625$. The compactified time-$\pi$ map satisfies McGehee's
+sector hypotheses, and its stable-graph tangents contract. The resulting
+growth contradiction proves (14b), so $\kappa\ne0$ in the fixed section
+normalization. See `PARABOLIC_MANIFOLD.md`.
 
 After fixing this gauge, denote the physical section coefficient by $\kappa$.
 The resulting candidate expansion is
@@ -254,18 +257,18 @@ balance to $\sigma=O(\epsilon^{1/3})$.
 
 ## Exact status and next theorem
 
-The field, potential, initial-energy, tilt, and algebraic parity formulas are
-exact.  The following indispensable steps remain **CONJECTURAL**:
+The field, potential, initial-energy, tilt, algebraic parity formulas, and
+nonvanishing of the fixed-section phase coefficient are proved. The following
+steps remain **CONJECTURAL**:
 
 1. uniform Levi--Civita matching through $O(\epsilon^{-3/2})$ preceding
    collision-like binary cycles, with $o(1)$ lifted phase error;
-2. a function-space construction of the parabolic variational solutions in
-   (9) and (13) and convergence of the improper integrals;
-3. proof or validated enclosure of (14b), equivalently $\kappa\ne0$ in a
-   fixed phase normalization;
-4. control of the remainders in (15), uniformly in the $O(\epsilon)$ phase
+2. a function-space construction and convergence proof for the improper
+   Melnikov integrals, if that representation rather than the proved section
+   coefficient is used;
+3. control of the remainders in (15), uniformly in the $O(\epsilon)$ phase
    window;
-5. exclusion of a second brake on the captured side of the shifted
+4. exclusion of a second brake on the captured side of the shifted
    separatrix.
 
 Even a proof of (16) would classify escape versus capture; it would not alone

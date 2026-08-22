@@ -33,7 +33,13 @@ scattering limit and prove that it has a parabolic separatrix, ruling out a
 phase-uniform strict-escape shortcut. We derive the exact collapsed-pair phase
 clock and the finite-parameter field through second order, exposing a
 parabolic time-translation gauge in the candidate splitting integral. A
-bounded catalog audit finds a close numerical periodic brake orbit on the
+rigorous interval-Taylor computation proves the remaining finite Jacobi sign
+uniformly on an explicit launch-speed interval. An analytic compactification
+then verifies McGehee's degenerate stable-manifold hypotheses and proves that
+the limiting incoming and outgoing parabolic curves cross transversely. This
+auxiliary limiting theorem does not yet provide uniform finite-parameter
+matching or exclude brakes on captured branches. A bounded catalog audit finds
+a close numerical periodic brake orbit on the
 $3{:}4{:}5$ mass slice, but its initial triangle is not the exact tied right
 triangle.
 \end{abstract}
@@ -435,12 +441,107 @@ contraction this proves $(h/z')'>0$ as long as $h>0$, and hence rules out a
 first zero of $h$. A force bound also gives
 \[
 z(\pi/8)>
-\frac{\pi\sqrt2}{4}-\frac{2\pi^2}{27\sqrt3}>rac1{2\sqrt2},
+\frac{\pi\sqrt2}{4}-\frac{2\pi^2}{27\sqrt3}>\frac1{2\sqrt2},
 \]
-so $a>0$ thereafter. It follows that the single finite sign
-$h'(\pi/4)>0$ would force $h$ to grow forever and rule out parabolic tangency.
-Ordinary integration gives approximately $0.0378487$; a validated enclosure
-and a McGehee differentiability lemma remain open.
+so $a>0$ thereafter. Thus $h'(\pi/4)>0$ forces $h$ to grow forever.
+
+This finite sign is now rigorous. Put $q=h/v$, $w=z'$, $p=q'$, and use
+eccentric anomaly $r=\cos^2\psi$, $d\theta=r\,d\psi$. The regular compact
+system is
+\[
+z_\psi=rw,\quad w_\psi=-{2zr\over d^3},\quad
+q_\psi=rp,\quad
+p_\psi=r{4z^2-r^2/2\over d^5}q,
+\tag{CJ}
+\]
+with $(z,w,q,p)(0)=(0,v,1,0)$ and terminal point $\psi=\pi/2$.
+
+\begin{theorem}[Computer-assisted finite Jacobi sign]
+For every $v\in[14/5,4]$, the solution of \emph{(CJ)} exists through
+$\psi=\pi/2$ and
+\[
+p(\pi/2)>\frac1{125}.
+\]
+In particular, the parabolic-separatrix field satisfies
+\[
+h'(\pi/4)>\frac{14}{625}>0.
+\]
+\end{theorem}
+\begin{proof}[Certificate description]
+CAPD 6.1.0 native outward-rounded intervals were used at the pinned commit
+\texttt{731079217a9254ea2948d742df2b170895effe7f}. The interval
+$[14/5,4]$ was divided into 256 overlapping slabs and each slab was propagated
+independently by an order-20 interval Taylor solver with a doubleton set.
+Every terminal interval had lower endpoint greater than $1/125$. The complete
+verifier prints exact hexadecimal binary64 endpoints; the dependency check,
+concise certificate, and symbolic regression test are included in the
+repository. Since $14/5<\sqrt8<v_*<4$ and $h=v_*q$, the stated corollary
+follows.
+\end{proof}
+
+\begin{theorem}[Restricted parabolic transversality]
+The incoming and outgoing parabolic curves of the rectilinear equal-heavy-mass
+restricted problem cross transversely at the reversible apocenter-centered
+orbit.
+\end{theorem}
+\begin{proof}
+The collision-regularized stable-manifold implication can be checked directly.
+Compactify infinity by $z=2/x^2$. In eccentric anomaly the field becomes
+\[
+x_\psi=-{r\over4}x^3w,\qquad
+w_\psi=-{r\over2}x^4(1+r^2x^4/16)^{-3/2}.
+\]
+It is analytic at $(x,w)=(0,0)$ and through $r=0$. Since
+$\int_0^\pi r\,d\psi=\pi/2$, its time-$\pi$ map has, after
+$X=x$, $Y=w-\sqrt2x$, the form
+\[
+X_1=X-\frac\pi8X^3(Y+\sqrt2X)+O_7,qquad
+Y_1=Y+{\pi\sqrt2\over8}X^3Y+O_7.
+\tag{PM}
+\]
+Before this shear, $y=w/\sqrt2$ puts the exact map in the factored form
+\[
+x_1=x-kx^3(y+R_1),\qquad y_1=y-kx^3(x+R_2),
+\quad k={\pi\sqrt2\over8},
+\]
+where analyticity of the exact flow and the $x^3,x^4$ factors in the vector
+field make $R_1,R_2$ analytic of order at least four (write $x=x_0u$ to
+factor the exact flow by $x_0^3$ and $x_0^4$).
+The degree-four term obeys $p_1(X,0)<0$, $p_2(X,0)=0$, and
+$\partial_Yp_2(X,0)>0$ for $X>0$. McGehee's theorem
+\cite{McGehee1973} therefore gives the fixed-phase parabolic stable curve
+$Y=\varphi(X)$ with $\varphi(0)=\varphi'(0)=0$, analytic for $X>0$.
+McGehee's graph construction supplies an arbitrarily small Lipschitz constant
+on a narrowed sector, hence $|\varphi'|$ is correspondingly small for $X>0$.
+
+Restricting (PM) to this graph gives, for positive constants $c_i$ and small
+$X$,
+\[
+c_1X^4\le X-F(X)\le c_2X^4,qquad
+0<F'(X)\le1-c_3X^3.
+\]
+Thus $X_n^{-3}\asymp n$, $\sum X_n^3=\infty$, and every stable-curve tangent
+$\delta X_n=(F^n)'(X_0)\delta X_0$ tends to zero.
+
+Take both section speeds positive in the direction from $z<0$ to $z>0$.
+The reversor $\widetilde z(t)=-z(-t)$ then gives
+$V_s(\phi)=V_u(-\phi)$. Tangency at zero would force both slopes to vanish.
+In extended variables $(\delta z,\delta w,\delta\phi)$, the global time-shift
+and pinned stable-phase tangents are explicitly
+\[
+T_{\rm time}=(v_*,0,1),\qquad T_{\rm pin}=(0,V_s'(0),1)=(0,0,1).
+\]
+Their difference is the fixed-phase stable tangent with $z$-component
+$h=z'-\eta_{\rm pin}$. The
+validated theorem and $a>0$ imply
+$h(\theta)\ge h(\pi/4)+(14/625)(\theta-\pi/4)$. But
+\[
+\delta X_n=-{X_n^3\over4}h(\theta_n),qquad
+\theta_n=\theta_0+n\pi/2,
+\]
+so $X_n^{-3}\asymp n$ makes $\liminf|\delta X_n|>0$, contradicting tangent
+contraction.
+\end{proof}
 
 \section{Cardinality and the remaining obstruction}
 
@@ -520,6 +621,9 @@ motion in the general three-body problem, PASJ 24 (1972), 391--408.
 \bibitem{BakkerSimmons} L. F. Bakker and S. C. Simmons, A separating surface
 for Sitnikov-like $n+1$-body problems, J. Differential Equations 258 (2015),
 3063--3087.
+\bibitem{McGehee1973} R. McGehee, A stable manifold theorem for degenerate
+fixed points with applications to celestial mechanics, J. Differential
+Equations 14 (1973), 70--88.
 \end{thebibliography}
 
 \end{document}

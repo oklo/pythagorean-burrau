@@ -109,3 +109,30 @@ def collision_regularized_jacobi_system() -> tuple[sp.Matrix, tuple[sp.Symbol, .
         ]
     )
     return system, (psi, z, w, q, p)
+
+
+def parabolic_infinity_compactification() -> tuple[sp.Matrix, tuple[sp.Symbol, ...]]:
+    """Return the analytic compactified restricted field at parabolic infinity."""
+    psi = sp.symbols("psi", real=True)
+    x, velocity = sp.symbols("x velocity", real=True)
+    separation = sp.cos(psi) ** 2
+    field = sp.Matrix(
+        [
+            -separation * x**3 * velocity / 4,
+            -separation
+            * x**4
+            / (2 * (1 + separation**2 * x**4 / 16) ** sp.Rational(3, 2)),
+        ]
+    )
+    return field, (psi, x, velocity)
+
+
+def parabolic_stroboscopic_leading_map() -> tuple[sp.Matrix, sp.Matrix]:
+    """Degree-four period-map term before and after the stable-ray shear."""
+    x, velocity, transverse = sp.symbols("x velocity transverse", real=True)
+    original = sp.Matrix([-sp.pi * x**3 * velocity / 8, -sp.pi * x**4 / 4])
+    sheared = sp.expand(
+        original.subs(velocity, transverse + sp.sqrt(2) * x)
+    )
+    transformed = sp.Matrix([sheared[0], sp.expand(sheared[1] - sp.sqrt(2) * sheared[0])])
+    return original, transformed

@@ -112,5 +112,6 @@ The repair is to fix the coefficient of the parabolic time-translation mode,
 or, more invariantly, compare incoming and outgoing parabolic curves on the
 finite section $z=0$. Reversibility then gives
 $V_s(\phi)=V_u(-\phi)$, and the genuine transversality condition is
-$2V_u'(0)\ne0$. Ordinary finite-cutoff calculations support it, but no
-analytic or validated sign proof exists yet.
+$2V_u'(0)\ne0$. This condition is now proved by a finite interval Jacobi sign
+plus a McGehee-map tangent contraction. The improper-integral route remains
+ill posed without a gauge, but is no longer needed for nonvanishing.

@@ -15,6 +15,7 @@ by exhaustion.
 | [Hristov et al. (2024)](https://doi.org/10.1007/s10569-023-10177-w), [preprint](https://arxiv.org/abs/2308.16159) | Equal masses | General free-fall domain | 12,409 reported collisionless distinct solutions | High-precision numerical, not interval validated | Yes | Equal masses cannot satisfy tied right-side lengths |
 | [Hristov et al. (2025)](https://arxiv.org/abs/2503.00432) | Equal masses | Centrally symmetric free-fall subclass | 4,860 reported collisionless orbits | 100-digit numerical database, not validated existence | Symmetry imposes stop returns | Equal-mass family is disjoint from tied right triangles |
 | [Bakker--Simmons (2015)](https://doi.org/10.1016/j.jde.2015.01.002), [preprint](https://arxiv.org/abs/1410.2636) | Restricted Sitnikov-like models | Massless body transverse to periodic primaries | Main theorem assumes nonsingular periodic primary motion | Rigorous separating surface in the nonsingular setting; collision case $e=1$ is numerical | Separates escape and return/capture data | Useful model for the skinny separatrix, but its theorem explicitly does not cover colliding rectilinear primaries and has no tied-mass condition |
+| [McGehee (1973)](https://doi.org/10.1016/0022-0396(73)90077-6), [author PDF](https://www-users.cse.umn.edu/~mcgehee/publications/McGehee1973/McGehee1973JDiffEq14p70.pdf) | Restricted, collinear, and Sitnikov problems | Parabolic infinity after compactification | Present project verifies its sector hypotheses directly for the massless rectilinear collision-regularized map | Rigorous degenerate stable-manifold theorem | Not a brake-return theorem | Supplies the analytic parabolic curve used in the proved restricted transversality theorem, not the tied-family conclusion |
 | [Standish (1971)](https://doi.org/10.1007/BF01230319); [Yoshida (1972)](https://doi.org/10.1093/pasj/24.3.391) | General masses | Separated binary--single states | Sufficient inequalities imply hyperbolic--elliptic escape | Analytic criteria; historical Burrau application uses decimal data | Excludes every later brake once certified | Useful only after an outgoing section; not satisfied after the first skinny passage |
 
 ## What the rigorous syzygy literature supplies
@@ -44,6 +45,16 @@ theorem does not apply when a primary collision makes the stated radius bound
 vanish. It therefore supports the geometry of the present splitting program
 but cannot supply the missing transversality theorem for the collision-
 regularized skinny limit.
+
+McGehee proves that parabolic asymptotic sets are analytic immersed manifolds
+for several celestial-mechanics maps with identity linearization at infinity.
+For the present restricted limit, the eccentric-anomaly system and the
+compactification $z=2/x^2$ produce an analytic collision-regularized
+stroboscopic map. Its leading homogeneous terms satisfy McGehee's sector
+hypotheses exactly. The project additionally proves contraction of tangents
+on the resulting fixed-phase stable graph, which is the ingredient needed to
+turn the finite Jacobi growth sign into restricted transversality. This still
+has no direct finite-$B$ or tied-mass conclusion.
 
 ## Audit conclusion
 

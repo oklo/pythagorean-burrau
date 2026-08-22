@@ -11,7 +11,10 @@ coordinate-valid brake residual, universal reduced system, uniform fourth-jet
 sign, and isosceles endpoint collision theorem are complete. In addition, a
 Levi--Civita argument proves that every sufficiently skinny real member avoids
 the limiting heavy-pair collision on its first encounter, with exact
-$B^{11}$ miss and $B^{11/2}$ angular-momentum asymptotics.
+$B^{11}$ miss and $B^{11/2}$ angular-momentum asymptotics. The universal
+rectilinear restricted limit now has a proved transverse parabolic
+stable/unstable crossing, using an analytic McGehee-map reduction and one
+validated interval Jacobi sign.
 
 The closest catalog threat, the Li--Liao $F_{30}$ family on the
 $3{:}4{:}5$ mass slice, was locally continued.  Its periodic branch comes
@@ -44,19 +47,28 @@ $O(B)$ energy splitting cancels by parity, and longitudinal bending begins at
 $B^2$. A naive whole-line phase Melnikov coefficient is gauge-degenerate
 because global time translation is a decaying parabolic Jacobi field. On the
 correct $z=0$ Poincare section, ordinary finite-cutoff computations strongly
-support transverse incoming/outgoing parabolic curves, with slope difference
-near $-0.90623$, but this is not validated.
+estimate the transverse incoming/outgoing slope difference near $-0.90623$;
+the estimate's magnitude is not validated, although nonvanishing is now
+proved below.
 
 The first current skinny obligation is therefore a uniform regularized
-matching theorem with $o(1)$ lifted phase error. The second is an analytic or
-validated proof of Poincare-section transversality. Neither resolves phases on
-the captured side, so no Level-D skinny nonperiodicity theorem is yet claimed.
+matching theorem with $o(1)$ lifted phase error. Restricted transversality is
+now closed, but it does not by itself resolve finite-$B$ phases on the captured
+side, so no Level-D skinny nonperiodicity theorem is yet claimed.
 
 The transversality task is no longer intrinsically infinite-time. Exact
 comparison proves $\sqrt8<v_*<4$ for the restricted separatrix. An exact
 Wronskian argument keeps its even phase Jacobi field positive through the first
 regularized binary collision, and the variational coefficient is positive
-after time $\pi/8$. Therefore the finite sign $h'(\pi/4)>0$ is a sufficient
-certificate of growth and transversality, subject only to formalizing the
-parabolic-manifold differentiability at the $e=1$ collision limit. Ordinary
-integration gives $h'(\pi/4)\approx0.0378487$.
+after time $\pi/8$. CAPD interval Taylor integration over a rational velocity
+cover proves
+\[
+h'(\pi/4)>14/625>0.
+\]
+Thus growth is now a computer-assisted theorem. Restricted transversality is
+also proved: $z=2/x^2$ gives an analytic time-$\pi$ map satisfying McGehee's
+degree-four sector hypotheses, whose fixed-phase stable tangents contract.
+Hypothetical tangency would make the growing Jacobi field such a contracting
+tangent, a contradiction. The remaining obstruction lies in uniform
+finite-$B$ matching, separatrix persistence, and captured-branch brake
+exclusion.

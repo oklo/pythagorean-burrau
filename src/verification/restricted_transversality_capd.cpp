@@ -7,6 +7,7 @@
 // commit check, compilation, and execution.
 
 #include <algorithm>
+#include <cmath>
 #include <iomanip>
 #include <iostream>
 #include <stdexcept>
@@ -71,6 +72,7 @@ int main(int argc, char** argv) {
 
     if (verbose) {
       std::cout << "slab velocity_lower velocity_upper derivative_lower derivative_upper\n";
+      std::cout << std::hexfloat;
     }
 
     for (int i = 0; i < kSlabs; ++i) {
@@ -101,7 +103,9 @@ int main(int argc, char** argv) {
       const IVector result = time_map(interval::pi() / 2.0, set);
       const interval derivative = result[4];
       const interval rational_threshold = interval(1.0) / interval(125.0);
-      if (derivative.leftBound() <= rational_threshold.rightBound()) {
+      if (!std::isfinite(derivative.leftBound()) ||
+          !std::isfinite(derivative.rightBound()) ||
+          !(derivative.leftBound() > rational_threshold.rightBound())) {
         std::cerr << "FAIL slab=" << i << " velocity=" << velocity
                   << " derivative=" << derivative
                   << " required_lower=1/125\n";
@@ -117,23 +121,26 @@ int main(int argc, char** argv) {
       global_upper = std::max(global_upper, derivative.rightBound());
 
       if (verbose) {
-        std::cout << std::setprecision(17) << i << " "
+        std::cout << i << " "
                   << velocity.leftBound() << " " << velocity.rightBound() << " "
                   << derivative.leftBound() << " " << derivative.rightBound() << "\n";
       }
     }
 
-    std::cout << std::setprecision(17)
+    std::cout << std::hexfloat
               << "PASS method=CAPD-6.1.0-native"
               << " capd_commit=731079217a9254ea2948d742df2b170895effe7f"
               << " slabs=" << kSlabs
-              << " velocity_cover=" << velocity_cover
+              << " velocity_cover_hex=[" << velocity_cover.leftBound() << ","
+              << velocity_cover.rightBound() << "]"
               << " rational_lower=1/125"
-              << " normalized_derivative_global=[" << global_lower << ","
+              << " normalized_derivative_global_hex=[" << global_lower << ","
               << global_upper << "]"
               << " worst_slab=" << worst_slab
-              << " worst_velocity=" << worst_velocity
-              << " worst_derivative=" << worst_derivative << "\n";
+              << " worst_velocity_hex=[" << worst_velocity.leftBound() << ","
+              << worst_velocity.rightBound() << "]"
+              << " worst_derivative_hex=[" << worst_derivative.leftBound() << ","
+              << worst_derivative.rightBound() << "]\n";
     return 0;
   } catch (const std::exception& error) {
     std::cerr << "ERROR " << error.what() << "\n";

@@ -4,8 +4,11 @@ Compiler: Apple clang 21.0.0 (clang-2100.0.123.102)
 CAPD: 6.1.0, native intervals, commit 731079217a9254ea2948d742df2b170895effe7f
 Command: sh scripts/run_capd_restricted_transversality.sh /private/tmp/pythagorean-capd /private/tmp/pythagorean-capd/build-native
 
-PASS method=CAPD-6.1.0-native capd_commit=731079217a9254ea2948d742df2b170895effe7f slabs=256 velocity_cover=[2.7999999999999998,4.0000000000000009] rational_lower=1/125 normalized_derivative_global=[0.0081357218916140798,0.013237560677564199] worst_slab=255 worst_velocity=[3.9953124999999993,4.0000000000000009] worst_derivative=[0.0081357218916140797,0.0082622854573731857]
+PASS method=CAPD-6.1.0-native capd_commit=731079217a9254ea2948d742df2b170895effe7f slabs=256 velocity_cover_hex=[0x1.6666666666666p+1,0x1.0000000000001p+2] rational_lower=1/125 normalized_derivative_global_hex=[0x1.0a9761ba17394p-7,0x1.b1c4b5182fa3ap-7] worst_slab=255 worst_velocity_hex=[0x1.ff66666666665p+1,0x1.0000000000001p+2] worst_derivative_hex=[0x1.0a9761ba17394p-7,0x1.0ebd12ea31746p-7]
 
 Interpretation: every slab passed independently. The velocity cover contains
 [sqrt(8),4], and q=h/v with v>0, so q'(pi/4)>0 rigorously implies
 h'(pi/4)>0 throughout the analytic launch-speed bracket.
+
+Hexadecimal floating-point endpoints encode the actual binary64 interval
+endpoints exactly; no decimal-formatting assumption enters the proof.

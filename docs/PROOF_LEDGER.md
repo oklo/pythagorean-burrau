@@ -37,11 +37,12 @@ Allowed evidence labels are used verbatim.
 | Finite-$B$ late-plunge field has $Z_x''=3B^2r^3/(16d^5)+O(B^3)$ and the stated radial/vertical coefficients | EXACT SYMBOLIC IDENTITY | Taylor coefficients of the exact Jacobi field on the limiting symmetric orbit; does not make that orbit invariant at $B>0$ |
 | Centered $O(B)$ backreaction has zero linear whole-line energy splitting | EXACT SYMBOLIC IDENTITY | Parity cancellation for a reversible two-sided variational solution; generic retarded boundary data require a phase gauge |
 | Naive time-shift phase Melnikov integrand is a total derivative | EXACT SYMBOLIC IDENTITY | Shows zero-at-infinity conditions do not fix the parabolic time-translation mode |
-| Incoming and outgoing restricted parabolic curves meet transversely at apocenter | ORDINARY NUMERICAL EVIDENCE | Finite-cutoff section slopes converge near $-0.90623$; no analytic or interval enclosure |
 | Restricted separatrix speed obeys $\sqrt8<v_*<4$ | PROVED ANALYTICALLY | Fixed-softening comparison for turning and an explicit early-section escape estimate |
 | The even transversality Jacobi field stays positive through the first binary collision, and $a>0$ after $\theta=\pi/8$ | PROVED ANALYTICALLY | Exact Wronskian identity; uses monotonicity of the proved separatrix and regularized collision |
-| $h'(\pi/4)>0$ for the transversality Jacobi field | ORDINARY NUMERICAL EVIDENCE | Approximately $0.0378487$; a finite validated enclosure would imply growth of $h$ and, after parabolic-manifold regularity, transverse crossing |
-| Finite-$B$ separatrix has phase displacement $\sigma_*(B)=2B/\kappa+o(B)$ | CONJECTURAL | Needs incoming-energy matching, gauge-fixed $\kappa\ne0$, and uniform remainder estimates |
+| $h'(\pi/4)>14/625>0$ for the restricted transversality Jacobi field | PROVED BY COMPUTER-ASSISTED ARGUMENT | CAPD 6.1.0 interval Taylor proof on 256 overlapping slabs covering $v\in[14/5,4]$; analytic bracket places $v_*$ inside; source and certificate are replayable |
+| Collision-regularized restricted parabolic curves are differentiable, analytic away from infinity, and fixed-phase stable tangents contract | PROVED ANALYTICALLY | Compactification $z=2/x^2$ gives an analytic time-$\pi$ map satisfying McGehee's degree-four sector hypotheses; the restricted graph map gives tangent contraction |
+| Incoming and outgoing restricted parabolic curves meet transversely at apocenter | PROVED BY COMPUTER-ASSISTED ARGUMENT | Analytic tangent-contraction theorem plus the validated $h'(\pi/4)>14/625$ growth contradiction; applies to the auxiliary skinny limit only |
+| Finite-$B$ separatrix has phase displacement $\sigma_*(B)=2B/\kappa+o(B)$ | CONJECTURAL | Gauge-fixed $\kappa\ne0$ is now proved in the limiting section; incoming-energy matching, finite-$B$ persistence, and uniform remainder estimates remain |
 | Segment virial and initial-vector force-projection identities | PROVED ANALYTICALLY | Necessary for a hypothetical collision-free second brake; no contradiction yet |
 
 ## Dimension count (guidance only)
