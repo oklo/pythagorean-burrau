@@ -17,4 +17,5 @@ uv sync --all-groups
 uv run pytest
 uv run python -m scripts.derive_exact_identities
 uv run python -m scripts.derive_taylor_jet
+uv run python -m scripts.derive_skinny_regularization
 ```

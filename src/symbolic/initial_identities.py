@@ -157,9 +157,13 @@ def expected_defect_fourth_derivative() -> sp.Expr:
 
 
 def tight_pair_initial_specific_torque() -> sp.Expr:
-    """Initial external torque of the tight (bodies 1,3) Jacobi vector."""
-    _, a, b = euclid_symbols()
-    return sp.factor(-b**2 * (a**-2 - a))
+    """Derive the initial tight-pair specific torque from Newton acceleration."""
+    masses, positions = initial_data()
+    newton_accelerations = accelerations(masses, positions)
+    tight_vector = positions[2] - positions[0]
+    tight_acceleration = newton_accelerations[2] - newton_accelerations[0]
+    cross = tight_vector[0] * tight_acceleration[1] - tight_vector[1] * tight_acceleration[0]
+    return sp.factor(sp.simplify(cross))
 
 
 def expected_identities() -> dict[str, sp.Expr]:
