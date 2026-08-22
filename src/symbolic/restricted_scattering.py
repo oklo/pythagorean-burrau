@@ -37,3 +37,27 @@ def transverse_variational_normal_form() -> sp.Expr:
         - first_derivative_coefficient**2 / 4
     )
     return sp.trigsimp(normal_coefficient)
+
+
+def time_shift_melnikov_identity() -> tuple[sp.Expr, sp.Expr]:
+    """Show that the unnormalized phase Jacobi field gives a boundary term."""
+    r, r_velocity, r_acceleration, z, z_velocity = sp.symbols(
+        "r r_velocity r_acceleration z z_velocity", real=True
+    )
+    radius_squared = z**2 + r**2 / 4
+    radius = sp.sqrt(radius_squared)
+    integrand = (
+        (r_velocity**2 + r * r_acceleration) / (2 * radius**3)
+        - 3
+        * r
+        * r_velocity
+        * (z * z_velocity + r * r_velocity / 4)
+        / (2 * radius**5)
+    )
+    boundary_term = r * r_velocity / (2 * radius**3)
+    derivative = (
+        sp.diff(boundary_term, r) * r_velocity
+        + sp.diff(boundary_term, r_velocity) * r_acceleration
+        + sp.diff(boundary_term, z) * z_velocity
+    )
+    return sp.simplify(integrand), sp.simplify(derivative)

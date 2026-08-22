@@ -34,3 +34,20 @@ Consequently the next target is a matched finite-$B$ separatrix-splitting
 calculation plus a no-brake classification on its nonescaping side.
 Perturbation away from the solved isosceles-right collision endpoint is
 secondary.
+
+The collapsed-pair reference clock is now exact through a nonsingular overlap
+section. Its phase sweeps monotonically at rate
+$-(3\pi/2)B^{-5/2}(1+o(1))$, so every open limiting phase window has infinitely
+many reference preimages containing rational Euclid parameters. The exact
+finite-$B$ plunge field has also been expanded through $B^2$: centered
+$O(B)$ energy splitting cancels by parity, and longitudinal bending begins at
+$B^2$. A naive whole-line phase Melnikov coefficient is gauge-degenerate
+because global time translation is a decaying parabolic Jacobi field. On the
+correct $z=0$ Poincare section, ordinary finite-cutoff computations strongly
+support transverse incoming/outgoing parabolic curves, with slope difference
+near $-0.90623$, but this is not validated.
+
+The first current skinny obligation is therefore a uniform regularized
+matching theorem with $o(1)$ lifted phase error. The second is an analytic or
+validated proof of Poincare-section transversality. Neither resolves phases on
+the captured side, so no Level-D skinny nonperiodicity theorem is yet claimed.

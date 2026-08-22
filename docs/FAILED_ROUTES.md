@@ -92,3 +92,25 @@ negative leading coefficient. It is not sign-definite throughout the exact
 motion. At $u=1/3$, ordinary integration and the exact torque formula give a
 small positive value near $t=0.3757632445$. No theorem relies on this decimal
 falsification; it records why initial torque cannot be extrapolated globally.
+
+## Naive whole-line phase Melnikov integral
+
+**Status:** DISPROVED as a well-posed transversality coefficient without an
+asymptotic phase gauge.
+
+The formal phase variational equation admits $\zeta=z'$, the Jacobi field that
+translates the entire parabolic orbit in time. With that choice its proposed
+Melnikov integrand is exactly
+\[
+{d\over d\theta}\left({rr'\over2(z^2+r^2/4)^{3/2}}\right),
+\]
+so the whole-line integral vanishes. Naive conditions $\zeta,\zeta'\to0$ at
+parabolic infinity do not eliminate this mode: $z'=O(|\theta|^{-1/3})$ also
+tends to zero.
+
+The repair is to fix the coefficient of the parabolic time-translation mode,
+or, more invariantly, compare incoming and outgoing parabolic curves on the
+finite section $z=0$. Reversibility then gives
+$V_s(\phi)=V_u(-\phi)$, and the genuine transversality condition is
+$2V_u'(0)\ne0$. Ordinary finite-cutoff calculations support it, but no
+analytic or validated sign proof exists yet.

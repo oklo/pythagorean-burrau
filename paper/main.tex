@@ -30,9 +30,12 @@ argument proves that every sufficiently skinny member avoids the limiting
 heavy-pair collision on its first encounter, with explicit miss-distance and
 angular-momentum asymptotics. We derive the later rectilinear restricted
 scattering limit and prove that it has a parabolic separatrix, ruling out a
-phase-uniform strict-escape shortcut. A bounded catalog audit finds a close numerical periodic
-brake orbit on the $3{:}4{:}5$ mass slice, but its initial triangle is not the
-exact tied right triangle.
+phase-uniform strict-escape shortcut. We derive the exact collapsed-pair phase
+clock and the finite-parameter field through second order, exposing a
+parabolic time-translation gauge in the candidate splitting integral. A
+bounded catalog audit finds a close numerical periodic brake orbit on the
+$3{:}4{:}5$ mass slice, but its initial triangle is not the exact tied right
+triangle.
 \end{abstract}
 
 \section{Exact conjecture}
@@ -371,6 +374,54 @@ separatrix proves that a strict phase-uniform escape margin is impossible in
 the limiting problem. A finite-$\epsilon$ proof must instead match the
 incoming data and determine the separatrix splitting.
 
+\subsection{Reference phase and finite-parameter splitting}
+
+Put $A=\sqrt{1-\epsilon^2}$, $M=1+A$, $N=M+\epsilon$, and let
+$\rho_0^2=2A^2/M$ be the exact initial outer Jacobi radius. Replacing the tight
+pair by a point mass gives the exact reference clock
+\[
+\Phi_{\rm ref}
+=\frac{\pi}{\epsilon^{3/2}}\sqrt{\frac MN}\,\rho_0^{3/2}
+=\pi\epsilon^{-3/2}-\frac\pi4\epsilon^{-1/2}
+-\frac{15\pi}{32}\epsilon^{1/2}+O(\epsilon^{3/2}).
+\tag{RC}
+\]
+Moreover
+$\Phi_{\rm ref}'\sim-(3\pi/2)\epsilon^{-5/2}$. Thus every open phase arc
+has infinitely many reference preimage intervals accumulating at zero, each
+containing rational Euclid parameters. This conclusion concerns the reference
+clock only: proving
+$\Phi_{\rm true}=\Phi_{\rm ref}+o(1)$ requires uniform Levi--Civita averaging
+through $O(\epsilon^{-3/2})$ collision-like binary cycles.
+
+On the limiting symmetric orbit let $d^2=z^2+r^2/4$. Expansion of the exact
+finite-parameter Jacobi field gives
+\[
+r''=-\frac2{r^2}-\epsilon\frac r{d^3}
++\frac{\epsilon^2}{2r^2}+O(\epsilon^3),
+\]
+\[
+Z_y''=-\frac{2z}{d^3}-\epsilon\frac z{d^3}
++\epsilon^2\frac z{2d^3}+O(\epsilon^3),\qquad
+Z_x''=\epsilon^2\frac{3r^3}{16d^5}+O(\epsilon^3).
+\tag{FS}
+\]
+The centered order-$\epsilon$ energy-transfer variation cancels by parity;
+longitudinal bending starts at order $\epsilon^2$. The first
+symmetry-allowed splitting direction is binary phase. Its naive whole-line
+Jacobi field is nevertheless gauge-degenerate: choosing the global
+time-translation field $\zeta=z'$ makes the proposed integrand exactly
+\[
+\frac d{d\theta}\left(\frac{rr'}{2d^3}\right).
+\]
+Because $z'=O(|\theta|^{-1/3})$ at parabolic infinity, zero limiting data do
+not eliminate this mode. A well-posed transversality theorem must instead fix
+the parabolic epoch or compare incoming and outgoing parabolic curves
+$V_u,V_s$ on $z=0$. Reversibility gives $V_s(\phi)=V_u(-\phi)$, so the target
+is $2V_u'(0)\ne0$. Ordinary finite-cutoff calculations support this with a
+slope difference near $-0.90623$, but no analytic or validated result is
+claimed.
+
 \section{Cardinality and the remaining obstruction}
 
 The rational parameters are countable and dense.  Neither countability,
@@ -446,6 +497,9 @@ free-fall three-body problem, New Astronomy 70 (2019), 22--26.
 three-body problem, Celestial Mechanics 4 (1971), 44--48.
 \bibitem{Yoshida} J. Yoshida, Improved criteria for hyperbolic--elliptic
 motion in the general three-body problem, PASJ 24 (1972), 391--408.
+\bibitem{BakkerSimmons} L. F. Bakker and S. C. Simmons, A separating surface
+for Sitnikov-like $n+1$-body problems, J. Differential Equations 258 (2015),
+3063--3087.
 \end{thebibliography}
 
 \end{document}

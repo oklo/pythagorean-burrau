@@ -21,4 +21,5 @@ uv run python -m scripts.derive_skinny_regularization
 uv run python -m scripts.derive_skinny_matching
 uv run python -m scripts.derive_restricted_scattering
 uv run python -m scripts.derive_finite_plunge
+uv run python -m scripts.probe_restricted_transversality --cutoffs 10 20 40
 ```

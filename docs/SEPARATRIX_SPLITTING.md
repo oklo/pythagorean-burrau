@@ -185,10 +185,49 @@ then the candidate phase coefficient is
 }
 \tag{14}
 \]
-Time reversal makes the restricted energy gain odd in $\sigma$, so symmetry
-allows a linear term and does not force $\kappa=0$.  In lifted mean anomaly,
-the convention used in `SKINNY_MATCHING.md` gives $\delta\Phi=4\sigma$.
+The phrase ``incoming parabolic solution'' needs an asymptotic gauge. Indeed,
+$\zeta=z'$ solves (13), because it is the Jacobi field obtained by translating
+the entire orbit in time. For that choice the integrand in (14) is exactly
+\[
+{d\over d\theta}\left({rr'\over2d^3}\right),
+\tag{14a}
+\]
+so the whole-line integral is zero. Both $z'$ and its derivative tend to zero
+at parabolic infinity, so naive zero boundary data there do not remove this
+mode. One must fix the $|\theta|^{-1/3}$ parabolic time-origin coefficient or
+use a finite Poincare section. This is an exact gauge obstruction, not a proof
+that the physical phase coefficient vanishes.
 
+A gauge-free formulation uses the section $z=0$. Let $V_u(\phi)$ be the
+crossing speed of the incoming parabolic curve when the binary phase is
+$\phi$, and let $V_s(\phi)$ be the outgoing parabolic curve. Reversibility
+gives
+\[
+V_s(\phi)=V_u(-\phi).
+\]
+The centered separatrix is transverse precisely when
+\[
+\Delta'(0)=V_u'(0)-V_s'(0)=2V_u'(0)\ne0.
+\tag{14b}
+\]
+Time reversal permits this linear term; it does not prove that the coefficient
+is nonzero. In lifted mean anomaly, the convention used in
+`SKINNY_MATCHING.md` gives $\delta\Phi=4\sigma$.
+
+Finite-cutoff ordinary integrations, using zero instantaneous energy at
+$z=\pm L$, give
+
+| $L$ | centered launch speed | $V_u'(0)-V_s'(0)$ |
+|---:|---:|---:|
+| 10 | 2.905102038901 | -0.906026504100 |
+| 20 | 2.905107715066 | -0.906232318112 |
+| 40 | 2.905111335972 | -0.906230148693 |
+
+This is **ORDINARY NUMERICAL EVIDENCE**, reproduced by
+`scripts/probe_restricted_transversality.py`; it is not an enclosure of the
+infinite-endpoint curves.
+
+After fixing this gauge, denote the physical section coefficient by $\kappa$.
 The resulting candidate expansion is
 \[
 \boxed{
@@ -218,13 +257,12 @@ exact.  The following indispensable steps remain **CONJECTURAL**:
    collision-like binary cycles, with $o(1)$ lifted phase error;
 2. a function-space construction of the parabolic variational solutions in
    (9) and (13) and convergence of the improper integrals;
-3. proof or validated enclosure that $\kappa\ne0$;
+3. proof or validated enclosure of (14b), equivalently $\kappa\ne0$ in a
+   fixed phase normalization;
 4. control of the remainders in (15), uniformly in the $O(\epsilon)$ phase
    window;
 5. exclusion of a second brake on the captured side of the shifted
    separatrix.
 
-Ordinary integrations show a robust sign change of outgoing energy under
-small phase detuning, so $\kappa\ne0$ is plausible, but no numerical value is
-promoted here.  Even a proof of (16) would classify escape versus capture; it
-would not alone prove nonperiodicity on the captured side.
+Even a proof of (16) would classify escape versus capture; it would not alone
+prove nonperiodicity on the captured side.

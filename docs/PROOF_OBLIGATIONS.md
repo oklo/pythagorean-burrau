@@ -60,6 +60,24 @@ collision.  The remaining obligation is a regularized transverse analysis of
 how that collision unfolds when $A\ne B$ and whether any second-brake branch
 can emerge.
 
+The skinny matching obligation is now localized more sharply. On a section
+$|Y|=B^\alpha$, prove uniform convergence of the outer data and binary action,
+including
+\[
+\Phi_{\rm true}-\Phi_{\rm ref}=o(1)\pmod{2\pi},
+\]
+through $O(B^{-3/2})$ regularized cycles. At parabolic infinity, explicitly
+fix the $|\theta|^{-1/3}$ time-translation mode; otherwise the naive phase
+Jacobi field makes the Melnikov integral a zero boundary term. A gauge-free
+alternative is to construct the incoming and outgoing parabolic curves
+$V_u(\phi),V_s(\phi)$ on $z=0$ and prove
+\[
+V_u'(0)-V_s'(0)=2V_u'(0)\ne0.
+\]
+Even after this, prove uniform finite-$B$ persistence and exclude a second
+brake for phases on the captured side. Escape/capture classification alone is
+not the conjecture.
+
 ## Adversarial checklist
 
 Every promoted lemma must be checked for hidden genericity; vector-valued

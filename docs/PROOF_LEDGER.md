@@ -31,6 +31,14 @@ Allowed evidence labels are used verbatim.
 | Late-plunge scaling converges locally to the equal-heavy-mass rectilinear restricted system | PROVED ANALYTICALLY | Vector-field statement on compact nonsingular sets; extends across prescribed binary collisions after LC regularization when the light particle stays separate; global matching remains open |
 | The restricted apocenter phase has a parabolic-to-parabolic light-particle separatrix | PROVED ANALYTICALLY | Sturm comparison, quantitative large-speed escape, and launch-speed boundary; the prescribed heavy binary is collision-regularized |
 | Every limiting plunge phase has a strict positive escape margin | DISPROVED | The exact parabolic separatrix has zero outgoing energy; this does not decide any finite-$B$ orbit |
+| Exact collapsed-pair fall, section clock, and $\Phi_{\rm ref}=\pi B^{-3/2}-(\pi/4)B^{-1/2}-(15\pi/32)B^{1/2}+O(B^{3/2})$ | EXACT SYMBOLIC IDENTITY | Decoupled reference problem only; not yet the phase of the true orbit |
+| Every open reference phase arc pulls back to infinitely many intervals containing rational Euclid parameters | PROVED ANALYTICALLY | Uses $\Phi_{\rm ref}'\sim-(3\pi/2)B^{-5/2}$ and density of rational $u$; requires true $o(1)$ phase matching before it has dynamical force |
+| True skinny phase satisfies $\Phi_{\rm true}=\Phi_{\rm ref}+o(1)$ on an incoming restricted section | CONJECTURAL | Requires uniform LC averaging across $O(B^{-3/2})$ collision-like binary cycles |
+| Finite-$B$ late-plunge field has $Z_x''=3B^2r^3/(16d^5)+O(B^3)$ and the stated radial/vertical coefficients | EXACT SYMBOLIC IDENTITY | Taylor coefficients of the exact Jacobi field on the limiting symmetric orbit; does not make that orbit invariant at $B>0$ |
+| Centered $O(B)$ backreaction has zero linear whole-line energy splitting | EXACT SYMBOLIC IDENTITY | Parity cancellation for a reversible two-sided variational solution; generic retarded boundary data require a phase gauge |
+| Naive time-shift phase Melnikov integrand is a total derivative | EXACT SYMBOLIC IDENTITY | Shows zero-at-infinity conditions do not fix the parabolic time-translation mode |
+| Incoming and outgoing restricted parabolic curves meet transversely at apocenter | ORDINARY NUMERICAL EVIDENCE | Finite-cutoff section slopes converge near $-0.90623$; no analytic or interval enclosure |
+| Finite-$B$ separatrix has phase displacement $\sigma_*(B)=2B/\kappa+o(B)$ | CONJECTURAL | Needs incoming-energy matching, gauge-fixed $\kappa\ne0$, and uniform remainder estimates |
 | Segment virial and initial-vector force-projection identities | PROVED ANALYTICALLY | Necessary for a hypothetical collision-free second brake; no contradiction yet |
 
 ## Dimension count (guidance only)

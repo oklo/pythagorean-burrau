@@ -1,5 +1,42 @@
 # Experiment log
 
+## 2026-08-22: reference clock and finite separatrix splitting
+
+- Derived the exact point-mass outer fall to every nonsingular radius and the
+  binary reference phase
+  \[
+  \Phi_{\rm ref}=\pi B^{-3/2}-{\pi\over4}B^{-1/2}
+  -{15\pi\over32}B^{1/2}+O(B^{3/2}).
+  \]
+- Proved $\Phi_{\rm ref}'\sim-(3\pi/2)B^{-5/2}$, so every open limiting phase
+  arc pulls back to infinitely many reference intervals containing rational
+  Euclid parameters. This conclusion is not yet valid for the true flow.
+- Identified a concrete overlap $1\ll Y\ll B^{-2/5}$ and isolated the missing
+  uniform Levi--Civita averaging theorem across $O(B^{-3/2})$ binary cycles.
+- Expanded the exact finite-$B$ local field through order $B^2$. Symmetric
+  backreaction begins at $B$, but direct longitudinal bending begins at
+  $3B^2r^3/(16d^5)$.
+- Derived the formal energy-splitting functional and its centered parity
+  cancellations. Found that the naive time-shift Jacobi field makes the phase
+  integral a pure boundary term, requiring a fixed parabolic phase gauge.
+- On the gauge-free $z=0$ section, ordinary finite-cutoff slopes for
+  $L=10,20,40$ were respectively $-0.9060265,-0.9062323,-0.9062301$ for the
+  incoming-minus-outgoing parabolic curves. This supports transverse
+  splitting but is not interval validated.
+
+Evidence levels: EXACT SYMBOLIC IDENTITY and PROVED ANALYTICALLY for the
+reference formulas and phase sweep; EXACT SYMBOLIC IDENTITY for the local
+field and gauge cancellation; ORDINARY NUMERICAL EVIDENCE for transversality;
+CONJECTURAL for true-orbit matching and the finite-$B$ splitting expansion.
+Reproduction commands:
+
+```bash
+.venv/bin/python -m scripts.derive_skinny_matching
+.venv/bin/python -m scripts.derive_finite_plunge
+.venv/bin/python -m scripts.derive_restricted_scattering
+.venv/bin/python -m scripts.probe_restricted_transversality --cutoffs 10 20 40
+```
+
 ## 2026-08-22: regularized first skinny encounter
 
 - Derived the exact tight-pair/outer Jacobi system and its encounter scaling.

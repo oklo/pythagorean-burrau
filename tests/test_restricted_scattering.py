@@ -2,6 +2,7 @@ import sympy as sp
 
 from src.symbolic.restricted_scattering import (
     outer_energy_exchange_identity,
+    time_shift_melnikov_identity,
     transverse_variational_normal_form,
 )
 
@@ -16,3 +17,8 @@ def test_small_speed_normal_form_has_sturm_coefficient() -> None:
     assert sp.trigsimp(
         transverse_variational_normal_form() - (1 + 14 * sp.sec(phase) ** 2)
     ) == 0
+
+
+def test_naive_phase_melnikov_is_a_boundary_term() -> None:
+    integrand, derivative = time_shift_melnikov_identity()
+    assert sp.simplify(integrand - derivative) == 0
