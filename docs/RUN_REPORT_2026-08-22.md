@@ -161,6 +161,60 @@ derived.  Arithmetic exclusion is therefore inactive rather than failed.
 8. A validated continuation is needed to promote the local $F_{30}$ family
    separation from ordinary evidence.
 
+## Continuation: matched clock and finite transversality reduction
+
+The endpoint attack was continued beyond the local parabolic-separatrix
+theorem.
+
+1. The collapsed-pair outer fall is now exact on every nonsingular radius
+   section. Its accumulated binary phase is
+   \[
+   \Phi_{\rm ref}
+   =\pi B^{-3/2}-{\pi\over4}B^{-1/2}
+   -{15\pi\over32}B^{1/2}+O(B^{3/2}),
+   \]
+   with $\Phi_{\rm ref}'\sim-(3\pi/2)B^{-5/2}$. Every open reference phase arc
+   therefore has infinitely many parameter preimages containing rational
+   Euclid parameters. True-orbit $o(1)$ phase matching remains unproved.
+2. The exact finite-$B$ local Jacobi field was expanded through order $B^2$:
+   \[
+   r''=-{2\over r^2}-B{r\over d^3}+{B^2\over2r^2}+O(B^3),
+   \]
+   \[
+   Z_y''=-{2z\over d^3}-B{z\over d^3}
+   +B^2{z\over2d^3}+O(B^3),\qquad
+   Z_x''=B^2{3r^3\over16d^5}+O(B^3).
+   \]
+   Centered order-$B$ energy splitting cancels by parity; direct
+   longitudinal bending starts at $B^2$.
+3. A naive whole-line phase Melnikov integral is not well posed until the
+   parabolic epoch is fixed. The global time-translation field $\zeta=z'$
+   makes its integrand exactly
+   \[
+   {d\over d\theta}\left({rr'\over2d^3}\right).
+   \]
+   The correct invariant target is the transverse crossing of incoming and
+   outgoing parabolic curves on $z=0$.
+4. That restricted transversality problem now has a finite sufficient
+   certificate. Exact comparison proves
+   \[
+   \sqrt8<v_*<4.
+   \]
+   For the even Jacobi field $h''=ah$, $h(0)=v_*$, $h'(0)=0$, an exact
+   Wronskian argument proves $h>0$ through the first binary collision, and
+   $a>0$ after $\theta=\pi/8$. Hence the single sign
+   \[
+   h'(\pi/4)>0
+   \]
+   forces $h$ to grow and rules out tangency once parabolic-manifold
+   differentiability is formalized. Ordinary integration gives
+   $h'(\pi/4)\approx0.0378487$ and a stable/unstable slope difference near
+   $-0.90623$; neither decimal is validated.
+
+These results strengthen the outcome as a major Level-E structural reduction,
+not a proof of the rational or strong real conjecture. No real or rational
+second-brake candidate was found.
+
 ## Reproduction
 
 ```bash
@@ -171,21 +225,24 @@ uv run ruff check .
 uv run python -m scripts.derive_exact_identities
 uv run python -m scripts.derive_taylor_jet
 uv run python -m scripts.derive_skinny_regularization
+uv run python -m scripts.derive_skinny_matching
 uv run python -m scripts.probe_skinny_regularization --epsilon 0.05
 uv run python -m scripts.derive_restricted_scattering
+uv run python -m scripts.derive_finite_plunge
+uv run python -m scripts.probe_restricted_transversality --cutoffs 10 20 40
 uv run python -m scripts.probe_double_radial
 uv run python -m scripts.continue_f30
 uv run python -m scripts.probe_dynamics --u 1/3 --t-end 4 \
   --samples 20001 --rtol 1e-13 --atol 1e-15 --max-step 0.001
 ```
 
-The repository contains pinned dependencies in `uv.lock` and 31 deterministic
+The repository contains pinned dependencies in `uv.lock` and 42 deterministic
 tests.
 
 ## Single highest-leverage next action
 
-Construct a matched asymptotic map from the exact skinny initial state to the
-late restricted scattering problem, then calculate the finite-$B$ splitting
-of its apocenter parabolic separatrix. The sign and zero set of that splitting
-are now the highest-leverage route to a Level-D theorem or an exact arithmetic
-condition on exceptional parameters.
+Use a validated Taylor/interval integrator on the regularized half-cycle to
+prove $h'(\pi/4)>0$ uniformly for $\sqrt8<v<4$, and write the accompanying
+McGehee differentiability lemma. This is the smallest isolated gap that would
+turn the observed restricted stable/unstable crossing into a theorem; the
+next step would then be uniform true-orbit phase matching.

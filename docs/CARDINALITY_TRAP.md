@@ -2,7 +2,7 @@
 
 The family of rational Euclid parameters is countable and dense, whereas the
 irrational parameters are uncountable.  Together with the nominally
-overdetermined equation (mathcal B(u,t)=0\in\mathbb R^3), this is useful
+overdetermined equation $\mathcal B(u,t)=0\in\mathbb R^3$, this is useful
 motivation for expecting an exact Pythagorean miss.  It is not an inference.
 
 In particular:
@@ -22,7 +22,7 @@ In particular:
 After translations and rotations are removed at zero angular momentum, planar
 three-body configuration space has three degrees of freedom.  A brake point
 annuls three reduced velocity components, while this tied family offers only
-the two variables ((u,t)).  That dimension count is stronger guidance than
+the two variables $(u,t)$.  That dimension count is stronger guidance than
 cardinality, but it still assumes independence which symmetry or an identity
 may destroy.
 
@@ -35,3 +35,27 @@ of possible intersections followed by exact exclusion.
 No statement in this project may use “the rationals are too sparse” as a
 logical step.
 
+## A legitimate but still conditional endpoint bridge
+
+The collapsed-pair reference clock now supplies one exact use of rational
+density. It satisfies
+\[
+\Phi_{\rm ref}'(B)=-{3\pi\over2}B^{-5/2}(1+o(1)),
+\]
+so every nonempty open limiting phase arc pulls back to infinitely many open
+parameter intervals accumulating at $u=0$. Each interval contains rational
+Euclid parameters. This is a topological statement about an open condition,
+not an assertion that an isolated zero is irrational.
+
+Two missing hypotheses prevent its use as a nonperiodicity theorem:
+
+1. the true binary phase must satisfy
+   $\Phi_{\rm true}-\Phi_{\rm ref}=o(1)$ through
+   $O(B^{-3/2})$ regularized cycles;
+2. the selected limiting phase set must have a rigorously open dynamical
+   consequence, such as a strict terminal escape certificate.
+
+Even after those hypotheses are proved, the argument would establish
+infinitely many rational escape subfamilies, not all rational parameters.
+Landing on the parabolic separatrix is a point condition and receives no
+rational exclusion from this interval argument.
