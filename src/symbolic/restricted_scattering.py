@@ -86,3 +86,26 @@ def maximum_softened_vertical_force() -> tuple[sp.Expr, sp.Expr]:
     critical_height = separation / (2 * sp.sqrt(2))
     maximum = sp.simplify(force.subs(z, critical_height))
     return critical_height, maximum
+
+
+def collision_regularized_jacobi_system() -> tuple[sp.Matrix, tuple[sp.Symbol, ...]]:
+    """Return the finite CAPD system in eccentric anomaly.
+
+    The state is ``(z,w,q,p)`` with ``w=dz/dtheta``, ``q=h/v`` and
+    ``p=dq/dtheta``.  The independent variable is ``psi``, where
+    ``r=cos(psi)^2`` and ``dtheta=r*dpsi``.
+    """
+    psi = sp.symbols("psi", real=True)
+    z, w, q, p = sp.symbols("z w q p", real=True)
+    separation = sp.cos(psi) ** 2
+    radius_squared = z**2 + separation**2 / 4
+    coefficient = (4 * z**2 - separation**2 / 2) / radius_squared ** sp.Rational(5, 2)
+    system = sp.Matrix(
+        [
+            separation * w,
+            -2 * z * separation / radius_squared ** sp.Rational(3, 2),
+            separation * p,
+            separation * coefficient * q,
+        ]
+    )
+    return system, (psi, z, w, q, p)

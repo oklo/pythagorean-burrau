@@ -1,0 +1,11 @@
+Validated on 2026-08-22 (America/New_York)
+Platform: arm64-apple-darwin25.5.0
+Compiler: Apple clang 21.0.0 (clang-2100.0.123.102)
+CAPD: 6.1.0, native intervals, commit 731079217a9254ea2948d742df2b170895effe7f
+Command: sh scripts/run_capd_restricted_transversality.sh /private/tmp/pythagorean-capd /private/tmp/pythagorean-capd/build-native
+
+PASS method=CAPD-6.1.0-native capd_commit=731079217a9254ea2948d742df2b170895effe7f slabs=256 velocity_cover=[2.7999999999999998,4.0000000000000009] rational_lower=1/125 normalized_derivative_global=[0.0081357218916140798,0.013237560677564199] worst_slab=255 worst_velocity=[3.9953124999999993,4.0000000000000009] worst_derivative=[0.0081357218916140797,0.0082622854573731857]
+
+Interpretation: every slab passed independently. The velocity cover contains
+[sqrt(8),4], and q=h/v with v>0, so q'(pi/4)>0 rigorously implies
+h'(pi/4)>0 throughout the analytic launch-speed bracket.
