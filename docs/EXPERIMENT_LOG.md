@@ -52,3 +52,18 @@ Evidence level: ORDINARY NUMERICAL EVIDENCE.  Reproduce the middle run with:
 Evidence levels: exact jet identity; PROVED BY COMPUTER-ASSISTED ARGUMENT for
 the Sturm sign; ORDINARY NUMERICAL EVIDENCE for the event; CONJECTURAL for the
 skinny asymptotics beyond initial torque.
+
+## 2026-08-22: Li--Liao $F_{30}$ periodic-family continuation
+
+Using the three Hopf brake components as a shooting residual, independently
+refined the published $F_{30}$ point at $u=1/2$, then continued its
+$(x,y,T/2)$ root over nearby $u$.  The two Pythagorean matching offsets crossed
+zero at separated parameter values (roughly 0.494 and 0.50225).  The closest
+sampled combined gap was $0.0036908$ near $u=0.5018$.  No local intersection
+was found.
+
+Evidence level: ORDINARY NUMERICAL EVIDENCE.  Reproduce the central point:
+
+```bash
+.venv/bin/python -m scripts.continue_f30
+```

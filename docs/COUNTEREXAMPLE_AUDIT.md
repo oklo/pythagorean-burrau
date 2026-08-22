@@ -53,6 +53,42 @@ Therefore $F_{30}$ is a nearby ordinary-numerical periodic brake orbit, not an
 exact counterexample.  The older Standish point
 $(0.2061730906,0.4463433325)$ is farther away.
 
+## Local continuation of the $F_{30}$ family
+
+A three-equation shooting solve used the Hopf brake residual with free
+variables $(x,y,T/2)$.  At $u=1/2$ it independently refined the catalog entry
+to
+
+\[
+(x,y,T/2)\approx
+(0.144631909634,0.477319712517,6.29045647361),
+\]
+
+with sampled minimum separation about $0.00359$.  Continuing this same root as
+the mass parameter varied gave the following representative shape offsets from
+the exact tied point:
+
+| $u$ | $x-x_{tied}$ | $y-y_{tied}$ | offset norm |
+|---:|---:|---:|---:|
+| 0.4925 | 0.0198617 | 0.0006781 | 0.0198732 |
+| 0.4950 | 0.0148127 | -0.0003875 | 0.0148178 |
+| 0.5000 | 0.0046319 | -0.0026803 | 0.0053515 |
+| 0.5018 | 0.0009272 | -0.0035725 | 0.0036908 |
+| 0.5020 | 0.0005137 | -0.0036744 | 0.0037101 |
+| 0.5030 | -0.0015598 | -0.0041932 | 0.0044739 |
+| 0.5050 | -0.0057459 | -0.0052863 | 0.0078077 |
+
+The vertical matching equation changes sign near $u\approx0.494$, whereas the
+horizontal equation changes sign near $u\approx0.50225$; they do not vanish
+together on this sampled local branch.  The smallest sampled norm was about
+$0.00369$ near $u=0.5018$, still nonzero.  Root residuals were typically
+$10^{-9}$ or smaller and relative energy drift about $10^{-9}$; close
+encounters make this strictly ORDINARY NUMERICAL EVIDENCE.
+
+This is useful family-intersection evidence, not a proof of local
+nonintersection.  A validated implicit-function continuation with an interval
+lower bound on the two-component offset would be required for that theorem.
+
 ## Collision and symmetry exclusions
 
 - The Szebehely--Peters almost-Pythagorean periodic construction has a binary
@@ -69,4 +105,3 @@ $(0.2061730906,0.4463433325)$ is farther away.
 No exact counterexample was found in the bounded published audit.  Evidence
 level: ORDINARY NUMERICAL EVIDENCE about catalog entries, not a proof of either
 conjecture.
-

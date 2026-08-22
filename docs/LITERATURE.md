@@ -34,5 +34,6 @@ No inspected primary source reports an exact classical collision-free
 Pythagorean--Burrau periodic orbit.  No inspected catalog gives a validated
 real intersection with the tied curve.  Conversely, these finite and mostly
 numerical sources do not prove nonintersection.  The strongest catalog warning
-is the close $F_{30}$ near miss recorded in `COUNTEREXAMPLE_AUDIT.md`.
-
+is the close $F_{30}$ near miss recorded in `COUNTEREXAMPLE_AUDIT.md`.  A local
+ordinary-numerical continuation of that periodic family reduces its shape gap
+but finds no tied-curve crossing; validated continuation remains open.
