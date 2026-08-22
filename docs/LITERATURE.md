@@ -14,6 +14,7 @@ by exhaustion.
 | [Li--Liao (2019)](https://doi.org/10.1016/j.newast.2019.01.003), [author PDF](https://sjliao.sjtu.edu.cn/__local/B/0D/48/5F829F37A0DCC8FAD972B6E698C_A0F02F89_1137C5.pdf?e=.pdf), [data site](https://numericaltank.sjtu.edu.cn/three-body/free-fall-3b/free-fall-3b.htm) | Nine listed ratios, including permutations of $3{:}4{:}5$ | General two-parameter stop triangles | “Collisionless” is a computed minimum-separation threshold | High-precision ordinary numerics; 316 entries | Yes: all velocities reported zero at $T/2$ | The Pythagorean mass slice contains a close but non-exact point; see audit |
 | [Hristov et al. (2024)](https://doi.org/10.1007/s10569-023-10177-w), [preprint](https://arxiv.org/abs/2308.16159) | Equal masses | General free-fall domain | 12,409 reported collisionless distinct solutions | High-precision numerical, not interval validated | Yes | Equal masses cannot satisfy tied right-side lengths |
 | [Hristov et al. (2025)](https://arxiv.org/abs/2503.00432) | Equal masses | Centrally symmetric free-fall subclass | 4,860 reported collisionless orbits | 100-digit numerical database, not validated existence | Symmetry imposes stop returns | Equal-mass family is disjoint from tied right triangles |
+| [Standish (1971)](https://doi.org/10.1007/BF01230319); [Yoshida (1972)](https://doi.org/10.1093/pasj/24.3.391) | General masses | Separated binary--single states | Sufficient inequalities imply hyperbolic--elliptic escape | Analytic criteria; historical Burrau application uses decimal data | Excludes every later brake once certified | Useful only after an outgoing section; not satisfied after the first skinny passage |
 
 ## What the rigorous syzygy literature supplies
 
@@ -27,6 +28,13 @@ that the Pythagorean curve misses the return locus.
 Modern free-fall catalogs decisively refute any general heuristic that brake
 orbits do not recur.  The only viable issue is the simultaneous exact coupling
 between mass ratios, opposite side ratios, and the right-angle equation.
+
+Standish and Yoshida provide exact precedents for terminating a trajectory
+once a separated outgoing state satisfies strict inequalities. The project
+also proves a simpler self-contained Jacobi certificate in
+ESCAPE_CRITERIA.md. Marchal--Yoshida--Sun's sharper angular boundary is not
+imported wholesale because Part I describes a key containment inequality as
+numerically checked rather than analytically proved.
 
 ## Audit conclusion
 

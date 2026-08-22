@@ -25,7 +25,10 @@ curve, prove equivalence with absence of a second brake, construct a
 syzygy-valid three-component reduced brake residual, derive the universal
 zero-angular-momentum reduced system, and verify exact initial identities.  We
 also prove that the real isosceles-right endpoint has no second brake and ends
-in finite collision.  A bounded catalog audit finds a close numerical periodic
+in finite collision. At the opposite singular endpoint, a Levi--Civita
+argument proves that every sufficiently skinny member avoids the limiting
+heavy-pair collision on its first encounter, with explicit miss-distance and
+angular-momentum asymptotics. A bounded catalog audit finds a close numerical periodic
 brake orbit on the $3{:}4{:}5$ mass slice, but its initial triangle is not the
 exact tied right triangle.
 \end{abstract}
@@ -198,6 +201,113 @@ The endpoint is irrational, so this theorem does not settle an integer case.
 Its perturbation is singular because the collision unfolds into a close
 ordinary encounter when reflection symmetry is broken.
 
+\section{The first skinny encounter}
+
+Put $\epsilon=B$, $A=\sqrt{1-\epsilon^2}$, and $M=A+1$. For the tight-pair
+and outer Jacobi vectors
+\[
+X=q_3-q_1,\qquad Y=q_2-\frac{Aq_1+q_3}{M},
+\]
+rotate the encounter frame so that $X(0)/\epsilon=1$ and scale
+\[
+X=\epsilon x,\qquad t=\frac{\epsilon^{3/2}}{\sqrt M}\tau.
+\]
+The exact inner equation is
+\[
+x_{\tau\tau}=-\frac{x}{|x|^3}
++\frac{\epsilon^3}{M}\left[
+\Phi\left(y-\frac{A\epsilon}{M}x\right)
+-\Phi\left(y+\frac{\epsilon}{M}x\right)\right],
+\qquad \Phi(v)=\frac{v}{|v|^3}.
+\]
+The outer acceleration in $\tau$-time is $O(\epsilon^3)$ on a fixed
+encounter interval. Introduce Levi--Civita variables
+\[
+x=z^2,\qquad d\tau=|z|^2ds.
+\]
+The augmented equations for $z$, $z_s$, the osculating Kepler energy, and the
+outer state are real analytic through $z=0$. At $\epsilon=0$,
+\[
+z_0(s)=\cos(s/\sqrt2),\qquad s_c=\pi/\sqrt2.
+\]
+The first transverse parameter variation occurs at order five and satisfies
+\[
+v_{ss}+\frac12v=-\frac38\cos^5(s/\sqrt2),\qquad
+v(0)=v_s(0)=0,
+\]
+so that
+\[
+v(s_c)=-\frac{15\pi}{128}.
+\]
+
+\begin{theorem}[First skinny miss]
+There is $\epsilon_0>0$ such that for every real member with
+$0<B=\epsilon<\epsilon_0$, the first tight-pair encounter is collision-free.
+At closest passage,
+\[
+r_{13,\min}=\frac{225\pi^2}{16384}\epsilon^{11}(1+O(\epsilon)),
+\qquad
+h_{13}=-\frac{15\pi}{64}\epsilon^{11/2}
++O(\epsilon^{13/2}),
+\]
+where $h_{13}=X\times\dot X$ is specific pair angular momentum.
+\end{theorem}
+\begin{proof}
+Analytic dependence gives
+\[
+\operatorname{Im}z(s_c,\epsilon)
+=-\frac{15\pi}{128}\epsilon^5+O(\epsilon^6).
+\]
+Since $\partial_s\operatorname{Re}z_0(s_c)=-1/\sqrt2$, choose a fixed
+neighborhood on which the real part remains strictly decreasing. Its unique
+zero has the displayed nonzero imaginary part. Outside that neighborhood
+$z_0$ is bounded away from zero up to a fixed outgoing section, while both
+outer separations are uniformly bounded below. Thus no collision occurs.
+Squaring the transverse displacement and converting the scaled angular
+momentum to physical time gives the two coefficients.
+\end{proof}
+
+The result does not yet prove skinny nonperiodicity. The binary remains bound
+with specific energy $-M/\epsilon+O(\epsilon^3)$, and the first-passage outer
+radial escape margin is $-2+O(\epsilon)$. The outer body falls back on an
+order-one time scale, during which the binary executes
+$O(\epsilon^{-3/2})$ cycles. A phase-uniform theorem for the subsequent close
+interaction remains open.
+
+\begin{lemma}[Terminal escape certificate]
+For a prospective binary of total mass $M$ and an outer body of mass $m_c$,
+let $r,\rho$ be the inner and outer Jacobi radii and
+$e=|\dot x|^2/2-M/r$. Choose $\eta>0$, set $R=M/\eta$ and
+$s_0=\rho_0-R$, and suppose
+\[
+s_0>0,\quad \dot\rho_0>0,\quad
+\delta=\frac12\dot\rho_0^2-\frac{M+m_c}{s_0}>0,
+\]
+\[
+e_0+\frac{m_c\sqrt{2MR}}
+{\sqrt{2\delta}\,s_0^2}<-\eta.
+\]
+Then the future solution either ends in inner binary collision or the outer
+body escapes with $\dot\rho\ge\sqrt{2\delta}$ forever. In particular there is
+no later classical brake.
+\end{lemma}
+\begin{proof}
+On the bootstrap region $e<-\eta$, one has
+$r<R$ and $r|\dot x|<\sqrt{2MR}$. The Newton field derivative bound
+$\|D(v/|v|^3)\|\le2/|v|^3$ gives
+\[
+|\dot e|\le\frac{2m_cr|\dot x|}{(\rho-r)^3}.
+\]
+Meanwhile
+\[
+J=\frac12\dot\rho^2-\frac{M+m_c}{\rho-R}
+\]
+is nondecreasing while $\dot\rho>0$. Hence
+$\rho\ge\rho_0+\sqrt{2\delta}(t-t_0)$, and the total future tidal increase of
+$e$ is at most the allowance in the hypothesis. Its strict margin closes the
+bootstrap.
+\end{proof}
+
 \section{Cardinality and the remaining obstruction}
 
 The rational parameters are countable and dense.  Neither countability,
@@ -209,11 +319,9 @@ The active route factors a possible brake, away from Jacobi degeneracies, into
 two radial-rate equations followed by an angular-slip equation, and seeks to
 classify the isolated double-radial events along the first-syzygy continuation.
 Ordinary scans show both signs of angular slip on different double-radial
-events, ruling out a universal fixed-sign shortcut.  The fallback is a
-regularized skinny-limit scattering map.  Its exact initial tight-pair torque is
-$-B^2(A^{-2}-A)$; a formal calculation predicts angular momentum of order
-$B^{11/2}$ and miss distance of order $B^{11}$, but uniform remainder bounds
-are open.
+events, ruling out a universal fixed-sign shortcut. The skinny fallback has
+now resolved the first limiting collision exactly, but uniform control through
+the later phase-sensitive plunge is open.
 
 \section{Necessary integral identities}
 
@@ -271,6 +379,10 @@ problem of three bodies, Astronomical Journal 72 (1967), 876.
 syzygy, Arch. Ration. Mech. Anal. 204 (2012), 1009--1060.
 \bibitem{LiLiao} X. Li and S. Liao, Collisionless periodic orbits in the
 free-fall three-body problem, New Astronomy 70 (2019), 22--26.
+\bibitem{Standish} E. M. Standish, Sufficient conditions for escape in the
+three-body problem, Celestial Mechanics 4 (1971), 44--48.
+\bibitem{Yoshida} J. Yoshida, Improved criteria for hyperbolic--elliptic
+motion in the general three-body problem, PASJ 24 (1972), 391--408.
 \end{thebibliography}
 
 \end{document}

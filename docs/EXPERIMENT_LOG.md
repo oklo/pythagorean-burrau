@@ -1,5 +1,33 @@
 # Experiment log
 
+## 2026-08-22: regularized first skinny encounter
+
+- Derived the exact tight-pair/outer Jacobi system and its encounter scaling.
+- Regularized the limiting heavy-pair collision with $x=z^2$ and
+  $d\tau=|z|^2ds$.
+- Computed the first transverse variation
+  $v_{ss}+v/2=-(3/8)\cos^5(s/\sqrt2)$ and
+  $v(\pi/\sqrt2)=-15\pi/128$.
+- Proved a positive first-passage miss for every sufficiently small $B>0$:
+  \[
+  r_{13,\min}={225\pi^2\over16384}B^{11}(1+O(B)),
+  \qquad
+  h_{13}=-{15\pi\over64}B^{11/2}+O(B^{13/2}).
+  \]
+- Independently integrated the exact regularized equations at
+  $B=0.2,0.1,0.05$; the rescaled transverse displacement, miss, and angular
+  momentum converge to the exact coefficients.
+- Proved a terminal binary--escaper inequality certificate and proved that its
+  radial-energy condition fails by $-2+O(B)$ after the first passage.
+- An independent adversarial derivation found no factor, sign, frame, or
+  reduced-mass error in either theorem.
+
+Evidence level: PROVED ANALYTICALLY for both conditional theorems; numerical
+integration is a regression check only. Reproduction commands:
+
+    .venv/bin/python -m scripts.derive_skinny_regularization
+    .venv/bin/python -m scripts.probe_skinny_regularization --epsilon 0.05
+
 ## 2026-08-22: exact foundation
 
 - Initialized the repository and pinned Python 3.13 plus SymPy, NumPy, SciPy,

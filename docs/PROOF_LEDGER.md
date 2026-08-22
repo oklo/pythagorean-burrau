@@ -24,7 +24,10 @@ Allowed evidence labels are used verbatim.
 | No exact counterexample in bounded published-catalog audit | ORDINARY NUMERICAL EVIDENCE | Catalog coverage is not exhaustive and entries are not validated existence proofs |
 | Local $F_{30}$ periodic branch does not numerically hit the tied curve | ORDINARY NUMERICAL EVIDENCE | Coordinate offsets cross zero at separated $u$ values; not validated continuation |
 | Initial tight-pair torque $\dot h(0)=-B^2(A^{-2}-A)<0$ | EXACT SYMBOLIC IDENTITY | Skinny limit; does not by itself bound the full encounter |
-| Skinny $B^{11/2}$ angular momentum and $B^{11}$ miss scale | CONJECTURAL | Formal frozen-tide asymptotics; uniform remainders absent |
+| Skinny first tight-pair encounter is collision-free for all sufficiently small $B>0$ | PROVED ANALYTICALLY | Levi--Civita analytic dependence on a fixed outgoing section; both outer separations are uniform; says nothing about later encounters |
+| $h_{13}=-(15\pi/64)B^{11/2}+O(B^{13/2})$ and $r_{13,\min}=(225\pi^2/16384)B^{11}(1+O(B))$ | PROVED ANALYTICALLY | First encounter only; independently checked factors, frame, and time scaling |
+| Terminal binary--escaper inequalities imply escape or classical collision and no later brake | PROVED ANALYTICALLY | Conditional theorem on a separated outgoing Jacobi section; strict inequalities can be interval checked |
+| The first skinny outgoing section satisfies a terminal escape criterion | DISPROVED | Outer radial energy margin is $-2+O(B)$; a later slingshot is indispensable |
 | Segment virial and initial-vector force-projection identities | PROVED ANALYTICALLY | Necessary for a hypothetical collision-free second brake; no contradiction yet |
 
 ## Dimension count (guidance only)

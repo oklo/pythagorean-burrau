@@ -2,30 +2,46 @@
 
 ## Outcome
 
-**UNRESOLVED.**  This run did not prove the rational Pythagorean--Burrau
+**MAJOR PARTIAL THEOREM; CONJECTURE UNRESOLVED.** This run did not prove the rational Pythagorean--Burrau
 nonperiodicity conjecture, prove the strong real conjecture, or produce a
-rigorous counterexample.  It produced exact structural reductions, a proved
-real-endpoint collision theorem, a uniform computer-assisted Taylor-sign
-theorem, and bounded numerical/family-intersection evidence.
+rigorous counterexample. It produced exact structural reductions, proved
+endpoint and first-near-collision theorems, a terminal analytic escape
+certificate, a uniform computer-assisted Taylor-sign theorem, and bounded
+numerical/family-intersection evidence.
 
 ## Strongest exact theorems proved
 
-1. **Isosceles-right endpoint theorem.**  At the real endpoint
+1. **First skinny-miss theorem.** There is $B_0>0$ such that every real
+   Pythagorean--Burrau member with $0<B<B_0$ is collision-free through its
+   first heavy-pair encounter. Levi--Civita analytic dependence gives
+   \[
+   r_{13,\min}={225\pi^2\over16384}B^{11}(1+O(B)),\qquad
+   h_{13}=-{15\pi\over64}B^{11/2}+O(B^{13/2}).
+   \]
+   This treats the positive near-collision as an ordinary trajectory rather
+   than substituting the collision limit.
+2. **Terminal escape certificate.** Explicit strict inequalities in binary
+   and outer Jacobi coordinates imply that the future solution either has a
+   classical inner collision or escapes hyperbolic--elliptically, with no
+   later brake. The proof uses a radial comparison energy and an integrated
+   tidal-work bound. It is a conditional theorem, not yet a certificate for
+   the skinny trajectory.
+3. **Isosceles-right endpoint theorem.**  At the real endpoint
    $u=\sqrt2-1$, symmetry reduces the base half-separation to
    $x''<0$.  Hence $x'$ never vanishes again and a binary or triple collision
    occurs in finite time, no later than $2^{1/4}$.  Therefore this endpoint has
    no classical second brake.  The endpoint is irrational and is not an
    integer Pythagorean triple.
-2. **Uniform fourth-jet theorem.**  The exact rational formula for
+4. **Uniform fourth-jet theorem.**  The exact rational formula for
    $D^{(4)}(0)$ has degree-20 numerator $P_{20}$.  An exact Sturm sequence has
    10 sign variations at both $0$ and $83/200$, proving
    $D^{(4)}(0)<0$ throughout $0<u\le\sqrt2-1$.  Together with
    $D''(0)>0$, the first two nonzero defect-jet signs are uniformly $+,-$.
-3. **Exact brake reduction.**  The derivative of three Hopf invariants of two
+5. **Exact brake reduction.**  The derivative of three Hopf invariants of two
    Jacobi vectors vanishes exactly when every labelled inertial velocity
    vanishes, using zero linear and angular momentum.  This remains valid at
    syzygy, unlike mutual-distance derivatives.
-4. **Primitive/rational equivalence.**  Simultaneous mass--length scaling,
+6. **Primitive/rational equivalence.**  Simultaneous mass--length scaling,
    Euclid parametrization including the parity reduction, leg exchange, and
    the second-brake lemma were proved exactly.
 
@@ -60,6 +76,12 @@ theorem, and bounded numerical/family-intersection evidence.
   terms.
 - Exact tight-pair initial torque
   $\dot h(0)=-B^2(A^{-2}-A)<0$.
+- Exact tight-pair/outer Jacobi equations in the skinny scaling and their
+  analytic Levi--Civita extension through the limiting collision.
+- First transverse LC coefficient $-15\pi/128$, yielding the proved
+  $B^{11}$ miss and $B^{11/2}$ specific-angular-momentum constants.
+- A terminal escape certificate with tidal allowance
+  $m_c\sqrt{2MR}/(v s_0^2)$.
 - Segment virial identities
   $\int_0^\tau Udt=2U_0\tau$ and
   $\int_0^\tau Kdt=U_0\tau$, integrated labelled force balance, and the
@@ -70,12 +92,13 @@ theorem, and bounded numerical/family-intersection evidence.
 - $u=\sqrt2-1$: PROVED ANALYTICALLY to end in finite collision with no second
   brake.  Ordinary numerics place the collision near $0.5052876151$ and suggest
   it is binary; the time/type refinement is not validated.
-- $u\to0$: exact negative initial tight-pair torque.  A formal frozen-tide
-  calculation predicts
+- $u\to0$: exact negative initial tight-pair torque and a proved regularized
+  first-encounter theorem:
   $h_{enc}\sim-(15\pi/64)B^{11/2}$ and
-  $r_{min}\sim(225\pi^2/16384)B^{11}$.  These are CONJECTURAL until uniform
-  regularized remainder estimates are proved.  No positive skinny interval is
-  yet settled.
+  $r_{min}\sim(225\pi^2/16384)B^{11}$. Thus an existential skinny interval is
+  collision-free through this first encounter. It is not yet proved
+  nonperiodic: the binary makes $O(B^{-3/2})$ cycles before the later outer
+  plunge, and the scattering phase has no limit.
 
 ## Cardinality and arithmetic route
 
@@ -121,8 +144,9 @@ derived.  Arithmetic exclusion is therefore inactive rather than failed.
 3. Control birth/death of events through collision, escape, infinite time, and
    both parameter endpoints.
 4. Treat arbitrarily close but collision-free binary passages uniformly.
-5. Convert the skinny formal scattering calculation into regularized uniform
-   bounds and then an escape/nonreturn theorem.
+5. Control the $O(B^{-3/2})$ repeated binary cycles and construct a
+   phase-uniform regularized map for the later outer plunge. End every incoming
+   phase in collision or in the proved terminal escape inequalities.
 6. Obtain a transverse regularized analysis of the isosceles endpoint
    collision.
 7. If real brake intersections are found, derive and prove a genuine exact
@@ -139,21 +163,21 @@ uv run pytest -q
 uv run ruff check .
 uv run python -m scripts.derive_exact_identities
 uv run python -m scripts.derive_taylor_jet
+uv run python -m scripts.derive_skinny_regularization
+uv run python -m scripts.probe_skinny_regularization --epsilon 0.05
 uv run python -m scripts.probe_double_radial
 uv run python -m scripts.continue_f30
 uv run python -m scripts.probe_dynamics --u 1/3 --t-end 4 \
   --samples 20001 --rtol 1e-13 --atol 1e-15 --max-step 0.001
 ```
 
-The repository contains five research commits through this report's immediate
-predecessor, pinned dependencies in `uv.lock`, and 22 deterministic tests.
+The repository contains pinned dependencies in `uv.lock` and 29 deterministic
+tests.
 
 ## Single highest-leverage next action
 
-Build the skinny first-encounter map in Levi--Civita coordinates and prove
-uniform two-sided bounds realizing the $B^{11/2}$ angular-momentum and $B^{11}$
-miss scales.  Then connect its outgoing section to a rigorous escape or
-one-way transition criterion.  This is the clearest path to a Level-D theorem
-for all sufficiently skinny primitive triples and supplies the regularized
-machinery needed by the global event-classification route.
-
+Construct a phase-uniform regularized map for the later outer plunge after
+$O(B^{-3/2})$ tight-binary cycles. Prove that every incoming phase either
+causes a classical collision or reaches the strict terminal escape
+certificate. This is the remaining structural step toward a Level-D theorem
+for all sufficiently skinny primitive triples.

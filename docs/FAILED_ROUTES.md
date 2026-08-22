@@ -49,3 +49,31 @@ counterexample to that auxiliary lemma.
 
 The exact local identity $D''(0)>0$ remains useful as a jet and as proof that
 the incenter coincidence is not preserved.
+
+## First skinny passage implies immediate escape
+
+**Status:** DISPROVED analytically as an asymptotic route.
+
+The Levi--Civita theorem proves a positive $B^{11}$ heavy-pair miss and a
+nonzero $B^{11/2}$ angular momentum after the first passage. However the outer
+body has $\rho=1+O(B^2)$ and physical radial speed only $O(B^{3/2})$. For
+every binary radius bound $R=O(B)$,
+
+\[
+{1\over2}\dot\rho^2-{A+B+1\over\rho-R}=-2+O(B)<0.
+\]
+
+Thus neither the new terminal criterion nor the Standish--Yoshida criteria can
+certify escape at that section. The outer body later plunges on an order-one
+time scale, after roughly $(2B^{3/2})^{-1}$ binary cycles. A phase-uniform
+later scattering theorem is required.
+
+## Globally negative tight-pair torque
+
+**Status:** DISPROVED by ORDINARY NUMERICAL EVIDENCE as a shortcut.
+
+The exact initial torque is negative, and its first-encounter integral has a
+negative leading coefficient. It is not sign-definite throughout the exact
+motion. At $u=1/3$, ordinary integration and the exact torque formula give a
+small positive value near $t=0.3757632445$. No theorem relies on this decimal
+falsification; it records why initial torque cannot be extrapolated globally.

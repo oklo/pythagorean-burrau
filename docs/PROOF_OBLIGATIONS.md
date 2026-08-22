@@ -45,8 +45,13 @@ orbit cannot itself settle this classical collision-free problem.
 
 ## Endpoint route
 
-For $u\to0$, derive a regularized fast/slow map with a uniform error bound at
-positive $u$ and an escape or nonreturn criterion.  At $u=\sqrt2-1$, the exact
+For $u\to0$, the regularized first-encounter map and a conditional terminal
+escape criterion are proved. The first heavy-pair collision is replaced by a
+positive miss of order $B^{11}$, but the first outgoing section is still
+deeply bound. The remaining obligation is uniform control of
+$O(B^{-3/2})$ binary cycles and the phase-sensitive later close interaction,
+ending in either the proved escape inequalities or another no-brake
+alternative. At $u=\sqrt2-1$, the exact
 trajectory is now proved to have monotone shrinking half-base and finite
 collision.  The remaining obligation is a regularized transverse analysis of
 how that collision unfolds when $A\ne B$ and whether any second-brake branch
@@ -59,3 +64,8 @@ mean-value misuse; rational-density fallacies; unlabelled/rotated returns;
 near-collision substitution; nearby-orbit substitution; loss of endpoint
 uniformity; extrapolation of a local sign; and conversion of finite computation
 into an infinite claim.
+
+The first-encounter and terminal-escape theorems received independent
+adversarial derivations. The audit explicitly checked near-collision
+interpretation, reduced-mass conventions, Levi--Civita conjugations, time
+scaling, all leading constants, and the maximal-bootstrap closure.
