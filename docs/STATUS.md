@@ -51,3 +51,12 @@ The first current skinny obligation is therefore a uniform regularized
 matching theorem with $o(1)$ lifted phase error. The second is an analytic or
 validated proof of Poincare-section transversality. Neither resolves phases on
 the captured side, so no Level-D skinny nonperiodicity theorem is yet claimed.
+
+The transversality task is no longer intrinsically infinite-time. Exact
+comparison proves $\sqrt8<v_*<4$ for the restricted separatrix. An exact
+Wronskian argument keeps its even phase Jacobi field positive through the first
+regularized binary collision, and the variational coefficient is positive
+after time $\pi/8$. Therefore the finite sign $h'(\pi/4)>0$ is a sufficient
+certificate of growth and transversality, subject only to formalizing the
+parabolic-manifold differentiability at the $e=1$ collision limit. Ordinary
+integration gives $h'(\pi/4)\approx0.0378487$.

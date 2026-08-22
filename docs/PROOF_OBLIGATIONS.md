@@ -78,6 +78,15 @@ Even after this, prove uniform finite-$B$ persistence and exclude a second
 brake for phases on the captured side. Escape/capture classification alone is
 not the conjecture.
 
+The restricted transversality sign now has a finite sufficient certificate.
+For the even homogeneous Jacobi field $h''=a h$ with
+$h(0)=v_*$ and $h'(0)=0$, prove $h'(\pi/4)>0$. Exact comparison gives
+$\sqrt8<v_*<4$, proves $h>0$ through the collision, and proves $a>0$ after
+$\pi/8$; hence the one remaining sign forces $h$ to grow forever. A
+computer-assisted proof needs only a validated enclosure of $v_*$ and this
+regularized half-cycle, followed by a short McGehee differentiability argument
+identifying growth with $V_u'(0)-V_s'(0)\ne0$.
+
 ## Adversarial checklist
 
 Every promoted lemma must be checked for hidden genericity; vector-valued

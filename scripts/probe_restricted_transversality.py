@@ -64,7 +64,31 @@ def incoming_curve_at_center(initial_phase: float, cutoff: float) -> tuple[float
     return integrate_to_section(initial_phase, (-cutoff, parabolic_speed), 0.0)
 
 
-def probe_cutoff(cutoff: float, phase_step: float) -> tuple[float, float]:
+def collision_jacobi_derivative(launch_speed: float) -> float:
+    def variational_rhs(phase: float, state: np.ndarray) -> list[float]:
+        z, velocity, jacobi, jacobi_velocity = state
+        separation = np.cos(phase) ** 2
+        radius_squared = z**2 + separation**2 / 4
+        coefficient = (4 * z**2 - separation**2 / 2) / radius_squared**2.5
+        return [
+            velocity * separation,
+            -2 * z * separation / radius_squared**1.5,
+            jacobi_velocity * separation,
+            coefficient * jacobi * separation,
+        ]
+
+    solution = solve_ivp(
+        variational_rhs,
+        (0.0, np.pi / 2),
+        (0.0, launch_speed, launch_speed, 0.0),
+        rtol=3e-12,
+        atol=3e-14,
+        max_step=0.002,
+    )
+    return float(solution.y[3, -1])
+
+
+def probe_cutoff(cutoff: float, phase_step: float) -> tuple[float, float, float]:
     launch_speed = brentq(
         lambda speed: outgoing_section_energy(speed, cutoff)[0],
         2.905,
@@ -80,7 +104,8 @@ def probe_cutoff(cutoff: float, phase_step: float) -> tuple[float, float]:
         critical_incoming_phase + phase_step, cutoff
     )
     unstable_slope = (plus_speed - minus_speed) / (plus_phase - minus_phase)
-    return float(launch_speed), float(2 * unstable_slope)
+    jacobi_derivative = collision_jacobi_derivative(launch_speed)
+    return float(launch_speed), float(2 * unstable_slope), jacobi_derivative
 
 
 def main() -> None:
@@ -88,10 +113,10 @@ def main() -> None:
     parser.add_argument("--cutoffs", nargs="+", type=float, default=[10.0, 20.0, 40.0])
     parser.add_argument("--phase-step", type=float, default=0.002)
     args = parser.parse_args()
-    print("cutoff launch_speed unstable_minus_stable_slope")
+    print("cutoff launch_speed unstable_minus_stable_slope collision_jacobi_derivative")
     for cutoff in args.cutoffs:
-        speed, slope = probe_cutoff(cutoff, args.phase_step)
-        print(f"{cutoff:.1f} {speed:.12f} {slope:.12f}")
+        speed, slope, derivative = probe_cutoff(cutoff, args.phase_step)
+        print(f"{cutoff:.1f} {speed:.12f} {slope:.12f} {derivative:.12f}")
 
 
 if __name__ == "__main__":

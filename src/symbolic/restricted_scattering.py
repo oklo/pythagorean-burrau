@@ -61,3 +61,28 @@ def time_shift_melnikov_identity() -> tuple[sp.Expr, sp.Expr]:
         + sp.diff(boundary_term, z) * z_velocity
     )
     return sp.simplify(integrand), sp.simplify(derivative)
+
+
+def phase_wronskian_identity() -> tuple[sp.Expr, sp.Expr]:
+    """Wronskian evolution for the centered phase-transversality field."""
+    h, h_velocity, z_velocity, z_acceleration = sp.symbols(
+        "h h_velocity z_velocity z_acceleration", real=True
+    )
+    a, b, r_velocity = sp.symbols("a b r_velocity", real=True)
+    derivative = (
+        h_velocity * z_acceleration
+        + h * (a * z_velocity + b * r_velocity)
+        - a * h * z_velocity
+        - h_velocity * z_acceleration
+    )
+    expected = h * b * r_velocity
+    return sp.simplify(derivative), expected
+
+
+def maximum_softened_vertical_force() -> tuple[sp.Expr, sp.Expr]:
+    """Critical height and force maximum for fixed binary separation."""
+    z, separation = sp.symbols("z separation", positive=True)
+    force = 2 * z / (z**2 + separation**2 / 4) ** sp.Rational(3, 2)
+    critical_height = separation / (2 * sp.sqrt(2))
+    maximum = sp.simplify(force.subs(z, critical_height))
+    return critical_height, maximum

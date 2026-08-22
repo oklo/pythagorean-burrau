@@ -23,6 +23,10 @@
   $L=10,20,40$ were respectively $-0.9060265,-0.9062323,-0.9062301$ for the
   incoming-minus-outgoing parabolic curves. This supports transverse
   splitting but is not interval validated.
+- Proved the explicit bracket $\sqrt8<v_*<4$ and a Wronskian lemma keeping
+  the even phase Jacobi field positive through the first binary collision.
+  The only finite sign left for restricted transversality is
+  $h'(\pi/4)>0$; ordinary cutoff values converge near $0.0378487$.
 
 Evidence levels: EXACT SYMBOLIC IDENTITY and PROVED ANALYTICALLY for the
 reference formulas and phase sweep; EXACT SYMBOLIC IDENTITY for the local

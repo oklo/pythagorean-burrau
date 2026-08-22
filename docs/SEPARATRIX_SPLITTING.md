@@ -10,7 +10,7 @@ are proved.
 
 Put
 \[
-\epsilon=B,qquad A=\sqrt{1-\epsilon^2},qquad M=1+A,qquad N=M+\epsilon,
+\epsilon=B,\qquad A=\sqrt{1-\epsilon^2},\qquad M=1+A,\qquad N=M+\epsilon,
 \]
 and evaluate the exact local field on
 \[
@@ -99,7 +99,7 @@ Let $S(x,y)=(x,-y)$.  Reflection followed by time reversal,
 \]
 is an exact reversor for every mass choice.  Its fixed set at a crossing is
 \[
-R_y=Z_y=0,qquad \dot R_x=\dot Z_x=0.
+R_y=Z_y=0,\qquad \dot R_x=\dot Z_x=0.
 \tag{8}
 \]
 A complete scattering orbit meeting this set has equal incoming and outgoing
@@ -217,15 +217,19 @@ is nonzero. In lifted mean anomaly, the convention used in
 Finite-cutoff ordinary integrations, using zero instantaneous energy at
 $z=\pm L$, give
 
-| $L$ | centered launch speed | $V_u'(0)-V_s'(0)$ |
-|---:|---:|---:|
-| 10 | 2.905102038901 | -0.906026504100 |
-| 20 | 2.905107715066 | -0.906232318112 |
-| 40 | 2.905111335972 | -0.906230148693 |
+| $L$ | centered launch speed | $V_u'(0)-V_s'(0)$ | $h'(\pi/4)$ |
+|---:|---:|---:|---:|
+| 10 | 2.905102038901 | -0.906026504100 | 0.037848582147 |
+| 20 | 2.905107715066 | -0.906232318112 | 0.037848665732 |
+| 40 | 2.905111335972 | -0.906230148693 | 0.037848719050 |
 
 This is **ORDINARY NUMERICAL EVIDENCE**, reproduced by
 `scripts/probe_restricted_transversality.py`; it is not an enclosure of the
 infinite-endpoint curves.
+
+The last column is the finite Jacobi-field target derived in
+`RESTRICTED_TRANSVERSALITY.md`. A rigorous positive enclosure of that column
+would avoid validating an infinite scattering tail.
 
 After fixing this gauge, denote the physical section coefficient by $\kappa$.
 The resulting candidate expansion is
