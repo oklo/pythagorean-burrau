@@ -1,0 +1,29 @@
+[project]
+name = "pythagorean-burrau"
+version = "0.1.0"
+description = "Exact and validated research on Pythagorean--Burrau brake orbits"
+requires-python = ">=3.13,<3.14"
+dependencies = [
+  "mpmath==1.3.0",
+  "numpy==2.3.2",
+  "scipy==1.16.1",
+  "sympy==1.14.0",
+]
+
+[dependency-groups]
+dev = [
+  "pytest==8.4.1",
+  "ruff==0.12.8",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
