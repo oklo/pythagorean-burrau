@@ -83,6 +83,85 @@ def pythagorean_defect_second_derivative() -> sp.Expr:
     return sp.factor(sp.trigsimp(sp.powdenest(value, force=True)))
 
 
+def pythagorean_defect_fourth_derivative() -> sp.Expr:
+    """Return ``D''''(0)`` by twice differentiating Newton's force."""
+    masses, positions = initial_data()
+    accels = accelerations(masses, positions)
+    _, a, b = euclid_symbols()
+    known_distances = {(0, 1): sp.Integer(1), (0, 2): b, (1, 2): a}
+    fourth_derivatives: list[sp.Matrix] = []
+    for i, qi in enumerate(positions):
+        value = sp.zeros(2, 1)
+        for j, qj in enumerate(positions):
+            if i == j:
+                continue
+            delta = qj - qi
+            delta_acceleration = accels[j] - accels[i]
+            distance = known_distances[tuple(sorted((i, j)))]
+            value += masses[j] * (
+                delta_acceleration / distance**3
+                - 3
+                * delta
+                * delta.dot(delta_acceleration)
+                / distance**5
+            )
+        fourth_derivatives.append(value.applyfunc(sp.factor))
+
+    def squared_distance_fourth(i: int, j: int) -> sp.Expr:
+        delta = positions[j] - positions[i]
+        delta_acceleration = accels[j] - accels[i]
+        delta_fourth = fourth_derivatives[j] - fourth_derivatives[i]
+        return 6 * delta_acceleration.dot(delta_acceleration) + 2 * delta.dot(
+            delta_fourth
+        )
+
+    value = (
+        squared_distance_fourth(0, 1)
+        - squared_distance_fourth(1, 2)
+        - squared_distance_fourth(2, 0)
+    )
+    return sp.factor(sp.cancel(value))
+
+
+def defect_fourth_numerator() -> sp.Expr:
+    u, _, _ = euclid_symbols()
+    return (
+        u**20
+        - 4 * u**19
+        + 10 * u**18
+        - 84 * u**17
+        + 25 * u**16
+        - 78 * u**15
+        + 142 * u**14
+        - 366 * u**13
+        - 168 * u**12
+        + 122 * u**11
+        - 126 * u**10
+        - 614 * u**9
+        + 192 * u**8
+        - 58 * u**7
+        - 22 * u**6
+        + 38 * u**5
+        - 49 * u**4
+        + 18 * u**3
+        - 4 * u**2
+        + 2 * u
+        - 1
+    )
+
+
+def expected_defect_fourth_derivative() -> sp.Expr:
+    u, _, _ = euclid_symbols()
+    denominator = u**4 * (u - 1) ** 4 * (u + 1) ** 2 * (1 + u**2) ** 4
+    return defect_fourth_numerator() / denominator
+
+
+def tight_pair_initial_specific_torque() -> sp.Expr:
+    """Initial external torque of the tight (bodies 1,3) Jacobi vector."""
+    _, a, b = euclid_symbols()
+    return sp.factor(-b**2 * (a**-2 - a))
+
+
 def expected_identities() -> dict[str, sp.Expr]:
     _, a, b = euclid_symbols()
     p = a * b

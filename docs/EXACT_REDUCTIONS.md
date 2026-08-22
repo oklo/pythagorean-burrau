@@ -109,7 +109,42 @@ that (D) stays positive, and no such global invariant is claimed.
 ## Even jets
 
 Analyticity away from collision and zero initial velocity imply
-(q(t)=q_0+q_2t^2+q_4t^4+\cdots) locally.  The present exact suite verifies
-the zeroth and second-order identities.  Higher jets are an active discovery
-tool and will only be promoted if paired with a global inequality.
+$q(t)=q_0+q_2t^2+q_4t^4+\cdots$ locally.  Twice differentiating Newton's force
+and then the squared distances gives
 
+\[
+D^{(4)}(0)={P_{20}(u)\over
+u^4(u-1)^4(u+1)^2(1+u^2)^4},
+\]
+
+where
+
+\[
+\begin{aligned}
+P_{20}={}&u^{20}-4u^{19}+10u^{18}-84u^{17}+25u^{16}-78u^{15}
++142u^{14}-366u^{13}\\
+&-168u^{12}+122u^{11}-126u^{10}-614u^9+192u^8-58u^7
+-22u^6\\
+&+38u^5-49u^4+18u^3-4u^2+2u-1.
+\end{aligned}
+\]
+
+The exact Sturm sequence has length 21 and has 10 sign variations both at
+$0$ and at $83/200$.  It follows that $P_{20}$ has no root in that interval.
+Since $P_{20}(0)=-1$ and
+$\sqrt2-1<83/200$, while the denominator is positive,
+
+\[
+\boxed{D^{(4)}(0)<0\quad(0<u\le\sqrt2-1).}
+\]
+
+The derivative formula is an EXACT SYMBOLIC IDENTITY; the uniform sign is
+PROVED BY COMPUTER-ASSISTED ARGUMENT using exact rational Sturm arithmetic.
+The local series begins
+
+\[
+D(t)={\ddot D(0)\over2}t^2+{D^{(4)}(0)\over24}t^4+O(t^6),
+\]
+
+with uniform signs $+,-$.  The later numerical sign changes show that this
+finite jet still does not imply a global barrier.

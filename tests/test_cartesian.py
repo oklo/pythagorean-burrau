@@ -5,6 +5,7 @@ import numpy as np
 from src.dynamics.cartesian import (
     energy,
     initial_state,
+    initial_state_real,
     pythagorean_defect,
     right_hand_side,
 )
@@ -26,3 +27,9 @@ def test_internal_forces_conserve_total_momentum_derivative() -> None:
     accelerations = derivative[6:].reshape(3, 2)
     assert np.allclose(np.sum(masses[:, None] * accelerations, axis=0), 0)
 
+
+def test_real_and_rational_initial_state_agree() -> None:
+    rational_masses, rational_state = initial_state(Fraction(1, 3))
+    real_masses, real_state = initial_state_real(1 / 3)
+    assert np.allclose(real_masses, rational_masses)
+    assert np.allclose(real_state, rational_state)

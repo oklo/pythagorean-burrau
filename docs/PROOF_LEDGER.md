@@ -14,12 +14,16 @@ Allowed evidence labels are used verbatim.
 | $U_0=AB+(AB)^{-1}$ and $H=-U_0$ | EXACT SYMBOLIC IDENTITY | Normalized family |
 | $\mu_0$ decreases on the fundamental interval | PROVED ANALYTICALLY | Fixed-mass configurational measure; not invariant under simultaneous mass--length scaling |
 | $\ddot D(0)=2[(AB)^{-1}-AB(A+B)]>0$ | EXACT SYMBOLIC IDENTITY | Full real family; local in time only |
+| Exact rational formula for $D^{(4)}(0)$ | EXACT SYMBOLIC IDENTITY | Derived by twice differentiating Newton's force |
+| $D^{(4)}(0)<0$ on the fundamental interval | PROVED BY COMPUTER-ASSISTED ARGUMENT | Exact 21-term Sturm sequence; endpoint variations both 10 |
 | Explicit zero-angular-momentum reduced Lagrangian and brake curve | EXACT SYMBOLIC IDENTITY | Valid before collision; gauge uses $r_{12}>0$ |
 | Global inequality $D(t)>0$ | ORDINARY NUMERICAL EVIDENCE | Strongly falsified at $u=1/3$ near $t=0.376$; not used as a theorem |
 | Isosceles-right endpoint has no second brake and reaches finite collision | PROVED ANALYTICALLY | Reflection-reduced half-base has $x''<0$; endpoint is irrational |
 | No real second-brake intersection | CONJECTURAL | Strong real conjecture |
 | No rational second-brake intersection | CONJECTURAL | Main conjecture |
 | No exact counterexample in bounded published-catalog audit | ORDINARY NUMERICAL EVIDENCE | Catalog coverage is not exhaustive and entries are not validated existence proofs |
+| Initial tight-pair torque $\dot h(0)=-B^2(A^{-2}-A)<0$ | EXACT SYMBOLIC IDENTITY | Skinny limit; does not by itself bound the full encounter |
+| Skinny $B^{11/2}$ angular momentum and $B^{11}$ miss scale | CONJECTURAL | Formal frozen-tide asymptotics; uniform remainders absent |
 
 ## Dimension count (guidance only)
 

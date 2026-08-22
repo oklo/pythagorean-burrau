@@ -163,6 +163,14 @@ D(0)=\dot D(0)=0,\qquad
 \]
 This is local only.  Converged ordinary numerical experiments show $D$ later
 changes sign for $u=1/3$, so a global $D>0$ cone is not pursued.
+An exact fourth-order calculation gives
+\[
+D^{(4)}(0)={P_{20}(u)\over
+u^4(u-1)^4(u+1)^2(1+u^2)^4}.
+\]
+Exact Sturm arithmetic shows that $P_{20}$ has no zero on
+$(0,83/200)$ and $P_{20}(0)=-1$.  Hence $D^{(4)}(0)<0$ throughout the
+fundamental interval.  This uniform local sign still supplies no global cone.
 
 \section{The real isosceles-right endpoint}
 
@@ -200,8 +208,12 @@ arithmetic characterization of all real zeros, or a finite exact reduction.
 The active route factors a possible brake, away from Jacobi degeneracies, into
 two radial-rate equations followed by an angular-slip equation, and seeks to
 classify the isolated double-radial events along the first-syzygy continuation.
-The fallback is a regularized scattering map near an endpoint collision with
-uniform errors.
+Ordinary scans show both signs of angular slip on different double-radial
+events, ruling out a universal fixed-sign shortcut.  The fallback is a
+regularized skinny-limit scattering map.  Its exact initial tight-pair torque is
+$-B^2(A^{-2}-A)$; a formal calculation predicts angular momentum of order
+$B^{11/2}$ and miss distance of order $B^{11}$, but uniform remainder bounds
+are open.
 
 \section{Catalog comparison}
 
@@ -233,4 +245,3 @@ free-fall three-body problem, New Astronomy 70 (2019), 22--26.
 \end{thebibliography}
 
 \end{document}
-

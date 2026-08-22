@@ -49,3 +49,27 @@ def hopf_velocity(
         ]
     )
 
+
+def double_radial_slip_residual(
+    x: ArrayLike, y: ArrayLike, x_velocity: ArrayLike, y_velocity: ArrayLike
+) -> NDArray[np.float64]:
+    """Return two radial rates and relative angular slip.
+
+    This chart is equivalent to a brake residual only when both Jacobi vectors
+    are nonzero and total angular momentum vanishes.
+    """
+    x_array = np.asarray(x, dtype=float)
+    y_array = np.asarray(y, dtype=float)
+    vx = np.asarray(x_velocity, dtype=float)
+    vy = np.asarray(y_velocity, dtype=float)
+    x_squared = float(np.dot(x_array, x_array))
+    y_squared = float(np.dot(y_array, y_array))
+    if x_squared == 0 or y_squared == 0:
+        raise ValueError("double-radial chart requires two nonzero Jacobi vectors")
+    return np.array(
+        [
+            np.dot(x_array, vx),
+            np.dot(y_array, vy),
+            cross2(x_array, vx) / x_squared - cross2(y_array, vy) / y_squared,
+        ]
+    )

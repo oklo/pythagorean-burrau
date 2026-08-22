@@ -34,3 +34,21 @@ Evidence level: ORDINARY NUMERICAL EVIDENCE.  Reproduce the middle run with:
 .venv/bin/python -m scripts.probe_dynamics --u 1/3 --t-end 4 \
   --samples 20001 --rtol 1e-13 --atol 1e-15 --max-step 0.001
 ```
+
+## 2026-08-22: exact fourth jet and brake-map factorization
+
+- Derived $D^{(4)}(0)$ directly by differentiating Newton's pair force twice.
+- Verified its degree-20 numerator symbolically.
+- Produced an exact Sturm certificate: sequence length 21, with 10 variations
+  at both 0 and $83/200$, proving uniform negativity on the fundamental
+  interval.
+- Factored the local brake condition into two Jacobi radial rates and one
+  angular slip away from Jacobi-vector degeneracy.
+- Independently refined a representative double-radial event to
+  $(u,t)\approx(0.2928773969,1.3435972246)$ and found slip
+  $-0.0562132956$, not a brake.
+- Recorded exact initial skinny-pair torque and formal first-passage scaling.
+
+Evidence levels: exact jet identity; PROVED BY COMPUTER-ASSISTED ARGUMENT for
+the Sturm sign; ORDINARY NUMERICAL EVIDENCE for the event; CONJECTURAL for the
+skinny asymptotics beyond initial torque.
