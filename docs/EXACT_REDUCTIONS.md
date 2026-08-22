@@ -100,6 +100,12 @@ D(0)=\dot D(0)=0,\qquad
 \boxed{\ddot D(0)=2\left({1\over AB}-AB(A+B)\right)}.
 \]
 
+Before normalization the same scale-independent acceleration is
+
+\[
+\ddot D(0)=2\left({c^2\over ab}-{ab(a+b)\over c^3}\right).
+\]
+
 It is positive on the full real family: (AB\le1/2) and
 (A+B\le\sqrt2), so
 ((AB)^2(A+B)\le\sqrt2/4<1).  Every launch therefore enters (D>0)

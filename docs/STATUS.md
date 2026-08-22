@@ -2,6 +2,8 @@
 
 Date: 2026-08-22
 
+The complete run summary is `RUN_REPORT_2026-08-22.md`.
+
 Outcome so far: unresolved structural reduction.  The main rational conjecture
 and strong real conjecture remain CONJECTURAL.  No rational or real exact
 second-brake intersection has been established.  The exact foundations,

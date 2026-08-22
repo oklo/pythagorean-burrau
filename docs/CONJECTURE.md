@@ -36,7 +36,7 @@ obeys
 
 \[
 \ddot{\widetilde q}_i(t)=k^{-1}\ddot q_i(t/k)
-=\sum_{j\ne i} km_j,{k(q_j-q_i)\over k^3|q_j-q_i|^3}.
+=\sum_{j\ne i} km_j{k(q_j-q_i)\over k^3|q_j-q_i|^3}.
 \]
 
 It preserves collision-freeness and converts a period (T) to (kT);
