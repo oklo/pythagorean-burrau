@@ -28,6 +28,9 @@ Active fallback: extend the proved skinny first-encounter map across the
 $O(B^{-3/2})$ intervening binary cycles to the outer plunge. The first
 outgoing section cannot escape: its radial energy margin is $-2+O(B)$. A
 proved conditional binary--escaper certificate can terminate the argument
-after a later slingshot, but the required phase-uniform scattering dichotomy
-is still missing. Perturbation away from the solved isosceles-right collision
-endpoint is secondary.
+after a later slingshot. The universal late-plunge limit is now derived, but
+it has an exact zero-energy parabolic separatrix at the apocenter phase.
+Consequently the next target is a matched finite-$B$ separatrix-splitting
+calculation plus a no-brake classification on its nonescaping side.
+Perturbation away from the solved isosceles-right collision endpoint is
+secondary.

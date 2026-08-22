@@ -50,8 +50,11 @@ escape criterion are proved. The first heavy-pair collision is replaced by a
 positive miss of order $B^{11}$, but the first outgoing section is still
 deeply bound. The remaining obligation is uniform control of
 $O(B^{-3/2})$ binary cycles and the phase-sensitive later close interaction,
-ending in either the proved escape inequalities or another no-brake
-alternative. At $u=\sqrt2-1$, the exact
+including a matched asymptotic derivation of the proved restricted limit. That
+limit has an exact zero-energy parabolic phase, so a uniform strict-escape
+claim is impossible. One must compute its finite-$B$ separatrix splitting and
+exclude second brakes on the nonescaping side, or derive an exact condition
+for landing on the separatrix. At $u=\sqrt2-1$, the exact
 trajectory is now proved to have monotone shrinking half-base and finite
 collision.  The remaining obligation is a regularized transverse analysis of
 how that collision unfolds when $A\ne B$ and whether any second-brake branch

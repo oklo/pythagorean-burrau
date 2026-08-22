@@ -68,6 +68,21 @@ certify escape at that section. The outer body later plunges on an order-one
 time scale, after roughly $(2B^{3/2})^{-1}$ binary cycles. A phase-uniform
 later scattering theorem is required.
 
+## Every late-plunge phase escapes with a uniform margin
+
+**Status:** DISPROVED in the exact limiting restricted model.
+
+The local $X=B R$, $Y=B Z$, $t-t_*=B^{3/2}\theta$ scaling tends to an
+equal-heavy-mass rectilinear restricted problem. At the phase where the light
+particle crosses the perpendicular bisector at binary apocenter, a rigorous
+launch-speed boundary argument produces a parabolic-to-parabolic orbit with
+zero outgoing energy. Thus no phase-uniform strict escape certificate can hold
+in the limit.
+
+This does not prove a bound orbit or second brake at positive $B$. The repair
+is to compute the separatrix splitting caused by finite $B$, the incoming
+energy $-2B+o(B)$ in scaled units, and the longitudinal symmetry breaking.
+
 ## Globally negative tight-pair torque
 
 **Status:** DISPROVED by ORDINARY NUMERICAL EVIDENCE as a shortcut.

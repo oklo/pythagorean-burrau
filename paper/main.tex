@@ -28,7 +28,9 @@ also prove that the real isosceles-right endpoint has no second brake and ends
 in finite collision. At the opposite singular endpoint, a Levi--Civita
 argument proves that every sufficiently skinny member avoids the limiting
 heavy-pair collision on its first encounter, with explicit miss-distance and
-angular-momentum asymptotics. A bounded catalog audit finds a close numerical periodic
+angular-momentum asymptotics. We derive the later rectilinear restricted
+scattering limit and prove that it has a parabolic separatrix, ruling out a
+phase-uniform strict-escape shortcut. A bounded catalog audit finds a close numerical periodic
 brake orbit on the $3{:}4{:}5$ mass slice, but its initial triangle is not the
 exact tied right triangle.
 \end{abstract}
@@ -307,6 +309,67 @@ $\rho\ge\rho_0+\sqrt{2\delta}(t-t_0)$, and the total future tidal increase of
 $e$ is at most the allowance in the hypothesis. Its strict margin closes the
 bootstrap.
 \end{proof}
+
+\subsection{The late-plunge restricted limit}
+
+The terminal lemma cannot be applied uniformly over the later binary phase.
+Indeed, rescale near the outer plunge by
+\[
+X=\epsilon R,\qquad Y=\epsilon Z,\qquad
+t=t_*+\epsilon^{3/2}\theta.
+\]
+On compact nonsingular sets the exact Jacobi equations tend to
+\[
+R_{\theta\theta}=-2\frac{R}{|R|^3},\qquad
+Z_{\theta\theta}
+=-\left[\Phi(Z+R/2)+\Phi(Z-R/2)\right].
+\tag{LR}
+\]
+After regularizing the prescribed binary, this convergence extends through
+its binary collisions provided the light particle is separate. The invariant
+rectilinear subspace has
+\[
+R=(r,0),\quad Z=(0,z),\qquad
+\ddot z=-\frac{2z}{(z^2+r^2/4)^{3/2}},
+\]
+where $r$ is the periodic collision--ejection binary with apocenter one.
+The outer instantaneous energy obeys
+\[
+\frac d{d\theta}\left(
+\frac12\dot z^2-\frac2{\sqrt{z^2+r^2/4}}\right)
+=\frac{r\dot r}{2(z^2+r^2/4)^{3/2}}.
+\]
+
+\begin{theorem}[Restricted parabolic separatrix]
+When the light particle crosses $z=0$ at binary apocenter, there is a launch
+speed $v_*>0$ for which it has no light--heavy collision and
+\[
+z(\theta)\to+\infty,\qquad \dot z(\theta)\to0
+\]
+as $\theta\to+\infty$. Reflection and time reversal give a
+parabolic-to-parabolic scattering orbit.
+\end{theorem}
+\begin{proof}
+For positive $z$, $\ddot z<0$. Small launch speeds turn: with
+$r=\cos^2\psi$ and $d\theta=\cos^2\psi\,d\psi$, the zero-speed variational
+equation becomes, after $\zeta=\cos\psi\,w$,
+\[
+w_{\psi\psi}+(1+14\sec^2\psi)w=0.
+\]
+Sturm comparison forces a simple zero before the first binary collision.
+Large launch speeds reach $z=1$ while retaining a speed for which
+$\dot z^2/2-2/z>0$; this quantity is thereafter nondecreasing.
+Let $\mathcal T$ be the nonempty open bounded set of speeds with a finite
+turn and put $v_*=\sup\mathcal T$. The boundary solution cannot turn and
+cannot have positive limiting speed, since either property is open. It cannot
+remain bounded, because the periodic attraction would then force a turn.
+\end{proof}
+
+The binary collisions in (LR) are regularized features of an auxiliary limit,
+not physical continuations of a positive-$\epsilon$ orbit. Nevertheless the
+separatrix proves that a strict phase-uniform escape margin is impossible in
+the limiting problem. A finite-$\epsilon$ proof must instead match the
+incoming data and determine the separatrix splitting.
 
 \section{Cardinality and the remaining obstruction}
 

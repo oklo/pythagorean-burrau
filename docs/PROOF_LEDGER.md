@@ -28,6 +28,9 @@ Allowed evidence labels are used verbatim.
 | $h_{13}=-(15\pi/64)B^{11/2}+O(B^{13/2})$ and $r_{13,\min}=(225\pi^2/16384)B^{11}(1+O(B))$ | PROVED ANALYTICALLY | First encounter only; independently checked factors, frame, and time scaling |
 | Terminal binary--escaper inequalities imply escape or classical collision and no later brake | PROVED ANALYTICALLY | Conditional theorem on a separated outgoing Jacobi section; strict inequalities can be interval checked |
 | The first skinny outgoing section satisfies a terminal escape criterion | DISPROVED | Outer radial energy margin is $-2+O(B)$; a later slingshot is indispensable |
+| Late-plunge scaling converges locally to the equal-heavy-mass rectilinear restricted system | PROVED ANALYTICALLY | Vector-field statement on compact nonsingular sets; extends across prescribed binary collisions after LC regularization when the light particle stays separate; global matching remains open |
+| The restricted apocenter phase has a parabolic-to-parabolic light-particle separatrix | PROVED ANALYTICALLY | Sturm comparison, quantitative large-speed escape, and launch-speed boundary; the prescribed heavy binary is collision-regularized |
+| Every limiting plunge phase has a strict positive escape margin | DISPROVED | The exact parabolic separatrix has zero outgoing energy; this does not decide any finite-$B$ orbit |
 | Segment virial and initial-vector force-projection identities | PROVED ANALYTICALLY | Necessary for a hypothetical collision-free second brake; no contradiction yet |
 
 ## Dimension count (guidance only)

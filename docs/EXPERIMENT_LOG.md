@@ -28,6 +28,33 @@ integration is a regression check only. Reproduction commands:
     .venv/bin/python -m scripts.derive_skinny_regularization
     .venv/bin/python -m scripts.probe_skinny_regularization --epsilon 0.05
 
+## 2026-08-22: late-plunge restricted limit
+
+- Derived the exact $X=B R$, $Y=B Z$, $t-t_*=B^{3/2}\theta$ local scaling.
+  The vector field tends to a prescribed rectilinear equal-mass binary plus a
+  massless outer particle.
+- Verified symbolically the restricted energy exchange law
+  \[
+  \dot{\mathcal E}
+  ={r\dot r\over2(z^2+r^2/4)^{3/2}}.
+  \]
+- Proved that small apocenter launch speeds turn by reducing the variational
+  equation to
+  \[
+  w_{\psi\psi}+(1+14\sec^2\psi)w=0
+  \]
+  and applying Sturm comparison before the first binary collision.
+- Proved quantitative large-speed escape and used the supremum of the open
+  turning set to obtain an exact parabolic-to-parabolic separatrix.
+- An independent adversarial pass checked the scaling, period, energy
+  identity, Sturm coefficient, and topology of the separatrix proof.
+
+Evidence level: PROVED ANALYTICALLY for the local limiting vector field and
+the auxiliary separatrix theorem. Matching the exact finite-$B$ trajectory to
+incoming limiting data is CONJECTURAL. Reproduce the identities with:
+
+    .venv/bin/python -m scripts.derive_restricted_scattering
+
 ## 2026-08-22: exact foundation
 
 - Initialized the repository and pinned Python 3.13 plus SymPy, NumPy, SciPy,

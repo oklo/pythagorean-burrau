@@ -82,6 +82,11 @@ numerical/family-intersection evidence.
   $B^{11}$ miss and $B^{11/2}$ specific-angular-momentum constants.
 - A terminal escape certificate with tidal allowance
   $m_c\sqrt{2MR}/(v s_0^2)$.
+- Exact late-plunge vector-field limit: a rectilinear equal-heavy-mass binary
+  driving a massless outer particle.
+- Exact restricted exchange law
+  $\dot{\mathcal E}=r\dot r/[2(z^2+r^2/4)^{3/2}]$ and a proved
+  parabolic-to-parabolic separatrix at the apocenter phase.
 - Segment virial identities
   $\int_0^\tau Udt=2U_0\tau$ and
   $\int_0^\tau Kdt=U_0\tau$, integrated labelled force balance, and the
@@ -98,7 +103,9 @@ numerical/family-intersection evidence.
   $r_{min}\sim(225\pi^2/16384)B^{11}$. Thus an existential skinny interval is
   collision-free through this first encounter. It is not yet proved
   nonperiodic: the binary makes $O(B^{-3/2})$ cycles before the later outer
-  plunge, and the scattering phase has no limit.
+  plunge, and the scattering phase has no limit. The local plunge limit is
+  proved and contains an exact zero-energy parabolic separatrix, preventing a
+  phase-uniform strict-escape argument.
 
 ## Cardinality and arithmetic route
 
@@ -144,9 +151,9 @@ derived.  Arithmetic exclusion is therefore inactive rather than failed.
 3. Control birth/death of events through collision, escape, infinite time, and
    both parameter endpoints.
 4. Treat arbitrarily close but collision-free binary passages uniformly.
-5. Control the $O(B^{-3/2})$ repeated binary cycles and construct a
-   phase-uniform regularized map for the later outer plunge. End every incoming
-   phase in collision or in the proved terminal escape inequalities.
+5. Match the exact trajectory through the $O(B^{-3/2})$ repeated binary cycles
+   to the restricted incoming data, compute the finite-$B$ separatrix
+   splitting, and exclude second brakes on its nonescaping side.
 6. Obtain a transverse regularized analysis of the isosceles endpoint
    collision.
 7. If real brake intersections are found, derive and prove a genuine exact
@@ -165,19 +172,20 @@ uv run python -m scripts.derive_exact_identities
 uv run python -m scripts.derive_taylor_jet
 uv run python -m scripts.derive_skinny_regularization
 uv run python -m scripts.probe_skinny_regularization --epsilon 0.05
+uv run python -m scripts.derive_restricted_scattering
 uv run python -m scripts.probe_double_radial
 uv run python -m scripts.continue_f30
 uv run python -m scripts.probe_dynamics --u 1/3 --t-end 4 \
   --samples 20001 --rtol 1e-13 --atol 1e-15 --max-step 0.001
 ```
 
-The repository contains pinned dependencies in `uv.lock` and 29 deterministic
+The repository contains pinned dependencies in `uv.lock` and 31 deterministic
 tests.
 
 ## Single highest-leverage next action
 
-Construct a phase-uniform regularized map for the later outer plunge after
-$O(B^{-3/2})$ tight-binary cycles. Prove that every incoming phase either
-causes a classical collision or reaches the strict terminal escape
-certificate. This is the remaining structural step toward a Level-D theorem
-for all sufficiently skinny primitive triples.
+Construct a matched asymptotic map from the exact skinny initial state to the
+late restricted scattering problem, then calculate the finite-$B$ splitting
+of its apocenter parabolic separatrix. The sign and zero set of that splitting
+are now the highest-leverage route to a Level-D theorem or an exact arithmetic
+condition on exceptional parameters.
