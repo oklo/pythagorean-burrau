@@ -1,0 +1,236 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,booktabs,hyperref}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newcommand{\R}{\mathbb R}
+\newcommand{\Bcal}{\mathcal B}
+
+\title{Exact Reductions for the Pythagorean--Burrau\\
+Nonperiodicity Conjecture}
+\author{Working research draft}
+\date{August 22, 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We study free-fall solutions of the planar Newtonian three-body problem in
+which the masses and their opposite side lengths are the same Pythagorean
+triple.  The desired nonperiodicity theorem is not proved in this draft.  We
+give exact reductions to primitive triples and a rational algebraic parameter
+curve, prove equivalence with absence of a second brake, construct a
+syzygy-valid three-component reduced brake residual, derive the universal
+zero-angular-momentum reduced system, and verify exact initial identities.  We
+also prove that the real isosceles-right endpoint has no second brake and ends
+in finite collision.  A bounded catalog audit finds a close numerical periodic
+brake orbit on the $3{:}4{:}5$ mass slice, but its initial triangle is not the
+exact tied right triangle.
+\end{abstract}
+
+\section{Exact conjecture}
+
+Let $a^2+b^2=c^2$ with positive integers, set
+$(m_1,m_2,m_3)=(a,b,c)$, and put
+\[
+q_1=(-c/2,0),\quad q_2=(c/2,0),\quad
+q_3=((b^2-a^2)/(2c),ab/c),\qquad \dot q_i=0.
+\]
+The side opposite each mass has the same length as that mass.  The conjecture
+asserts that no classical solution has a collision-free labelled period.
+Returns modulo rotation or label exchange and regularized continuation after
+collision are excluded.
+
+\section{Scaling and Euclid parameter}
+
+\begin{lemma}[Simultaneous mass--length scaling]
+If $q_i(t)$ solves the equations with masses $m_i$, then for $k>0$
+\[
+\widetilde m_i=km_i,\qquad \widetilde q_i(t)=kq_i(t/k)
+\]
+solves the rescaled problem.  A labelled period $T$ corresponds exactly to a
+period $kT$.
+\end{lemma}
+\begin{proof}
+Both sides of Newton's acceleration equation acquire the factor $k^{-1}$.
+Velocity is unchanged after the corresponding time substitution, and mutual
+distances acquire the positive factor $k$.
+\end{proof}
+
+It follows that only primitive triples matter.  For $u\in(0,1)$ define
+\[
+A(u)=\frac{1-u^2}{1+u^2},\qquad
+B(u)=\frac{2u}{1+u^2}.
+\]
+If $u=p/q$ is reduced, Euclid's integer triple is
+$(q^2-p^2,2pq,q^2+p^2)$ and its common divisor is two exactly when $p,q$ are
+both odd.  Conversely Euclid's theorem recovers every ordered primitive
+triple.  The inverse is $u=B/(1+A)$, and leg exchange is the involution
+$u\mapsto(1-u)/(1+u)$.  Its fixed point is $\sqrt2-1$, giving the fundamental
+interval $0<u\leq\sqrt2-1$ for the real family.
+
+After normalizing $c=1$, masses and positions are
+\[
+(A,B,1),\qquad q_1=(-1/2,0),\quad q_2=(1/2,0),\quad
+q_3=((B^2-A^2)/2,AB).
+\]
+
+\section{Second brakes and a quotient residual}
+
+\begin{lemma}[Second-brake lemma]
+A classical free-fall segment generates a collision-free labelled periodic
+solution if and only if all inertial velocities vanish at some positive time
+before collision.
+\end{lemma}
+\begin{proof}
+Uniqueness and time reversal give $q(-t)=q(t)$.  A brake at $\tau$ gives
+$q(\tau+s)=q(\tau-s)$ and hence a labelled period $2\tau$.  Conversely, a
+labelled period $T$ combined with the symmetry at zero gives reflection
+symmetry about $T/2$, and therefore zero velocity there.  The period $2\tau$
+need not be minimal unless $\tau$ is the first positive brake.
+\end{proof}
+
+In the center-of-mass frame define Jacobi vectors
+\[
+X=q_2-q_1,\qquad
+Y=q_3-\frac{m_1q_1+m_2q_2}{m_1+m_2}
+\]
+and Hopf invariants
+\[
+h(X,Y)=\left(\frac{|X|^2-|Y|^2}{2},X\cdot Y,X\times Y\right).
+\]
+We use the quotient residual
+\[
+\Bcal(u,t)=\frac{d}{dt}h(X(u,t),Y(u,t)).
+\]
+Away from triple collision, $Dh$ has rank three and kernel equal to the common
+rotation direction.  Since total linear and angular momentum vanish,
+$\Bcal=0$ is equivalent to vanishing of every labelled inertial velocity.
+Unlike three mutual-distance derivatives, this remains true at syzygy.
+
+\section{Universal reduced system}
+
+Let
+\[
+\mu_1=\frac{m_1m_2}{m_1+m_2},\qquad
+\mu_2=\frac{m_3(m_1+m_2)}{m_1+m_2+m_3}.
+\]
+Rotate so that $X=(R,0)$ and write $Y=(P,Q)$.  At zero angular momentum,
+Routh reduction gives
+\[
+K_{red}=\frac{\mu_1\dot R^2+\mu_2(\dot P^2+\dot Q^2)}2
+-\frac{\mu_2^2(P\dot Q-Q\dot P)^2}
+{2[\mu_1R^2+\mu_2(P^2+Q^2)]}.
+\]
+The positive potential is
+\begin{align*}
+U={m_1m_2\over R}
+&+{m_1m_3\over\sqrt{(P+{m_2R\over m_1+m_2})^2+Q^2}}\\
+&+{m_2m_3\over\sqrt{(P-{m_1R\over m_1+m_2})^2+Q^2}}.
+\end{align*}
+The Pythagorean curve on the brake boundary is
+\[
+R=1,\qquad P={AB(B-A)\over A+B},\qquad Q=AB,
+\qquad \dot R=\dot P=\dot Q=0.
+\]
+
+\section{Exact initial geometry}
+
+The initial center of mass is the incenter because its barycentric weights are
+the opposite side lengths.  With $I=\sum m_i|q_i-q_{CM}|^2$ and positive
+potential magnitude $U$, direct calculation gives
+\[
+I_0=abc,\qquad
+U_0={ab\over c}+{ac\over b}+{bc\over a}.
+\]
+Thus after normalization
+\[
+I_0=AB,\qquad U_0=AB+(AB)^{-1},\qquad H=-U_0.
+\]
+The configurational measure at fixed masses is
+\[
+\mu_0=U_0\sqrt{I_0}=(AB)^{3/2}+(AB)^{-1/2},
+\]
+and decreases strictly on the fundamental interval.  It is not invariant under
+the simultaneous mass--length scaling used above.
+
+For $D=r_{12}^2-r_{23}^2-r_{31}^2$, Newton's equations give
+\[
+D(0)=\dot D(0)=0,\qquad
+\ddot D(0)=2\left(\frac1{AB}-AB(A+B)\right)>0.
+\]
+This is local only.  Converged ordinary numerical experiments show $D$ later
+changes sign for $u=1/3$, so a global $D>0$ cone is not pursued.
+
+\section{The real isosceles-right endpoint}
+
+\begin{theorem}
+At $u=\sqrt2-1$, the classical solution has no positive second brake and
+reaches a binary or triple collision in finite time.
+\end{theorem}
+\begin{proof}
+Here $m_1=m_2=m=1/\sqrt2$ and reflection symmetry persists.  Write the base
+bodies as $(-x,y_b),(x,y_b)$ and the apex as $(0,y_a)$, with
+$h=y_a-y_b$.  Then
+\[
+\ddot x=-\frac{m}{4x^2}-\frac{x}{(x^2+h^2)^{3/2}}<0.
+\]
+Starting with $x_0=1/2$ and $\dot x(0)=0$ gives $\dot x<0$, excluding a
+second brake.  While $x>0$, one has
+$\ddot x\leq-m/(4x_0^2)$, whence
+\[
+x(t)\leq x_0-\frac{m}{8x_0^2}t^2.
+\]
+Thus collision occurs no later than $\sqrt{8x_0^3/m}=2^{1/4}$.
+\end{proof}
+
+The endpoint is irrational, so this theorem does not settle an integer case.
+Its perturbation is singular because the collision unfolds into a close
+ordinary encounter when reflection symmetry is broken.
+
+\section{Cardinality and the remaining obstruction}
+
+The rational parameters are countable and dense.  Neither countability,
+measure zero, analyticity, nor the nominal three-equations/two-unknowns count
+excludes rational zeros.  A proof still requires either no real zero, an exact
+arithmetic characterization of all real zeros, or a finite exact reduction.
+
+The active route factors a possible brake, away from Jacobi degeneracies, into
+two radial-rate equations followed by an angular-slip equation, and seeks to
+classify the isolated double-radial events along the first-syzygy continuation.
+The fallback is a regularized scattering map near an endpoint collision with
+uniform errors.
+
+\section{Catalog comparison}
+
+Li and Liao list a nearby periodic brake orbit on the mass slice
+$(0.6,0.8,1)$.  The exact tied point is $(x,y)=(0.14,0.48)$, while their
+closest listed entry is $(0.1446319096,0.4773197126)$.  Its side lengths and
+right-triangle defect do not satisfy the exact equations.  Equal-mass modern
+catalogs are also disjoint from the tied right-triangle curve.  No inspected
+catalog supplies a validated exact counterexample.
+
+\section{Open proof obligations}
+
+The rational and strong real conjectures remain unresolved.  The missing
+theorem must control arbitrarily close collision-free encounters, classify or
+exclude every double-radial event including Jacobi degeneracies, and be uniform
+at parameter endpoints.  If real intersections remain, an exact arithmetic
+bridge is still required.
+
+\begin{thebibliography}{9}
+\bibitem{Burrau1913} C. Burrau, Astronomische Nachrichten 195 (1913), 113.
+\bibitem{Szebehely1967} V. Szebehely, Burrau's problem of three bodies,
+Proc. Natl. Acad. Sci. USA 58 (1967), 60--65.
+\bibitem{SP1967} V. Szebehely and C. F. Peters, Complete solution of a general
+problem of three bodies, Astronomical Journal 72 (1967), 876.
+\bibitem{MMV} R. Moeckel, R. Montgomery, and A. Venturelli, From brake to
+syzygy, Arch. Ration. Mech. Anal. 204 (2012), 1009--1060.
+\bibitem{LiLiao} X. Li and S. Liao, Collisionless periodic orbits in the
+free-fall three-body problem, New Astronomy 70 (2019), 22--26.
+\end{thebibliography}
+
+\end{document}
+

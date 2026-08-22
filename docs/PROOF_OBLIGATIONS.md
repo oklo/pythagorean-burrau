@@ -28,9 +28,10 @@ $u$, and perturbations from the real isosceles endpoint.
 **Desired lemma.**  Starting at the tied right triangle, $D(t)>0$ at every
 positive collision-free time.
 
-**Status:** CONJECTURAL.  Only $D''(0)>0$ is proved.  The lemma must be tested
-through the first strong encounter and subsequent excursions.  A single
-negative or zero value disproves it and must be recorded.
+**Status:** DISPROVED as a viable candidate by converged ORDINARY NUMERICAL
+EVIDENCE at $u=1/3$.  Only $D''(0)>0$ is proved analytically.  A validated
+enclosure of the later negative value would make the falsification rigorous,
+but no main-theorem step depends on doing so.
 
 ## Brake-to-syzygy route
 
@@ -43,9 +44,11 @@ orbit cannot itself settle this classical collision-free problem.
 ## Endpoint route
 
 For $u\to0$, derive a regularized fast/slow map with a uniform error bound at
-positive $u$ and an escape or nonreturn criterion.  At $u=\sqrt2-1$, classify
-the exact isosceles-right brake trajectory and the rank of transverse brake
-conditions.  Neither obligation is presently discharged.
+positive $u$ and an escape or nonreturn criterion.  At $u=\sqrt2-1$, the exact
+trajectory is now proved to have monotone shrinking half-base and finite
+collision.  The remaining obligation is a regularized transverse analysis of
+how that collision unfolds when $A\ne B$ and whether any second-brake branch
+can emerge.
 
 ## Adversarial checklist
 
@@ -54,4 +57,3 @@ mean-value misuse; rational-density fallacies; unlabelled/rotated returns;
 near-collision substitution; nearby-orbit substitution; loss of endpoint
 uniformity; extrapolation of a local sign; and conversion of finite computation
 into an infinite claim.
-
