@@ -482,4 +482,7 @@ Equations (1)--(14), the convexity bound (16), the signed-tail lemma, and the
 stable-tail enclosure (17g)--(17h) are **PROVED ANALYTICALLY**. The jet and
 all majorant inequalities are covered by exact symbolic regression tests.
 Global outer-strip invariance and global classification of all
-$\mathscr U_\kappa$ are **CONJECTURAL**.
+$\mathscr U_\kappa$ are **CONJECTURAL**. One transverse light--heavy collision
+boundary has now been proved at
+$1.2679351752<\kappa<1.2679351759$ by the correlated interval-Newton
+certificate in `COMPUTER_ASSISTED_PLANAR_LIGHT_COLLISION_ROOT.md`.

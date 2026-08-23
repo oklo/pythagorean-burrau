@@ -288,20 +288,16 @@ $W_{xx}\ge(7/4-8/(3\sqrt3))/9$. The exact quadratic coefficient
 $(2\sqrt{21}-5\sqrt3)/4>0$ shows that $\kappa=0$ enters the inner strip, so
 the remaining task is a finite transition analysis rather than a false global
 strip-invariance argument.
-An ordinary stable-manifold probe locates an abrupt outgoing-$\Lambda$ sign
-switch between $\kappa=1.260$ and $1.265$, accompanied by a light-heavy
-minimum separation below $10^{-4}$. This suggests an isolated collision
-parameter that would locally separate two continuations; it is not a validated
-zero or collision result, and it does not exclude other collision parameters.
+An ordinary stable-manifold probe first located an abrupt outgoing-$\Lambda$
+sign switch in a collision-scale region. A forced-LC shoot then refined the
+organizing collision seed to $\kappa\approx1.2679351755$.
 The forced-LC ordinary shoot, initialized with the complete exact quartic
 stable-manifold jet, refines the collision seed to
 $\kappa\approx1.2679351755$, with residual $4.6\times10^{-12}$ and
 finite-difference transverse determinant about $-3.45305779$. The stable tail is
 now enclosed analytically: the unique normalized graph $P=P_4+E$ satisfies
 $\|E\|<1/125000000$ on $|p|\le1/200$, $|\nu|\le1/2500$, with explicit
-half-radius position, velocity, and parameter-tangent bounds. Thus truncation
-is removed from the proof obligations, although the displayed root remains
-ordinary evidence only.
+half-radius position, velocity, and parameter-tangent bounds.
 
 Pinned CAPD 6.1.0 native-interval propagation validates the full parameter
 box $1.26793\le\kappa\le1.26794$ from $\zeta=10$ to $\zeta=0.3$, converts it
@@ -310,20 +306,38 @@ $1071249/1000000$. It proves throughout that $t>1$, $R>2$, and the distance to
 the other primary is greater than one. The final regularized-position box
 contains zero, but independent coordinate boxes lose the $\kappa$ correlation
 and are too wide for interval Newton. This finite propagation is a
-**VALIDATED NUMERICAL RESULT**, not a validated collision root.
+**VALIDATED NUMERICAL RESULT**.
+
+The repaired verifier retains shape and LC variables in a single persistent
+CAPD $C^1$ doubleton, moves the analytic tail start to $\zeta=15$, and uses a
+unit construction flow for the nonlinear LC coordinate change. Its strict
+interval-Newton inclusion proves a unique collision root in
+
+\[
+ 1.2679351752<\kappa_c<1.2679351759,
+ \qquad
+ -1.0712485063<\sigma_c<-1.0712485051,
+\]
+
+with
+
+\[
+ -3.52212<\det(\partial_\kappa u,v)<-3.38401.
+\]
+
+All shape and LC steps remain in explicitly checked analytic chart domains.
+This is **PROVED BY COMPUTER-ASSISTED ARGUMENT** and validates a transverse
+collision in the massless planar limiting family.
 The corresponding analytic forced Levi--Civita chart is complete. In complex
 variables $q=u^2$, $dt=|u|^2d\sigma$, its collision residual is the square map
 \[
  \mathcal F(\kappa,\sigma)=(\operatorname{Re}u,\operatorname{Im}u).
 \]
-The next certificate is an interval-Newton zero with
-$\det(\partial_\kappa u,v)\ne0$, followed by exclusion of other collision
-zeros and componentwise outgoing-sign bounds. Its immediate technical repair
-is to preserve $\kappa$ as an affine doubleton direction through the
-shape-to-LC change and propagate the variational equation. Regularized
-continuation is used
-only to classify the limiting map; an exact finite-mass collision remains
-classical termination.
+The next certificate must exclude other collision zeros and establish
+componentwise outgoing-sign bounds. Regularized continuation is used only to
+classify the limiting map; an exact finite-mass collision remains classical
+termination. The validated limiting collision is neither a Pythagorean orbit
+nor a second brake.
 
 Late-resonance simplicity has also been narrowed to a differentiable
 parabolic-passage lemma. For the degree-four McGehee map, the exact Kepler

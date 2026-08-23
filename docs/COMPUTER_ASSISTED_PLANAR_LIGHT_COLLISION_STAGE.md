@@ -105,3 +105,12 @@ collision zero remain **CONJECTURAL**. The next repair is correlation
 preservation: retain $\kappa$ as an affine doubleton direction through the
 coordinate change, propagate its tangent using (4a) of the analytic tail
 theorem, and apply interval Newton to the square residual.
+
+## Subsequent repair
+
+That correlation problem has now been removed by retaining the shape and LC
+variables in one persistent `C1Rect2Set`, with the nonlinear coordinate change
+implemented as a unit-time construction flow. The resulting interval-Newton
+inclusion proves a unique transverse collision root in an explicit box; see
+`COMPUTER_ASSISTED_PLANAR_LIGHT_COLLISION_ROOT.md`. The present note remains
+the independent broader finite-stage and chart-domain certificate.

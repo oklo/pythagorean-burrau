@@ -318,6 +318,13 @@ $6500$. These exact rational inequalities prove (5).
 The tail enclosure (3)--(5) is **PROVED ANALYTICALLY**, with all algebraic and
 rational inequalities covered by exact symbolic regression tests. It does
 not validate the subsequent finite flow or the collision zero. It removes the
-stable-manifold truncation from that validation problem: the remaining task
-is a finite interval propagation from the explicit state box (4), followed by
+stable-manifold truncation from that validation problem. The downstream task
+was finite interval propagation from the explicit state box (4), followed by
 interval Newton in $(\kappa,\sigma)$.
+
+That downstream task has since been completed for one explicit root box. At
+$\zeta=15$, degree-five scaling sharpens (4)--(4a) by
+$\lambda^5$ with
+$\lambda=\max\{400e^{-15a_T},6500e^{-15a_L}\}<0.04403$. A persistent CAPD
+$C^1$ doubleton then proves a unique transverse selected-primary collision;
+see `COMPUTER_ASSISTED_PLANAR_LIGHT_COLLISION_ROOT.md`.

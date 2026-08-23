@@ -657,3 +657,41 @@ it is not a remainder proof.
   safety, but not a collision root. Independent interval conversion loses
   the parameter correlation. The next implementation must preserve the
   affine $\kappa$ direction, propagate its tangent, and apply interval Newton.
+
+## 2026-08-23: validated transverse planar collision root
+
+- Replaced the lossy shape-to-LC interval projection by one persistent
+  13-dimensional CAPD `C1Rect2Set`. It propagates the shape variables, writes
+  the exact nonlinear LC entry through a unit-time construction field, and
+  then evolves the LC variables without discarding affine directions.
+- Moved the analytic tail start to $\zeta=15$. Since the stable correction and
+  all required tangents begin in total degree five, the half-polydisc bounds
+  gain the rigorous factor
+  $\lambda^5$, where
+  $\lambda=\max(400e^{-15a_T},6500e^{-15a_L})<0.04403$.
+- Pinned CAPD interval Newton proves exactly one root in
+
+  \[
+  1.2679350755\le\kappa\le1.2679352755,
+  \qquad
+  1.0712484057\le-\sigma\le1.0712486057.
+  \]
+
+  The Newton image sharpens this to
+
+  \[
+  1.2679351752<\kappa_c<1.2679351759,
+  \qquad
+  -1.0712485063<\sigma_c<-1.0712485051.
+  \]
+
+- The increasing-$\sigma$ determinant satisfies
+  $-3.52212<\det(\partial_\kappa u,v)<-3.38401$. Every accepted shape and LC
+  step remains inside an explicitly checked analytic chart, and the square-root
+  lift is fixed by $y>0$, $u_r,u_i>0$ at entry.
+- Two independent adversarial audits rechecked the tail scaling, LC lift and
+  orientation, current-time semantics across vector-field changes, $C^1$
+  chain rule, interval Newton, and chart coverage. Both endorsed the result.
+- Status: **PROVED BY COMPUTER-ASSISTED ARGUMENT** for a unique transverse
+  collision in the massless planar limiting family. This is not a
+  Pythagorean counterexample or a second brake.

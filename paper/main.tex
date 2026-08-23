@@ -51,10 +51,13 @@ outer turn uniformly throughout this accumulating resonance layer. For the
 next compact encounter we prove a positive centered-parabolic endpoint, and
 at its opposite triple-collision endpoint we prove uniqueness and collision
 safety of the universal peel-off base and validate its positive slow-mode
-first-turn transfer. The full conjecture remains open because the compact
+first-turn transfer. In the remaining planar joint-limit family, an analytic
+stable-tail enclosure and a correlated interval-Newton computation prove one
+unique transverse light--heavy collision parameter in an explicit local box.
+The full conjecture remains open because the compact
 phase interior, the one-parameter planar scattering family exposed by the
-finite-mass triple-endpoint blow-up, and later turns are not yet controlled. A bounded
-catalog audit finds
+finite-mass triple-endpoint blow-up, and later turns are not yet controlled. A
+bounded catalog audit finds
 a close numerical periodic brake orbit on the
 $3{:}4{:}5$ mass slice, but its initial triangle is not the exact tied right
 triangle.
@@ -1320,9 +1323,10 @@ projection onto $v_c^\perp$ and $|v_c|^2=1/2$ give
 \]
 This proves local avoidance on both punctured sides of a transverse zero,
 without asserting absence of other collisions.
-This is the next interval-Newton target. A transverse zero separates nearby
-continuations locally; identifying full adjacent collision-free components
-also requires excluding every other collision zero. Its regularized
+This was the interval-Newton target closed below. The resulting transverse
+zero separates nearby continuations locally; identifying full adjacent
+collision-free components still requires excluding every other collision
+zero. Its regularized
 continuation is not a physical continuation of a classical finite-mass
 collision.
 
@@ -1341,6 +1345,57 @@ one. At the final fixed time,
 This validates finite propagation and chart safety, but not a collision zero:
 the present interval coordinate conversion loses the affine $\kappa$
 correlation, so the terminal box is too wide for interval Newton.
+
+\begin{theorem}[Transverse planar collision boundary]
+The normalized lower-equilateral planar family with $T=-1$ has exactly one
+selected-primary collision zero in
+\[
+ \begin{aligned}
+  1.2679350755&\le\kappa\le1.2679352755,\\
+  1.0712484057&\le-\sigma\le1.0712486057.
+ \end{aligned}
+\]
+It lies in
+\[
+ 1.2679351752<\kappa_c<1.2679351759,
+ \qquad
+ -1.0712485063<\sigma_c<-1.0712485051,
+\]
+and is transverse, with
+\[
+ -3.52212<\det(\partial_\kappa u,v)<-3.38401.
+\]
+\end{theorem}
+
+\begin{proof}
+At $\zeta=15$, restriction of the analytic tail enclosure gains the factor
+$\lambda^5$, where
+\[
+ \lambda=\max\{400e^{-15a_T},6500e^{-15a_L}\}<0.04403,
+\]
+because the state and parameter-tangent corrections all begin in total degree
+five. A pinned CAPD $C^1$ doubleton is retained through three fields: reversed
+shape flow to $\zeta=0.3$, a unit construction flow writing the exact
+nonlinear LC lift, and reversed LC flow. Whole-step enclosures keep both shape
+primary distances positive, prove $y>0$ and $u_r,u_i>0$ at the selected lift,
+and retain $t>1$, $R>2$, and other-primary distance greater than one.
+
+For $S=-\sigma$, the computed Jacobian columns are
+$(\partial_\kappa u,-v)$. Its determinant lies in
+\[
+ [3.3840110561,3.5221124176].
+\]
+Rigorous interval Gaussian elimination puts the
+interval Newton image strictly inside the displayed parameter-time box,
+proving existence and uniqueness there. Restoring increasing $\sigma$ gives
+the stated determinant sign. The hexadecimal certificate and pinned replay
+are recorded in the companion computer-assisted proof note.
+\end{proof}
+
+This is a collision boundary in the massless planar joint limit. It is not a
+finite-mass Pythagorean orbit or a brake, and the limiting classical solution
+is not continued physically past collision. What remains is exclusion of
+other collision zeros and componentwise outgoing-sign control.
 
 Parameterize the restricted incoming parabolic curve by its asymptotic phase
 intercept $\chi$, normalized by
@@ -1467,7 +1522,10 @@ The rational and strong real conjectures remain unresolved.  The missing
 theorem must control arbitrarily close collision-free encounters, classify or
 exclude every double-radial event including Jacobi degeneracies, and be uniform
 at parameter endpoints.  If real intersections remain, an exact arithmetic
-bridge is still required.
+bridge is still required. In the planar joint-limit family, one transverse
+collision boundary is now certified; global use of it requires exclusion of
+other collision zeros and outgoing-sign control on every collision-free
+component.
 
 \begin{thebibliography}{9}
 \bibitem{Burrau1913} C. Burrau, Astronomische Nachrichten 195 (1913), 113.

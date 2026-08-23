@@ -233,3 +233,26 @@ This is not a rigorous collision or zero certificate, and no theorem uses the
 decimal values. It shows why the exact torque sign cannot be integrated
 globally without classifying collision-separated components and every change
 of sign of $xy$.
+
+## Independent-box conversion at the planar shape-to-LC interface
+
+**Status:** DISPROVED as an interval-Newton implementation; repaired by one
+persistent $C^1$ doubleton.
+
+The first validated collision stage propagated the stable-tail box to
+$\zeta=0.3$, converted the terminal interval vector componentwise to LC
+coordinates, and initialized a fresh doubleton. This safely proved finite
+existence and chart-domain inequalities, but discarded the dominant affine
+correlations. At the apparent root its final $u$ box had widths of order
+$10^{-2}$, and a first $C^1$ version produced a Jacobian interval containing
+singular matrices. Narrowing ordinary solver tolerances cannot restore
+information already lost at the nonlinear coordinate projection.
+
+The successful repair keeps shape and LC variables in one 13-dimensional
+`C1Rect2Set`. A unit-time construction vector field freezes the shape state
+and writes the exact nonlinear LC entry into initially zero variables. CAPD
+therefore transports the same affine error directions through the coordinate
+change and subsequent LC flow. With the analytic tail moved to $\zeta=15$,
+the repaired interval Newton proves a unique transverse collision root. The
+independent-box stage remains useful as a broader chart-domain certificate,
+but it cannot certify the root by itself.

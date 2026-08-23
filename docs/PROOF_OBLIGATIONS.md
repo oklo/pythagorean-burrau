@@ -280,19 +280,24 @@ The sharp bound $W\ge11/36$ and LaSalle's argument now exclude every compact
 collision-free backward-captured component, so the transition classification
 needs only genuine collision-boundary approaches and unbounded shape/velocity
 exits; recurrent compact trapping is no longer an open outcome.
-Every isolated light-heavy encounter is now regularized by the exact forced
-LC system of PLANAR_LIGHT_COLLISION_LC.md. The immediate square validation
-target is
+Every isolated light-heavy encounter is regularized by the exact forced LC
+system of PLANAR_LIGHT_COLLISION_LC.md. The square residual
 \[
  \mathcal F(\kappa,\sigma)
  =(\operatorname{Re}u,\operatorname{Im}u)=0,
 \]
-with nonzero determinant
-$\det(\partial_\kappa u,v)$. A validated zero would locally partition the
-nearby continuations into two sides. Proving that the full adjacent parameter
-intervals are collision-free also requires excluding all other collision
-zeros. The LC zero would classify a limiting collision parameter, not continue
-an actual classical collision.
+has now been validated at one transverse selected-primary zero:
+
+\[
+ 1.2679351752<\kappa_c<1.2679351759,
+ \qquad
+ -3.52212<\det(\partial_\kappa u,v)<-3.38401.
+\]
+
+The strict interval-Newton inclusion proves uniqueness inside its explicit
+$10^{-7}$ parameter-time box. It locally partitions nearby continuations into
+two impact sides. This classifies a limiting collision parameter; it does not
+continue an actual classical collision.
 
 The finite-tail truncation is no longer an obligation. The analytic stable
 parameterization theorem proves, uniformly for
@@ -300,15 +305,17 @@ $5/4\le\kappa\le13/10$ at $\zeta\ge10$, explicit enclosures for the state and
 its $\kappa$ tangent. Pinned CAPD propagation has also carried the full
 $1.26793\le\kappa\le1.26794$ tail box through the nonsingular shape leg and a
 fixed LC leg while proving the chart-domain inequalities. Its terminal
-$u$-box contains zero but is not a root proof: independent interval conversion
-discarded the decisive $\kappa$ correlation. The localized remaining
-obligation is to retain that affine direction through the coordinate change,
-propagate the variational equation, and apply interval Newton to
-$(\kappa,\sigma)\mapsto u$.
+$u$-box contained zero but initially lost the decisive $\kappa$ correlation.
+The repaired verifier keeps shape and LC variables in one persistent
+`C1Rect2Set`, implements the nonlinear coordinate change as a unit-time
+construction flow, propagates the parameter tangent, and closes interval
+Newton. Thus tail truncation, finite propagation, correlation preservation,
+root existence, local uniqueness, transversality, and chart safety are no
+longer obligations for this root.
 
-Any certificate must also keep $t>0$, bound
-$|u^2+\epsilon R(t)|$ away from zero, fix one LC deck lift and the
-$\sigma$ gauge, and reconstruct physical data only on an exit circle bounded
+The remaining global obligations are to exclude every other collision zero,
+prove that the adjacent parameter components are collision-free at all other
+times, and reconstruct outgoing physical data only on exit circles bounded
 away from $u=0$.
 The exact identity
 \[
@@ -323,8 +330,8 @@ At a transverse zero it also gives the proved local normal form
  r_{\min,\mathrm{local}}
  =2(\det D\mathcal F)^2(\kappa-\kappa_c)^2+O(|\kappa-\kappa_c|^3).
 \]
-Hence the root certificate itself will settle local one-sided avoidance; only
-other times and the other primary remain global collision obligations.
+Hence the root certificate settles local one-sided avoidance. Other times and
+the other primary remain global collision obligations.
 
 The singular local part of that implication is now isolated in
 `TRIPLE_ENDPOINT_SELECTION.md`. Exact translation by the center radius turns

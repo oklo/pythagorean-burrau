@@ -55,6 +55,8 @@ bash scripts/run_capd_restricted_transverse_scattering.sh \
   /path/to/CAPD /path/to/CAPD/build-native
 bash scripts/run_capd_planar_light_collision_shape.sh \
   /path/to/CAPD /path/to/CAPD/build-native
+bash scripts/run_capd_planar_light_collision_newton.sh \
+  /path/to/CAPD /path/to/CAPD/build-native
 ```
 
 Full derivation and trusted-computing-base details are in
@@ -62,4 +64,7 @@ Full derivation and trusted-computing-base details are in
 `docs/COMPUTER_ASSISTED_TRANSVERSE_SCATTERING.md`. The planar collision
 wrapper validates only the finite stable-tail-to-LC propagation stage; its
 scope and remaining interval-Newton obligation are recorded in
-`docs/COMPUTER_ASSISTED_PLANAR_LIGHT_COLLISION_STAGE.md`.
+`docs/COMPUTER_ASSISTED_PLANAR_LIGHT_COLLISION_STAGE.md`. The correlated
+doubleton wrapper then proves a unique transverse collision root in the
+planar limiting family; see
+`docs/COMPUTER_ASSISTED_PLANAR_LIGHT_COLLISION_ROOT.md`.

@@ -260,28 +260,40 @@ branches, but the corresponding classical orbit stops.
 The unregularized deterministic probe indicates a collision-scale transition
 near $\kappa\approx1.26$ for the chosen normalization, but its closest
 reported distances are too small for trustworthy unregularized scattering.
-The regularized ordinary shoot refines a collision seed to
-$\kappa\approx1.26793517$ and gives a finite-difference determinant about
-$-3.45$. The tail truncation has since been removed by the analytic theorem
-in `PLANAR_STABLE_TAIL_ENCLOSURE.md`, but those root decimals are still only a
-seed box for (10), never evidence for the theorem. A pinned CAPD run has
-validated propagation of the full tail box through a fixed LC time while
-keeping the chart domain safe; independent coordinate boxes lose too much
-$\kappa$ correlation to validate a zero.
-The next computer-assisted task is:
+The regularized ordinary shoot first refined a collision seed to
+$\kappa\approx1.26793517$ with a finite-difference determinant about $-3.45$.
+The analytic stable-tail theorem and a correlation-preserving CAPD
+construction have now validated that seed. There is a unique zero in
 
-1. preserve $\kappa$ as an affine direction through the shape-to-LC map;
-2. propagate the parameter tangent together with the LC state;
-3. solve (10) by interval Newton in $(\kappa,\sigma)$;
-4. prove the determinant (11) avoids zero;
-5. exclude all other collision zeros before naming global components;
-6. bound the outgoing angular scalar separately on the collision-free
-   component boundaries.
+\[
+ 1.2679350755\le\kappa\le1.2679352755,
+ \qquad
+ -1.0712486057\le\sigma\le-1.0712484057,
+\]
+
+and
+
+\[
+ -3.52212<\det(\partial_\kappa u,v)<-3.38401.
+\]
+
+The complete certificate is in
+`COMPUTER_ASSISTED_PLANAR_LIGHT_COLLISION_ROOT.md`. It validates a collision
+in the massless planar limiting family, not a finite-mass classical orbit or a
+second brake.
+
+The next computer-assisted tasks are:
+
+1. exclude every other collision zero before naming global components;
+2. propagate the signed local branches to common outgoing sections;
+3. bound the outgoing angular scalar on every collision-free component.
 
 ## Status
 
 Equations (1)--(9), constraint preservation, and the square residual
 (10)--(11), including the impact identity (11a)--(11b), are **PROVED
 ANALYTICALLY** or **EXACT SYMBOLIC IDENTITY**.
-Existence, uniqueness, and transversality of the numerically suggested
-collision parameter are **CONJECTURAL** until validated.
+Existence, uniqueness inside the explicit root box, and transversality of the
+selected collision parameter are **PROVED BY COMPUTER-ASSISTED ARGUMENT**.
+Global uniqueness among all parameters and collision times is
+**CONJECTURAL**.

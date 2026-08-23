@@ -24,7 +24,8 @@ restricted transversality.
 This run additionally proved a Level-E structural theorem at the singular
 triple-collision endpoint: the entire shrinking finite-mass boundary layer
 reduces to a single projective parameter in a universal planar massless
-restricted problem.
+restricted problem. It has now also located and rigorously validated one
+transverse light--heavy collision parameter in that planar limiting family.
 
 ## New exact theorems
 
@@ -244,9 +245,9 @@ collision zero. A deterministic regularized ordinary shoot gives
  \quad \det(\partial_\kappa u,v)\approx-3.45305779,
 \]
 with $|u|\approx4.6\times10^{-12}$ and the LC constraint at roundoff. The
-displayed root decimals remain ordinary evidence only. A transverse validated
-zero would separate the nearby continuations locally; existence,
-transversality, and exclusion of other collision zeros are not yet validated.
+displayed decimals were ordinary evidence at this stage. The correlated
+certificate below subsequently validates existence and transversality; only
+exclusion of other collision zeros remains open.
 All physical velocity and angular signs include the factor
 $\eta=dt/d\theta$; in particular the incoming LC orientation is backward in
 physical time.
@@ -294,6 +295,42 @@ root certificate: the interval coordinate conversion discarded the
 $\kappa$ correlation, making the final box too wide for interval Newton.
 The remaining local repair is to retain $\kappa$ as an affine doubleton
 direction through that conversion and propagate its tangent.
+
+### Validated transverse planar collision root
+
+That repair is now complete. A single 13-dimensional CAPD `C1Rect2Set`
+retains the affine directions through the reversed shape flow, a unit-time
+nonlinear LC construction flow, and the reversed forced-LC flow. Starting at
+$\zeta=15$ gives the rigorous degree-five tail scaling factor
+
+\[
+ \lambda^5,
+ \qquad
+ \lambda=\max\{400e^{-15a_T},6500e^{-15a_L}\}<0.04403.
+\]
+
+Strict interval-Newton inclusion proves a unique root in the explicit box and
+sharpens it to
+
+\[
+ 1.2679351752<\kappa_c<1.2679351759,
+ \qquad
+ -1.0712485063<\sigma_c<-1.0712485051.
+\]
+
+The increasing-$\sigma$ determinant satisfies
+
+\[
+ -3.52212<\det(\partial_\kappa u,v)<-3.38401.
+\]
+
+Whole-step checks prove both shape-primary distances positive, fix the
+square-root lift with $y>0$ and $u_r,u_i>0$, and retain $t>1$, $R>2$, and
+other-primary distance greater than one throughout the LC segment. Two
+independent adversarial audits replayed and endorsed the certificate. This is
+**PROVED BY COMPUTER-ASSISTED ARGUMENT** for a collision in the massless
+planar limit. It is not a real second-brake intersection, a finite-mass
+Pythagorean orbit, or a counterexample.
 
 ## Endpoint status
 
@@ -361,10 +398,11 @@ is eventually found, a new exact arithmetic bridge would still be required.
 
 1. Prove a global obstruction for every real parameter, or classify every
    real zero of the three-component brake residual.
-2. Classify the one-parameter planar family $\mathscr U_\kappa$, including
-   inner-strip transitions, collision branches, and a common outgoing
-   scattering scalar. Compact collision-free backward capture is already
-   excluded.
+2. Classify the one-parameter planar family $\mathscr U_\kappa$: use the first
+   certified transverse collision boundary, exclude all other collision
+   zeros, and construct a common outgoing scattering scalar on every
+   collision-free component. Compact collision-free backward capture is
+   already excluded.
 3. Continue the proved nonzero skinny angular momentum through the compact
    second and later central-encounter maps.
 4. Control the exact finite-$B$ separatrix displacement and the accumulating
@@ -412,6 +450,9 @@ At the end of this run:
     bash scripts/run_capd_planar_light_collision_shape.sh \
       /private/tmp/pythagorean-capd \
       /private/tmp/pythagorean-capd/build-native
+    bash scripts/run_capd_planar_light_collision_newton.sh \
+      /private/tmp/pythagorean-capd \
+      /private/tmp/pythagorean-capd/build-native
 
 Results before this report:
 
@@ -425,12 +466,9 @@ computer-assisted proof notes and repository README.
 
 ## Highest-leverage next action
 
-Preserve the affine $\kappa$ direction from the analytic stable-tail box
-through the shape-to-LC coordinate change, integrate the corresponding
-variational state, and apply interval Newton to the square collision residual
-near $\kappa=1.2679351755$. A transverse certificate would validate that
-collision and its signed impact-parameter crossing. Then
-exclude other collision zeros, define $\mathscr S(\kappa)$ componentwise, and prove nonvanishing
-on each collision-free component with certified endpoint limits. This is now
-a one-parameter compact transition problem rather than an uncontrolled
-two-scale boundary layer.
+Use the validated transverse collision as the first certified boundary of the
+planar scattering map. Exclude every other collision zero on a compact
+$\kappa$ range, propagate both punctured sides to common outgoing sections,
+define $\mathscr S(\kappa)$ componentwise, and prove its nonvanishing with
+certified endpoint limits. This is now a one-parameter compact transition
+problem rather than an uncontrolled two-scale boundary layer.
