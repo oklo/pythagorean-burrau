@@ -27,6 +27,7 @@ from src.symbolic.restricted_scattering import (
     time_shift_melnikov_identity,
     transverse_rotation_wronskian_identity,
     transverse_variational_normal_form,
+    triple_endpoint_fast_frobenius_corrections,
     triple_endpoint_matching_determinant,
     turn_resonance_radial_determinants,
 )
@@ -281,6 +282,23 @@ def test_triple_endpoint_matching_transverse_block_is_invertible() -> None:
     base_determinant = sp.symbols("D_base", nonzero=True, real=True)
     assert wronskian == -sp.sqrt(7)
     assert determinant == -sp.sqrt(7) * base_determinant
+
+
+def test_triple_endpoint_fast_mode_corrections_cancel_forcing() -> None:
+    shape_correction, radius_correction, shape_residual, radius_residual = (
+        triple_endpoint_fast_frobenius_corrections()
+    )
+    amplitude = sp.symbols("a", real=True)
+    shape_exponent = (-1 + sp.sqrt(19)) / 4
+    spectral_gap = sp.sqrt(7) / 2
+    assert sp.simplify(
+        shape_correction
+        - 3 * sp.sqrt(3) * amplitude /
+        (16 * shape_exponent * (shape_exponent + spectral_gap))
+    ) == 0
+    assert radius_correction == sp.Rational(1, 4)
+    assert shape_residual == 0
+    assert radius_residual == 0
 
 
 def test_restricted_universal_binary_collision_is_lc_regular() -> None:

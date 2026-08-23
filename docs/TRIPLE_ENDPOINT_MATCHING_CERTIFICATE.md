@@ -1,6 +1,6 @@
 # Finite matching problem for the triple-endpoint coefficient
 
-This note turns the remaining sign of the global coefficient $A_-$ into a
+This note turns the formerly open sign of the global coefficient $A_-$ into a
 compact, square boundary-value problem.  It does **not** validate the zero or
 its sign.  It identifies exactly what a CAPD/interval-Newton certificate must
 enclose and separates the two analytic endpoint attachments from the compact
@@ -311,6 +311,10 @@ The exact identities (3), (6), (7b), and (16)--(18) are generated or regression-
 tested in `src/symbolic/restricted_scattering.py`.
 
 **Status:** equations (1)--(18) and the dimension/determinant reduction are
-**EXACT SYMBOLIC IDENTITY** or **PROVED ANALYTICALLY**.  The numerical box
-(19)--(20), the base match, and the sign $A_->0$ remain **ORDINARY NUMERICAL
-EVIDENCE** until the four certificate pieces above are completed.
+**EXACT SYMBOLIC IDENTITY** or **PROVED ANALYTICALLY**.  The backward numerical
+box (19)--(20) remains **ORDINARY NUMERICAL EVIDENCE**.  A separate topological
+escape/return bracket, analytic collision attachment, compact CAPD propagation,
+and exact Wronskian projection now prove $A_->0$ uniformly over every possible
+parabolic match in the bracket; see
+`COMPUTER_ASSISTED_TRIPLE_ENDPOINT_GLOBAL.md`.  Thus interval Newton and
+uniqueness of the base match are no longer proof obligations for the sign.

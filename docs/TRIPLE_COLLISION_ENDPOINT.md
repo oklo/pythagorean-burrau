@@ -670,7 +670,8 @@ uv run python -m scripts.probe_triple_endpoint \
 
 The validation deliberately covers the coarse analytic center box rather
 than shooting the one-dimensional unstable collision manifold. It settles
-the second of the two scalar signs but not the global coefficient $A_-$.
+the universal transfer sign $K_->0$. The separate global certificate described
+below settles $A_->0$.
 
 A finite-cutoff diagnostic of (9n), using incoming phase $2.77$ and center
 collision gap $6.64\times10^{-4}$, gives
@@ -692,7 +693,8 @@ uv run python -m scripts.probe_triple_jost_projection \
   --cutoff 40 --phase 2.77 --sections 0.2 0.1 0.05 0.02
 ~~~
 
-The complementary collision-stable shoot and the exact rigorous target are
+The complementary collision-stable shoot and the exact finite-dimensional
+target are
 in `TRIPLE_ENDPOINT_MATCHING_CERTIFICATE.md`. On a regular $r=1/2$ section,
 the match is a $4\times4$ system in $(\chi,a,A_-,A_+)$. Its transverse
 determinant is the exact constant $-\sqrt7$, so only the two base curves need
@@ -702,24 +704,40 @@ $P=x^2p$, $\Omega=z\dot p-\dot zp$, with boundary values
 $(2\gamma,-\mathscr W_\infty)$. Ordinary backward shooting gives
 $a\approx-0.24695$ and $\widehat A_-\approx0.31>0$.
 
+The numerical localization has now been replaced by a rigorous sign proof.
+Analytic collision-tail boxes attach the complete amplitude interval
+$[-0.24696,-0.24694]$ at $r=2^{-32}$. A pinned CAPD propagation and the exact
+monopole-energy tail bound put escape and return at opposite endpoints, so
+connectedness supplies at least one parabolic connection. Uniform
+returned-Jost tail bounds and the same propagation prove
+\[
+ W(J,P_+)<-\frac12,
+ \qquad A_-={W(J,P_+)\over-\sqrt7}>0
+\]
+for every possible connection in the bracket. See
+`COMPUTER_ASSISTED_TRIPLE_ENDPOINT_GLOBAL.md` and the stored hexadecimal
+certificate. No uniqueness or generic transversality is assumed.
+
 ## Missing selection theorem
 
-To close the endpoint one must still prove:
+To close the endpoint one must still prove the finite-$\varepsilon$ selection
+and transfer theorem:
 
 1. the incoming parabolic manifold selected by the returning outer orbit
-   converges, after (3), to the appropriate branch of the collision manifold;
-2. the returned transverse Jost combination has a nonzero coefficient in
-   the relevant $\sigma^{\alpha_-}$ or $\sigma^{\alpha_+}$ eigendirection;
-3. the universal collision transition has positive outgoing turn Wronskian
-   (now proved), and this sign transfers uniformly for $\phi<\pi$ close to
-   $\pi$;
-4. the conclusion transfers to finite $B$ through arbitrarily close but
+   converges, after (3), to one of the certified collision-stable/parabolic
+   connections;
+2. the normalized returned transverse field converges to its certified Jost
+   combination, including the precise factor
+   $4^{(\sqrt7-1)/6}(\pi-\phi)^{-(\sqrt7-1)/6}$;
+3. the two proved limiting signs $A_->0$ and $K_->0$ transfer uniformly for
+   $\phi<\pi$ close to $\pi$;
+4. the resulting second-encounter conclusion transfers to finite $B$ through arbitrarily close but
    noncolliding triple encounters, while an actual collision is treated only
    as termination of the classical solution.
 
 The exact exponents make this a finite-dimensional McGehee matching problem.
-They do not by themselves determine the coefficient sign. Status of
-(1)--(9): **EXACT SYMBOLIC IDENTITY** or direct asymptotic consequence of the
-binary Kepler clock. Status of the universal part of item 3: **PROVED BY
-COMPUTER-ASSISTED ARGUMENT**. Status of items 1, 2, the
-finite-$\varepsilon$ transfer in item 3, and item 4: **CONJECTURAL**.
+They do not by themselves prove selection. Status of (1)--(9): **EXACT
+SYMBOLIC IDENTITY** or direct asymptotic consequence of the binary Kepler
+clock. Status of both limiting scalar signs in item 3: **PROVED BY
+COMPUTER-ASSISTED ARGUMENT**. Status of items 1, 2, the finite-$\varepsilon$
+transfer in item 3, and item 4: **CONJECTURAL**.

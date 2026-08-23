@@ -193,9 +193,10 @@ continuation in phase. Its exact scalar form is
  (\pi-\phi)^{(\sqrt7-1)/6}\mathcal C_2(\phi)
  \longrightarrow 4^{(\sqrt7-1)/6}A_-K_-.
 \]
-Ordinary renormalized data support $A_-K_->0$. The scattering input is now
-sharply certified by $11/25<\mathscr W_\infty<9/20$. The universal factor $K_-$ is
-now validated positive; $A_-$ is not. The autonomous limiting shape equation
+The scattering input is sharply certified by
+$11/25<\mathscr W_\infty<9/20$. Both factors are now certified positive:
+$K_->0$ by the universal-turn verifier and $A_->0$ by the global
+collision-stable/parabolic matching certificate. The autonomous limiting shape equation
 has a unique
 increasing peel-off orbit modulo logarithmic-time translation. An exact
 energy identity proves that it crosses the center with
@@ -209,21 +210,26 @@ $Z_t\approx0.95495$. The sign $K_->0$ is now **PROVED BY
 COMPUTER-ASSISTED ARGUMENT**. A Riccati barrier supplies
 $p_s(0)/p(0)>1/1000$ at the center, and a pinned CAPD proof covers the full
 analytic center-speed interval $[1/2,3/4]$ in 256 slabs through the
-prescribed binary collision and unique first turn. Finite-$\varepsilon$
-selection and the global slow-mode projection $A_-$ remain the endpoint
-obligations. The latter now has an exact final-infall Fuchsian formulation:
+prescribed binary collision and unique first turn. The sole remaining endpoint
+obligation is finite-$\varepsilon$ selection. The global coefficient has an
+exact final-infall Fuchsian formulation:
 the collision-stable base has exponent $(-1+\sqrt{19})/4$, the slow field has
-exponent $(3-\sqrt7)/4$, and $A_-$ is one explicit scalar projector. Ordinary
-finite-gap sections stabilize near $A_-\approx0.314>0$; this is not yet a
-validated sign.
+exponent $(3-\sqrt7)/4$, and $A_-$ is one explicit scalar projector.
 
-The global projection is now formulated as an exact finite $4\times4$
-matching problem on a regular $r=1/2$ section. Its transverse block has the
-constant Wronskian determinant $-\sqrt7$, leaving only a two-dimensional
-base-curve intersection and one scalar Wronskian sign to validate. The
-incoming normalization $P=x^2p$, $\Omega=z\dot p-\dot zp$ is analytic at parabolic
-infinity. A backward stable-manifold diagnostic independently localizes
-$a\approx-0.24695$ and $A_-\approx0.31>0$; these values are ordinary evidence.
+Analytic Fuchsian tail boxes attach the collision-stable family and canonical
+fast mode at $r=2^{-32}$. A pinned CAPD propagation proves an escape/return
+bracket on $-0.24696\le a\le-0.24694$, so connectedness supplies at least one
+parabolic connection. Uniform returned-Jost tail bounds and the same compact
+propagation give
+\[
+ W(J,P_+)<-1/2,
+ \qquad A_-={W(J,P_+)\over-\sqrt7}>0
+\]
+for every such connection. This argument neither assumes nor needs uniqueness
+or transversality of the base intersection. Consequently the target endpoint
+product $4^{(\sqrt7-1)/6}A_-K_-$ is rigorously positive; what remains is to
+prove that the finite-$\varepsilon$ family converges to this limiting base and
+field with the asserted normalization.
 
 Late-resonance simplicity has also been narrowed to a differentiable
 parabolic-passage lemma. For the degree-four McGehee map, the exact Kepler

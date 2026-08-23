@@ -205,9 +205,18 @@ reduction. The universal factor is now closed:
 An exact Riccati barrier supplies the signed center section, and a pinned
 CAPD proof covers the whole analytic speed box, the prescribed binary
 collision, and the first turn. Ordinary shooting gives the non-rigorous
-magnitude $K_-\approx2.435$. The remaining endpoint obligations are the
-finite-$\varepsilon$ base/field selection theorem and the sign of the global
-projection $A_-$. On the final binary infall, exact use of $r$ as independent
+magnitude $K_-\approx2.435$. The global factor is now also closed:
+
+\[
+ A_->0.
+\]
+
+Analytic collision-tail boxes and a pinned CAPD escape/return bracket trap a
+parabolic collision connection in
+$-0.24696\le a\le-0.24694$. A phase-uniform Volterra enclosure of the returned
+Jost tail proves $W(J,P_+)<-1/2$, while
+$W(P_-,P_+)=-\sqrt7$, giving the displayed sign. On the final binary infall,
+exact use of $r$ as independent
 variable now reduces $A_-$ to a Fuchsian projector with exponents
 $(3\pm\sqrt7)/4$. The collision-stable base has one free coefficient with
 shape exponent $(-1+\sqrt{19})/4$. Thus the next certificate is a scalar
@@ -215,17 +224,13 @@ intersection of that one-dimensional collision-stable family with the
 incoming parabolic manifold, plus the sign of one propagated linear field.
 Ordinary section projections stabilize near $0.314>0$.
 
-`TRIPLE_ENDPOINT_MATCHING_CERTIFICATE.md` makes this certificate square and
-finite. On the regular $r=1/2$ section its variables are the incoming
-intercept $\chi$, collision coefficient $a$, and the two transverse
-coefficients $(A_-,A_+)$. The $4\times4$ Jacobian is block triangular and its
-transverse determinant is exactly $-\sqrt7$, so only the oriented base-curve
-intersection can be singular. Regular compact variables
-$P=x^2p$, $\Omega=z\dot p-\dot zp$ remove the divergent returned field at parabolic
-infinity. The remaining rigorous work is explicit endpoint remainder boxes,
-a compact interval propagation, a two-dimensional interval-Newton enclosure,
-and the scalar Wronskian sign. Ordinary backward shooting localizes
-$a\approx-0.24695$ and $A_-\approx0.31$.
+`TRIPLE_ENDPOINT_MATCHING_CERTIFICATE.md` records the square formulation.
+The completed proof uses an equivalent topological energy bracket, so it does
+not need uniqueness or base transversality. The only remaining triple-endpoint
+obligation is the finite-$\varepsilon$ selection theorem proving that the
+captured family converges to the certified connection with the stated field
+normalization. Once that is proved, the already certified signs
+$A_->0$ and $K_->0$ give a positive renormalized second-turn coefficient.
 
 ## Adversarial checklist
 
@@ -273,6 +278,18 @@ $(P,Q)=(x^2p,\dot p/x)$ are imposed. The repaired certificate uses
 $(P,\Omega)$ with $\Omega=z\dot p-\dot zp$, for which the boundary data are
 directly $(2\gamma,-\mathscr W_\infty)$. The audit independently derived the
 $-\sqrt7$ transverse determinant and endorsed the regular $r=1/2$ section.
+
+The completed global-coefficient certificate received two independent
+adversarial passes. The first rederived both collision Green operators,
+checked their weighted norms and the explicit Frobenius corrections, and
+verified that the analytic remainder bounds fit strictly inside the dyadic
+initial boxes. The second independently replayed the pinned CAPD wrapper and
+checked the reversed-time signs, whole-step positivity of the candidate path,
+the escape/return connectedness argument, the returned-Jost Volterra bounds,
+and the Wronskian orientation. It confirmed that $W(J,P_+)<-1/2$ is uniform
+over every possible parabolic connection in the bracket and does not rely on
+uniqueness or generic transversality. Neither audit inferred the still-open
+finite-$\varepsilon$ selection theorem.
 
 The first-encounter and terminal-escape theorems received independent
 adversarial derivations. The audit explicitly checked near-collision

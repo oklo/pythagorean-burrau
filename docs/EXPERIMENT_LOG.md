@@ -427,3 +427,24 @@ Evidence level: ORDINARY NUMERICAL EVIDENCE.  Reproduce the central point:
 ```bash
 .venv/bin/python -m scripts.continue_f30
 ```
+
+## 2026-08-23: certified global triple-endpoint coefficient
+
+- Attached the exact collision-stable base family and canonical fast mode at
+  $r=2^{-32}$ by analytic weighted fixed-point estimates, uniformly for
+  $-0.24696\le a\le-0.24694$.
+- Propagated the complete box with pinned CAPD 6.1.0. The left endpoint has
+  $H_K>0$, the right endpoint has $H_K+1/(4Z^3)<0$, and every accepted
+  candidate step has positive reversed velocity. Connectedness therefore
+  gives at least one parabolic connection.
+- Combined an analytic returned-Jost tail enclosure with the compact
+  propagation to prove the uniform rational bound $W(J,P_+)<-1/2$ and hence
+  $A_-=W(J,P_+)/(-\sqrt7)>0$ for every possible parabolic member.
+- Two independent adversarial passes rederived the collision tails and global
+  sign logic; one independently replayed the pinned wrapper. Exact hexadecimal
+  output is stored in `data/triple_endpoint_global_capd_certificate.txt`.
+
+Evidence levels: **PROVED ANALYTICALLY** for the collision attachment and
+tail estimates; **PROVED BY COMPUTER-ASSISTED ARGUMENT** for the compact
+escape/return bracket and $A_->0$. The finite-$\varepsilon$ selection theorem
+remains **CONJECTURAL**.

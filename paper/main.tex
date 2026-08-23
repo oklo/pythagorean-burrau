@@ -825,8 +825,8 @@ $e^{-2\tau/3}y\to A_\infty>0$.  The last assertion follows from the
 strictly decreasing positive factor
 $e^{-2\tau/3}(y_\tau+y/3)$ and a tail contradiction. Thus the candidate
 universal light orbit stays separated from the prescribed binary collision.
-This does not yet prove that the finite-phase family selects that branch or
-fix the sign of $A_-$. The local factor $K_-$ is settled below.
+This does not yet prove that the finite-phase family selects that branch. The
+two scalar signs $K_->0$ and $A_->0$ are settled below.
 
 There is also an analytic sign on the incoming half of the canonical slow
 transverse field. If
@@ -850,7 +850,8 @@ positive transverse derivative at the unique first turn. Therefore
 \[
  K_->0.
 \]
-This leaves the finite-phase selection theorem and the sign of $A_-$ open.
+The global coefficient is also positive, as proved next. Thus only the
+finite-phase selection theorem remains open at this endpoint.
 
 The latter sign is nevertheless finite-dimensional. On the last binary
 infall, use the monotone separation $r$ as independent variable and put
@@ -872,10 +873,10 @@ $\beta_\pm=(3\pm\sqrt7)/4$. Hence
 \]
 has the same sign as $A_-$. This reduces the global sign to one
 collision-stable/parabolic-manifold intersection and one scalar projection.
-A scalar comparison with the exact equilateral orbit shows that, conditional
-on a negative shape-stable coefficient, the selected base remains in the
-cone $z<-(\sqrt3/2)r$ throughout the final infall; thus that coefficient sign
-also needs validation at only one regular section.
+A scalar comparison with the exact equilateral orbit shows that a branch with
+negative shape-stable coefficient remains in the cone
+$z<-(\sqrt3/2)r$ throughout the final infall. The global certificate below
+places every candidate parabolic connection in such a negative interval.
 
 This match can be made square without adding a hidden dynamical parameter.
 On the regular section $r=1/2$, let $U(\chi)$ be the incoming parabolic base
@@ -901,7 +902,47 @@ $P=x^2p$, $\Omega=z\dot p-\dot zp$ tend directly to
 $(2\gamma,-\mathcal W_\infty)$ and obey an analytic system. Hence both
 singular ends attach to one compact interval-Newton problem. A backward
 finite-cutoff diagnostic gives $a\approx-0.24695$ and
-$\widehat A_-\approx0.31>0$, but no validated sign is claimed.
+$\widehat A_-\approx0.31>0$.
+
+\begin{theorem}[Global triple-endpoint coefficient]
+Every collision-stable/incoming-parabolic connection in the amplitude bracket
+\[
+ -0.24696\le a\le-0.24694
+\]
+satisfies $A_->0$. At least one such connection exists.
+\end{theorem}
+\begin{proof}
+Analytic Fuchsian fixed-point estimates attach the full collision-stable
+family and its canonical fast mode at $r=2^{-32}$. A pinned interval
+propagation carries the whole amplitude box to a large outgoing section and
+proves positive velocity along every accepted step. At the left endpoint the
+monopole energy $H_K=w^2/2-2/Z$ is positive; at the right endpoint
+$H_K+1/(4Z^3)<0$. The exact tail inequality
+\[
+ 0\le H_K(\infty)-H_K(Z)\le {1\over4Z^3}
+\]
+and connectedness therefore supply a parabolic member, without a uniqueness
+or transversality assumption.
+
+On every parabolic member, a Volterra estimate in $(P,\Omega)$ attaches the
+exact returned Jost data
+$(2\gamma,-\mathcal W_\infty)$ from infinity. Combining those boxes with the
+compact propagation gives the uniform rational margin
+\[
+ W(J,P_+)<-\frac12.
+\]
+Since $W(P_-,P_+)=-\sqrt7$, the exact projector gives
+\[
+ A_-={W(J,P_+)\over-\sqrt7}>0.
+\]
+The collision attachment is analytic; the compact enclosures use CAPD 6.1.0
+at pinned commit \texttt{731079217a9254ea2948d742df2b170895effe7f}.
+\end{proof}
+
+Together with $K_->0$, this proves that the proposed limiting coefficient
+$4^{(\sqrt7-1)/6}A_-K_-$ is positive. It does not by itself prove the limit:
+one must still show that the finite-phase captured family selects this base
+connection and its normalized transverse field.
 
 Parameterize the restricted incoming parabolic curve by its asymptotic phase
 intercept $\chi$, normalized by

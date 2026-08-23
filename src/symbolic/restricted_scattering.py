@@ -539,6 +539,30 @@ def triple_endpoint_matching_determinant() -> tuple[sp.Expr, sp.Expr]:
     return wronskian_limit, sp.simplify(base_determinant * wronskian_limit)
 
 
+def triple_endpoint_fast_frobenius_corrections() -> tuple[
+    sp.Expr, sp.Expr, sp.Expr, sp.Expr
+]:
+    """First two corrections of the canonical fast collision mode."""
+    amplitude = sp.symbols("a", real=True)
+    shape_exponent = (-1 + sp.sqrt(19)) / 4
+    beta_minus = (3 - sp.sqrt(7)) / 4
+    beta_plus = (3 + sp.sqrt(7)) / 4
+    def indicial(exponent: sp.Expr) -> sp.Expr:
+        return sp.expand(2 * (exponent - beta_minus) * (exponent - beta_plus))
+    shape_forcing = 3 * sp.sqrt(3) * amplitude / 8
+    shape_correction = sp.simplify(
+        shape_forcing / indicial(beta_plus + shape_exponent)
+    )
+    radius_forcing = beta_plus - sp.Rational(1, 4)
+    radius_correction = sp.simplify(radius_forcing / indicial(beta_plus + 1))
+    return (
+        shape_correction,
+        radius_correction,
+        sp.simplify(indicial(beta_plus + shape_exponent) * shape_correction - shape_forcing),
+        sp.simplify(indicial(beta_plus + 1) * radius_correction - radius_forcing),
+    )
+
+
 def restricted_universal_binary_lc_system() -> tuple[
     sp.Matrix, tuple[sp.Symbol, ...]
 ]:
