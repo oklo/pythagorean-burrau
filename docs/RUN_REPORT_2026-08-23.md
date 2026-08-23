@@ -371,6 +371,11 @@ earlier collision.  It is **PROVED BY COMPUTER-ASSISTED ARGUMENT**.  Its two
 outgoing sides remain unclassified.  Three independent adversarial audits
 identified and then endorsed the repair \(\Re v_->1/2\), which makes
 \(\Re u_-\) strictly decreasing and excludes a hidden regularized recollision.
+Ordinary continuation of its regularized outgoing branch eventually has very
+large escape margins, but first passes within about \(4.3\times10^{-4}\) of
+the positive primary.  The exact negative-to-positive LC switch has been
+derived in `SECOND_COLLISION_OUTGOING.md`; this third chart is the next
+validated propagation target.
 
 ### Positive-mass persistence of the collision boundary
 
@@ -695,13 +700,15 @@ computer-assisted proof notes and repository README.
 
 ## Highest-leverage next action
 
-Extend the new collision-or-escape certificate from its first narrow
-\(\kappa\)-box across the adjacent compact planar components.  The nearest
-opposite-primary collision zero is now certified; continue locating every
-remaining zero, propagate each collision-free component to a common terminal
-section, and fire either the hierarchical escape cone or a nonzero brake
-scalar.  The long-dwell derivative bridge and the first boundary's
-infinite-time outgoing classification are now closed.
+Enclose the certified second collision root through the exact
+negative-to-positive-primary LC switch in `SECOND_COLLISION_OUTGOING.md`.
+The required proof is finite: propagate the root box to a fixed switch
+section, certify the square-root sheet and negative-primary separation,
+cross the close positive-primary passage in the third LC chart, and fire the
+existing heavy-binary escape cone.  Only after this component is classified
+should the planar audit resume locating further collision zeros.  The
+long-dwell derivative bridge and the first boundary's infinite-time outgoing
+classification are already closed.
 For the tied family, the parallel highest-leverage question remains a
 componentwise sign/zero theorem for \(\Delta_{\rm intr}(B)\), upgrading the
 cyclewise collision dichotomy to a classified root sequence.  This is a
