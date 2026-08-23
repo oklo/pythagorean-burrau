@@ -334,14 +334,15 @@ At a transverse zero it also gives the proved local normal form
 Hence the root certificate settles local one-sided avoidance. Other times and
 the other primary remain global collision obligations.
 
-Those obligations are now closed on a sufficiently small neighborhood of
-this first root.  The interval-Newton parameter enclosure propagates through
-the selected collision--ejection LC block and a signed heavy-binary LC bridge
-to a strict restricted escape cone.  The conservative limiting finite-mass
+Those obligations are now closed on the explicit interval
+\(1.2679251755\le\kappa\le1.2679451755\) around this first root.  The full
+correlated parameter interval propagates through the selected
+collision--ejection LC block and a signed heavy-binary LC bridge to a strict
+restricted escape cone.  The conservative limiting finite-mass
 margin
 \[
  \dot\rho_0-{2\over(3/2)(\rho_0-r_0)}
- -\sqrt{{4\over r_0}+{2\over100}}-{3\over2}>0.69
+ -\sqrt{{4\over r_0}+{2\over100}}-{3\over2}>0.65
 \]
 feeds a full hierarchical-energy lemma: the inner pair grows at most
 linearly while the light body outruns it, and its total future tidal work is

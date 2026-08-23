@@ -469,10 +469,14 @@ rational, so this theorem does not enlarge the proved integer subfamily.
 
 ### Validated collision--ejection escape cusp
 
-The exact interval-Newton root has now been followed beyond its limiting
-light--heavy collision without assigning physical meaning to a
-positive-mass collision continuation.  The selected-pair LC flow reaches
-\(S=61/25\) with the other primary separated.  Reconstruction of the
+The entire explicit interval
+\[
+ 1.2679251755\le\kappa\le1.2679451755
+\]
+has now been followed beyond the unique interval-Newton root without
+assigning physical meaning to a positive-mass collision continuation.  The
+ten adjacent interval-boxed selected-pair LC flows reach \(S=61/25\) with the
+other primary separated.  Reconstruction of the
 restricted outer state and the signed bridge
 \[
  \lambda=\sqrt[3]t,\qquad
@@ -482,7 +486,7 @@ restricted outer state and the signed bridge
 cross the prescribed heavy-binary collision analytically.  CAPD proves both
 light--primary squared distances exceed \(0.89\) throughout the bridge.  At
 the outgoing section, the restricted escape comparison has strict margin
-\(>0.58\).
+\(>0.54\).
 
 Finite-time openness is insufficient for positive light mass, because its
 tidal work on the heavy pair accumulates forever.  A new exact Jacobi lemma
@@ -496,7 +500,7 @@ If \(e<\epsilon\), the inner pair lies below a linear envelope
 \(r_0+v_bt\).  A strict terminal speed inequality makes \(\rho\) outrun this
 envelope by \(ct\), while the remaining tidal-energy integral is finite and
 uniform.  CAPD validates the limiting full-pair margin with
-\(\epsilon=1/100\), \(c=3/2\) by more than \(0.69\); the energy correction is
+\(\epsilon=1/100\), \(c=3/2\) by more than \(0.65\); the energy correction is
 \(O(B)\) in the Newtonian-scaled terminal coordinates.  Therefore every
 sufficiently small compatible positive-mass member in this local cusp either
 has a true classical collision or the light body escapes.  Every

@@ -226,7 +226,10 @@ Successful output ends with
 
 The second line belongs to the downstream theorem in
 `COMPUTER_ASSISTED_PLANAR_COLLISION_ESCAPE.md`; it is emitted by the same
-correlated verifier and starts from the interval-Newton root enclosure.
+correlated verifier and starts from the full explicit parameter box (1), not
+only the narrower interval-Newton root enclosure.  Its ten escape tiles now
+cover the still larger interval
+\(1.2679251755\le\kappa\le1.2679451755\).
 
 The trusted computing base consists of the analytic tail theorem and its exact
 symbolic tests, the displayed C++ verifier, the pinned CAPD native interval
@@ -237,7 +240,10 @@ standard interval-Newton theorem.
 
 The theorem (1)--(3) is **PROVED BY COMPUTER-ASSISTED ARGUMENT**. It proves
 uniqueness only inside the explicit box (1).  The regularized outgoing branch
-and a finite-mass collision-or-escape neighborhood of this root are now
-classified by the downstream theorem. Other collision parameters and the
+on the larger interval
+\(1.2679251755\le\kappa\le1.2679451755\), and a finite-mass
+collision-or-escape neighborhood of that closed interval, are now classified
+by the downstream theorem. Other
+collision parameters and the
 remaining collision-free components remain open; those are the next
 requirements for a global classification of \(\mathscr U_\kappa\).

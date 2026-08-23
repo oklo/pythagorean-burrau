@@ -507,18 +507,30 @@ int main() {
     if (determinant.contains(0.0)) {
       throw std::runtime_error("Newton inclusion passed but determinant contains zero");
     }
-    const EscapeEvaluation escape =
-        evaluate_collision_ejection_escape(newton[0]);
-    std::cout << "ESCAPE_DATA method=CAPD-6.1.0-native"
-              << " lc_exit=" << escape.lc_exit
-              << " bridge_exit=" << escape.bridge_exit
-              << " minimum_primary_squared=" << escape.minimum_primary_squared
-              << " escape_margin=" << escape.escape_margin
-              << " finite_mass_margin=" << escape.finite_mass_margin << "\n";
+    const interval escape_kappa_radius =
+        interval(1.0) / interval(1000000.0);
+    for (int tile = 0; tile < 10; ++tile) {
+      const double offset_numerator = -9.0 + 2.0 * static_cast<double>(tile);
+      const interval escape_kappa_center =
+          kappa_center + interval(offset_numerator) / interval(1000000.0);
+      const interval escape_kappa_box =
+          escape_kappa_center + symmetric(escape_kappa_radius);
+      const EscapeEvaluation escape =
+          evaluate_collision_ejection_escape(escape_kappa_box);
+      std::cout << "ESCAPE_TILE method=CAPD-6.1.0-native"
+                << " tile=" << tile
+                << " kappa_box=" << escape_kappa_box
+                << " minimum_primary_squared=" << escape.minimum_primary_squared
+                << " escape_margin=" << escape.escape_margin
+                << " finite_mass_margin=" << escape.finite_mass_margin << "\n";
+    }
+    const interval escape_kappa_union =
+        kappa_center + symmetric(interval(1.0) / interval(100000.0));
     std::cout << "PASS_ROOT method=CAPD-6.1.0-native "
                  "stage=planar-light-collision-interval-newton\n";
     std::cout << "PASS_ESCAPE method=CAPD-6.1.0-native "
-                 "stage=planar-light-collision-ejection-escape\n";
+                 "stage=planar-light-collision-ejection-escape"
+              << " tiles=10 kappa_interval=" << escape_kappa_union << "\n";
     return 0;
   } catch (const std::exception& error) {
     std::cerr << "FAIL " << error.what() << "\n";

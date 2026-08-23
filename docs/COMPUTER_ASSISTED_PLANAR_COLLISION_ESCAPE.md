@@ -6,8 +6,13 @@ continuation* beyond that collision, through the subsequent prescribed
 heavy--binary collision, and into a strict analytic escape cone.  It does not
 physically continue any positive-mass classical collision.
 
-The conclusion supplies an open collision-or-escape neighborhood of the
-normalized projective root.  It is stronger than a local impact-parameter
+The conclusion supplies the explicit collision-or-escape interval
+\[
+ \mathcal K=[1.2679251755,\,1.2679451755]
+\tag{0}
+\]
+around the normalized projective root, together with a finite-mass
+neighborhood of that interval.  It is stronger than a local impact-parameter
 sign, but remains local in \(\kappa\); it does not classify the entire planar
 scattering family.
 
@@ -37,8 +42,9 @@ At a section on the collision--ejection side where \(u\ne0\), reconstruct
 \tag{2}
 
 The last term uses \(R_t=2R/(3t)\).  The pinned CAPD propagation starts from
-the interval-Newton enclosure of the exact root parameter, not its decimal
-center, and carries the analytic selected-pair LC flow to the fixed duration
+the full explicit interval \(\mathcal K\), not merely the narrower
+interval-Newton image of the root, and carries ten adjacent interval-boxed
+selected-pair LC flows to the fixed duration
 
 \[
  S={61\over25}.
@@ -89,11 +95,12 @@ bridge.  At the final section,
 \tag{7}
 \]
 
-The sharper hexadecimal state enclosure is printed by the verifier.  The
-whole bridge has certified minimum squared light--primary separation
+The ten hexadecimal tile enclosures are printed by the verifier.  Across
+all tiles, the whole bridge has certified minimum squared light--primary
+separation
 
 \[
- d_{\min}^2>\mathtt{0x1.cb2c7eb6fff98p-1}>0.89.
+ d_{\min}^2>\mathtt{0x1.c9c24ac01ab44p-1}>0.89.
 \tag{8}
 \]
 
@@ -147,7 +154,7 @@ The verifier applies (11) with \(c=2\).  It proves
 \[
  w_0>10,qquad v_0>{5\over2},qquad
  v_0-{2\over2w_0}-2-a'(s_0)
- >\mathtt{0x1.290db045857c6p-1}>0.58.
+ >\mathtt{0x1.186465d2c45b8p-1}>0.54.
 \tag{13}
 
 Thus the regularized collision--ejection continuation of the exact certified
@@ -267,7 +274,7 @@ proves, with \(\epsilon=1/100\) and \(c=3/2\),
 \[
  \dot\rho_0-{2\over(3/2)(\rho_0-r_0)}
  -\sqrt{{4\over r_0}+{2\over100}}-{3\over2}
- >\mathtt{0x1.61c87e88ff59p-1}>0.69.
+ >\mathtt{0x1.5104501c497c4p-1}>0.65.
 \tag{24}
 \]
 
@@ -295,17 +302,18 @@ infinite-time finite-mass transfer; it does not follow from openness alone.
 All flow segments before the terminal section are analytic in the common
 selected-pair and heavy-binary LC charts, and every nonselected collision
 boundary has a strict separation margin.  The terminal inequalities (13) are
-strict.  Therefore there is a neighborhood \(K_c\) of \(\kappa_c\) in the
-normalized planar family such that:
+strict.  Uniform interval propagation proves on the whole explicit interval
+\(\mathcal K\) that:
 
-* \(\kappa=\kappa_c\) is the certified selected collision;
-* every punctured \(\kappa\in K_c\) avoids that selected collision locally;
-  its forward branch either suffers another classical collision or reaches
-  the strict escape cone; and
+* \(\kappa=\kappa_c\) is the unique selected collision in the narrower
+  certified interval-Newton \((\kappa,S)\)-box;
+* for every \(\kappa\in\mathcal K\), the classical forward branch either
+  suffers a collision before the terminal section or agrees there with the
+  regularized branch and reaches the strict escape cone; and
 * after the differentiated finite-mass transfer, every sufficiently small
-  compatible positive-mass member in the corresponding cusp either has a
-  true classical collision before the terminal section or satisfies the
-  positive-mass escape lemma there.
+  compatible positive-mass member in a neighborhood of \(\mathcal K\) either
+  has a true classical collision before the terminal section or satisfies
+  the positive-mass escape lemma there.
 
 In the last item a positive-mass collision terminates the classical solution.
 LC is used only to make the parameter-dependent maps and the alternative
@@ -318,12 +326,15 @@ The source is
 `src/verification/planar_light_collision_newton_capd.cpp`; the pinned wrapper
 is `scripts/run_capd_planar_light_collision_newton.sh`.  It uses CAPD 6.1.0 at
 commit `731079217a9254ea2948d742df2b170895effe7f`, the native interval backend,
-and `-frounding-math`.  A successful replay now ends with both
+and `-frounding-math`.  The ten-tile hexadecimal record is
+`data/validated_planar_collision_escape_tiles_capd.txt`.  A successful replay
+now ends with
 
     PASS_ROOT method=CAPD-6.1.0-native \
       stage=planar-light-collision-interval-newton
     PASS_ESCAPE method=CAPD-6.1.0-native \
-      stage=planar-light-collision-ejection-escape
+      stage=planar-light-collision-ejection-escape \
+      tiles=10
 
 The trusted computing base consists of the analytic stable-tail theorem and
 its exact tests, the displayed C++ verifier, pinned CAPD intervals, the C++
@@ -334,4 +345,4 @@ The root, its regularized escape continuation, and the strict limiting
 margins are **PROVED BY COMPUTER-ASSISTED ARGUMENT**.  The terminal comparison
 lemmas and the local finite-mass collision-or-escape transfer are **PROVED
 ANALYTICALLY** once those validated margins are supplied.  No global
-classification outside \(K_c\) is claimed.
+classification outside \(\mathcal K\) is claimed.

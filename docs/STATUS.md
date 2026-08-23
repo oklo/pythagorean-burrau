@@ -36,9 +36,10 @@ regularized collision--ejection branch is now validated through the subsequent
 heavy-binary collision and into a strict hyperbolic-escape cone.  An analytic
 hierarchical-energy bootstrap controls the accumulated positive-light-mass
 tidal work, so every sufficiently small compatible member of the resulting
-local cusp either has a classical collision or escapes.  Thus this first
-boundary and both of its collision-free local sides are completely
-nonperiodic.
+local cusp either has a classical collision or escapes.  The limiting
+certificate is explicit on
+\(1.2679251755\le\kappa\le1.2679451755\). Thus this first boundary and both
+of its collision-free local sides are completely nonperiodic.
 
 The closest catalog threat, the Li--Liao $F_{30}$ family on the
 $3{:}4{:}5$ mass slice, was locally continued.  Its periodic branch comes
