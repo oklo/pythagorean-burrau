@@ -196,11 +196,18 @@ $\delta=\pi-\phi$, the target is
 \]
 where $A_-$ is the slow Fuchsian Jost coefficient and $K_-$ is its universal
 first-turn transfer. `TRIPLE_COLLISION_ENDPOINT.md` records the exact
-reduction. Ordinary universal shooting gives $K_-\approx2.435>0$, making a
-finite interval-Newton/LC validation of the canonical slow field and
-$K_->0$ the more localized of the two remaining sign obligations. The
-finite-$\varepsilon$ selection theorem and global projection $A_-$ remain
-separate.
+reduction. The universal factor is now closed:
+
+\[
+ K_->0.
+\]
+
+An exact Riccati barrier supplies the signed center section, and a pinned
+CAPD proof covers the whole analytic speed box, the prescribed binary
+collision, and the first turn. Ordinary shooting gives the non-rigorous
+magnitude $K_-\approx2.435$. The remaining endpoint obligations are the
+finite-$\varepsilon$ base/field selection theorem and the sign of the global
+projection $A_-$.
 
 ## Adversarial checklist
 
@@ -217,6 +224,16 @@ nonzero physical collision limit. The repaired proof uses the exact monotone
 factor $e^{-2\tau/3}(y_\tau+y/3)$ and a tail contradiction to prove that the
 limit is strictly positive. No finite-$\varepsilon$ selection is inferred
 from this autonomous limiting lemma.
+
+The $K_-$ certificate received an independent source audit and replay. The
+audit rederived the $\mu$-field and every factor of $1/3$, checked CAPD's
+one-accepted-step continuation and whole-step enclosure semantics against the
+pinned source, verified the exact dyadic cover, and checked the first-turn
+monotonicity argument. It also confirmed that the two propagated transverse
+bases cover every center logarithmic derivative $r\ge1/1000$, so no hidden
+upper cutoff on $r$ is present. The replay reproduced the stored hexadecimal
+certificate. The audit explicitly rejected any inference from $K_->0$ to
+finite-$\varepsilon$ selection or to the sign of $A_-$.
 
 The first-encounter and terminal-escape theorems received independent
 adversarial derivations. The audit explicitly checked near-collision

@@ -72,7 +72,8 @@
 - Shooting the universal peel-off orbit from incoming cutoff $L=100,1000,
   10000$ gives $K_-=2.42248,2.43345,2.43456$, respectively, with a simple
   turn at $s\approx1.03207$ and $Z_t\approx0.95495$. This strongly isolates
-  the finite validation target $K_->0$ but remains ordinary evidence. Use
+  the magnitude but remains ordinary evidence. The sign $K_->0$ is now
+  independently proved by the pinned full-box certificate. Use
   `python -m scripts.probe_triple_endpoint --cutoffs 100 1000 10000
   --shoot-center -4 -1 --max-step 0.5`.
 
@@ -80,7 +81,8 @@ Evidence level: EXACT SYMBOLIC IDENTITY for the Wronskian, binary tidal
 coefficient, and macroscopic Kepler-transfer formulas; PROVED ANALYTICALLY for the restricted late-turn limit
 and both fixed-resonance and uniform first-turn finite-$B$ transfer; PROVED BY
 COMPUTER-ASSISTED ARGUMENT for $\mathscr W_\infty>21/50$, eventual $C_n<0$,
-and the resulting first-turn exclusions. Reproduce the ordinary probe with:
+the resulting first-turn exclusions, and the universal triple-endpoint sign
+$K_->0$. Reproduce the ordinary probe with:
 
 ```bash
 uv run python -m scripts.probe_restricted_turn_map \
@@ -91,6 +93,8 @@ Reproduce the proof certificate with:
 
 ```bash
 bash scripts/run_capd_restricted_transverse_scattering.sh \
+  /path/to/CAPD /path/to/CAPD/build-native
+bash scripts/run_capd_triple_endpoint_turn.sh \
   /path/to/CAPD /path/to/CAPD/build-native
 ```
 

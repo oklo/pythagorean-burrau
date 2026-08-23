@@ -251,6 +251,125 @@ The lemma proves uniqueness and collision safety of the *candidate universal
 base*. It does not yet prove that the finite-$\varepsilon$ returning
 parabolic family converges to this unstable branch.
 
+The incoming part of its canonical slow transverse field also has a rigorous
+sign. Along the base put
+
+\[
+ Q(y)={1-2y^2\over9(y^2+1/4)^{5/2}}.
+\tag{9c5}
+\]
+
+The transverse equation and slow normalization are
+
+\[
+ p_{\tau\tau}+p_\tau=Q(y)p,
+ \qquad
+ p(\tau)e^{\alpha_-\tau}\longrightarrow1
+ \quad(\tau\to-\infty).
+\tag{9c6}
+\]
+
+**Lemma (positive slow field at the center).** The field in (9c6) remains
+positive up to the center crossing, and
+
+\[
+ {p_\tau(0)\over p(0)}
+ \ge -\alpha_-+{7\sqrt3\over200}>0.
+\tag{9c7}
+\]
+
+Since $s=0$ has $d\tau/ds=1$, this also proves $p_s(0)>0$.
+
+**Proof.** Write $e=\sqrt3/2$, $x=y+e$, $v=y_\tau$, and
+$r=p_\tau/p$. First, on $-e\le y\le0$,
+
+\[
+ 0<v\le x.
+\tag{9c8}
+\]
+
+Indeed $v/x\to(1+\sqrt{19})/6<1$ on the incoming unstable
+manifold. For $t=-y$, direct one-variable calculus gives
+
+\[
+ -F(y)\le {2x\over3}.
+\tag{9c9}
+\]
+
+To see this, (9c9) is equivalent to
+$t(t^2+1/4)^{-3/2}+2t\le3e$. The derivative of the left side is
+
+\[
+ {1/4-2t^2\over(t^2+1/4)^{5/2}}+2>0;
+\]
+
+the first summand has minimum
+$-(1/2)(8/5)^{5/2}>-2$. The value at $t=e$ is $3e$.
+At a first crossing $v=x$, (9b) and (9c9) would give
+$(v-x)_\tau=-2x/3-F(y)\le0$, proving (9c8).
+
+Next, throughout the same interval,
+
+\[
+ Q(y)\ge-{1\over18}+{x\over4\sqrt3}.
+\tag{9c10}
+\]
+
+On $[-e,-1/\sqrt2]$ this is the tangent-line bound at $-e$,
+because $Q''>0$ there. On $[-1/\sqrt2,-1/2]$ one has $Q\ge0$
+while the right side is negative. On $[-1/2,0]$, monotonicity gives
+$Q\ge2\sqrt2/9>5/72$, whereas the right side is at most $5/72$.
+These assertions also follow immediately from
+
+\[
+ Q'={256y(y-1)(y+1)\over3(4y^2+1)^{7/2}},
+ \quad
+ Q''=-{256(16y^4-27y^2+1)\over3(4y^2+1)^{9/2}}.
+\]
+
+Now $r$ obeys
+
+\[
+ r'=Q-r-r^2,qquad r\longrightarrow-\alpha_-
+ \quad(\tau\to-\infty).
+\tag{9c11}
+\]
+
+Choose $k=7/100$ and $g=-\alpha_-+kx$. The slope of the selected
+Riccati orbit relative to $x$ at the equilateral equilibrium is
+
+\[
+ h={1/(4\sqrt3)\over(1+\sqrt{19})/6+1-2\alpha_-}
+ ={\sqrt3\over2(1+\sqrt{19}+2\sqrt7)}>{1\over13}>k.
+\tag{9c12}
+\]
+
+At a putative crossing $r=g$, (9c8)--(9c10) give
+
+\[
+ (r-g)'
+ \ge x\left[{1\over4\sqrt3}
+ -2k(1-\alpha_-)-k^2e\right]>0.
+\tag{9c13}
+\]
+
+For example, the bracket in (9c13) is strictly larger than
+
+\[
+ {7\over50}-{119\over900}-{343\over80000}
+ ={2513\over720000}>0.
+\]
+
+Equation (9c12) starts the orbit above the barrier, and (9c13) prevents a
+downward crossing. The normalized $p$ is positive on the incoming tail; the
+lower bound on its logarithmic derivative prevents a finite first zero, so
+$r$ remains legitimate. At $x=e$ this proves (9c7), whose final positivity
+follows from $\sqrt3>12/7$ and $\sqrt7>66/25$. $\square$
+
+This closes only the incoming-to-center sign. The binary-collision passage
+and the short center-to-first-turn segment still have to be controlled to
+prove $K_->0$.
+
 For a transverse field on this selected collision ray, the Fuchsian
 projectors are
 
@@ -354,8 +473,9 @@ Since $\delta=4\varepsilon$, equation (12) would then satisfy
 \tag{14}
 \]
 
-The prefactor is positive, so only the product sign matters. Neither factor
-is presently certified.
+The prefactor is positive, so only the product sign matters. The universal
+factor $K_-$ is now certified positive below. The global factor $A_-$ and the
+finite-$\varepsilon$ selection theorem remain open.
 
 The finite-cutoff diagnostic gives the following consistency check:
 
@@ -381,13 +501,35 @@ binary collision at $s=1$, and records its first turn:
 | $1000$ | $1.472571$ | $1.660413$ | $1.704642$ | $1.032081$ | $0.954957$ | $2.433454$ |
 | $10000$ | $1.472564$ | $1.661126$ | $1.705381$ | $1.032072$ | $0.954947$ | $2.434564$ |
 
-This is ordinary evidence for a unique captured peel-off orbit with
-$Z(1)>0$, a simple first turn just after the binary collision, and
+This is ordinary evidence for the location and scale of the already unique
+captured peel-off orbit, a simple first turn just after the binary collision,
+and
 
 \[
- K_-\approx2.435>0.
+ K_-\approx2.435.
 \tag{15}
 \]
+
+The sign is now rigorous. The energy identity and $0<v\le y+\sqrt3/2$
+place the center speed in
+
+\[
+ \sqrt{5/18}<y_\tau(0)\le\sqrt{19}/6\subset[1/2,3/4].
+\]
+
+The Riccati barrier (9c7) gives
+$p_s(0)/p(0)>1/1000$. A pinned CAPD interval proof propagates the entire
+speed interval in 256 dyadic slabs through the regular field (9g). It
+propagates two transverse basis fields and proves that both physical
+derivatives remain positive until the unique first radial turn. Hence
+
+\[
+ \boxed{K_->0.}
+\tag{16}
+\]
+
+The full argument, exact event logic, stored hexadecimal certificate, and
+replay command are in `COMPUTER_ASSISTED_TRIPLE_ENDPOINT_TURN.md`.
 
 Reproduce both diagnostics with
 
@@ -399,12 +541,9 @@ uv run python -m scripts.probe_triple_endpoint \
   --cutoffs 100 1000 10000 --shoot-center -4 -1 --max-step 0.5
 ~~~
 
-The universal calculation is particularly suitable for validation: enclose
-the one-dimensional unstable collision manifold in the $(\tau,y)$ chart,
-use interval Newton on the center condition, propagate through $s=1$ in the
-$\lambda$ chart (9f), and enclose the simple turn with $K_->0$. It would
-settle the second of the two scalar signs but not the global coefficient
-$A_-$.
+The validation deliberately covers the coarse analytic center box rather
+than shooting the one-dimensional unstable collision manifold. It settles
+the second of the two scalar signs but not the global coefficient $A_-$.
 
 ## Missing selection theorem
 
@@ -414,8 +553,8 @@ To close the endpoint one must still prove:
    converges, after (3), to the appropriate branch of the collision manifold;
 2. the returned transverse Jost combination has a nonzero coefficient in
    the relevant $\sigma^{\alpha_-}$ or $\sigma^{\alpha_+}$ eigendirection;
-3. its collision transition through the rescaled problem (5) gives a
-   positive outgoing turn Wronskian, uniformly for $\phi<\pi$ close to
+3. the universal collision transition has positive outgoing turn Wronskian
+   (now proved), and this sign transfers uniformly for $\phi<\pi$ close to
    $\pi$;
 4. the conclusion transfers to finite $B$ through arbitrarily close but
    noncolliding triple encounters, while an actual collision is treated only
@@ -424,5 +563,6 @@ To close the endpoint one must still prove:
 The exact exponents make this a finite-dimensional McGehee matching problem.
 They do not by themselves determine the coefficient sign. Status of
 (1)--(9): **EXACT SYMBOLIC IDENTITY** or direct asymptotic consequence of the
-binary Kepler clock. Status of the four selection statements:
-**CONJECTURAL**.
+binary Kepler clock. Status of the universal part of item 3: **PROVED BY
+COMPUTER-ASSISTED ARGUMENT**. Status of items 1, 2, the
+finite-$\varepsilon$ transfer in item 3, and item 4: **CONJECTURAL**.

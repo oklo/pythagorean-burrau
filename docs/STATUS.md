@@ -193,8 +193,9 @@ continuation in phase. Its exact scalar form is
  (\pi-\phi)^{(\sqrt7-1)/6}\mathcal C_2(\phi)
  \longrightarrow 4^{(\sqrt7-1)/6}A_-K_-.
 \]
-Ordinary renormalized data support $A_-K_->0$; neither factor is yet
-validated. The autonomous limiting shape equation does now have a unique
+Ordinary renormalized data support $A_-K_->0$. The universal factor $K_-$ is
+now validated positive; $A_-$ is not. The autonomous limiting shape equation
+has a unique
 increasing peel-off orbit modulo logarithmic-time translation. An exact
 energy identity proves that it crosses the center with
 $Z_s(0)>9^{1/3}\sqrt{5/18}$; a monotone-factor argument proves a strictly
@@ -203,9 +204,13 @@ closes existence, uniqueness, and collision safety of the candidate
 universal base, but not its selection by the finite-$\varepsilon$ family.
 A direct universal peel-off shoot converges to
 $K_-\approx2.435>0$, a simple first turn at $s\approx1.03207$, and
-$Z_t\approx0.95495$. This isolates $K_->0$ as a finite interval-Newton/LC
-certificate; finite-$\varepsilon$ selection and the global slow-mode
-projection $A_-$ are the other endpoint obligations.
+$Z_t\approx0.95495$. The sign $K_->0$ is now **PROVED BY
+COMPUTER-ASSISTED ARGUMENT**. A Riccati barrier supplies
+$p_s(0)/p(0)>1/1000$ at the center, and a pinned CAPD proof covers the full
+analytic center-speed interval $[1/2,3/4]$ in 256 slabs through the
+prescribed binary collision and unique first turn. Finite-$\varepsilon$
+selection and the global slow-mode projection $A_-$ remain the endpoint
+obligations.
 
 Late-resonance simplicity has also been narrowed to a differentiable
 parabolic-passage lemma. For the degree-four McGehee map, the exact Kepler

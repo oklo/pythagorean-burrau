@@ -1,0 +1,1 @@
+PASS method=CAPD-6.1.0-native capd_commit=731079217a9254ea2948d742df2b170895effe7f center_speed_cover=[1/2,3/4] center_log_derivative_lower=1/1000 slabs=256 min_height_hex=0x1.bf2c67934c963p-6 min_q0_hex=0x1.0624dd2f1a667p-10 min_q1_hex=0x1.1a57e1b3904e7p-1 max_crossing_mu_hex=0x1.9ba6c4b229329p+0

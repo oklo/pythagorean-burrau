@@ -16,7 +16,9 @@ from src.symbolic.restricted_scattering import (
     restricted_triple_collision_phase_mode,
     restricted_triple_collision_shape_energy,
     restricted_triple_collision_shape_spectrum,
+    restricted_triple_collision_slow_field_barrier,
     restricted_universal_binary_lc_system,
+    restricted_universal_binary_mu_system,
     second_encounter_endpoint_scattering,
     time_shift_melnikov_identity,
     transverse_rotation_wronskian_identity,
@@ -162,6 +164,17 @@ def test_restricted_triple_collision_shape_energy_increases() -> None:
     assert equilateral_value - center_value == sp.Rational(5, 36)
 
 
+def test_restricted_triple_collision_slow_field_barrier_constants() -> None:
+    equilibrium, tangent, initial_gap, margin, center_lower = (
+        restricted_triple_collision_slow_field_barrier()
+    )
+    assert equilibrium == -sp.Rational(1, 18)
+    assert tangent == 1 / (4 * sp.sqrt(3))
+    assert initial_gap > 0
+    assert margin > 0
+    assert center_lower > 0
+
+
 def test_restricted_universal_binary_collision_is_lc_regular() -> None:
     field, variables = restricted_universal_binary_lc_system()
     lc, height, velocity, transverse, transverse_velocity = variables
@@ -172,6 +185,29 @@ def test_restricted_universal_binary_collision_is_lc_regular() -> None:
         assert not entry.has(sp.Abs)
     assert height in field.free_symbols
     assert transverse in field.free_symbols
+
+
+def test_restricted_universal_binary_mu_system_matches_verifier() -> None:
+    field, variables = restricted_universal_binary_mu_system()
+    lc, height, velocity, transverse, transverse_velocity = variables
+    radius_squared = height**2 + lc**4 / 4
+    expected = sp.Matrix(
+        [
+            -1,
+            3 * lc**2 * velocity,
+            -sp.Rational(2, 3)
+            * lc**2
+            * height
+            / radius_squared ** sp.Rational(3, 2),
+            3 * lc**2 * transverse_velocity,
+            sp.Rational(1, 3)
+            * lc**2
+            * (lc**4 - 2 * height**2)
+            * transverse
+            / radius_squared ** sp.Rational(5, 2),
+        ]
+    )
+    assert all(sp.simplify(component) == 0 for component in field - expected)
 
 
 def test_incoming_tilt_has_integrable_quadrupole_source() -> None:

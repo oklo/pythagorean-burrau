@@ -337,6 +337,41 @@ def restricted_triple_collision_shape_energy() -> tuple[
     return energy_derivative, shape_velocity**2 / 3, equilateral_value, center_value
 
 
+def restricted_triple_collision_slow_field_barrier() -> tuple[
+    sp.Expr, sp.Expr, sp.Expr, sp.Expr, sp.Expr
+]:
+    """Return exact constants in the incoming slow-field Riccati barrier."""
+    shape = sp.symbols("y", real=True)
+    equilateral_shape = -sp.sqrt(3) / 2
+    transverse_coefficient = (1 - 2 * shape**2) / (
+        9 * (shape**2 + sp.Rational(1, 4)) ** sp.Rational(5, 2)
+    )
+    alpha_minus = (3 - sp.sqrt(7)) / 6
+    shape_eigenvalue = (1 + sp.sqrt(19)) / 6
+    barrier_slope = sp.Rational(7, 100)
+    tangent_slope = sp.simplify(
+        sp.diff(transverse_coefficient, shape).subs(shape, equilateral_shape)
+    )
+    unstable_riccati_slope = sp.simplify(
+        tangent_slope / (shape_eigenvalue + 1 - 2 * alpha_minus)
+    )
+    barrier_margin = sp.simplify(
+        tangent_slope
+        - 2 * barrier_slope * (1 - alpha_minus)
+        - barrier_slope**2 * sp.sqrt(3) / 2
+    )
+    center_lower = sp.simplify(
+        -alpha_minus + barrier_slope * sp.sqrt(3) / 2
+    )
+    return (
+        sp.simplify(transverse_coefficient.subs(shape, equilateral_shape)),
+        tangent_slope,
+        unstable_riccati_slope - barrier_slope,
+        barrier_margin,
+        center_lower,
+    )
+
+
 def restricted_universal_binary_lc_system() -> tuple[
     sp.Matrix, tuple[sp.Symbol, ...]
 ]:
@@ -357,6 +392,34 @@ def restricted_universal_binary_lc_system() -> tuple[
             time_jacobian * transverse_velocity,
             time_jacobian
             * (separation**2 - 2 * height**2)
+            * transverse
+            / radius_squared ** sp.Rational(5, 2),
+        ]
+    )
+    return field, (lc, height, velocity, transverse, transverse_velocity)
+
+
+def restricted_universal_binary_mu_system() -> tuple[
+    sp.Matrix, tuple[sp.Symbol, ...]
+]:
+    """Return the dimensionless increasing-time field used by the verifier."""
+    lc = sp.symbols("lambda", real=True)
+    height, velocity, transverse, transverse_velocity = sp.symbols(
+        "Y U P Q", real=True
+    )
+    radius_squared = height**2 + lc**4 / 4
+    field = sp.Matrix(
+        [
+            -1,
+            3 * lc**2 * velocity,
+            -sp.Rational(2, 3)
+            * lc**2
+            * height
+            / radius_squared ** sp.Rational(3, 2),
+            3 * lc**2 * transverse_velocity,
+            sp.Rational(1, 3)
+            * lc**2
+            * (lc**4 - 2 * height**2)
             * transverse
             / radius_squared ** sp.Rational(5, 2),
         ]

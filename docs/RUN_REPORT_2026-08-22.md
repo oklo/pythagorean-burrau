@@ -339,7 +339,7 @@ bash scripts/run_capd_restricted_transverse_scattering.sh \
 ```
 
 The repository contains pinned Python dependencies in `uv.lock`, a pinned CAPD
-commit in both verifier wrappers, and 71 deterministic symbolic/unit tests.
+commit in all three verifier wrappers, and 73 deterministic symbolic/unit tests.
 
 ## Single highest-leverage next action
 
@@ -364,12 +364,18 @@ the exact target has already reduced to two scalar signs:
  (\pi-\phi)^{(\sqrt7-1)/6}\mathcal C_2(\phi)
  \longrightarrow 4^{(\sqrt7-1)/6}A_-K_-.
 \]
-The next lemma should validate the slow returned-Jost coefficient $A_-$ and
-the universal first-turn transfer $K_-$. The autonomous shape equation now
+The next endpoint lemma should validate the slow returned-Jost coefficient
+$A_-$ and the finite-$\varepsilon$ selection law. The autonomous shape equation
+now
 supplies a unique increasing universal peel-off base, with an explicit
 center-speed lower bound and a proved positive separation from the prescribed
 binary collision. What is not yet proved is that the finite-$\varepsilon$
 returned family selects this base. Ordinary universal shooting gives
 $K_-\approx2.435$ with a simple first turn just after the prescribed binary
-collision, so $K_-$ is now a concrete finite interval-Newton/LC certificate.
-These steps are required before excluding a second or later brake.
+collision. An exact Riccati barrier additionally proves that the normalized
+slow field has $p_s(0)/p(0)>1/1000$ at the center crossing. A replayed pinned
+CAPD proof covers the entire analytic center-speed interval $[1/2,3/4]$ in
+256 slabs through the binary collision and unique first turn, proving
+$K_->0$. The highest-leverage remaining endpoint work is now the
+finite-$\varepsilon$ selection theorem and the sign of $A_-$. These steps
+are required before excluding a second or later brake.
