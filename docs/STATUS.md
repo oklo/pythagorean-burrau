@@ -43,7 +43,10 @@ tidal work, so every sufficiently small compatible member of the resulting
 local cusp either has a classical collision or escapes.  The limiting
 certificate is explicit on
 \(1.2679251755\le\kappa\le1.2679451755\). Thus this first boundary and both
-of its collision-free local sides are completely nonperiodic.
+of its collision-free local sides are completely nonperiodic.  A second
+two-chart interval-Newton proof now certifies a distinct transverse collision
+with the opposite primary at \(\kappa\simeq1.2640119251\), reached without an
+earlier collision.  Its outgoing sides are not yet classified.
 
 The closest catalog threat, the Li--Liao $F_{30}$ family on the
 $3{:}4{:}5$ mass slice, was locally continued.  Its periodic branch comes
@@ -66,7 +69,8 @@ The first root no longer needs outgoing-sign work: its selected-pair and
 heavy-binary LC continuation, strict escape inequalities, and finite-mass
 tidal bootstrap now give a full local collision-or-escape theorem.  The next
 target is to extend this classification across the adjacent compact
-\(\kappa\)-components, exclude or certify every additional collision zero,
+\(\kappa\)-components.  The nearest additional collision zero has now been
+certified; the target is to certify every remaining collision zero,
 and propagate each resulting component to a terminal cone. The simpler
 global Pythagorean-defect barrier was numerically falsified after the first
 close encounter.

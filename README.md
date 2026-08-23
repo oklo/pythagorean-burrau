@@ -57,6 +57,8 @@ bash scripts/run_capd_planar_light_collision_shape.sh \
   /path/to/CAPD /path/to/CAPD/build-native
 bash scripts/run_capd_planar_light_collision_newton.sh \
   /path/to/CAPD /path/to/CAPD/build-native
+bash scripts/run_capd_planar_light_collision_newton.sh \
+  /path/to/CAPD /path/to/CAPD/build-native --second-root
 ```
 
 Full derivation and trusted-computing-base details are in
@@ -69,6 +71,9 @@ doubleton wrapper proves a unique transverse collision root in the planar
 limiting family and now validates its regularized continuation to the escape
 cone; see `docs/COMPUTER_ASSISTED_PLANAR_LIGHT_COLLISION_ROOT.md` and
 `docs/COMPUTER_ASSISTED_PLANAR_COLLISION_ESCAPE.md`.
+The same correlated verifier uses a second LC chart to certify a distinct
+transverse collision with the opposite primary; see
+`docs/COMPUTER_ASSISTED_PLANAR_SECOND_COLLISION_ROOT.md`.
 The exact positive-light-mass reduction and the resulting persistence theorem
 for that collision boundary are in
 `docs/FINITE_MASS_PLANAR_COLLISION_PERSISTENCE.md`.  The differentiated

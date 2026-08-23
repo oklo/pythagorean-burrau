@@ -198,7 +198,10 @@ $D_c=\det(\partial_\kappa u,v)\ne0$, the exact local normal form is
 
 These are **EXACT SYMBOLIC IDENTITY** and **PROVED ANALYTICALLY**,
 respectively. The analytic tail enclosure and correlated CAPD interval Newton
-now prove one transverse planar limiting collision with
+prove a transverse selected-primary limiting collision with
 $1.2679351752<\kappa_c<1.2679351759$ and
-$-3.52212<D_c<-3.38401$. This is **PROVED BY COMPUTER-ASSISTED ARGUMENT**;
-it is not a finite-mass Pythagorean collision or brake.
+$-3.52212<D_c<-3.38401$. A second collision-adapted chart now proves a
+distinct transverse opposite-primary collision with
+$1.2640119189<\kappa_2<1.2640119313$. These are **PROVED BY
+COMPUTER-ASSISTED ARGUMENT**; neither is a finite-mass Pythagorean collision or
+brake.

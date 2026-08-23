@@ -314,8 +314,10 @@ root existence, local uniqueness, transversality, and chart safety are no
 longer obligations for this root.
 
 The remaining global obligations begin outside the newly certified local
-cusp: exclude or certify every other collision zero, prove collision safety
-on the intervening parameter components, and propagate each to a terminal
+cusp.  The nearest opposite-primary collision zero is now independently
+certified near \(\kappa=1.2640119251\), but every remaining collision zero
+must still be excluded or certified; collision safety is needed on each
+intervening parameter component, followed by propagation to a terminal
 escape, collision, or non-brake certificate.  Outgoing reconstruction inside
 the first root box is no longer open.
 The exact identity
@@ -331,8 +333,9 @@ At a transverse zero it also gives the proved local normal form
  r_{\min,\mathrm{local}}
  =2(\det D\mathcal F)^2(\kappa-\kappa_c)^2+O(|\kappa-\kappa_c|^3).
 \]
-Hence the root certificate settles local one-sided avoidance. Other times and
-the other primary remain global collision obligations.
+Hence the root certificate settles local one-sided avoidance.  A distinct
+opposite-primary collision is now certified in a disjoint box, but all other
+times and every component between collision graphs remain global obligations.
 
 Those obligations are now closed on the explicit interval
 \(1.2679251755\le\kappa\le1.2679451755\) around this first root.  The full
@@ -349,7 +352,8 @@ linearly while the light body outruns it, and its total future tidal work is
 \(O(B)\).  Thus every sufficiently small compatible positive-mass member in
 the local cusp either collides classically or escapes.  This closes outgoing
 classification only near the certified root; excluding or certifying every
-other collision boundary on a larger compact \(\kappa\)-range remains open.
+remaining collision boundary on a larger compact \(\kappa\)-range remains
+open.
 
 The selected finite-mass relative coordinate now gives an exact perturbative
 bridge:

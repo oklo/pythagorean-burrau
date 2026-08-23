@@ -17,6 +17,7 @@
 namespace {
 
 using capd::C1Rect2Set;
+using capd::C0Rect2Set;
 using capd::IMap;
 using capd::IMatrix;
 using capd::IOdeSolver;
@@ -104,6 +105,50 @@ IMap make_heavy_binary_bridge_field() {
       "3*l^2*((x+" + radius + ")/" + plus_denominator +
       "+(x-" + radius + ")/" + minus_denominator + "),"
       "3*l^2*(y/" + plus_denominator + "+y/" + minus_denominator + ");");
+}
+
+IMap make_other_pair_entry_map() {
+  const std::string selected_norm = "(ur^2+ui^2)";
+  const std::string qx = "(ur^2-ui^2+R)";
+  const std::string qy = "(2*ur*ui)";
+  const std::string qnorm = "sqrt(" + qx + "^2+" + qy + "^2)";
+  const std::string ar = "sqrt((" + qnorm + "+" + qx + ")/2)";
+  const std::string ai = "(-sqrt((" + qnorm + "-" + qx + ")/2))";
+  const std::string qtx =
+      "(2*(ur*vr-ui*vi)/" + selected_norm + "+2*R/(3*t))";
+  const std::string qty =
+      "(2*(ur*vi+ui*vr)/" + selected_norm + ")";
+  const std::string br = "((" + ar + ")*(" + qtx + ")+(" + ai +
+                         ")*(" + qty + "))/2";
+  const std::string bi = "((" + ar + ")*(" + qty + ")-(" + ai +
+                         ")*(" + qtx + "))/2";
+  const std::string energy = "((" + qtx + ")^2+(" + qty + ")^2)/2-1/(" +
+                             qnorm + ")";
+  return IMap("var:zs,x,y,vx,vy,ls,ur,ui,vr,vi,h,t,R;fun:" + ar + "," +
+              ai + "," + br + "," + bi + "," + energy + ",t;");
+}
+
+IMap make_other_pair_lc_field() {
+  const std::string scale = "exp(log(9)/3)";
+  const std::string separation =
+      "(" + scale + "*exp(2*log(at)/3))";
+  const std::string qx = "(ar^2-ai^2)";
+  const std::string qy = "(2*ar*ai)";
+  const std::string other_squared =
+      "((" + qx + "-" + separation + ")^2+" + qy + "^2)";
+  const std::string other_denominator =
+      "(" + other_squared + "*sqrt(" + other_squared + "))";
+  const std::string gx = "(-1/(" + separation + ")^2-(" + qx + "-" +
+                         separation + ")/" + other_denominator + ")";
+  const std::string gy = "(-" + qy + "/" + other_denominator + ")";
+  const std::string force_real = "(ar*" + gx + "+ai*" + gy + ")";
+  const std::string force_imag = "(ar*" + gy + "-ai*" + gx + ")";
+  const std::string energy_derivative =
+      "(-2*((ar*br-ai*bi)*" + gx + "+(ar*bi+ai*br)*" + gy + "))";
+  return IMap("var:ar,ai,br,bi,ah,at;fun:-br,-bi,-ah*ar/2-"
+              "(ar^2+ai^2)*" +
+              force_real + "/2,-ah*ai/2-(ar^2+ai^2)*" + force_imag +
+              "/2," + energy_derivative + ",- (ar^2+ai^2);");
 }
 
 TailData stable_tail_data(const interval& kappa) {
@@ -234,33 +279,17 @@ TailData stable_tail_data(const interval& kappa) {
   return {state, tangent};
 }
 
-struct Evaluation {
-  IVector residual;
-  IMatrix jacobian;
-  IVector final_state;
-};
-
-Evaluation evaluate_box(const interval& kappa, const interval& duration,
-                        bool pre_collision_checks = true) {
-  const TailData tail = stable_tail_data(kappa);
-  IVector initial(13);
-  IVector initial_tangent(13);
-  for (int index = 0; index < 5; ++index) {
-    initial[index] = tail.state[index];
-    initial_tangent[index] = tail.kappa_tangent[index];
-  }
-  for (int index = 5; index < 13; ++index) {
-    initial[index] = interval(0.0);
-    initial_tangent[index] = interval(0.0);
-  }
-  C1Rect2Set set(initial);
-
+template <typename Set>
+void propagate_to_lc_section(Set& set, const interval& duration,
+                             bool pre_collision_checks,
+                             bool require_selected_separation = false) {
   IMap shape_field = make_combined_shape_field();
   IOdeSolver shape_solver(shape_field, 30);
   shape_solver.setAbsoluteTolerance(1e-15);
   shape_solver.setRelativeTolerance(1e-15);
   ITimeMap shape_time_map(shape_solver);
-  const interval shape_end = interval(kZetaStart) - interval(3.0) / interval(10.0);
+  const interval shape_end =
+      interval(kZetaStart) - interval(3.0) / interval(10.0);
   shape_time_map.stopAfterStep(true);
   const interval shape_distance_square_threshold =
       interval(1.0) / interval(1000000.0);
@@ -280,15 +309,17 @@ Evaluation evaluate_box(const interval& kappa, const interval& duration,
   } while (!shape_time_map.completed());
   const IVector shape_state = static_cast<IVector>(set);
   if (!(shape_state[2].leftBound() > 0.0)) {
-    throw std::runtime_error("shape-to-LC entry crossed the chosen square-root lift");
+    throw std::runtime_error(
+        "shape-to-LC entry crossed the chosen square-root lift");
   }
 
   IMap entry_field = make_combined_entry_field();
   const interval radial_time = exp(interval(3.0) / interval(10.0));
-  const interval binary_scale =
-      exp(log(interval(9.0)) / interval(3.0)) * exp(interval(1.0) / interval(5.0));
+  const interval binary_scale = exp(log(interval(9.0)) / interval(3.0)) *
+                                exp(interval(1.0) / interval(5.0));
   const interval velocity_scale =
-      exp(log(interval(9.0)) / interval(3.0)) / exp(interval(1.0) / interval(10.0));
+      exp(log(interval(9.0)) / interval(3.0)) /
+      exp(interval(1.0) / interval(10.0));
   entry_field.setParameter("S", binary_scale);
   entry_field.setParameter("V", velocity_scale);
   entry_field.setParameter("T", radial_time);
@@ -316,13 +347,19 @@ Evaluation evaluate_box(const interval& kappa, const interval& duration,
     const IVector enclosure = set.getLastEnclosure();
     const interval qx = sqr(enclosure[6]) - sqr(enclosure[7]);
     const interval qy = interval(2.0) * enclosure[6] * enclosure[7];
-    const interval other_squared =
-        sqr(qx + enclosure[12]) + sqr(qy);
+    const interval selected_distance =
+        sqr(enclosure[6]) + sqr(enclosure[7]);
+    const interval other_squared = sqr(qx + enclosure[12]) + sqr(qy);
+    if (require_selected_separation &&
+        !(selected_distance.leftBound() > 1e-8)) {
+      throw std::runtime_error("selected-pair LC path reached collision");
+    }
     if (pre_collision_checks) {
       if (!(enclosure[11].leftBound() > 1.0 &&
             enclosure[12].leftBound() > 2.0 &&
             other_squared.leftBound() > 1.0)) {
-        throw std::runtime_error("pre-collision LC path left its certified chart");
+        throw std::runtime_error(
+            "pre-collision LC path left its certified chart");
       }
     } else if (!(enclosure[11].leftBound() > 0.3 &&
                  enclosure[12].leftBound() > 1.0 &&
@@ -330,6 +367,32 @@ Evaluation evaluate_box(const interval& kappa, const interval& duration,
       throw std::runtime_error("collision-ejection LC path lost separation");
     }
   } while (!lc_time_map.completed());
+}
+
+struct Evaluation {
+  IVector residual;
+  IMatrix jacobian;
+  IVector final_state;
+  IVector kappa_tangent;
+};
+
+Evaluation evaluate_box(const interval& kappa, const interval& duration,
+                        bool pre_collision_checks = true,
+                        bool require_selected_separation = false) {
+  const TailData tail = stable_tail_data(kappa);
+  IVector initial(13);
+  IVector initial_tangent(13);
+  for (int index = 0; index < 5; ++index) {
+    initial[index] = tail.state[index];
+    initial_tangent[index] = tail.kappa_tangent[index];
+  }
+  for (int index = 5; index < 13; ++index) {
+    initial[index] = interval(0.0);
+    initial_tangent[index] = interval(0.0);
+  }
+  C1Rect2Set set(initial);
+  propagate_to_lc_section(set, duration, pre_collision_checks,
+                          require_selected_separation);
   const IVector state = static_cast<IVector>(set);
   const IMatrix derivative = static_cast<IMatrix>(set);
   const IVector kappa_tangent = derivative * initial_tangent;
@@ -342,7 +405,80 @@ Evaluation evaluate_box(const interval& kappa, const interval& duration,
   jacobian[1][0] = kappa_tangent[7];
   jacobian[0][1] = -state[8];
   jacobian[1][1] = -state[9];
-  return {residual, jacobian, state};
+  return {residual, jacobian, state, kappa_tangent};
+}
+
+IVector evaluate_escape_lc_state(const interval& kappa,
+                                 const interval& duration) {
+  const TailData tail = stable_tail_data(kappa);
+  IVector initial(13);
+  for (int index = 0; index < 5; ++index) {
+    initial[index] = tail.state[index];
+  }
+  for (int index = 5; index < 13; ++index) {
+    initial[index] = interval(0.0);
+  }
+  C0Rect2Set set(initial);
+  propagate_to_lc_section(set, duration, false);
+  return static_cast<IVector>(set);
+}
+
+Evaluation evaluate_other_pair_collision(const interval& kappa,
+                                         const interval& duration) {
+  const Evaluation first =
+      evaluate_box(kappa, interval(7.0) / interval(4.0), true, true);
+  const interval switch_qy =
+      interval(2.0) * first.final_state[6] * first.final_state[7];
+  if (!(switch_qy.rightBound() < 0.0)) {
+    throw std::runtime_error("other-pair LC switch did not prove q_y<0");
+  }
+  IMap entry = make_other_pair_entry_map();
+  const IVector entry_state = entry(first.final_state);
+  const IMatrix entry_derivative = entry.derivative(first.final_state);
+  const IVector entry_tangent = entry_derivative * first.kappa_tangent;
+  if (!(entry_state[0].leftBound() > 1.0 &&
+        entry_state[1].rightBound() < 0.0 &&
+        entry_state[5].leftBound() > 1.0)) {
+    throw std::runtime_error("other-pair LC entry left its selected lift");
+  }
+
+  C1Rect2Set set(entry_state);
+  IMap field = make_other_pair_lc_field();
+  IOdeSolver solver(field, 30);
+  solver.setAbsoluteTolerance(1e-15);
+  solver.setRelativeTolerance(1e-15);
+  ITimeMap time_map(solver);
+  time_map.stopAfterStep(true);
+  do {
+    time_map(duration, set);
+    const IVector enclosure = set.getLastEnclosure();
+    const interval separation =
+        exp(log(interval(9.0)) / interval(3.0)) *
+        exp(interval(2.0) * log(enclosure[5]) / interval(3.0));
+    const interval qx = sqr(enclosure[0]) - sqr(enclosure[1]);
+    const interval qy = interval(2.0) * enclosure[0] * enclosure[1];
+    const interval other_squared = sqr(qx - separation) + sqr(qy);
+    if (!(enclosure[2].leftBound() > 0.5 &&
+          enclosure[5].leftBound() > 0.5 &&
+          other_squared.leftBound() > 0.01)) {
+      std::cerr << std::hexfloat << "OTHER_PAIR_PATH enclosure=" << enclosure
+                << " other_squared=" << other_squared << "\n";
+      throw std::runtime_error("other-pair LC path lost separation");
+    }
+  } while (!time_map.completed());
+
+  const IVector state = static_cast<IVector>(set);
+  const IMatrix derivative = static_cast<IMatrix>(set);
+  const IVector kappa_tangent = derivative * entry_tangent;
+  IVector residual(2);
+  residual[0] = state[0];
+  residual[1] = state[1];
+  IMatrix jacobian(2, 2);
+  jacobian[0][0] = kappa_tangent[0];
+  jacobian[1][0] = kappa_tangent[1];
+  jacobian[0][1] = -state[2];
+  jacobian[1][1] = -state[3];
+  return {residual, jacobian, state, kappa_tangent};
 }
 
 struct EscapeEvaluation {
@@ -355,8 +491,7 @@ struct EscapeEvaluation {
 
 EscapeEvaluation evaluate_collision_ejection_escape(const interval& kappa) {
   const interval lc_duration = interval(61.0) / interval(25.0);
-  const Evaluation lc = evaluate_box(kappa, lc_duration, false);
-  const IVector& state = lc.final_state;
+  const IVector state = evaluate_escape_lc_state(kappa, lc_duration);
   const interval ur = state[6];
   const interval ui = state[7];
   const interval vr = state[8];
@@ -378,7 +513,7 @@ EscapeEvaluation evaluate_collision_ejection_escape(const interval& kappa) {
   initial[2] = qy;
   initial[3] = qtx + binary_separation / (interval(3.0) * radial_time);
   initial[4] = qty;
-  C1Rect2Set set(initial);
+  C0Rect2Set set(initial);
 
   IMap bridge_field = make_heavy_binary_bridge_field();
   IOdeSolver bridge_solver(bridge_field, 30);
@@ -467,11 +602,94 @@ IVector interval_newton(const IVector& center, const IVector& value,
   return center - capd::matrixAlgorithms::gauss(jacobian, value);
 }
 
+int parse_integer(const char* text) {
+  std::size_t consumed = 0;
+  const std::string value(text);
+  const int result = std::stoi(value, &consumed);
+  if (consumed != value.size()) {
+    throw std::invalid_argument("nonintegral tile argument");
+  }
+  return result;
+}
+
 }  // namespace
 
-int main() {
+int main(int argc, char** argv) {
   using namespace capd;
   try {
+    int first_escape_offset = -9;
+    int escape_tile_count = 10;
+    int escape_tile_radius = 1;
+    bool second_root_only = false;
+    if (argc == 2 && std::string(argv[1]) == "--second-root") {
+      second_root_only = true;
+    } else if ((argc == 4 || argc == 5) &&
+        std::string(argv[1]) == "--escape-tiles") {
+      first_escape_offset = parse_integer(argv[2]);
+      escape_tile_count = parse_integer(argv[3]);
+      if (argc == 5) {
+        escape_tile_radius = parse_integer(argv[4]);
+      }
+    } else if (argc != 1) {
+      std::cerr << "usage: " << argv[0]
+                << " [--second-root | --escape-tiles FIRST_OFFSET COUNT "
+                   "[RADIUS]]\n";
+      return 2;
+    }
+    if (escape_tile_count < 1 || escape_tile_count > 1000 ||
+        escape_tile_radius < 1 || escape_tile_radius > 1000) {
+      throw std::invalid_argument(
+          "tile count and radius must lie in [1,1000]");
+    }
+    if (second_root_only) {
+      const interval second_kappa_center =
+          interval(12640119251.0) / interval(10000000000.0);
+      const interval second_duration_center =
+          interval(10275749204.0) / interval(10000000000.0);
+      const interval second_kappa_radius =
+          interval(1.0) / interval(10000000.0);
+      const interval second_duration_radius =
+          interval(1.0) / interval(10000000.0);
+      const interval second_kappa_box =
+          second_kappa_center + symmetric(second_kappa_radius);
+      const interval second_duration_box =
+          second_duration_center + symmetric(second_duration_radius);
+      const Evaluation second_center = evaluate_other_pair_collision(
+          second_kappa_center, second_duration_center);
+      const Evaluation second_box = evaluate_other_pair_collision(
+          second_kappa_box, second_duration_box);
+      IVector second_x_center(2);
+      second_x_center[0] = second_kappa_center;
+      second_x_center[1] = second_duration_center;
+      IVector second_x_box(2);
+      second_x_box[0] = second_kappa_box;
+      second_x_box[1] = second_duration_box;
+      const IVector second_newton = interval_newton(
+          second_x_center, second_center.residual, second_box.jacobian);
+      const interval second_determinant =
+          second_box.jacobian[0][0] * second_box.jacobian[1][1] -
+          second_box.jacobian[0][1] * second_box.jacobian[1][0];
+      std::cout << std::hexfloat
+                << "SECOND_ROOT_DATA method=CAPD-6.1.0-native"
+                << " box=" << second_x_box
+                << " center_residual=" << second_center.residual
+                << " jacobian=" << second_box.jacobian
+                << " determinant=" << second_determinant
+                << " newton=" << second_newton
+                << " final_state_box=" << second_box.final_state
+                << " inclusion="
+                << subsetInterior(second_newton, second_x_box) << "\n";
+      if (!subsetInterior(second_newton, second_x_box)) {
+        return 1;
+      }
+      if (second_determinant.contains(0.0)) {
+        throw std::runtime_error(
+            "second Newton inclusion passed but determinant contains zero");
+      }
+      std::cout << "PASS_SECOND_ROOT method=CAPD-6.1.0-native "
+                   "stage=planar-second-light-collision-interval-newton\n";
+      return 0;
+    }
     const interval kappa_center = interval(12679351755.0) / interval(10000000000.0);
     const interval duration_center = interval(10712485057.0) / interval(10000000000.0);
     const interval kappa_radius = interval(1.0) / interval(10000000.0);
@@ -508,11 +726,14 @@ int main() {
       throw std::runtime_error("Newton inclusion passed but determinant contains zero");
     }
     const interval escape_kappa_radius =
-        interval(1.0) / interval(1000000.0);
-    for (int tile = 0; tile < 10; ++tile) {
-      const double offset_numerator = -9.0 + 2.0 * static_cast<double>(tile);
+        interval(static_cast<double>(escape_tile_radius)) /
+        interval(1000000.0);
+    for (int tile = 0; tile < escape_tile_count; ++tile) {
+      const int offset_numerator =
+          first_escape_offset + 2 * escape_tile_radius * tile;
       const interval escape_kappa_center =
-          kappa_center + interval(offset_numerator) / interval(1000000.0);
+          kappa_center + interval(static_cast<double>(offset_numerator)) /
+                             interval(1000000.0);
       const interval escape_kappa_box =
           escape_kappa_center + symmetric(escape_kappa_radius);
       const EscapeEvaluation escape =
@@ -524,13 +745,29 @@ int main() {
                 << " escape_margin=" << escape.escape_margin
                 << " finite_mass_margin=" << escape.finite_mass_margin << "\n";
     }
-    const interval escape_kappa_union =
-        kappa_center + symmetric(interval(1.0) / interval(100000.0));
+    const interval escape_kappa_lower =
+        kappa_center +
+        interval(static_cast<double>(first_escape_offset - escape_tile_radius)) /
+            interval(1000000.0);
+    const interval escape_kappa_upper =
+        kappa_center +
+        interval(static_cast<double>(first_escape_offset +
+                                     2 * escape_tile_radius *
+                                         (escape_tile_count - 1) +
+                                     escape_tile_radius)) /
+            interval(1000000.0);
+    const interval escape_kappa_union(escape_kappa_lower.leftBound(),
+                                      escape_kappa_upper.rightBound());
     std::cout << "PASS_ROOT method=CAPD-6.1.0-native "
                  "stage=planar-light-collision-interval-newton\n";
     std::cout << "PASS_ESCAPE method=CAPD-6.1.0-native "
                  "stage=planar-light-collision-ejection-escape"
-              << " tiles=10 kappa_interval=" << escape_kappa_union << "\n";
+              << " tiles=" << escape_tile_count;
+    if (first_escape_offset != -9 || escape_tile_radius != 1) {
+      std::cout << " first_offset=" << first_escape_offset
+                << " tile_radius=" << escape_tile_radius;
+    }
+    std::cout << " kappa_interval=" << escape_kappa_union << "\n";
     return 0;
   } catch (const std::exception& error) {
     std::cerr << "FAIL " << error.what() << "\n";

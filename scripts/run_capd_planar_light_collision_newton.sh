@@ -3,8 +3,9 @@ set -euo pipefail
 
 PINNED_CAPD_COMMIT=731079217a9254ea2948d742df2b170895effe7f
 
-if [ "$#" -lt 1 ] || [ "$#" -gt 2 ]; then
-  echo "usage: $0 CAPD_SOURCE_DIR [CAPD_BUILD_DIR]" >&2
+if [ "$#" -lt 1 ] || [ "$#" -gt 5 ] || \
+   { [ "$#" -eq 3 ] && [ "$3" != "--second-root" ]; }; then
+  echo "usage: $0 CAPD_SOURCE_DIR [CAPD_BUILD_DIR [--second-root | FIRST_OFFSET COUNT [RADIUS]]]" >&2
   exit 2
 fi
 
@@ -44,8 +45,20 @@ esac
 
 REPOSITORY_DIR=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 OUTPUT_BINARY=${TMPDIR:-/tmp}/planar_light_collision_newton_capd
+VERIFIER_ARGS=()
+if [ "$#" -eq 3 ]; then
+  VERIFIER_ARGS=(--second-root)
+elif [ "$#" -eq 4 ]; then
+  VERIFIER_ARGS=(--escape-tiles "$3" "$4")
+elif [ "$#" -eq 5 ]; then
+  VERIFIER_ARGS=(--escape-tiles "$3" "$4" "$5")
+fi
 
 # shellcheck disable=SC2086
 c++ "$REPOSITORY_DIR/src/verification/planar_light_collision_newton_capd.cpp" \
   $CAPD_FLAGS -o "$OUTPUT_BINARY"
-"$OUTPUT_BINARY"
+if [ "${#VERIFIER_ARGS[@]}" -eq 0 ]; then
+  "$OUTPUT_BINARY"
+else
+  "$OUTPUT_BINARY" "${VERIFIER_ARGS[@]}"
+fi

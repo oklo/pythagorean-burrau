@@ -53,8 +53,9 @@ next compact encounter we prove a positive centered-parabolic endpoint, and
 at its opposite triple-collision endpoint we prove uniqueness and collision
 safety of the universal peel-off base and validate its positive slow-mode
 first-turn transfer. In the remaining planar joint-limit family, an analytic
-stable-tail enclosure and a correlated interval-Newton computation prove one
-unique transverse light--heavy collision parameter in an explicit local box.
+stable-tail enclosure and correlated interval-Newton computations prove two
+distinct transverse light--heavy collision parameters, one for each primary,
+in explicit local boxes.
 An exact collision-adapted finite-mass reduction and a differentiated
 two-mode inclination theorem continue this root to a normalized collision
 graph through the logarithmic saddle dwell; the exact tied curve is reduced
@@ -1338,7 +1339,7 @@ This proves local avoidance on both punctured sides of a transverse zero,
 without asserting absence of other collisions.
 This was the interval-Newton target closed below. The resulting transverse
 zero separates nearby continuations locally; identifying full adjacent
-collision-free components still requires excluding every other collision
+collision-free components still requires excluding every remaining collision
 zero. Its regularized
 continuation is not a physical continuation of a classical finite-mass
 collision.
@@ -1405,7 +1406,64 @@ the stated determinant sign. The hexadecimal certificate and pinned replay
 are recorded in the companion computer-assisted proof note.
 \end{proof}
 
-The transversality has an exact positive-mass consequence.  In the full late
+The adjacent planar component contains a second collision boundary, involving
+the opposite primary.
+
+\begin{theorem}[Second planar collision boundary]
+The same normalized planar family has exactly one opposite-primary collision
+zero in
+\[
+ \begin{aligned}
+ 1.2640118251&\le\kappa\le1.2640120251,\\
+ 1.0275748204&\le S_2\le1.0275750204.
+ \end{aligned}
+\]
+It lies in
+\[
+ 1.2640119189<\kappa_2<1.2640119313,
+ \qquad
+ 1.0275748589<S_2<1.0275749818,
+\]
+is reached without an earlier collision, and is transverse.  For the fixed
+second-chart clock, the interval Jacobian determinant lies in
+\[
+ 95.8728<\det D_{(\kappa,S_2)}F_2<102.300.
+\]
+\end{theorem}
+
+\begin{proof}
+Propagate the stable-tail enclosure in the positive-primary LC chart for the
+exact duration $7/4$.  Whole-step intervals give $t>1$, $R>2$, distance to
+the opposite primary greater than one, and selected-primary distance greater
+than $10^{-8}$.  Thus this leg is classically collision-free.  At its fixed
+endpoint make the exact chart change
+\[
+ q_-=q+R e_x,
+ \qquad
+ \dot q_-={2uv\over|u|^2}+{2R\over3t}e_x,
+ \qquad u_-^2=q_-.
+\]
+The switch enclosure proves $\operatorname{Im}q_-<0$, and its image fixes the
+exact lift by $\operatorname{Re}u_->1$, $\operatorname{Im}u_-<0$.  In the resulting forced
+LC chart the positive primary stays at squared distance greater than $1/100$,
+$t>1/2$, and $\operatorname{Re}v_->1/2$ through the candidate collision.
+Since $(\operatorname{Re}u_-)_{S}=-\operatorname{Re}v_-<0$ and
+$\operatorname{Re}u_->1$ at entry, the terminal zero is the first selected-
+pair collision rather than a regularized recollision.  A second $C^1$ doubleton
+therefore encloses the square residual
+$F_2=(\operatorname{Re}u_-,\operatorname{Im}u_-)$.  Pinned interval Newton
+maps the displayed box strictly into
+\[
+ [1.264011918946,1.264011931237]
+ \times[1.027574858985,1.027574981778].
+\]
+The displayed determinant interval excludes zero, proving existence,
+uniqueness in the box, and transversality.  The collision time satisfies
+$0.6152<t<0.6153$, so it precedes the prescribed heavy-binary collision.
+The hexadecimal certificate is recorded in the second-collision proof note.
+\end{proof}
+
+The first root's transversality has an exact positive-mass consequence.  In the full late
 Jacobi equations put $A=\sqrt{1-B^2}$, $M=1+A$, and select the same primary by
 \[
  q=Z-{A\over M}R.
@@ -1662,7 +1720,7 @@ persists in the surrounding finite-mass section family. It is not a tied
 finite-mass Pythagorean orbit or a brake, and no positive-mass classical
 collision is continued physically.  The preceding theorem classifies a
 neighborhood of this first root. What remains is exclusion or certification
-of other collision zeros and outgoing control on the remaining compact
+of the remaining collision zeros and outgoing control on the compact
 components.  In
 particular, the exact tied trajectory selects only one point
 $(\widehat\kappa_B,\delta_B)$ on the fixed section; the collision-boundary
@@ -1804,12 +1862,12 @@ The rational and strong real conjectures remain unresolved.  The missing
 theorem must control arbitrarily close collision-free encounters, classify or
 exclude every double-radial event including Jacobi degeneracies, and be uniform
 at parameter endpoints.  If real intersections remain, an exact arithmetic
-bridge is still required. In the planar joint-limit family, one transverse
-collision boundary is now certified and its local finite-mass
-collision-or-escape cusp is classified.  Global use requires exclusion or
-certification of other collision zeros and outgoing control on every
-remaining collision-free component.  Differentiated transport through the
-finite-mass saddle dwell is complete; on the exact tied curve the remaining
+bridge is still required. In the planar joint-limit family, two transverse
+collision boundaries are now certified, one for each primary, while the first
+has a classified local finite-mass collision-or-escape cusp.  Global use
+requires exclusion or certification of the remaining collision zeros and
+outgoing control on every remaining collision-free component.  Differentiated
+transport through the finite-mass saddle dwell is complete; on the exact tied curve the remaining
 local condition is the scalar
 sign/zero problem for $\Delta_{\rm intr}(B)$.  Phase sampling forces infinitely
 many real classical collisions but does not classify each collision-free

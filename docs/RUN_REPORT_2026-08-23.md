@@ -34,8 +34,9 @@ boundary but does not yet cover the full projective parameter line.
 This run additionally proved a Level-E structural theorem at the singular
 triple-collision endpoint: the entire shrinking finite-mass boundary layer
 reduces to a single projective parameter in a universal planar massless
-restricted problem. It has now also located and rigorously validated one
-transverse light--heavy collision parameter in that planar limiting family.
+restricted problem. It has now also located and rigorously validated two
+distinct transverse light--heavy collision parameters in that planar limiting
+family, one for each primary.
 The exact phase winding and normalized collision graph further imply that
 infinitely many distinct real tied parameters accumulating at the skinny
 endpoint have a finite-time classical collision.  No sampled collision
@@ -260,8 +261,9 @@ collision zero. A deterministic regularized ordinary shoot gives
 \]
 with $|u|\approx4.6\times10^{-12}$ and the LC constraint at roundoff. The
 displayed decimals were ordinary evidence at this stage. The correlated
-certificate below subsequently validates existence and transversality; only
-exclusion of other collision zeros remains open.
+certificate below subsequently validates existence and transversality; a
+second opposite-primary zero is also now certified, while exclusion of every
+remaining collision zero remains open.
 All physical velocity and angular signs include the factor
 $\eta=dt/d\theta$; in particular the incoming LC orientation is backward in
 physical time.
@@ -345,6 +347,30 @@ independent adversarial audits replayed and endorsed the certificate. This is
 **PROVED BY COMPUTER-ASSISTED ARGUMENT** for a collision in the massless
 planar limit. It is not a real second-brake intersection, a finite-mass
 Pythagorean orbit, or a counterexample.
+
+### Second transverse planar collision root
+
+An ordinary component scan located a distinct collision with the opposite
+primary near \(\kappa=1.264012\).  The certified propagation first uses the
+positive-primary LC chart through an exact duration \(7/4\), proving that
+both primary separations stay positive, and then switches algebraically to a
+negative-primary LC chart.  Pinned CAPD interval Newton proves exactly one
+zero in
+
+\[
+ 1.2640118251\le\kappa\le1.2640120251,
+ \qquad
+ 1.0275748204\le S_2\le1.0275750204.
+\]
+
+The interval determinant lies in \([95.8728,102.300]\); the nonregularized
+primary stays separated and the collision occurs at \(0.6152<t<0.6153\),
+strictly before the prescribed heavy-binary collision.  Thus this is a second
+transverse collision graph of the planar limiting family, reached without an
+earlier collision.  It is **PROVED BY COMPUTER-ASSISTED ARGUMENT**.  Its two
+outgoing sides remain unclassified.  Three independent adversarial audits
+identified and then endorsed the repair \(\Re v_->1/2\), which makes
+\(\Re u_-\) strictly decreasing and excludes a hidden regularized recollision.
 
 ### Positive-mass persistence of the collision boundary
 
@@ -598,8 +624,8 @@ and phase equidistribution do not imply that any one of them is rational.
    real zero of the three-component brake residual.
 2. Classify the one-parameter planar family $\mathscr U_\kappa$: use the first
    certified collision-or-escape cusp as the initial component, exclude or
-   certify all other collision zeros, and construct terminal certificates on
-   every remaining collision-free component. Compact collision-free backward
+   certify all remaining collision zeros, and construct terminal certificates
+   on every remaining collision-free component. Compact collision-free backward
    capture is already excluded.  The phase-cycle theorem forces infinitely
    many real tied collisions but does not identify whether a particular cycle
    hits this selected graph or contains an earlier collision.
@@ -653,6 +679,9 @@ At the end of this run:
     bash scripts/run_capd_planar_light_collision_newton.sh \
       /private/tmp/pythagorean-capd \
       /private/tmp/pythagorean-capd/build-native
+    bash scripts/run_capd_planar_light_collision_newton.sh \
+      /private/tmp/pythagorean-capd \
+      /private/tmp/pythagorean-capd/build-native --second-root
 
 Results at this checkpoint:
 
@@ -667,11 +696,12 @@ computer-assisted proof notes and repository README.
 ## Highest-leverage next action
 
 Extend the new collision-or-escape certificate from its first narrow
-\(\kappa\)-box across the adjacent compact planar components.  Locate and
-certify every additional collision zero, propagate each collision-free
-component to a common terminal section, and fire either the hierarchical
-escape cone or a nonzero brake scalar.  The long-dwell derivative bridge and
-the first boundary's infinite-time outgoing classification are now closed.
+\(\kappa\)-box across the adjacent compact planar components.  The nearest
+opposite-primary collision zero is now certified; continue locating every
+remaining zero, propagate each collision-free component to a common terminal
+section, and fire either the hierarchical escape cone or a nonzero brake
+scalar.  The long-dwell derivative bridge and the first boundary's
+infinite-time outgoing classification are now closed.
 For the tied family, the parallel highest-leverage question remains a
 componentwise sign/zero theorem for \(\Delta_{\rm intr}(B)\), upgrading the
 cyclewise collision dichotomy to a classified root sequence.  This is a

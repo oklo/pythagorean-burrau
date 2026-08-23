@@ -810,3 +810,18 @@ it is not a remainder proof.
   therefore nonempty and open and contains a tied nonperiodicity interval.
   Thus each late bracket contains either an earlier collision or such an open
   interval.
+- An ordinary scan of the adjacent planar component exposed a different
+  near-collision around \(\kappa=1.264012\).  Switching from the positive-
+  primary LC chart to the negative-primary LC chart produced a square root
+  with ordinary determinant about \(-93.36\).
+- Pinned CAPD interval Newton then certified exactly one opposite-primary
+  collision in
+  \(1.2640118251\le\kappa\le1.2640120251\), with a strictly nonzero
+  determinant.  Whole-step boxes exclude both earlier selected-primary
+  collision and collision with the nonregularized primary.  This is a second
+  limiting collision graph, not an outgoing classification of its sides.
+- Three adversarial audits caught that the first draft had not excluded an
+  earlier zero in the second regularized chart.  The repaired verifier proves
+  \(\Re v_->1/2\) on every whole step, hence
+  \((\Re u_-)_{S}<-1/2\); all three audits then endorsed the classical-safety
+  conclusion.
