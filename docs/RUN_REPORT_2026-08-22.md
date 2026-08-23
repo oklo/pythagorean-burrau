@@ -339,7 +339,7 @@ bash scripts/run_capd_restricted_transverse_scattering.sh \
 ```
 
 The repository contains pinned Python dependencies in `uv.lock`, a pinned CAPD
-commit in both verifier wrappers, and 65 deterministic symbolic/unit tests.
+commit in both verifier wrappers, and 67 deterministic symbolic/unit tests.
 
 ## Single highest-leverage next action
 
@@ -349,6 +349,14 @@ momentum. The first-turn layer is now closed uniformly:
  {Y\times\dot Y\over B^{3/2}}(t_{\rm first\ turn})
  \longrightarrow{\mathscr W_\infty\over2}>{21\over100}.
 \]
-The remaining endpoint problem is to propagate or classify this sign on the
-inward leg and across subsequent central encounters, thereby excluding a
-second or later brake rather than only the first one.
+The returning-tail theorem already propagates the sign back to a fixed large
+incoming section. The centered parabolic boundary of the compact second-
+encounter map is now closed exactly:
+\[
+ \mathcal C_{2,\mathrm{par}}=-2\gamma\mathscr W_\infty>{21\over6250},
+ \qquad -{1\over100}<\gamma<-{1\over250}.
+\]
+The highest-leverage next action is to validate the captured-component
+classification and $\mathcal C_2>0$ on its compact interior, then analyze the
+$\phi\to\pi$ triple-collision endpoint in a McGehee chart. These are required
+before excluding a second or later brake.

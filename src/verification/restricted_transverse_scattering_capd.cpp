@@ -3,6 +3,7 @@
 // Dependency pin:
 //   CAPD 6.1.0, git commit 731079217a9254ea2948d742df2b170895effe7f
 
+#include <algorithm>
 #include <cmath>
 #include <iomanip>
 #include <iostream>
@@ -52,7 +53,7 @@ IVector propagate(const interval& launch_velocity, bool fundamental_fields,
   initial[5] = 0.0;
   initial[6] = fundamental_fields ? interval(1.0) : interval(0.0);
   C0Rect2Set set(initial);
-  const interval final_time = interval::pi() * 80.0;
+  const interval final_time = interval::pi() * 320.0;
   if (!certify_outgoing) {
     return time_map(final_time, set);
   }
@@ -77,9 +78,9 @@ int main() {
   using namespace capd;
 
   try {
-    // Exact rational endpoints 2.905110 and 2.905113.
-    const interval velocity_low = interval(2905110.0) / interval(1000000.0);
-    const interval velocity_high = interval(2905113.0) / interval(1000000.0);
+    // Exact rational endpoints 2.9051113 and 2.9051116.
+    const interval velocity_low = interval(29051113.0) / interval(10000000.0);
+    const interval velocity_high = interval(29051116.0) / interval(10000000.0);
 
     const IVector low = propagate(velocity_low, false);
     const IVector high = propagate(velocity_high, false, true);
@@ -145,10 +146,60 @@ int main() {
       return 1;
     }
 
+    // The incoming-normalized field is p_-(0)=-k_+(0),
+    // p_-'(0)=k_+'(0). Propagate it to the finite outgoing section and
+    // enclose the rotation coefficient
+    //
+    //   gamma = lim p_-/z
+    //         = p_-(L)/z(L) + W_inf*J_2 + tail_error,
+    //   J_2 = int_L^inf z^-2 dt.
+    //
+    // Here W_inf=2*k_+(0)*k_+'(0). The radial energy bound gives
+    // int_L^inf z^-2 dt in
+    // [z^-1/2,z^-1/2+1/(40 z^(5/2))]. A two-variable Volterra bootstrap
+    // bounds the error caused by replacing W(t) by W_inf.
+    const interval incoming_value = -u * center_value + v * center_derivative;
+    const interval incoming_derivative =
+        -up * center_value + vp * center_derivative;
+    const interval incoming_q = incoming_value / z;
+    const interval incoming_wronskian =
+        z * incoming_derivative - w * incoming_value;
+    const interval scattering_wronskian =
+        2.0 * center_value * center_derivative;
+
+    const interval j2_upper = 2.0 / (c0 * sqrt(k_lower));
+    const interval j3_upper =
+        2.0 / (3.0 * c0 * k_lower * sqrt(k_lower));
+    const interval q_abs_upper(
+        0.0, std::max(std::abs(incoming_q.leftBound()),
+                      std::abs(incoming_q.rightBound())));
+    const interval w_abs_upper(
+        0.0, std::max(std::abs(incoming_wronskian.leftBound()),
+                      std::abs(incoming_wronskian.rightBound())));
+    const interval tail_q_bound =
+        (q_abs_upper + j2_upper * w_abs_upper) /
+        (1.0 - 1.5 * j2_upper * j3_upper);
+    const interval tail_w_difference = 1.5 * j3_upper * tail_q_bound;
+    const interval gamma_error = j2_upper * tail_w_difference;
+    const interval radial_integral =
+        1.0 / sqrt(z) +
+        interval(0.0, (1.0 / (40.0 * k_lower * k_lower * sqrt(k_lower)))
+                          .rightBound());
+    const interval gamma =
+        incoming_q + scattering_wronskian * radial_integral +
+        interval(-gamma_error.rightBound(), gamma_error.rightBound());
+    const interval gamma_lower = -interval(1.0) / interval(100.0);
+    const interval gamma_upper = -interval(1.0) / interval(250.0);
+    if (!(gamma.leftBound() > gamma_lower.rightBound() &&
+          gamma.rightBound() < gamma_upper.leftBound())) {
+      std::cerr << "FAIL rotation coefficient sign: gamma=" << gamma << "\n";
+      return 1;
+    }
+
     std::cout << std::hexfloat
               << "PASS method=CAPD-6.1.0-native"
               << " capd_commit=731079217a9254ea2948d742df2b170895effe7f"
-              << " endpoint_psi=80*pi"
+              << " endpoint_psi=320*pi"
               << " velocity_bracket_hex=[" << velocity_bracket.leftBound() << ","
               << velocity_bracket.rightBound() << "]"
               << " lower_H_plus_tail_hex=[" << (low_energy + low_tail).leftBound()
@@ -157,11 +208,17 @@ int main() {
               << " upper_H_hex=[" << high_energy.leftBound() << ","
               << high_energy.rightBound() << "]"
               << " z_hex=[" << z.leftBound() << "," << z.rightBound() << "]"
-              << " rational_thresholds=k0>7/20,k0prime>3/5"
+              << " rational_thresholds=k0>7/20,k0prime>3/5,-1/100<gamma<-1/250"
               << " k0_hex=[" << center_value.leftBound() << ","
               << center_value.rightBound() << "]"
               << " k0prime_hex=[" << center_derivative.leftBound() << ","
-              << center_derivative.rightBound() << "]\n";
+              << center_derivative.rightBound() << "]"
+              << " incoming_q_hex=[" << incoming_q.leftBound() << ","
+              << incoming_q.rightBound() << "]"
+              << " incoming_W_hex=[" << incoming_wronskian.leftBound() << ","
+              << incoming_wronskian.rightBound() << "]"
+              << " gamma_hex=[" << gamma.leftBound() << ","
+              << gamma.rightBound() << "]\n";
     return 0;
   } catch (const std::exception& error) {
     std::cerr << "ERROR " << error.what() << "\n";

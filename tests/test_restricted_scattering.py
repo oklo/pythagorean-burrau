@@ -11,7 +11,9 @@ from src.symbolic.restricted_scattering import (
     parabolic_stroboscopic_leading_map,
     parabolic_truncated_energy_drift,
     phase_wronskian_identity,
+    restricted_equilateral_triple_collision,
     restricted_transverse_linearization,
+    second_encounter_endpoint_scattering,
     time_shift_melnikov_identity,
     transverse_rotation_wronskian_identity,
     transverse_variational_normal_form,
@@ -26,9 +28,7 @@ def test_outer_energy_exchange_is_binary_expansion_work() -> None:
 
 def test_small_speed_normal_form_has_sturm_coefficient() -> None:
     phase = sp.symbols("phase", real=True)
-    assert sp.trigsimp(
-        transverse_variational_normal_form() - (1 + 14 * sp.sec(phase) ** 2)
-    ) == 0
+    assert sp.trigsimp(transverse_variational_normal_form() - (1 + 14 * sp.sec(phase) ** 2)) == 0
 
 
 def test_naive_phase_melnikov_is_a_boundary_term() -> None:
@@ -68,10 +68,8 @@ def test_parabolic_infinity_compactification_and_period_map() -> None:
     separation = sp.cos(phase) ** 2
     z = 2 / x**2
     radius_squared = z**2 + separation**2 / 4
-    expected_x = sp.simplify((-x**3 / 4) * separation * velocity)
-    expected_velocity = sp.simplify(
-        -2 * z * separation / radius_squared ** sp.Rational(3, 2)
-    )
+    expected_x = sp.simplify((-(x**3) / 4) * separation * velocity)
+    expected_velocity = sp.simplify(-2 * z * separation / radius_squared ** sp.Rational(3, 2))
     assert sp.simplify(field[0] - expected_x) == 0
     assert sp.simplify(field[1] - expected_velocity) == 0
 
@@ -88,9 +86,7 @@ def test_parabolic_infinity_compactification_and_period_map() -> None:
 
 
 def test_turn_resonance_determinant_factorizations() -> None:
-    direct, via_turn_phase, via_apocenter_section = (
-        turn_resonance_radial_determinants()
-    )
+    direct, via_turn_phase, via_apocenter_section = turn_resonance_radial_determinants()
     assert sp.simplify(direct - via_turn_phase) == 0
     assert sp.simplify(direct - via_apocenter_section) == 0
 
@@ -99,21 +95,35 @@ def test_restricted_transverse_linearization_contains_rotation_mode() -> None:
     r, z = sp.symbols("r z", real=True)
     outer_coefficient, binary_coefficient = restricted_transverse_linearization()
     distance = sp.sqrt(z**2 + r**2 / 4)
-    assert sp.simplify(
-        outer_coefficient - (r**2 - 2 * z**2) / distance**5
-    ) == 0
-    assert sp.simplify(
-        binary_coefficient - 3 * r * z / (2 * distance**5)
-    ) == 0
-    rotated_outer_acceleration = sp.simplify(
-        -z * outer_coefficient + r * binary_coefficient
-    )
+    assert sp.simplify(outer_coefficient - (r**2 - 2 * z**2) / distance**5) == 0
+    assert sp.simplify(binary_coefficient - 3 * r * z / (2 * distance**5)) == 0
+    rotated_outer_acceleration = sp.simplify(-z * outer_coefficient + r * binary_coefficient)
     assert sp.simplify(rotated_outer_acceleration - 2 * z / distance**3) == 0
 
 
 def test_transverse_rotation_wronskian_has_quadrupole_source() -> None:
     derivative, expected = transverse_rotation_wronskian_identity()
     assert sp.simplify(derivative - expected) == 0
+
+
+def test_second_encounter_parabolic_endpoint_wronskian() -> None:
+    connection, determinant, outgoing, endpoint_wronskian = second_encounter_endpoint_scattering()
+    gamma, scattering_wronskian = sp.symbols("gamma W", real=True, nonzero=True)
+    assert determinant == 1
+    assert outgoing == sp.Matrix([1 - 2 * gamma**2, 2 * gamma * scattering_wronskian])
+    assert endpoint_wronskian == -2 * gamma * scattering_wronskian
+    assert sp.simplify(connection.det() - 1) == 0
+
+
+def test_restricted_equilateral_triple_collision_indicial_exponents() -> None:
+    binary_residual, outer_residual, coefficient, exponents = (
+        restricted_equilateral_triple_collision()
+    )
+    assert binary_residual == 0
+    assert outer_residual == 0
+    assert coefficient == -sp.Rational(1, 18)
+    for exponent in exponents:
+        assert sp.simplify(exponent * (exponent - 1) + sp.Rational(1, 18)) == 0
 
 
 def test_incoming_tilt_has_integrable_quadrupole_source() -> None:
@@ -132,9 +142,7 @@ def test_parabolic_map_preserves_kepler_energy_through_degree_seven() -> None:
 
 
 def test_collision_kepler_mode_transfers_to_nonzero_turn_velocity() -> None:
-    residual, collision_normalization, turn_velocity = (
-        collision_kepler_transverse_transfer()
-    )
+    residual, collision_normalization, turn_velocity = collision_kepler_transverse_transfer()
     (turn_radius,) = tuple(turn_velocity.free_symbols)
     assert sp.simplify(residual) == 0
     assert collision_normalization == 1

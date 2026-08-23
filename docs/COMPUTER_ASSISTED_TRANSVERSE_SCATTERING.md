@@ -87,20 +87,20 @@ implies
 for every unturned outgoing orbit. Therefore $H_K>0$ certifies hyperbolic
 escape, while $H_K+1/(4z^3)<0$ forces a later turn.
 
-CAPD integration to the fixed endpoint $\psi=80\pi$ proves
+CAPD integration to the fixed endpoint $\psi=320\pi$ proves
 
 \[
-v={2905110\over10^6}:\quad H_K+{1\over4z^3}<0,
+v={29051113\over10^7}:\quad H_K+{1\over4z^3}<0,
 \]
 
 and
 
 \[
-v={2905113\over10^6}:\quad H_K>0.
+v={29051116\over10^7}:\quad H_K>0.
 \]
 
 For the upper launch, the verifier additionally encloses every accepted
-Taylor step on $0\le\psi\le80\pi$ and proves $w>0$ on each complete step.
+Taylor step on $0\le\psi\le320\pi$ and proves $w>0$ on each complete step.
 This path check rules out a prior outer turn and center recrossing; endpoint
 positivity alone would not do so.
 
@@ -111,7 +111,7 @@ certificate followed by $H_K>0$ places it outside the first-turn set.
 Monotonicity therefore gives the rigorous bracket
 
 \[
-\boxed{2.905110<v_*<2.905113.}
+\boxed{2.9051113<v_*<2.9051116.}
 \tag{7}
 \]
 
@@ -166,7 +166,7 @@ u(0)=1,\ u'(0)=0,\qquad v(0)=0,\ v'(0)=1
 \tag{11}
 \]
 
-to $80\pi$. The endpoint satisfies $z>52.154$. The tail rectangle (10) is
+to $320\pi$. The endpoint satisfies $z>131$. The tail rectangle (10) is
 applied only to the parabolic member proved to lie inside this propagated
 launch box; the two bracketing endpoint orbits need not themselves be
 parabolic. Applying (10) and
@@ -195,6 +195,94 @@ Outward-rounded interval evaluation proves the rational bounds
 The half-line factorization
 $\mathscr W_\infty=2k_+(0)k_+'(0)$ now proves (1).
 
+## Validated rotation coefficient
+
+The same finite propagation also encloses the order-$z$ coefficient in the
+outgoing expansion
+
+\[
+p_-(z)=\gamma z-\mathscr W_\infty\sqrt z+o(\sqrt z).
+\tag{15}
+\]
+
+At the center, evenness gives
+
+\[
+p_-(0)=-k_+(0),\qquad p_-'(0)=k_+'(0).
+\tag{16}
+\]
+
+The already enclosed fundamental matrix therefore propagates $p_-$ to the
+finite endpoint. Put $q=p_-/z$ and
+$W=zp_-'-z'p_-$. Exactly,
+
+\[
+\gamma=q(L)+\int_L^\infty {W\over z^2}\,d\theta.
+\tag{17}
+\]
+
+The radial energy bounds (5)--(6) sharpen the monopole integral to
+
+\[
+{1\over\sqrt K}\le
+J_2:=\int_L^\infty {d\theta\over z^2}
+\le {1\over\sqrt K}+{1\over40K^{5/2}}.
+\tag{18}
+\]
+
+Indeed, write $\delta=-H_K$, so
+$0\le\delta\le1/(4z^3)$ and
+\[
+ {1\over z'}={\sqrt z\over2}
+ \left(1-{\delta z\over2}\right)^{-1/2}.
+\]
+Here $0\le x=\delta z/2\le1/(8z^2)\le1/8$, and the elementary inequality
+$(1-x)^{-1/2}\le1+x$ on this interval gives
+\[
+ 0\le J_2-K^{-1/2}
+ \le {1\over16}\int_K^\infty z^{-7/2}\,dz
+ ={1\over40K^{5/2}}.
+\]
+
+For completeness, let $Q=\sup|q|$ and $M=\sup|W|$ on the tail. From
+$q'=W/z^2$, the Wronskian identity, and (9),
+
+\[
+Q\le |q(L)|+I_2M,
+\qquad
+M\le |W(L)|+{3\over2}I_3Q,
+\tag{19}
+\]
+
+where
+
+\[
+I_2\le {2\over\sqrt{7/2}\sqrt K},
+\qquad
+I_3\le {2\over3\sqrt{7/2}K^{3/2}}.
+\tag{20}
+\]
+
+The denominator $1-(3/2)I_2I_3$ is positive. Moreover
+
+\[
+|W(\theta)-\mathscr W_\infty|
+\le {3\over2}I_3Q,
+\tag{21}
+\]
+
+so replacing $W$ by $\mathscr W_\infty$ in (17) costs at most
+$(3/2)I_2I_3Q$. Outward-rounded evaluation of (16)--(21) proves
+
+\[
+\boxed{-{1\over100}<\gamma<-{1\over250}<0.}
+\tag{22}
+\]
+
+This is the sign needed at the parabolic endpoint of the compact second-
+encounter map. It is not inferred from a decimal fit: both rational
+inequalities are checked by the verifier.
+
 ## Reproduction and trusted base
 
 The verifier is `src/verification/restricted_transverse_scattering_capd.cpp`.
@@ -211,8 +299,8 @@ The wrapper rejects the wrong CAPD commit, tracked CAPD source modifications,
 untracked non-ignored CAPD files, a non-native interval build, or missing
 rounding flags. The trusted computing base is the verifier source, the
 wrapper, the pinned CAPD source, the host compiler, and the analytic
-inequalities (3)--(10).
+inequalities (3)--(10) and (16)--(21).
 
 Status of the monotonicity and tail lemmas: **PROVED ANALYTICALLY**.
 
-Status of (7), (14), and (1): **PROVED BY COMPUTER-ASSISTED ARGUMENT**.
+Status of (7), (14), (22), and (1): **PROVED BY COMPUTER-ASSISTED ARGUMENT**.

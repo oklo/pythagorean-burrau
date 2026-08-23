@@ -329,9 +329,15 @@ certificate in `COMPUTER_ASSISTED_TRANSVERSE_SCATTERING.md` prove
 
 The verifier brackets the centered parabolic speed between a certified
 first-turn launch and a certified first-leg hyperbolic launch, encloses the
-transverse fundamental matrix to eccentric anomaly $80\pi$, and attaches the
-infinite Jost tail with the explicit Volterra norm $1/(7K^2)$. Therefore (13)
-now establishes $C_n<0$ for all sufficiently late restricted resonances.
+transverse fundamental matrix to eccentric anomaly $320\pi$, and attaches the
+infinite Jost tail with the explicit Volterra norm $1/(7K^2)$. The same
+certificate now also proves
+\[
+ -{1\over100}<\gamma<-{1\over250}
+\]
+for the outgoing rotation coefficient. Therefore (13) establishes $C_n<0$
+for all sufficiently late restricted resonances, while the sign of $\gamma$
+fixes the centered parabolic endpoint of the second-encounter map.
 
 Status of (5) and the factorization (6b)--(6c): **EXACT SYMBOLIC IDENTITY**.
 Status of $k_+(0)>0$: **PROVED ANALYTICALLY**.

@@ -158,7 +158,32 @@ bootstrap proves uniformly in turn height
 `OUTGOING_ANGULAR_MOMENTUM.md` records the proof. The highest-leverage
 endpoint obligation is now to continue this signed scalar through the inward
 leg after the first turn and classify its change across subsequent central
-encounters; a second or later brake remains open.
+encounters; a second or later brake remains open. The inward far tail is now
+closed as well: if the light body returns to a fixed large section, its
+normalized angular momentum still tends to $\mathscr W_\infty/2$. Thus the
+next unknown is a compact collision-regularized central-encounter map, not a
+second infinite tail.
+
+For the second encounter, reflect the returning vertical coordinate and let
+$\mathcal C_2(\psi)$ be the outgoing transverse Wronskian at the next
+captured turn. The returned incoming data are fixed by two first-scattering
+constants $(\gamma,\mathscr W_\infty)$. The extended pinned certificate gives
+$-1/100<\gamma<-1/250$, while the exact even-potential connection matrix gives
+\[
+ \mathcal C_{2,\mathrm{par}}
+ =-2\gamma\mathscr W_\infty>{21\over6250}.
+\]
+Thus the centered parabolic endpoint is closed. Ordinary evidence gives
+$\mathcal C_2>0$ on every sampled captured phase, all with center mean phase
+in $(0,\pi)$. The precise next obligations are to classify all captured
+components, prove the phase-continuum sign on their compact interiors, and
+analyze the $\phi\to\pi$ triple-collision limit before finite-$B$ transfer.
+The exact blow-up has Newtonian scale
+$\theta=\varepsilon s$, $(r,z)=\varepsilon^{2/3}(R,Z)$ and an equilateral
+collision ray whose transverse indicial exponents are
+$(3\pm\sqrt7)/6$. The missing selection theorem is to identify the returned
+Jost combination on this collision manifold and prove its one-sided outgoing
+Wronskian sign; `TRIPLE_COLLISION_ENDPOINT.md` records the exact reduction.
 
 ## Adversarial checklist
 

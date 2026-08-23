@@ -18,11 +18,7 @@ def outer_energy_exchange_identity() -> tuple[sp.Expr, sp.Expr]:
         + sp.diff(energy, velocity) * acceleration
         + sp.diff(energy, separation) * separation_velocity
     )
-    expected = (
-        separation
-        * separation_velocity
-        / (2 * radius_squared ** sp.Rational(3, 2))
-    )
+    expected = separation * separation_velocity / (2 * radius_squared ** sp.Rational(3, 2))
     return sp.simplify(derivative), expected
 
 
@@ -46,14 +42,9 @@ def time_shift_melnikov_identity() -> tuple[sp.Expr, sp.Expr]:
     )
     radius_squared = z**2 + r**2 / 4
     radius = sp.sqrt(radius_squared)
-    integrand = (
-        (r_velocity**2 + r * r_acceleration) / (2 * radius**3)
-        - 3
-        * r
-        * r_velocity
-        * (z * z_velocity + r * r_velocity / 4)
-        / (2 * radius**5)
-    )
+    integrand = (r_velocity**2 + r * r_acceleration) / (2 * radius**3) - 3 * r * r_velocity * (
+        z * z_velocity + r * r_velocity / 4
+    ) / (2 * radius**5)
     boundary_term = r * r_velocity / (2 * radius**3)
     derivative = (
         sp.diff(boundary_term, r) * r_velocity
@@ -119,9 +110,7 @@ def parabolic_infinity_compactification() -> tuple[sp.Matrix, tuple[sp.Symbol, .
     field = sp.Matrix(
         [
             -separation * x**3 * velocity / 4,
-            -separation
-            * x**4
-            / (2 * (1 + separation**2 * x**4 / 16) ** sp.Rational(3, 2)),
+            -separation * x**4 / (2 * (1 + separation**2 * x**4 / 16) ** sp.Rational(3, 2)),
         ]
     )
     return field, (psi, x, velocity)
@@ -131,9 +120,7 @@ def parabolic_stroboscopic_leading_map() -> tuple[sp.Matrix, sp.Matrix]:
     """Degree-four period-map term before and after the stable-ray shear."""
     x, velocity, transverse = sp.symbols("x velocity transverse", real=True)
     original = sp.Matrix([-sp.pi * x**3 * velocity / 8, -sp.pi * x**4 / 4])
-    sheared = sp.expand(
-        original.subs(velocity, transverse + sp.sqrt(2) * x)
-    )
+    sheared = sp.expand(original.subs(velocity, transverse + sp.sqrt(2) * x))
     transformed = sp.Matrix([sheared[0], sp.expand(sheared[1] - sp.sqrt(2) * sheared[0])])
     return original, transformed
 
@@ -150,7 +137,7 @@ def parabolic_truncated_energy_drift() -> tuple[sp.Expr, sp.Expr]:
     x_next = x - coefficient * x**3 * y
     y_next = y - coefficient * x**4
     drift = sp.expand(y_next**2 - x_next**2 - energy)
-    expected = -coefficient**2 * x**6 * energy
+    expected = -(coefficient**2) * x**6 * energy
     return drift, expected
 
 
@@ -176,16 +163,12 @@ def collision_kepler_transverse_transfer() -> tuple[sp.Expr, sp.Expr, sp.Expr]:
 
 def turn_resonance_radial_determinants() -> tuple[sp.Expr, sp.Expr, sp.Expr]:
     """Return the three equivalent radial Jacobians at a turn resonance."""
-    height, acceleration, phase_velocity = sp.symbols(
-        "Z a b", real=True, nonzero=True
-    )
+    height, acceleration, phase_velocity = sp.symbols("Z a b", real=True, nonzero=True)
     turn_derivative = -phase_velocity / acceleration
     turn_phase_derivative = 1 + 4 * turn_derivative
     direct = height * (2 * phase_velocity - acceleration / 2)
     via_turn_phase = -height * acceleration * turn_phase_derivative / 2
-    via_apocenter_section = 2 * height * (
-        phase_velocity - acceleration / 4
-    )
+    via_apocenter_section = 2 * height * (phase_velocity - acceleration / 4)
     return tuple(sp.simplify(value) for value in (direct, via_turn_phase, via_apocenter_section))
 
 
@@ -216,11 +199,60 @@ def transverse_rotation_wronskian_identity() -> tuple[sp.Expr, sp.Expr]:
     radius_squared = z**2 + r**2 / 4
     coefficient = (r**2 - 2 * z**2) / radius_squared ** sp.Rational(5, 2)
     wronskian_derivative = sp.simplify(
-        z * coefficient * p
-        - (-2 * z / radius_squared ** sp.Rational(3, 2)) * p
+        z * coefficient * p - (-2 * z / radius_squared ** sp.Rational(3, 2)) * p
     )
     expected = 3 * r**2 * z * p / (2 * radius_squared ** sp.Rational(5, 2))
     return wronskian_derivative, expected
+
+
+def second_encounter_endpoint_scattering() -> tuple[sp.Matrix, sp.Expr, sp.Matrix, sp.Expr]:
+    """Return the even-potential scattering matrix and returned endpoint W.
+
+    Both Jost bases are oriented by ``W(R, S) = -1``.  If the incoming
+    rotation Jost field has outgoing coefficients ``(gamma, -W)``, time
+    reversal and determinant one force the displayed connection matrix.
+    The returned outer field has incoming coefficients ``(-gamma, W)``.
+    """
+    gamma, scattering_wronskian = sp.symbols("gamma W", real=True, nonzero=True)
+    connection = sp.Matrix(
+        [
+            [gamma, (1 - gamma**2) / scattering_wronskian],
+            [-scattering_wronskian, gamma],
+        ]
+    )
+    returned_incoming = sp.Matrix([-gamma, scattering_wronskian])
+    returned_outgoing = sp.simplify(connection * returned_incoming)
+    outgoing_wronskian = sp.simplify(-returned_outgoing[1])
+    return connection, sp.simplify(connection.det()), returned_outgoing, outgoing_wronskian
+
+
+def restricted_equilateral_triple_collision() -> tuple[
+    sp.Expr, sp.Expr, sp.Expr, tuple[sp.Expr, sp.Expr]
+]:
+    """Return residuals and transverse indicial data at restricted triple collision."""
+    collision_time = sp.symbols("s", positive=True)
+    binary_scale = sp.real_root(9, 3)
+    outer_scale = sp.sqrt(3) * binary_scale / 2
+    separation = binary_scale * collision_time ** sp.Rational(2, 3)
+    height = -outer_scale * collision_time ** sp.Rational(2, 3)
+    radius_squared = height**2 + separation**2 / 4
+    binary_residual = sp.simplify(
+        sp.diff(separation, collision_time, 2) + 2 / separation**2
+    )
+    outer_residual = sp.simplify(
+        sp.diff(height, collision_time, 2)
+        + 2 * height / radius_squared ** sp.Rational(3, 2)
+    )
+    transverse_coefficient = sp.simplify(
+        collision_time**2
+        * (separation**2 - 2 * height**2)
+        / radius_squared ** sp.Rational(5, 2)
+    )
+    exponents = (
+        (3 - sp.sqrt(7)) / 6,
+        (3 + sp.sqrt(7)) / 6,
+    )
+    return binary_residual, outer_residual, transverse_coefficient, exponents
 
 
 def incoming_tilt_forcing_identity() -> tuple[sp.Expr, sp.Expr]:
@@ -243,20 +275,14 @@ def binary_tidal_transverse_first_variation() -> tuple[sp.Expr, sp.Expr]:
     """
     epsilon = sp.symbols("epsilon", real=True)
     r, z, outer_tilt, binary_tilt = sp.symbols("r z U eta", real=True)
-    minus = sp.Matrix(
-        [epsilon * outer_tilt - r / 2, z - epsilon * binary_tilt / 2]
-    )
-    plus = sp.Matrix(
-        [epsilon * outer_tilt + r / 2, z + epsilon * binary_tilt / 2]
-    )
+    minus = sp.Matrix([epsilon * outer_tilt - r / 2, z - epsilon * binary_tilt / 2])
+    plus = sp.Matrix([epsilon * outer_tilt + r / 2, z + epsilon * binary_tilt / 2])
 
     def vertical_force(vector: sp.Matrix) -> sp.Expr:
         return vector[1] / vector.dot(vector) ** sp.Rational(3, 2)
 
     coefficient = sp.simplify(
-        sp.diff(vertical_force(minus) - vertical_force(plus), epsilon).subs(
-            epsilon, 0
-        )
+        sp.diff(vertical_force(minus) - vertical_force(plus), epsilon).subs(epsilon, 0)
     )
     radius_squared = z**2 + r**2 / 4
     expected = (

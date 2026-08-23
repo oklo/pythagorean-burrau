@@ -169,8 +169,26 @@ proves uniformly in the first-turn height
 \]
 Thus no full labelled brake can occur at the first outer turn anywhere in the
 accumulating skinny parabolic layer. The remaining problem is the inward leg
-and subsequent central encounters: the theorem does not prevent a second or
-later outer turn from being a brake.
+and subsequent central encounters: the returning-tail corollary carries the
+same positive normalized angular momentum back to a fixed large section, so
+the first unresolved object is the compact collision-regularized second-
+encounter map. The theorem does not prevent a second or later outer turn from
+being a brake.
+
+The compact map now has one rigorous endpoint sign. Evenness of the
+transverse restricted equation gives the exact centered-parabolic value
+\[
+ \mathcal C_{2,\mathrm{par}}=-2\gamma\mathscr W_\infty.
+\]
+An extension of the pinned CAPD/Jost certificate proves
+$-1/100<\gamma<-1/250$, and hence
+$\mathcal C_{2,\mathrm{par}}>21/6250$. Ordinary center-phase data suggest one
+captured component $0<\phi<\pi$; its compact interior and the
+$\phi\to\pi$ triple-collision endpoint remain unproved. At the latter, the
+exact equilateral collision ray has transverse indicial exponents
+$(3\pm\sqrt7)/6$, so the missing endpoint theorem is a fractional-power
+McGehee selection and transition law rather than ordinary analytic
+continuation in phase.
 
 Late-resonance simplicity has also been narrowed to a differentiable
 parabolic-passage lemma. For the degree-four McGehee map, the exact Kepler

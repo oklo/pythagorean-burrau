@@ -20,7 +20,7 @@
   enclosures.
 - Time symmetry factors the invariant as
   $\mathscr W_\infty=2k_+(0)k_+'(0)$. Analytic outgoing-tail bounds and a
-  pinned CAPD enclosure through eccentric anomaly $80\pi$ prove
+  pinned CAPD enclosure through eccentric anomaly $320\pi$ prove
   $k_+(0)>7/20$, $k_+'(0)>3/5$, hence
   $\mathscr W_\infty>21/50$. The verifier checks the upper bracketing launch
   on every accepted time step, rather than inferring first-leg escape from its
@@ -46,6 +46,21 @@
   $(Y\times\dot Y)/B^{3/2}\to\mathscr W_\infty/2$ uniformly in first-turn
   height. Together with the validated sign, this excludes a full labelled
   brake at every first turn in the accumulating skinny parabolic layer.
+- The orientation-reversed tail estimate carries the same sign back to a
+  fixed section before the second central encounter. A bounded ordinary scan
+  of that compact map found $\widetilde W>0$ at all 16 sampled captured
+  phases, while both signs occur on scattering phases. The resulting target
+  $\mathcal C_2(\psi)>0$ on captured components is conjectural, not a
+  validated phase-continuum statement.
+- The extended pinned transverse certificate proves
+  $-1/100<\gamma<-1/250$. Evenness and determinant one give the exact
+  second-encounter parabolic-endpoint value
+  $\mathcal C_{2,\mathrm{par}}=-2\gamma\mathscr W_\infty>21/6250$.
+  The remaining phase endpoint is the restricted triple-collision limit.
+- At that singular endpoint, the exact restricted equilateral collision ray
+  has transverse Euler coefficient $-1/(18\sigma^2)$ and indicial exponents
+  $(3\pm\sqrt7)/6$. This supplies the correct fractional-power McGehee
+  matching problem but does not yet determine the selected coefficient sign.
 
 Evidence level: EXACT SYMBOLIC IDENTITY for the Wronskian, binary tidal
 coefficient, and macroscopic Kepler-transfer formulas; PROVED ANALYTICALLY for the restricted late-turn limit
@@ -63,6 +78,13 @@ Reproduce the proof certificate with:
 ```bash
 bash scripts/run_capd_restricted_transverse_scattering.sh \
   /path/to/CAPD /path/to/CAPD/build-native
+```
+
+Reproduce the ordinary second-encounter probe with:
+
+```bash
+uv run python -m scripts.probe_second_encounter \
+  --cutoff 40 --phases 21 --phase-span 10000 --max-step 0.04
 ```
 
 ## 2026-08-22: restricted finite-turn resonances

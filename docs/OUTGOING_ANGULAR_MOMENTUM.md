@@ -202,3 +202,35 @@ and in the number and phase of binary LC blocks; it assumes the light body
 stays separate until the turn. Near-collision binary passages are covered
 only in LC variables, and a prior classical collision remains an immediate
 nonperiodic alternative.
+
+## Returning-tail corollary
+
+Suppose, after the first turn, that the light body returns inward to the
+section $Y=K$ without a prior classical collision. The same estimates apply
+with the radial orientation reversed. On the terminal region, integrate
+(10b) backward from the turn exactly as above; once $Y\le\eta Y_{\rm t}$,
+$|Y'|^2\ge c_\eta/Y$. Hence the two integrals in (11) have the same bounds on
+the inward leg. The LC block and torque estimates do not depend on the sign of
+$Y'$. Therefore
+
+\[
+ |\Lambda_B(K,\mathrm{return})-\Lambda_B(T_B)|
+ \le CK^{-3/2}.
+\tag{15}
+\]
+
+Combining (13) and (15) gives the iterated limit
+
+\[
+ \lim_{K\to\infty}\lim_{j\to\infty}
+ \Lambda_{B_j}(K,\mathrm{return})
+ ={\mathscr W_\infty\over2}.
+\tag{16}
+\]
+
+Thus all uncertainty about a second or later brake is confined to the next
+compact central-encounter map. The long first excursion cannot erase or
+reverse the certified angular-momentum sign. Status of (15)--(16): **PROVED
+ANALYTICALLY**, under the same light-body-separation/prior-collision
+dichotomy. This corollary does not control the angular-momentum change during
+the next central encounter.

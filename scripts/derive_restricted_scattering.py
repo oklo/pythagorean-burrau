@@ -8,6 +8,8 @@ from src.symbolic.restricted_scattering import (
     outer_energy_exchange_identity,
     parabolic_truncated_energy_drift,
     phase_wronskian_identity,
+    restricted_equilateral_triple_collision,
+    second_encounter_endpoint_scattering,
     time_shift_melnikov_identity,
     transverse_variational_normal_form,
 )
@@ -31,6 +33,8 @@ def main() -> None:
     print(f"truncated parabolic energy drift = {drift}")
     print(f"truncated parabolic energy drift expected = {drift_expected}")
     print(f"collision-Kepler transverse transfer = {collision_kepler_transverse_transfer()}")
+    print(f"second-encounter endpoint scattering = {second_encounter_endpoint_scattering()}")
+    print(f"restricted triple collision = {restricted_equilateral_triple_collision()}")
 
 
 if __name__ == "__main__":
