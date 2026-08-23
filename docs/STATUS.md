@@ -42,8 +42,9 @@ tail are now matched rigorously. On compact restricted escape arcs, the exact
 finite-$B$ trajectory reaches the terminal escape-or-collision certificate.
 The restricted nonescaping side has infinitely many exact first-turn brake
 states accumulating at the separatrix, so a uniform limiting no-brake
-classification is impossible. The remaining endpoint target is a finite-$B$
-separatrix/resonance-splitting calculation plus control after later turns.
+classification is impossible. Fixed sufficiently late resonances are now
+split at finite $B$ one at a time. The remaining endpoint target is a joint
+late-resonance estimate, separatrix persistence, and control after later turns.
 Perturbation away from the solved isosceles-right collision endpoint remains
 secondary.
 
@@ -70,7 +71,9 @@ carry the full state down the incoming parabolic tail to any fixed large
 $Y_0$. Restricted transversality and terminal transfer therefore give an
 unconditional Level-D skinny nonperiodicity theorem on infinitely many open
 phase-preimage intervals. Finite-turn phases remain unresolved in the
-finite-$B$ problem.
+finite-$B$ problem except in neighborhoods of each fixed sufficiently late
+first-turn resonance; no estimate is yet uniform along the accumulating
+resonance sequence.
 
 The transversality task is no longer intrinsically infinite-time. Exact
 comparison proves $\sqrt8<v_*<4$ for the restricted separatrix. An exact
@@ -86,8 +89,9 @@ also proved: $z=2/x^2$ gives an analytic time-$\pi$ map satisfying McGehee's
 degree-four sector hypotheses, whose fixed-phase stable tangents contract.
 Hypothetical tangency would make the growing Jacobi field such a contracting
 tangent, a contradiction. Uniform finite-$B$ matching is now closed. The
-remaining endpoint obstructions are separatrix persistence and splitting near
-the infinite restricted turn-resonance sequence.
+remaining endpoint obstructions are separatrix persistence, a splitting
+estimate uniform along the infinite restricted turn-resonance sequence, and
+later-turn control.
 
 Transversality also proves two one-sided limiting phase windows: incoming
 parabolic data escape hyperbolically on one side and turn at finite outer
@@ -124,9 +128,9 @@ first angular-slip coefficient is $C_n/Z_n$, where
 C_n=-{3\over4Z_n}\int_{-\infty}^{T_n}{r^2zp\over d^5}\,d\theta,
 \qquad p''={(r^2-2z^2)\over d^5}p.
 \]
-The first genuine gaps are now localized: prove resonance simplicity, upgrade
-incoming matching from $C^0$ to weighted first order in $B$, and prove
-$C_n\ne0$. The last problem has been reduced uniformly. If $p_-$ is the
+The fixed-resonance gaps are now closed without assuming resonance simplicity.
+The LC tail theorem upgrades incoming matching from $C^0$ to weighted first
+order in $B$. If $p_-$ is the
 incoming-normalized transverse field on the centered parabolic separatrix and
 \[
 \mathscr W_\infty=\lim_{\theta\to+\infty}(zp_-'-z'p_-),
@@ -143,12 +147,22 @@ prove
 k_+(0)>7/20,\qquad k_+'(0)>3/5,
 \qquad \mathscr W_\infty>21/50.
 \]
-Therefore $C_n<0$ for every sufficiently late restricted resonance.
-Separately, an exact cubic outer-torque cancellation upgrades the
-first-order transverse match through the early overlap; propagation of that
-difference quotient down the full incoming tail remains open. An attempted
-proof exposed the precise collision-chart obstruction: small divided LC
-normal invariants do not uniformly bound the physical binary transverse
-velocity at near-collision phases. The repair must stay in quotient LC
-invariants through complete blocks and convert back only on separated
-sections.
+Therefore $C_n<0$ for every sufficiently late restricted resonance. An exact
+cubic outer-torque cancellation upgrades the first-order transverse match
+through the early overlap, and a divided-LC-invariant/weighted-Volterra
+bootstrap propagates it down the full incoming tail and through every fixed
+restricted segment. Consequently every fixed sufficiently late resonance has
+a punctured finite-$B$ neighborhood containing no full labelled brake, even
+if the turn-phase root is multiple. The proof never bounds physical binary
+transverse velocity at collision; it converts back only at the separated
+apocenter. The remaining endpoint gap is joint uniformity as
+$n\to\infty$---the certified coefficient itself decays like $Z_n^{-1}$---and
+control after later outer turns.
+
+Late-resonance simplicity has also been narrowed to a differentiable
+parabolic-passage lemma. For the degree-four McGehee map, the exact Kepler
+energy $H=y^2-x^2$ obeys $H_1-H=-k^2x^6H$. The blow-up
+$x,y=O(\sqrt\varepsilon)$ produces the universal Kepler passage constant; the
+remaining step is a $C^1$ entrance estimate proving
+$T_\varepsilon\sim-(3\pi/2\sqrt2)\varepsilon^{-5/2}$. No simplicity result is
+claimed from the present $C^0$ asymptotic.

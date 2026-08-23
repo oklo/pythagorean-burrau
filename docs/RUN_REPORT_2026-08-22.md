@@ -276,15 +276,15 @@ theorem.
    $Z_{{\rm t},n}=(2n)^{2/3}(1+o(1))$. At any fixed resonance, the exact radial
    Jacobian factors as
    $D_n=-(Z_nz_{\theta\theta}/2)\mathcal A'(\phi_n)$. Conditional on a simple
-   root and differentiable finite-$B$ matching, the full brake residual reduces
-   to one scalar.
+   root, the double-radial branch reduces to one scalar.  For exclusion alone,
+   simplicity is unnecessary: first-order transverse compactness suffices.
 6. The scalar's first formal coefficient is now explicit:
    \[
    C_n=-{3\over4Z_n}\int_{-\infty}^{T_n}{r^2zp\over d^5}\,d\theta,
    \qquad p''={(r^2-2z^2)\over d^5}p.
    \]
-   Its application to the Pythagorean family still requires weighted
-   first-order incoming matching. A rotation-Wronskian theorem and half-line
+   Weighted first-order incoming matching is now proved in divided LC normal
+   variables. A rotation-Wronskian theorem and half-line
    Jost factorization give
    \[
    Z_nC_n\to-\mathscr W_\infty/2,
@@ -293,7 +293,10 @@ theorem.
    Analytic tail bounds plus a pinned CAPD enclosure prove
    $k_+(0)>7/20$, $k_+'(0)>3/5$, and hence
    $\mathscr W_\infty>21/50$. Thus $C_n<0$ for every sufficiently late
-   restricted resonance. Separately,
+   restricted resonance. Consequently every fixed sufficiently late resonance
+   has a finite-$B$ neighborhood containing no full labelled brake, without a
+   simplicity hypothesis. The estimate is not uniform as the resonance index
+   diverges. Separately,
    the explicit family $(4n^2-1,4n,4n^2+1)$ is equidistributed in reference
    phase and has a positive-density nonperiodic subset.
 
@@ -335,14 +338,13 @@ bash scripts/run_capd_restricted_transverse_scattering.sh \
 ```
 
 The repository contains pinned Python dependencies in `uv.lock`, a pinned CAPD
-commit in both verifier wrappers, and 62 deterministic symbolic/unit tests.
+commit in both verifier wrappers, and 64 deterministic symbolic/unit tests.
 
 ## Single highest-leverage next action
 
-Repair weighted first-order incoming matching in quotient LC invariants,
-\((Z_{B,x},Z'_{B,x})/B\to(\xi,\xi')\), through a fixed restricted turn
-resonance. Direct physical transverse velocity is not uniformly controlled at
-near-collision phases, so conversion must occur only on a separated section.
-This connects the now sign-definite late coefficient $C_n$ to the tied
-Pythagorean family. The other remaining endpoint lemma is late-resonance
-simplicity $D_n\ne0$.
+Prove a joint late-resonance/finite-$B$ estimate in the regime
+$n\to\infty$, $B\to0$. Fixed-resonance transfer is now complete, but
+$C_n\asymp Z_n^{-1}$ tends to zero and the current constants depend on the
+restricted segment. The target is a uniform signed lower bound for the scaled
+transverse residual throughout the accumulating first-turn resonance layer,
+followed by a transition rule excluding brakes after later outer turns.

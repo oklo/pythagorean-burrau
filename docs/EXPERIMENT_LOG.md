@@ -27,12 +27,20 @@
   endpoint alone.
 - The exact symmetric outer-torque factorization was independently audited.
   It proves the extra cubic skinny cancellation through the early overlap,
-  but not yet first-order quotient propagation through the full incoming tail.
+  and the subsequent divided-LC-invariant bootstrap proves first-order
+  quotient propagation through the full incoming tail.  An adversarial pass
+  checked complete and partial collision blocks, the two-scale Volterra norm,
+  the finite negative-energy correction, and fixed-segment propagation.
+- Combining that theorem with $C_n<0$ proves a finite-$B$ no-brake
+  neighborhood around every fixed sufficiently late restricted resonance.
+  This compactness argument does not require radial-root simplicity.  It is
+  not uniform as $n\to\infty$.
 
-Evidence level: EXACT SYMBOLIC IDENTITY for the Wronskian formula; PROVED
-ANALYTICALLY for the restricted late-turn limit; PROVED BY COMPUTER-ASSISTED
-ARGUMENT for $\mathscr W_\infty>21/50$ and eventual $C_n<0$. Reproduce the
-ordinary probe with:
+Evidence level: EXACT SYMBOLIC IDENTITY for the Wronskian and binary tidal
+coefficient formulas; PROVED ANALYTICALLY for the restricted late-turn limit
+and first-order finite-$B$ transfer; PROVED BY COMPUTER-ASSISTED ARGUMENT for
+$\mathscr W_\infty>21/50$, eventual $C_n<0$, and the resulting fixed-resonance
+finite-$B$ exclusion. Reproduce the ordinary probe with:
 
 ```bash
 uv run python -m scripts.probe_restricted_turn_map \

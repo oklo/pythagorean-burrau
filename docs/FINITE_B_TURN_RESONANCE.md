@@ -269,10 +269,64 @@ D_n\ne0,\quad C_n\ne0,\quad\hbox{and first-order incoming matching}
 }
 \tag{25}
 \]
-This is presently a conditional implication, not a promoted endpoint theorem.
-For a fixed $n$, $D_n$ and $C_n$ are finite regularized variational quantities
-that can in principle be validated. Uniform exclusion as $n\to\infty$ would
-require asymptotics for both.
+This IFT formulation remains conditional on $D_n\ne0$. The next lemma shows
+that $D_n$ is unnecessary for exclusion itself. For a fixed $n$, $C_n$ is a
+finite regularized variational quantity; its eventual sign is now validated.
+Uniform exclusion as $n\to\infty$ requires estimates beyond fixed-segment
+compactness.
+
+## Simplicity-free local exclusion
+
+The implicit-function reduction above is useful for calculating a continued
+double-radial branch, but simplicity is not necessary merely to exclude a
+finite-$B$ brake near a fixed restricted brake.  The following compactness
+form is sharper for that purpose.
+
+**Lemma (transverse quotient exclusion).**  Fix a compact regularized
+phase--time set on which the light body remains separate from the prescribed
+binary.  Suppose the finite-$B$ states converge there to the restricted
+states, uniformly in phase, and their divided outer transverse velocities
+converge to the first transverse field $\xi'$.  If
+
+\[
+ \xi'(\phi,t)\ne0
+ \tag{25a}
+\]
+
+at every restricted brake state in the compact set, then, for all
+sufficiently small $B>0$, the corresponding finite-$B$ solutions have no
+full labelled brake in that set.  No simplicity or even discreteness of the
+restricted brake states is required.
+
+**Proof.**  Otherwise there are $B_j\downarrow0$ and finite-$B_j$ full brake
+states in the compact set.  After taking a subsequence, their phases and
+times converge to $(\phi_*,t_*)$.  Ordinary state convergence and the fact
+that the Jacobi transformation is an invertible linear transformation of the
+labelled velocities show that the limit is a restricted brake state.  At
+each finite-$B_j$ brake,
+
+\[
+ {Z'_{B_j,x}\over B_j}=0.
+\]
+
+Uniform quotient convergence sends the left side to
+$\xi'(\phi_*,t_*)$, contradicting (25a). \(\square\)
+
+In particular, at one fixed restricted apocenter-turn resonance the
+hypothesis is just $C_n\ne0$.  Thus first-order incoming matching plus
+$C_n\ne0$ excludes nearby finite-$B$ brakes even when
+$D_n=0$.  The determinant $D_n$ is needed only if one wants the smoother and
+more informative parameterization (14) of the two radial equations.  This
+observation does not give uniformity as $n\to\infty$: the proved asymptotic
+$C_n\sim-\mathscr W_\infty/(2Z_n)$ tends to zero, so a joint
+late-resonance/finite-$B$ estimate is still required.
+
+Status of the lemma: **PROVED ANALYTICALLY**. The two convergence hypotheses
+are discharged by `INCOMING_TAIL.md` and Theorem 3 of
+`FIRST_ORDER_INCOMING_MATCHING.md`. Combined with the validated eventual sign
+$C_n<0$, it proves by a **COMPUTER-ASSISTED ARGUMENT** that every fixed
+sufficiently late restricted resonance has a finite-$B$ neighborhood with no
+full labelled brake.
 
 ## What the present turn-map theorem does and does not prove
 
@@ -301,15 +355,16 @@ that every sufficiently late resonance is simple.  Neither the
 proved.  For a fixed \(n\), a validated integration of the phase variational
 equation through the turn could instead certify (13).
 
-There is a second, logically separate regularity obligation.  The incoming
-tail theorem supplies uniform \(C^0\) matching of the exact skinny orbit to
-the restricted phase family.  Applying the above IFT to the actual finite-
-\(B\) family requires a \(C^1\) regularized extension such as (2), or a
-degree argument that replaces it.  Moreover, if \(\phi\) is introduced as an
-independent auxiliary phase, the exact Pythagorean family must still be
-matched to the resulting curve \(\phi_n(B)\).  Only after the physical phase
-clock is used as a valid local parameter is (16) literally a one-scalar
-reduction for the tied family rather than for the extended phase family.
+There is a second, logically separate regularity obligation if one insists on
+the IFT branch (14). Applying that construction to the actual finite-$B$
+family requires a full $C^1$ regularized extension such as (2), or a degree
+argument that replaces it. The proved incoming theorem supplies precisely the
+transverse difference quotient needed for the simplicity-free exclusion
+lemma, but does not assert every longitudinal derivative required by (14).
+Moreover, if $\phi$ is introduced as an independent auxiliary phase, the
+exact Pythagorean family must still be matched to the resulting curve
+$\phi_n(B)$. These issues affect the branch parameterization, not the
+compactness exclusion.
 
 Status of (5)--(13): **EXACT SYMBOLIC IDENTITY**, conditional only on the
 stated phase and scaled-coordinate conventions.
@@ -318,11 +373,10 @@ Status of the IFT continuation (14)--(18): **CONJECTURAL**, pending
 \(D_n\ne0\) and a \(C^1\) finite-\(B\) regularized incoming family.
 
 Status of the coefficient equations (20) and the representations (22)--(24):
-**EXACT SYMBOLIC IDENTITY** for a solution \(\xi\) having the stated weighted
-boundary data.  Existence of the finite-\(B\) expansion (19), identification
-of its coefficient with that \(\xi\), and the incoming limit (21) remain
-**CONJECTURAL**.  Status of (25): **CONJECTURAL**, pending its three displayed
-hypotheses.
+**PROVED ANALYTICALLY** after combining the exact symbolic identities with the
+first-order LC incoming theorem. Status of the IFT implication (25) remains
+conditional on $D_n\ne0$ and the full branch regularity, but the
+simplicity-free exclusion lemma is unconditional whenever $C_n\ne0$.
 
 For the infinite late-resonance sequence, the nonvanishing hypothesis is no
 longer an unrelated test at every index. `RESTRICTED_TRANSVERSE_SCATTERING.md`
@@ -333,6 +387,7 @@ Z_nC_n\longrightarrow-{\mathscr W_\infty\over2},
 where $\mathscr W_\infty$ is one finite rotation-Wronskian invariant of the
 centered parabolic separatrix. The analytic half-line reduction and CAPD
 certificate in that note prove $\mathscr W_\infty>21/50$, and therefore
-$C_n<0$ at all sufficiently late restricted resonances. This does not by
-itself repair radial simplicity or the finite-$B$ first-order incoming
-theorem.
+$C_n<0$ at all sufficiently late restricted resonances. The first-order
+incoming theorem now transfers this sign to a local finite-$B$ no-brake
+neighborhood around every fixed such resonance without requiring radial
+simplicity. The conclusion is not uniform as the resonance index diverges.

@@ -13,11 +13,13 @@ $|dR_y/d\tau|\asymp\delta^{-1}$. Taking $\delta=B^2$ makes the divided LC
 normal data tend to zero but gives $(R_y'/B)\asymp B^{-3}$.
 
 The failure is coordinate conversion, not loss of regularity of the LC flow.
-The repair is to propagate $(L/B,K/B)$ through complete and partial blocks,
-use only the binary transverse position in the outer equation, and convert to
-physical transverse velocity on a section uniformly separated from binary
-collision. The exact cubic outer-torque cancellation and reflection removal
-of longitudinal difference quotients remain valid.
+The repair is now proved: propagate $(L/B,K/B)$ through complete and partial
+blocks, use only the binary transverse position in the outer equation, and
+convert to physical transverse velocity on a section uniformly separated from
+binary collision. The exact cubic outer-torque cancellation, a two-scale
+Volterra bootstrap, and reflection removal of longitudinal difference
+quotients yield the first-order incoming theorem without resurrecting the
+false physical-velocity bound.
 
 ## No brake state on the restricted finite-turn side
 

@@ -52,9 +52,11 @@ collides classically before section reach or satisfies the terminal
 escape-or-collision certificate. This proves an infinite primitive
 Pythagorean subfamily. The restricted finite-turn side has infinitely many
 exact first-turn brake-state resonances accumulating at the separatrix, so a
-uniform limiting no-brake lemma is false. The remaining skinny obligation is
-to compute their finite-$B$ splitting, control later turns, and classify the
-separatrix phases. At
+uniform limiting no-brake lemma is false. The fixed-resonance finite-$B$
+splitting is now computed: every fixed sufficiently late restricted resonance
+has a neighborhood free of full finite-$B$ brakes. The remaining skinny
+obligation is to make that exclusion jointly uniform as the resonance index
+diverges, control later turns, and classify the separatrix phases. At
 $u=\sqrt2-1$, the exact
 trajectory is now proved to have monotone shrinking half-base and finite
 collision.  The remaining obligation is a regularized transverse analysis of
@@ -106,12 +108,13 @@ Jacobian
 \[
 D_n=-{Z_nz_{\theta\theta}(T_n)\over2}\mathcal A'(\phi_n).
 \]
-Thus the first missing local lemma is resonance simplicity
-$\mathcal A'(\phi_n)\ne0$. Conditional on it and a $C^1$ incoming extension,
-the full brake condition reduces to one transverse coefficient
-$C_n=\xi'(T_n)$. The exact BVP and integral for $C_n$ are known, but current
-matching is only $C^0$. Uniform large-$n$ control of the restricted coefficient
-is now reduced to one parabolic scattering invariant:
+Simplicity $\mathcal A'(\phi_n)\ne0$ remains open and is needed to
+parameterize the double-radial branch by the implicit-function theorem, but it
+is no longer needed for local brake exclusion. The proved first-order LC
+matching theorem gives, at every fixed restricted brake,
+$Z'_{B,x}/B\to C_n=\xi'(T_n)$. Therefore $C_n\ne0$ alone excludes a nearby
+finite-$B$ full brake by compactness. Uniform large-$n$ control of the
+restricted coefficient is reduced to one parabolic scattering invariant:
 \[
 Z_nC_n\longrightarrow-{\mathscr W_\infty\over2},\qquad
 \mathscr W_\infty=\lim_{\theta\to+\infty}(zp_-'-z'p_-).
@@ -119,13 +122,27 @@ Z_nC_n\longrightarrow-{\mathscr W_\infty\over2},\qquad
 The convergence is proved analytically, and a finite CAPD/Jost-tail
 certificate now proves $\mathscr W_\infty>21/50$. Hence $C_n<0$ at every
 sufficiently late restricted resonance. The exact cubic torque cancellation
-also proves the first-order
-quotient match through the early overlap, leaving propagation of the quotient
-through the full incoming tail as the separate finite-$B$ matching gap. A
-failed attempted closure shows why this must remain in LC variables: divided
-LC normal invariants can tend to zero while the physical transverse velocity
-blows up at a near-collision phase. Conversion to physical derivatives is
-allowed only on a uniformly separated section.
+and the LC tail bootstrap now prove the full first-order quotient match
+through every fixed restricted segment. A failed intermediate formulation
+remains instructive: divided LC normal invariants can tend to zero while
+physical transverse binary velocity blows up at a near-collision phase. The
+proof instead propagates the smooth divided LC invariants and converts to
+physical derivatives only at a uniformly separated apocenter. What remains is
+a joint estimate as $n\to\infty$, since $C_n\asymp Z_n^{-1}\to0$, and
+exclusion of brakes after later outer turns.
+
+The late-simplicity problem is now reduced more precisely in
+`LATE_RESONANCE_SIMPLICITY.md`. In McGehee variables the degree-four map has
+the exact drift $H_1-H=-k^2x^6H$. With transverse energy
+$\varepsilon$ and $x,y=O(\sqrt\varepsilon)$, its formal blown-up passage gives
+$T=(\pi/\sqrt2)\varepsilon^{-3/2}$. The missing lemma is the differentiated
+estimate
+\[
+ {dT\over d\varepsilon}
+ =-{3\pi\over2\sqrt2}\varepsilon^{-5/2}(1+o(1)),
+\]
+including the entrance region at parabolic infinity. A $C^0$ relative
+asymptotic is insufficient.
 
 ## Adversarial checklist
 

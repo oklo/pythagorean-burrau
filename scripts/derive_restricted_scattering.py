@@ -2,8 +2,10 @@
 """Print exact identities for the late skinny plunge model."""
 
 from src.symbolic.restricted_scattering import (
+    binary_tidal_transverse_first_variation,
     maximum_softened_vertical_force,
     outer_energy_exchange_identity,
+    parabolic_truncated_energy_drift,
     phase_wronskian_identity,
     time_shift_melnikov_identity,
     transverse_variational_normal_form,
@@ -21,6 +23,12 @@ def main() -> None:
     print(f"phase Wronskian derivative = {wronskian}")
     print(f"phase Wronskian expected = {wronskian_expected}")
     print(f"softened force critical data = {maximum_softened_vertical_force()}")
+    tidal_coefficient, tidal_expected = binary_tidal_transverse_first_variation()
+    print(f"binary tidal transverse coefficient = {tidal_coefficient}")
+    print(f"binary tidal transverse expected = {tidal_expected}")
+    drift, drift_expected = parabolic_truncated_energy_drift()
+    print(f"truncated parabolic energy drift = {drift}")
+    print(f"truncated parabolic energy drift expected = {drift_expected}")
 
 
 if __name__ == "__main__":

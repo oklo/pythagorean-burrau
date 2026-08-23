@@ -1,12 +1,14 @@
 import sympy as sp
 
 from src.symbolic.restricted_scattering import (
+    binary_tidal_transverse_first_variation,
     collision_regularized_jacobi_system,
     incoming_tilt_forcing_identity,
     maximum_softened_vertical_force,
     outer_energy_exchange_identity,
     parabolic_infinity_compactification,
     parabolic_stroboscopic_leading_map,
+    parabolic_truncated_energy_drift,
     phase_wronskian_identity,
     restricted_transverse_linearization,
     time_shift_melnikov_identity,
@@ -116,3 +118,13 @@ def test_transverse_rotation_wronskian_has_quadrupole_source() -> None:
 def test_incoming_tilt_has_integrable_quadrupole_source() -> None:
     source, expected = incoming_tilt_forcing_identity()
     assert sp.simplify(source - expected) == 0
+
+
+def test_binary_tidal_transverse_source_gains_exterior_skinny_factor() -> None:
+    coefficient, expected = binary_tidal_transverse_first_variation()
+    assert sp.simplify(coefficient - expected) == 0
+
+
+def test_parabolic_map_preserves_kepler_energy_through_degree_seven() -> None:
+    drift, expected = parabolic_truncated_energy_drift()
+    assert sp.expand(drift - expected) == 0

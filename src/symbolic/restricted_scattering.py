@@ -138,6 +138,22 @@ def parabolic_stroboscopic_leading_map() -> tuple[sp.Matrix, sp.Matrix]:
     return original, transformed
 
 
+def parabolic_truncated_energy_drift() -> tuple[sp.Expr, sp.Expr]:
+    """Energy drift of the degree-four parabolic normal-form map.
+
+    In the normalized variables ``H=y**2-x**2`` is the Kepler energy. The
+    degree-four map preserves it through degree seven; its first displayed
+    drift is degree eight and is proportional to ``H`` itself.
+    """
+    x, y, coefficient = sp.symbols("x y k", real=True)
+    energy = y**2 - x**2
+    x_next = x - coefficient * x**3 * y
+    y_next = y - coefficient * x**4
+    drift = sp.expand(y_next**2 - x_next**2 - energy)
+    expected = -coefficient**2 * x**6 * energy
+    return drift, expected
+
+
 def turn_resonance_radial_determinants() -> tuple[sp.Expr, sp.Expr, sp.Expr]:
     """Return the three equivalent radial Jacobians at a turn resonance."""
     height, acceleration, phase_velocity = sp.symbols(
@@ -196,3 +212,34 @@ def incoming_tilt_forcing_identity() -> tuple[sp.Expr, sp.Expr]:
     source = sp.simplify(z_acceleration / 2 - coefficient * z / 2)
     expected = -3 * r**2 * z / (4 * radius_squared ** sp.Rational(5, 2))
     return source, expected
+
+
+def binary_tidal_transverse_first_variation() -> tuple[sp.Expr, sp.Expr]:
+    """First transverse term of the late binary tidal difference.
+
+    The full binary equation has one additional exterior factor ``B``. Thus
+    this coefficient proves that its transverse forcing is quadratic in the
+    skinny parameter before division by ``B``.
+    """
+    epsilon = sp.symbols("epsilon", real=True)
+    r, z, outer_tilt, binary_tilt = sp.symbols("r z U eta", real=True)
+    minus = sp.Matrix(
+        [epsilon * outer_tilt - r / 2, z - epsilon * binary_tilt / 2]
+    )
+    plus = sp.Matrix(
+        [epsilon * outer_tilt + r / 2, z + epsilon * binary_tilt / 2]
+    )
+
+    def vertical_force(vector: sp.Matrix) -> sp.Expr:
+        return vector[1] / vector.dot(vector) ** sp.Rational(3, 2)
+
+    coefficient = sp.simplify(
+        sp.diff(vertical_force(minus) - vertical_force(plus), epsilon).subs(
+            epsilon, 0
+        )
+    )
+    radius_squared = z**2 + r**2 / 4
+    expected = (
+        3 * r * z * outer_tilt + (2 * z**2 - r**2 / 4) * binary_tilt
+    ) / radius_squared ** sp.Rational(5, 2)
+    return coefficient, expected

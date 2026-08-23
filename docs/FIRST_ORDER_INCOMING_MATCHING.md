@@ -366,3 +366,248 @@ That cancellation and the formal limits in (22) do not supply the three
 missing uniform estimates above.  The proof deliberately avoids assuming
 differentiability of the rapid phase clock, but a quotient compactness theorem
 has not yet been established.
+
+## Corrected LC target
+
+The counterexample to (24) does not affect the outer transverse state. The
+outer equation depends on the binary position, which is smooth in LC
+coordinates, and never on the singular physical binary velocity. This leads
+to the following corrected statement.
+
+Let $\mathcal L_B,\mathcal K_B$ be the two smooth transverse LC invariants
+from `INCOMING_TAIL.md`, and put
+
+\[
+\mathcal N_B={1\over B}(\mathcal L_B,\mathcal K_B).
+\tag{27}
+\]
+
+**Theorem 3 (LC first-order tail).** Fix $K$ sufficiently large. For the
+branch furnished by the early-overlap estimates, either a classical collision
+has already occurred before the incoming outer section $z=-K$, or, in the
+common LC chart and uniformly in the circular restricted intercept,
+
+\[
+\boxed{(h_B,h_B',\mathcal N_B)\longrightarrow(h,h',0).}
+\tag{28}
+\]
+
+The same quotient convergence propagates across every fixed restricted
+segment on which the light body stays separate from the prescribed binary.
+In particular, at a fixed restricted apocenter-turn resonance,
+
+\[
+{(Z_{B,x},Z'_{B,x})\over B}\longrightarrow(\xi,\xi')
+\tag{29}
+\]
+
+at the turn, where the binary is separated and $\xi=h-z/2$.
+
+**Proof.** At the moving overlap, the rates already proved in (11) give
+
+\[
+|h_B|+|h_{B,x}|=O(B^{1-\alpha})=o(1),
+\qquad |\mathcal N_B|=O(B^{3/2-3\alpha})=o(1).
+\tag{30}
+\]
+
+The derivative conversion in (30) uses
+$|dx/d\theta|\asymp Y^{-3/2}$ and the second rate in (11); it does not rely
+on the insufficient unweighted statement (20).
+
+The exact transverse cancellation has a stronger LC consequence. On a
+complete or partial block at outer radius $Y$, direct expansion of the binary
+tidal difference gives
+
+\[
+|\Delta\mathcal N_B|\le
+CBY^{-3}\bigl(1+\|h_B\|_{\rm block}
+                 +\|\mathcal N_B\|_{\rm block}\bigr).
+\tag{31}
+\]
+
+The reason for the extra $B$ after division in (31) is exact. The late binary
+equation already has an exterior prefactor $B$, and at $B=0$ its tidal
+difference is longitudinal for every radial $(r,z)$. Its first transverse
+variation is therefore $O(BY^{-3})$. The LC conversion multiplies by smooth
+bounded functions on the oscillator tube, including on partial collision
+blocks. Equation (31) concerns only smooth LC invariants, never physical
+$R_y'$. The unregularized first transverse coefficient is checked exactly:
+if $U=Z_x/B$ and $\eta=R_y/B$, the tidal-difference component is
+\[
+{3rzU+(2z^2-r^2/4)\eta\over(z^2+r^2/4)^{5/2}}.
+\tag{31a}
+\]
+The exterior $B$ in the binary equation supplies the claimed remaining
+skinny factor.
+
+To pass (31a) through collision, write the normalized LC binary variables as
+$w=(w_x,w_y)$ and $p=(p_x,p_y)$. Uniform invertibility of the transverse
+coordinate map in (7d) of `INCOMING_TAIL.md` gives
+
+\[
+|w_y|+|p_y|\le CB|\mathcal N_B|.
+\tag{31b}
+\]
+
+The full external binary acceleration has, by (31a),
+
+\[
+F_{{\rm bin},x}=O(BY^{-3}),\qquad
+F_{{\rm bin},y}=O\!\left(B^2Y^{-3}
+(1+|h_B|+|\mathcal N_B|)\right).
+\tag{31c}
+\]
+
+In LC time its force term $g$ has the same skinny orders because $w$ stays in
+a bounded oscillator tube. The exact identities
+
+\[
+\mathcal L_s=w_xg_y-w_yg_x,
+\]
+
+and
+
+\[
+\mathcal K_s=g_xp_y+p_xg_y-{E_s\over2}w_xw_y
+\tag{31d}
+\]
+
+together with $E_s=O(BY^{-3})$ and (31b)--(31c) give
+
+\[
+|\mathcal L_s|+|\mathcal K_s|\le
+CB^2Y^{-3}(1+|h_B|+|\mathcal N_B|).
+\tag{31e}
+\]
+
+Dividing by $B$ and integrating over a bounded-$s$ complete or partial block
+is exactly (31). This calculation uses the two endpoint-block suprema rather
+than their possibly vanishing physical lengths.
+
+Likewise, Taylor's formula with integral remainder applied to the exact outer
+force gives
+
+\[
+h_B''-c_Bh_B=f_B+b_B\eta_B+e_B,
+\tag{32}
+\]
+
+with the coefficient limits in (22), and
+
+\[
+|e_B|\le CBY^{-2}
+ \bigl(1+|h_B|^2+|\mathcal N_B|^2\bigr)+\omega_B(Y)Y^{-4}.
+\tag{33}
+\]
+
+Here $\eta_B=R_y/B$ is a binary position observable, so smooth LC normal
+coordinates give $|\eta_B|\le C|\mathcal N_B|$. The modulus
+$\omega_B(Y)$ is uniformly bounded, tends to zero on every fixed radius
+interval, and comes only from the already proved $C^0$ convergence of the
+longitudinal state. The $BY^{-2}$ term includes both the quadratic transverse
+Taylor remainder (recall $Z_x=O(BY)$) and the $O(B)$ change of the outer
+Jacobi prefactor.
+
+For the longitudinal modulus in (33), take $Y=-Z_y$ as the independent
+radius. The leading transverse coefficient $-2Y^{-3}$ is the common outer
+monopole and is independent of binary phase. All binary/phase dependence in
+$c_B$ is $O(Y^{-5})$, while $f_B$ and $b_B$ are $O(Y^{-4})$. Therefore $C^0$
+longitudinal convergence on each fixed radius interval produces
+$\omega_B(Y)Y^{-4}$ after multiplication by the bounded diamond-norm
+variables; it does not leave a nonintegrable
+$\omega_B(Y)Y^{-3}$ term. Taylor's integral remainder uses
+$|D^2\Phi|\le CY^{-4}$ and the transverse sizes
+$|Z_x|\le CBY$, $|R_y|\le CB|\mathcal N_B|$. After division by $B$ these
+give precisely the first term of (33). The explicit $O(B)$ change in the
+outer Jacobi prefactor is smaller and is included there.
+
+Equations (31)--(33) do not close in the overly strong norm
+$\sup Y|h_B|$: the $BY^{-2}$ remainder is resonant with the $Y$ homogeneous
+mode and can produce $BY\log(Y_e/Y)$. It is nevertheless uniformly small in
+the two-scale norm
+
+\[
+\|h_B\|_\diamond=
+\sup_{K\le Y\le Y_e}
+ \bigl(|h_B|+Y^{3/2}|h_B'|\bigr).
+\tag{34}
+\]
+
+Indeed, the resonant contribution is bounded by
+$CBY\log(Y_e/Y)$, whose supremum is $O(BY_e)=O(B^\alpha)$; its velocity part
+has the same bound in (34). The backward Volterra estimate and the LC block
+sum, first inside a bootstrap ball, therefore give the more precise
+inequalities
+
+\[
+\begin{aligned}
+\|h_B\|_\diamond
+&\le C\bigl(1+\sup|\mathcal N_B|\bigr)
+ +CB^\alpha\bigl(1+\|h_B\|_\diamond^2
+                    +\sup|\mathcal N_B|^2\bigr)+o(1),\\
+\sup|\mathcal N_B|&\le o(1)+CBK^{-3/2}
+ \bigl(1+\|h_B\|_\diamond+\sup|\mathcal N_B|\bigr).
+\end{aligned}
+\tag{35}
+\]
+
+Choose a fixed bootstrap radius larger than twice the first constant in
+(35).  For fixed large $K$ and then small $B$, the terms carrying $B^\alpha$
+and $BK^{-3/2}$ are too small to reach that boundary.  This is the
+open-and-closed bootstrap: it first bounds both variables, after which the
+second line of (35) forces $\mathcal N_B\to0$. For the outer
+remainder, split the radius integral at a fixed $L$. On $[K,L]$ dominated
+convergence sends the $\omega_B$ term to zero. On $[L,Y_e]$ its contribution
+to the global diamond norm is $O(L^{-1})$, uniformly in $B$, while its
+contribution at the fixed section $Y=K$ is $O_K(L^{-3/2})$. The resonant
+$BY^{-2}$ term contributes
+\[
+ O\!\left(B\sqrt{KY_e}+BK\log(Y_e/K)\right)=o(1)
+\]
+on the fixed section and $O(B^\alpha)$ in (34). The square-root term is the
+possible excitation of the $Y^{1/2}$ homogeneous mode; retaining it avoids
+an unjustified projection onto the resonant $Y$ mode alone. Thus the
+finite-$B$ Volterra operator converges to the unique
+restricted operator (19), proving (28).
+
+The finite negative monopole energy also changes the log-radius coefficients
+by $O(BY)$.  This is uniformly small because $BY\le BY_e=B^\alpha$, and its
+$x$-integral is
+\[
+ \int_{\log K}^{\log Y_e}Be^x\,dx=O(BY_e)=O(B^\alpha).
+\]
+The remaining radial coefficient error is $O(Y^{-2})$ plus a term converging
+to zero on every compact radius interval.  These are small perturbations of
+the same backward Volterra operator and do not require a $Y|h_B|$ bound.
+
+For completeness, no unrecorded first-order longitudinal estimate is needed
+on a subsequent fixed segment. Write the smooth LC vector field in fixed
+longitudinal and transverse coordinates as $F=(F_L,F_T)$, and put
+$T_B=BQ_B$; the prime in (36) denotes regularized LC time. Reflection at the
+restricted problem gives the exact identity
+$F_T(0,L,0)=0$ for every longitudinal state $L$. Hence
+\[
+\begin{split}
+ Q_B'={}&\left[\int_0^1D_TF_T(B,L_B,sT_B)\,ds\right]Q_B\\
+ &+\int_0^1\partial_BF_T(sB,L_B,0)\,ds .
+\end{split}
+\tag{36}
+\]
+Only $L_B\to L_0$, already supplied by the zeroth-order incoming theorem, is
+used here; $(L_B-L_0)/B$ never occurs. On a fixed segment on which the light
+body stays separate, the coefficients in (36) converge uniformly, including
+through prescribed binary collisions because the LC vector field is smooth.
+Gronwall's inequality propagates the quotient convergence (28), uniformly in
+the compact intercept circle. At a turn resonance the binary is at
+apocenter, so the chart-to-physical conversion is nonsingular and gives
+(29). \(\square\)
+
+Status of Theorem 3: **PROVED ANALYTICALLY**. The statement is uniform in the
+circular intercept and covers prescribed binary collisions in LC
+coordinates, but it assumes the light body stays separate on the subsequent
+fixed restricted segment. Physical binary velocity is used only at the final
+separated apocenter. The constants may depend on that fixed segment (and
+hence on a fixed resonance index); no uniformity as the resonance index tends
+to infinity is asserted. A prior classical collision remains the separate
+nonperiodic alternative.

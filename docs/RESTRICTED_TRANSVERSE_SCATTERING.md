@@ -341,5 +341,8 @@ restricted family, using the cited phase-uniform large-turn comparison and
 regularized continuous dependence.
 
 Status of (15) and eventual $C_n<0$: **PROVED BY COMPUTER-ASSISTED
-ARGUMENT**. No finite-$B$ conclusion is claimed until first-order incoming
-matching and radial simplicity are also supplied.
+ARGUMENT**. The subsequently proved first-order LC incoming theorem transfers
+this to a finite-$B$ no-brake neighborhood around every fixed sufficiently
+late resonance. Radial simplicity is unnecessary for that compactness
+argument. Joint uniformity as the resonance index tends to infinity remains
+open.
