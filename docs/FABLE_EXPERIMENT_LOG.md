@@ -112,3 +112,16 @@ All entries are ORDINARY NUMERICAL EVIDENCE unless marked otherwise.
     runs; the LC production run (512 bits, tol 1e-120, order 90) and a
     1e-60 pathfinder are in flight with zone thresholds 1/1000–1/500
     selecting only the deep encounter.
+
+15. **LC pipeline validated in the real verifier.**  The 1e-60 pathfinder
+    executed the full certificate pipeline: physical covering to t=3.166,
+    exact chart entry, 313 capped sigma-steps through the deep encounter
+    with rigorous no-collision bound (enclosure min |w|^2 = 8.1e-5 > 0)
+    and total cost ~2 digits (hull 1.9e-15 -> 3.0e-13; direct cost was
+    ~97 digits), exact exit reconstruction (hull 2.3e-14), resumed
+    covering.  It then exhausted its deliberately small budget at t~5.6
+    as predicted.  Debug history (all caught by rigorous checks): zone
+    threshold catching the wrong encounter; fresh-ITimeMap clock; ITimeMap
+    overriding setMaxStep; time-interval width compounding from target
+    arithmetic — fixed by driving the zone with direct capped solver
+    moves.  The 1e-120/order-90 production run carries the theorem.
