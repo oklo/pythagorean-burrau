@@ -98,3 +98,17 @@ All entries are ORDINARY NUMERICAL EVIDENCE unless marked otherwise.
     ≈0.136, and no low-K event anywhere.  The u≈0.342 "near-brake" is
     conclusively double-precision noise.  (Integrator cross-checked
     against DOP853 to 2.5e-10 at t=2.)
+
+14. **LC-chart verifier implemented and mechanics-validated.**  The
+    burrau_lc_certificate_capd verifier interleaves the physical covering
+    with one Levi–Civita passage (entry construction → LC flow → damped
+    exit construction) exactly per FABLE_LC_COVERING_DESIGN.md.  Chart
+    equations validated against direct integration to 1.7e-9 (Python);
+    a live passage through the t=0.376 encounter took 5 sigma-steps with
+    no measurable digit cost (hull −53.2 before and after), versus
+    thousands of steps and ~10 digits direct.  The measured direct cost
+    of the deep t=3.166 encounter is ~97 digits (deep run exited it at
+    width 1.2e-3 from a 1e-140 budget), which dooms all direct u=1/3
+    runs; the LC production run (512 bits, tol 1e-120, order 90) and a
+    1e-60 pathfinder are in flight with zone thresholds 1/1000–1/500
+    selecting only the deep encounter.
