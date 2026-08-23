@@ -386,7 +386,9 @@ int main(int argc, char** argv) {
         const Vector snapshot(set);
         std::cout << "t=" << to_double(current_time)
                   << " steps=" << steps
-                  << " hull_width=" << hull_width(snapshot) << "\n"
+                  << " hull_width=" << hull_width(snapshot)
+                  << " capped_retries=" << capped_retries
+                  << " step_cap=" << step_cap << "\n"
                   << std::flush;
       }
 
