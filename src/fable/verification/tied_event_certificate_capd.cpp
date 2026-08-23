@@ -232,6 +232,28 @@ bool step_excludes_brake(const Scalars& sc) {
          !contains_zero(sc.b3);
 }
 
+// Position-only exclusion: on the true orbit K = U - U0, so a rigorous
+// position-box bound inf U > U0 excludes a brake on the step even when
+// the velocity enclosure is useless.  U is evaluated from positions
+// alone; a domain throw here is caught by the caller's step machinery.
+bool positions_exclude_brake(const Vector& s, const Family& f) {
+  const Ival &x1 = s[0], &x2 = s[1], &y1 = s[2], &y2 = s[3];
+  const Ival d11 = y1 + f.alpha * x1;
+  const Ival d12 = y2 + f.alpha * x2;
+  const Ival d21 = y1 - f.beta * x1;
+  const Ival d22 = y2 - f.beta * x2;
+  const Ival s12 = dot(x1, x2, x1, x2);
+  const Ival s13 = dot(d11, d12, d11, d12);
+  const Ival s23 = dot(d21, d22, d21, d22);
+  if (!(s12.leftBound() > 0) || !(s13.leftBound() > 0) ||
+      !(s23.leftBound() > 0)) {
+    return false;
+  }
+  const Ival u_val = f.a * f.b / sqrt(s12) + f.a * f.m3 / sqrt(s13) +
+                     f.b * f.m3 / sqrt(s23);
+  return u_val.leftBound() > f.u0.rightBound();
+}
+
 // Terminal binary--escaper certificate for arbitrary labelling.  Bodies are
 // 0-indexed here; masses[i] from the family.
 bool escape_certificate_fires(const Vector& s, const Family& f, int body_a,
@@ -396,6 +418,7 @@ int main(int argc, char** argv) {
     // step and retry.  The cap relaxes geometrically after successes.
     double step_cap = 1e6;
     long capped_retries = 0;
+    long successes_since_cap = 0;
 
     long steps = 0;
     long event_steps = 0;
@@ -412,7 +435,8 @@ int main(int argc, char** argv) {
         (*time_map)(final_time, set);
       } catch (const std::exception& step_error) {
         ++capped_retries;
-        if (capped_retries > 4000 || step_cap < 1e-13) {
+        successes_since_cap = 0;
+        if (capped_retries > 200000 || step_cap < 1e-14) {
           throw;
         }
         const double last = bound_double(solver.getStep().rightBound());
@@ -425,7 +449,11 @@ int main(int argc, char** argv) {
         continue;
       }
       if (step_cap < 1e6) {
-        step_cap *= 1.25;
+        ++successes_since_cap;
+        if (successes_since_cap >= 40) {
+          step_cap *= 2;
+          successes_since_cap = 0;
+        }
       }
       ++steps;
       const Vector enclosure = set.getLastEnclosure();
@@ -441,7 +469,8 @@ int main(int argc, char** argv) {
         if (current_time.leftBound() > t1.rightBound()) {
           initial_phase = false;
         }
-      } else if (contains_zero(sc.i_dot)) {
+      } else if (contains_zero(sc.i_dot) &&
+                 !positions_exclude_brake(enclosure, f)) {
         ++event_steps;
         min_event_kinetic = std::min(min_event_kinetic,
                                      bound_double(sc.kinetic.leftBound()));
@@ -461,7 +490,8 @@ int main(int argc, char** argv) {
                     << "\n";
           return 1;
         }
-      } else if (certify && !step_excludes_brake(sc)) {
+      } else if (certify && !step_excludes_brake(sc) &&
+                 !positions_exclude_brake(enclosure, f)) {
         std::cerr << "FAIL uncovered step at t=" << to_double(current_time)
                   << "\n";
         return 1;
