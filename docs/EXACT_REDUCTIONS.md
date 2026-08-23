@@ -202,6 +202,6 @@ prove a transverse selected-primary limiting collision with
 $1.2679351752<\kappa_c<1.2679351759$ and
 $-3.52212<D_c<-3.38401$. A second collision-adapted chart now proves a
 distinct transverse opposite-primary collision with
-$1.2640119189<\kappa_2<1.2640119313$. These are **PROVED BY
+$1.2640119191<\kappa_2<1.2640119311$. These are **PROVED BY
 COMPUTER-ASSISTED ARGUMENT**; neither is a finite-mass Pythagorean collision or
 brake.

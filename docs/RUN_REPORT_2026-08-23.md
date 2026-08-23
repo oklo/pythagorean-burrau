@@ -358,12 +358,12 @@ negative-primary LC chart.  Pinned CAPD interval Newton proves exactly one
 zero in
 
 \[
- 1.2640118251\le\kappa\le1.2640120251,
+ 1.2640119181\le\kappa\le1.2640119321,
  \qquad
- 1.0275748204\le S_2\le1.0275750204.
+ 1.0275748704\le S_2\le1.0275749704.
 \]
 
-The interval determinant lies in \([95.8728,102.300]\); the nonregularized
+The interval determinant lies in \([98.8377,99.2930]\); the nonregularized
 primary stays separated and the collision occurs at \(0.6152<t<0.6153\),
 strictly before the prescribed heavy-binary collision.  Thus this is a second
 transverse collision graph of the planar limiting family, reached without an

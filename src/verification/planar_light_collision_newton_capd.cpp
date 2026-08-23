@@ -647,9 +647,9 @@ int main(int argc, char** argv) {
       const interval second_duration_center =
           interval(10275749204.0) / interval(10000000000.0);
       const interval second_kappa_radius =
-          interval(1.0) / interval(10000000.0);
+          interval(7.0) / interval(1000000000.0);
       const interval second_duration_radius =
-          interval(1.0) / interval(10000000.0);
+          interval(5.0) / interval(100000000.0);
       const interval second_kappa_box =
           second_kappa_center + symmetric(second_kappa_radius);
       const interval second_duration_box =

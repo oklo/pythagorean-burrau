@@ -7,9 +7,9 @@ This note certifies a transverse collision with the *opposite* primary at
 
 \[
  \kappa_2\in
- [\mathtt{0x1.439648fda0e5fp+0},
-  \mathtt{0x1.439649326a1fcp+0}]
- \subset(1.2640118,1.2640121).
+ [\mathtt{0x1.439648fe6be57p+0},
+  \mathtt{0x1.439649319fb1p+0}]
+ \subset(1.2640119191,1.2640119311).
 \tag{1}
 \]
 
@@ -93,10 +93,10 @@ verifier uses the rational box
 
 \[
  X_2=\left({12640119251\over10^{10}}
-              +[-10^{-7},10^{-7}]\right)
+              +[-7\mathbin{\cdot}10^{-9},7\mathbin{\cdot}10^{-9}]\right)
      \times
      \left({10275749204\over10^{10}}
-              +[-10^{-7},10^{-7}]\right).
+              +[-5\mathbin{\cdot}10^{-8},5\mathbin{\cdot}10^{-8}]\right).
 \tag{8}
 \]
 
@@ -105,8 +105,8 @@ CAPD encloses
 \[
  \det DF_2(X_2)
  \subset
- [\mathtt{0x1.7f7dd90fd98cp+6},
-  \mathtt{0x1.9932915ce6a07p+6}],
+ [\mathtt{0x1.8b59e556b0fadp+6},
+  \mathtt{0x1.8d2bebcfbfa7cp+6}],
 \tag{9}
 \]
 
@@ -114,11 +114,11 @@ which is strictly positive, and the interval-Newton image is
 
 \[
  N(X_2)\subset
- [\mathtt{0x1.439648fda0e5fp+0},
-  \mathtt{0x1.439649326a1fcp+0}]
+ [\mathtt{0x1.439648fe6be57p+0},
+  \mathtt{0x1.439649319fb1p+0}]
  \times
- [\mathtt{0x1.070f255d88513p+0},
-  \mathtt{0x1.070f276cebf3p+0}]
+ [\mathtt{0x1.070f25b65f28p+0},
+  \mathtt{0x1.070f271454be1p+0}]
  \Subset X_2.
 \tag{10}
 \]
@@ -129,8 +129,8 @@ an earlier collision.  At the collision the regularized speed satisfies
 
 \[
  \Re v_-\in
- [\mathtt{0x1.6a06b0652809cp-1},
-  \mathtt{0x1.6a0ca1be7b6f8p-1}],
+ [\mathtt{0x1.6a097edbcbd6cp-1},
+  \mathtt{0x1.6a09d38041eeep-1}],
 \tag{11}
 \]
 

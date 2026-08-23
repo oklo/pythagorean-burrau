@@ -816,7 +816,7 @@ it is not a remainder proof.
   with ordinary determinant about \(-93.36\).
 - Pinned CAPD interval Newton then certified exactly one opposite-primary
   collision in
-  \(1.2640118251\le\kappa\le1.2640120251\), with a strictly nonzero
+  \(1.2640119181\le\kappa\le1.2640119321\), with a strictly nonzero
   determinant.  Whole-step boxes exclude both earlier selected-primary
   collision and collision with the nonregularized primary.  This is a second
   limiting collision graph, not an outgoing classification of its sides.
@@ -825,3 +825,8 @@ it is not a remainder proof.
   \(\Re v_->1/2\) on every whole step, hence
   \((\Re u_-)_{S}<-1/2\); all three audits then endorsed the classical-safety
   conclusion.
+- A nested interval-Newton replay tightened the root input box by more than an
+  order of magnitude and sharpened the determinant to
+  \([98.8377,99.2930]\).  The ordinary regularized outgoing continuation
+  escapes but passes within about \(4.3\times10^{-4}\) of the other primary;
+  this is evidence for a third LC chart, not a validated escape theorem.
