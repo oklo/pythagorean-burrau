@@ -569,11 +569,20 @@ possibly in the boundary layer
 \tag{12}
 \]
 
-This is not yet a theorem about every exact Pythagorean member: the unresolved
-boundary layer may contain infinitely many values of the rapidly varying
-selected intercept. The highest-leverage repair is an explicit algebraic rate
-for $\omega_0(B)$, followed by a direct analysis of the complementary joint
-blow-up.
+The signed transverse transfer is not yet a theorem about every exact
+Pythagorean member: the unresolved boundary layer may contain infinitely many
+values of the rapidly varying selected intercept. The highest-leverage repair
+is an explicit algebraic rate for $\omega_0(B)$, followed by a direct analysis
+of the complementary joint blow-up. Energy does independently exclude a full
+brake while the actual trajectory remains in an absolute near-triple tube:
+`TIGHT_BINARY_HILL_BARRIER.md` proves the necessary brake condition
+
+\[
+ |R|>{1-B^2\over1+B^2-B^4}=1-O(B^2).
+\]
+
+Thus the boundary layer is open for outgoing data and later re-expanded
+motion, not for a brake during the close passage itself.
 
 **Status:** equations (1)--(3) are **EXACT SYMBOLIC IDENTITY** or exact
 homogeneity; (4) is a **PROVED ANALYTICALLY** asymptotic consequence of

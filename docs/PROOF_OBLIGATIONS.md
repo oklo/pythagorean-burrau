@@ -244,6 +244,11 @@ $\Delta(B)=(\omega_0(B)+B)^{3/(1+\sqrt{19})}$ for sufficiently small $B$.
 The remaining endpoint obligations are global classification of remote
 captured components and the joint blow-up in
 $0<\varepsilon<\Delta(B)$; finite-$B$ transfer is no longer wholly open.
+Energy separately proves that no brake occurs while the actual late-scaled
+tight-pair separation satisfies
+$|R|\le(1-B^2)/(1+B^2-B^4)$. Thus the joint blow-up is needed to recover
+outgoing signed data and control later re-expanded motion, not to exclude a
+brake inside the near-triple tube itself.
 
 The singular local part of that implication is now isolated in
 `TRIPLE_ENDPOINT_SELECTION.md`. Exact translation by the center radius turns

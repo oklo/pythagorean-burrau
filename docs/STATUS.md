@@ -252,7 +252,14 @@ coupled McGehee/LC theorem now transfers the local result whenever
 It excludes brakes on the certified local branch for
 $\Delta(B)\le\varepsilon\le\varepsilon_0$, where
 $\Delta(B)=(\omega_0(B)+B)^{3/(1+\sqrt{19})}\to0$. The thinner joint
-boundary layer $0<\varepsilon<\Delta(B)$ remains open.
+boundary layer $0<\varepsilon<\Delta(B)$ remains open for transfer of the
+signed outgoing data. An exact Hill-boundary argument independently excludes
+a full brake while the actual tight-pair separation satisfies
+\[
+ |R|\le {1-B^2\over1+B^2-B^4}=1-2B^2+O(B^4).
+\]
+Hence no brake lies inside any absolute near-triple tube; the open issue is
+later motion after the heavy pair re-expands almost to its initial separation.
 
 Late-resonance simplicity has also been narrowed to a differentiable
 parabolic-passage lemma. For the degree-four McGehee map, the exact Kepler

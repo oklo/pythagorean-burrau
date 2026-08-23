@@ -655,6 +655,18 @@ def triple_endpoint_mcgehee_shape_exponents() -> tuple[
     )
 
 
+def tight_binary_brake_hill_threshold() -> tuple[sp.Expr, sp.Expr, sp.Expr]:
+    """Exact late-scaled heavy-pair separation required at a skinny brake."""
+    skinny = sp.symbols("B", positive=True)
+    heavy_squared = 1 - skinny**2
+    heavy = sp.sqrt(heavy_squared)
+    initial_potential = heavy * skinny + 1 / (heavy * skinny)
+    threshold = sp.simplify(heavy / (skinny * initial_potential))
+    expected = heavy_squared / (1 + heavy_squared * skinny**2)
+    gap = sp.factor(1 - expected)
+    return threshold, sp.simplify(threshold - expected), gap
+
+
 def restricted_universal_binary_lc_system() -> tuple[
     sp.Matrix, tuple[sp.Symbol, ...]
 ]:

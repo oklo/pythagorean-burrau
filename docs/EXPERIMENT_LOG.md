@@ -489,3 +489,13 @@ exponents with:
 ```bash
 .venv/bin/python -m scripts.derive_restricted_scattering
 ```
+
+The same run also verifies the exact tight-pair Hill threshold
+\[
+ R_{\rm H}(B)={1-B^2\over1+B^2-B^4}.
+\]
+At a brake $U=U_0$, whereas the heavy-pair term alone is $A/(B|R|)$;
+positivity of the remaining pair terms forces $|R|>R_{\rm H}$. Two
+independent label/normalization audits endorsed this analytic barrier. It
+excludes brakes in every absolute near-triple tube but not after binary
+re-expansion.

@@ -24,6 +24,7 @@ from src.symbolic.restricted_scattering import (
     restricted_universal_binary_lc_system,
     restricted_universal_binary_mu_system,
     second_encounter_endpoint_scattering,
+    tight_binary_brake_hill_threshold,
     time_shift_melnikov_identity,
     transverse_rotation_wronskian_identity,
     transverse_variational_normal_form,
@@ -354,6 +355,16 @@ def test_triple_endpoint_mcgehee_shape_exponents() -> None:
     assert long_stable < 0 < long_unstable
     assert trans_stable < 0 < trans_unstable
     assert sp.simplify(ratio - (1 + sp.sqrt(7)) / 6) == 0
+
+
+def test_tight_binary_brake_hill_threshold() -> None:
+    threshold, residual, gap = tight_binary_brake_hill_threshold()
+    skinny = sp.symbols("B", positive=True)
+    assert residual == 0
+    assert sp.simplify(
+        threshold - (1 - skinny**2) / (1 + skinny**2 - skinny**4)
+    ) == 0
+    assert sp.simplify(gap - skinny**2 * (2 - skinny**2) / (1 + skinny**2 - skinny**4)) == 0
 
 
 def test_restricted_universal_binary_collision_is_lc_regular() -> None:

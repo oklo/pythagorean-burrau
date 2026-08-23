@@ -17,6 +17,7 @@ from src.symbolic.restricted_scattering import (
     restricted_universal_binary_lc_system,
     restricted_universal_binary_mu_system,
     second_encounter_endpoint_scattering,
+    tight_binary_brake_hill_threshold,
     time_shift_melnikov_identity,
     transverse_variational_normal_form,
     triple_endpoint_finite_mass_exponents,
@@ -59,6 +60,7 @@ def main() -> None:
         "McGehee endpoint shape exponents = "
         f"{triple_endpoint_mcgehee_shape_exponents()}"
     )
+    print(f"tight-binary brake Hill threshold = {tight_binary_brake_hill_threshold()}")
 
 
 if __name__ == "__main__":
