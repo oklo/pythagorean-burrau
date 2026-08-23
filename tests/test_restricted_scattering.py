@@ -4,6 +4,7 @@ from src.symbolic.restricted_scattering import (
     binary_tidal_transverse_first_variation,
     collision_kepler_transverse_transfer,
     collision_regularized_jacobi_system,
+    finite_mass_selected_collision_reduction,
     forced_planar_lc_angular_identity,
     forced_planar_light_collision_lc_constraint,
     incoming_parabolic_infinity_compactification,
@@ -543,6 +544,19 @@ def test_forced_planar_light_collision_lc_constraint() -> None:
     assert sp.simplify(field[5] - (u_real**2 + u_imag**2)) == 0
     assert sp.simplify(field.subs({u_real: 0, u_imag: 0})[2]) == 0
     assert sp.simplify(field.subs({u_real: 0, u_imag: 0})[3]) == 0
+
+
+def test_finite_mass_selected_collision_reduction() -> None:
+    (
+        equation_residual,
+        pair_center_residual,
+        constraint_derivative,
+        collision_speed_gap,
+    ) = finite_mass_selected_collision_reduction()
+    assert equation_residual == sp.zeros(2, 1)
+    assert pair_center_residual == sp.zeros(2, 1)
+    assert constraint_derivative == 0
+    assert collision_speed_gap == 0
 
 
 def test_forced_planar_lc_angular_identity() -> None:

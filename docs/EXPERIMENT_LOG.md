@@ -695,3 +695,27 @@ it is not a remainder proof.
 - Status: **PROVED BY COMPUTER-ASSISTED ARGUMENT** for a unique transverse
   collision in the massless planar limiting family. This is not a
   Pythagorean counterexample or a second brake.
+
+## 2026-08-23: finite-mass persistence of the collision boundary
+
+- Derived and symbolically regression-tested the exact selected-pair equation
+  for positive light mass:
+  \[
+   q=Z-{A\over1+A}R,\qquad
+   q''=-(1+B)\Phi(q)+A\{\Phi(R)-\Phi(q+R)\}.
+  \]
+- The forced LC constraint becomes
+  \(2|v|^2-(1+B)-h|u|^2=0\), so
+  \(|v|^2=(1+B)/2\) at collision.  An adversarial pass caught that retaining
+  $R$ would leave a singular $B\Phi(q)$ term.  The repaired coordinate
+  $Q=R+Bq/(1+B)$ cancels it exactly, and $Q=R$ at the validated limit.
+- A $C^1$ coordinate chart on one fixed constrained incoming section and the
+  collision-adapted LC flow prove a unique nearby collision root for every
+  sufficiently small compatible section perturbation.  The finite-mass
+  miss-distance coefficient is
+  \(2D_B^2/(1+B)\).
+- Status: **PROVED BY COMPUTER-ASSISTED ARGUMENT** for persistence of the
+  local fixed-section collision boundary.  The exact Pythagorean state
+  supplies only one selected section point; whether it meets the boundary is
+  still conjectural.  Differentiated inclination through the preceding long
+  saddle dwell remains a separate obligation.

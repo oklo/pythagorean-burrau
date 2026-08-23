@@ -332,6 +332,52 @@ independent adversarial audits replayed and endorsed the certificate. This is
 planar limit. It is not a real second-brake intersection, a finite-mass
 Pythagorean orbit, or a counterexample.
 
+### Positive-mass persistence of the collision boundary
+
+For the selected primary, the exact finite-mass Jacobi coordinate
+
+\[
+ q=Z-{A\over1+A}R
+\]
+
+satisfies
+
+\[
+ q_{\theta\theta}=-(1+B)\Phi(q)
+ +A\{\Phi(R)-\Phi(q+R)\}.
+\]
+
+The corresponding LC constraint is
+
+\[
+ 2|v|^2-(1+B)-h|u|^2=0,
+\]
+
+so the regular collision speed is \(|v|^2=(1+B)/2\).  The heavy coordinate
+must be adapted as well: the exact choice
+\[
+ Q=R+{B\over1+B}q
+\]
+cancels the singular $B\Phi(q)$ force in the $R$ equation.  At $B=0$, $Q=R$,
+so the validated separation margins persist.  A $C^1$ chart on one fixed
+constrained incoming section, the collision-adapted LC flow, and the certified
+nonsingular limiting Jacobian prove that the root persists as a unique
+transverse collision boundary for all sufficiently small positive masses and
+compatible section-state perturbations.  At fixed perturbation,
+
+\[
+ r_{\min,\mathrm{local}}
+ ={2D_{B,\delta}^2\over1+B}
+  (\widehat\kappa-\widehat\kappa_c)^2
+  +O(|\widehat\kappa-\widehat\kappa_c|^3).
+\]
+
+This is a structural persistence theorem, not a collision theorem for the
+tied Pythagorean curve.  The unresolved bridge is the signed fixed-section
+gap \(\widehat\kappa_B-\widehat\kappa_c(B,\delta_B)\), together with a
+differentiated inclination theorem relating this coordinate to the intrinsic
+projective amplitude through the long saddle dwell.
+
 ## Endpoint status
 
 ### Skinny endpoint $u\to0$

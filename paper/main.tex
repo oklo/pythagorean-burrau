@@ -4,6 +4,7 @@
 
 \newtheorem{theorem}{Theorem}
 \newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
 \newtheorem{conjecture}[theorem]{Conjecture}
 \newcommand{\R}{\mathbb R}
 \newcommand{\Bcal}{\mathcal B}
@@ -1392,10 +1393,81 @@ the stated determinant sign. The hexadecimal certificate and pinned replay
 are recorded in the companion computer-assisted proof note.
 \end{proof}
 
-This is a collision boundary in the massless planar joint limit. It is not a
-finite-mass Pythagorean orbit or a brake, and the limiting classical solution
-is not continued physically past collision. What remains is exclusion of
-other collision zeros and componentwise outgoing-sign control.
+The transversality has an exact positive-mass consequence.  In the full late
+Jacobi equations put $A=\sqrt{1-B^2}$, $M=1+A$, and select the same primary by
+\[
+ q=Z-{A\over M}R.
+\]
+Direct subtraction gives
+\[
+ q_{\theta\theta}=-(1+B)\Phi(q)
+ +A\{\Phi(R)-\Phi(q+R)\}.
+\]
+The $R$ equation still contains $B\Phi(q)$, so the common analytic collision
+chart uses the colliding-pair center coordinate
+\[
+ Q=R+{B\over1+B}q.
+\]
+Then
+\[
+ Q_{\theta\theta}=-{M+B\over1+B}\left[
+ \Phi\left(Q-{B\over1+B}q\right)
+ +B\Phi\left(Q+{1\over1+B}q\right)
+ \right].
+\]
+This contains no singular pair force.  After $q=u^2$ and
+$dt=|u|^2d\sigma$, the equations for $(Q,Q_t)$ acquire an exterior
+$|u|^2$ and are analytic at $u=0$ when $Q\ne0$.
+Hence the finite-mass LC constraint is
+\[
+ 2|v|^2-(1+B)-h|u|^2=0,
+\]
+and $|v|^2=(1+B)/2$ at collision.  At $B=0$, $Q=R$; the validated
+inequalities $R>2$ and other-primary distance greater than one therefore
+persist on a sufficiently small common chart.
+
+\begin{corollary}[Persistence of the collision boundary]
+Fix a regular constrained incoming section before the selected LC block and
+extend the limiting coordinate $\kappa$ to a local section coordinate
+$\widehat\kappa$.  The certified limiting collision continues uniquely under
+all sufficiently small positive-mass and compatible section-state
+perturbations $\delta$.  The continued root
+$(\widehat\kappa_c(B,\delta),\sigma_c(B,\delta))$ is transverse.  At fixed
+$(B,\delta)$ its local closest-passage normal form is
+\[
+ r_{\min,\mathrm{local}}
+ ={2D_{B,\delta}^2\over1+B}
+  (\widehat\kappa-\widehat\kappa_c(B,\delta))^2
+  +O(|\widehat\kappa-\widehat\kappa_c(B,\delta)|^3),
+\]
+where $D_{B,\delta}=\det(\partial_{\widehat\kappa}u,v)$ remains negative.
+\end{corollary}
+
+\begin{proof}
+The constraint, gauge, and section functions have constant full rank at the
+certified collision-free base state, so the fixed constrained section is
+smooth also at $B=0$; equivalently use the analytic signed-$B$ extension and
+then restrict to $B\ge0$.  On this section choose a $C^1$ chart
+$X_{\rm in}(B,\widehat\kappa,\delta)$ which restricts at $(B,\delta)=0$ to
+the validated limiting curve.  Ordinary pre-LC flow, the strict square-root
+lift, and the collision-adapted $(u,Q)$ flow make the square shooting map
+$C^1$ in $(B,\widehat\kappa,\delta,\sigma)$.  The parameter-dependent
+implicit-function theorem and the strict determinant bound give existence,
+local uniqueness, and transversality.  Orthogonal projection onto $v^\perp$,
+followed by $q=u^2$ and $|v|^2=(1+B)/2$, gives the displayed coefficient.
+\end{proof}
+
+This boundary emanates from the massless planar joint-limit collision and
+persists in the surrounding finite-mass section family. It is not a tied
+finite-mass Pythagorean orbit or a brake, and no positive-mass classical
+collision is continued physically. What remains is exclusion of
+other collision zeros and componentwise outgoing-sign control.  In
+particular, the exact tied trajectory selects only one point
+$(\widehat\kappa_B,\delta_B)$ on the fixed section; the corollary does not
+prove that it solves
+$\widehat\kappa_B=\widehat\kappa_c(B,\delta_B)$.  Relating this fixed-section
+coordinate differentiably to the intrinsic projective amplitude across the
+long saddle dwell is a separate open inclination estimate.
 
 Parameterize the restricted incoming parabolic curve by its asymptotic phase
 intercept $\chi$, normalized by

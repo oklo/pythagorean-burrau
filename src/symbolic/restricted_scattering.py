@@ -1049,6 +1049,100 @@ def forced_planar_light_collision_lc_constraint() -> tuple[
     )
 
 
+def finite_mass_selected_collision_reduction() -> tuple[
+    sp.Matrix, sp.Matrix, sp.Expr, sp.Expr
+]:
+    """Selected light--heavy equation and finite-mass LC invariants.
+
+    The late Jacobi variables have ``A=sqrt(1-B**2)`` and ``M=1+A``.
+    For ``q=Z-A*R/M``, the returned vector residual verifies
+
+    ``q''=-(1+B) Phi(q)+A(Phi(R)-Phi(q+R))``.
+
+    The second vector residual verifies cancellation of the singular pair
+    force in ``Q=R+B*q/(1+B)``. The remaining two entries verify preservation
+    of the forced-Kepler LC constraint and its collision-speed normalization.
+    """
+    skinny, heavy = sp.symbols("B A", real=True)
+    total_heavy = 1 + heavy
+    force_r_x, force_r_y = sp.symbols("F_Rx F_Ry", real=True)
+    force_q_x, force_q_y = sp.symbols("F_qx F_qy", real=True)
+    force_o_x, force_o_y = sp.symbols("F_ox F_oy", real=True)
+    force_r = sp.Matrix([force_r_x, force_r_y])
+    force_q = sp.Matrix([force_q_x, force_q_y])
+    force_other = sp.Matrix([force_o_x, force_o_y])
+    binary_acceleration = (
+        -total_heavy * force_r
+        + skinny * (force_q - force_other)
+    )
+    outer_acceleration = -(
+        (total_heavy + skinny)
+        / total_heavy
+        * (heavy * force_other + force_q)
+    )
+    relative_acceleration = sp.simplify(
+        outer_acceleration - heavy * binary_acceleration / total_heavy
+    )
+    expected = -(1 + skinny) * force_q + heavy * (force_r - force_other)
+    equation_residual = sp.simplify(relative_acceleration - expected)
+    collision_pair_center_acceleration = sp.simplify(
+        binary_acceleration
+        + skinny * relative_acceleration / (1 + skinny)
+    )
+    expected_pair_center_acceleration = -(
+        (total_heavy + skinny)
+        / (1 + skinny)
+        * (force_r + skinny * force_other)
+    )
+    pair_center_residual = sp.simplify(
+        collision_pair_center_acceleration - expected_pair_center_acceleration
+    )
+
+    u_real, u_imag, v_real, v_imag, energy = sp.symbols(
+        "u_r u_i v_r v_i h", real=True
+    )
+    force_real, force_imag = sp.symbols("G_r G_i", real=True)
+    radius_squared = u_real**2 + u_imag**2
+    conjugate_u_times_force_real = u_real * force_real + u_imag * force_imag
+    conjugate_u_times_force_imag = u_real * force_imag - u_imag * force_real
+    u_times_v_real = u_real * v_real - u_imag * v_imag
+    u_times_v_imag = u_real * v_imag + u_imag * v_real
+    field = sp.Matrix(
+        [
+            v_real,
+            v_imag,
+            energy * u_real / 2
+            + radius_squared * conjugate_u_times_force_real / 2,
+            energy * u_imag / 2
+            + radius_squared * conjugate_u_times_force_imag / 2,
+            2 * (u_times_v_real * force_real + u_times_v_imag * force_imag),
+        ]
+    )
+    gravitational_parameter = 1 + skinny
+    constraint = (
+        2 * (v_real**2 + v_imag**2)
+        - gravitational_parameter
+        - energy * radius_squared
+    )
+    variables = (u_real, u_imag, v_real, v_imag, energy)
+    constraint_derivative = sp.simplify(
+        sum(
+            sp.diff(constraint, variable) * field[index]
+            for index, variable in enumerate(variables)
+        )
+    )
+    collision_speed_gap = sp.simplify(
+        constraint.subs({u_real: 0, u_imag: 0})
+        - (2 * (v_real**2 + v_imag**2) - gravitational_parameter)
+    )
+    return (
+        equation_residual,
+        pair_center_residual,
+        constraint_derivative,
+        collision_speed_gap,
+    )
+
+
 def forced_planar_lc_angular_identity() -> tuple[sp.Expr, sp.Expr]:
     """LC expression for relative angular momentum and its impact derivative."""
     u_real, u_imag, v_real, v_imag = sp.symbols(

@@ -4,7 +4,7 @@ Date: 2026-08-23
 
 The complete run summary is `RUN_REPORT_2026-08-23.md`.
 
-Outcome so far: **major partial theorem (Level D), but unresolved full
+Outcome so far: **major partial theorem (Levels D and E), but unresolved full
 conjecture**. The main rational conjecture and strong real conjecture remain
 CONJECTURAL. No rational or real exact second-brake intersection has been
 established. Infinitely many open real skinny parameter intervals are now
@@ -23,18 +23,24 @@ family. Sampling the exact phase clock on
 $(4n^2-1,4n,4n^2+1)$ and applying van der Corput plus Weyl proves that a
 positive-lower-density subset of this one explicit primitive family is
 nonperiodic. The current constants are non-effective, so no first certified
-index $n$ is claimed.
+index $n$ is claimed. Separately, an analytic stable-tail enclosure and a
+validated interval-Newton argument prove a unique transverse collision in a
+small parameter box of the planar massless limiting family. This collision is
+neither a Pythagorean orbit nor a second brake; it supplies a certified
+boundary for a finite-dimensional scattering-map classification.
 
 The closest catalog threat, the Li--Liao $F_{30}$ family on the
 $3{:}4{:}5$ mass slice, was locally continued.  Its periodic branch comes
 within about $0.00369$ of the tied shape but its two exact matching equations
 cross zero at different parameters; no numerical intersection was found.
 
-Active primary route: a signed Hopf/first-syzygy coordinate in the explicit
-reduced system, factored into isolated double-radial events plus angular slip.
-Both slip signs occur numerically, so the target is an event index or branch
-classification.  The simpler global Pythagorean-defect barrier was numerically
-falsified after the first close encounter.
+Active primary route: use the first certified transverse collision as a
+boundary of the one-parameter planar scattering map. Exclude every other
+collision zero on compact $\kappa$ ranges, propagate both punctured sides to
+common outgoing sections, and prove a componentwise nonvanishing scattering
+scalar. This is now a compact one-parameter transition problem. The simpler
+global Pythagorean-defect barrier was numerically falsified after the first
+close encounter.
 
 Active fallback: extend the new skinny Level-D theorem across the finite-turn
 phase windows. The $O(B^{-3/2})$ early cycle train and the incoming parabolic
@@ -289,10 +295,9 @@ $(2\sqrt{21}-5\sqrt3)/4>0$ shows that $\kappa=0$ enters the inner strip, so
 the remaining task is a finite transition analysis rather than a false global
 strip-invariance argument.
 An ordinary stable-manifold probe first located an abrupt outgoing-$\Lambda$
-sign switch in a collision-scale region. A forced-LC shoot then refined the
-organizing collision seed to $\kappa\approx1.2679351755$.
-The forced-LC ordinary shoot, initialized with the complete exact quartic
-stable-manifold jet, refines the collision seed to
+sign switch in a collision-scale region. The forced-LC ordinary shoot,
+initialized with the complete exact quartic stable-manifold jet, refines the
+organizing collision seed to
 $\kappa\approx1.2679351755$, with residual $4.6\times10^{-12}$ and
 finite-difference transverse determinant about $-3.45305779$. The stable tail is
 now enclosed analytically: the unique normalized graph $P=P_4+E$ satisfies
@@ -328,6 +333,24 @@ with
 All shape and LC steps remain in explicitly checked analytic chart domains.
 This is **PROVED BY COMPUTER-ASSISTED ARGUMENT** and validates a transverse
 collision in the massless planar limiting family.
+The exact positive-mass selected-pair coordinate
+\(q=Z-A R/(1+A)\) satisfies
+\[
+ q_{\theta\theta}=-(1+B)\Phi(q)
+ +A\{\Phi(R)-\Phi(q+R)\}.
+\]
+Its finite-mass LC constraint is
+\(2|v|^2-(1+B)-h|u|^2=0\).  The collision-pair center coordinate
+\[
+ Q=R+{B\over1+B}q
+\]
+cancels the otherwise singular $B\Phi(q)$ force.  A $C^1$ chart on one fixed
+constrained incoming section and this repaired LC block promote the certified
+root to a unique nearby finite-mass collision boundary in local section state
+space.  The tied Pythagorean trajectory selects only one section point, so
+the still-open bridge is its signed gap from that boundary; no crossing of
+the tied curve is claimed.  Differentiated inclination through the preceding
+long saddle dwell remains open.
 The corresponding analytic forced Levi--Civita chart is complete. In complex
 variables $q=u^2$, $dt=|u|^2d\sigma$, its collision residual is the square map
 \[

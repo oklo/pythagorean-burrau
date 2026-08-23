@@ -333,6 +333,36 @@ At a transverse zero it also gives the proved local normal form
 Hence the root certificate settles local one-sided avoidance. Other times and
 the other primary remain global collision obligations.
 
+The selected finite-mass relative coordinate now gives an exact perturbative
+bridge:
+\[
+ q=Z-{A\over1+A}R,\qquad
+ q''=-(1+B)\Phi(q)+A\{\Phi(R)-\Phi(q+R)\}.
+\]
+The $R$ equation itself is not LC-regular because it contains
+\(B\Phi(q)\).  The collision-adapted complementary coordinate
+\[
+ Q=R+{B\over1+B}q
+\]
+cancels that singular force exactly; its acceleration contains only the
+forces at \(Q-Bq/(1+B)\) and \(Q+q/(1+B)\).
+The corresponding LC constraint is
+\(2|v|^2-(1+B)-h|u|^2=0\).  A $C^1$ chart on one fixed constrained incoming
+section and the certified nonsingular limiting Jacobian prove that the
+collision root persists uniquely under positive mass and compatible local
+section-state perturbations.  For the exact tied trajectory the remaining
+scalar obligation in that chart is
+\[
+ \widehat\Delta_c(B)=
+ \widehat\kappa_B-\widehat\kappa_c(B,\delta_B).
+\]
+No sign, zero, or oscillation theorem for \(\widehat\Delta_c\) has been
+proved.  A differentiated inclination estimate is also still required to
+relate the fixed-section coordinate to the intrinsic projective amplitude
+through the logarithmically long saddle dwell.  Even
+a nonzero sign controls only the local selected encounter; exclusion of other
+collisions and a later brake still requires the global scattering map.
+
 The singular local part of that implication is now isolated in
 `TRIPLE_ENDPOINT_SELECTION.md`. Exact translation by the center radius turns
 the base into a parameter-dependent saddle passage; a graph-transform and
