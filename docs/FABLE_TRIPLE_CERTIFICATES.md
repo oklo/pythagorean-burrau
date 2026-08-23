@@ -61,6 +61,11 @@ bash scripts/fable_run_capd_tied_event.sh /private/tmp/fable-capd \
   escaper 1, $\eta=4$; fired at $t=2.73800$, margin $\ge0.067$.
 - Log: `data/fable/certificate_41_100.log`.
 
+### u = 5/13 — triple (72, 65, 97)   [PROVED BY COMPUTER-ASSISTED ARGUMENT]
+
+- 512-bit MPFR, tolerance $10^{-50}$, order 50; binary $\{2,3\}$,
+  escaper 1, $\eta=4$; see `data/fable/certificate_5_13.log`.
+
 ### Failed attempts (no certificate, recorded honestly)
 
 $u=7/17$ and $u=103/250$ fail at $t\approx0.511$ with step-cap collapse
