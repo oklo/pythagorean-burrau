@@ -499,3 +499,63 @@ positivity of the remaining pair terms forces $|R|>R_{\rm H}$. Two
 independent label/normalization audits endorsed this analytic barrier. It
 excludes brakes in every absolute near-triple tube but not after binary
 re-expansion.
+
+## 2026-08-23: joint two-mode triple-endpoint blow-up
+
+- Replaced the unknown restricted phase gap by intrinsic nonlinear unstable
+  amplitudes $H_B$ (longitudinal) and $T_B$ (reflection odd) relative to the
+  exact finite-$B$ collision-stable manifold.
+- Proved
+  \[
+   {T_B\over B}\to-{\widehat A_-\over2}\ne0.
+  \]
+  The essential subtraction uses the auxiliary equal-heavy family
+  $(1,B,1)$: it retains exact exchange/reflection symmetry, while
+  $A(B)-1=O(B^2)$. Hence the odd stable-foliation and projector correction is
+  $O(B^2)$, not $O(B)$.
+- Derived the two unstable exponents
+  $\mu=(1+\sqrt{19})/4$, $\tau=(1+\sqrt7)/4$ and the strict inequality
+  $1<\mu/\tau<2$. The latter makes the projective coordinate
+  \[
+   \kappa_B={H_B\over|T_B|^{\mu/\tau}}
+  \]
+  invariant up to $o(1)$ under quadratic nonlinear chart changes.
+- Proved that every joint-layer sequence reduces to the one-parameter planar
+  restricted family $\mathscr U_\kappa$, or to its two rectilinear endpoint
+  exits. Exact finite-mass collisions still terminate the classical orbit;
+  convergence through a separated limiting heavy-binary collision is only in
+  LC variables.
+- Three adversarial passes identified the stable-graph subtraction,
+  nonlinear normalization, exponent drift, and collision semantics; all were
+  repaired before analytic promotion.
+
+Evidence level: **PROVED ANALYTICALLY** for the structural one-parameter
+reduction. Global classification of $\mathscr U_\kappa$ and the sign of its
+outgoing scattering scalar remain **CONJECTURAL**.
+
+## 2026-08-23: exact planar shape and torque identities
+
+- Put the radial zero-energy binary and light state in logarithmic shape
+  variables. The universal planar family becomes
+  $w_{\zeta\zeta}+w_\zeta/3=\nabla W(w)$.
+- Proved the strict identity
+  $\mathcal E_\zeta=-|w_\zeta|^2/3$, excluding nonconstant periodic shape
+  orbits and equilateral-to-equilateral connections.
+- Factored the angular equation exactly as
+  $\Lambda_\zeta+\Lambda/3=-xyK(x,y)$ with $K>0$.
+- Proved
+  \[
+  W_{xx}\ge {1\over9}\left({7\over4}-{8\over3\sqrt3}\right)>0
+  \quad\hbox{on }|y|\ge\sqrt3/2,
+  \]
+  giving a rigorous signed-tail lemma.
+- Falsified the tempting global outer-strip invariant exactly: the
+  $\kappa=0$ stable orbit has inward quadratic coefficient
+  $(2\sqrt{21}-5\sqrt3)/4>0$.
+- Two independent audits rederived the shape equation, Lyapunov sign, torque
+  factor, convexity bound, and first-zero argument. They required the explicit
+  physical-time sign reversal on the incoming binary half, now recorded.
+
+Evidence level: **PROVED ANALYTICALLY** for every identity and conditional
+signed-tail theorem; global inner-strip transition classification remains
+**CONJECTURAL**.

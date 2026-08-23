@@ -242,13 +242,40 @@ this sign whenever
 It excludes every local-branch gap above
 $\Delta(B)=(\omega_0(B)+B)^{3/(1+\sqrt{19})}$ for sufficiently small $B$.
 The remaining endpoint obligations are global classification of remote
-captured components and the joint blow-up in
+captured components and the outgoing dynamics of the joint layer
 $0<\varepsilon<\Delta(B)$; finite-$B$ transfer is no longer wholly open.
 Energy separately proves that no brake occurs while the actual late-scaled
 tight-pair separation satisfies
 $|R|\le(1-B^2)/(1+B^2-B^4)$. Thus the joint blow-up is needed to recover
 outgoing signed data and control later re-expanded motion, not to exclude a
 brake inside the near-triple tube itself.
+
+The joint two-mode blow-up now proves that this layer has only one new
+projective degree of freedom. With intrinsic longitudinal and odd amplitudes
+$H_B,T_B$,
+\[
+ \rho_T=|T_B|^{4/(1+\sqrt7)},\qquad
+ \kappa_B={H_B\over
+ |T_B|^{(1+\sqrt{19})/(1+\sqrt7)}}.
+\]
+Every endpoint sequence converges after rescaling either to the planar
+massless restricted orbit $\mathscr U_\kappa$ for a finite real $\kappa$, or
+to one of the two rectilinear exits as $\kappa\to\pm\infty$. The remaining
+localized obligation is to classify this one-parameter family and prove a
+nonvanishing outgoing scattering scalar uniformly in $\kappa$; this is
+CONJECTURAL.
+
+The planar shape reduction supplies the candidate scalar ingredients:
+\[
+ \mathcal E_\zeta=-{|w_\zeta|^2\over3},\qquad
+ \Lambda_\zeta+{\Lambda\over3}=-xyK,\quad K>0.
+\]
+The torque sign is already global on each component where $xy$ has fixed
+sign, and transverse convexity controls $|y|\ge\sqrt3/2$. The indispensable
+remaining lemma is a classification of transitions through
+$|y|<\sqrt3/2$, including light-heavy collision branches and the LC matching
+of the physical angular sign. Global outer-strip invariance is false at
+$\kappa=0$ and must not be assumed.
 
 The singular local part of that implication is now isolated in
 `TRIPLE_ENDPOINT_SELECTION.md`. Exact translation by the center radius turns

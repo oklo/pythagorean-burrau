@@ -252,14 +252,39 @@ coupled McGehee/LC theorem now transfers the local result whenever
 It excludes brakes on the certified local branch for
 $\Delta(B)\le\varepsilon\le\varepsilon_0$, where
 $\Delta(B)=(\omega_0(B)+B)^{3/(1+\sqrt{19})}\to0$. The thinner joint
-boundary layer $0<\varepsilon<\Delta(B)$ remains open for transfer of the
-signed outgoing data. An exact Hill-boundary argument independently excludes
+boundary layer $0<\varepsilon<\Delta(B)$ now has an intrinsic projective
+reduction. If $H_B$ and $T_B$ are its longitudinal and reflection-odd
+unstable amplitudes, then
+\[
+ {T_B\over B}\longrightarrow-{\widehat A_-\over2}\ne0,\qquad
+ \kappa_B={H_B\over
+ |T_B|^{(1+\sqrt{19})/(1+\sqrt7)}}.
+\]
+After scaling, every sequence converges to one member of a one-parameter
+planar massless restricted family $\mathscr U_\kappa$, or to a rectilinear
+endpoint as $\kappa\to\pm\infty$. The family is not yet globally classified
+and its outgoing scattering sign remains open. An exact Hill-boundary
+argument independently excludes
 a full brake while the actual tight-pair separation satisfies
 \[
  |R|\le {1-B^2\over1+B^2-B^4}=1-2B^2+O(B^4).
 \]
 Hence no brake lies inside any absolute near-triple tube; the open issue is
 later motion after the heavy pair re-expands almost to its initial separation.
+
+The planar projective family also has an exact scalar formulation. With
+$R=9^{1/3}t^{2/3}e_x$, $Z=9^{1/3}t^{2/3}w(\log t)$, its shape equation is
+damped gradient and
+\[
+ \mathcal E_\zeta=-{|w_\zeta|^2\over3},\qquad
+ \Lambda_\zeta+{\Lambda\over3}=-xyK(x,y),\quad K>0.
+\]
+This excludes nonconstant periodic shape or equilateral homoclinic motion.
+It proves a fixed angular sign while $|y|\ge\sqrt3/2$, where
+$W_{xx}\ge(7/4-8/(3\sqrt3))/9$. The exact quadratic coefficient
+$(2\sqrt{21}-5\sqrt3)/4>0$ shows that $\kappa=0$ enters the inner strip, so
+the remaining task is a finite transition analysis rather than a false global
+strip-invariance argument.
 
 Late-resonance simplicity has also been narrowed to a differentiable
 parabolic-passage lemma. For the degree-four McGehee map, the exact Kepler

@@ -52,8 +52,8 @@ next compact encounter we prove a positive centered-parabolic endpoint, and
 at its opposite triple-collision endpoint we prove uniqueness and collision
 safety of the universal peel-off base and validate its positive slow-mode
 first-turn transfer. The full conjecture remains open because the compact
-phase interior, a shrinking finite-mass triple-endpoint outgoing-data boundary
-layer, and later turns are not yet controlled. A bounded
+phase interior, the one-parameter planar scattering family exposed by the
+finite-mass triple-endpoint blow-up, and later turns are not yet controlled. A bounded
 catalog audit finds
 a close numerical periodic brake orbit on the
 $3{:}4{:}5$ mass slice, but its initial triangle is not the exact tied right
@@ -1067,6 +1067,119 @@ the other pair terms gives the exact strict condition
 Thus every state with $|R|=o(1)$ is separated from the brake boundary. The
 unresolved boundary layer concerns the signed outgoing data and possible later
 motion after the heavy pair re-expands, not a brake during the close passage.
+
+\begin{theorem}[Joint endpoint reduction]
+Let $B_j\downarrow0$ be collision-free finite-mass states whose selected
+restricted intercepts approach the certified triple endpoint. There are
+intrinsic longitudinal and reflection-odd unstable amplitudes $H_B,T_B$ for
+which
+\[
+ {T_B\over B}\longrightarrow-{\widehat A_-\over2}\ne0.
+\]
+Put
+\[
+ \mu={1+\sqrt{19}\over4},\qquad
+ \tau={1+\sqrt7\over4},\qquad
+ \rho_T=|T_B|^{1/\tau},\qquad
+ \kappa_B={H_B\over|T_B|^{\mu/\tau}}.
+\]
+If $\kappa_{B_j}\to\kappa\in\mathbb R$, scaling size by $\rho_T$ and time by
+$\rho_T^{3/2}$ gives the one-parameter planar massless restricted limit
+\[
+ {\cal R}_{ss}=-2\Phi({\cal R}),\qquad
+ {\cal Z}_{ss}=-\Phi({\cal Z}+{\cal R}/2)
+               -\Phi({\cal Z}-{\cal R}/2).
+\]
+If $\kappa_{B_j}\to\pm\infty$, longitudinal scaling instead selects the
+corresponding rectilinear exit. A genuine finite-$B$ collision is always the
+classical-termination alternative.
+\end{theorem}
+
+\begin{proof}
+Use the parity-adapted nonlinear unstable amplitudes of the persisted
+McGehee rest point. In the auxiliary family with equal heavy masses
+$(1,B,1)$, heavy exchange and reflection split the stable foliation and
+spectral projectors into exact even and odd blocks. Since
+$A(B)=\sqrt{1-B^2}=1+O(B^2)$, the Pythagorean field differs from this
+auxiliary field by $O(B^2)$ in $C^2$. Subtracting the moving stable graph
+therefore does not alter the divided first-order odd coefficient, and the
+proved Fuchsian matching gives $T_B/B\to-\widehat A_-/2$.
+
+After translations, SO(2), log-size/time, and fixed energy have been removed,
+the unstable space has exactly these two scalar modes. The longitudinal
+stable mode, fast odd mode, and energy/clock variables lie in the stable or
+triangular block; no planar angle remains after zero-angular-momentum
+reconstruction.
+
+The two unstable exponents satisfy
+$1<\mu/\tau<2$. Thus $H\mapsto H+O(T^2)$ changes $\kappa_B$ by $o(1)$, while
+$B|\log B|\to0$ absorbs finite-$B$ exponent drift over the saddle dwell.
+The exponential dichotomy gives, on every fixed translated interval, the
+uniform error
+\[
+ O_L\!\left(
+ |\kappa_B-\kappa|+B|\log|T_B||+B
+ +|T_B|^{2-\mu/\tau}+e^{-c|\log|T_B||}\right)+o_L(1).
+\]
+Translation by $-\log\rho_T$ and Newtonian homogeneity therefore give the
+displayed one-parameter limit. Across a separated
+limiting heavy-binary collision the convergence is only in the common
+Levi--Civita variables and clock; an exact collision of a finite member is
+not continued.
+\end{proof}
+
+This theorem removes the arbitrary two-parameter character of the shrinking
+boundary layer, but it does not yet exclude a later brake. The remaining
+local task is a global classification and a nonvanishing scattering theorem
+for the single real family indexed by $\kappa$.
+
+\begin{lemma}[Planar shape identities]
+On a zero-energy radial-binary half put
+\[
+ R=9^{1/3}t^{2/3}e_x,\qquad
+ Z=9^{1/3}t^{2/3}w(\zeta),\qquad \zeta=\log t.
+\]
+Then
+\[
+ w_{\zeta\zeta}+{1\over3}w_\zeta=\nabla W(w),
+\]
+where
+\[
+ W={1\over9}\left(
+ |w|^2+{|w+e_x/2|}^{-1}+{|w-e_x/2|}^{-1}\right).
+\]
+If $\mathcal E=|w_\zeta|^2/2-W$ and
+$\Lambda=w\times w_\zeta$, then
+\[
+ \mathcal E_\zeta=-{|w_\zeta|^2\over3},\qquad
+ \Lambda_\zeta+{\Lambda\over3}=-xyK(x,y),\quad K>0.
+\]
+Moreover, on $|y|\ge\sqrt3/2$,
+\[
+ W_{xx}\ge {1\over9}\left({7\over4}-{8\over3\sqrt3}\right)>0.
+\]
+\end{lemma}
+
+\begin{proof}
+The first two identities follow by direct substitution and scalar/cross
+products. For the last, set $Y=y^2$ and
+$g_Y(q)=(Y-2q)/(Y+q)^{5/2}$. Then
+\[
+ 9W_{xx}=2-g_Y((x+1/2)^2)-g_Y((x-1/2)^2).
+\]
+One squared argument is at least $1/4$; monotonicity of $g_Y$ gives an upper
+bound
+$Y^{-3/2}+(Y-1/2)/(Y+1/4)^{5/2}$, whose maximum for $Y\ge3/4$ is
+$8/(3\sqrt3)+1/4$.
+\end{proof}
+
+The angular identity fixes a nonzero sign on every stable tail that remains
+in the outer strip. It is not yet global: at $\kappa=0$ the stable manifold
+bends into the inner strip with the exact coefficient
+$(2\sqrt{21}-5\sqrt3)/4>0$. Thus the next problem is a finite transition
+classification, not an invariant-strip assertion. On the incoming half
+$t=t_c-\theta$, so the physical angular-momentum sign is opposite the
+$\zeta$-oriented sign above.
 
 Parameterize the restricted incoming parabolic curve by its asymptotic phase
 intercept $\chi$, normalized by

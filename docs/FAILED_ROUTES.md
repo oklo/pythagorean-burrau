@@ -193,3 +193,26 @@ $B/\eta=\varepsilon^{(1+\sqrt7)/6}\to0$. The repaired wedge theorem received
 two independent adversarial endorsements. This failed shortcut is retained to
 prevent future use of ordinary continuous dependence in a divided joint
 limit.
+
+## Universal outer-strip invariance
+
+**Status:** DISPROVED by an EXACT SYMBOLIC IDENTITY.
+
+The planar joint-limit shape system is strictly convex in the transverse
+coordinate throughout $|y|\ge\sqrt3/2$, suggesting that every projective
+orbit might remain in that strip and inherit a fixed angular-momentum sign.
+The zero-projective orbit already violates this. At the lower equilateral
+rest point its stable expansion is
+\[
+ x=T e^{-(1+\sqrt7)\zeta/6}+\cdots,\qquad
+ y+{\sqrt3\over2}
+ =kT^2e^{-(1+\sqrt7)\zeta/3}+\cdots,
+\]
+with
+\[
+ k={2\sqrt{21}-5\sqrt3\over4}>0.
+\]
+It therefore bends into $|y|<\sqrt3/2$. Positive projective parameters enter
+the strip already at linear order. The convexity and exact torque identities
+remain useful as conditional transition rules, but global strip invariance
+cannot be the missing scalar obstruction.

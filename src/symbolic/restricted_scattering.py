@@ -655,6 +655,102 @@ def triple_endpoint_mcgehee_shape_exponents() -> tuple[
     )
 
 
+def triple_endpoint_joint_blowup_algebra() -> tuple[
+    sp.Expr, sp.Expr, sp.Expr, sp.Expr, sp.Expr, sp.Expr
+]:
+    """Return the two-mode projective exponents and equilateral odd offset."""
+    skinny = sp.symbols("B", positive=True)
+    heavy = sp.sqrt(1 - skinny**2)
+    total_heavy = 1 + heavy
+    longitudinal = (1 + sp.sqrt(19)) / 4
+    transverse = (1 + sp.sqrt(7)) / 4
+    ratio = sp.simplify(longitudinal / transverse)
+    equilateral_odd_offset = sp.simplify(-skinny**2 / (2 * total_heavy**2))
+    return (
+        longitudinal,
+        transverse,
+        ratio,
+        sp.simplify(ratio - 1),
+        sp.simplify(2 - ratio),
+        equilateral_odd_offset,
+    )
+
+
+def planar_joint_shape_identities() -> tuple[
+    sp.Matrix, sp.Matrix, sp.Expr, sp.Expr, sp.Expr, sp.Expr, sp.Expr
+]:
+    """Exact damped-gradient and torque data for the planar joint limit."""
+    horizontal, vertical = sp.symbols("x y", real=True)
+    horizontal_velocity, vertical_velocity = sp.symbols("x_dot y_dot", real=True)
+    plus_squared = (horizontal + sp.Rational(1, 2)) ** 2 + vertical**2
+    minus_squared = (horizontal - sp.Rational(1, 2)) ** 2 + vertical**2
+    potential = (
+        horizontal**2
+        + vertical**2
+        + plus_squared ** -sp.Rational(1, 2)
+        + minus_squared ** -sp.Rational(1, 2)
+    ) / 9
+    coordinates = sp.Matrix([horizontal, vertical])
+    gradient = sp.Matrix([sp.diff(potential, coordinate) for coordinate in coordinates])
+    equilateral = {horizontal: 0, vertical: sp.sqrt(3) / 2}
+    rest_gradient = sp.simplify(gradient.subs(equilateral))
+    rest_hessian = sp.simplify(gradient.jacobian(coordinates).subs(equilateral))
+    rest_potential = sp.simplify(potential.subs(equilateral))
+    velocity = sp.Matrix([horizontal_velocity, vertical_velocity])
+    energy_derivative = sp.simplify(
+        velocity.dot(gradient - velocity / 3) - gradient.dot(velocity)
+    )
+    torque = sp.simplify(horizontal * gradient[1] - vertical * gradient[0])
+    expected_torque = sp.simplify(
+        vertical
+        / 18
+        * (
+            plus_squared ** -sp.Rational(3, 2)
+            - minus_squared ** -sp.Rational(3, 2)
+        )
+    )
+    convexity_constant = sp.simplify(
+        (sp.Rational(7, 4) - 8 / (3 * sp.sqrt(3))) / 9
+    )
+    distance = sp.symbols("d", positive=True)
+    distance_lower_bound_residual = sp.factor(
+        distance**2 / 2
+        + 1 / distance
+        - sp.Rational(3, 2)
+        - (distance - 1) ** 2 * (distance + 2) / (2 * distance)
+    )
+    return (
+        rest_gradient,
+        rest_hessian,
+        rest_potential,
+        energy_derivative,
+        sp.simplify(torque - expected_torque),
+        convexity_constant,
+        distance_lower_bound_residual,
+    )
+
+
+def planar_joint_shape_quadratic_bending() -> tuple[
+    sp.Expr, sp.Expr, sp.Expr, sp.Expr
+]:
+    """Quadratic inward bending of the zero-projective planar shape orbit."""
+    transverse_rate = (1 + sp.sqrt(7)) / 6
+    longitudinal_rate = (1 + sp.sqrt(19)) / 6
+    transverse_source = sp.sqrt(3) / 24
+    divisor = sp.simplify(
+        4 * transverse_rate**2
+        - 2 * transverse_rate / 3
+        - sp.Rational(1, 2)
+    )
+    bending = sp.radsimp(transverse_source / divisor)
+    return (
+        transverse_source,
+        divisor,
+        bending,
+        sp.simplify(2 * transverse_rate - longitudinal_rate),
+    )
+
+
 def tight_binary_brake_hill_threshold() -> tuple[sp.Expr, sp.Expr, sp.Expr]:
     """Exact late-scaled heavy-pair separation required at a skinny brake."""
     skinny = sp.symbols("B", positive=True)

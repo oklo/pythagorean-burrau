@@ -18,6 +18,13 @@ $(4n^2-1,4n,4n^2+1)$ contains a positive-lower-density set of proved
 nonperiodic members. See `docs/EXPLICIT_SKINNY_FAMILY.md` and
 `docs/STATUS.md`.
 
+At the singular triple-collision endpoint, the remaining finite-mass
+boundary layer has now been reduced analytically to one projective parameter
+in a universal planar restricted problem. An exact Hill barrier excludes a
+brake throughout the near-triple tube, and the planar limit has a strict
+shape Lyapunov function plus a factorized signed torque. These are structural
+reductions, not a resolution of the later re-expanded dynamics.
+
 ## Reproduce the exact checks
 
 ```bash

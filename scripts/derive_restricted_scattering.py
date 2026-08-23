@@ -8,6 +8,8 @@ from src.symbolic.restricted_scattering import (
     outer_energy_exchange_identity,
     parabolic_truncated_energy_drift,
     phase_wronskian_identity,
+    planar_joint_shape_identities,
+    planar_joint_shape_quadratic_bending,
     restricted_equilateral_triple_collision,
     restricted_terminal_collision_r_chart,
     restricted_triple_collision_phase_mode,
@@ -21,6 +23,7 @@ from src.symbolic.restricted_scattering import (
     time_shift_melnikov_identity,
     transverse_variational_normal_form,
     triple_endpoint_finite_mass_exponents,
+    triple_endpoint_joint_blowup_algebra,
     triple_endpoint_mcgehee_shape_exponents,
 )
 
@@ -59,6 +62,12 @@ def main() -> None:
     print(
         "McGehee endpoint shape exponents = "
         f"{triple_endpoint_mcgehee_shape_exponents()}"
+    )
+    print(f"joint endpoint blow-up algebra = {triple_endpoint_joint_blowup_algebra()}")
+    print(f"planar joint shape identities = {planar_joint_shape_identities()}")
+    print(
+        "planar joint quadratic bending = "
+        f"{planar_joint_shape_quadratic_bending()}"
     )
     print(f"tight-binary brake Hill threshold = {tight_binary_brake_hill_threshold()}")
 

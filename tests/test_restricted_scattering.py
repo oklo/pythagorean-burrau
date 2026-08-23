@@ -14,6 +14,8 @@ from src.symbolic.restricted_scattering import (
     parabolic_stroboscopic_leading_map,
     parabolic_truncated_energy_drift,
     phase_wronskian_identity,
+    planar_joint_shape_identities,
+    planar_joint_shape_quadratic_bending,
     restricted_equilateral_triple_collision,
     restricted_terminal_collision_r_chart,
     restricted_transverse_linearization,
@@ -31,6 +33,7 @@ from src.symbolic.restricted_scattering import (
     triple_endpoint_fast_frobenius_corrections,
     triple_endpoint_finite_mass_exponents,
     triple_endpoint_force_monotonicity_identity,
+    triple_endpoint_joint_blowup_algebra,
     triple_endpoint_matching_determinant,
     triple_endpoint_mcgehee_shape_exponents,
     triple_endpoint_shifted_fuchsian_identities,
@@ -355,6 +358,51 @@ def test_triple_endpoint_mcgehee_shape_exponents() -> None:
     assert long_stable < 0 < long_unstable
     assert trans_stable < 0 < trans_unstable
     assert sp.simplify(ratio - (1 + sp.sqrt(7)) / 6) == 0
+
+
+def test_triple_endpoint_joint_blowup_algebra() -> None:
+    longitudinal, transverse, ratio, lower_gap, upper_gap, odd_offset = (
+        triple_endpoint_joint_blowup_algebra()
+    )
+    skinny = sp.symbols("B", positive=True)
+    heavy = sp.sqrt(1 - skinny**2)
+    assert sp.simplify(longitudinal - (1 + sp.sqrt(19)) / 4) == 0
+    assert sp.simplify(transverse - (1 + sp.sqrt(7)) / 4) == 0
+    assert sp.simplify(ratio - longitudinal / transverse) == 0
+    assert float(lower_gap) > 0
+    assert float(upper_gap) > 0
+    assert sp.simplify(odd_offset + skinny**2 / (2 * (1 + heavy) ** 2)) == 0
+
+
+def test_planar_joint_shape_identities() -> None:
+    (
+        rest_gradient,
+        rest_hessian,
+        rest_potential,
+        energy_dot,
+        torque_gap,
+        delta,
+        distance_bound_gap,
+    ) = planar_joint_shape_identities()
+    horizontal_velocity, vertical_velocity = sp.symbols("x_dot y_dot", real=True)
+    assert rest_gradient == sp.zeros(2, 1)
+    assert rest_hessian == sp.diag(sp.Rational(1, 6), sp.Rational(1, 2))
+    assert rest_potential == sp.Rational(11, 36)
+    assert sp.simplify(
+        energy_dot + (horizontal_velocity**2 + vertical_velocity**2) / 3
+    ) == 0
+    assert torque_gap == 0
+    assert float(delta) > 0
+    assert distance_bound_gap == 0
+
+
+def test_planar_joint_shape_quadratic_bending() -> None:
+    source, divisor, bending, rate_gap = planar_joint_shape_quadratic_bending()
+    assert source == sp.sqrt(3) / 24
+    assert sp.simplify(divisor - (sp.Rational(5, 18) + sp.sqrt(7) / 9)) == 0
+    assert sp.simplify(bending - (2 * sp.sqrt(21) - 5 * sp.sqrt(3)) / 4) == 0
+    assert float(bending) > 0
+    assert float(rate_gap) > 0
 
 
 def test_tight_binary_brake_hill_threshold() -> None:
