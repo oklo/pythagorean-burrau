@@ -37,6 +37,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <string>
+#include <type_traits>
 
 #ifdef FABLE_MP
 #include "capd/mpcapdlib.h"
@@ -268,6 +269,14 @@ int main(int argc, char** argv) {
 
     time_map.stopAfterStep(true);
 
+    // Near a deep binary encounter the trial-step rough enclosure can
+    // sweep across the collision set, making the interval vector field
+    // throw a division-by-zero domain error before the set is modified.
+    // That is a failed step attempt, not a failed certificate: cap the
+    // step and retry.  The cap relaxes geometrically after successes.
+    double step_cap = 1e6;
+    long capped_retries = 0;
+
     long steps = 0;
     long event_steps = 0;
     double min_event_kinetic = 1e300;
@@ -277,7 +286,22 @@ int main(int argc, char** argv) {
     Ival final_margin;
 
     do {
-      time_map(final_time, set);
+      try {
+        solver.setMaxStep(Ival(step_cap));
+        time_map(final_time, set);
+      } catch (const std::exception& step_error) {
+        ++capped_retries;
+        if (capped_retries > 4000 || step_cap < 1e-13) {
+          throw;
+        }
+        const double last = bound_double(solver.getStep().rightBound());
+        const double reference = (last > 1e-13 && last < step_cap) ? last : step_cap;
+        step_cap = reference / 2;
+        continue;
+      }
+      if (step_cap < 1e6) {
+        step_cap *= 1.25;
+      }
       ++steps;
       const Vector enclosure = set.getLastEnclosure();
       const Ival current_time = time_map.getCurrentTime();

@@ -31,19 +31,34 @@
 #include <iostream>
 #include <stdexcept>
 #include <string>
+#include <type_traits>
 
+#ifdef FABLE_MP
 #include "capd/mpcapdlib.h"
+#else
+#include "capd/capdlib.h"
+#endif
 
 namespace {
 
+#ifdef FABLE_MP
 typedef capd::MpInterval Ival;
 typedef capd::MpIMap Map;
 typedef capd::MpIOdeSolver Solver;
 typedef capd::MpITimeMap TimeMap;
 typedef capd::MpIVector Vector;
 typedef capd::MpC0TripletonSet Set;
-
 double bound_double(const capd::MpFloat& x) { return toDouble(x); }
+#else
+typedef capd::interval Ival;
+typedef capd::IMap Map;
+typedef capd::IOdeSolver Solver;
+typedef capd::ITimeMap TimeMap;
+typedef capd::IVector Vector;
+typedef capd::C0HOTripletonSet Set;
+double bound_double(double x) { return x; }
+#endif
+
 double to_double(const Ival& x) { return bound_double(x.rightBound()); }
 
 Ival rational(long numerator, long denominator) {
@@ -64,13 +79,12 @@ struct Family {
   Ival beta;     // m1/m12  (d2 = Y - beta X)
 };
 
-Family make_family(long p, long q) {
+Family make_family_from_u(const Ival& u) {
   Family f;
-  const Ival p2 = Ival(p) * Ival(p);
-  const Ival q2 = Ival(q) * Ival(q);
-  const Ival denom = p2 + q2;
-  f.a = (q2 - p2) / denom;
-  f.b = (2 * Ival(p) * Ival(q)) / denom;
+  const Ival u2 = u * u;
+  const Ival denom = 1 + u2;
+  f.a = (1 - u2) / denom;
+  f.b = 2 * u / denom;
   f.m3 = Ival(1);
   f.m12 = f.a + f.b;
   f.total = f.m12 + 1;
@@ -80,6 +94,10 @@ Family make_family(long p, long q) {
   f.alpha = f.b / f.m12;
   f.beta = f.a / f.m12;
   return f;
+}
+
+Family make_family(long p, long q) {
+  return make_family_from_u(Ival(p) / Ival(q));
 }
 
 Map make_field(const Family& f) {
@@ -272,7 +290,11 @@ int main(int argc, char** argv) {
     const long t1_num = argc > 14 ? std::atol(argv[14]) : 1;
     const long t1_den = argc > 15 ? std::atol(argv[15]) : 4;
 
+#ifdef FABLE_MP
     capd::MpFloat::setDefaultPrecision(precision);
+#else
+    (void)precision;
+#endif
     const Family f = make_family(p, q);
     Map field = make_field(f);
     Solver solver(field, order);
@@ -295,6 +317,14 @@ int main(int argc, char** argv) {
 
     time_map.stopAfterStep(true);
 
+    // Near a deep binary encounter the trial-step rough enclosure can
+    // sweep across the collision set, making the interval vector field
+    // throw a division-by-zero domain error before the set is modified.
+    // That is a failed step attempt, not a failed certificate: cap the
+    // step and retry.  The cap relaxes geometrically after successes.
+    double step_cap = 1e6;
+    long capped_retries = 0;
+
     long steps = 0;
     long event_steps = 0;
     double min_event_kinetic = 1e300;
@@ -304,7 +334,22 @@ int main(int argc, char** argv) {
 
     std::cout << std::setprecision(17);
     do {
-      time_map(final_time, set);
+      try {
+        solver.setMaxStep(Ival(step_cap));
+        time_map(final_time, set);
+      } catch (const std::exception& step_error) {
+        ++capped_retries;
+        if (capped_retries > 4000 || step_cap < 1e-13) {
+          throw;
+        }
+        const double last = bound_double(solver.getStep().rightBound());
+        const double reference = (last > 1e-13 && last < step_cap) ? last : step_cap;
+        step_cap = reference / 2;
+        continue;
+      }
+      if (step_cap < 1e6) {
+        step_cap *= 1.25;
+      }
       ++steps;
       const Vector enclosure = set.getLastEnclosure();
       const Ival current_time = time_map.getCurrentTime();
