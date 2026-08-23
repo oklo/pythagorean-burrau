@@ -154,3 +154,41 @@ D(t)={\ddot D(0)\over2}t^2+{D^{(4)}(0)\over24}t^4+O(t^6),
 
 with uniform signs $+,-$.  The later numerical sign changes show that this
 finite jet still does not imply a global barrier.
+
+## Planar endpoint stable jet and collision normal form
+
+The massless planar joint endpoint has an autonomous logarithmic shape flow.
+At its lower equilateral rest point, the complete stable-manifold jet through
+total degree three is
+
+\[
+ x=p+Ap\nu+Bp^3+Cp\nu^2+O_4,
+ \qquad
+ q=\nu+Kp^2+D\nu^2+Ep^2\nu+F\nu^3+O_4,
+\]
+
+where $p=Te^{-a_T\zeta}$, $\nu=He^{-a_L\zeta}$ and all seven exact
+coefficients are displayed in `PLANAR_JOINT_SHAPE_DYNAMICS.md`. Symbolic
+substitution gives zero residual through degree three.
+
+At a selected light-heavy encounter, the forced Levi--Civita chart has
+
+\[
+ q=u^2,quad t_\sigma=|u|^2,quad
+ 2|v|^2-1-h|u|^2=0,quad
+ \ell=q\times q_t=2\det(u,v).
+\]
+
+For a transverse collision zero
+$D_c=\det(\partial_\kappa u,v)\ne0$, the exact local normal form is
+
+\[
+ r_{\min,\mathrm{local}}
+ =2D_c^2(\kappa-\kappa_c)^2+O(|\kappa-\kappa_c|^3),
+ \qquad
+ \ell=2D_c(\kappa-\kappa_c)+O(|\kappa-\kappa_c|^2).
+\]
+
+These are **EXACT SYMBOLIC IDENTITY** and **PROVED ANALYTICALLY**,
+respectively. Existence of the ordinary numerical collision seed is not yet
+validated.

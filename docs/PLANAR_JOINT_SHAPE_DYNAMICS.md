@@ -352,6 +352,49 @@ $\kappa=0$ also bends inside because of (17b). A proposed proof based on
 outer-strip invariance for every $\kappa$ is consequently false; the convex
 strip theorem must be used as a conditional transition rule.
 
+## Exact stable-manifold jet through cubic order
+
+For a reproducible tail section, put
+
+\[
+ p=T e^{-a_T\zeta},\qquad \nu=H e^{-a_L\zeta}.
+\]
+
+Fixing the linear normalization in (17a), invariance of the analytic stable
+manifold gives
+
+\[
+ \begin{aligned}
+ x={}&p+A p\nu+Bp^3+Cp\nu^2+O_4,\\
+ q={}&\nu+Kp^2+D\nu^2+Ep^2\nu+F\nu^3+O_4,
+ \end{aligned}
+\tag{17c}
+\]
+
+where $O_4$ contains monomials of total degree at least four and
+
+\[
+ \begin{aligned}
+ A&={-5\sqrt{21}-\sqrt{399}+12\sqrt3+3\sqrt{57}\over6},\\
+ K&={2\sqrt{21}-5\sqrt3\over4},\\
+ D&={-2\sqrt{57}+29\sqrt3\over340},\\
+ B&=-{67\over108}+{43\sqrt7\over216},\\
+ C&={-2819\sqrt{133}-2314\sqrt{19}+2498\sqrt7\over31620}
+     +{83681\over63240},\\
+ E&=-{337\over248}
+     +{6\sqrt7+14\sqrt{19}+11\sqrt{133}\over124},\\
+ F&={121\over5100}-{29\sqrt{19}\over10200}.
+ \end{aligned}
+\tag{17d}
+\]
+
+The velocity jet follows exactly from
+$p_\zeta=-a_Tp$, $\nu_\zeta=-a_L\nu$. Direct symbolic substitution in (3)
+annuls every monomial through total degree three. In particular, (17d)
+extends the inward-bending identity from one coefficient to the complete
+cubic tail needed by collision shooting. It is an exact jet, not a remainder
+bound; validation still requires an enclosure of $O_4$.
+
 ## Signed-tail lemma
 
 **Lemma.** Let a nonrectilinear stable-manifold orbit tend to $e_+$ or $e_-$

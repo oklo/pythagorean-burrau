@@ -4,12 +4,15 @@
 from src.symbolic.restricted_scattering import (
     binary_tidal_transverse_first_variation,
     collision_kepler_transverse_transfer,
+    forced_planar_lc_angular_identity,
+    forced_planar_light_collision_lc_constraint,
     maximum_softened_vertical_force,
     outer_energy_exchange_identity,
     parabolic_truncated_energy_drift,
     phase_wronskian_identity,
     planar_joint_shape_identities,
     planar_joint_shape_quadratic_bending,
+    planar_joint_shape_stable_cubic_jet,
     restricted_equilateral_triple_collision,
     restricted_terminal_collision_r_chart,
     restricted_triple_collision_phase_mode,
@@ -69,6 +72,12 @@ def main() -> None:
         "planar joint quadratic bending = "
         f"{planar_joint_shape_quadratic_bending()}"
     )
+    print(f"planar joint stable cubic jet = {planar_joint_shape_stable_cubic_jet()}")
+    print(
+        "forced planar light-collision LC constraint = "
+        f"{forced_planar_light_collision_lc_constraint()}"
+    )
+    print(f"forced planar LC angular identity = {forced_planar_lc_angular_identity()}")
     print(f"tight-binary brake Hill threshold = {tight_binary_brake_hill_threshold()}")
 
 

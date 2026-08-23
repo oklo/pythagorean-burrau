@@ -288,6 +288,27 @@ $W_{xx}\ge(7/4-8/(3\sqrt3))/9$. The exact quadratic coefficient
 $(2\sqrt{21}-5\sqrt3)/4>0$ shows that $\kappa=0$ enters the inner strip, so
 the remaining task is a finite transition analysis rather than a false global
 strip-invariance argument.
+An ordinary stable-manifold probe locates an abrupt outgoing-$\Lambda$ sign
+switch between $\kappa=1.260$ and $1.265$, accompanied by a light-heavy
+minimum separation below $10^{-4}$. This suggests an isolated collision
+parameter that would locally separate two continuations; it is not a validated
+zero or collision result, and it does not exclude other collision parameters.
+The forced-LC ordinary shoot, initialized with the complete exact cubic
+stable-manifold jet, refines the collision seed to
+$\kappa\approx1.26793518$, with residual $1.9\times10^{-9}$ and
+finite-difference transverse determinant about $-3.45$. The stable tail is
+truncated and the integration is not interval validated, so this remains
+ordinary evidence only.
+The corresponding analytic forced Levi--Civita chart is complete. In complex
+variables $q=u^2$, $dt=|u|^2d\sigma$, its collision residual is the square map
+\[
+ \mathcal F(\kappa,\sigma)=(\operatorname{Re}u,\operatorname{Im}u).
+\]
+The next certificate is an interval-Newton zero with
+$\det(\partial_\kappa u,v)\ne0$, followed by exclusion of other collision
+zeros and componentwise outgoing-sign bounds. Regularized continuation is used
+only to classify the limiting map; an exact finite-mass collision remains
+classical termination.
 
 Late-resonance simplicity has also been narrowed to a differentiable
 parabolic-passage lemma. For the degree-four McGehee map, the exact Kepler

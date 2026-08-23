@@ -4,6 +4,8 @@ from src.symbolic.restricted_scattering import (
     binary_tidal_transverse_first_variation,
     collision_kepler_transverse_transfer,
     collision_regularized_jacobi_system,
+    forced_planar_lc_angular_identity,
+    forced_planar_light_collision_lc_constraint,
     incoming_parabolic_infinity_compactification,
     incoming_returned_jost_compactification,
     incoming_returned_jost_wronskian_compactification,
@@ -16,6 +18,7 @@ from src.symbolic.restricted_scattering import (
     phase_wronskian_identity,
     planar_joint_shape_identities,
     planar_joint_shape_quadratic_bending,
+    planar_joint_shape_stable_cubic_jet,
     restricted_equilateral_triple_collision,
     restricted_terminal_collision_r_chart,
     restricted_transverse_linearization,
@@ -403,6 +406,40 @@ def test_planar_joint_shape_quadratic_bending() -> None:
     assert sp.simplify(bending - (2 * sp.sqrt(21) - 5 * sp.sqrt(3)) / 4) == 0
     assert float(bending) > 0
     assert float(rate_gap) > 0
+
+
+def test_planar_joint_shape_stable_cubic_jet() -> None:
+    coefficients, residuals = planar_joint_shape_stable_cubic_jet()
+    mixed, bending, long_quadratic, trans_cubic, mixed_squared, squared_mixed, long_cubic = (
+        coefficients
+    )
+    assert sp.simplify(bending - (2 * sp.sqrt(21) - 5 * sp.sqrt(3)) / 4) == 0
+    assert float(mixed) > 0
+    assert float(long_quadratic) > 0
+    assert float(trans_cubic) < 0
+    assert float(mixed_squared) > 0
+    assert float(squared_mixed) > 0
+    assert float(long_cubic) > 0
+    assert residuals == (0, 0)
+
+
+def test_forced_planar_light_collision_lc_constraint() -> None:
+    field, constraint_derivative, collision_speed_gap, collision_clock_cubic_gap = (
+        forced_planar_light_collision_lc_constraint()
+    )
+    u_real, u_imag = sp.symbols("u_r u_i", real=True)
+    assert constraint_derivative == 0
+    assert collision_speed_gap == 0
+    assert collision_clock_cubic_gap == 0
+    assert sp.simplify(field[5] - (u_real**2 + u_imag**2)) == 0
+    assert sp.simplify(field.subs({u_real: 0, u_imag: 0})[2]) == 0
+    assert sp.simplify(field.subs({u_real: 0, u_imag: 0})[3]) == 0
+
+
+def test_forced_planar_lc_angular_identity() -> None:
+    angular_gap, collision_derivative_gap = forced_planar_lc_angular_identity()
+    assert angular_gap == 0
+    assert collision_derivative_gap == 0
 
 
 def test_tight_binary_brake_hill_threshold() -> None:

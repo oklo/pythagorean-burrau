@@ -280,6 +280,38 @@ The sharp bound $W\ge11/36$ and LaSalle's argument now exclude every compact
 collision-free backward-captured component, so the transition classification
 needs only genuine collision-boundary approaches and unbounded shape/velocity
 exits; recurrent compact trapping is no longer an open outcome.
+Every isolated light-heavy encounter is now regularized by the exact forced
+LC system of PLANAR_LIGHT_COLLISION_LC.md. The immediate square validation
+target is
+\[
+ \mathcal F(\kappa,\sigma)
+ =(\operatorname{Re}u,\operatorname{Im}u)=0,
+\]
+with nonzero determinant
+$\det(\partial_\kappa u,v)$. A validated zero would locally partition the
+nearby continuations into two sides. Proving that the full adjacent parameter
+intervals are collision-free also requires excluding all other collision
+zeros. The LC zero would classify a limiting collision parameter, not continue
+an actual classical collision.
+Any certificate must also keep $t>0$, bound
+$|u^2+\epsilon R(t)|$ away from zero, fix one LC deck lift and the
+$\sigma$ gauge, and reconstruct physical data only on an exit circle bounded
+away from $u=0$.
+The exact identity
+\[
+ \ell=q\times q_t=2\det(u,v),\qquad
+ \partial_\kappa\ell|_{u=0}=2\det D\mathcal F
+\]
+turns the same determinant certificate into a signed impact-parameter
+certificate; the incoming physical-time sign is reversed by
+$dt/d\theta=-1$.
+At a transverse zero it also gives the proved local normal form
+\[
+ r_{\min,\mathrm{local}}
+ =2(\det D\mathcal F)^2(\kappa-\kappa_c)^2+O(|\kappa-\kappa_c|^3).
+\]
+Hence the root certificate itself will settle local one-sided avoidance; only
+other times and the other primary remain global collision obligations.
 
 The singular local part of that implication is now isolated in
 `TRIPLE_ENDPOINT_SELECTION.md`. Exact translation by the center radius turns

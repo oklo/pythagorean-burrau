@@ -216,3 +216,20 @@ It therefore bends into $|y|<\sqrt3/2$. Positive projective parameters enter
 the strip already at linear order. The convexity and exact torque identities
 remain useful as conditional transition rules, but global strip invariance
 cannot be the missing scalar obstruction.
+
+## Global nonvanishing of planar shape angular momentum
+
+**Status:** DISPROVED by ORDINARY NUMERICAL EVIDENCE as a shortcut.
+
+The exact torque factorization gives a fixed sign while $xy$ does not change
+sign, but it does not prevent cancellation after inner-strip transitions. In
+the deterministic planar probe with transverse sign $T=-1$, the
+$\kappa=1.265$ orbit passed within about $9.4\times10^{-5}$ of a light-heavy
+collision and crossed $\Lambda=0$ before reaching $|w|=20$. Nearby
+$\kappa=1.260$ retained positive $\Lambda$, while $\kappa=1.265$ exited with
+negative $\Lambda$.
+
+This is not a rigorous collision or zero certificate, and no theorem uses the
+decimal values. It shows why the exact torque sign cannot be integrated
+globally without classifying collision-separated components and every change
+of sign of $xy$.

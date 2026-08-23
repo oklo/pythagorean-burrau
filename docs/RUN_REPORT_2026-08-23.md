@@ -172,6 +172,88 @@ into the inner strip with exact coefficient
 
 This failed shortcut is recorded explicitly.
 
+The complete lower-equilateral stable-manifold jet is now known through total
+degree three. In tail variables $p=Te^{-a_T\zeta}$ and
+$\nu=He^{-a_L\zeta}$ it is
+\[
+ x=p+Ap\nu+Bp^3+Cp\nu^2+O_4,
+ \qquad
+ q=\nu+Kp^2+D\nu^2+Ep^2\nu+F\nu^3+O_4,
+\]
+with all seven coefficients explicit algebraic numbers. Exact symbolic
+substitution annihilates the ODE residual through degree three. The ordinary
+LC seed uses this jet; a rigorous $O_4$ tail enclosure remains an obligation.
+
+### Forced light-heavy Levi--Civita chart
+
+For either heavy primary, relative position
+$q=Z-\epsilon R/2$ satisfies a forced Kepler equation with analytic external
+field at $q=0$. Here $t=|\theta-t_c|$ is the radial clock, so
+$dt/d\theta=-1$ on the incoming half and $+1$ on the outgoing half. The exact
+complex regularization
+
+\[
+ q=u^2,\qquad dt=|u|^2d\sigma
+\]
+
+gives
+
+\[
+ u_\sigma=v,\qquad
+ v_\sigma={h\over2}u+{|u|^2\bar u\over2}G,
+\]
+
+\[
+ h_\sigma=2\operatorname{Re}(uv\bar G),\qquad
+ t_\sigma=|u|^2.
+\]
+
+It preserves
+
+\[
+ 2|v|^2-1-h|u|^2=0
+\]
+
+and makes an isolated collision the square shooting residual
+
+\[
+ (\operatorname{Re}u(\kappa,\sigma),
+   \operatorname{Im}u(\kappa,\sigma))=0.
+\]
+
+This supplies a rigorous interval-Newton formulation for an apparent
+collision zero. A deterministic regularized ordinary shoot gives
+\[
+ \kappa\approx1.26793518,
+ \quad \sigma\approx-1.07124851,
+ \quad \det(\partial_\kappa u,v)\approx-3.45307,
+\]
+with $|u|\approx1.9\times10^{-9}$ and the LC constraint at roundoff. The
+finite stable-tail truncation and all displayed decimals are ordinary
+evidence only. A transverse validated zero would separate the
+nearby continuations locally; existence, transversality, and exclusion of
+other collision zeros are not yet validated.
+All physical velocity and angular signs include the factor
+$\eta=dt/d\theta$; in particular the incoming LC orientation is backward in
+physical time.
+The determinant is not merely numerical conditioning: exactly
+\[
+ q\times q_t=2\det(u,v),\qquad
+ \partial_\kappa(q\times q_t)|_{u=0}=2\det D\mathcal F.
+\]
+Consequently a transverse validation would also certify a linearly changing
+signed impact parameter across the local collision branch.
+More precisely, the LC implicit-function theorem proves the conditional local
+normal form
+\[
+ r_{\min,\mathrm{local}}
+ =2(\det D\mathcal F)^2(\kappa-\kappa_c)^2
+  +O(|\kappa-\kappa_c|^3).
+\]
+Thus validating one transverse root automatically proves local avoidance on
+both punctured sides, while leaving other collision times as a separate
+global obligation.
+
 ## Endpoint status
 
 ### Skinny endpoint $u\to0$
@@ -269,23 +351,27 @@ The detailed lemma-level list is maintained in PROOF_OBLIGATIONS.md.
 - a naive whole-line phase Melnikov integral without a phase gauge;
 - raw monopole phase as the exact fixed-section gauge;
 - ordinary continuity through the logarithmically long finite-mass endpoint;
-- global invariance of the planar outer strip.
+- global invariance of the planar outer strip;
+- global pointwise nonvanishing of planar shape angular momentum (ordinary
+  evidence shows a zero after a very close inner-strip passage).
 
 Each failure has an explicit counterexample, exact obstruction, or first
 missing lemma in FAILED_ROUTES.md.
 
 ## Verification and reproduction
 
-At commit f403704 and its immediate report update:
+At the end of this run:
 
     .venv/bin/pytest -q -p no:cacheprovider
     .venv/bin/ruff check --no-cache .
     .venv/bin/python -m scripts.derive_restricted_scattering
+    .venv/bin/python -m scripts.probe_planar_joint_shape
+    .venv/bin/python -m scripts.probe_planar_light_collision_lc
     tectonic -o /private/tmp/pythagorean-paper-build paper/main.tex
 
 Results before this report:
 
-- 87 tests passed;
+- 90 tests passed;
 - lint passed;
 - the paper built successfully;
 - the only TeX diagnostic was the pre-existing 0.42 pt overfull box.
@@ -298,7 +384,11 @@ computer-assisted proof notes and repository README.
 Construct a collision-regularized Poincare transition map for the planar
 family across the finite inner strip $|y|<\sqrt3/2$, using the exact global
 Lyapunov inequality, the factorized torque, and the signed outer-strip entry
-data. The target is a rigorously defined scalar $\mathscr S(\kappa)$ with a
-uniform nonzero sign on every collision-free component and certified endpoint
-limits. This is now a one-parameter compact transition problem rather than an
-uncontrolled two-scale boundary layer.
+data. Ordinary regularized probing suggests an isolated light-heavy collision
+near $\kappa=1.26793518$, in the same close-passage region where the crude
+unregularized probe changes its outgoing angular sign. The target is to
+validate that collision,
+exclude other collision zeros, define $\mathscr S(\kappa)$ componentwise, and prove nonvanishing
+on each collision-free component with certified endpoint limits. This is now
+a one-parameter compact transition problem rather than an uncontrolled
+two-scale boundary layer.

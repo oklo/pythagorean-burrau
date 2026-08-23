@@ -751,6 +751,207 @@ def planar_joint_shape_quadratic_bending() -> tuple[
     )
 
 
+def planar_joint_shape_stable_cubic_jet() -> tuple[
+    tuple[sp.Expr, ...], tuple[sp.Expr, sp.Expr]
+]:
+    """Exact total-degree-three stable-manifold jet at the lower rest point.
+
+    The coefficient order is ``(A, K, D, B, C, E, F)`` in
+
+    ``x=p+A*p*h+B*p**3+C*p*h**2`` and
+    ``q=h+K*p**2+D*h**2+E*p**2*h+F*h**3``.
+    """
+    transverse, longitudinal, bookkeeping = sp.symbols("p h epsilon", real=True)
+    transverse_rate = (1 + sp.sqrt(7)) / 6
+    longitudinal_rate = (1 + sp.sqrt(19)) / 6
+    mixed_horizontal = (
+        -5 * sp.sqrt(21)
+        - sp.sqrt(399)
+        + 12 * sp.sqrt(3)
+        + 3 * sp.sqrt(57)
+    ) / 6
+    bending = (2 * sp.sqrt(21) - 5 * sp.sqrt(3)) / 4
+    longitudinal_quadratic = (-2 * sp.sqrt(57) + 29 * sp.sqrt(3)) / 340
+    transverse_cubic = -sp.Rational(67, 108) + 43 * sp.sqrt(7) / 216
+    transverse_longitudinal_squared = (
+        (-2819 * sp.sqrt(133) - 2314 * sp.sqrt(19) + 2498 * sp.sqrt(7))
+        / 31620
+        + sp.Rational(83681, 63240)
+    )
+    squared_transverse_longitudinal = (
+        -sp.Rational(337, 248)
+        + (6 * sp.sqrt(7) + 14 * sp.sqrt(19) + 11 * sp.sqrt(133)) / 124
+    )
+    longitudinal_cubic = sp.Rational(121, 5100) - 29 * sp.sqrt(19) / 10200
+    horizontal = (
+        transverse
+        + mixed_horizontal * transverse * longitudinal
+        + transverse_cubic * transverse**3
+        + transverse_longitudinal_squared * transverse * longitudinal**2
+    )
+    vertical_offset = (
+        longitudinal
+        + bending * transverse**2
+        + longitudinal_quadratic * longitudinal**2
+        + squared_transverse_longitudinal * transverse**2 * longitudinal
+        + longitudinal_cubic * longitudinal**3
+    )
+    vertical = -sp.sqrt(3) / 2 + vertical_offset
+
+    def tail_derivative(expression: sp.Expr) -> sp.Expr:
+        return sp.expand(
+            -transverse_rate * transverse * sp.diff(expression, transverse)
+            - longitudinal_rate * longitudinal * sp.diff(expression, longitudinal)
+        )
+
+    plus_squared = (horizontal + sp.Rational(1, 2)) ** 2 + vertical**2
+    minus_squared = (horizontal - sp.Rational(1, 2)) ** 2 + vertical**2
+    horizontal_force = (
+        2 * horizontal
+        - (horizontal + sp.Rational(1, 2)) / plus_squared ** sp.Rational(3, 2)
+        - (horizontal - sp.Rational(1, 2)) / minus_squared ** sp.Rational(3, 2)
+    ) / 9
+    vertical_force = (
+        2 * vertical
+        - vertical / plus_squared ** sp.Rational(3, 2)
+        - vertical / minus_squared ** sp.Rational(3, 2)
+    ) / 9
+    horizontal_residual = (
+        tail_derivative(tail_derivative(horizontal))
+        + tail_derivative(horizontal) / 3
+        - horizontal_force
+    )
+    vertical_residual = (
+        tail_derivative(tail_derivative(vertical_offset))
+        + tail_derivative(vertical_offset) / 3
+        - vertical_force
+    )
+
+    def through_cubic(expression: sp.Expr) -> sp.Expr:
+        scaled = expression.subs(
+            {
+                transverse: bookkeeping * transverse,
+                longitudinal: bookkeeping * longitudinal,
+            }
+        )
+        return sp.simplify(
+            sp.series(scaled, bookkeeping, 0, 4).removeO().expand()
+        )
+
+    coefficients = (
+        mixed_horizontal,
+        bending,
+        longitudinal_quadratic,
+        transverse_cubic,
+        transverse_longitudinal_squared,
+        squared_transverse_longitudinal,
+        longitudinal_cubic,
+    )
+    return coefficients, (
+        through_cubic(horizontal_residual),
+        through_cubic(vertical_residual),
+    )
+
+
+def forced_planar_light_collision_lc_constraint() -> tuple[
+    sp.Matrix, sp.Expr, sp.Expr, sp.Expr
+]:
+    """Forced planar LC field, constraint, and collision-clock cubic."""
+    u_real, u_imag, v_real, v_imag, energy = sp.symbols(
+        "u_r u_i v_r v_i h", real=True
+    )
+    force_real, force_imag = sp.symbols("G_r G_i", real=True)
+    radius_squared = u_real**2 + u_imag**2
+    conjugate_u_times_force_real = u_real * force_real + u_imag * force_imag
+    conjugate_u_times_force_imag = u_real * force_imag - u_imag * force_real
+    u_times_v_real = u_real * v_real - u_imag * v_imag
+    u_times_v_imag = u_real * v_imag + u_imag * v_real
+    energy_derivative = 2 * (
+        u_times_v_real * force_real + u_times_v_imag * force_imag
+    )
+    field = sp.Matrix(
+        [
+            v_real,
+            v_imag,
+            energy * u_real / 2
+            + radius_squared * conjugate_u_times_force_real / 2,
+            energy * u_imag / 2
+            + radius_squared * conjugate_u_times_force_imag / 2,
+            energy_derivative,
+            radius_squared,
+        ]
+    )
+    constraint = (
+        2 * (v_real**2 + v_imag**2) - 1 - energy * radius_squared
+    )
+    variables = (u_real, u_imag, v_real, v_imag, energy)
+    constraint_derivative = sp.simplify(
+        sum(
+            sp.diff(constraint, variable) * field[index]
+            for index, variable in enumerate(variables)
+        )
+    )
+    collision_speed_gap = sp.simplify(
+        constraint.subs({u_real: 0, u_imag: 0})
+        - (2 * (v_real**2 + v_imag**2) - 1)
+    )
+    clock_second_derivative = 2 * (u_real * v_real + u_imag * v_imag)
+    clock_third_derivative = sp.simplify(
+        sum(
+            sp.diff(clock_second_derivative, variable) * field[index]
+            for index, variable in enumerate(variables)
+        )
+    )
+    collision_clock_cubic_gap = sp.simplify(
+        clock_third_derivative.subs({u_real: 0, u_imag: 0})
+        - 2 * (v_real**2 + v_imag**2)
+    )
+    return (
+        field,
+        constraint_derivative,
+        collision_speed_gap,
+        collision_clock_cubic_gap,
+    )
+
+
+def forced_planar_lc_angular_identity() -> tuple[sp.Expr, sp.Expr]:
+    """LC expression for relative angular momentum and its impact derivative."""
+    u_real, u_imag, v_real, v_imag = sp.symbols(
+        "u_r u_i v_r v_i", real=True
+    )
+    u_parameter_real, u_parameter_imag = sp.symbols(
+        "u_k_r u_k_i", real=True
+    )
+    v_parameter_real, v_parameter_imag = sp.symbols(
+        "v_k_r v_k_i", real=True
+    )
+    radius_squared = u_real**2 + u_imag**2
+    position_real = u_real**2 - u_imag**2
+    position_imag = 2 * u_real * u_imag
+    velocity_real = 2 * (v_real * u_real - v_imag * u_imag) / radius_squared
+    velocity_imag = 2 * (v_real * u_imag + v_imag * u_real) / radius_squared
+    angular_momentum = sp.cancel(
+        position_real * velocity_imag - position_imag * velocity_real
+    )
+    expected = 2 * (u_real * v_imag - u_imag * v_real)
+    angular_gap = sp.simplify(angular_momentum - expected)
+    parameter_derivative = (
+        sp.diff(expected, u_real) * u_parameter_real
+        + sp.diff(expected, u_imag) * u_parameter_imag
+        + sp.diff(expected, v_real) * v_parameter_real
+        + sp.diff(expected, v_imag) * v_parameter_imag
+    )
+    collision_derivative_gap = sp.simplify(
+        parameter_derivative.subs({u_real: 0, u_imag: 0})
+        - 2
+        * (
+            u_parameter_real * v_imag
+            - u_parameter_imag * v_real
+        )
+    )
+    return angular_gap, collision_derivative_gap
+
+
 def tight_binary_brake_hill_threshold() -> tuple[sp.Expr, sp.Expr, sp.Expr]:
     """Exact late-scaled heavy-pair separation required at a skinny brake."""
     skinny = sp.symbols("B", positive=True)

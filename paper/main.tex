@@ -1197,6 +1197,90 @@ classification, not an invariant-strip assertion. On the incoming half
 $t=t_c-\theta$, so the physical angular-momentum sign is opposite the
 $\zeta$-oriented sign above.
 
+For the collision shoot we use the exact cubic stable jet. With
+$p=Te^{-a_T\zeta}$ and $\nu=He^{-a_L\zeta}$ it has the normalized form
+\[
+ x=p+Ap\nu+Bp^3+Cp\nu^2+O_4,qquad
+ q=\nu+Kp^2+D\nu^2+Ep^2\nu+F\nu^3+O_4,
+\]
+where $K=(2\sqrt{21}-5\sqrt3)/4$ and all seven coefficients are explicit
+elements of $\mathbb Q(\sqrt3,\sqrt7,\sqrt{19})$. Direct substitution kills
+the full residual through total degree three. The exact jet does not replace
+the required enclosure of $O_4$.
+
+\begin{lemma}[Forced light-collision chart]
+Let $\epsilon=\pm1$ select the heavy primary at $\epsilon R/2$ and put
+$q=Z-\epsilon R/2$. On either heavy-binary half let
+$t=|\theta-t_c|$ and $\eta=dt/d\theta=\pm1$, where $\theta$ is physical
+time. Then derivatives of order two in $t$ and $\theta$ agree, and
+\[
+ q_{tt}=-\Phi(q)+G_\epsilon(q,t),\qquad
+ G_\epsilon=\epsilon\Phi(R)-\Phi(q+\epsilon R).
+\]
+With complex Levi--Civita variables
+\[
+ q=u^2,\qquad dt=|u|^2d\sigma,\qquad
+ h={|q_t|^2\over2}-{1\over|q|},
+\]
+the analytic regular field is
+\[
+\begin{aligned}
+ u_\sigma&=v,\\
+ v_\sigma&={h\over2}u+{|u|^2\bar u\over2}G_\epsilon,\\
+ h_\sigma&=2\operatorname{Re}(uv\overline{G_\epsilon}),\\
+ t_\sigma&=|u|^2.
+\end{aligned}
+\]
+It preserves $2|v|^2-1-h|u|^2=0$ and hence $|v|=1/\sqrt2$ at collision.
+The real-analytic chart domain is
+$t>0$, $u^2+\epsilon R(t)\ne0$; the latter inequality excludes the other
+primary. At collision $t_\sigma=t_{\sigma\sigma}=0$ and
+$t_{\sigma\sigma\sigma}=1$, so the radial clock is monotone through the
+regularized collision.
+Away from collision the physical velocity is
+\[
+ Z_\theta=\eta\left({2v\over\bar u}+{\epsilon\over2}R_t\right).
+\]
+Thus increasing regularized time has the opposite physical orientation on
+the incoming half.
+\end{lemma}
+
+Consequently an isolated collision in the projective family is a zero of the
+square map
+\[
+ (\kappa,\sigma)\longmapsto
+ (\operatorname{Re}u,\operatorname{Im}u).
+\]
+Here the asymptotic normalization of $\kappa$, one LC deck lift, and the
+origin and orientation of $\sigma$ are fixed.
+Moreover the selected-primary relative angular momentum is exactly
+\[
+ \ell=q\times q_t=2\det(u,v),\qquad
+ \left.\partial_\kappa\ell\right|_{u=0}
+ =2\det(\partial_\kappa u,v).
+\]
+Thus the interval-Newton determinant is precisely half the derivative of a
+signed physical impact parameter (with the branch factor $\eta$ when physical
+time is restored). With $dt/d\sigma=|u|^2$ fixed it is invariant under a
+$\kappa$-dependent LC-time translation and under a deck change; its sign
+still depends on the orientation of $\kappa$.
+If $D_c=\det(\partial_\kappa u,v)\ne0$ at the zero, the equation
+$u\cdot v=0$ defines a unique nearby local closest-passage time. Orthogonal
+projection onto $v_c^\perp$ and $|v_c|^2=1/2$ give
+\[
+ r_{\min,\mathrm{local}}
+ =2D_c^2(\kappa-\kappa_c)^2+O(|\kappa-\kappa_c|^3),
+ \qquad
+ \ell=2D_c(\kappa-\kappa_c)+O(|\kappa-\kappa_c|^2).
+\]
+This proves local avoidance on both punctured sides of a transverse zero,
+without asserting absence of other collisions.
+This is the next interval-Newton target. A transverse zero separates nearby
+continuations locally; identifying full adjacent collision-free components
+also requires excluding every other collision zero. Its regularized
+continuation is not a physical continuation of a classical finite-mass
+collision.
+
 Parameterize the restricted incoming parabolic curve by its asymptotic phase
 intercept $\chi$, normalized by
 $\chi=\lim_{Y\to\infty}(\phi_Y+(4/3)Y^{3/2})$ modulo $2\pi$. This coordinate

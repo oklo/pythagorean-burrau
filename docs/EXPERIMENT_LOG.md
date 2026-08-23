@@ -562,3 +562,56 @@ outgoing scattering scalar remain **CONJECTURAL**.
 Evidence level: **PROVED ANALYTICALLY** for every identity and conditional
 signed-tail theorem; global inner-strip transition classification remains
 **CONJECTURAL**.
+
+### Targeted inner-strip probe
+
+The deterministic ordinary probe
+
+    .venv/bin/python -m scripts.probe_planar_joint_shape
+
+initializes the lower-equilateral stable asymptotics at $\zeta=22$, includes
+the complete exact cubic stable-manifold jet, and integrates backward to
+$|w|=20$. With transverse sign $T=-1$ it found:
+
+| $\kappa$ | minimum light-heavy shape distance | outgoing $\Lambda$ | zeros of $\Lambda$ |
+|---:|---:|---:|---:|
+| $1.250$ | $3.51\times10^{-3}$ | $+1.71$ | 0 |
+| $1.260$ | $6.90\times10^{-4}$ | $+2.07$ | 0 |
+| $1.265$ | $9.43\times10^{-5}$ | $-3.15$ | 1 |
+| $1.300$ | $1.04\times10^{-2}$ | $-2.62$ | 1 |
+
+The abrupt sign switch occurs in a collision-scale region and suggests that
+an isolated light-heavy collision helps organize the local transition. It also
+shows
+that instantaneous $\Lambda$ can cross zero after an extremely close but
+numerically noncolliding passage. This is **ORDINARY NUMERICAL EVIDENCE**,
+not a collision proof, validated root, or counterexample. Its analytic use is
+only to focus the next theorem on collision-component transition rules rather
+than a global pointwise sign.
+
+The exact forced Levi--Civita replacement is now derived in
+PLANAR_LIGHT_COLLISION_LC.md. For relative position
+$q=Z-\epsilon R/2=u^2$ and $dt=|u|^2d\sigma$, it preserves
+\[
+ 2|v|^2-1-h|u|^2=0
+\]
+and converts a collision candidate into the square residual
+$u(\kappa,\sigma)=0$. Running the regularized ordinary shoot
+
+    .venv/bin/python -m scripts.probe_planar_light_collision_lc
+
+from the same truncated stable tail gives
+
+\[
+ \kappa_{\rm num}=1.2679351753,\qquad
+ \sigma_{\rm num}=-1.0712485057,
+\]
+
+with $|u|=1.9\times10^{-9}$, finite-difference determinant about $-3.45307$,
+$|v|=0.707106781186544$, constraint residual about $1.1\times10^{-14}$,
+radial clock $t=1.07823523$, and other-primary distance $2.1872$. These are
+**ORDINARY NUMERICAL EVIDENCE** from a finite tail truncation, not a validated
+zero. The displacement from the unregularized scan is itself a warning not to
+infer collision location from a close-passage minimum. All decimals are only
+a seed box for a future interval-Newton proof; no ordinary close-passage
+output is promoted.
