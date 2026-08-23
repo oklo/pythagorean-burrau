@@ -51,3 +51,35 @@ All entries are ORDINARY NUMERICAL EVIDENCE unless marked otherwise.
 
 7. **MP certificate run** launched: 768 bits, order 60, tol $10^{-80}$,
    detached (`mp_certificate_768.log` in the session scratchpad).
+
+8. **Verifier engineering.**  Two defects found and fixed in the Fable
+   verifiers (never affecting a recorded PASS): (i) CAPD's trial-step
+   rough enclosure can sweep the collision set at deep encounters and
+   throw a domain error; the fix catches it, halves a step cap, and
+   retries.  (ii) A thrown step can leave `ITimeMap` in a spurious
+   completed state that silently truncates the run; the fix rebuilds the
+   time map (the set carries its own clock) and replaces the loop
+   condition by an explicit time-target check.  The u=2/5 PASS predates
+   both defects' triggering conditions (no exception occurred in it and
+   its covering is complete up to its firing time).  The potential is now
+   evaluated only in the initial phase, so main-phase scalar checks are
+   polynomial and cannot throw.
+
+9. **Point certificates, first batch.**  PASS: u=2/5 (21,20,29) at 256
+   bits; u=81/200 (33439,32400,46561) native doubles, escape margin
+   0.377 at t=0.716, final width 3.4e-08.  Native mode fails beyond the
+   shallowest orbits (uncovered steps from wrapping, e.g. u=41/100 at
+   t=1.42); MP retries queued with per-case labellings measured from
+   ordinary probes: binary/escaper and eta differ across the interval
+   ((0,1|2) near the endpoint, (1,2|0) at u=41/100 and 5/13).
+
+10. **Through-encounter amplification measurements** (basis of the
+    blocked-route entry): point width 1e-16 -> 3.4e-8 through the
+    u=81/200 endpoint deep pass; icert boxes of width 1e-4/1e-6/1e-8 all
+    fail or blow up at the first deep pass even with the u-correlated
+    9-variable field; u=1/6 first-encounter miss ~5e-7 (B^11 law) stalls
+    direct integration in every precision tried.
+
+11. **u=1/3 runs.**  768-bit/1e-80 main run and 1088-bit/1e-130
+    insurance run in progress with the fixed code; 512-bit/1e-60 atlas
+    for u=171/500 in progress.
