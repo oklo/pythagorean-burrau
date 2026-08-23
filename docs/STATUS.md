@@ -46,9 +46,10 @@ certificate is explicit on
 of its collision-free local sides are completely nonperiodic.  A second
 two-chart interval-Newton proof now certifies a distinct transverse collision
 with the opposite primary at \(\kappa\simeq1.2640119251\), reached without an
-earlier collision.  A third LC chart now carries its whole narrow parameter
-box through the subsequent positive-primary close passage and heavy-binary
-collision to a strict escape cone.  The limiting restricted and finite-mass
+earlier collision.  A third LC chart and 103 abutting tiles now carry the
+whole interval $1.2640112041\le\kappa\le1.2640126461$ through the
+subsequent positive-primary close passage and heavy-binary collision to a
+strict escape cone.  The limiting restricted and finite-mass
 hierarchical margins exceed $3.13$ and $3.26$, respectively.  Hence every
 sufficiently small compatible positive-mass member near this second boundary
 also collides or escapes.  Three independent adversarial passes endorsed the

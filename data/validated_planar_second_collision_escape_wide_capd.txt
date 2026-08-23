@@ -1,0 +1,5 @@
+CAPD_COMMIT=731079217a9254ea2948d742df2b170895effe7f
+CAPD_INTERVAL_BACKEND=NATIVE
+COMMAND=bash scripts/run_capd_planar_light_collision_newton.sh /private/tmp/pythagorean-capd /private/tmp/pythagorean-capd/build-native --second-escape-wide
+TILE_RULE=offset_nano=-714,-700,...,700,714 radius_nano=7 denominator=1000000000 base_kappa=1.2640119251
+PASS_SECOND_ESCAPE_WIDE method=CAPD-6.1.0-native stage=planar-second-collision-ejection-escape tiles=103 kappa_interval=[0x1.43963cff6317bp+0,0x1.43965530badc4p+0] worst_negative_chart_other_squared=0x1.68853ef527d85p-3 worst_positive_chart_other_squared=0x1.308462fe60958p-3 worst_bridge_primary_squared=0x1.52ef2d666569dp-5 worst_escape_margin=0x1.91c63466dfa12p+1 worst_finite_mass_margin=0x1.a250cb597073cp+1

@@ -24,3 +24,5 @@ margins on every tile.
 opposite-primary interval-Newton collision root.  Its three-chart regularized
 continuation and terminal escape enclosure are recorded separately in
 `validated_planar_second_collision_escape_capd.txt`.
+The 103-tile contiguous enlargement is summarized in
+`validated_planar_second_collision_escape_wide_capd.txt`.

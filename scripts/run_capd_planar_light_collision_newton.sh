@@ -5,8 +5,9 @@ PINNED_CAPD_COMMIT=731079217a9254ea2948d742df2b170895effe7f
 
 if [ "$#" -lt 1 ] || [ "$#" -gt 5 ] || \
    { [ "$#" -eq 3 ] && [ "$3" != "--second-root" ] && \
-     [ "$3" != "--second-escape" ]; }; then
-  echo "usage: $0 CAPD_SOURCE_DIR [CAPD_BUILD_DIR [--second-root | --second-escape | FIRST_OFFSET COUNT [RADIUS]]]" >&2
+     [ "$3" != "--second-escape" ] && \
+     [ "$3" != "--second-escape-wide" ]; }; then
+  echo "usage: $0 CAPD_SOURCE_DIR [CAPD_BUILD_DIR [--second-root | --second-escape | --second-escape-wide | FIRST_OFFSET COUNT [RADIUS]]]" >&2
   exit 2
 fi
 

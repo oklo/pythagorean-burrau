@@ -831,10 +831,16 @@ it is not a remainder proof.
   escapes but passes within about \(4.3\times10^{-4}\) of the other primary;
   this is evidence for a third LC chart, not a validated escape theorem.
 - The third positive-primary LC chart has now been implemented with the
-  cancellation-free lift (u_i=-\sqrt{(|q|-q_x)/2}),
-  (u_r=q_y/(2u_i)).  Pinned CAPD propagates the current tight root box
+  cancellation-free lift $u_i=-\sqrt{(|q|-q_x)/2}$,
+  $u_r=q_y/(2u_i)$.  Pinned CAPD propagates the current tight root box
   through both post-root LC blocks and the heavy-binary bridge.  The worst
-  squared unregularized-primary separation is (>0.06558); terminal
-  restricted and hierarchical margins are (>3.1388) and (>3.2680).
+  squared unregularized-primary separation is $>0.06558$; terminal
+  restricted and hierarchical margins are $>3.1388$ and $>3.2680$.
   Status: **PROVED BY COMPUTER-ASSISTED ARGUMENT**, with three independent
   adversarial endorsements.
+- A 103-tile replay enlarged this second collision-or-escape component to the
+  contiguous interval
+  $1.2640112041\le\kappa\le1.2640126461$.  The aggregate worst squared
+  primary separation is $>0.04137$, while the two escape margins retain the
+  bounds $>3.1388$ and $>3.2680$.  A stable algebraically identical
+  square-root lift prevents interval cancellation off the root tile.

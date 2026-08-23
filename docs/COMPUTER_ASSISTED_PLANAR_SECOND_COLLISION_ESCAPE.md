@@ -8,10 +8,10 @@ collision: a member that collides is already nonperiodic, while a member that
 remains collision-free agrees with the regularized flow and reaches the
 escape cone.
 
-Put
+Put the narrow interval-Newton neighborhood
 
 \[
- \mathcal K_2=[1.2640119181,1.2640119321]
+ \mathcal N_2=[1.2640119181,1.2640119321]
 \tag{1}
 \]
 
@@ -35,11 +35,19 @@ The pinned interval-Newton image is strictly inside (1)--(2):
 Thus the outgoing product enclosure contains the exact transverse collision
 root proved in the companion note.
 
+The outgoing classification is validated on the much larger interval
+
+\[
+ \mathcal K_2=[1.2640112041,1.2640126461].
+\tag{3a}
+\]
+
 ## Three light--primary chart blocks
 
 The incoming positive-primary LC block and the first negative-primary switch
-are exactly those in the root certificate.  Starting from the whole box
-(1)--(2), continue the negative-primary chart for
+are exactly those in the root certificate.  Starting from the whole narrow
+box (1)--(2), or any tile in (3a) with the same clock box (2), continue the
+negative-primary chart for
 
 \[
  \Delta S_-={83687424\over10^8}.
@@ -108,9 +116,9 @@ The two post-root LC blocks have the whole-step lower bounds
 \[
  \begin{aligned}
   \min |q_--Re_x|^2
-   &>\mathtt{0x1.68893bec9a4c1p-3}>0.1760,\\
+   &>\mathtt{0x1.68853ef527d85p-3}>0.1760,\\
   \min |q_++Re_x|^2
-   &>\mathtt{0x1.4fb8296d27f31p-3}>0.1639.
+   &>\mathtt{0x1.308462fe60958p-3}>0.1486.
  \end{aligned}
 \tag{11}
 \]
@@ -122,10 +130,10 @@ alternative.
 
 ## Heavy-binary bridge and escape cone
 
-At the positive-chart exit, where
+At every positive-chart exit the validated domain gives
 
 \[
- 0.2994483<t<0.3005518,
+ t>{1\over5},
 \tag{12}
 \]
 
@@ -145,7 +153,7 @@ first collision boundary.  It crosses \(\lambda=0\) and reaches
 
 \[
  \min_{\rm bridge}\min_i|Z-Q_i|^2
- >\mathtt{0x1.0c9ff7d445f26p-4}>0.06558.
+ >\mathtt{0x1.52ef2d666569dp-5}>0.04137.
 \tag{14}
 \]
 
@@ -161,6 +169,31 @@ The terminal state satisfies both comparison inequalities from
  \end{aligned}
 \tag{15}
 \]
+
+The wide verifier partitions (3a) into 103 abutting closed tiles.  Their
+centers are
+
+\[
+ \kappa_j=1.2640119251+14j\,10^{-9},
+ \qquad -51\le j\le51,
+\tag{16}
+\]
+
+and every radius is $7\times10^{-9}$.  Outward-rounded endpoint intervals
+overlap, so their union covers all of (3a) without a gap.  Away from the root
+tile the first square-root switch uses the exact stable identity
+
+\[
+ u_{-,i}={q_{-,y}\over2u_{-,r}},
+ \qquad
+ u_{-,r}=\sqrt{{|q_-|+q_{-,x}\over2}},
+\tag{17}
+\]
+
+on the already certified $q_{-,y}<0$ sheet.  The root tile retains the
+original correlated interval-Newton lift, and its replay is bit-for-bit
+unchanged.  Every tile traverses the same later chart chain and contributes
+to the aggregate worst bounds (11), (14), and (15).
 
 Consequently every \(\kappa\in\mathcal K_2\) either has a classical
 collision before this terminal section or, if collision-free, escapes and
@@ -200,6 +233,10 @@ using CAPD 6.1.0 at commit
 `731079217a9254ea2948d742df2b170895effe7f`, the native interval backend, and
 `-frounding-math`.  The hexadecimal record is
 `data/validated_planar_second_collision_escape_capd.txt`.
+
+The contiguous enlargement is replayed by replacing `--second-escape` with
+`--second-escape-wide`; its compact aggregate record is
+`data/validated_planar_second_collision_escape_wide_capd.txt`.
 
 Three independent adversarial passes checked root-box containment, both
 reversed-time LC fields, the cancellation-free sheet, reconstruction,

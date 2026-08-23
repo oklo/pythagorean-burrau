@@ -11,6 +11,8 @@
 #include <iostream>
 #include <stdexcept>
 #include <string>
+#include <utility>
+#include <vector>
 
 #include "capd/capdlib.h"
 
@@ -114,6 +116,27 @@ IMap make_other_pair_entry_map() {
   const std::string qnorm = "sqrt(" + qx + "^2+" + qy + "^2)";
   const std::string ar = "sqrt((" + qnorm + "+" + qx + ")/2)";
   const std::string ai = "(-sqrt((" + qnorm + "-" + qx + ")/2))";
+  const std::string qtx =
+      "(2*(ur*vr-ui*vi)/" + selected_norm + "+2*R/(3*t))";
+  const std::string qty =
+      "(2*(ur*vi+ui*vr)/" + selected_norm + ")";
+  const std::string br = "((" + ar + ")*(" + qtx + ")+(" + ai +
+                         ")*(" + qty + "))/2";
+  const std::string bi = "((" + ar + ")*(" + qty + ")-(" + ai +
+                         ")*(" + qtx + "))/2";
+  const std::string energy = "((" + qtx + ")^2+(" + qty + ")^2)/2-1/(" +
+                             qnorm + ")";
+  return IMap("var:zs,x,y,vx,vy,ls,ur,ui,vr,vi,h,t,R;fun:" + ar + "," +
+              ai + "," + br + "," + bi + "," + energy + ",t;");
+}
+
+IMap make_other_pair_stable_entry_map() {
+  const std::string selected_norm = "(ur^2+ui^2)";
+  const std::string qx = "(ur^2-ui^2+R)";
+  const std::string qy = "(2*ur*ui)";
+  const std::string qnorm = "sqrt(" + qx + "^2+" + qy + "^2)";
+  const std::string ar = "sqrt((" + qnorm + "+" + qx + ")/2)";
+  const std::string ai = "(" + qy + "/(2*(" + ar + ")))";
   const std::string qtx =
       "(2*(ur*vr-ui*vi)/" + selected_norm + "+2*R/(3*t))";
   const std::string qty =
@@ -475,7 +498,8 @@ IVector evaluate_escape_lc_state(const interval& kappa,
 }
 
 Evaluation evaluate_other_pair_collision(const interval& kappa,
-                                         const interval& duration) {
+                                         const interval& duration,
+                                         bool stable_entry = false) {
   const Evaluation first =
       evaluate_box(kappa, interval(7.0) / interval(4.0), true, true);
   const interval switch_qy =
@@ -483,7 +507,8 @@ Evaluation evaluate_other_pair_collision(const interval& kappa,
   if (!(switch_qy.rightBound() < 0.0)) {
     throw std::runtime_error("other-pair LC switch did not prove q_y<0");
   }
-  IMap entry = make_other_pair_entry_map();
+  IMap entry = stable_entry ? make_other_pair_stable_entry_map()
+                            : make_other_pair_entry_map();
   const IVector entry_state = entry(first.final_state);
   const IMatrix entry_derivative = entry.derivative(first.final_state);
   const IVector entry_tangent = entry_derivative * first.kappa_tangent;
@@ -661,9 +686,10 @@ EscapeEvaluation evaluate_collision_ejection_escape(const interval& kappa) {
 }
 
 SecondEscapeEvaluation evaluate_second_collision_ejection_escape(
-    const interval& kappa, const interval& collision_duration) {
+    const interval& kappa, const interval& collision_duration,
+    bool stable_entry = false) {
   const Evaluation collision =
-      evaluate_other_pair_collision(kappa, collision_duration);
+      evaluate_other_pair_collision(kappa, collision_duration, stable_entry);
 
   C0Rect2Set negative_set(collision.final_state);
   IMap negative_field = make_other_pair_lc_field();
@@ -753,7 +779,7 @@ SecondEscapeEvaluation evaluate_second_collision_ejection_escape(
                           other_squared.leftBound()),
                  std::min(minimum_positive_other_squared.rightBound(),
                           other_squared.rightBound()));
-    if (!(enclosure[5].leftBound() > 0.25 &&
+    if (!(enclosure[5].leftBound() > 0.2 &&
           other_squared.leftBound() > 0.01)) {
       std::cerr << std::hexfloat
                 << "SECOND_ESCAPE_POSITIVE_PATH enclosure=" << enclosure
@@ -911,10 +937,14 @@ int main(int argc, char** argv) {
     int escape_tile_radius = 1;
     bool second_root_only = false;
     bool second_escape_only = false;
+    bool second_escape_wide = false;
     if (argc == 2 && std::string(argv[1]) == "--second-root") {
       second_root_only = true;
     } else if (argc == 2 && std::string(argv[1]) == "--second-escape") {
       second_escape_only = true;
+    } else if (argc == 2 &&
+               std::string(argv[1]) == "--second-escape-wide") {
+      second_escape_wide = true;
     } else if ((argc == 4 || argc == 5) &&
         std::string(argv[1]) == "--escape-tiles") {
       first_escape_offset = parse_integer(argv[2]);
@@ -924,8 +954,9 @@ int main(int argc, char** argv) {
       }
     } else if (argc != 1) {
       std::cerr << "usage: " << argv[0]
-                << " [--second-root | --second-escape | --escape-tiles "
-                   "FIRST_OFFSET COUNT [RADIUS]]\n";
+                << " [--second-root | --second-escape | "
+                   "--second-escape-wide | --escape-tiles FIRST_OFFSET "
+                   "COUNT [RADIUS]]\n";
       return 2;
     }
     if (escape_tile_count < 1 || escape_tile_count > 1000 ||
@@ -1017,6 +1048,77 @@ int main(int argc, char** argv) {
                 << second_escape.finite_mass_margin << "\n";
       std::cout << "PASS_SECOND_ESCAPE method=CAPD-6.1.0-native "
                    "stage=planar-second-collision-ejection-escape\n";
+      return 0;
+    }
+    if (second_escape_wide) {
+      const interval base_kappa =
+          interval(12640119251.0) / interval(10000000000.0);
+      const interval duration_center =
+          interval(10275749204.0) / interval(10000000000.0);
+      const interval duration_radius =
+          interval(5.0) / interval(100000000.0);
+      const interval duration_box =
+          duration_center + symmetric(duration_radius);
+      std::vector<std::pair<int, int>> tiles;
+      for (int offset = -714; offset <= 714; offset += 14) {
+        tiles.emplace_back(offset, 7);
+      }
+      interval covered_lower;
+      interval covered_upper;
+      double worst_negative_other_squared = 1000000.0;
+      double worst_positive_other_squared = 1000000.0;
+      double worst_bridge_primary_squared = 1000000.0;
+      double worst_escape_margin = 1000000.0;
+      double worst_finite_mass_margin = 1000000.0;
+      for (std::size_t index = 0; index < tiles.size(); ++index) {
+        const interval center =
+            base_kappa + interval(static_cast<double>(tiles[index].first)) /
+                             interval(1000000000.0);
+        const interval radius =
+            interval(static_cast<double>(tiles[index].second)) /
+            interval(1000000000.0);
+        const interval kappa_box = center + symmetric(radius);
+        const SecondEscapeEvaluation result =
+            evaluate_second_collision_ejection_escape(
+                kappa_box, duration_box, tiles[index].first != 0);
+        if (index == 0) {
+          covered_lower = interval(kappa_box.leftBound());
+        }
+        covered_upper = interval(kappa_box.rightBound());
+        worst_negative_other_squared =
+            std::min(worst_negative_other_squared,
+                     result.minimum_negative_chart_other_squared.leftBound());
+        worst_positive_other_squared =
+            std::min(worst_positive_other_squared,
+                     result.minimum_positive_chart_other_squared.leftBound());
+        worst_bridge_primary_squared =
+            std::min(worst_bridge_primary_squared,
+                     result.minimum_bridge_primary_squared.leftBound());
+        worst_escape_margin =
+            std::min(worst_escape_margin, result.escape_margin.leftBound());
+        worst_finite_mass_margin =
+            std::min(worst_finite_mass_margin,
+                     result.finite_mass_margin.leftBound());
+        std::cout << std::hexfloat
+                  << "SECOND_ESCAPE_TILE method=CAPD-6.1.0-native"
+                  << " tile=" << index << " offset_nano="
+                  << tiles[index].first << " radius_nano="
+                  << tiles[index].second << " kappa_box=" << kappa_box << "\n";
+      }
+      std::cout << "PASS_SECOND_ESCAPE_WIDE method=CAPD-6.1.0-native "
+                   "stage=planar-second-collision-ejection-escape"
+                << " tiles=" << tiles.size() << " kappa_interval="
+                << interval(covered_lower.leftBound(),
+                            covered_upper.rightBound())
+                << " worst_negative_chart_other_squared="
+                << worst_negative_other_squared
+                << " worst_positive_chart_other_squared="
+                << worst_positive_other_squared
+                << " worst_bridge_primary_squared="
+                << worst_bridge_primary_squared
+                << " worst_escape_margin=" << worst_escape_margin
+                << " worst_finite_mass_margin=" << worst_finite_mass_margin
+                << "\n";
       return 0;
     }
     const interval kappa_center = interval(12679351755.0) / interval(10000000000.0);

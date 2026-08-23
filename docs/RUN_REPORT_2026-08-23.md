@@ -371,9 +371,10 @@ earlier collision.  It is **PROVED BY COMPUTER-ASSISTED ARGUMENT**.  Three indep
 identified and then endorsed the repair \(\Re v_->1/2\), which makes
 \(\Re u_-\) strictly decreasing and excludes a hidden regularized recollision.
 Its regularized outgoing branch passes very close to the positive primary,
-so a third LC chart was introduced.  Pinned CAPD now carries the whole narrow
-root box through that passage and the heavy-binary bridge.  Squared
-nonselected-primary separations stay above $0.0655$, and the restricted and
+so a third LC chart was introduced.  Pinned CAPD now carries 103 abutting
+tiles covering $1.2640112041\le\kappa\le1.2640126461$ through that passage
+and the heavy-binary bridge.  Squared nonselected-primary separations stay
+above $0.0413$, and the restricted and
 finite-mass hierarchical escape margins exceed $3.13$ and $3.26$.
 Consequently every sufficiently small compatible positive-mass member near
 this second boundary also collides or escapes.  Three adversarial replays
@@ -692,6 +693,9 @@ At the end of this run:
     bash scripts/run_capd_planar_light_collision_newton.sh \
       /private/tmp/pythagorean-capd \
       /private/tmp/pythagorean-capd/build-native --second-escape
+    bash scripts/run_capd_planar_light_collision_newton.sh \
+      /private/tmp/pythagorean-capd \
+      /private/tmp/pythagorean-capd/build-native --second-escape-wide
 
 Results at this checkpoint:
 
