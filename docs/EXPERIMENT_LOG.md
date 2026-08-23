@@ -61,6 +61,14 @@
   has transverse Euler coefficient $-1/(18\sigma^2)$ and indicial exponents
   $(3\pm\sqrt7)/6$. This supplies the correct fractional-power McGehee
   matching problem but does not yet determine the selected coefficient sign.
+- A focused finite-cutoff probe near center phase $\phi=\pi$ stabilizes the
+  predicted renormalizations: $z_t/(\pi-\phi)^{2/3}$ moves toward $0.39$,
+  $p(0)/(\pi-\phi)^{\alpha_-}$ toward $0.50$, and
+  $(\pi-\phi)^{(\sqrt7-1)/6}\mathcal C_2$ remains positive near $1$. This is
+  ordinary evidence for a nonzero slow mode and positive universal transfer.
+  Reproduce with
+  `python -m scripts.probe_second_encounter --cutoff 40 --phases 8
+  --phase-lower 2.72 --phase-upper 2.775 --phase-span 10000 --max-step 0.012`.
 
 Evidence level: EXACT SYMBOLIC IDENTITY for the Wronskian, binary tidal
 coefficient, and macroscopic Kepler-transfer formulas; PROVED ANALYTICALLY for the restricted late-turn limit

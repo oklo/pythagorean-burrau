@@ -118,7 +118,9 @@ def main() -> None:
     print(
         "cutoff_eccentric_anomaly_mod_pi outcome "
         "center_mean_anomaly_mod_2pi terminal_eccentric_anomaly_mod_pi "
-        "height_or_section W terminal_p center_p center_p_velocity"
+        "height_or_section W terminal_p center_p center_p_velocity "
+        "collision_phase_gap scaled_height renormalized_W "
+        "scaled_center_p scaled_center_p_velocity"
     )
     for phase in np.linspace(args.phase_lower, args.phase_upper, args.phases, endpoint=False):
         (
@@ -139,12 +141,33 @@ def main() -> None:
             args.max_step,
         )
         center_mean_anomaly = 2 * center_phase + np.sin(2 * center_phase)
+        center_mean_anomaly = np.remainder(center_mean_anomaly, 2 * np.pi)
+        collision_gap = np.pi - center_mean_anomaly
+        alpha_minus = (3 - np.sqrt(7)) / 6
+        if outcome == "turn" and collision_gap > 0:
+            scaled_height = height / collision_gap ** (2 / 3)
+            renormalized_wronskian = (
+                terminal_wronskian
+                * collision_gap ** ((np.sqrt(7) - 1) / 6)
+            )
+            scaled_center_p = center_p / collision_gap**alpha_minus
+            scaled_center_p_velocity = (
+                center_p_velocity * collision_gap ** (1 - alpha_minus)
+            )
+        else:
+            scaled_height = float("nan")
+            renormalized_wronskian = float("nan")
+            scaled_center_p = float("nan")
+            scaled_center_p_velocity = float("nan")
         print(
             f"{phase:.12f} {outcome} "
-            f"{np.remainder(center_mean_anomaly, 2 * np.pi):.12f} "
+            f"{center_mean_anomaly:.12f} "
             f"{np.remainder(terminal_phase, np.pi):.12f} "
             f"{height:.12e} {terminal_wronskian:.12e} {terminal_p:.12e} "
-            f"{center_p:.12e} {center_p_velocity:.12e}"
+            f"{center_p:.12e} {center_p_velocity:.12e} "
+            f"{collision_gap:.12e} {scaled_height:.12e} "
+            f"{renormalized_wronskian:.12e} {scaled_center_p:.12e} "
+            f"{scaled_center_p_velocity:.12e}"
         )
 
 

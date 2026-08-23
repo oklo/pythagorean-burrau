@@ -13,6 +13,8 @@ from src.symbolic.restricted_scattering import (
     phase_wronskian_identity,
     restricted_equilateral_triple_collision,
     restricted_transverse_linearization,
+    restricted_triple_collision_phase_mode,
+    restricted_triple_collision_shape_spectrum,
     second_encounter_endpoint_scattering,
     time_shift_melnikov_identity,
     transverse_rotation_wronskian_identity,
@@ -124,6 +126,28 @@ def test_restricted_equilateral_triple_collision_indicial_exponents() -> None:
     assert coefficient == -sp.Rational(1, 18)
     for exponent in exponents:
         assert sp.simplify(exponent * (exponent - 1) + sp.Rational(1, 18)) == 0
+
+
+def test_restricted_triple_collision_relative_phase_mode() -> None:
+    coefficient, forcing, residual = restricted_triple_collision_phase_mode()
+    collision_time = next(iter(forcing.free_symbols))
+    assert coefficient == sp.Rational(5, 18)
+    assert sp.simplify(
+        forcing + 3 ** sp.Rational(1, 6) / (6 * collision_time ** sp.Rational(7, 3))
+    ) == 0
+    assert residual == 0
+
+
+def test_restricted_triple_collision_shape_spectrum() -> None:
+    fixed_residual, linear_coefficient, eigenvalues = (
+        restricted_triple_collision_shape_spectrum()
+    )
+    assert fixed_residual == 0
+    assert linear_coefficient == -sp.Rational(1, 2)
+    for eigenvalue in eigenvalues:
+        assert sp.simplify(
+            eigenvalue**2 - eigenvalue / 3 - sp.Rational(1, 2)
+        ) == 0
 
 
 def test_incoming_tilt_has_integrable_quadrupole_source() -> None:

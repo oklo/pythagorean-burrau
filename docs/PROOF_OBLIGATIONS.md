@@ -183,7 +183,15 @@ $\theta=\varepsilon s$, $(r,z)=\varepsilon^{2/3}(R,Z)$ and an equilateral
 collision ray whose transverse indicial exponents are
 $(3\pm\sqrt7)/6$. The missing selection theorem is to identify the returned
 Jost combination on this collision manifold and prove its one-sided outgoing
-Wronskian sign; `TRIPLE_COLLISION_ENDPOINT.md` records the exact reduction.
+Wronskian sign. Precisely, with $\delta=\pi-\phi$, the target is
+\[
+ \delta^{(\sqrt7-1)/6}\mathcal C_2(\phi)
+ \longrightarrow \mathscr T
+ =4^{(\sqrt7-1)/6}A_-K_->0,
+\]
+where $A_-$ is the slow Fuchsian Jost coefficient and $K_-$ is its universal
+first-turn transfer. `TRIPLE_COLLISION_ENDPOINT.md` records the exact
+reduction.
 
 ## Adversarial checklist
 

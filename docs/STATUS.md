@@ -188,7 +188,13 @@ $\phi\to\pi$ triple-collision endpoint remain unproved. At the latter, the
 exact equilateral collision ray has transverse indicial exponents
 $(3\pm\sqrt7)/6$, so the missing endpoint theorem is a fractional-power
 McGehee selection and transition law rather than ordinary analytic
-continuation in phase.
+continuation in phase. Its exact scalar form is
+\[
+ (\pi-\phi)^{(\sqrt7-1)/6}\mathcal C_2(\phi)
+ \longrightarrow 4^{(\sqrt7-1)/6}A_-K_-.
+\]
+Ordinary renormalized data support $A_-K_->0$; neither factor is yet
+validated.
 
 Late-resonance simplicity has also been narrowed to a differentiable
 parabolic-passage lemma. For the degree-four McGehee map, the exact Kepler

@@ -255,6 +255,64 @@ def restricted_equilateral_triple_collision() -> tuple[
     return binary_residual, outer_residual, transverse_coefficient, exponents
 
 
+def restricted_triple_collision_phase_mode() -> tuple[sp.Expr, sp.Expr, sp.Expr]:
+    """Return the forced collision-time mode about the equilateral ray."""
+    collision_time = sp.symbols("s", positive=True)
+    binary_scale = sp.real_root(9, 3)
+    outer_scale = sp.sqrt(3) * binary_scale / 2
+    separation = binary_scale * collision_time ** sp.Rational(2, 3)
+    height = -outer_scale * collision_time ** sp.Rational(2, 3)
+    radius_squared = height**2 + separation**2 / 4
+    longitudinal_coefficient = sp.simplify(
+        collision_time**2
+        * (4 * height**2 - separation**2 / 2)
+        / radius_squared ** sp.Rational(5, 2)
+    )
+    collision_shift = sp.diff(
+        binary_scale
+        * (collision_time + sp.symbols("epsilon")) ** sp.Rational(2, 3),
+        sp.symbols("epsilon"),
+    ).subs(sp.symbols("epsilon"), 0)
+    binary_forcing_coefficient = 3 * height * separation / (
+        2 * radius_squared ** sp.Rational(5, 2)
+    )
+    forcing = sp.simplify(binary_forcing_coefficient * collision_shift)
+    particular = (
+        -sp.sqrt(3)
+        * binary_scale
+        * collision_time ** (-sp.Rational(1, 3))
+        / 3
+    )
+    residual = sp.simplify(
+        sp.diff(particular, collision_time, 2)
+        - longitudinal_coefficient * particular / collision_time**2
+        - forcing
+    )
+    return longitudinal_coefficient, forcing, residual
+
+
+def restricted_triple_collision_shape_spectrum() -> tuple[
+    sp.Expr, sp.Expr, tuple[sp.Expr, sp.Expr]
+]:
+    """Return fixed-point and linear data in the triple-collision shape chart."""
+    shape = sp.symbols("y", real=True)
+    equilateral_shape = -sp.sqrt(3) / 2
+    shape_force = (
+        sp.Rational(2, 9)
+        * shape
+        * ((shape**2 + sp.Rational(1, 4)) ** (-sp.Rational(3, 2)) - 1)
+    )
+    fixed_residual = sp.simplify(shape_force.subs(shape, equilateral_shape))
+    linear_coefficient = sp.simplify(
+        sp.diff(shape_force, shape).subs(shape, equilateral_shape)
+    )
+    eigenvalues = (
+        (1 - sp.sqrt(19)) / 6,
+        (1 + sp.sqrt(19)) / 6,
+    )
+    return fixed_residual, linear_coefficient, eigenvalues
+
+
 def incoming_tilt_forcing_identity() -> tuple[sp.Expr, sp.Expr]:
     """Return the equation source for ``h=xi+z/2`` on the incoming tail."""
     r, z = sp.symbols("r z", real=True)
