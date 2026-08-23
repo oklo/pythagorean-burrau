@@ -345,6 +345,7 @@ struct PhaseRunner {
   Solver solver;
   std::unique_ptr<TimeMap> tm;
   double step_cap = 1e6;
+  double cap_ceiling = 1e6;
   long capped_retries = 0;
   long successes = 0;
 
@@ -373,8 +374,8 @@ struct PhaseRunner {
         tm->stopAfterStep(true);
         continue;
       }
-      if (step_cap < 1e6 && ++successes >= 40) {
-        step_cap *= 2;
+      if (step_cap < cap_ceiling && ++successes >= 40) {
+        step_cap = std::min(step_cap * 2, cap_ceiling);
         successes = 0;
       }
       if (tm->completed() &&
@@ -534,6 +535,12 @@ int main(int argc, char** argv) {
         // LC passage.
         {
           PhaseRunner lc(lc_field, order, tolerance);
+          // Small sigma-steps keep each step's swept enclosure of w well
+          // inside a disc that excludes w = 0 (|w| ~ 9e-3 at closest
+          // approach, |dw/dsigma| ~ 1), so the per-step no-collision check
+          // certifies the strong collision-free statement.
+          lc.step_cap = 1.0 / 500.0;
+          lc.cap_ceiling = 1.0 / 500.0;
           const Ival lc_target = set.getCurrentTime() + Ival(10);
           long lc_steps = 0;
           for (;;) {
