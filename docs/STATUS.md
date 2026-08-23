@@ -11,7 +11,11 @@ established. Infinitely many open real skinny parameter intervals are now
 proved nonperiodic; consequently infinitely many distinct primitive
 Pythagorean triples satisfy the conjecture. The exact foundations,
 coordinate-valid brake residual, universal reduced system, uniform fourth-jet
-sign, and isosceles endpoint collision theorem are complete. In addition, a
+sign, and isosceles endpoint collision theorem are complete.  The exact
+skinny phase winding and normalized collision graph now also prove that
+infinitely many distinct real tied parameters accumulating at \(u=0\) suffer
+a finite-time classical collision.  These isolated real collision parameters
+are not proved rational.  In addition, a
 Levi--Civita argument proves that every sufficiently skinny real member avoids
 the limiting heavy-pair collision on its first encounter, with exact
 $B^{11}$ miss and $B^{11/2}$ angular-momentum asymptotics. The universal
@@ -42,7 +46,11 @@ collision chart. It promotes the fixed-section boundary to a unique graph
 \(\kappa_c(B,T,S,\Xi)\); for the exact tied curve the remaining local
 question is the scalar sign/zero problem
 \(\Delta_{\rm intr}(B)=\kappa_B-
-\kappa_c(B,T_B,S_B,\Xi_B)\). Exclude every other
+\kappa_c(B,T_B,S_B,\Xi_B)\).  Phase-cycle sampling now proves that every
+sufficiently late cycle contains either an earlier collision or a zero of
+this gap, yielding infinitely many real tied collisions.  A componentwise
+sign theorem and arithmetic control of the isolated roots remain open.
+Exclude every other
 collision zero on compact $\kappa$ ranges, propagate both punctured sides to
 common outgoing sections, and prove a componentwise nonvanishing scattering
 scalar. This is now a compact one-parameter transition problem. The simpler
@@ -364,7 +372,12 @@ preceding long saddle dwell.  It uses a common weight
 \(Q\)-adapted LC chart, the shooting map converges in \(C^1\), giving a
 unique normalized collision graph.  Both independent adversarial rereads
 endorse the repaired proof.  No theorem yet determines the intrinsic gap
-\(\Delta_{\rm intr}(B)\).
+\(\Delta_{\rm intr}(B)\) on every collision-free component.  Nevertheless,
+the exact phase-cycle brackets force infinitely many real collision
+parameters: if a bracket contains no earlier collision, the signed
+longitudinal amplitude runs from \(H=0\) to \(H=B^{p/2}\), while the graph
+target is only \(O(B^p)\), so the intermediate-value theorem forces a graph
+hit.  Two independent adversarial audits endorsed this sampling theorem.
 The corresponding analytic forced Levi--Civita chart is complete. In complex
 variables $q=u^2$, $dt=|u|^2d\sigma$, its collision residual is the square map
 \[

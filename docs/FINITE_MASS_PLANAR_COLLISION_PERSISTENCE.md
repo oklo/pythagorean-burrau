@@ -363,7 +363,10 @@ coordinates displayed explicitly, it gives a unique local collision graph
 \]
 
 Thus differentiated transport through the logarithmic dwell is closed.  No
-sign, zero, or oscillation theorem for (18) has been proved.
+componentwise sign or zero classification of (18) has been proved.  The
+separate phase-cycle theorem in `REAL_COLLISION_SAMPLING.md` does force
+infinitely many real collision parameters, but in each cycle it allows the
+alternative that a different collision occurred earlier.
 
 Controlling the sign or zeros of (18), and excluding other encounters before
 a common outgoing section, is the next finite-mass obligation.  Equality in

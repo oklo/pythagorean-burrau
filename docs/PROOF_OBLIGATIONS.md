@@ -365,7 +365,13 @@ The proof uses a common Lyapunov--Perron weight
 \(\mu/2<\omega<\tau\), an unstable-manifold shadow on the infinite tail,
 and \(C^1\) stable holonomy only at a fixed finite section; two independent
 adversarial passes endorsed the repair.  No sign, zero, or oscillation theorem
-for \(\Delta_{\rm intr}\) has been proved.  Even
+for \(\Delta_{\rm intr}\) on every collision-free component has been proved.
+There is now one exact partial substitute: the phase-cycle argument in
+`REAL_COLLISION_SAMPLING.md` proves that every sufficiently late cycle either
+already contains an earlier classical collision or contains a zero of
+\(\Delta_{\rm intr}\).  Thus infinitely many real tied parameters collide.
+It does not distinguish which alternative occurs in a given cycle and does
+not prove that any isolated collision parameter is rational.  Even
 a nonzero sign controls only the local selected encounter; exclusion of other
 collisions and a later brake still requires the global scattering map.
 

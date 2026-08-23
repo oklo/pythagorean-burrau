@@ -58,7 +58,10 @@ unique transverse light--heavy collision parameter in an explicit local box.
 An exact collision-adapted finite-mass reduction and a differentiated
 two-mode inclination theorem continue this root to a normalized collision
 graph through the logarithmic saddle dwell; the exact tied curve is reduced
-locally to one unresolved scalar signed gap from that graph.
+locally to one scalar signed gap from that graph.  Combining its continuity
+with the exact rapidly winding skinny clock proves that infinitely many
+distinct real tied parameters have a finite-time classical collision, though
+none of these isolated parameters is proved rational.
 The full conjecture remains open because the compact
 phase interior, the one-parameter planar scattering family exposed by the
 finite-mass triple-endpoint blow-up, and later turns are not yet controlled. A
@@ -1512,6 +1515,46 @@ give the graph.  The $C^1$ expansion of $u$ transverse to the root, together
 with $q=u^2$ and $|v|^2=(1+B)/2$, gives the last formula.
 \end{proof}
 
+\begin{theorem}[Real collision sampling]
+There are infinitely many distinct real parameters on the tied normalized
+Pythagorean curve, accumulating at the skinny endpoint, whose classical
+solution has a finite-time binary or triple collision.
+\end{theorem}
+
+\begin{proof}
+Let $\chi_*$ be the asymptotic intercept of the certified transverse
+intersection between the restricted incoming parabolic curve and the
+collision-stable curve.  In the signed longitudinal amplitude $H_0$, choose
+two compact intercept arcs on opposite sides of $\chi_*$ with fixed strict
+opposite signs.  Since
+\[
+ \Phi_{\rm ref}'(B)=-{3\pi\over2}B^{-5/2}(1+o(1)),
+\]
+every sufficiently late phase winding supplies a disjoint real $B$-bracket
+whose reference intercept crosses these arcs.  If any member collides before
+the selected late chart, that bracket already supplies the theorem.  If not,
+uniform incoming-tail convergence and compact regularized flow transfer the
+two $H$-signs to the positive-mass saddle entrance.
+
+Put $p=\mu/\tau$.  Continuity gives, inside the bracket, a last zero of $H$
+followed by a first point at which $H=B^{p/2}$.  On the intervening segment
+$0\le H\le B^{p/2}\to0$.  Local uniqueness of the transverse restricted
+intersection therefore forces every sequence in this segment to approach the
+certified endpoint.  Uniformly there,
+\[
+ {T_B\over B}\longrightarrow\Theta_*\ne0,qquad
+ \|\widehat\Xi_B\|\longrightarrow0,
+\]
+so the normalized collision graph is defined.  The continuous function
+\[
+ G(B)=H_B-|T_B|^p\kappa_c(B,T_B,S_B,\Xi_B)
+\]
+is negative at $H=0$ because $\kappa_c>0$, and positive at
+$H=B^{p/2}$ because $|T_B|^p=O(B^p)=o(B^{p/2})$.  Its intermediate-value
+zero is an exact selected light--heavy collision of the tied positive-mass
+trajectory.  The phase brackets are pairwise disjoint and tend to zero.
+\end{proof}
+
 This boundary emanates from the massless planar joint-limit collision and
 persists in the surrounding finite-mass section family. It is not a tied
 finite-mass Pythagorean orbit or a brake, and no positive-mass classical
@@ -1527,7 +1570,10 @@ section-dependent condition by the intrinsic scalar gap
  {H_B\over|T_B|^{\mu/\tau}}
  -\kappa_c(B,T_B,S_B,\Xi_B).
 \]
-No sign or zero theorem for this gap is proved here.
+No componentwise sign classification of this gap is proved here.  The real
+collision-sampling theorem gives only a cyclewise dichotomy between an earlier
+collision and a zero of this selected graph.  Its isolated roots are not
+proved rational.
 
 Parameterize the restricted incoming parabolic curve by its asymptotic phase
 intercept $\chi$, normalized by
@@ -1659,7 +1705,9 @@ collision boundary is now certified; global use of it requires exclusion of
 other collision zeros and outgoing-sign control on every collision-free
 component.  Differentiated transport through the finite-mass saddle dwell is
 complete; on the exact tied curve the remaining local condition is the scalar
-sign/zero problem for $\Delta_{\rm intr}(B)$.
+sign/zero problem for $\Delta_{\rm intr}(B)$.  Phase sampling forces infinitely
+many real classical collisions but does not classify each collision-free
+component or yield a rational root.
 
 \begin{thebibliography}{9}
 \bibitem{Burrau1913} C. Burrau, Astronomische Nachrichten 195 (1913), 113.

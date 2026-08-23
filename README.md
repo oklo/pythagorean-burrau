@@ -72,4 +72,6 @@ The exact positive-light-mass reduction and the resulting persistence theorem
 for that collision boundary are in
 `docs/FINITE_MASS_PLANAR_COLLISION_PERSISTENCE.md`.  The differentiated
 two-mode inclination theorem and normalized finite-mass collision graph are
-in `docs/DIFFERENTIATED_JOINT_INCLINATION.md`.
+in `docs/DIFFERENTIATED_JOINT_INCLINATION.md`.  Combining that graph with
+the exact skinny phase winding proves infinitely many exact real tied
+collision parameters; see `docs/REAL_COLLISION_SAMPLING.md`.

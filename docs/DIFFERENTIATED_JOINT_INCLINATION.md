@@ -500,9 +500,12 @@ reduced to the exact scalar gap
 \tag{20}
 \]
 
-No sign or zero theorem for (20) is proved here.  Even a nonzero sign excludes
-only this local encounter; other collisions and later brakes remain separate
-global obligations.
+No componentwise sign or zero classification of (20) is proved here.  The
+phase-cycle argument of `REAL_COLLISION_SAMPLING.md` subsequently forces
+infinitely many real tied collisions, but permits an earlier-collision
+alternative in each cycle.  Even a nonzero sign excludes only this local
+encounter; other collisions and later brakes remain separate global
+obligations.
 
 **Status:** the differentiated inclination theorem is **PROVED
 ANALYTICALLY**, conditional only on the already proved uniform \(C^2\) saddle

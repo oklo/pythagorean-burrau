@@ -371,7 +371,10 @@ validated transverse root, it gives a unique local collision graph
 $\kappa_c(B,T,S,\Xi)$.  For the tied endpoint curve the remaining local
 quantity is the scalar
 $\Delta_{\rm intr}(B)=\kappa_B-
-\kappa_c(B,T_B,S_B,\Xi_B)$; its sign is not known.
+\kappa_c(B,T_B,S_B,\Xi_B)$; its componentwise sign is not known.  Exact
+phase-cycle sampling nevertheless forces infinitely many real tied collision
+parameters, with an allowed earlier-collision alternative in each cycle; see
+`REAL_COLLISION_SAMPLING.md`.
 
 This is one autonomous one-parameter restricted problem, with no rapidly
 oscillating $B$-phase and no unknown matching modulus.  A brake during the

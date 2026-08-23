@@ -77,3 +77,20 @@ members nonperiodic for all sufficiently large $n$. This is legitimate
 because equidistribution is applied to a proved explicit phase formula and
 then passed through a robust open dynamical condition. It says nothing about
 the complementary phase set and therefore does not prove the full conjecture.
+
+## An exact real bridge which is not an arithmetic bridge
+
+The normalized finite-mass collision graph gives a different exact use of the
+same phase winding.  On each sufficiently late phase cycle, fixed opposite
+signs of the longitudinal amplitude bracket a segment from \(H=0\) to
+\(H=B^{p/2}\), while the collision graph lies at
+\(H=|T|^p\kappa_c=O(B^p)\).  Since \(B^{p/2}\gg B^p\), the
+intermediate-value theorem forces either an earlier classical collision or an
+exact hit of the graph.  This proves infinitely many real tied collision
+parameters.
+
+Those roots are isolated point conditions.  Unlike the open escape windows,
+they do not inherit rational points from density, and equidistribution of a
+reference phase does not make an IVT root rational.  Thus
+`REAL_COLLISION_SAMPLING.md` is a genuine dynamical existence theorem but no
+arithmetic progress on the universal rational conjecture.

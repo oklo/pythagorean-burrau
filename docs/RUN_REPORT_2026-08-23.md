@@ -21,11 +21,19 @@ a positive-lower-density subset is proved nonperiodic by a combination of
 exact phase asymptotics, equidistribution, analytic matching, and validated
 restricted transversality.
 
+Independently, infinitely many exact real tied parameters are now proved to
+end in classical collision.  This second result concerns isolated real roots
+and has no rationality conclusion.
+
 This run additionally proved a Level-E structural theorem at the singular
 triple-collision endpoint: the entire shrinking finite-mass boundary layer
 reduces to a single projective parameter in a universal planar massless
 restricted problem. It has now also located and rigorously validated one
 transverse light--heavy collision parameter in that planar limiting family.
+The exact phase winding and normalized collision graph further imply that
+infinitely many distinct real tied parameters accumulating at the skinny
+endpoint have a finite-time classical collision.  No sampled collision
+parameter is proved rational.
 
 ## New exact theorems
 
@@ -413,8 +421,45 @@ condition is exactly
 Two independent adversarial rereads endorsed the repaired argument.  The
 differentiated inclination theorem is **PROVED ANALYTICALLY** and the graph
 is **PROVED BY COMPUTER-ASSISTED ARGUMENT** through its certified base root.
-No sign or zero theorem for \(\Delta_{\rm intr}\) is known; thus no tied
-collision is claimed.
+No componentwise sign or zero theorem for \(\Delta_{\rm intr}\) follows from
+the local graph alone.
+
+### Infinitely many exact real tied collisions
+
+There is nevertheless a global phase-sampling consequence.  Let
+\(H_0(\chi)\) be the signed longitudinal amplitude of the restricted incoming
+parabolic curve near its certified transverse intersection with the
+collision-stable curve.  Fixed compact intercept arcs on its two sides have
+opposite strict \(H_0\)-signs.  The exact clock
+
+\[
+ \Phi_{\rm ref}'(B)=-{3\pi\over2}B^{-5/2}(1+o(1))
+\]
+
+produces a disjoint real parameter bracket crossing those arcs in every
+sufficiently late winding.  If any parameter in a bracket collides before the
+selected late chart, the bracket already contains a classical collision.
+Otherwise uniform incoming-tail convergence transfers the endpoint signs and
+continuity supplies a segment from \(H=0\) to
+\(H=B^{p/2}\), \(p=\mu/\tau\).
+
+Every sequence in that segment has \(H\to0\), so local uniqueness of the
+restricted endpoint and the joint blow-up theorem give uniformly
+\(T/B\to\Theta_*\ne0\) and entry into the normalized collision-graph cusp.
+The continuous scalar
+
+\[
+ G(B)=H_B-|T_B|^p\kappa_c(B,T_B,S_B,\Xi_B)
+\]
+
+is negative at the zero endpoint and positive at the other because
+\(B^{p/2}\gg B^p\).  Its IVT root is an exact collision of the actual tied
+positive-mass trajectory.  Pairwise disjoint clock brackets therefore give
+infinitely many distinct real collision parameters tending to zero.  Two
+independent adversarial audits endorsed every compactness, continuity, and
+classical-collision step.  This is **PROVED BY COMPUTER-ASSISTED ARGUMENT**
+through the two certified transverse roots.  Isolated IVT roots need not be
+rational, so this theorem does not enlarge the proved integer subfamily.
 
 ## Endpoint status
 
@@ -431,6 +476,8 @@ Proved:
 - a fixed escape window transfers to infinitely many finite-$B$ intervals;
 - a positive-lower-density subset of an explicit primitive family is
   nonperiodic;
+- infinitely many distinct real tied parameters have an exact finite-time
+  classical collision, although none is proved rational;
 - every first outer turn in the accumulating parabolic layer has nonzero
   normalized angular momentum;
 - the certified triple-endpoint local branch has positive transverse transfer;
@@ -477,6 +524,8 @@ equidistributed, which turns a proved open dynamical escape window into a
 positive-density set of rational Euclid parameters. No arithmetic theorem
 currently excludes all rational parameters. If a real periodic intersection
 is eventually found, a new exact arithmetic bridge would still be required.
+The new collision-sampling roots are isolated real points; rational density
+and phase equidistribution do not imply that any one of them is rational.
 
 ## Remaining top-level proof obligations
 
@@ -486,7 +535,9 @@ is eventually found, a new exact arithmetic bridge would still be required.
    certified transverse collision boundary, exclude all other collision
    zeros, and construct a common outgoing scattering scalar on every
    collision-free component. Compact collision-free backward capture is
-   already excluded.
+   already excluded.  The phase-cycle theorem forces infinitely many real
+   tied collisions but does not identify whether a particular cycle hits this
+   selected graph or contains an earlier collision.
 3. Continue the proved nonzero skinny angular momentum through the compact
    second and later central-encounter maps.
 4. Control the exact finite-$B$ separatrix displacement and the accumulating
@@ -553,7 +604,9 @@ computer-assisted proof notes and repository README.
 Use the validated transverse collision as the first certified boundary of the
 planar scattering map.  The long-dwell derivative bridge is now closed; the
 highest-leverage tied-family question is a sign/zero theorem for
-\(\Delta_{\rm intr}(B)\).  In parallel, exclude every other collision zero
+\(\Delta_{\rm intr}(B)\) on each collision-free component, upgrading the new
+cyclewise collision dichotomy to a classified root sequence.  In parallel,
+exclude every other collision zero
 on a compact
 $\kappa$ range, propagate both punctured sides to common outgoing sections,
 define $\mathscr S(\kappa)$ componentwise, and prove its nonvanishing with

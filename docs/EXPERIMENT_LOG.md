@@ -740,6 +740,33 @@ it is not a remainder proof.
 - Both independent final adversarial rereads endorse the repaired result.
   The differentiated inclination theorem is **PROVED ANALYTICALLY**; the
   collision graph inherits **PROVED BY COMPUTER-ASSISTED ARGUMENT** from the
-  validated base root.  The tied scalar gap
+  validated base root.  A componentwise classification of the tied scalar gap
   \(\Delta_{\rm intr}(B)=\kappa_B-
   \kappa_c(B,T_B,S_B,\Xi_B)\) remains **CONJECTURAL**.
+
+## 2026-08-23: exact real collision sampling
+
+- Chose fixed asymptotic-intercept arcs on opposite sides of the certified
+  transverse restricted endpoint.  The exact monotone clock gives one
+  disjoint real \(B\)-bracket per sufficiently late winding, of width
+  \(O(B^{5/2})=o(B)\).  Uniform incoming-tail convergence transfers fixed
+  opposite signs of the longitudinal unstable amplitude \(H\) to the bracket
+  endpoints unless a prior classical collision has already occurred.
+- On a no-prior-collision bracket, continuity supplies a shrinking positive
+  segment from a last \(H=0\) point to \(H=B^{p/2}\), with
+  \(p=\mu/\tau\in(1,2)\).  Every sequence in this segment approaches the
+  unique certified endpoint, so sequential compactness uniformizes
+  \(T/B\to\Theta_*\ne0\), \(\widehat\Xi\to0\), and the collision-graph cusp.
+- The exact scalar
+  \[
+   G(B)=H_B-|T_B|^p\kappa_c(B,T_B,S_B,\Xi_B)
+  \]
+  is negative at \(H=0\) and positive at \(H=B^{p/2}\), because the graph
+  term is only \(O(B^p)\).  Its IVT zero is an exact selected light--heavy
+  collision of the tied positive-mass trajectory.  If continuity failed
+  because an earlier collision occurred, that parameter already supplies the
+  required collision.
+- Both independent hostile rereads endorsed the proof.  Status:
+  **PROVED BY COMPUTER-ASSISTED ARGUMENT** for infinitely many distinct real
+  tied collision parameters accumulating at the skinny endpoint.  None is
+  proved to have rational Euclid parameter.
