@@ -42,13 +42,20 @@ esac
 
 MPFR_PREFIX=${MPFR_PREFIX:-/opt/homebrew}
 REPOSITORY_DIR=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
-OUTPUT_BINARY=${TMPDIR:-/tmp}/fable_tied_event_certificate_capd
 
-# capd-config deliberately supplies -frounding-math and -D__USE_NATIVE__.
-# shellcheck disable=SC2046
-c++ -O2 -DFABLE_MP -Wno-deprecated-literal-operator \
-  -I"$MPFR_PREFIX/include" \
-  "$REPOSITORY_DIR/src/fable/verification/tied_event_certificate_capd.cpp" \
-  $CAPD_FLAGS -L"$MPFR_PREFIX/lib" -lmpfr -lgmp -o "$OUTPUT_BINARY"
+if [ "${FABLE_NATIVE:-0}" = "1" ]; then
+  OUTPUT_BINARY=${TMPDIR:-/tmp}/fable_tied_event_certificate_capd_native
+  # shellcheck disable=SC2046
+  c++ -O2 \
+    "$REPOSITORY_DIR/src/fable/verification/tied_event_certificate_capd.cpp" \
+    $CAPD_FLAGS -o "$OUTPUT_BINARY"
+else
+  OUTPUT_BINARY=${TMPDIR:-/tmp}/fable_tied_event_certificate_capd
+  # shellcheck disable=SC2046
+  c++ -O2 -DFABLE_MP -Wno-deprecated-literal-operator \
+    -I"$MPFR_PREFIX/include" \
+    "$REPOSITORY_DIR/src/fable/verification/tied_event_certificate_capd.cpp" \
+    $CAPD_FLAGS -L"$MPFR_PREFIX/lib" -lmpfr -lgmp -o "$OUTPUT_BINARY"
+fi
 
 "$OUTPUT_BINARY" "$@"

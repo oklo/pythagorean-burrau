@@ -15,7 +15,9 @@
 // Usage:
 //   tied_event_certificate_capd MODE P Q TEND [PREC TOL ORDER \
 //       BIN_A BIN_B ESCAPER ETA_NUM ETA_DEN CHECK_START [T1_NUM T1_DEN]]
-// where MODE is "certify" or "atlas", u = P/Q, and bodies are 1-indexed.
+//   tied_event_certificate_capd icert P Q P2 Q2 TEND [same tail...]
+// where MODE is "certify", "atlas", or "icert" (u ranging over the whole
+// interval [P/Q, P2/Q2]); u = P/Q; bodies are 1-indexed.
 // The initial phase proves U < 2 U0 on [0, t1] (t1 = T1_NUM/T1_DEN,
 // default 1/4).
 //
@@ -29,6 +31,7 @@
 #include <cstdlib>
 #include <iomanip>
 #include <iostream>
+#include <memory>
 #include <stdexcept>
 #include <string>
 #include <type_traits>
@@ -127,6 +130,47 @@ Map make_field(const Family& f) {
   return field;
 }
 
+// Nine-variable field with the Euclid parameter as a frozen state
+// variable w (w' = 0), so that set representations track the
+// state--parameter correlation affinely.  All mass coefficients are the
+// exact rational functions of w:
+//   al = 2w/(1+2w-w^2),  be = (1-w^2)/(1+2w-w^2),
+//   gm = (1+2w-w^2)/(1+w^2),
+//   ca = (2+2w)(1-w^2)/((1+2w-w^2)(1+w^2)),
+//   cb = (2+2w)2w/((1+2w-w^2)(1+w^2)).
+Map make_field_correlated() {
+  const std::string P = "(1+2*w-w^2)";
+  const std::string Q = "(1+w^2)";
+  const std::string al = "(2*w/" + P + ")";
+  const std::string be = "((1-w^2)/" + P + ")";
+  const std::string gm = "(" + P + "/" + Q + ")";
+  const std::string ca = "((2+2*w)*(1-w^2)/(" + P + "*" + Q + "))";
+  const std::string cb = "((2+2*w)*2*w/(" + P + "*" + Q + "))";
+  const std::string d1sq =
+      "((y1+" + al + "*x1)^2+(y2+" + al + "*x2)^2)";
+  const std::string d2sq =
+      "((y1-" + be + "*x1)^2+(y2-" + be + "*x2)^2)";
+  const std::string rsq = "(x1^2+x2^2)";
+  const std::string inv_r3 = "(" + rsq + "*sqrt(" + rsq + "))";
+  const std::string inv_d13 = "(" + d1sq + "*sqrt(" + d1sq + "))";
+  const std::string inv_d23 = "(" + d2sq + "*sqrt(" + d2sq + "))";
+  return Map(
+      "var:x1,x2,y1,y2,u1,u2,v1,v2,w;"
+      "fun:"
+      "u1,u2,v1,v2,"
+      "-" + gm + "*x1/" + inv_r3 +
+      "+(y1-" + be + "*x1)/" + inv_d23 +
+      "-(y1+" + al + "*x1)/" + inv_d13 + ","
+      "-" + gm + "*x2/" + inv_r3 +
+      "+(y2-" + be + "*x2)/" + inv_d23 +
+      "-(y2+" + al + "*x2)/" + inv_d13 + ","
+      "-(" + ca + "*(y1+" + al + "*x1)/" + inv_d13 +
+      "+" + cb + "*(y1-" + be + "*x1)/" + inv_d23 + "),"
+      "-(" + ca + "*(y2+" + al + "*x2)/" + inv_d13 +
+      "+" + cb + "*(y2-" + be + "*x2)/" + inv_d23 + "),"
+      "0;");
+}
+
 Ival dot(const Ival& a1, const Ival& a2, const Ival& b1, const Ival& b2) {
   return a1 * b1 + a2 * b2;
 }
@@ -150,7 +194,8 @@ struct Scalars {
   Ival zeta_im;
 };
 
-Scalars evaluate_scalars(const Vector& s, const Family& f) {
+Scalars evaluate_scalars(const Vector& s, const Family& f,
+                         bool want_potential) {
   const Ival &x1 = s[0], &x2 = s[1], &y1 = s[2], &y2 = s[3];
   const Ival &u1 = s[4], &u2 = s[5], &v1 = s[6], &v2 = s[7];
   Scalars out;
@@ -166,14 +211,17 @@ Scalars evaluate_scalars(const Vector& s, const Family& f) {
   out.b3 = cross(u1, u2, y1, y2) + cross(x1, x2, v1, v2);
   out.zeta_re = f.mu1 * radial_x - f.mu2 * radial_y;
   out.zeta_im = f.mu1 * angular_x - f.mu2 * angular_y;
-  const Ival d11 = y1 + f.alpha * x1;
-  const Ival d12 = y2 + f.alpha * x2;
-  const Ival d21 = y1 - f.beta * x1;
-  const Ival d22 = y2 - f.beta * x2;
-  const Ival r12 = sqrt(dot(x1, x2, x1, x2));
-  const Ival r13 = sqrt(dot(d11, d12, d11, d12));
-  const Ival r23 = sqrt(dot(d21, d22, d21, d22));
-  out.potential = f.a * f.b / r12 + f.a * f.m3 / r13 + f.b * f.m3 / r23;
+  out.potential = Ival(0);
+  if (want_potential) {
+    const Ival d11 = y1 + f.alpha * x1;
+    const Ival d12 = y2 + f.alpha * x2;
+    const Ival d21 = y1 - f.beta * x1;
+    const Ival d22 = y2 - f.beta * x2;
+    const Ival r12 = sqrt(dot(x1, x2, x1, x2));
+    const Ival r13 = sqrt(dot(d11, d12, d11, d12));
+    const Ival r23 = sqrt(dot(d21, d22, d21, d22));
+    out.potential = f.a * f.b / r12 + f.a * f.m3 / r13 + f.b * f.m3 / r23;
+  }
   return out;
 }
 
@@ -270,52 +318,76 @@ int main(int argc, char** argv) {
       return 2;
     }
     const std::string mode = argv[1];
-    const bool certify = mode == "certify";
+    const bool interval_mode = mode == "icert";
+    const bool certify = mode == "certify" || interval_mode;
     if (!certify && mode != "atlas") {
-      std::cerr << "MODE must be certify or atlas\n";
+      std::cerr << "MODE must be certify, icert, or atlas\n";
       return 2;
     }
     const long p = std::atol(argv[2]);
     const long q = std::atol(argv[3]);
-    const double tend = std::atof(argv[4]);
-    const int precision = argc > 5 ? std::atoi(argv[5]) : 768;
-    const double tolerance = argc > 6 ? std::atof(argv[6]) : 1e-80;
-    const int order = argc > 7 ? std::atoi(argv[7]) : 60;
-    const int body_a = argc > 8 ? std::atoi(argv[8]) - 1 : 2;
-    const int body_b = argc > 9 ? std::atoi(argv[9]) - 1 : 0;
-    const int body_c = argc > 10 ? std::atoi(argv[10]) - 1 : 1;
-    const long eta_num = argc > 11 ? std::atol(argv[11]) : 4;
-    const long eta_den = argc > 12 ? std::atol(argv[12]) : 1;
-    const double check_start = argc > 13 ? std::atof(argv[13]) : tend - 2.5;
-    const long t1_num = argc > 14 ? std::atol(argv[14]) : 1;
-    const long t1_den = argc > 15 ? std::atol(argv[15]) : 4;
+    long p2 = p, q2 = q;
+    int base = 4;
+    if (interval_mode) {
+      if (argc < 7) {
+        std::cerr << "icert needs P Q P2 Q2 TEND\n";
+        return 2;
+      }
+      p2 = std::atol(argv[4]);
+      q2 = std::atol(argv[5]);
+      base = 6;
+    }
+    const double tend = std::atof(argv[base]);
+    const int precision = argc > base + 1 ? std::atoi(argv[base + 1]) : 768;
+    const double tolerance = argc > base + 2 ? std::atof(argv[base + 2]) : 1e-80;
+    const int order = argc > base + 3 ? std::atoi(argv[base + 3]) : 60;
+    const int body_a = argc > base + 4 ? std::atoi(argv[base + 4]) - 1 : 2;
+    const int body_b = argc > base + 5 ? std::atoi(argv[base + 5]) - 1 : 0;
+    const int body_c = argc > base + 6 ? std::atoi(argv[base + 6]) - 1 : 1;
+    const long eta_num = argc > base + 7 ? std::atol(argv[base + 7]) : 4;
+    const long eta_den = argc > base + 8 ? std::atol(argv[base + 8]) : 1;
+    const double check_start =
+        argc > base + 9 ? std::atof(argv[base + 9]) : tend - 2.5;
+    const long t1_num = argc > base + 10 ? std::atol(argv[base + 10]) : 1;
+    const long t1_den = argc > base + 11 ? std::atol(argv[base + 11]) : 4;
 
 #ifdef FABLE_MP
     capd::MpFloat::setDefaultPrecision(precision);
 #else
     (void)precision;
 #endif
-    const Family f = make_family(p, q);
-    Map field = make_field(f);
+    Ival u_param = Ival(p) / Ival(q);
+    if (interval_mode) {
+      const Ival upper = Ival(p2) / Ival(q2);
+      u_param = Ival(u_param.leftBound(), upper.rightBound());
+      if (!(u_param.leftBound() < u_param.rightBound())) {
+        std::cerr << "icert interval endpoints out of order\n";
+        return 2;
+      }
+    }
+    const Family f = make_family_from_u(u_param);
+    Map field = interval_mode ? make_field_correlated() : make_field(f);
     Solver solver(field, order);
     solver.setAbsoluteTolerance(tolerance);
     solver.setRelativeTolerance(tolerance);
-    TimeMap time_map(solver);
+    std::unique_ptr<TimeMap> time_map(new TimeMap(solver));
 
-    // Exact tied initial state: X = (1,0), Y = (AB(B-A)/(A+B), AB).
-    Vector initial(8);
+    // Exact tied initial state: X = (1,0), Y = (AB(B-A)/(A+B), AB); in
+    // interval mode the frozen parameter w carries the u-interval.
+    Vector initial(interval_mode ? 9 : 8);
     initial[0] = Ival(1);
     initial[1] = Ival(0);
     initial[2] = f.a * f.b * (f.b - f.a) / f.m12;
     initial[3] = f.a * f.b;
     for (int i = 4; i < 8; ++i) initial[i] = Ival(0);
+    if (interval_mode) initial[8] = u_param;
     Set set(initial);
 
     const Ival t1 = rational(t1_num, t1_den);
     const Ival final_time = Ival(tend);
     const Ival eta = rational(eta_num, eta_den);
 
-    time_map.stopAfterStep(true);
+    time_map->stopAfterStep(true);
 
     // Near a deep binary encounter the trial-step rough enclosure can
     // sweep across the collision set, making the interval vector field
@@ -333,10 +405,11 @@ int main(int argc, char** argv) {
     Ival final_margin;
 
     std::cout << std::setprecision(17);
+    bool finished = false;
     do {
       try {
         solver.setMaxStep(Ival(step_cap));
-        time_map(final_time, set);
+        (*time_map)(final_time, set);
       } catch (const std::exception& step_error) {
         ++capped_retries;
         if (capped_retries > 4000 || step_cap < 1e-13) {
@@ -345,6 +418,10 @@ int main(int argc, char** argv) {
         const double last = bound_double(solver.getStep().rightBound());
         const double reference = (last > 1e-13 && last < step_cap) ? last : step_cap;
         step_cap = reference / 2;
+        // A thrown step can leave the time map in a spurious completed
+        // state; rebuild it (the set carries its own current time).
+        time_map.reset(new TimeMap(solver));
+        time_map->stopAfterStep(true);
         continue;
       }
       if (step_cap < 1e6) {
@@ -352,8 +429,8 @@ int main(int argc, char** argv) {
       }
       ++steps;
       const Vector enclosure = set.getLastEnclosure();
-      const Ival current_time = time_map.getCurrentTime();
-      const Scalars sc = evaluate_scalars(enclosure, f);
+      const Ival current_time = time_map->getCurrentTime();
+      const Scalars sc = evaluate_scalars(enclosure, f, initial_phase);
 
       if (initial_phase) {
         if (!(sc.potential.rightBound() < (2 * f.u0).leftBound())) {
@@ -401,6 +478,15 @@ int main(int argc, char** argv) {
       if (certify &&
           bound_double(current_time.rightBound()) > check_start) {
         const Vector current(set);
+        if (std::getenv("FABLE_DEBUG_ESCAPE") != nullptr) {
+          Ival dbg(0);
+          const bool ok = escape_certificate_fires(current, f, body_a, body_b,
+                                                   body_c, eta, &dbg);
+          std::cout << "escape_check t=" << to_double(current_time)
+                    << " fired=" << ok << " margin=["
+                    << bound_double(dbg.leftBound()) << ","
+                    << bound_double(dbg.rightBound()) << "]\n" << std::flush;
+        }
         if (escape_certificate_fires(current, f, body_a, body_b, body_c,
                                      eta, &final_margin)) {
           certified = true;
@@ -410,9 +496,20 @@ int main(int argc, char** argv) {
           break;
         }
       }
-    } while (!time_map.completed());
+      if (time_map->completed()) {
+        if (to_double(current_time) <
+            bound_double(final_time.leftBound()) - 1e-9) {
+          time_map.reset(new TimeMap(solver));
+          time_map->stopAfterStep(true);
+          continue;
+        }
+        finished = true;
+      }
+    } while (!finished);
 
     const Vector final_state(set);
+    std::cout << "end_time=" << to_double(time_map->getCurrentTime())
+              << "\n";
     std::cout << "steps=" << steps << " event_steps=" << event_steps
               << " min_event_kinetic=" << min_event_kinetic
               << " final_hull_width=" << hull_width(final_state) << "\n";
@@ -428,7 +525,12 @@ int main(int argc, char** argv) {
                   << ", " << bound_double(final_state[i].rightBound())
                   << "]\n";
       }
-      std::cout << "PASS_TIED_EVENT p=" << p << " q=" << q << "\n";
+      if (interval_mode) {
+        std::cout << "PASS_TIED_EVENT_INTERVAL u=[" << p << "/" << q
+                  << "," << p2 << "/" << q2 << "]\n";
+      } else {
+        std::cout << "PASS_TIED_EVENT p=" << p << " q=" << q << "\n";
+      }
     } else {
       std::cout << "ATLAS_DONE p=" << p << " q=" << q << "\n";
     }
