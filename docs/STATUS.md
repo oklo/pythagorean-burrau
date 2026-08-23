@@ -19,7 +19,11 @@ rectilinear restricted limit has a proved transverse parabolic
 stable/unstable crossing, using an analytic McGehee-map reduction and one
 validated interval Jacobi sign. Uniform pre-plunge and incoming-tail matching
 transfer one restricted hyperbolic-escape window to the exact finite-$B$
-family.
+family. Sampling the exact phase clock on
+$(4n^2-1,4n,4n^2+1)$ and applying van der Corput plus Weyl proves that a
+positive-lower-density subset of this one explicit primitive family is
+nonperiodic. The current constants are non-effective, so no first certified
+index $n$ is claimed.
 
 The closest catalog threat, the Li--Liao $F_{30}$ family on the
 $3{:}4{:}5$ mass slice, was locally continued.  Its periodic branch comes
@@ -88,3 +92,12 @@ height on the other. Combined with the exact rapidly sweeping asymptotic-
 intercept clock and the proved incoming-tail theorem, this yields infinitely
 many open finite-$B$ terminal nonperiodicity intervals containing rational
 Euclid parameters. It is now an unconditional Level-D theorem.
+
+This arithmetic strengthening is not a cardinality shortcut. For
+$u_n=1/(2n)$ the exact cycle count is an explicit algebraic function with
+$F''(x)\sim(3/8)x^{-1/2}$. The van der Corput second-derivative estimate and
+Weyl's criterion prove $F(n)$ equidistributed modulo one. Thus every compact
+escape-intercept arc selects its exact phase-density fraction of this explicit
+family, and uniform matching converts every sufficiently large selected
+member into a terminal nonperiodic trajectory. See
+`EXPLICIT_SKINNY_FAMILY.md`.

@@ -66,3 +66,14 @@ use of rational density because the dynamical condition is open and has been
 transferred exactly. It does not address every rational parameter. Landing on
 the parabolic separatrix remains a point condition and receives no rational
 exclusion from this interval argument.
+
+There is now a quantitative arithmetic bridge on one explicit family. For
+$u_n=1/(2n)$, the exact clock values
+$\Phi_{\rm ref}(B(u_n))/(2\pi)$ are equidistributed modulo one by a
+van-der-Corput/Weyl argument. Hence any compact open escape arc selects a
+positive-density set of exact primitive triples
+$(4n^2-1,4n,4n^2+1)$, and the incoming-tail theorem proves those selected
+members nonperiodic for all sufficiently large $n$. This is legitimate
+because equidistribution is applied to a proved explicit phase formula and
+then passed through a robust open dynamical condition. It says nothing about
+the complementary phase set and therefore does not prove the full conjecture.

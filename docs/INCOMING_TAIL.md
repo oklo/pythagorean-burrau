@@ -504,6 +504,8 @@ This is a Level-D result. It does not exclude second brakes in the intervening
 captured phase windows and therefore does not resolve the full rational or
 strong real conjecture.
 
-Status of Theorem 1 and Corollary 2: **PROVED ANALYTICALLY**. The LC
-block-clock, gauge, and transverse-uniqueness lemmas received independent
-adversarial audits after the displayed repairs.
+Status of Theorem 1: **PROVED ANALYTICALLY**. Status of Corollary 2:
+**PROVED BY COMPUTER-ASSISTED ARGUMENT**, because its nonempty restricted
+escape window uses the validated transversality theorem. The LC block-clock,
+gauge, and transverse-uniqueness lemmas received independent adversarial
+audits after the displayed repairs.

@@ -13,7 +13,9 @@ not promoted to universal conclusions.
 Current strongest result: the full rational and strong real conjectures remain
 open, but infinitely many open skinny Euclid-parameter intervals are proved
 nonperiodic. Consequently infinitely many distinct primitive Pythagorean
-triples satisfy the conjecture. See `docs/INCOMING_TAIL.md` and
+triples satisfy the conjecture. More explicitly, the primitive family
+$(4n^2-1,4n,4n^2+1)$ contains a positive-lower-density set of proved
+nonperiodic members. See `docs/EXPLICIT_SKINNY_FAMILY.md` and
 `docs/STATUS.md`.
 
 ## Reproduce the exact checks

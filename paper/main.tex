@@ -695,6 +695,37 @@ rational $u$ is dense, each contains a rational Euclid parameter. Reduction
 by the simultaneous mass--length scaling gives distinct primitive triples.
 \end{proof}
 
+The existential rational consequence can be sharpened to one explicit
+primitive family.
+
+\begin{theorem}[Positive density in an explicit family]
+Let
+\[
+(a_n,b_n,c_n)=(4n^2-1,4n,4n^2+1),\qquad n\ge1.
+\]
+There is a positive-lower-natural-density set of indices $n$ for which the
+corresponding Pythagorean--Burrau solution is nonperiodic.
+\end{theorem}
+\begin{proof}
+Here $u_n=1/(2n)$ and $B_n=4n/(4n^2+1)$. Direct substitution in the exact
+reference clock gives
+\[
+F(x):={\Phi_{\rm ref}(B_x)\over2\pi}
+={ (2x-1)^{3/2}(2x+1)(4x^2+1)^{3/4}\over32x^{5/2}},
+\]
+and therefore
+\[
+F''(x)={3\over8}x^{-1/2}+{1\over32}x^{-3/2}+O(x^{-5/2}).
+\]
+On each dyadic block, van der Corput's second-derivative estimate makes every
+nontrivial Weyl sum $O_h(N^{3/4})$. Weyl's criterion proves that $F(n)$ is
+equidistributed modulo one. Consequently every fixed compact escape-intercept
+arc $J$ selects a set of indices of density $|J|/(2\pi)$. The incoming-tail
+and terminal-transfer theorems prove every sufficiently large selected member
+nonperiodic. Primitivity follows from
+$\gcd(4n,4n^2-1)=1$.
+\end{proof}
+
 \section{Cardinality and the remaining obstruction}
 
 The rational parameters are countable and dense.  Neither countability,

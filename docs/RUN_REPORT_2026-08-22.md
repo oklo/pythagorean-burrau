@@ -76,6 +76,15 @@ numerical/family-intersection evidence.
    $O(B^{-3/2})$ early cycle train with matched outer state and
    $\chi_\alpha=\Phi_{\rm ref}+o(1)$. Independent audit repaired the
    regularized phase observable and a radius-weighted velocity estimate.
+11. **Explicit positive-density primitive family.** For
+   $(a_n,b_n,c_n)=(4n^2-1,4n,4n^2+1)$, the exact reference cycle count is an
+   algebraic function $F(n)$ with $F''(x)\sim(3/8)x^{-1/2}$. Van der Corput's
+   estimate and Weyl's criterion prove equidistribution modulo one. Every
+   compact restricted escape arc therefore selects a set of indices of
+   density $|J|/(2\pi)$, all sufficiently large members of which are
+   nonperiodic. Thus the proved nonperiodic subset of this explicit primitive
+   family has positive lower natural density. The dynamical conclusion
+   inherits the validated restricted-transversality input.
 
 ## Conjecture status
 

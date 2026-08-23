@@ -197,4 +197,5 @@ require a separate no-brake theorem.
 Status of Theorem 1: **PROVED BY COMPUTER-ASSISTED ARGUMENT**, through the
 restricted transversality input.
 
-Status of Corollary 2: **PROVED ANALYTICALLY**.
+Status of Corollary 2: **PROVED BY COMPUTER-ASSISTED ARGUMENT**, through the
+restricted transversality input.

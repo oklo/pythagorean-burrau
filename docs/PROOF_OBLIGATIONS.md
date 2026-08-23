@@ -90,6 +90,13 @@ rational Euclid parameters are an unconditional Level-D theorem. Remaining
 finite-$B$ obligations are persistence and signed displacement of the exact
 separatrix and exclusion of second brakes throughout the captured branches.
 
+The endpoint arithmetic is now stronger than rational density: an exact
+van-der-Corput/Weyl argument gives a positive-lower-density nonperiodic subset
+of $(4n^2-1,4n,4n^2+1)$. It still cannot name the first certified member,
+because the escape arc and the finite-$B$ threshold are non-effective. The
+same equidistribution visits compact finite-turn arcs with positive density,
+so phase sampling alone cannot close the remaining post-turn obligation.
+
 ## Adversarial checklist
 
 Every promoted lemma must be checked for hidden genericity; vector-valued
