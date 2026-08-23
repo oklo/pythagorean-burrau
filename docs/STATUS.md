@@ -31,7 +31,14 @@ index $n$ is claimed. Separately, an analytic stable-tail enclosure and a
 validated interval-Newton argument prove a unique transverse collision in a
 small parameter box of the planar massless limiting family. This collision is
 neither a Pythagorean orbit nor a second brake; it supplies a certified
-boundary for a finite-dimensional scattering-map classification.
+boundary for a finite-dimensional scattering-map classification.  Its
+regularized collision--ejection branch is now validated through the subsequent
+heavy-binary collision and into a strict hyperbolic-escape cone.  An analytic
+hierarchical-energy bootstrap controls the accumulated positive-light-mass
+tidal work, so every sufficiently small compatible member of the resulting
+local cusp either has a classical collision or escapes.  Thus this first
+boundary and both of its collision-free local sides are completely
+nonperiodic.
 
 The closest catalog threat, the Li--Liao $F_{30}$ family on the
 $3{:}4{:}5$ mass slice, was locally continued.  Its periodic branch comes
@@ -50,10 +57,12 @@ question is the scalar sign/zero problem
 sufficiently late cycle contains either an earlier collision or a zero of
 this gap, yielding infinitely many real tied collisions.  A componentwise
 sign theorem and arithmetic control of the isolated roots remain open.
-Exclude every other
-collision zero on compact $\kappa$ ranges, propagate both punctured sides to
-common outgoing sections, and prove a componentwise nonvanishing scattering
-scalar. This is now a compact one-parameter transition problem. The simpler
+The first root no longer needs outgoing-sign work: its selected-pair and
+heavy-binary LC continuation, strict escape inequalities, and finite-mass
+tidal bootstrap now give a full local collision-or-escape theorem.  The next
+target is to extend this classification across the adjacent compact
+\(\kappa\)-components, exclude or certify every additional collision zero,
+and propagate each resulting component to a terminal cone. The simpler
 global Pythagorean-defect barrier was numerically falsified after the first
 close encounter.
 
@@ -383,11 +392,14 @@ variables $q=u^2$, $dt=|u|^2d\sigma$, its collision residual is the square map
 \[
  \mathcal F(\kappa,\sigma)=(\operatorname{Re}u,\operatorname{Im}u).
 \]
-The next certificate must exclude other collision zeros and establish
-componentwise outgoing-sign bounds. Regularized continuation is used only to
-classify the limiting map; an exact finite-mass collision remains classical
-termination. The validated limiting collision is neither a Pythagorean orbit
-nor a second brake.
+For the certified root box, the next certificate is now complete:
+regularized continuation crosses the selected and heavy-binary LC blocks,
+reaches a strict escape cone, and transfers to a finite-mass
+collision-or-escape cusp.  Regularization is used only to classify the
+limiting map; an exact finite-mass collision remains classical termination.
+The next global certificate must extend this classification across other
+collision zeros and adjacent components. The validated limiting collision is
+neither a Pythagorean orbit nor a second brake.
 
 Late-resonance simplicity has also been narrowed to a differentiable
 parabolic-passage lemma. For the degree-four McGehee map, the exact Kepler

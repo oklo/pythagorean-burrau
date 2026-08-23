@@ -256,3 +256,24 @@ change and subsequent LC flow. With the analytic tail moved to $\zeta=15$,
 the repaired interval Newton proves a unique transverse collision root. The
 independent-box stage remains useful as a broader chart-domain certificate,
 but it cannot certify the root by itself.
+
+## Finite-time openness of restricted escape
+
+**Status:** DISPROVED as a positive-mass proof step; repaired by a global
+hierarchical-energy lemma.
+
+The collision root's regularized restricted continuation reaches a terminal
+state in a strict escape cone.  The first draft inferred that every nearby
+small positive-light-mass trajectory also escapes from compact LC convergence
+to that section.  This is insufficient: for \(B>0\), the heavy primaries no
+longer follow the prescribed parabolic binary, and the light body's
+backreaction accumulates over an infinite future interval.  No finite-time
+openness theorem controls that accumulation.
+
+The repair in `COMPUTER_ASSISTED_PLANAR_COLLISION_ESCAPE.md` uses full Jacobi
+variables.  It bounds the inner separation by a linear envelope under a small
+positive energy ceiling, forces the outer radius to outrun that envelope, and
+bounds all future tidal energy by \(2BK\) with \(K<\infty\) uniformly on the
+scaled terminal neighborhood.  A validated strict margin \(>0.69\) closes
+the simultaneous bootstrap.  This failure is retained to prevent future
+promotion of a restricted escape cone to finite mass by continuity alone.

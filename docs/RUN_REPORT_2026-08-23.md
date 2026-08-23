@@ -25,6 +25,12 @@ Independently, infinitely many exact real tied parameters are now proved to
 end in classical collision.  This second result concerns isolated real roots
 and has no rationality conclusion.
 
+The first certified planar collision boundary is now also globally classified
+in a local normalized cusp: its regularized limiting continuation escapes,
+and every sufficiently small compatible positive-mass member either collides
+classically or escapes.  This closes both collision-free sides near that
+boundary but does not yet cover the full projective parameter line.
+
 This run additionally proved a Level-E structural theorem at the singular
 triple-collision endpoint: the entire shrinking finite-mass boundary layer
 reduces to a single projective parameter in a universal planar massless
@@ -461,6 +467,47 @@ classical-collision step.  This is **PROVED BY COMPUTER-ASSISTED ARGUMENT**
 through the two certified transverse roots.  Isolated IVT roots need not be
 rational, so this theorem does not enlarge the proved integer subfamily.
 
+### Validated collision--ejection escape cusp
+
+The exact interval-Newton root has now been followed beyond its limiting
+light--heavy collision without assigning physical meaning to a
+positive-mass collision continuation.  The selected-pair LC flow reaches
+\(S=61/25\) with the other primary separated.  Reconstruction of the
+restricted outer state and the signed bridge
+\[
+ \lambda=\sqrt[3]t,\qquad
+ \lambda_\eta=-1,\qquad
+ Z_\eta=-3\lambda^2Z_t
+\]
+cross the prescribed heavy-binary collision analytically.  CAPD proves both
+light--primary squared distances exceed \(0.89\) throughout the bridge.  At
+the outgoing section, the restricted escape comparison has strict margin
+\(>0.58\).
+
+Finite-time openness is insufficient for positive light mass, because its
+tidal work on the heavy pair accumulates forever.  A new exact Jacobi lemma
+closes this gap.  With inner separation \(r\), outer radius \(\rho\), outer
+gap \(w=\rho-r\), and inner specific energy \(e\),
+\[
+ |\ddot y|\le{\mathcal M\over w^2},\qquad
+ |\dot e|\le{2m_c r|\dot x|\over w^3}.
+\]
+If \(e<\epsilon\), the inner pair lies below a linear envelope
+\(r_0+v_bt\).  A strict terminal speed inequality makes \(\rho\) outrun this
+envelope by \(ct\), while the remaining tidal-energy integral is finite and
+uniform.  CAPD validates the limiting full-pair margin with
+\(\epsilon=1/100\), \(c=3/2\) by more than \(0.69\); the energy correction is
+\(O(B)\) in the Newtonian-scaled terminal coordinates.  Therefore every
+sufficiently small compatible positive-mass member in this local cusp either
+has a true classical collision or the light body escapes.  Every
+collision-free member is nonperiodic.
+
+The LC signs, heavy-binary bridge, exact mass constants, simultaneous
+bootstrap, Newtonian scaling, and finite-mass transfer were independently
+audited by three adversarial passes.  The restricted continuation and strict
+margins are **PROVED BY COMPUTER-ASSISTED ARGUMENT**; the hierarchical escape
+lemma is **PROVED ANALYTICALLY**.
+
 ## Endpoint status
 
 ### Skinny endpoint $u\to0$
@@ -478,6 +525,8 @@ Proved:
   nonperiodic;
 - infinitely many distinct real tied parameters have an exact finite-time
   classical collision, although none is proved rational;
+- the first certified planar collision boundary and both local
+  collision-free sides satisfy a finite-mass collision-or-escape theorem;
 - every first outer turn in the accumulating parabolic layer has nonzero
   normalized angular momentum;
 - the certified triple-endpoint local branch has positive transverse transfer;
@@ -488,7 +537,8 @@ Open:
 
 - global classification of $\mathscr U_\kappa$ through the finite inner shape
   strip and all light-heavy collision branches;
-- its outgoing scattering sign and attachment across the common LC section;
+- outgoing classification beyond the certified first-root neighborhood and
+  across every additional collision boundary;
 - later central encounters after the first outer return;
 - the exact finite-$B$ separatrix phase and later-turn dynamics;
 - remote captured components outside the certified local endpoint branch.
@@ -532,12 +582,12 @@ and phase equidistribution do not imply that any one of them is rational.
 1. Prove a global obstruction for every real parameter, or classify every
    real zero of the three-component brake residual.
 2. Classify the one-parameter planar family $\mathscr U_\kappa$: use the first
-   certified transverse collision boundary, exclude all other collision
-   zeros, and construct a common outgoing scattering scalar on every
-   collision-free component. Compact collision-free backward capture is
-   already excluded.  The phase-cycle theorem forces infinitely many real
-   tied collisions but does not identify whether a particular cycle hits this
-   selected graph or contains an earlier collision.
+   certified collision-or-escape cusp as the initial component, exclude or
+   certify all other collision zeros, and construct terminal certificates on
+   every remaining collision-free component. Compact collision-free backward
+   capture is already excluded.  The phase-cycle theorem forces infinitely
+   many real tied collisions but does not identify whether a particular cycle
+   hits this selected graph or contains an earlier collision.
 3. Continue the proved nonzero skinny angular momentum through the compact
    second and later central-encounter maps.
 4. Control the exact finite-$B$ separatrix displacement and the accumulating
@@ -601,14 +651,14 @@ computer-assisted proof notes and repository README.
 
 ## Highest-leverage next action
 
-Use the validated transverse collision as the first certified boundary of the
-planar scattering map.  The long-dwell derivative bridge is now closed; the
-highest-leverage tied-family question is a sign/zero theorem for
-\(\Delta_{\rm intr}(B)\) on each collision-free component, upgrading the new
-cyclewise collision dichotomy to a classified root sequence.  In parallel,
-exclude every other collision zero
-on a compact
-$\kappa$ range, propagate both punctured sides to common outgoing sections,
-define $\mathscr S(\kappa)$ componentwise, and prove its nonvanishing with
-certified endpoint limits. This is now a one-parameter compact transition
-problem rather than an uncontrolled two-scale boundary layer.
+Extend the new collision-or-escape certificate from its first narrow
+\(\kappa\)-box across the adjacent compact planar components.  Locate and
+certify every additional collision zero, propagate each collision-free
+component to a common terminal section, and fire either the hierarchical
+escape cone or a nonzero brake scalar.  The long-dwell derivative bridge and
+the first boundary's infinite-time outgoing classification are now closed.
+For the tied family, the parallel highest-leverage question remains a
+componentwise sign/zero theorem for \(\Delta_{\rm intr}(B)\), upgrading the
+cyclewise collision dichotomy to a classified root sequence.  This is a
+one-parameter compact transition problem rather than an uncontrolled
+two-scale boundary layer.

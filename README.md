@@ -61,13 +61,14 @@ bash scripts/run_capd_planar_light_collision_newton.sh \
 
 Full derivation and trusted-computing-base details are in
 `docs/COMPUTER_ASSISTED_TRANSVERSALITY.md` and
-`docs/COMPUTER_ASSISTED_TRANSVERSE_SCATTERING.md`. The planar collision
+`docs/COMPUTER_ASSISTED_TRANSVERSE_SCATTERING.md`. The planar collision-shape
 wrapper validates only the finite stable-tail-to-LC propagation stage; its
-scope and remaining interval-Newton obligation are recorded in
+scope and the now-closed historical interval-Newton obligation are recorded in
 `docs/COMPUTER_ASSISTED_PLANAR_LIGHT_COLLISION_STAGE.md`. The correlated
-doubleton wrapper then proves a unique transverse collision root in the
-planar limiting family; see
-`docs/COMPUTER_ASSISTED_PLANAR_LIGHT_COLLISION_ROOT.md`.
+doubleton wrapper proves a unique transverse collision root in the planar
+limiting family and now validates its regularized continuation to the escape
+cone; see `docs/COMPUTER_ASSISTED_PLANAR_LIGHT_COLLISION_ROOT.md` and
+`docs/COMPUTER_ASSISTED_PLANAR_COLLISION_ESCAPE.md`.
 The exact positive-light-mass reduction and the resulting persistence theorem
 for that collision boundary are in
 `docs/FINITE_MASS_PLANAR_COLLISION_PERSISTENCE.md`.  The differentiated
@@ -75,3 +76,9 @@ two-mode inclination theorem and normalized finite-mass collision graph are
 in `docs/DIFFERENTIATED_JOINT_INCLINATION.md`.  Combining that graph with
 the exact skinny phase winding proves infinitely many exact real tied
 collision parameters; see `docs/REAL_COLLISION_SAMPLING.md`.
+The certified limiting collision has also been continued rigorously through
+its collision--ejection branch and the subsequent heavy-binary LC passage.
+It enters a strict escape cone.  A separate hierarchical-energy lemma absorbs
+all future positive-light-mass tidal work, proving a local finite-mass
+collision-or-escape cusp; see
+`docs/COMPUTER_ASSISTED_PLANAR_COLLISION_ESCAPE.md`.

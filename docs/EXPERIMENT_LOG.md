@@ -770,3 +770,35 @@ it is not a remainder proof.
   **PROVED BY COMPUTER-ASSISTED ARGUMENT** for infinitely many distinct real
   tied collision parameters accumulating at the skinny endpoint.  None is
   proved to have rational Euclid parameter.
+
+## 2026-08-23: validated collision--ejection and finite-mass escape cusp
+
+- Ordinary DOP853 continuation first indicated that the certified restricted
+  collision root ejects, crosses the prescribed heavy-binary collision in a
+  signed cube-root clock, and reaches large radius with outward physical
+  speed about \(2.97\).  This diagnostic was not used as proof.
+- The CAPD verifier was extended from the interval-Newton root enclosure
+  through the selected-pair LC collision--ejection branch to \(S=61/25\),
+  then through a heavy-binary bridge with
+  \(\lambda=\sqrt[3]t\).  Whole-step intervals keep both light--primary
+  squared distances above \(0.89\).  The terminal restricted escape margin
+  is \(>0.58\).
+- An initial appeal to finite-time openness was rejected by adversarial
+  audit: for \(B>0\), the light body perturbs the heavy pair for infinite
+  future time.  The repair is a full Jacobi hierarchical lemma.  It bounds
+  the heavy-pair radius by a linear envelope, forces the light body to outrun
+  it, and controls all future tidal energy by a convergent integral times
+  \(B\).
+- The pinned verifier certifies the conservative limiting full-pair margin
+  \[
+   \dot\rho_0-{2\over(3/2)(\rho_0-r_0)}
+   -\sqrt{{4\over r_0}+{2\over100}}-{3\over2}>0.69.
+  \]
+  Newtonian-scaled LC convergence and the \(O(B)\) tidal budget transfer the
+  cone to sufficiently small positive mass.
+- Three independent audits endorsed the exact Jacobi constants, both LC
+  time orientations, the simultaneous bootstrap, scaling, and the
+  finite-mass conclusion.  Status: **PROVED BY COMPUTER-ASSISTED ARGUMENT**
+  that every sufficiently small compatible member of this local cusp either
+  collides classically or escapes; every collision-free member is
+  nonperiodic.

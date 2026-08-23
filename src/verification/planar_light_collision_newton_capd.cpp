@@ -89,6 +89,23 @@ IMap make_combined_lc_field() {
       "-2*R*(ur^2+ui^2)/(3*t);");
 }
 
+IMap make_heavy_binary_bridge_field() {
+  const std::string scale = "exp(log(9)/3)";
+  const std::string radius = "(" + scale + "*l^2/2)";
+  const std::string plus_squared = "((x+" + radius + ")^2+y^2)";
+  const std::string minus_squared = "((x-" + radius + ")^2+y^2)";
+  const std::string plus_denominator =
+      "(" + plus_squared + "*sqrt(" + plus_squared + "))";
+  const std::string minus_denominator =
+      "(" + minus_squared + "*sqrt(" + minus_squared + "))";
+  return IMap(
+      "var:l,x,y,vx,vy;"
+      "fun:-1,-3*l^2*vx,-3*l^2*vy,"
+      "3*l^2*((x+" + radius + ")/" + plus_denominator +
+      "+(x-" + radius + ")/" + minus_denominator + "),"
+      "3*l^2*(y/" + plus_denominator + "+y/" + minus_denominator + ");");
+}
+
 TailData stable_tail_data(const interval& kappa) {
   using namespace capd;
   const interval sqrt3 = sqrt(interval(3.0));
@@ -223,7 +240,8 @@ struct Evaluation {
   IVector final_state;
 };
 
-Evaluation evaluate_box(const interval& kappa, const interval& duration) {
+Evaluation evaluate_box(const interval& kappa, const interval& duration,
+                        bool pre_collision_checks = true) {
   const TailData tail = stable_tail_data(kappa);
   IVector initial(13);
   IVector initial_tangent(13);
@@ -300,10 +318,16 @@ Evaluation evaluate_box(const interval& kappa, const interval& duration) {
     const interval qy = interval(2.0) * enclosure[6] * enclosure[7];
     const interval other_squared =
         sqr(qx + enclosure[12]) + sqr(qy);
-    if (!(enclosure[11].leftBound() > 1.0 &&
-          enclosure[12].leftBound() > 2.0 &&
-          other_squared.leftBound() > 1.0)) {
-      throw std::runtime_error("LC path left the analytic one-primary chart");
+    if (pre_collision_checks) {
+      if (!(enclosure[11].leftBound() > 1.0 &&
+            enclosure[12].leftBound() > 2.0 &&
+            other_squared.leftBound() > 1.0)) {
+        throw std::runtime_error("pre-collision LC path left its certified chart");
+      }
+    } else if (!(enclosure[11].leftBound() > 0.3 &&
+                 enclosure[12].leftBound() > 1.0 &&
+                 other_squared.leftBound() > 0.01)) {
+      throw std::runtime_error("collision-ejection LC path lost separation");
     }
   } while (!lc_time_map.completed());
   const IVector state = static_cast<IVector>(set);
@@ -319,6 +343,123 @@ Evaluation evaluate_box(const interval& kappa, const interval& duration) {
   jacobian[0][1] = -state[8];
   jacobian[1][1] = -state[9];
   return {residual, jacobian, state};
+}
+
+struct EscapeEvaluation {
+  IVector lc_exit;
+  IVector bridge_exit;
+  interval minimum_primary_squared;
+  interval escape_margin;
+  interval finite_mass_margin;
+};
+
+EscapeEvaluation evaluate_collision_ejection_escape(const interval& kappa) {
+  const interval lc_duration = interval(61.0) / interval(25.0);
+  const Evaluation lc = evaluate_box(kappa, lc_duration, false);
+  const IVector& state = lc.final_state;
+  const interval ur = state[6];
+  const interval ui = state[7];
+  const interval vr = state[8];
+  const interval vi = state[9];
+  const interval radial_time = state[11];
+  const interval binary_separation = state[12];
+  const interval u_squared = sqr(ur) + sqr(ui);
+  const interval qx = sqr(ur) - sqr(ui);
+  const interval qy = interval(2.0) * ur * ui;
+  const interval qtx =
+      interval(2.0) * (ur * vr - ui * vi) / u_squared;
+  const interval qty =
+      interval(2.0) * (ur * vi + ui * vr) / u_squared;
+  const interval lambda = exp(log(radial_time) / interval(3.0));
+
+  IVector initial(5);
+  initial[0] = lambda;
+  initial[1] = qx + binary_separation / interval(2.0);
+  initial[2] = qy;
+  initial[3] = qtx + binary_separation / (interval(3.0) * radial_time);
+  initial[4] = qty;
+  C1Rect2Set set(initial);
+
+  IMap bridge_field = make_heavy_binary_bridge_field();
+  IOdeSolver bridge_solver(bridge_field, 30);
+  bridge_solver.setAbsoluteTolerance(1e-15);
+  bridge_solver.setRelativeTolerance(1e-15);
+  ITimeMap bridge_time_map(bridge_solver);
+  const double lambda_center =
+      (lambda.leftBound() + lambda.rightBound()) / 2.0;
+  const interval bridge_end = interval(lambda_center + 2.0);
+  bridge_time_map.stopAfterStep(true);
+  interval minimum_primary_squared = interval(1000000.0);
+  do {
+    bridge_time_map(bridge_end, set);
+    const IVector enclosure = set.getLastEnclosure();
+    const interval half_binary =
+        exp(log(interval(9.0)) / interval(3.0)) * sqr(enclosure[0]) /
+        interval(2.0);
+    const interval plus_squared =
+        sqr(enclosure[1] + half_binary) + sqr(enclosure[2]);
+    const interval minus_squared =
+        sqr(enclosure[1] - half_binary) + sqr(enclosure[2]);
+    const interval step_minimum =
+        interval(std::min(plus_squared.leftBound(), minus_squared.leftBound()),
+                 std::min(plus_squared.rightBound(), minus_squared.rightBound()));
+    minimum_primary_squared =
+        interval(std::min(minimum_primary_squared.leftBound(),
+                          step_minimum.leftBound()),
+                 std::min(minimum_primary_squared.rightBound(),
+                          step_minimum.rightBound()));
+    if (!(plus_squared.leftBound() > 0.25 &&
+          minus_squared.leftBound() > 0.25)) {
+      throw std::runtime_error("heavy-binary bridge approached a primary");
+    }
+  } while (!bridge_time_map.completed());
+
+  const IVector bridge_exit = static_cast<IVector>(set);
+  if (!(bridge_exit[0].rightBound() < -1.9 &&
+        bridge_exit[0].leftBound() > -2.1)) {
+    throw std::runtime_error("heavy-binary bridge missed the target lambda section");
+  }
+  const interval outer_radius =
+      sqrt(sqr(bridge_exit[1]) + sqr(bridge_exit[2]));
+  const interval radial_clock_speed =
+      (bridge_exit[1] * bridge_exit[3] + bridge_exit[2] * bridge_exit[4]) /
+      outer_radius;
+  const interval physical_outward_speed = -radial_clock_speed;
+  const interval scale = exp(log(interval(9.0)) / interval(3.0));
+  const interval half_binary = scale * sqr(bridge_exit[0]) / interval(2.0);
+  const interval clearance = outer_radius - half_binary;
+  const interval binary_boundary_speed =
+      scale / (interval(3.0) * (-bridge_exit[0]));
+  const interval comparison_speed = interval(2.0);
+  const interval escape_margin =
+      physical_outward_speed -
+      interval(2.0) / (comparison_speed * clearance) -
+      comparison_speed - binary_boundary_speed;
+  // At the massless endpoint the two primaries have total mass M=2 and
+  // parabolic relative energy e=0.  This is the strict limiting inequality
+  // used by the finite-mass hierarchical escape lemma: allow e<1/100,
+  // bound the binary's linear envelope by v_b, and require the outer radius
+  // to outrun that envelope by c=3/2 even after all future radial-force loss.
+  const interval inner_separation = scale * sqr(bridge_exit[0]);
+  const interval outer_clearance = outer_radius - inner_separation;
+  const interval energy_ceiling = interval(1.0) / interval(100.0);
+  const interval cone_speed = interval(3.0) / interval(2.0);
+  const interval binary_envelope_speed =
+      sqrt(interval(4.0) / inner_separation +
+           interval(2.0) * energy_ceiling);
+  const interval finite_mass_margin =
+      physical_outward_speed -
+      interval(2.0) / (cone_speed * outer_clearance) -
+      binary_envelope_speed - cone_speed;
+  if (!(clearance.leftBound() > 10.0 &&
+        physical_outward_speed.leftBound() > 2.5 &&
+        escape_margin.leftBound() > 0.0 &&
+        outer_clearance.leftBound() > 10.0 &&
+        finite_mass_margin.leftBound() > 0.0)) {
+    throw std::runtime_error("post-binary state failed the analytic escape test");
+  }
+  return {state, bridge_exit, minimum_primary_squared, escape_margin,
+          finite_mass_margin};
 }
 
 IVector interval_newton(const IVector& center, const IVector& value,
@@ -366,8 +507,18 @@ int main() {
     if (determinant.contains(0.0)) {
       throw std::runtime_error("Newton inclusion passed but determinant contains zero");
     }
+    const EscapeEvaluation escape =
+        evaluate_collision_ejection_escape(newton[0]);
+    std::cout << "ESCAPE_DATA method=CAPD-6.1.0-native"
+              << " lc_exit=" << escape.lc_exit
+              << " bridge_exit=" << escape.bridge_exit
+              << " minimum_primary_squared=" << escape.minimum_primary_squared
+              << " escape_margin=" << escape.escape_margin
+              << " finite_mass_margin=" << escape.finite_mass_margin << "\n";
     std::cout << "PASS_ROOT method=CAPD-6.1.0-native "
                  "stage=planar-light-collision-interval-newton\n";
+    std::cout << "PASS_ESCAPE method=CAPD-6.1.0-native "
+                 "stage=planar-light-collision-ejection-escape\n";
     return 0;
   } catch (const std::exception& error) {
     std::cerr << "FAIL " << error.what() << "\n";

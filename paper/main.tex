@@ -61,7 +61,10 @@ graph through the logarithmic saddle dwell; the exact tied curve is reduced
 locally to one scalar signed gap from that graph.  Combining its continuity
 with the exact rapidly winding skinny clock proves that infinitely many
 distinct real tied parameters have a finite-time classical collision, though
-none of these isolated parameters is proved rational.
+none of these isolated parameters is proved rational.  The certified limiting
+collision--ejection continuation also crosses the following heavy-binary
+collision into a strict escape cone.  A hierarchical Jacobi-energy bootstrap
+transfers this to a finite-mass local collision-or-escape theorem.
 The full conjecture remains open because the compact
 phase interior, the one-parameter planar scattering family exposed by the
 finite-mass triple-endpoint blow-up, and later turns are not yet controlled. A
@@ -1555,11 +1558,79 @@ zero is an exact selected light--heavy collision of the tied positive-mass
 trajectory.  The phase brackets are pairwise disjoint and tend to zero.
 \end{proof}
 
+\begin{theorem}[Local collision-or-escape cusp]
+There is a neighborhood of the certified normalized planar collision root
+such that every sufficiently small compatible positive-light-mass member
+either has a finite classical collision before a fixed terminal section or
+its light body escapes to infinity.  Hence every collision-free member in
+this local cusp has no second brake.
+\end{theorem}
+
+\begin{proof}
+The pinned interval propagation starts from the interval-Newton root
+enclosure, crosses the selected collision in its Levi--Civita chart, and
+reconstructs the restricted outer state at a fixed ejection section.  With
+\(\lambda=\sqrt[3]t\), a second analytic LC bridge crosses the prescribed
+heavy-binary collision.  Whole-step enclosures keep both light--primary
+squared distances above \(0.89\).  On the outgoing section they prove the
+strict restricted escape inequality
+\[
+ \dot\rho_0-{2\over 2w_0}-2-a'(s_0)>0.58.
+\]
+
+For the positive-mass transfer, let \(x\) be the heavy-pair Jacobi vector,
+\(y\) the light position relative to its center of mass, and put
+\[
+ r=|x|,\quad \rho=|y|,\quad w=\rho-r,\quad
+ e={1\over2}|\dot x|^2-{M\over r},\quad
+ M=m_a+m_b,\quad\mathcal M=M+m_c.
+\]
+The exact Jacobi equations give
+\[
+ |\ddot y|\le{\mathcal M\over w^2},\qquad
+ |\dot e|\le{2m_c r|\dot x|\over w^3}.
+\]
+Fix \(\epsilon,c>0\), set
+\[
+ v_b=\sqrt{{2M\over r_0}+2\epsilon},
+\quad
+ K=\int_0^\infty
+ {\sqrt{2M(r_0+v_bt)+2\epsilon(r_0+v_bt)^2}
+  \over(w_0+ct)^3}\,dt.
+\]
+If
+\[
+ \dot\rho_0-{\mathcal M\over cw_0}>v_b+c,\qquad
+ e_0+2m_cK<\epsilon,
+\]
+then a simultaneous bootstrap gives
+\[
+ r(t)\le r_0+v_bt,\qquad
+ \dot\rho(t)>v_b+c,\qquad w(t)\ge w_0+ct,\qquad e(t)<\epsilon.
+\]
+Thus only an inner collision can interrupt outer escape.  In the certified
+massless terminal state \(M=\mathcal M=2\), \(m_c=0\), and \(e_0=0\).
+For \(\epsilon=1/100\), \(c=3/2\), interval propagation proves the stronger
+full-pair margin
+\[
+ \dot\rho_0-{2\over(3/2)(\rho_0-r_0)}
+ -\sqrt{{4\over r_0}+{2\over100}}-{3\over2}>0.69.
+\]
+Apply the comparison in the Newtonian-scaled finite-mass terminal
+coordinates, where \(\widehat e=\rho_Te\).  Scaled LC convergence gives
+\(\widehat e_0\to0\), while the correspondingly scaled \(K\) is uniformly
+bounded and \(m_cK=O(B)\).  The strict inequalities persist.
+An exact positive-mass collision terminates the classical branch; otherwise
+the member reaches the terminal section and escapes.
+\end{proof}
+
 This boundary emanates from the massless planar joint-limit collision and
 persists in the surrounding finite-mass section family. It is not a tied
 finite-mass Pythagorean orbit or a brake, and no positive-mass classical
-collision is continued physically. What remains is exclusion of
-other collision zeros and componentwise outgoing-sign control.  In
+collision is continued physically.  The preceding theorem classifies a
+neighborhood of this first root. What remains is exclusion or certification
+of other collision zeros and outgoing control on the remaining compact
+components.  In
 particular, the exact tied trajectory selects only one point
 $(\widehat\kappa_B,\delta_B)$ on the fixed section; the corollary does not
 prove that it solves
@@ -1701,10 +1772,12 @@ theorem must control arbitrarily close collision-free encounters, classify or
 exclude every double-radial event including Jacobi degeneracies, and be uniform
 at parameter endpoints.  If real intersections remain, an exact arithmetic
 bridge is still required. In the planar joint-limit family, one transverse
-collision boundary is now certified; global use of it requires exclusion of
-other collision zeros and outgoing-sign control on every collision-free
-component.  Differentiated transport through the finite-mass saddle dwell is
-complete; on the exact tied curve the remaining local condition is the scalar
+collision boundary is now certified and its local finite-mass
+collision-or-escape cusp is classified.  Global use requires exclusion or
+certification of other collision zeros and outgoing control on every
+remaining collision-free component.  Differentiated transport through the
+finite-mass saddle dwell is complete; on the exact tied curve the remaining
+local condition is the scalar
 sign/zero problem for $\Delta_{\rm intr}(B)$.  Phase sampling forces infinitely
 many real classical collisions but does not classify each collision-free
 component or yield a rational root.

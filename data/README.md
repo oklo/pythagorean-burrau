@@ -11,3 +11,7 @@ half-line scattering and rotation-coefficient certificate.
 
 `triple_endpoint_turn_capd_certificate.txt` records the replayed positivity
 certificate at the first turn of the universal triple-endpoint base.
+
+`validated_planar_light_collision_root_capd.txt` records both the correlated
+interval-Newton collision root and its validated regularized continuation to
+the strict restricted and finite-mass escape-cone margins.

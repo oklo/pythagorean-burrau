@@ -313,10 +313,11 @@ Newton. Thus tail truncation, finite propagation, correlation preservation,
 root existence, local uniqueness, transversality, and chart safety are no
 longer obligations for this root.
 
-The remaining global obligations are to exclude every other collision zero,
-prove that the adjacent parameter components are collision-free at all other
-times, and reconstruct outgoing physical data only on exit circles bounded
-away from $u=0$.
+The remaining global obligations begin outside the newly certified local
+cusp: exclude or certify every other collision zero, prove collision safety
+on the intervening parameter components, and propagate each to a terminal
+escape, collision, or non-brake certificate.  Outgoing reconstruction inside
+the first root box is no longer open.
 The exact identity
 \[
  \ell=q\times q_t=2\det(u,v),\qquad
@@ -332,6 +333,22 @@ At a transverse zero it also gives the proved local normal form
 \]
 Hence the root certificate settles local one-sided avoidance. Other times and
 the other primary remain global collision obligations.
+
+Those obligations are now closed on a sufficiently small neighborhood of
+this first root.  The interval-Newton parameter enclosure propagates through
+the selected collision--ejection LC block and a signed heavy-binary LC bridge
+to a strict restricted escape cone.  The conservative limiting finite-mass
+margin
+\[
+ \dot\rho_0-{2\over(3/2)(\rho_0-r_0)}
+ -\sqrt{{4\over r_0}+{2\over100}}-{3\over2}>0.69
+\]
+feeds a full hierarchical-energy lemma: the inner pair grows at most
+linearly while the light body outruns it, and its total future tidal work is
+\(O(B)\).  Thus every sufficiently small compatible positive-mass member in
+the local cusp either collides classically or escapes.  This closes outgoing
+classification only near the certified root; excluding or certifying every
+other collision boundary on a larger compact \(\kappa\)-range remains open.
 
 The selected finite-mass relative coordinate now gives an exact perturbative
 bridge:
