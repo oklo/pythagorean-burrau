@@ -184,10 +184,12 @@ collision ray whose transverse indicial exponents are
 $(3\pm\sqrt7)/6$. The autonomous shape equation now has a proved unique
 increasing peel-off branch modulo logarithmic-time translation. It crosses
 the center with an explicit positive speed and has positive light--binary
-separation at the prescribed binary collision. What remains is the singular
-selection theorem showing that the finite-$\varepsilon$ returned family
-converges to this branch, together with identification of the returned Jost
-combination and its one-sided outgoing Wronskian sign. Precisely, with
+separation at the prescribed binary collision. Both scalar signs and the
+singular local selection mechanism are now proved. What remains is the compact
+endpoint-localization statement showing that the finite-$\varepsilon$
+returned family accumulates on the certified connection. Conditional on that
+statement, the exact graph-transform and fibered-exchange theorem identifies
+the returned Jost combination and its outgoing Wronskian. Precisely, with
 $\delta=\pi-\phi$, the target is
 \[
  \delta^{(\sqrt7-1)/6}\mathcal C_2(\phi)
@@ -225,12 +227,25 @@ incoming parabolic manifold, plus the sign of one propagated linear field.
 Ordinary section projections stabilize near $0.314>0$.
 
 `TRIPLE_ENDPOINT_MATCHING_CERTIFICATE.md` records the square formulation.
-The completed proof uses an equivalent topological energy bracket, so it does
-not need uniqueness or base transversality. The only remaining triple-endpoint
-obligation is the finite-$\varepsilon$ selection theorem proving that the
-captured family converges to the certified connection with the stated field
-normalization. Once that is proved, the already certified signs
-$A_->0$ and $K_->0$ give a positive renormalized second-turn coefficient.
+The completed coefficient proof uses an equivalent topological energy bracket.
+The subsequent order, tangent, and exchange arguments prove uniqueness,
+transversality, and a one-sided local captured branch with positive
+renormalized coefficient. The remaining endpoint obligation is global:
+classify any remote captured components or endpoint accumulations. Finite-$B$
+near-triple transfer is a separate obligation.
+
+The singular local part of that implication is now isolated in
+`TRIPLE_ENDPOINT_SELECTION.md`. Exact translation by the center radius turns
+the base into a parameter-dependent saddle passage; a graph-transform and
+fibered exchange estimate prove selection of the unique universal base and
+slow field conditional on fixed-section localization to the certified
+bracket. The compact verifier additionally proves the force-monotonicity cone
+$Z>r/(2\sqrt2)$, which gives uniqueness of the parabolic connection inside
+that bracket. The differentiated collision contraction and the existing
+McGehee fixed-phase graph theorem then prove differential transversality.
+Together these results construct an unconditional one-sided local captured
+branch with positive renormalized coefficient. The remaining restricted
+endpoint issue is global component classification, not local selection.
 
 ## Adversarial checklist
 
@@ -288,8 +303,28 @@ checked the reversed-time signs, whole-step positivity of the candidate path,
 the escape/return connectedness argument, the returned-Jost Volterra bounds,
 and the Wronskian orientation. It confirmed that $W(J,P_+)<-1/2$ is uniform
 over every possible parabolic connection in the bracket and does not rely on
-uniqueness or generic transversality. Neither audit inferred the still-open
+uniqueness or generic transversality. Neither audit inferred the then-open
 finite-$\varepsilon$ selection theorem.
+
+A subsequent whole-path cone check and adversarial comparison audit prove
+that the bracket contains a unique parabolic connection and orders its two
+sides. The audit explicitly rejected treating pairwise order as differential
+transversality. It required derivative-strengthened stable tails, a
+differentiated incoming parabolic graph, and a fixed phase gauge. The repaired
+proof supplies the first by differentiating the collision contraction and the
+second from the already-proved McGehee fixed-phase graph; a re-audit endorsed
+the resulting noncollinearity argument.
+
+The conditional shifted-Fuchsian selection theorem received a separate
+adversarial derivation. It confirmed the exact center clock, both translated
+equations, the Lyapunov identity, all exponent conversions, the one-way lower
+exit, and the full scaled $(p,\dot p)$ state. It initially rejected compact
+coefficient convergence as insufficient over the diverging saddle dwell. The
+repaired proof now contains the required parameter-dependent graph-transform
+estimate and fibered exchange bound, including the
+$\rho^{\sqrt7/2}$ fast-mode suppression. Combined with transversality, this
+constructs the unconditional local captured branch. Only global endpoint
+localization remains conjectural.
 
 The first-encounter and terminal-escape theorems received independent
 adversarial derivations. The audit explicitly checked near-collision

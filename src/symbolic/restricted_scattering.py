@@ -563,6 +563,60 @@ def triple_endpoint_fast_frobenius_corrections() -> tuple[
     )
 
 
+def triple_endpoint_shifted_fuchsian_identities() -> tuple[
+    sp.Expr, sp.Expr, sp.Expr, sp.Expr, sp.Expr
+]:
+    """Exact shifted equations, Lyapunov identity, and exponent conversions."""
+    radius, center_radius, xi = sp.symbols("r rho xi", positive=True)
+    shape, shape_x, shape_xx = sp.symbols("y y_x y_xx", real=True)
+    fiber, fiber_x, fiber_xx = sp.symbols("p p_x p_xx", real=True)
+    defect = shape * ((shape**2 + sp.Rational(1, 4)) ** sp.Rational(-3, 2) - 1)
+    tidal = (1 - 2 * shape**2) / (shape**2 + sp.Rational(1, 4)) ** sp.Rational(5, 2)
+    shifted_radius = center_radius * sp.exp(-xi)
+    shape_equation = (
+        2 * (1 - shifted_radius) * shape_xx
+        + (-1 + 2 * shifted_radius) * shape_x
+        + defect
+    )
+    fiber_equation = (
+        2 * (1 - shifted_radius) * fiber_xx
+        + (3 - 2 * shifted_radius) * fiber_x
+        - tidal * fiber / 2
+    )
+    # Along the shape equation, d[(1-r)y_x^2+Integral(defect,y)]/dx.
+    energy_derivative = sp.simplify(
+        shifted_radius * shape_x**2
+        + 2 * (1 - shifted_radius) * shape_x * shape_xx
+        + defect * shape_x
+    ).subs(
+        shape_xx,
+        ((1 - 2 * shifted_radius) * shape_x - defect)
+        / (2 * (1 - shifted_radius)),
+    )
+    alpha_minus = (3 - sp.sqrt(7)) / 6
+    beta_minus = (3 - sp.sqrt(7)) / 4
+    exponent_conversion = sp.simplify(2 * beta_minus / 3 - alpha_minus)
+    endpoint_power = sp.simplify(alpha_minus - sp.Rational(1, 3))
+    return (
+        shape_equation,
+        fiber_equation,
+        sp.simplify(energy_derivative),
+        exponent_conversion,
+        endpoint_power,
+    )
+
+
+def triple_endpoint_force_monotonicity_identity() -> tuple[sp.Expr, sp.Expr]:
+    """Derivative of the reversed scalar force and its cone numerator."""
+    height, radius = sp.symbols("Z r", positive=True)
+    force = -2 * height / (height**2 + radius**2 / 4) ** sp.Rational(3, 2)
+    derivative = sp.factor(sp.diff(force, height))
+    cone_formula = (4 * height**2 - radius**2 / 2) / (
+        height**2 + radius**2 / 4
+    ) ** sp.Rational(5, 2)
+    return derivative, sp.simplify(derivative - cone_formula)
+
+
 def restricted_universal_binary_lc_system() -> tuple[
     sp.Matrix, tuple[sp.Symbol, ...]
 ]:

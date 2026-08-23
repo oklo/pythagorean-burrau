@@ -87,6 +87,57 @@ is therefore parabolic, with $w\to0$. This proves that (3) contains at least
 one collision-stable/incoming-parabolic connection. Uniqueness is not needed
 for the coefficient sign below.
 
+## Uniqueness inside the bracket
+
+The compact propagation also verifies, on every accepted step and for the
+whole amplitude box,
+
+\[
+ Z>{r\over2\sqrt2}.
+\tag{7a}
+\]
+
+On the initial collision tail the stronger inequality
+$Z>(\sqrt3/2)r$ follows analytically from $a<0$; beyond the validated large
+section, (7a) is automatic from $Z>10$ and $0\le r\le1$. Consequently the
+scalar force
+
+\[
+ f(Z,r)=-{2Z\over(Z^2+r^2/4)^{3/2}}
+\]
+
+is strictly order preserving throughout every candidate path:
+
+\[
+ f_Z={4Z^2-r^2/2\over(Z^2+r^2/4)^{5/2}}>0.
+\tag{7b}
+\]
+
+The derivative and its cone numerator are exact symbolic regression tests.
+
+Put $b=-a$, and take $b_2>b_1$ in the certified interval. The collision
+asymptotics give, at every sufficiently small positive section,
+
+\[
+ \Delta Z=Z(b_2)-Z(b_1)>0,
+ \qquad \Delta w>0.
+\]
+
+While both paths remain candidates, the mean-value formula and (7b) give
+
+\[
+ \Delta Z''=c(s)\Delta Z,
+ \qquad c(s)=\int_0^1 f_Z(Z(b_1)+t\Delta Z,r)\,dt>0.
+\tag{7c}
+\]
+
+Thus $\Delta w$ is strictly increasing. Two distinct amplitudes cannot both
+be parabolic, since both velocities would tend to zero while their difference
+stays bounded below by a positive value after any fixed small section. The
+connection supplied above is therefore unique in (3). Moreover, every larger
+$b$ in the box escapes hyperbolically and every smaller $b$ turns. This is an
+order theorem, not a numerical uniqueness inference.
+
 ## Returned-Jost tail without truncation
 
 On any such parabolic member put
@@ -179,8 +230,11 @@ $W(P_-,P_+)=-\sqrt7$. Consequently
 \tag{15}
 \]
 
-The proof is uniform over every possible parabolic connection in (3), so it
-does not rely on numerical uniqueness or a generic intersection.
+The sign proof is uniform over the entire box and did not require uniqueness;
+the separate order argument (7a)--(7c) now proves uniqueness in that box. It
+does not alone prove differential transversality to the incoming parabolic
+manifold; the differentiated tails and McGehee tangent contraction complete
+that step in `TRIPLE_ENDPOINT_TRANSVERSALITY.md`.
 
 ## Reproduction and scope
 
@@ -201,17 +255,21 @@ The trusted base consists of the verifier and wrapper, pinned CAPD source,
 host compiler, collision-tail fixed-point estimates, and analytic identities
 (4)--(5) and (8)--(13).
 
-Equation (15) settles the global coefficient only. To conclude that the
-renormalized second-turn limit in (1) is positive, one must still prove that
-the finite-$\varepsilon$ captured family selects this collision connection
-and its transverse field. No finite-$B$ classical trajectory is continued
-through a collision.
+Equation (15) settles the global coefficient. The companion transversality
+and shifted-Fuchsian exchange theorems now construct a one-sided local
+captured branch and prove its positive renormalized limit (1). Global
+classification of remote captured components and finite-$B$ near-triple
+transfer remain open. No finite-$B$ classical trajectory is continued through
+a collision.
 
 **Status of the collision attachment:** **PROVED ANALYTICALLY**.
 
-**Status of the compact bracket and (14)--(15):** **PROVED BY
+**Status of the compact bracket, uniqueness, and (14)--(15):** **PROVED BY
 COMPUTER-ASSISTED ARGUMENT**. Two independent adversarial passes rederived
 the collision Green operators and the compact reversed-time/Jost logic. The
 second pass independently replayed the pinned wrapper and reproduced the
-stored hexadecimal certificate. The finite-$\varepsilon$ selection statement
-needed in (1) remains **CONJECTURAL**.
+stored hexadecimal certificate. A further adversarial pass verified the
+pairwise uniqueness argument and initially rejected an unproved upgrade to
+transversality. The repaired proof supplies derivative-strengthened collision
+tails in a fixed gauge and invokes the already-proved $C^1$ McGehee parabolic
+graph; re-audit endorsed the resulting transverse local-branch theorem.

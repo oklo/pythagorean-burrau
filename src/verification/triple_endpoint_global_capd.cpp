@@ -1,4 +1,4 @@
-// Conditional compact-core certificate for the triple-endpoint global match.
+// Compact-core certificate for the triple-endpoint global coefficient.
 //
 // Dependency pin:
 //   CAPD 6.1.0, git commit 731079217a9254ea2948d742df2b170895effe7f
@@ -118,6 +118,13 @@ IVector propagate_core(const interval& amplitude, bool path_check) {
     if (!(set.getLastEnclosure()[3].leftBound() > 0.0)) {
       throw std::runtime_error("candidate box lost first-leg outgoing velocity");
     }
+    const interval path_radius = sqr(cos(set.getLastEnclosure()[1]));
+    const interval force_monotonicity_margin =
+        set.getLastEnclosure()[2] -
+        path_radius / (interval(2.0) * sqrt(interval(2.0)));
+    if (!(force_monotonicity_margin.leftBound() > 0.0)) {
+      throw std::runtime_error("candidate box left the force-monotonicity cone");
+    }
   } while (!time_map.completed());
   return static_cast<IVector>(set);
 }
@@ -226,6 +233,7 @@ int main() {
               << " proved_base_tail_box=1e-14"
               << " proved_fast_tail_box=1e-20"
               << " candidate_path_w_positive=true"
+              << " candidate_path_Z_gt_r_over_2sqrt2=true"
               << " rational_threshold=W_J_Pplus<-1/2"
               << " amplitude_bracket=[" << escape_amplitude.leftBound() << ","
               << return_amplitude.rightBound() << "]"

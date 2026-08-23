@@ -28,7 +28,9 @@ from src.symbolic.restricted_scattering import (
     transverse_rotation_wronskian_identity,
     transverse_variational_normal_form,
     triple_endpoint_fast_frobenius_corrections,
+    triple_endpoint_force_monotonicity_identity,
     triple_endpoint_matching_determinant,
+    triple_endpoint_shifted_fuchsian_identities,
     turn_resonance_radial_determinants,
 )
 
@@ -299,6 +301,38 @@ def test_triple_endpoint_fast_mode_corrections_cancel_forcing() -> None:
     assert radius_correction == sp.Rational(1, 4)
     assert shape_residual == 0
     assert radius_residual == 0
+
+
+def test_triple_endpoint_shifted_fuchsian_and_energy_identities() -> None:
+    shape_eq, fiber_eq, energy_derivative, exponent_conversion, endpoint_power = (
+        triple_endpoint_shifted_fuchsian_identities()
+    )
+    rho, xi = sp.symbols("rho xi", positive=True)
+    radius = rho * sp.exp(-xi)
+    y, y_x, y_xx = sp.symbols("y y_x y_xx", real=True)
+    p, p_x, p_xx = sp.symbols("p p_x p_xx", real=True)
+    defect = y * ((y**2 + sp.Rational(1, 4)) ** sp.Rational(-3, 2) - 1)
+    tidal = (1 - 2 * y**2) / (y**2 + sp.Rational(1, 4)) ** sp.Rational(5, 2)
+    assert sp.simplify(
+        shape_eq - (2 * (1 - radius) * y_xx + (-1 + 2 * radius) * y_x + defect)
+    ) == 0
+    assert sp.simplify(
+        fiber_eq
+        - (2 * (1 - radius) * p_xx + (3 - 2 * radius) * p_x - tidal * p / 2)
+    ) == 0
+    assert sp.simplify(energy_derivative - (1 - radius) * y_x**2) == 0
+    assert exponent_conversion == 0
+    assert endpoint_power == (1 - sp.sqrt(7)) / 6
+
+
+def test_triple_endpoint_force_is_monotone_in_certified_cone() -> None:
+    derivative, residual = triple_endpoint_force_monotonicity_identity()
+    height, radius = sp.symbols("Z r", positive=True)
+    expected = (4 * height**2 - radius**2 / 2) / (
+        height**2 + radius**2 / 4
+    ) ** sp.Rational(5, 2)
+    assert sp.simplify(derivative - expected) == 0
+    assert residual == 0
 
 
 def test_restricted_universal_binary_collision_is_lc_regular() -> None:

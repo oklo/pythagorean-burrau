@@ -850,8 +850,9 @@ positive transverse derivative at the unique first turn. Therefore
 \[
  K_->0.
 \]
-The global coefficient is also positive, as proved next. Thus only the
-finite-phase selection theorem remains open at this endpoint.
+The global coefficient is also positive, as proved next. The later
+transversality and shifted-Fuchsian argument then construct the selected local
+finite-phase branch.
 
 The latter sign is nevertheless finite-dimensional. On the last binary
 infall, use the monotone separation $r$ as independent variable and put
@@ -905,11 +906,11 @@ finite-cutoff diagnostic gives $a\approx-0.24695$ and
 $\widehat A_-\approx0.31>0$.
 
 \begin{theorem}[Global triple-endpoint coefficient]
-Every collision-stable/incoming-parabolic connection in the amplitude bracket
+There is exactly one collision-stable/incoming-parabolic connection in the amplitude bracket
 \[
  -0.24696\le a\le-0.24694
 \]
-satisfies $A_->0$. At least one such connection exists.
+and it satisfies $A_->0$.
 \end{theorem}
 \begin{proof}
 Analytic Fuchsian fixed-point estimates attach the full collision-stable
@@ -923,6 +924,15 @@ $H_K+1/(4Z^3)<0$. The exact tail inequality
 \]
 and connectedness therefore supply a parabolic member, without a uniqueness
 or transversality assumption.
+
+The same propagation proves $Z>r/(2\sqrt2)$ along the whole candidate box;
+the analytic collision cone and the large-$Z$ tail cover the two omitted
+ends. Hence $f_Z>0$ for the scalar light equation. For two amplitudes ordered
+by $b=-a$, their positive position and velocity differences obey
+$\Delta Z''=c(t)\Delta Z$ with $c>0$. The velocity difference is strictly
+increasing, so two different amplitudes cannot both have velocity tending to
+zero at infinity. This proves uniqueness within the bracket and orders the
+turn and escape sides.
 
 On every parabolic member, a Volterra estimate in $(P,\Omega)$ attaches the
 exact returned Jost data
@@ -943,6 +953,43 @@ Together with $K_->0$, this proves that the proposed limiting coefficient
 $4^{(\sqrt7-1)/6}A_-K_-$ is positive. It does not by itself prove the limit:
 one must still show that the finite-phase captured family selects this base
 connection and its normalized transverse field.
+
+That singular local implication has an exact shifted-Fuchsian reduction. If
+$\rho$ is the binary separation at center crossing and
+$\xi=-\log(r/\rho)$, then
+\[
+ 2(1-\rho e^{-\xi})y_{\xi\xi}
+ +(-1+2\rho e^{-\xi})y_\xi
+ +y[(y^2+1/4)^{-3/2}-1]=0.
+\]
+The translated field converges to the universal hyperbolic saddle. A
+parameter-dependent inclination estimate selects its increasing unstable
+branch, while the fibered exchange estimate suppresses the fast mode by
+$\rho^{\sqrt7/2}$. Thus fixed-section convergence to the certified endpoint
+implies the full base-and-field asymptotic above. The remaining issue is the
+compact localization of any remotely continued captured component; the
+singular passage itself introduces no further sign ambiguity.
+
+The certified connection is in fact a transverse base-curve intersection.
+Differentiating the collision contraction in the fixed terminal-collision
+gauge gives a tangent $J$ with $J,J_s>0$. The validated cone makes
+$J_{ss}=f_ZJ>0$, so its velocity component stays bounded away from zero.
+By contrast, the differentiable McGehee fixed-phase parabolic graph has
+contracting tangents, whose velocity components tend to zero at infinity.
+The section tangents therefore cannot be collinear.
+
+It follows that one side of the incoming parabolic curve exits the translated
+saddle along the increasing universal peel. This produces a genuine local
+captured branch with center phase tending to $\pi$. On that branch the full
+fibered exchange theorem gives
+\[
+ (\pi-\phi)^{(\sqrt7-1)/6}\mathcal C_2(\phi)
+ \longrightarrow4^{(\sqrt7-1)/6}A_-K_->0.
+\]
+Thus the restricted second-turn coefficient is positive on a punctured
+one-sided neighborhood of the certified triple endpoint. This is a
+collision-regularized restricted theorem; finite positive mass still requires
+a uniform near-triple transfer theorem.
 
 Parameterize the restricted incoming parabolic curve by its asymptotic phase
 intercept $\chi$, normalized by

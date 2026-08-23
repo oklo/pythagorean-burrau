@@ -443,8 +443,15 @@ Evidence level: ORDINARY NUMERICAL EVIDENCE.  Reproduce the central point:
 - Two independent adversarial passes rederived the collision tails and global
   sign logic; one independently replayed the pinned wrapper. Exact hexadecimal
   output is stored in `data/triple_endpoint_global_capd_certificate.txt`.
+- Strengthened the replay with the whole-path cone
+  $Z>r/(2\sqrt2)$. Pairwise scalar comparison then proves the parabolic
+  connection is unique in the amplitude bracket and orders its hyperbolic
+  escape and finite-turn sides. This does not by itself prove differential
+  transversality or finite-phase localization.
 
 Evidence levels: **PROVED ANALYTICALLY** for the collision attachment and
 tail estimates; **PROVED BY COMPUTER-ASSISTED ARGUMENT** for the compact
-escape/return bracket and $A_->0$. The finite-$\varepsilon$ selection theorem
-remains **CONJECTURAL**.
+escape/return bracket and $A_->0$. Subsequent differentiated-tail,
+transversality, and fibered-exchange arguments promote the one-sided local
+finite-$\varepsilon$ branch to **PROVED BY COMPUTER-ASSISTED ARGUMENT**;
+global captured-component classification remains **CONJECTURAL**.

@@ -600,9 +600,12 @@ Since $\delta=4\varepsilon$, equation (12) would then satisfy
 \tag{14}
 \]
 
-The prefactor is positive, so only the product sign matters. The universal
-factor $K_-$ is now certified positive below. The global factor $A_-$ and the
-finite-$\varepsilon$ selection theorem remain open.
+The prefactor is positive, so only the product sign matters. Both factors are
+now certified positive below and in
+`COMPUTER_ASSISTED_TRIPLE_ENDPOINT_GLOBAL.md`. The shifted-Fuchsian and
+fibered-exchange argument in `TRIPLE_ENDPOINT_SELECTION.md` proves this
+asymptotic conditional on fixed-section localization of the captured family
+to the certified endpoint bracket; that compact localization remains open.
 
 The finite-cutoff diagnostic gives the following consistency check:
 
@@ -718,26 +721,27 @@ for every possible connection in the bracket. See
 `COMPUTER_ASSISTED_TRIPLE_ENDPOINT_GLOBAL.md` and the stored hexadecimal
 certificate. No uniqueness or generic transversality is assumed.
 
-## Missing selection theorem
+## Remaining global and finite-mass obligations
 
-To close the endpoint one must still prove the finite-$\varepsilon$ selection
-and transfer theorem:
+`TRIPLE_ENDPOINT_SELECTION.md` and
+`TRIPLE_ENDPOINT_TRANSVERSALITY.md` now prove, for the one-sided restricted
+branch emanating from the unique certified connection:
 
-1. the incoming parabolic manifold selected by the returning outer orbit
-   converges, after (3), to one of the certified collision-stable/parabolic
-   connections;
-2. the normalized returned transverse field converges to its certified Jost
+1. the incoming parabolic base selects the unique universal peel-off orbit;
+2. the normalized returned transverse field selects its certified Jost
    combination, including the precise factor
    $4^{(\sqrt7-1)/6}(\pi-\phi)^{-(\sqrt7-1)/6}$;
-3. the two proved limiting signs $A_->0$ and $K_->0$ transfer uniformly for
-   $\phi<\pi$ close to $\pi$;
-4. the resulting second-encounter conclusion transfers to finite $B$ through arbitrarily close but
+3. the two limiting signs $A_->0$ and $K_->0$ transfer, giving
+   $\mathcal C_2>0$ on a punctured one-sided endpoint neighborhood.
+
+The remaining obligations are:
+
+1. classify remote captured components and exclude any additional
+   fixed-section accumulation outside the certified connection;
+2. transfer the resulting second-encounter conclusion to finite $B$ through arbitrarily close but
    noncolliding triple encounters, while an actual collision is treated only
    as termination of the classical solution.
 
 The exact exponents make this a finite-dimensional McGehee matching problem.
-They do not by themselves prove selection. Status of (1)--(9): **EXACT
-SYMBOLIC IDENTITY** or direct asymptotic consequence of the binary Kepler
-clock. Status of both limiting scalar signs in item 3: **PROVED BY
-COMPUTER-ASSISTED ARGUMENT**. Status of items 1, 2, the finite-$\varepsilon$
-transfer in item 3, and item 4: **CONJECTURAL**.
+Status of the exact local branch and its sign: **PROVED BY COMPUTER-ASSISTED
+ARGUMENT**. Status of the two remaining obligations above: **CONJECTURAL**.

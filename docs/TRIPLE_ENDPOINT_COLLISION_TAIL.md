@@ -115,6 +115,63 @@ contractive:
 Here $3\rho^{2n}<2.1\times10^{-16}$.  The compact verifier stores
 $y_X=-Dy$ and uses the looser outward box $10^{-14}$ in both components.
 
+The same contraction is differentiable in the amplitude. Put
+$h=\partial_a\eta$ and differentiate (5). The differentiated fixed-point
+equation is
+
+\[
+ h=r^n+\mathcal K_s\left[
+ {r\over1-r}\left(Dh+{9\over4}h\right)
+ -{N'(\eta)h\over1-r}\right].
+\tag{9a}
+\]
+
+On the base ball, $|N'(\eta)|\le4|\eta|\le(4/3)r^n$. For
+$q=h-r^n$ in the ball
+
+\[
+ \sup_{0<r\le\rho}r^{-2n}\max(|q|,|Dq|)\le16,
+\]
+
+one has $|h|,|Dh|<2r^n$. The inhomogeneity in (9a) is bounded by
+
+\[
+ 13r^{n+1}+{16\over3}r^{2n}.
+\]
+
+The constants (7), together with
+$r^{n+1}\le\rho^{1-n}r^{2n}$, put its Green image strictly inside the
+radius-sixteen ball. The linearized contraction constant is at most
+
+\[
+ {13\over2}\rho+{8\over3}\rho^n<2^{-23}.
+\]
+
+The differentiable contraction theorem therefore gives the
+derivative-strengthened enclosure
+
+\[
+ \boxed{
+ |\partial_a y-r^n|\le16r^{2n},\qquad
+ |D\partial_a y-nr^n|\le16r^{2n}.}
+\tag{9b}
+\]
+
+In the reversed/reflected variables of the global certificate put $b=-a$ and
+$Z=-ry$. Since $r$ is independent of $b$ in the fixed terminal-collision
+phase gauge,
+
+\[
+ J=\partial_bZ=r\,\partial_a y>0,
+ \qquad
+ J_s=r_s(\partial_a y+D\partial_a y)>0
+\tag{9c}
+\]
+
+on the dyadic attachment section. The signs follow from (9b),
+$16\rho^n<2^{-22}$, and $1+n>1$. These are genuine parameter derivatives,
+not consequences inferred from the statewise boxes in (9).
+
 ## Canonical fast transverse mode
 
 Let
@@ -237,4 +294,7 @@ checked by `triple_endpoint_global_capd.cpp`.
 checked both Green kernels, evaluated all four operator constants, bounded
 $G''$, $Q'$, and $Q''$ directly, expanded the fast residual term by term, and
 confirmed that the verifier's $10^{-14}$ and $10^{-20}$ boxes strictly contain
-the exact tails by margins of two and three orders, respectively.
+the exact tails by margins of two and three orders, respectively. The
+derivative enclosure (9b) follows from the same differentiated contraction;
+it fixes the phase gauge explicitly and supplies the collision-side tangent
+required by the transversality argument.

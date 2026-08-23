@@ -226,10 +226,25 @@ propagation give
  \qquad A_-={W(J,P_+)\over-\sqrt7}>0
 \]
 for every such connection. This argument neither assumes nor needs uniqueness
-or transversality of the base intersection. Consequently the target endpoint
-product $4^{(\sqrt7-1)/6}A_-K_-$ is rigorously positive; what remains is to
-prove that the finite-$\varepsilon$ family converges to this limiting base and
-field with the asserted normalization.
+or transversality of the base intersection. The replay also certifies
+$Z>r/(2\sqrt2)$ over the whole compact path. Scalar order comparison then
+proves that the bracket contains exactly one parabolic connection and orders
+its turn/escape sides. Differentiating the collision contraction and combining
+the resulting nondecaying tangent with the proved McGehee parabolic-tangent
+contraction makes the intersection transverse. Consequently the target
+endpoint product $4^{(\sqrt7-1)/6}A_-K_-$ is rigorously positive.
+
+With $\rho$ the binary separation at the light-body center
+crossing and $\xi=-\log(r/\rho)$, the exact base and fiber systems converge to
+the universal saddle and its slow cocycle. A parameter-dependent inclination
+estimate, one-way lower-exit cone, and fibered exchange bound prove the full
+renormalized asymptotic. Transversality supplies a one-sided local incoming
+parabolic branch for which that localization is automatic. Therefore the
+collision-regularized restricted problem has a genuine captured branch with
+$\phi\uparrow\pi$ and positive renormalized second-turn coefficient. What
+remains is global classification of any remote captured components approaching
+the same phase and, separately, uniform transfer through a finite positive-mass
+near-triple encounter.
 
 Late-resonance simplicity has also been narrowed to a differentiable
 parabolic-passage lemma. For the degree-four McGehee map, the exact Kepler
