@@ -7,7 +7,7 @@ if [ "$#" -lt 1 ] || [ "$#" -gt 5 ] || \
    { [ "$#" -eq 3 ] && [ "$3" != "--second-root" ] && \
      [ "$3" != "--second-escape" ] && \
      [ "$3" != "--second-escape-wide" ]; }; then
-  echo "usage: $0 CAPD_SOURCE_DIR [CAPD_BUILD_DIR [--second-root | --second-escape | --second-escape-wide | FIRST_OFFSET COUNT [RADIUS]]]" >&2
+  echo "usage: $0 CAPD_SOURCE_DIR [CAPD_BUILD_DIR [--second-root | --second-escape | --second-escape-wide | --second-escape-probe OFFSET_NANO RADIUS_NANO | FIRST_OFFSET COUNT [RADIUS]]]" >&2
   exit 2
 fi
 
@@ -53,7 +53,11 @@ if [ "$#" -eq 3 ]; then
 elif [ "$#" -eq 4 ]; then
   VERIFIER_ARGS=(--escape-tiles "$3" "$4")
 elif [ "$#" -eq 5 ]; then
-  VERIFIER_ARGS=(--escape-tiles "$3" "$4" "$5")
+  if [ "$3" = "--second-escape-probe" ]; then
+    VERIFIER_ARGS=("$3" "$4" "$5")
+  else
+    VERIFIER_ARGS=(--escape-tiles "$3" "$4" "$5")
+  fi
 fi
 
 # shellcheck disable=SC2086

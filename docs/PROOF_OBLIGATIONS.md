@@ -359,8 +359,8 @@ For the second certified collision boundary, the third positive-primary LC
 chart, nonselected-primary separation, heavy-binary bridge, and finite-mass
 transfer are now closed in
 `COMPUTER_ASSISTED_PLANAR_SECOND_COLLISION_ESCAPE.md`.  The explicit narrow
-box has been enlarged by 103 abutting tiles: every
-$1.2640112041\le\kappa\le1.2640126461$ is collision-or-escape.
+box has been enlarged by 195 abutting tiles: every
+$1.2640099161\le\kappa\le1.2640126461$ is collision-or-escape.
 Classifying the adjacent components beyond this box, including any further
 collision boundaries, remains open.
 

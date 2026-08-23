@@ -838,9 +838,17 @@ it is not a remainder proof.
   restricted and hierarchical margins are $>3.1388$ and $>3.2680$.
   Status: **PROVED BY COMPUTER-ASSISTED ARGUMENT**, with three independent
   adversarial endorsements.
-- A 103-tile replay enlarged this second collision-or-escape component to the
+- A 195-tile replay enlarged this second collision-or-escape component to the
   contiguous interval
-  $1.2640112041\le\kappa\le1.2640126461$.  The aggregate worst squared
-  primary separation is $>0.04137$, while the two escape margins retain the
-  bounds $>3.1388$ and $>3.2680$.  A stable algebraically identical
+  $1.2640099161\le\kappa\le1.2640126461$.  The aggregate worst squared
+  primary separation is $>0.004936$, while the two escape margins retain the
+  bounds $>2.7591$ and $>2.8882$.  A stable algebraically identical
   square-root lift prevents interval cancellation off the root tile.
+- Targeted boxes below this component expose the next chart obstruction.  The
+  radius-$7\times10^{-9}$ tile at offset $-2500\times10^{-9}$ no longer
+  clears the deliberately imposed bridge bound $|Z-Q_i|^2>10^{-3}$ (its
+  direct enclosure has lower endpoint about $9.32\times10^{-4}$), while
+  offsets $-2800\times10^{-9}$ and $-5000\times10^{-9}$ no longer certify
+  the square-root switch sheet.  These failed verifier assertions are chart
+  obstructions consistent with another close encounter, not evidence of a
+  collision.

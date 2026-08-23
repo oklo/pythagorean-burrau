@@ -105,10 +105,10 @@ The outgoing classification was completed by the following steps:
 5. transfer the strict limiting cone through the existing positive-mass
    hierarchical-energy lemma.
 
-The 103-tile pinned enclosure proves squared nonselected-primary distances
-greater than $0.1760$, $0.1486$, and $0.04137$ in the two LC blocks and
+The 195-tile pinned enclosure proves squared nonselected-primary distances
+greater than $0.1760$, $0.1264$, and $0.004936$ in the two LC blocks and
 the heavy-binary bridge, respectively.  It reaches restricted and hierarchical
-escape margins greater than $3.1388$ and $3.2680$.  The outgoing limiting
+escape margins greater than $2.7591$ and $2.8882$.  The outgoing limiting
 classification is therefore **PROVED BY COMPUTER-ASSISTED ARGUMENT**; the
 positive-mass transfer is recorded separately and does not physically
 continue a classical collision.

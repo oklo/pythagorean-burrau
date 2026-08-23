@@ -27,7 +27,7 @@ The pinned interval-Newton image is strictly inside (1)--(2):
 \[
  \begin{aligned}
   1.264011919130913&\le \kappa_2\le1.264011931052384,\\
-  1.027574879669515&\le S_2\le1.027574961150769.
+  1.027574879669515&\le S_2\le1.027574961150770.
  \end{aligned}
 \tag{3}
 \]
@@ -38,7 +38,7 @@ root proved in the companion note.
 The outgoing classification is validated on the much larger interval
 
 \[
- \mathcal K_2=[1.2640112041,1.2640126461].
+ \mathcal K_2=[1.2640099161,1.2640126461].
 \tag{3a}
 \]
 
@@ -116,9 +116,9 @@ The two post-root LC blocks have the whole-step lower bounds
 \[
  \begin{aligned}
   \min |q_--Re_x|^2
-   &>\mathtt{0x1.68853ef527d85p-3}>0.1760,\\
+   &>\mathtt{0x1.687cc4547478bp-3}>0.1760,\\
   \min |q_++Re_x|^2
-   &>\mathtt{0x1.308462fe60958p-3}>0.1486.
+   &>\mathtt{0x1.030706ffe4038p-3}>0.1264.
  \end{aligned}
 \tag{11}
 \]
@@ -153,7 +153,7 @@ first collision boundary.  It crosses \(\lambda=0\) and reaches
 
 \[
  \min_{\rm bridge}\min_i|Z-Q_i|^2
- >\mathtt{0x1.52ef2d666569dp-5}>0.04137.
+ >\mathtt{0x1.4386656a02781p-8}>0.004936.
 \tag{14}
 \]
 
@@ -163,24 +163,26 @@ The terminal state satisfies both comparison inequalities from
 \[
  \begin{aligned}
   M_{\rm restricted}
-   &>\mathtt{0x1.91c63466dfa12p+1}>3.1388,\\
+   &>\mathtt{0x1.612bb825d7274p+1}>2.7591,\\
   M_{\rm hierarchical}
-   &>\mathtt{0x1.a250cb597073cp+1}>3.2680.
+   &>\mathtt{0x1.71b257cebbdacp+1}>2.8882.
  \end{aligned}
 \tag{15}
 \]
 
-The wide verifier partitions (3a) into 103 abutting closed tiles.  Their
+The wide verifier partitions (3a) into 195 abutting closed tiles.  Their
 centers are
 
 \[
  \kappa_j=1.2640119251+14j\,10^{-9},
- \qquad -51\le j\le51,
+ \qquad -143\le j\le51,
 \tag{16}
 \]
 
 and every radius is $7\times10^{-9}$.  Outward-rounded endpoint intervals
-overlap, so their union covers all of (3a) without a gap.  Away from the root
+overlap, so their union covers all of (3a) without a gap.  The bridge verifier
+also checks the strict squared-separation lower bound $10^{-3}$ on every
+accepted step; (14) is the stronger aggregate result.  Away from the root
 tile the first square-root switch uses the exact stable identity
 
 \[
@@ -242,7 +244,13 @@ Three independent adversarial passes checked root-box containment, both
 reversed-time LC fields, the cancellation-free sheet, reconstruction,
 signed-\(\lambda\) direction, classical-collision alternatives, both
 clearances, and the finite-mass comparison.  All three endorsed the repaired
-certificate.
+certificate.  Three fresh passes then audited the 195-tile enlargement: one
+independently replayed its extreme lower tile, one rechecked chart analyticity
+under the $10^{-3}$ bridge guard and both legacy modes, and one checked every
+rounded display and collision-versus-close-encounter statement.  The last
+pass found an inward-rounded decimal display of the old root-clock upper
+endpoint; after its repair to the outward value in (3), all three endorsed
+the enlarged certificate.
 
 The limiting collision-or-escape result is **PROVED BY COMPUTER-ASSISTED
 ARGUMENT**.  The compact finite-mass chart transfer and hierarchical escape

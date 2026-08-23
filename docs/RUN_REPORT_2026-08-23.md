@@ -371,14 +371,17 @@ earlier collision.  It is **PROVED BY COMPUTER-ASSISTED ARGUMENT**.  Three indep
 identified and then endorsed the repair \(\Re v_->1/2\), which makes
 \(\Re u_-\) strictly decreasing and excludes a hidden regularized recollision.
 Its regularized outgoing branch passes very close to the positive primary,
-so a third LC chart was introduced.  Pinned CAPD now carries 103 abutting
-tiles covering $1.2640112041\le\kappa\le1.2640126461$ through that passage
+so a third LC chart was introduced.  Pinned CAPD now carries 195 abutting
+tiles covering $1.2640099161\le\kappa\le1.2640126461$ through that passage
 and the heavy-binary bridge.  Squared nonselected-primary separations stay
-above $0.0413$, and the restricted and
-finite-mass hierarchical escape margins exceed $3.13$ and $3.26$.
+above $0.00493$, and the restricted and
+finite-mass hierarchical escape margins exceed $2.75$ and $2.88$.
 Consequently every sufficiently small compatible positive-mass member near
 this second boundary also collides or escapes.  Three adversarial replays
-endorsed the chart algebra, interval logic, and finite-mass transfer.
+endorsed the chart algebra, interval logic, and finite-mass transfer.  Three
+fresh audits endorsed the 195-tile enlargement after one audit caught and
+prompted repair of an inward-rounded decimal display of the already-certified
+root-clock upper endpoint.
 
 ### Positive-mass persistence of the collision boundary
 

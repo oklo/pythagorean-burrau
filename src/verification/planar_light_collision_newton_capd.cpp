@@ -843,8 +843,8 @@ SecondEscapeEvaluation evaluate_second_collision_ejection_escape(
                           step_minimum.leftBound()),
                  std::min(minimum_bridge_primary_squared.rightBound(),
                           step_minimum.rightBound()));
-    if (!(plus_squared.leftBound() > 0.01 &&
-          minus_squared.leftBound() > 0.01)) {
+    if (!(plus_squared.leftBound() > 0.001 &&
+          minus_squared.leftBound() > 0.001)) {
       std::cerr << std::hexfloat
                 << "SECOND_ESCAPE_BRIDGE_PATH enclosure=" << enclosure
                 << " plus_squared=" << plus_squared
@@ -938,6 +938,9 @@ int main(int argc, char** argv) {
     bool second_root_only = false;
     bool second_escape_only = false;
     bool second_escape_wide = false;
+    bool second_escape_probe = false;
+    int second_probe_offset = 0;
+    int second_probe_radius = 0;
     if (argc == 2 && std::string(argv[1]) == "--second-root") {
       second_root_only = true;
     } else if (argc == 2 && std::string(argv[1]) == "--second-escape") {
@@ -945,6 +948,11 @@ int main(int argc, char** argv) {
     } else if (argc == 2 &&
                std::string(argv[1]) == "--second-escape-wide") {
       second_escape_wide = true;
+    } else if (argc == 4 &&
+               std::string(argv[1]) == "--second-escape-probe") {
+      second_escape_probe = true;
+      second_probe_offset = parse_integer(argv[2]);
+      second_probe_radius = parse_integer(argv[3]);
     } else if ((argc == 4 || argc == 5) &&
         std::string(argv[1]) == "--escape-tiles") {
       first_escape_offset = parse_integer(argv[2]);
@@ -955,7 +963,8 @@ int main(int argc, char** argv) {
     } else if (argc != 1) {
       std::cerr << "usage: " << argv[0]
                 << " [--second-root | --second-escape | "
-                   "--second-escape-wide | --escape-tiles FIRST_OFFSET "
+                   "--second-escape-wide | --second-escape-probe "
+                   "OFFSET_NANO RADIUS_NANO | --escape-tiles FIRST_OFFSET "
                    "COUNT [RADIUS]]\n";
       return 2;
     }
@@ -963,6 +972,10 @@ int main(int argc, char** argv) {
         escape_tile_radius < 1 || escape_tile_radius > 1000) {
       throw std::invalid_argument(
           "tile count and radius must lie in [1,1000]");
+    }
+    if (second_escape_probe &&
+        (second_probe_radius < 1 || second_probe_radius > 1000000)) {
+      throw std::invalid_argument("second probe radius must lie in [1,1000000]");
     }
     if (second_root_only) {
       const interval second_kappa_center =
@@ -1060,7 +1073,7 @@ int main(int argc, char** argv) {
       const interval duration_box =
           duration_center + symmetric(duration_radius);
       std::vector<std::pair<int, int>> tiles;
-      for (int offset = -714; offset <= 714; offset += 14) {
+      for (int offset = -2002; offset <= 714; offset += 14) {
         tiles.emplace_back(offset, 7);
       }
       interval covered_lower;
@@ -1118,6 +1131,42 @@ int main(int argc, char** argv) {
                 << worst_bridge_primary_squared
                 << " worst_escape_margin=" << worst_escape_margin
                 << " worst_finite_mass_margin=" << worst_finite_mass_margin
+                << "\n";
+      return 0;
+    }
+    if (second_escape_probe) {
+      const interval base_kappa =
+          interval(12640119251.0) / interval(10000000000.0);
+      const interval duration_center =
+          interval(10275749204.0) / interval(10000000000.0);
+      const interval duration_radius =
+          interval(5.0) / interval(100000000.0);
+      const interval kappa_center =
+          base_kappa + interval(static_cast<double>(second_probe_offset)) /
+                           interval(1000000000.0);
+      const interval kappa_radius =
+          interval(static_cast<double>(second_probe_radius)) /
+          interval(1000000000.0);
+      const interval kappa_box =
+          kappa_center + symmetric(kappa_radius);
+      const interval duration_box =
+          duration_center + symmetric(duration_radius);
+      const SecondEscapeEvaluation result =
+          evaluate_second_collision_ejection_escape(
+              kappa_box, duration_box, second_probe_offset != 0);
+      std::cout << std::hexfloat
+                << "PASS_SECOND_ESCAPE_PROBE method=CAPD-6.1.0-native"
+                << " offset_nano=" << second_probe_offset
+                << " radius_nano=" << second_probe_radius
+                << " kappa_box=" << kappa_box
+                << " minimum_negative_chart_other_squared="
+                << result.minimum_negative_chart_other_squared
+                << " minimum_positive_chart_other_squared="
+                << result.minimum_positive_chart_other_squared
+                << " minimum_bridge_primary_squared="
+                << result.minimum_bridge_primary_squared
+                << " escape_margin=" << result.escape_margin
+                << " finite_mass_margin=" << result.finite_mass_margin
                 << "\n";
       return 0;
     }

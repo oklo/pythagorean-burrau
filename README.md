@@ -82,8 +82,8 @@ Its regularized outgoing branch has an exact third, positive-primary LC chart
 recorded in `docs/SECOND_COLLISION_OUTGOING.md`.  The corresponding interval
 collision-or-escape enclosure and finite-mass transfer are proved in
 `docs/COMPUTER_ASSISTED_PLANAR_SECOND_COLLISION_ESCAPE.md`.
-The tiled certificate covers the contiguous interval
-`[1.2640112041, 1.2640126461]`.
+The 195-tile certificate covers the contiguous interval
+`[1.2640099161, 1.2640126461]`.
 The exact positive-light-mass reduction and the resulting persistence theorem
 for that collision boundary are in
 `docs/FINITE_MASS_PLANAR_COLLISION_PERSISTENCE.md`.  The differentiated
