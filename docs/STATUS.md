@@ -184,7 +184,7 @@ An extension of the pinned CAPD/Jost certificate proves
 $-1/100<\gamma<-1/250$, and hence
 $\mathcal C_{2,\mathrm{par}}>21/6250$. Ordinary center-phase data suggest one
 captured component $0<\phi<\pi$; its compact interior and the
-$\phi\to\pi$ triple-collision endpoint remain unproved. At the latter, the
+$\phi\to\pi$ triple-collision transition remain unproved. At the latter, the
 exact equilateral collision ray has transverse indicial exponents
 $(3\pm\sqrt7)/6$, so the missing endpoint theorem is a fractional-power
 McGehee selection and transition law rather than ordinary analytic
@@ -194,11 +194,18 @@ continuation in phase. Its exact scalar form is
  \longrightarrow 4^{(\sqrt7-1)/6}A_-K_-.
 \]
 Ordinary renormalized data support $A_-K_->0$; neither factor is yet
-validated. A direct universal peel-off shoot converges to
+validated. The autonomous limiting shape equation does now have a unique
+increasing peel-off orbit modulo logarithmic-time translation. An exact
+energy identity proves that it crosses the center with
+$Z_s(0)>9^{1/3}\sqrt{5/18}$; a monotone-factor argument proves a strictly
+positive light--binary separation at the prescribed binary collision. This
+closes existence, uniqueness, and collision safety of the candidate
+universal base, but not its selection by the finite-$\varepsilon$ family.
+A direct universal peel-off shoot converges to
 $K_-\approx2.435>0$, a simple first turn at $s\approx1.03207$, and
 $Z_t\approx0.95495$. This isolates $K_->0$ as a finite interval-Newton/LC
-certificate; the global slow-mode projection $A_-$ is the other endpoint
-obligation.
+certificate; finite-$\varepsilon$ selection and the global slow-mode
+projection $A_-$ are the other endpoint obligations.
 
 Late-resonance simplicity has also been narrowed to a differentiable
 parabolic-passage lemma. For the degree-four McGehee map, the exact Kepler

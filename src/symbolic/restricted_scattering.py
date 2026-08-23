@@ -313,6 +313,30 @@ def restricted_triple_collision_shape_spectrum() -> tuple[
     return fixed_residual, linear_coefficient, eigenvalues
 
 
+def restricted_triple_collision_shape_energy() -> tuple[
+    sp.Expr, sp.Expr, sp.Expr, sp.Expr
+]:
+    """Return the anti-damped shape-energy identity and endpoint potentials."""
+    shape, shape_velocity = sp.symbols("y y_tau", real=True)
+    shape_force = (
+        sp.Rational(2, 9)
+        * shape
+        * ((shape**2 + sp.Rational(1, 4)) ** (-sp.Rational(3, 2)) - 1)
+    )
+    potential = (
+        -sp.Rational(2, 9) / sp.sqrt(shape**2 + sp.Rational(1, 4))
+        - shape**2 / 9
+    )
+    shape_acceleration = shape_velocity / 3 - shape_force
+    energy_derivative = sp.simplify(
+        shape_velocity * shape_acceleration
+        + sp.diff(potential, shape) * shape_velocity
+    )
+    equilateral_value = sp.simplify(potential.subs(shape, -sp.sqrt(3) / 2))
+    center_value = sp.simplify(potential.subs(shape, 0))
+    return energy_derivative, shape_velocity**2 / 3, equilateral_value, center_value
+
+
 def restricted_universal_binary_lc_system() -> tuple[
     sp.Matrix, tuple[sp.Symbol, ...]
 ]:

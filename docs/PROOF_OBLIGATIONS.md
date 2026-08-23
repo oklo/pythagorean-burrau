@@ -181,9 +181,14 @@ analyze the $\phi\to\pi$ triple-collision limit before finite-$B$ transfer.
 The exact blow-up has Newtonian scale
 $\theta=\varepsilon s$, $(r,z)=\varepsilon^{2/3}(R,Z)$ and an equilateral
 collision ray whose transverse indicial exponents are
-$(3\pm\sqrt7)/6$. The missing selection theorem is to identify the returned
-Jost combination on this collision manifold and prove its one-sided outgoing
-Wronskian sign. Precisely, with $\delta=\pi-\phi$, the target is
+$(3\pm\sqrt7)/6$. The autonomous shape equation now has a proved unique
+increasing peel-off branch modulo logarithmic-time translation. It crosses
+the center with an explicit positive speed and has positive light--binary
+separation at the prescribed binary collision. What remains is the singular
+selection theorem showing that the finite-$\varepsilon$ returned family
+converges to this branch, together with identification of the returned Jost
+combination and its one-sided outgoing Wronskian sign. Precisely, with
+$\delta=\pi-\phi$, the target is
 \[
  \delta^{(\sqrt7-1)/6}\mathcal C_2(\phi)
  \longrightarrow \mathscr T
@@ -192,8 +197,9 @@ Wronskian sign. Precisely, with $\delta=\pi-\phi$, the target is
 where $A_-$ is the slow Fuchsian Jost coefficient and $K_-$ is its universal
 first-turn transfer. `TRIPLE_COLLISION_ENDPOINT.md` records the exact
 reduction. Ordinary universal shooting gives $K_-\approx2.435>0$, making a
-collision-manifold/interval-Newton validation of $K_->0$ the more localized
-of the two remaining sign obligations. The global projection $A_-$ remains
+finite interval-Newton/LC validation of the canonical slow field and
+$K_->0$ the more localized of the two remaining sign obligations. The
+finite-$\varepsilon$ selection theorem and global projection $A_-$ remain
 separate.
 
 ## Adversarial checklist
@@ -203,6 +209,14 @@ mean-value misuse; rational-density fallacies; unlabelled/rotated returns;
 near-collision substitution; nearby-orbit substitution; loss of endpoint
 uniformity; extrapolation of a local sign; and conversion of finite computation
 into an infinite claim.
+
+The universal peel-off lemma received an independent phase-plane audit. The
+audit confirmed the energy signs, uniqueness, monotonicity, and center-speed
+bound, but rejected the original inference from $y_\tau/y\to2/3$ to a
+nonzero physical collision limit. The repaired proof uses the exact monotone
+factor $e^{-2\tau/3}(y_\tau+y/3)$ and a tail contradiction to prove that the
+limit is strictly positive. No finite-$\varepsilon$ selection is inferred
+from this autonomous limiting lemma.
 
 The first-encounter and terminal-escape theorems received independent
 adversarial derivations. The audit explicitly checked near-collision

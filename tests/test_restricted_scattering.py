@@ -14,6 +14,7 @@ from src.symbolic.restricted_scattering import (
     restricted_equilateral_triple_collision,
     restricted_transverse_linearization,
     restricted_triple_collision_phase_mode,
+    restricted_triple_collision_shape_energy,
     restricted_triple_collision_shape_spectrum,
     restricted_universal_binary_lc_system,
     second_encounter_endpoint_scattering,
@@ -149,6 +150,16 @@ def test_restricted_triple_collision_shape_spectrum() -> None:
         assert sp.simplify(
             eigenvalue**2 - eigenvalue / 3 - sp.Rational(1, 2)
         ) == 0
+
+
+def test_restricted_triple_collision_shape_energy_increases() -> None:
+    derivative, expected, equilateral_value, center_value = (
+        restricted_triple_collision_shape_energy()
+    )
+    assert sp.simplify(derivative - expected) == 0
+    assert equilateral_value == -sp.Rational(11, 36)
+    assert center_value == -sp.Rational(4, 9)
+    assert equilateral_value - center_value == sp.Rational(5, 36)
 
 
 def test_restricted_universal_binary_collision_is_lc_regular() -> None:

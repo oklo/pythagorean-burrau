@@ -150,9 +150,109 @@ The equilateral fixed points $y=\pm\sqrt3/2$ have shape eigenvalues
 \tag{9c}
 \]
 
-Thus selection of the negative incoming ray is a genuine stable/unstable-
-manifold statement and is not contained in (6)--(9). For a transverse field
-on a selected collision ray, the Fuchsian projectors are
+The limiting base boundary-value problem can be classified globally. Put
+
+\[
+ F(y)={2\over9}y\left[(y^2+1/4)^{-3/2}-1\right],
+ \qquad
+ V(y)=-{2\over9\sqrt{y^2+1/4}}-{y^2\over9}.
+\tag{9c1}
+\]
+
+Then $V'=F$, and along (9b)
+
+\[
+ {d\over d\tau}\left({y_\tau^2\over2}+V(y)\right)
+ ={y_\tau^2\over3}>0
+\tag{9c2}
+\]
+
+away from an equilibrium.
+
+**Lemma (unique universal peel-off base).** There is one orbit, up to
+translation of $\tau$, leaving
+$(-\sqrt3/2,0)$ along the increasing branch of its positive-eigenvalue
+unstable manifold. Normalize it by $y(0)=0$. It satisfies
+
+\[
+ y_\tau>0\quad\hbox{for all finite }\tau,
+ \qquad
+ y(\tau)\longrightarrow+\infty\quad(\tau\to+\infty),
+\tag{9c3}
+\]
+
+and its physical center speed obeys
+
+\[
+ Z_s(0)=9^{1/3}y_\tau(0)
+ >9^{1/3}\sqrt{5\over18}.
+\tag{9c4}
+\]
+
+Moreover $y_\tau/y\to2/3$, so
+$Z=9^{1/3}e^{-2\tau/3}y$ tends to a strictly positive limit as
+$s\uparrow1$. Thus the universal light orbit does not join the prescribed
+binary collision.
+
+**Proof.** The unstable-manifold theorem gives one increasing branch modulo
+time translation. On $(-\sqrt3/2,0)$ one has $F<0$, so a positive
+$y_\tau$ cannot acquire a first zero and the branch moves toward the center.
+It cannot approach $0$ asymptotically: the strictly increasing energy starts
+at
+
+\[
+ V(-\sqrt3/2)=-{11\over36}>V(0)=-{4\over9}.
+\]
+
+Hence it crosses $0$ in finite $\tau$. The same energy inequality excludes a
+zero of $y_\tau$ on $(0,\sqrt3/2)$, because there
+$V(y)<V(\sqrt3/2)=-11/36$. Beyond $\sqrt3/2$, a first zero would have
+$y_{\tau\tau}=-F(y)>0$, again impossible. Therefore $y_\tau>0$ globally.
+A bounded limit would have to be an equilibrium and is incompatible with the
+strict energy increase, so $y\to+\infty$. Finally
+
+\[
+ {F(y)\over y}\longrightarrow-{2\over9}.
+\]
+
+The Riccati equation for $y_\tau/y\ge0$ is asymptotically
+\[
+ w'=-(w-2/3)(w+1/3)
+ -{2\over9}(y^2+1/4)^{-3/2}.
+\]
+Upper and lower barriers about $2/3$ give $w\to2/3$, and in particular
+$w>1/2$ eventually. To prove a nonzero physical limit rather than only its
+logarithmic growth rate, put
+\[
+ G(y)=F(y)+{2y\over9}
+ ={2y\over9(y^2+1/4)^{3/2}},
+ \qquad
+ A(\tau)=e^{-2\tau/3}\left(y_\tau+{y\over3}\right).
+\]
+The factorization
+$(D-2/3)(D+1/3)y=-G(y)$ gives
+\[
+ A'=-e^{-2\tau/3}G(y)<0.
+\]
+Thus $A\downarrow A_\infty\ge0$. Since $G(y)\le Cy^{-2}$ for large $y$ and
+$y(s)\ge y(\tau)e^{(s-\tau)/2}$, one has
+\[
+ \int_\tau^\infty e^{-2s/3}G(y(s))\,ds
+ \le Ce^{-2\tau/3}y(\tau)^{-2}.
+\]
+If $A_\infty=0$, this bound and
+$A(\tau)\ge e^{-2\tau/3}y(\tau)/3$ would force $y(\tau)^3\le C$, contrary to
+$y\to\infty$. Hence $A_\infty>0$. Finally, for
+$Y=e^{-2\tau/3}y$, the equation $Y'+Y=A$ gives
+$Y\to A_\infty>0$. This proves the collision limit. At $y=0$, (9c2) gives
+$y_\tau(0)^2/2>V(-\sqrt3/2)-V(0)=5/36$, proving (9c4). $\square$
+
+The lemma proves uniqueness and collision safety of the *candidate universal
+base*. It does not yet prove that the finite-$\varepsilon$ returning
+parabolic family converges to this unstable branch.
+
+For a transverse field on this selected collision ray, the Fuchsian
+projectors are
 
 \[
  A_-=lim_{\sigma\downarrow0}\sigma^{-\alpha_-}

@@ -10,6 +10,7 @@ from src.symbolic.restricted_scattering import (
     phase_wronskian_identity,
     restricted_equilateral_triple_collision,
     restricted_triple_collision_phase_mode,
+    restricted_triple_collision_shape_energy,
     restricted_triple_collision_shape_spectrum,
     restricted_universal_binary_lc_system,
     second_encounter_endpoint_scattering,
@@ -39,6 +40,7 @@ def main() -> None:
     print(f"second-encounter endpoint scattering = {second_encounter_endpoint_scattering()}")
     print(f"restricted triple collision = {restricted_equilateral_triple_collision()}")
     print(f"restricted triple phase mode = {restricted_triple_collision_phase_mode()}")
+    print(f"restricted triple shape energy = {restricted_triple_collision_shape_energy()}")
     print(f"restricted triple shape spectrum = {restricted_triple_collision_shape_spectrum()}")
     print(f"restricted universal binary LC system = {restricted_universal_binary_lc_system()}")
 
