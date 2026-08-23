@@ -261,9 +261,9 @@ The field, potential, initial-energy, tilt, algebraic parity formulas, and
 nonvanishing of the fixed-section phase coefficient are proved. The following
 steps remain **CONJECTURAL**:
 
-1. uniform Levi--Civita matching through $O(\epsilon^{-3/2})$ preceding
-   collision-like binary cycles, with $o(1)$ circular phase error in the raw
-   fixed-section gauge;
+1. uniform propagation from the now-proved early LC overlap to a fixed
+   restricted incoming section, preserving the asymptotic intercept
+   $\Phi_{\rm ref}$;
 2. a function-space construction and convergence proof for the improper
    Melnikov integrals, if that representation rather than the proved section
    coefficient is used;

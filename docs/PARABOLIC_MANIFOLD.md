@@ -238,8 +238,8 @@ Theorem 2 classifies the zero-energy threshold in the universal skinny
 late-plunge limit. It does not prove any interval of finite-$B$ trajectories
 nonperiodic. The next indispensable steps are:
 
-1. uniform true-orbit phase matching through $O(B^{-3/2})$ regularized binary
-   cycles;
+1. uniform incoming-tail propagation from the now-matched early overlap to a
+   fixed restricted section, retaining the asymptotic intercept;
 2. persistence and signed finite-$B$ displacement of the transverse
    separatrix;
 3. exclusion of second brakes on every captured branch, not only

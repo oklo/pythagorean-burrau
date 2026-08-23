@@ -60,19 +60,24 @@ collision.  The remaining obligation is a regularized transverse analysis of
 how that collision unfolds when $A\ne B$ and whether any second-brake branch
 can emerge.
 
-The skinny matching obligation is now localized more sharply. First prove
-uniform convergence of the outer data and binary action through an overlap
-at physical outer radius $\rho=B^\alpha$ ($0<\alpha<1$), and then propagate
-collision-free in a common
-regularized chart to a fixed scaled section $\Sigma^-_{Y_0}$. In the raw
-section-phase gauge this includes
+The long-cycle part of the skinny matching obligation is now closed.
+`PREPLUNGE_MATCHING.md` proves that for every $0<\alpha<1/6$, either a prior
+classical collision occurs or the orbit reaches the physical overlap radius
+$\rho=B^\alpha$ with its renormalized asymptotic intercept satisfying
 \[
-\operatorname{dist}_{S^1}(\Phi_{\rm true,sec},
-\Phi_{\rm sec,ref})=o(1),
+\operatorname{dist}_{S^1}(\chi_\alpha,\Phi_{\rm ref})=o(1)
 \]
-through $O(B^{-3/2})$ regularized cycles. Comparing the raw section phase
-directly with the center clock $\Phi_{\rm ref}$ is invalid because it omits a
-nonvanishing restricted flight correction. At parabolic infinity, explicitly
+after $O(B^{-3/2})$ regularized cycles. The remaining matching obligation is
+to propagate those data in a common regularized chart from
+$Y=B^{\alpha-1}\to\infty$ to a fixed scaled section $\Sigma^-_{Y_0}$ and
+prove
+\[
+\operatorname{dist}(S_B(Y_0),
+\Gamma^-_{Y_0}(\Phi_{\rm ref}(B)))=o(1).
+\]
+A raw fixed-section phase is not the correct reference coordinate: besides
+the monopole flight correction, the restricted quadrupole tail leaves a
+finite $Y_0$-dependent shift. At parabolic infinity, explicitly
 fix the $|\theta|^{-1/3}$ time-translation mode; otherwise the naive phase
 Jacobi field makes the Melnikov integral a zero boundary term. The completed
 gauge-free alternative constructs the incoming and outgoing parabolic curves
@@ -92,7 +97,7 @@ but the validated sign forces it to grow. The remaining obligations are all
 finite-$B$: uniform matching, persistence and signed displacement of the
 separatrix, and exclusion of second brakes throughout the captured branches.
 More precisely, `RESTRICTED_PHASE_WINDOWS.md` proves that collision-free
-section reach plus uniform $o(1)$ circular phase and full-state matching would
+section reach plus uniform $o(1)$ full-state intercept matching would
 already yield infinitely many open terminal windows containing rational Euclid
 parameters. Thus this matching theorem alone would give a Level-D infinite
 rational subfamily; it would not handle the captured windows.

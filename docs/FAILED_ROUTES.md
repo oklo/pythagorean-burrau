@@ -115,3 +115,24 @@ $V_s(\phi)=V_u(-\phi)$, and the genuine transversality condition is
 $2V_u'(0)\ne0$. This condition is now proved by a finite interval Jacobi sign
 plus a McGehee-map tangent contraction. The improper-integral route remains
 ill posed without a gauge, but is no longer needed for nonvanishing.
+
+## Raw monopole phase on a fixed restricted section
+
+**Status:** DISPROVED as an exact gauge identification.
+
+The first phase-window draft compared the true raw binary phase on
+$\rho=BY_0$ with
+\[
+\Phi_{\rm sec,ref}=n_{\rm bin}t_0(BY_0).
+\]
+This correctly subtracts the divergent monopole flight phase from
+$\Phi_{\rm ref}$, but it still omits the full restricted parabolic tail. At
+fixed $Y_0$, the binary quadrupole contributes a finite $Y_0$-dependent tail
+term that the monopole formula does not represent; the exact restricted field
+is not the monopole field.
+
+The repair is to label the incoming parabolic curve by its asymptotic phase
+intercept $\chi$ and compare the full fixed-section state with
+$\Gamma^-_{Y_0}(\chi)$. `PREPLUNGE_MATCHING.md` proves
+$\chi=\Phi_{\rm ref}+o(1)$ at an early overlap. Uniform propagation down the
+restricted tail remains open.

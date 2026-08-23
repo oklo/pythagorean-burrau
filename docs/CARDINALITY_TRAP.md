@@ -37,10 +37,10 @@ logical step.
 
 ## A legitimate but still conditional endpoint bridge
 
-The collapsed-pair reference section clock now supplies one exact use of
-rational density. At a fixed scaled incoming section it satisfies
+The collapsed-pair asymptotic-intercept clock now supplies one exact use of
+rational density. It satisfies
 \[
-\Phi_{\rm sec,ref}'(B;Y_0)=-{3\pi\over2}B^{-5/2}(1+o(1)),
+\Phi_{\rm ref}'(B)=-{3\pi\over2}B^{-5/2}(1+o(1)),
 \]
 so every nonempty open limiting phase arc pulls back to infinitely many open
 parameter intervals accumulating at $u=0$. Each interval contains rational
@@ -54,12 +54,12 @@ One missing matching hypothesis
 still prevents an unconditional nonperiodicity theorem:
 
 \[
-\operatorname{dist}_{S^1}(\Phi_{\rm true,sec},
-\Phi_{\rm sec,ref})=o(1)
+\operatorname{dist}(S_B(Y_0),
+\Gamma^-_{Y_0}(\Phi_{\rm ref}(B)))=o(1)
 \]
-must hold in one phase gauge together with collision-free reach and convergence
-of the remaining incoming section data through $O(B^{-3/2})$ regularized
-cycles.
+must hold together with collision-free reach. The long $O(B^{-3/2})$ cycle
+train is now controlled at an early overlap; propagation down the incoming
+restricted tail remains.
 
 Even after that hypothesis is proved, the argument would establish infinitely
 many rational terminal nonperiodicity subfamilies, not all rational parameters.

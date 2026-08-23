@@ -81,40 +81,47 @@ $J_{\rm ret}$.
 This robustness is local on compact nonsingular sections. It does not itself
 show that the true finite-$B$ orbit arrives inside either perturbed window.
 
-## Incoming-section phase gauge
+## Incoming asymptotic phase gauge
 
 The phase in (1) is recorded at the center section. Matching is more
 convenient on a fixed large incoming restricted section
 \[
 \Sigma^-_{Y_0}=\{z=-Y_0,\ w>0\}.
 \]
-Propagate the compact center arcs in (4) backward along the restricted
-parabolic incoming curve. Analytic flow on the intervening compact
-collision-regularized segment gives open incoming-section arcs
-$J^-_{\rm esc}$ and $J^-_{\rm ret}$. Membership in these arcs is expressed
-in the **raw binary phase on $\Sigma^-_{Y_0}$**, not in the center phase.
-
-For the collapsed-pair reference fall, define exactly
+The restricted incoming parabolic curve has a canonical asymptotic binary-
+phase intercept $\chi$. If the raw mean anomaly at $z=-Y$ is $\phi_Y$, the
+normalization is
 \[
-\Phi_{\rm sec,ref}(B;Y_0)=n_{\rm bin}t_0(BY_0),
+\chi=\lim_{Y\to\infty}\left(\phi_Y+{4\over3}Y^{3/2}\right)
+\pmod {2\pi}.
 \tag{5}
 \]
-where $t_0$ is formula (2a) of `SKINNY_MATCHING.md`. Its relation to the
-center/collision clock is
+The limit exists because the binary is prescribed and the outer field differs
+from its monopole tail by $O(Y^{-4})$; the induced flight-phase correction is
+$O(Y^{-1/2})$. Let
 \[
-\Phi_{\rm sec,ref}
-=\Phi_{\rm ref}-{4\over3}\sqrt{M\over N}Y_0^{3/2}+O(B),
+\Gamma^-_{Y_0}(\chi)
 \tag{6}
 \]
-and therefore
+be the full regularized restricted state where that orbit crosses
+$\Sigma^-_{Y_0}$. Propagating the compact center arcs in (4) backward gives
+open **intercept** arcs $J^\infty_{\rm esc}$ and
+$J^\infty_{\rm ret}$. The map (6) includes the entire restricted quadrupole
+tail from infinity to the fixed section.
+
+For the collapsed-pair reference fall, the exact intercept clock is
 \[
-\Phi_{\rm sec,ref}'(B;Y_0)
+\chi_{\rm ref}(B)=\Phi_{\rm ref}(B),
+\qquad
+\chi_{\rm ref}'(B)
 =-{3\pi\over2}B^{-5/2}(1+o(1)).
 \tag{7}
 \]
-This distinction repairs a genuine gauge trap: comparing a raw section phase
-directly with $\Phi_{\rm ref}$ would leave the nonvanishing flight correction
-in (6).
+This repairs two distinct gauge traps. A raw fixed-section phase cannot be
+compared directly with $\Phi_{\rm ref}$ because of the divergent monopole
+flight phase; it also cannot in general be compared with the raw monopole
+section clock because the restricted quadrupole tail leaves a finite
+$Y_0$-dependent correction. Equation (5) removes both ambiguities.
 
 ## Uniform terminal transfer
 
@@ -148,7 +155,7 @@ restricted arc. Either outcome excludes a later classical brake.
 
 ## Conditional rational consequence
 
-Every lift of an open subarc of $J^-_{\rm esc}$ has infinitely many disjoint
+Every lift of an open subarc of $J^\infty_{\rm esc}$ has infinitely many disjoint
 reference preimage intervals accumulating at $B=0$. Since
 \[
 B(u)={2u\over1+u^2}
@@ -158,34 +165,32 @@ contains rational Euclid parameters.
 
 **Conditional Corollary 2.** Fix $Y_0$ as above. Assume that for every
 sufficiently small $B>0$ the true skinny trajectory reaches
-$\Sigma^-_{Y_0}$ collision-free and, uniformly as $B\to0$,
+$\Sigma^-_{Y_0}$ collision-free and, in one common regularized section chart,
+its full scaled state $S_B(Y_0)$ satisfies uniformly
 \[
-\operatorname{dist}_{S^1}\!\left(
-\Phi_{\rm true,sec}(B;Y_0),
-\Phi_{\rm sec,ref}(B;Y_0)\right)=o(1).
+\operatorname{dist}\!\left(
+S_B(Y_0),\Gamma^-_{Y_0}(\Phi_{\rm ref}(B))\right)=o(1).
 \tag{9}
 \]
-Assume also that, in one common regularized section chart, the full scaled
-section state has distance $o(1)$ from the restricted parabolic incoming
-curve at that true raw phase. Then infinitely many open parameter intervals
-containing rational $u$ satisfy the terminal certificate and hence have no
-later classical brake. In particular, infinitely many primitive Pythagorean
-triples are nonperiodic.
+Then infinitely many open parameter intervals containing rational $u$ satisfy
+the terminal certificate and hence have no later classical brake. In
+particular, infinitely many primitive Pythagorean triples are nonperiodic.
 
-**Proof.** Shrink a compact escape arc inside $J^-_{\rm esc}$ by a fixed
-positive phase margin. Equations (7)--(9) and convergence of the other section
-coordinates put the true data in the robust perturbed escape window throughout
-a nonempty subinterval of every sufficiently small reference preimage
+**Proof.** Shrink a compact escape arc inside $J^\infty_{\rm esc}$ by a fixed
+positive intercept margin. Equations (7)--(9) put the true data in the robust
+perturbed escape window throughout a nonempty subinterval of every sufficiently
+small reference preimage
 component. Each subinterval contains rational $u$. The uniform terminal
 transfer (8) excludes every later brake. Reducing the Euclid triple preserves
 the normalized dynamics. \(\square\)
 
 No approximation rate relative to the shrinking $B$-width of a preimage
-interval is needed: after shrinking the phase arc by a fixed angular margin,
-the uniform circular error in (9) is eventually smaller than that margin.
+interval is needed: after shrinking the intercept arc by a fixed angular
+margin, the uniform section error in (9) is eventually smaller than the
+corresponding compact-state margin.
 
-This corollary is not presently unconditional because (9), collision-free
-section reach, and full section-data convergence remain **CONJECTURAL**. It
+This corollary is not presently unconditional because (9) and collision-free
+tail propagation to the fixed section remain **CONJECTURAL**. It
 identifies their payoff exactly: the missing matching theorem would
 immediately deliver a Level-D infinite rational subfamily, not merely
 numerical evidence. Captured windows would still require a separate no-brake

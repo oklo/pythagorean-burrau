@@ -51,11 +51,16 @@ estimate the transverse incoming/outgoing slope difference near $-0.90623$;
 the estimate's magnitude is not validated, although nonvanishing is now
 proved below.
 
-The first current skinny obligation is therefore a uniform regularized
-matching theorem with $o(1)$ circular phase error in one fixed section gauge.
-Restricted transversality is
-now closed, but it does not by itself resolve finite-$B$ phases on the captured
-side, so no Level-D skinny nonperiodicity theorem is yet claimed.
+The long-cycle part of skinny matching is now proved. For every
+$0<\alpha<1/6$, either a prior classical collision occurs or direct
+Levi--Civita oscillator estimates carry the solution through
+$O(B^{-3/2})$ collision-like cycles to $\rho=B^\alpha$, with matched outer
+state and asymptotic phase intercept
+$\chi_\alpha=\Phi_{\rm ref}+o(1)$. The remaining matching obligation is the
+incoming parabolic tail from scaled radius $Y=B^{\alpha-1}\to\infty$ to one
+fixed $Y_0$. Restricted transversality is now closed, but it does not by
+itself resolve finite-$B$ phases on the captured side, so no Level-D skinny
+nonperiodicity theorem is yet claimed.
 
 The transversality task is no longer intrinsically infinite-time. Exact
 comparison proves $\sqrt8<v_*<4$ for the restricted separatrix. An exact
@@ -76,9 +81,8 @@ exclusion.
 
 Transversality also proves two one-sided limiting phase windows: incoming
 parabolic data escape hyperbolically on one side and turn at finite outer
-height on the other. Combined with the exact rapidly sweeping raw
-fixed-section reference clock, a gauge-consistent uniform $o(1)$ phase and
-section matching theorem would immediately
+height on the other. Combined with the exact rapidly sweeping asymptotic-
+intercept clock, a uniform incoming-tail theorem would immediately
 yield infinitely many open finite-$B$ terminal nonperiodicity intervals
 containing rational Euclid parameters. This is a proved conditional
 implication, not yet a

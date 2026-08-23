@@ -1,15 +1,12 @@
 # Experiment log
 
-## 2026-08-22: restricted phase windows and phase-gauge audit
+## 2026-08-22: pre-plunge matching and phase-gauge audits
 
 - Used restricted transversality to prove adjacent open hyperbolic-escape and
   finite-turn phase windows.
-- An independent adversarial pass verified the stable-curve separation and
-  found a phase-gauge error in the first draft: the center/collision clock
-  $\Phi_{\rm ref}$ had been compared directly with a raw incoming-section
-  phase.
-- Repaired the statement by fixing $\Sigma^-_{Y_0}$ and using the exact raw
-  reference phase
+- The first independent adversarial pass verified stable-curve separation and
+  found that the center/collision clock $\Phi_{\rm ref}$ had been compared
+  directly with a raw incoming-section phase. The exact monopole correction is
   \[
   \Phi_{\rm sec,ref}=n_{\rm bin}t_0(BY_0)
   =\Phi_{\rm ref}-{4\over3}\sqrt{M/N}Y_0^{3/2}+O(B).
@@ -17,11 +14,25 @@
   A symbolic regression test verifies the limiting correction and that the
   derivative still has leading coefficient $-3\pi/2$ after multiplication by
   $B^{5/2}$.
+- A deeper tail audit found that even this raw monopole section phase is not
+  the invariant target at fixed $Y_0$: the restricted quadrupole produces a
+  finite tail correction. The final formulation uses the incoming asymptotic
+  intercept $\chi$ and the full restricted state
+  $\Gamma^-_{Y_0}(\chi)$.
+- Proved direct pre-plunge estimates for every $0<\alpha<1/6$. Unless a prior
+  classical inner collision occurs, the orbit crosses $\rho=B^\alpha$ after
+  the full $O(B^{-3/2})$ cycle train with
+  $\chi_\alpha=\Phi_{\rm ref}+o(1)$ and matched outer state.
+- A second independent audit found and repaired two localized proof defects:
+  mean anomaly is a smooth observable $\Lambda=\Theta+\sin\Theta$, not a
+  coordinate at collision, and the velocity comparison requires a radius-
+  weighted angular-momentum estimate.
 - Made collision-free section reach and convergence in one common
   regularized chart explicit hypotheses. Proved that a compact strict-escape
   arc transfers to the terminal escape inequalities by the physical scalings
   $e=-C/B+o(B^{-1})$ and $\dot\rho=sB^{-1/2}+o(B^{-1/2})$.
-- Under those still-conjectural matching hypotheses, infinitely many open
+- Under the remaining, still-conjectural incoming-tail hypothesis, infinitely
+  many open
   terminal nonperiodicity intervals contain rational Euclid parameters. This
   is a conditional Level-D bridge, not an unconditional result for any
   Pythagorean triple.

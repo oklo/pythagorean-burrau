@@ -114,8 +114,8 @@ The center clock also has the exact asymptotic derivative
 It is therefore strictly decreasing on some punctured endpoint interval and
 tends to infinity there.
 
-There are two phase gauges, and they must not be confused. Fix a large but
-finite restricted incoming section
+There are several phase gauges, and they must not be confused. Fix a large
+but finite restricted incoming section
 \[
 \Sigma^-_{Y_0}=\{z=-Y_0,\ w>0\},\qquad Y_0>0,
 \]
@@ -139,21 +139,43 @@ For fixed $Y_0$, however,
 =-{3\pi\over2}\epsilon^{-5/2}+O(\epsilon^{-3/2}),
 \tag{4d}
 \]
-so this correctly gauged section phase is also strictly decreasing and tends
-to infinity. Equivalently one may add the restricted section-to-center flight
-phase to a raw section phase and work with a center-phase intercept. All
-matching statements below use the raw phase gauge (4b).
+so the monopole section phase is also strictly decreasing and tends to
+infinity. It is an exact reference identity, but it is not the final matching
+coordinate. Between scaled infinity and fixed $Y_0$, the restricted binary
+quadrupole produces a finite phase-dependent flight correction. Thus the raw
+true phase at $\Sigma^-_{Y_0}$ need not differ from (4b) by $o(1)$.
 
-For every nonempty open phase arc
+The invariant coordinate is the **incoming asymptotic phase intercept**. If a
+raw binary phase $\Phi_\rho$ is recorded at an early overlap radius
+$\rho=\epsilon Y$ with $Y\to\infty$, define
+\[
+\chi_\rho
+:=\Phi_\rho+n_{\rm bin}\bigl(t_{\rm mono}-t_0(\rho)\bigr)
+\pmod {2\pi}.
+\tag{4e}
+\]
+The added term is the exact monopole phase remaining to the collapsed center.
+For a restricted incoming parabolic orbit, (4e) has a limit as
+$Y\to\infty$; the difference between the restricted and monopole tails is
+$O(Y^{-1/2})$. This limit $\chi$ labels the incoming restricted scattering
+curve. The collapsed-pair reference has exactly
+\[
+\chi_{\rm ref}(\epsilon)=\Phi_{\rm ref}(\epsilon).
+\tag{4f}
+\]
+The raw state on a fixed section is a nontrivial smooth function of $\chi$,
+obtained by the full restricted incoming flow.
+
+For every nonempty open intercept arc
 $J\subset\mathbb R/(2\pi\mathbb Z)$, the set
 \[
-\{u>0:\Phi_{\rm sec,ref}(B(u);Y_0)\bmod2\pi\in J\}
+\{u>0:\Phi_{\rm ref}(B(u))\bmod2\pi\in J\}
 \]
 contains infinitely many open intervals accumulating at $u=0$, and every
-such interval contains rational $u$. This is an exact theorem about the
-reference section clock. It becomes a theorem about the true trajectory only
-after uniform $o(1)$ phase matching in this same gauge, and only for an open
-scattering condition, not for hitting one exact separatrix phase.
+such interval contains rational $u$. This exact theorem acquires dynamical
+force only after full-state matching to the restricted incoming curve with
+intercept $\Phi_{\rm ref}$, and only for an open scattering condition, not for
+hitting one exact separatrix phase.
 
 ## Incoming local energy
 
@@ -227,31 +249,34 @@ $(5/32)\sqrt{\epsilon/\rho}$ and a direct binary tidal phase correction of
 order $\epsilon^{5/2}\rho^{-3/2}$; both vanish in this overlap. The
 coefficient and the use of averaging for the true repeated encounter map are
 **CONJECTURAL** until the uniform theorem below is proved.
-Let $\Phi_{\rm true,sec}(\epsilon;Y_0)$ denote the regularized binary phase
-at the first collision-free crossing of $\Sigma^-_{Y_0}$. These estimates
-strongly suggest the gauge-consistent statement
+Let $S_\epsilon(Y_0)$ be the full regularized state at the first
+collision-free crossing of $\Sigma^-_{Y_0}$, and let
+$\Gamma^-_{Y_0}(\chi)$ be the restricted incoming parabolic state on that
+section with asymptotic intercept $\chi$. The gauge-consistent target is
 \[
-\operatorname{dist}_{S^1}\!\left(
-\Phi_{\rm true,sec},\Phi_{\rm sec,ref}\right)=o(1).
+\operatorname{dist}\!\left(
+S_\epsilon(Y_0),
+\Gamma^-_{Y_0}(\Phi_{\rm ref}(\epsilon))\right)=o(1).
 \tag{6}
 \]
-Here circular distance is sufficient; no integer-valued lift is required for
-the open phase windows. Status of (6): **CONJECTURAL**. The missing proof is
-not an elementary pointwise force bound. It must iterate a Levi--Civita binary
-return map through $O(\epsilon^{-3/2})$ collision-like cycles without losing
-the small error, match the outer radial comparison uniformly as
-$\rho\downarrow\epsilon^\alpha$, and then propagate in a common regularized
-chart from the overlap to the fixed section $\Sigma^-_{Y_0}$.
+Circular intercept distance is sufficient; no integer-valued lift is required
+for the open phase windows. `PREPLUNGE_MATCHING.md` now proves the long-cycle
+part: at every deliberately early overlap
+$\rho=\epsilon^\alpha$, $0<\alpha<1/6$, the renormalized true intercept (4e)
+has distance $o(1)$ from $\Phi_{\rm ref}$, unless an earlier classical
+collision already excludes periodicity. Status of the full fixed-section
+statement (6): **CONJECTURAL**. Its remaining content is a uniform incoming-
+tail theorem from that overlap to fixed $Y_0$ in the full restricted scaling.
 
-Equation (6) is the first indispensable lemma for using the restricted
-separatrix. Once proved, strict escape or return regions of the limiting
-scattering map pull back to infinitely many shrinking parameter windows
-accumulating at $\epsilon=0$.
+Equation (6) is the remaining indispensable lemma for using the restricted
+separatrix. Once proved, strict terminal regions of the limiting scattering
+map pull back to infinitely many shrinking parameter windows accumulating at
+$\epsilon=0$.
 
 Féjoz's rigorous Levi--Civita averaging theorem shows that regularized and
 unregularized averaged planar three-body Hamiltonians agree near inner
 collisions. It provides the correct coordinate framework, but does not by
-itself make (6) uniform in this singular regime: the eccentricity tends to
-one, the number of cycles is $O(\epsilon^{-3/2})$, and the outer section
-shrinks with $\epsilon$. A successful use must track the theorem's constants
-through all three limits rather than cite fixed-parameter averaging.
+itself make (6) uniform in this singular regime. The elementary regularized
+estimate in `PREPLUNGE_MATCHING.md` avoids finite-eccentricity averaging for
+the long early cycle train. Féjoz's framework may still be useful for a
+sharper expansion, but is no longer needed merely to reach the early overlap.
