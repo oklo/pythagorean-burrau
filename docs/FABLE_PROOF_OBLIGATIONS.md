@@ -20,17 +20,18 @@ Outstanding obligations:
      state box with the binary $\{3,1\}$, escaper body 2, $\eta=4$; its
      dichotomy covers later inner collisions, so no collision-free
      assumption is smuggled past $t_N$.
-2. **Near-brake classification at $u\approx0.342$.**  Determine the local
-   event-branch topology, the minimal distance of $\zeta$ to zero along
-   the branch, and whether the near-miss corresponds to a nearby free-fall
-   periodic family (Li--Liao type) crossing the tied curve transversally.
-   A validated lower bound on $\min\lvert\mathcal B\rvert$ over an
-   isolating $(u,t)$ box is the goal; a sign-changing pair with a
-   persistent zero would trigger the counterexample protocol instead.
-3. **Parameter-interval version.**  Extend the verifier from a point
-   initial condition to a $u$-box (interval initial data plus the tied
-   initial-state map), with adaptive bisection in $u$.  Needed for any
-   covering theorem on a compact interval.
+2. **Near-brake classification at $u\approx0.342$: RESOLVED at ordinary
+   level.**  Cross-validated high-precision (50/60/90-digit Taylor)
+   non-interval integrations of $u=171/500$ show NO events after
+   $t\approx15$ and minimum event kinetic energy $\approx0.136$ over the
+   whole run — the double-precision "near-brake" was noise.  A fully
+   rigorous late-time atlas needs a $\sim$250-digit budget (measured
+   interval loss $\approx13$ digits/unit); optional, low priority now.
+3. **Parameter-interval version: implemented and BLOCKED.**  The
+   `icert` mode exists (u as frozen state variable, correlations kept),
+   but measured through-encounter amplification $\sim3\times10^{8}$
+   forces $10^{-10}$-wide boxes; see `FABLE_FAILED_ROUTES.md`.  Any
+   compact-interval theorem needs a structural mechanism instead.
 4. **Skinny-side terminal times.**  For $u\lesssim0.10$ the certificate
    did not fire by $t=40$ in ordinary runs; that range belongs to the live
    agent's program and is excluded from the Fable compact-interval claims.
