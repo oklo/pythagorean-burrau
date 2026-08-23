@@ -1519,6 +1519,99 @@ continuing any collision.  The hexadecimal enclosure and trusted computing
 base are recorded in the companion second-boundary escape note.
 \end{proof}
 
+\begin{theorem}[Third and fourth planar collision boundaries]
+Immediately below the preceding collision-or-escape box, the limiting planar
+family has two further classically reached transverse collision roots.  The
+positive-primary root satisfies
+\[
+ \begin{aligned}
+  1.2640090993171269&\le\kappa_3\le1.2640090999643190,\\
+  0.5884119895288813&\le S_3\le0.5884197454438135,
+ \end{aligned}
+\]
+and
+\[
+ 5224.5883<\det D_{(\kappa,S_3)}F_3<5227.2175.
+\]
+The subsequent negative-primary root satisfies
+\[
+ \begin{aligned}
+  1.2640090985775962&\le\kappa_4\le1.2640090992806481,\\
+  0.3710663877519410&\le S_4\le0.3726139177003617,
+ \end{aligned}
+\]
+and
+\[
+ 417669.25<\det D_{(\kappa,S_4)}F_4<429486.31.
+\]
+The exact member at the fourth root avoids the preceding positive-primary
+collision: outward-rounded interval subtraction gives a separation greater
+than $1.2058\times10^{-11}$ between the corresponding root projections.
+The ordinal labels refer to the successive encounter charts; uniqueness is
+claimed only in the displayed boxes.
+\end{theorem}
+
+\begin{proof}
+Continue the negative-primary LC chart from the common incoming section and
+make the exact positive-primary switch used in the preceding theorem.  In
+reversed regularized time, put
+\[
+ F_3(\kappa,S_3)=(\operatorname{Re}u_+,\operatorname{Im}u_+),
+ \qquad \partial_{S_3}u_+=-v_+.
+\]
+Pinned interval Newton maps the input box
+\[
+ [1.2640090992,1.2640091000]\times[0.588396,0.588436]
+\]
+strictly into the first displayed enclosure.  Every earlier selected
+distance is positive, the nonselected primary stays separated, and
+$\operatorname{Im}v_+<-1/2$ throughout the positive-primary chart.  Hence
+$\operatorname{Im}u_+$ increases strictly and the enclosed zero is the first
+selected collision.
+
+For the next passage reconstruct
+\[
+ \lambda=t^{1/3},\quad R=9^{1/3}\lambda^2,\quad
+ Z=q_++{R\over2}e_x,\quad V=\dot q_++{R\over3t}e_x,
+\]
+propagate the signed-$\lambda$ bridge for the exact duration $97/5000$, and
+set
+\[
+ q_-=Z+{R\over2}e_x,
+ \qquad \dot q_-=V+{9^{1/3}\over3\lambda}e_x.
+\]
+On the certified sheet $q_{-,x}>0.05$, the lift
+\[
+ u_{-,r}=\sqrt{{|q_-|+q_{-,x}\over2}},\qquad
+ u_{-,i}={q_{-,y}\over2u_{-,r}},\qquad
+ v_-={\overline{u_-}\dot q_-\over2}
+\]
+is analytic even across $q_{-,y}=0$.  With
+$F_4=(\operatorname{Re}u_-,\operatorname{Im}u_-)$, interval Newton maps
+\[
+ [1.2640090985,1.26400909929]\times[0.37084,0.37284]
+\]
+strictly into the second displayed enclosure.  The other primary remains at
+squared distance greater than $1/10$, and $\operatorname{Re}v_->1/2$ makes
+$\operatorname{Re}u_-$ decrease strictly to its first zero.
+
+Finally, a separate interval-Newton replay on
+\[
+ [1.2640090981,1.2640091001]\times[0.588316,0.588516]
+\]
+contains every possible intervening positive-primary zero and proves that
+its unique root has
+\[
+ 1.2640090992927064\le\kappa_3\le1.2640090999346494.
+\]
+Subtracting the fourth-root projection with outward rounding gives the
+stated positive gap.  The positive chart stays past its zero sheet
+thereafter, while all bridge and fourth-chart separations are strict.  Thus
+the fourth root is reached classically without the third collision.  The
+pinned hexadecimal enclosures and complete chart-domain audit appear in the
+companion proof note.
+\end{proof}
+
 The first root's transversality has an exact positive-mass consequence.  In the full late
 Jacobi equations put $A=\sqrt{1-B^2}$, $M=1+A$, and select the same primary by
 \[

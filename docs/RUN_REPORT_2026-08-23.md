@@ -383,6 +383,22 @@ fresh audits endorsed the 195-tile enlargement after one audit caught and
 prompted repair of an inward-rounded decimal display of the already-certified
 root-clock upper endpoint.
 
+The next failed ordinary bridge box was resolved by an exact fourth
+negative-primary LC chart, entered at fixed signed-bridge duration $97/5000$.
+This exposed two further transverse boundaries.  Pinned interval Newton proves
+a positive-primary root in
+$1.2640090993171269\le\kappa_3\le1.2640090999643190$ and a subsequent
+negative-primary root in
+$1.2640090985775962\le\kappa_4\le1.2640090992806481$.  A broad monotone
+positive-chart window contains every possible intervening collision and has a
+unique root whose parameter projection lies at least
+$1.2058\times10^{-11}$ above the fourth projection.  Thus both exact roots are
+classically reached without an earlier collision.  The respective Jacobian
+determinants exceed $5224.58$ and $417669$.  Three independent adversarial
+reviews endorsed the chart algebra, the full $C^1$ derivative chain, the
+monotone first-zero arguments, the strict parameter-gap exclusion, and the
+limited scope: neither outgoing adjacent component has yet been classified.
+
 ### Positive-mass persistence of the collision boundary
 
 For the selected primary, the exact finite-mass Jacobi coordinate
@@ -702,7 +718,7 @@ At the end of this run:
 
 Results at this checkpoint:
 
-- 92 tests passed;
+- 93 tests passed;
 - lint passed;
 - the paper built successfully;
 - the only TeX diagnostic was the pre-existing 0.42 pt overfull box.

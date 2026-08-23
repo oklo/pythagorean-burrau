@@ -7,6 +7,7 @@ from src.symbolic.restricted_scattering import (
     finite_mass_selected_collision_reduction,
     forced_planar_lc_angular_identity,
     forced_planar_light_collision_lc_constraint,
+    heavy_bridge_negative_lc_switch_identities,
     incoming_parabolic_infinity_compactification,
     incoming_returned_jost_compactification,
     incoming_returned_jost_wronskian_compactification,
@@ -585,6 +586,12 @@ def test_restricted_universal_binary_collision_is_lc_regular() -> None:
         assert not entry.has(sp.Abs)
     assert height in field.free_symbols
     assert transverse in field.free_symbols
+
+
+def test_heavy_bridge_negative_lc_switch_round_trip_and_forcing() -> None:
+    reconstruction_gap, forcing_gap = heavy_bridge_negative_lc_switch_identities()
+    assert reconstruction_gap == sp.zeros(4, 1)
+    assert forcing_gap == sp.zeros(2, 1)
 
 
 def test_restricted_universal_binary_mu_system_matches_verifier() -> None:

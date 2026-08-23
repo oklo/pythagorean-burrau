@@ -361,8 +361,15 @@ transfer are now closed in
 `COMPUTER_ASSISTED_PLANAR_SECOND_COLLISION_ESCAPE.md`.  The explicit narrow
 box has been enlarged by 195 abutting tiles: every
 $1.2640099161\le\kappa\le1.2640126461$ is collision-or-escape.
-Classifying the adjacent components beyond this box, including any further
-collision boundaries, remains open.
+Immediately below this component, two further transverse collision boundaries
+are now certified in
+`COMPUTER_ASSISTED_PLANAR_THIRD_FOURTH_COLLISION_ROOTS.md`.  The third is a
+positive-primary collision and the fourth is a negative-primary collision;
+their exact root projections are disjoint by more than
+$1.2058\times10^{-11}$.  The fourth verifier includes a broader uniqueness
+strip proving that its exact branch misses the earlier collision.  Classifying
+the neighboring parameter regions through the heavy-pair collision, including
+excluding or locating any additional boundaries, remains open.
 
 The selected finite-mass relative coordinate now gives an exact perturbative
 bridge:

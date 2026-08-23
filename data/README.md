@@ -26,3 +26,9 @@ continuation and terminal escape enclosure are recorded separately in
 `validated_planar_second_collision_escape_capd.txt`.
 The 195-tile contiguous enlargement is summarized in
 `validated_planar_second_collision_escape_wide_capd.txt`.
+
+`validated_planar_third_light_collision_root_capd.txt` and
+`validated_planar_fourth_light_collision_root_capd.txt` record the next two
+transverse collision roots.  The fourth record includes the separate
+earlier-root uniqueness strip and strict parameter-gap exclusion needed to
+prove classical reachability.

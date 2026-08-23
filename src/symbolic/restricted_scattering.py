@@ -1220,6 +1220,65 @@ def restricted_universal_binary_lc_system() -> tuple[
     return field, (lc, height, velocity, transverse, transverse_velocity)
 
 
+def heavy_bridge_negative_lc_switch_identities() -> tuple[sp.Matrix, sp.Matrix]:
+    """Exact round trip and forcing at a bridge-to-negative-primary switch."""
+    lc, scale = sp.symbols("lambda scale", positive=True)
+    u_real, u_imag, outer_vx, outer_vy = sp.symbols(
+        "u_r u_i V_x V_y", real=True
+    )
+    norm = u_real**2 + u_imag**2
+    separation = scale * lc**2
+    relative_x = u_real**2 - u_imag**2
+    relative_y = 2 * u_real * u_imag
+    relative_vx = outer_vx + scale / (3 * lc)
+    relative_vy = outer_vy
+    v_real = (u_real * relative_vx + u_imag * relative_vy) / 2
+    v_imag = (u_real * relative_vy - u_imag * relative_vx) / 2
+    reconstructed_outer = sp.Matrix(
+        [
+            relative_x - separation / 2,
+            relative_y,
+            2 * (u_real * v_real - u_imag * v_imag) / norm
+            - scale / (3 * lc),
+            2 * (u_real * v_imag + u_imag * v_real) / norm,
+        ]
+    )
+    expected_outer = sp.Matrix(
+        [
+            relative_x - separation / 2,
+            relative_y,
+            outer_vx,
+            outer_vy,
+        ]
+    )
+
+    qx, qy, radius = sp.symbols("q_x q_y R", real=True, nonzero=True)
+    selected_norm_cubed = (qx**2 + qy**2) ** sp.Rational(3, 2)
+    other_norm_cubed = ((qx - radius) ** 2 + qy**2) ** sp.Rational(3, 2)
+    outer_acceleration = sp.Matrix(
+        [
+            -qx / selected_norm_cubed
+            - (qx - radius) / other_norm_cubed,
+            -qy / selected_norm_cubed - qy / other_norm_cubed,
+        ]
+    )
+    negative_primary_acceleration = sp.Matrix([1 / radius**2, 0])
+    selected_kepler = sp.Matrix(
+        [-qx / selected_norm_cubed, -qy / selected_norm_cubed]
+    )
+    forcing = sp.Matrix(
+        [
+            -1 / radius**2 - (qx - radius) / other_norm_cubed,
+            -qy / other_norm_cubed,
+        ]
+    )
+    forcing_gap = sp.simplify(
+        outer_acceleration - negative_primary_acceleration
+        - selected_kepler - forcing
+    )
+    return sp.simplify(reconstructed_outer - expected_outer), forcing_gap
+
+
 def restricted_universal_binary_mu_system() -> tuple[
     sp.Matrix, tuple[sp.Symbol, ...]
 ]:

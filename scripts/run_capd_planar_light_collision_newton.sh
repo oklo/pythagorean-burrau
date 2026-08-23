@@ -3,11 +3,13 @@ set -euo pipefail
 
 PINNED_CAPD_COMMIT=731079217a9254ea2948d742df2b170895effe7f
 
-if [ "$#" -lt 1 ] || [ "$#" -gt 5 ] || \
+if [ "$#" -lt 1 ] || [ "$#" -gt 7 ] || \
    { [ "$#" -eq 3 ] && [ "$3" != "--second-root" ] && \
+     [ "$3" != "--fourth-root" ] && \
+     [ "$3" != "--third-root" ] && \
      [ "$3" != "--second-escape" ] && \
      [ "$3" != "--second-escape-wide" ]; }; then
-  echo "usage: $0 CAPD_SOURCE_DIR [CAPD_BUILD_DIR [--second-root | --second-escape | --second-escape-wide | --second-escape-probe OFFSET_NANO RADIUS_NANO | FIRST_OFFSET COUNT [RADIUS]]]" >&2
+  echo "usage: $0 CAPD_SOURCE_DIR [CAPD_BUILD_DIR [--second-root | --third-root | --fourth-root | --second-escape | --second-escape-wide | --second-escape-probe OFFSET_NANO RADIUS_NANO | --second-fourth-probe OFFSET_NANO RADIUS_NANO DURATION_MILLION | --second-fourth-root-probe OFFSET_NANO RADIUS_NANO DURATION_MILLION DURATION_RADIUS_MILLION | FIRST_OFFSET COUNT [RADIUS]]]" >&2
   exit 2
 fi
 
@@ -57,6 +59,21 @@ elif [ "$#" -eq 5 ]; then
     VERIFIER_ARGS=("$3" "$4" "$5")
   else
     VERIFIER_ARGS=(--escape-tiles "$3" "$4" "$5")
+  fi
+elif [ "$#" -eq 6 ]; then
+  if [ "$3" = "--second-fourth-probe" ]; then
+    VERIFIER_ARGS=("$3" "$4" "$5" "$6")
+  else
+    echo "six arguments require --second-fourth-probe" >&2
+    exit 2
+  fi
+elif [ "$#" -eq 7 ]; then
+  if [ "$3" = "--second-fourth-root-probe" ] || \
+     [ "$3" = "--third-root-probe" ]; then
+    VERIFIER_ARGS=("$3" "$4" "$5" "$6" "$7")
+  else
+    echo "seven arguments require a supported root-probe mode" >&2
+    exit 2
   fi
 fi
 

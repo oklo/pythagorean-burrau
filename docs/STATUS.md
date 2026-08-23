@@ -55,6 +55,16 @@ sufficiently small compatible positive-mass member near this second boundary
 also collides or escapes.  Three independent adversarial passes endorsed the
 original certificate and transfer, and three fresh passes endorsed the
 195-tile enlargement after repair of one inward-rounded displayed endpoint.
+Immediately below this certified escape component, pinned interval Newton now
+proves two more distinct, classically reached collision boundaries.  Their
+validated projections are
+$1.2640090993171269\le\kappa_3\le1.2640090999643190$ for the positive primary
+and $1.2640090985775962\le\kappa_4\le1.2640090992806481$ for the negative
+primary.  A broader monotone collision window proves the exact fourth member
+misses the third boundary by a parameter gap greater than
+$1.2058\times10^{-11}$.  These are limiting real collision parameters, not
+Pythagorean or periodic solutions; their outgoing adjacent components remain
+to be classified.
 
 The closest catalog threat, the Li--Liao $F_{30}$ family on the
 $3{:}4{:}5$ mass slice, was locally continued.  Its periodic branch comes

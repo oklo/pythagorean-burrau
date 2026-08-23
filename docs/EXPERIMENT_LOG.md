@@ -852,3 +852,18 @@ it is not a remainder proof.
   the square-root switch sheet.  These failed verifier assertions are chart
   obstructions consistent with another close encounter, not evidence of a
   collision.
+- A fourth, negative-primary LC chart at the fixed heavy-bridge duration
+  $97/5000$ resolves that obstruction.  Interval Newton then reveals two
+  distinct roots in the very narrow transition layer.  The earlier
+  positive-primary root has
+  $1.2640090993171269\le\kappa_3\le1.2640090999643190$ and determinant
+  $>5224.58$.  The later negative-primary root has
+  $1.2640090985775962\le\kappa_4\le1.2640090992806481$ and determinant
+  $>417669$.  A broader uniqueness box brackets every possible earlier
+  positive collision and proves $\kappa_3-\kappa_4>1.2058\times10^{-11}$,
+  so the fourth root is classically reached.  Status: **PROVED BY
+  COMPUTER-ASSISTED ARGUMENT**.  Three independent adversarial reviews
+  endorsed the coordinate maps, time orientations, $C^1$ chain, monotone
+  first-zero arguments, and strict parameter-gap exclusion.  They also
+  confirmed that no terminal escape claim is made for either new outgoing
+  component.
