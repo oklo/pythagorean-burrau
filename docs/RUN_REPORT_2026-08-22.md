@@ -85,6 +85,17 @@ numerical/family-intersection evidence.
    nonperiodic. Thus the proved nonperiodic subset of this explicit primitive
    family has positive lower natural density. The dynamical conclusion
    inherits the validated restricted-transversality input.
+12. **Restricted turn-resonance theorem.** On the finite-turn side of the
+   restricted separatrix, continuity and the exact mean-anomaly clock produce
+   a nonsingular brake state of the collision-regularized restricted flow for
+   every sufficiently large binary-apocenter index. A phase-uniform
+   Kepler-energy comparison proves
+   $Z_{{\rm t},n}=(2n)^{2/3}(1+o(1))$ and
+   $T_n=\pi n/2+o(1)$. These are not classical finite-$B$ counterexamples;
+   intervening heavy-binary collisions are regularized in the limiting model.
+   They disprove the proposed shortcut that the restricted finite-turn side
+   has no brake states and reduce the next endpoint step to finite-$B$
+   resonance splitting.
 
 ## Conjecture status
 
@@ -146,15 +157,19 @@ numerical/family-intersection evidence.
   $r_{min}\sim(225\pi^2/16384)B^{11}$. The full $O(B^{-3/2})$ cycle train and
   incoming parabolic tail are now matched. Infinitely many open skinny
   intervals are proved nonperiodic by transfer of a restricted hyperbolic-
-  escape window. The intervening captured windows and exact separatrix phases
-  remain unresolved, so no punctured neighborhood theorem is claimed.
+  escape window. The intervening finite-turn side contains infinitely many
+  restricted brake-state resonances; their finite-$B$ splitting and the exact
+  separatrix phases remain unresolved, so no punctured neighborhood theorem
+  is claimed.
 
 ## Cardinality and arithmetic route
 
-The cardinality argument was explicitly rejected as a proof.  No dynamical
-real intersection has survived strongly enough to earn an arithmetic program,
-and no algebraic/Diophantine necessary condition for a return parameter was
-derived.  Arithmetic exclusion is therefore inactive rather than failed.
+The cardinality argument was explicitly rejected as a proof. Exact endpoint
+sampling is now active in a legitimate form: the reference phases on
+$(4n^2-1,4n,4n^2+1)$ are equidistributed and select a positive-density
+nonperiodic subset. No algebraic/Diophantine condition excluding rational
+return parameters has been derived, so arithmetic exclusion of all remaining
+members is still inactive.
 
 ## Known periodic-family intersection results
 
@@ -193,9 +208,9 @@ derived.  Arithmetic exclusion is therefore inactive rather than failed.
 3. Control birth/death of events through collision, escape, infinite time, and
    both parameter endpoints.
 4. Treat arbitrarily close but collision-free binary passages uniformly.
-5. Compute the finite-$B$ separatrix splitting and exclude second brakes on
-   its captured/nonescaping side; the repeated-cycle and incoming-tail
-   matching parts are now proved.
+5. Compute the finite-$B$ separatrix and turn-resonance splitting, then exclude
+   second brakes after one or more outer turns; repeated-cycle and
+   incoming-tail matching are proved.
 6. Obtain a transverse regularized analysis of the isosceles endpoint
    collision.
 7. If real brake intersections are found, derive and prove a genuine exact
@@ -256,6 +271,31 @@ theorem.
    rational bound $h'(\pi/4)>14/625$. The analytic compactified-map argument
    then proves stable/unstable transversality. The slope difference near
    $-0.90623$ remains only an ordinary numerical estimate of its magnitude.
+5. The finite-turn side contains a brake-state resonance at every sufficiently
+   large apocenter index, with
+   $Z_{{\rm t},n}=(2n)^{2/3}(1+o(1))$. At any fixed resonance, the exact radial
+   Jacobian factors as
+   $D_n=-(Z_nz_{\theta\theta}/2)\mathcal A'(\phi_n)$. Conditional on a simple
+   root and differentiable finite-$B$ matching, the full brake residual reduces
+   to one scalar.
+6. The scalar's first formal coefficient is now explicit:
+   \[
+   C_n=-{3\over4Z_n}\int_{-\infty}^{T_n}{r^2zp\over d^5}\,d\theta,
+   \qquad p''={(r^2-2z^2)\over d^5}p.
+   \]
+   Its application to the Pythagorean family still requires weighted
+   first-order incoming matching. A rotation-Wronskian theorem and half-line
+   Jost factorization give
+   \[
+   Z_nC_n\to-\mathscr W_\infty/2,
+   \qquad \mathscr W_\infty=2k_+(0)k_+'(0).
+   \]
+   Analytic tail bounds plus a pinned CAPD enclosure prove
+   $k_+(0)>7/20$, $k_+'(0)>3/5$, and hence
+   $\mathscr W_\infty>21/50$. Thus $C_n<0$ for every sufficiently late
+   restricted resonance. Separately,
+   the explicit family $(4n^2-1,4n,4n^2+1)$ is equidistributed in reference
+   phase and has a positive-density nonperiodic subset.
 
 These results strengthen the outcome to a major Level-D partial theorem, not a
 proof of the full rational or strong real conjecture. No real or rational
@@ -276,6 +316,9 @@ uv run python -m scripts.probe_skinny_regularization --epsilon 0.05
 uv run python -m scripts.derive_restricted_scattering
 uv run python -m scripts.derive_finite_plunge
 uv run python -m scripts.probe_restricted_transversality --cutoffs 10 20 40
+uv run python -m scripts.probe_restricted_turn_map \
+  --offsets -0.1 -0.05 -0.02 0.02 0.05 0.1 \
+  --phase-span 30000 --max-step 0.03
 uv run python -m scripts.probe_double_radial
 uv run python -m scripts.continue_f30
 uv run python -m scripts.probe_dynamics --u 1/3 --t-end 4 \
@@ -287,15 +330,19 @@ tectonic -X compile paper/main.tex --outdir /private/tmp/pythagorean-paper-build
 # after building pinned CAPD 6.1.0 with native intervals
 sh scripts/run_capd_restricted_transversality.sh \
   /path/to/CAPD /path/to/CAPD/build-native
+bash scripts/run_capd_restricted_transverse_scattering.sh \
+  /path/to/CAPD /path/to/CAPD/build-native
 ```
 
 The repository contains pinned Python dependencies in `uv.lock`, a pinned CAPD
-commit in the verifier wrapper, and 52 deterministic symbolic/unit tests.
+commit in both verifier wrappers, and 62 deterministic symbolic/unit tests.
 
 ## Single highest-leverage next action
 
-Analyze the restricted finite-turn/captured phase window through its next
-close interaction and find a monotone event index or terminal transition that
-excludes a second brake. Uniform incoming-tail matching and the escape windows
-are now closed; captured-branch exclusion is the narrowest obstruction to
-turning the Level-D endpoint theorem into a punctured-neighborhood theorem.
+Repair weighted first-order incoming matching in quotient LC invariants,
+\((Z_{B,x},Z'_{B,x})/B\to(\xi,\xi')\), through a fixed restricted turn
+resonance. Direct physical transverse velocity is not uniformly controlled at
+near-collision phases, so conversion must occur only on a separated section.
+This connects the now sign-definite late coefficient $C_n$ to the tied
+Pythagorean family. The other remaining endpoint lemma is late-resonance
+simplicity $D_n\ne0$.

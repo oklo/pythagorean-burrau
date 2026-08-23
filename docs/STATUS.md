@@ -1,6 +1,6 @@
 # Status
 
-Date: 2026-08-22
+Date: 2026-08-23
 
 The complete run summary is `RUN_REPORT_2026-08-22.md`.
 
@@ -36,12 +36,14 @@ Both slip signs occur numerically, so the target is an event index or branch
 classification.  The simpler global Pythagorean-defect barrier was numerically
 falsified after the first close encounter.
 
-Active fallback: extend the new skinny Level-D theorem across the captured
+Active fallback: extend the new skinny Level-D theorem across the finite-turn
 phase windows. The $O(B^{-3/2})$ early cycle train and the incoming parabolic
 tail are now matched rigorously. On compact restricted escape arcs, the exact
 finite-$B$ trajectory reaches the terminal escape-or-collision certificate.
-The remaining endpoint target is a finite-$B$ separatrix-splitting
-calculation plus a no-brake classification on the nonescaping side.
+The restricted nonescaping side has infinitely many exact first-turn brake
+states accumulating at the separatrix, so a uniform limiting no-brake
+classification is impossible. The remaining endpoint target is a finite-$B$
+separatrix/resonance-splitting calculation plus control after later turns.
 Perturbation away from the solved isosceles-right collision endpoint remains
 secondary.
 
@@ -67,7 +69,8 @@ exact LC normal invariants, and a weighted transverse uniqueness lemma then
 carry the full state down the incoming parabolic tail to any fixed large
 $Y_0$. Restricted transversality and terminal transfer therefore give an
 unconditional Level-D skinny nonperiodicity theorem on infinitely many open
-phase-preimage intervals. Captured phases remain unresolved.
+phase-preimage intervals. Finite-turn phases remain unresolved in the
+finite-$B$ problem.
 
 The transversality task is no longer intrinsically infinite-time. Exact
 comparison proves $\sqrt8<v_*<4$ for the restricted separatrix. An exact
@@ -83,8 +86,8 @@ also proved: $z=2/x^2$ gives an analytic time-$\pi$ map satisfying McGehee's
 degree-four sector hypotheses, whose fixed-phase stable tangents contract.
 Hypothetical tangency would make the growing Jacobi field such a contracting
 tangent, a contradiction. Uniform finite-$B$ matching is now closed. The
-remaining endpoint obstructions are separatrix persistence and
-captured-branch brake exclusion.
+remaining endpoint obstructions are separatrix persistence and splitting near
+the infinite restricted turn-resonance sequence.
 
 Transversality also proves two one-sided limiting phase windows: incoming
 parabolic data escape hyperbolically on one side and turn at finite outer
@@ -101,3 +104,51 @@ escape-intercept arc selects its exact phase-density fraction of this explicit
 family, and uniform matching converts every sufficiently large selected
 member into a terminal nonperiodic trajectory. See
 `EXPLICIT_SKINNY_FAMILY.md`.
+
+The complementary restricted side invalidates a tempting shortcut. Its
+first-turn time is continuous and diverges at the parabolic boundary, while
+the binary mean anomaly advances exactly at rate four. The intermediate-value
+theorem therefore produces a simultaneous outer-turn/binary-apocenter brake
+state for every sufficiently large apocenter index. An exact Kepler-energy
+comparison gives $Z_{\rm t,n}=(2n)^{2/3}(1+o(1))$. These are
+collision-regularized restricted resonances, not classical finite-$B$
+counterexamples. They identify the next structural target: show how the
+finite-$B$ velocity residual splits along this infinite resonance sequence.
+
+That local splitting has now been reduced exactly at any fixed resonance.
+The radial Jacobian is
+$D_n=-(Z_nz_{\theta\theta}/2)\mathcal A'(\phi_n)$, so radial continuation is
+equivalent to simplicity of the turn-phase root. On the resulting branch the
+first angular-slip coefficient is $C_n/Z_n$, where
+\[
+C_n=-{3\over4Z_n}\int_{-\infty}^{T_n}{r^2zp\over d^5}\,d\theta,
+\qquad p''={(r^2-2z^2)\over d^5}p.
+\]
+The first genuine gaps are now localized: prove resonance simplicity, upgrade
+incoming matching from $C^0$ to weighted first order in $B$, and prove
+$C_n\ne0$. The last problem has been reduced uniformly. If $p_-$ is the
+incoming-normalized transverse field on the centered parabolic separatrix and
+\[
+\mathscr W_\infty=\lim_{\theta\to+\infty}(zp_-'-z'p_-),
+\]
+then the exact Wronskian identity and a phase-uniform turn-tail argument prove
+\[
+Z_nC_n\longrightarrow-\mathscr W_\infty/2.
+\]
+The half-line factorization
+$\mathscr W_\infty=2k_+(0)k_+'(0)$ reduces the sign to one outgoing Jost
+derivative. Analytic tail inequalities plus CAPD interval propagation now
+prove
+\[
+k_+(0)>7/20,\qquad k_+'(0)>3/5,
+\qquad \mathscr W_\infty>21/50.
+\]
+Therefore $C_n<0$ for every sufficiently late restricted resonance.
+Separately, an exact cubic outer-torque cancellation upgrades the
+first-order transverse match through the early overlap; propagation of that
+difference quotient down the full incoming tail remains open. An attempted
+proof exposed the precise collision-chart obstruction: small divided LC
+normal invariants do not uniformly bound the physical binary transverse
+velocity at near-collision phases. The repair must stay in quotient LC
+invariants through complete blocks and convert back only on separated
+sections.

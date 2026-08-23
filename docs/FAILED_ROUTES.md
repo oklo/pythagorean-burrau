@@ -1,5 +1,37 @@
 # Failed or blocked routes
 
+## Physical transverse-velocity quotient through every LC collision block
+
+An attempted first-order incoming-tail proof tried to infer
+$R_y'/B=o(1)$ uniformly from small divided LC normal invariants. This is
+false. For the exact unforced LC ellipse
+\[
+w(s)=a\cos(s/\sqrt2)+i\delta\sin(s/\sqrt2),\qquad R=w^2,
+\]
+the smooth normal invariants are $O(\delta)$, while at closest approach
+$|dR_y/d\tau|\asymp\delta^{-1}$. Taking $\delta=B^2$ makes the divided LC
+normal data tend to zero but gives $(R_y'/B)\asymp B^{-3}$.
+
+The failure is coordinate conversion, not loss of regularity of the LC flow.
+The repair is to propagate $(L/B,K/B)$ through complete and partial blocks,
+use only the binary transverse position in the outer equation, and convert to
+physical transverse velocity on a section uniformly separated from binary
+collision. The exact cubic outer-torque cancellation and reflection removal
+of longitudinal difference quotients remain valid.
+
+## No brake state on the restricted finite-turn side
+
+**Status:** DISPROVED.
+
+The first-turn time tends to infinity as a finite-turn phase approaches the
+transverse parabolic separatrix. Since the heavy binary's mean anomaly
+advances exactly at rate four, continuity forces infinitely many phases where
+the first outer turn coincides with a binary apocenter. All restricted
+velocities vanish at those instants. The prescribed heavy binary has undergone
+regularized collisions, so these are not classical finite-mass counterexamples.
+They do show that the finite-$B$ proof must calculate a resonance splitting
+rather than invoke a uniform restricted no-brake claim.
+
 ## Mutual-distance derivatives as a brake residual
 
 **Status:** DISPROVED.

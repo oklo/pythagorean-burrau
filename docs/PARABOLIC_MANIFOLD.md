@@ -241,8 +241,8 @@ nonperiodicity intervals. The remaining indispensable steps are:
 
 1. persistence and signed finite-$B$ displacement of the transverse
    separatrix;
-2. exclusion of second brakes on every captured branch, not only
-   escape/capture classification.
+2. finite-$B$ splitting of the infinite restricted first-turn resonance
+   sequence and exclusion of second brakes after later turns.
 
 Primary source: R. McGehee, “A Stable Manifold Theorem for Degenerate Fixed
 Points with Applications to Celestial Mechanics,” *Journal of Differential

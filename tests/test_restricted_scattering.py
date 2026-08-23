@@ -2,13 +2,17 @@ import sympy as sp
 
 from src.symbolic.restricted_scattering import (
     collision_regularized_jacobi_system,
+    incoming_tilt_forcing_identity,
     maximum_softened_vertical_force,
     outer_energy_exchange_identity,
     parabolic_infinity_compactification,
     parabolic_stroboscopic_leading_map,
     phase_wronskian_identity,
+    restricted_transverse_linearization,
     time_shift_melnikov_identity,
+    transverse_rotation_wronskian_identity,
     transverse_variational_normal_form,
+    turn_resonance_radial_determinants,
 )
 
 
@@ -78,3 +82,37 @@ def test_parabolic_infinity_compactification_and_period_map() -> None:
         ]
     )
     assert all(sp.simplify(entry) == 0 for entry in transformed - expected_transformed)
+
+
+def test_turn_resonance_determinant_factorizations() -> None:
+    direct, via_turn_phase, via_apocenter_section = (
+        turn_resonance_radial_determinants()
+    )
+    assert sp.simplify(direct - via_turn_phase) == 0
+    assert sp.simplify(direct - via_apocenter_section) == 0
+
+
+def test_restricted_transverse_linearization_contains_rotation_mode() -> None:
+    r, z = sp.symbols("r z", real=True)
+    outer_coefficient, binary_coefficient = restricted_transverse_linearization()
+    distance = sp.sqrt(z**2 + r**2 / 4)
+    assert sp.simplify(
+        outer_coefficient - (r**2 - 2 * z**2) / distance**5
+    ) == 0
+    assert sp.simplify(
+        binary_coefficient - 3 * r * z / (2 * distance**5)
+    ) == 0
+    rotated_outer_acceleration = sp.simplify(
+        -z * outer_coefficient + r * binary_coefficient
+    )
+    assert sp.simplify(rotated_outer_acceleration - 2 * z / distance**3) == 0
+
+
+def test_transverse_rotation_wronskian_has_quadrupole_source() -> None:
+    derivative, expected = transverse_rotation_wronskian_identity()
+    assert sp.simplify(derivative - expected) == 0
+
+
+def test_incoming_tilt_has_integrable_quadrupole_source() -> None:
+    source, expected = incoming_tilt_forcing_identity()
+    assert sp.simplify(source - expected) == 0

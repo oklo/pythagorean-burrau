@@ -501,8 +501,10 @@ there are infinitely many open real Euclid-parameter intervals accumulating
 at $u=0$ on which every classical Pythagorean--Burrau solution is nonperiodic.
 
 This is a Level-D result. It does not exclude second brakes in the intervening
-captured phase windows and therefore does not resolve the full rational or
-strong real conjecture.
+finite-turn phase windows and therefore does not resolve the full rational or
+strong real conjecture. The restricted turn-resonance theorem shows that the
+limiting finite-turn side itself has infinitely many brake states, so the
+remaining proof must split those resonances at finite $B$.
 
 Status of Theorem 1: **PROVED ANALYTICALLY**. Status of Corollary 2:
 **PROVED BY COMPUTER-ASSISTED ARGUMENT**, because its nonempty restricted

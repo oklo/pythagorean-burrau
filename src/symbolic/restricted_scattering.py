@@ -136,3 +136,63 @@ def parabolic_stroboscopic_leading_map() -> tuple[sp.Matrix, sp.Matrix]:
     )
     transformed = sp.Matrix([sheared[0], sp.expand(sheared[1] - sp.sqrt(2) * sheared[0])])
     return original, transformed
+
+
+def turn_resonance_radial_determinants() -> tuple[sp.Expr, sp.Expr, sp.Expr]:
+    """Return the three equivalent radial Jacobians at a turn resonance."""
+    height, acceleration, phase_velocity = sp.symbols(
+        "Z a b", real=True, nonzero=True
+    )
+    turn_derivative = -phase_velocity / acceleration
+    turn_phase_derivative = 1 + 4 * turn_derivative
+    direct = height * (2 * phase_velocity - acceleration / 2)
+    via_turn_phase = -height * acceleration * turn_phase_derivative / 2
+    via_apocenter_section = 2 * height * (
+        phase_velocity - acceleration / 4
+    )
+    return tuple(sp.simplify(value) for value in (direct, via_turn_phase, via_apocenter_section))
+
+
+def restricted_transverse_linearization() -> tuple[sp.Expr, sp.Expr]:
+    """Linearize the restricted outer x-force in outer and binary tilts."""
+    r, z, outer_tilt, binary_tilt = sp.symbols("r z xi eta", real=True)
+    plus_squared = (outer_tilt + r / 2) ** 2 + (z + binary_tilt / 2) ** 2
+    minus_squared = (outer_tilt - r / 2) ** 2 + (z - binary_tilt / 2) ** 2
+    force = -(
+        (outer_tilt + r / 2) / plus_squared ** sp.Rational(3, 2)
+        + (outer_tilt - r / 2) / minus_squared ** sp.Rational(3, 2)
+    )
+    origin = {outer_tilt: 0, binary_tilt: 0}
+    return (
+        sp.simplify(sp.diff(force, outer_tilt).subs(origin)),
+        sp.simplify(sp.diff(force, binary_tilt).subs(origin)),
+    )
+
+
+def transverse_rotation_wronskian_identity() -> tuple[sp.Expr, sp.Expr]:
+    """Return ``W'`` for the transverse field relative to the radial mode.
+
+    Here ``p''=c*p`` and ``z''=-2*z/d**3``. The identity is the mechanism
+    that turns all late-turn coefficients into one parabolic scattering
+    invariant.
+    """
+    r, z, p = sp.symbols("r z p", real=True)
+    radius_squared = z**2 + r**2 / 4
+    coefficient = (r**2 - 2 * z**2) / radius_squared ** sp.Rational(5, 2)
+    wronskian_derivative = sp.simplify(
+        z * coefficient * p
+        - (-2 * z / radius_squared ** sp.Rational(3, 2)) * p
+    )
+    expected = 3 * r**2 * z * p / (2 * radius_squared ** sp.Rational(5, 2))
+    return wronskian_derivative, expected
+
+
+def incoming_tilt_forcing_identity() -> tuple[sp.Expr, sp.Expr]:
+    """Return the equation source for ``h=xi+z/2`` on the incoming tail."""
+    r, z = sp.symbols("r z", real=True)
+    radius_squared = z**2 + r**2 / 4
+    coefficient = (r**2 - 2 * z**2) / radius_squared ** sp.Rational(5, 2)
+    z_acceleration = -2 * z / radius_squared ** sp.Rational(3, 2)
+    source = sp.simplify(z_acceleration / 2 - coefficient * z / 2)
+    expected = -3 * r**2 * z / (4 * radius_squared ** sp.Rational(5, 2))
+    return source, expected

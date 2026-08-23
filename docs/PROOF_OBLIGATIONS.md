@@ -50,9 +50,11 @@ theorems are proved. A fixed-margin restricted escape arc transfers to
 infinitely many open real parameter intervals on which every orbit either
 collides classically before section reach or satisfies the terminal
 escape-or-collision certificate. This proves an infinite primitive
-Pythagorean subfamily. The remaining skinny obligation is to classify the
-intervening captured phase windows and the separatrix phases; escape/capture
-classification alone does not settle all sufficiently small $u$. At
+Pythagorean subfamily. The restricted finite-turn side has infinitely many
+exact first-turn brake-state resonances accumulating at the separatrix, so a
+uniform limiting no-brake lemma is false. The remaining skinny obligation is
+to compute their finite-$B$ splitting, control later turns, and classify the
+separatrix phases. At
 $u=\sqrt2-1$, the exact
 trajectory is now proved to have monotone shrinking half-base and finite
 collision.  The remaining obligation is a regularized transverse analysis of
@@ -77,8 +79,9 @@ The gauge-free restricted construction proves
 V_u'(0)-V_s'(0)=2V_u'(0)\ne0.
 \]
 Together with the completed matching and terminal transfer, this gives the
-Level-D open escape intervals. The remaining task is to exclude a second
-brake for phases on the captured side and to classify exact separatrix phases.
+Level-D open escape intervals. The remaining task is to split the simultaneous
+velocity conditions near the restricted resonance sequence and to classify
+exact separatrix phases.
 
 Restricted transversality is closed. CAPD interval Taylor integration proves
 $h'(\pi/4)>14/625$, while the compactified time-$\pi$ map satisfies
@@ -88,7 +91,8 @@ but the validated sign forces it to grow. Uniform matching and terminal
 transfer are now closed, so infinitely many open terminal windows containing
 rational Euclid parameters are an unconditional Level-D theorem. Remaining
 finite-$B$ obligations are persistence and signed displacement of the exact
-separatrix and exclusion of second brakes throughout the captured branches.
+separatrix, splitting near the restricted turn-resonance sequence, and
+exclusion of second brakes after one or more outer turns.
 
 The endpoint arithmetic is now stronger than rational density: an exact
 van-der-Corput/Weyl argument gives a positive-lower-density nonperiodic subset
@@ -96,6 +100,32 @@ of $(4n^2-1,4n,4n^2+1)$. It still cannot name the first certified member,
 because the escape arc and the finite-$B$ threshold are non-effective. The
 same equidistribution visits compact finite-turn arcs with positive density,
 so phase sampling alone cannot close the remaining post-turn obligation.
+
+At a fixed restricted resonance, the two radial conditions have exact
+Jacobian
+\[
+D_n=-{Z_nz_{\theta\theta}(T_n)\over2}\mathcal A'(\phi_n).
+\]
+Thus the first missing local lemma is resonance simplicity
+$\mathcal A'(\phi_n)\ne0$. Conditional on it and a $C^1$ incoming extension,
+the full brake condition reduces to one transverse coefficient
+$C_n=\xi'(T_n)$. The exact BVP and integral for $C_n$ are known, but current
+matching is only $C^0$. Uniform large-$n$ control of the restricted coefficient
+is now reduced to one parabolic scattering invariant:
+\[
+Z_nC_n\longrightarrow-{\mathscr W_\infty\over2},\qquad
+\mathscr W_\infty=\lim_{\theta\to+\infty}(zp_-'-z'p_-).
+\]
+The convergence is proved analytically, and a finite CAPD/Jost-tail
+certificate now proves $\mathscr W_\infty>21/50$. Hence $C_n<0$ at every
+sufficiently late restricted resonance. The exact cubic torque cancellation
+also proves the first-order
+quotient match through the early overlap, leaving propagation of the quotient
+through the full incoming tail as the separate finite-$B$ matching gap. A
+failed attempted closure shows why this must remain in LC variables: divided
+LC normal invariants can tend to zero while the physical transverse velocity
+blows up at a near-collision phase. Conversion to physical derivatives is
+allowed only on a uniformly separated section.
 
 ## Adversarial checklist
 

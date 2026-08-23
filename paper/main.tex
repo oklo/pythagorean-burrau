@@ -40,9 +40,13 @@ the limiting incoming and outgoing parabolic curves cross transversely.
 Radius-dependent tail estimates and exact Levi--Civita normal invariants then
 match the true finite-parameter state to the restricted incoming curve.
 Consequently infinitely many open skinny parameter intervals, and hence
-infinitely many primitive Pythagorean triples, are nonperiodic. This does not
-exclude brakes on the intervening captured phase windows and therefore does
-not prove the full conjecture. A bounded catalog audit finds
+infinitely many primitive Pythagorean triples, are nonperiodic. An exact
+equidistribution argument strengthens this to a positive-lower-density subset
+of the explicit family $(4n^2-1,4n,4n^2+1)$. On the complementary restricted
+side we prove infinitely many first-turn brake-state resonances, showing that
+finite-parameter resonance splitting, rather than a uniform limiting
+no-brake lemma, is required. The full conjecture remains open. A bounded
+catalog audit finds
 a close numerical periodic brake orbit on the
 $3{:}4{:}5$ mass slice, but its initial triangle is not the exact tied right
 triangle.
@@ -664,6 +668,87 @@ turns nor escapes with positive speed would be another parabolic point on the
 unique stable curve. Thus it turns in finite time.
 \end{proof}
 
+The finite-turn side contains a singular sequence that prevents a uniform
+restricted no-brake argument.
+
+\begin{theorem}[Restricted turn resonances]
+For every sufficiently large integer $n$, there is a finite-turn phase
+$\phi_n\to0$ whose first outer turn is simultaneous with the $n$th heavy-binary
+apocenter. It is a nonsingular brake state of the collision-regularized
+restricted flow. If $Z_{{\rm t},n}$ and $T_n$ are its turn height and time,
+then
+\[
+Z_{{\rm t},n}=(2n)^{2/3}(1+o(1)),\qquad
+T_n={\pi n\over2}+o(1).
+\]
+\end{theorem}
+\begin{proof}
+At center phase $\phi$, the binary mean anomaly is
+$\Lambda(\theta)=\phi+4\theta$. The first-turn time $T(\phi)$ is continuous
+on the finite-turn side and tends to infinity at the transverse parabolic
+boundary; otherwise finite-time convergence would give a turn on the
+parabolic separatrix. Thus $\phi+4T(\phi)$ crosses $2\pi n$ for every large
+$n$. For $Z=Z_{\rm t}(\phi)$ and $w=z'>0$, the exact comparison identity
+\[
+{d\over dz}\left({w^2\over2}-{2\over z}\right)
+={2\over z^2}\left[1-\left(1+{r^2\over4z^2}\right)^{-3/2}\right]
+\]
+gives $T=(\pi/4)Z^{3/2}(1+o(1))$. Combining this with
+$\phi_n+4T_n=2\pi n$ proves the asymptotics.
+\end{proof}
+
+Intervening regularized heavy-heavy collisions mean these restricted brake
+states are not classical periodic counterexamples. For finite $B$, they form
+an infinite resonance sequence at which the full velocity residual must be
+split.
+
+At a fixed resonance this splitting has an exact local form. If
+$a_n=z_{\theta\theta}(T_n)<0$, $b_n=\partial_\phi z_\theta(T_n)$, and
+$\mathcal A(\phi)=\phi+4T(\phi)$, the Jacobian of the two Jacobi radial-rate
+conditions with respect to phase and time is
+\[
+D_n=Z_n(2b_n-a_n/2)
+=-{Z_na_n\over2}\mathcal A'(\phi_n).
+\]
+Thus radial continuation is equivalent to simplicity of the turn-phase root.
+Conditional on this and differentiable finite-$B$ matching, the brake
+condition reduces to one angular-slip scalar. Its first coefficient is
+$C_n/Z_n$, where
+\[
+C_n=-{3\over4Z_n}\int_{-\infty}^{T_n}{r^2zp\over d^5}\,d\theta,\qquad
+p''={r^2-2z^2\over d^5}p,\quad p-z=O(|z|^{-1})
+\]
+on the incoming tail. Resonance simplicity, first-order incoming matching,
+and nonvanishing of $C_n$ are the localized remaining lemmas. The last of
+these has a uniform restricted reduction. On the centered parabolic
+separatrix let $p_-$ have the same incoming normalization and define
+\[
+\mathcal W_\infty=\lim_{\theta\to+\infty}
+  (zp_-'-z'p_-).
+\]
+The exact identity
+\[
+{d\over d\theta}(zp_-'-z'p_-)
+={3r^2zp_-\over2d^5}
+\]
+makes this limit finite. Phase-uniform large-turn comparison, applied to
+$q=p/z$ and its Wronskian, proves
+\[
+\boxed{Z_nC_n\longrightarrow-\mathcal W_\infty/2.}
+\]
+Thus one scalar inequality $\mathcal W_\infty\ne0$ implies $C_n\ne0$ at
+every sufficiently late restricted resonance, uniformly over multiple roots.
+Ordinary finite-cutoff integrations give
+$\mathcal W_\infty\approx0.4457$. A finite CAPD enclosure, joined to an
+analytic outgoing-Jost tail bound, proves
+\[
+k_+(0)>7/20,\qquad k_+'(0)>3/5,
+\qquad \mathcal W_\infty=2k_+(0)k_+'(0)>21/50.
+\]
+Consequently $C_n<0$ at every sufficiently late restricted resonance. This
+is still an auxiliary collision-regularized statement; finite-$B$ transfer
+requires the first-order incoming theorem and radial simplicity.
+
 Parameterize the restricted incoming parabolic curve by its asymptotic phase
 intercept $\chi$, normalized by
 $\chi=\lim_{Y\to\infty}(\phi_Y+(4/3)Y^{3/2})$ modulo $2\pi$. This coordinate
@@ -738,8 +823,10 @@ two radial-rate equations followed by an angular-slip equation, and seeks to
 classify the isolated double-radial events along the first-syzygy continuation.
 Ordinary scans show both signs of angular slip on different double-radial
 events, ruling out a universal fixed-sign shortcut. The skinny route now
-controls the full incoming plunge and proves open escape windows, but exclusion
-of second brakes on captured windows remains open.
+controls the full incoming plunge and proves open escape windows. On the
+finite-turn side, the restricted resonance theorem reduces the next problem
+to splitting the full finite-$B$ velocity residual near an infinite sequence
+of singular-limit brake states.
 
 \section{Necessary integral identities}
 

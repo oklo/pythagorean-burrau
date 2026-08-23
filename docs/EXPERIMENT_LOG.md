@@ -1,5 +1,87 @@
 # Experiment log
 
+## 2026-08-23: one scattering invariant controls all late turn coefficients
+
+- For the incoming-normalized transverse restricted field $p$, derived the
+  exact rotation-Wronskian identity
+  \[
+  W=zp'-z'p,\qquad W'={3r^2zp\over2d^5}.
+  \]
+- Proved with phase-uniform outgoing-tail bounds that every selection of late
+  apocenter-turn resonances obeys
+  \[
+  Z_nC_n\longrightarrow-{\mathscr W_\infty\over2},\qquad
+  \mathscr W_\infty=W(+\infty)
+  \]
+  on the centered parabolic separatrix. Thus one scalar validation replaces
+  infinitely many separate $C_n\ne0$ tests.
+- Ordinary finite-cutoff probes at $K=10,20,40,80,160$ gave respectively
+  $W(K)=0.447762,0.446267,0.445875,0.445769,0.445741$. These are not interval
+  enclosures.
+- Time symmetry factors the invariant as
+  $\mathscr W_\infty=2k_+(0)k_+'(0)$. Analytic outgoing-tail bounds and a
+  pinned CAPD enclosure through eccentric anomaly $80\pi$ prove
+  $k_+(0)>7/20$, $k_+'(0)>3/5$, hence
+  $\mathscr W_\infty>21/50$. The verifier checks the upper bracketing launch
+  on every accepted time step, rather than inferring first-leg escape from its
+  endpoint alone.
+- The exact symmetric outer-torque factorization was independently audited.
+  It proves the extra cubic skinny cancellation through the early overlap,
+  but not yet first-order quotient propagation through the full incoming tail.
+
+Evidence level: EXACT SYMBOLIC IDENTITY for the Wronskian formula; PROVED
+ANALYTICALLY for the restricted late-turn limit; PROVED BY COMPUTER-ASSISTED
+ARGUMENT for $\mathscr W_\infty>21/50$ and eventual $C_n<0$. Reproduce the
+ordinary probe with:
+
+```bash
+uv run python -m scripts.probe_restricted_turn_map \
+  --scattering-cutoffs 10 20 40 80 160 --max-step 0.04
+```
+
+Reproduce the proof certificate with:
+
+```bash
+bash scripts/run_capd_restricted_transverse_scattering.sh \
+  /path/to/CAPD /path/to/CAPD/build-native
+```
+
+## 2026-08-22: restricted finite-turn resonances
+
+- Proved that the first-turn time on the finite-turn side diverges at the
+  transverse parabolic boundary. Since the binary mean anomaly advances at
+  rate four, the turn-phase map crosses every sufficiently large apocenter
+  index and produces infinitely many restricted brake states.
+- The exact comparison
+  \[
+  {d\over dz}\left({z'^2\over2}-{2\over z}\right)
+  ={2\over z^2}\left[1-\left(1+{r^2\over4z^2}\right)^{-3/2}\right]
+  \]
+  gives $T\sim(\pi/4)Z_{\rm t}^{3/2}$ and
+  $Z_{{\rm t},n}\sim(2n)^{2/3}$.
+- An ordinary finite-cutoff probe at offsets $0.02,0.05,0.1$ on the numerical
+  finite-turn side found turn heights about $41.11,16.60,8.42$ and rapidly
+  winding turn phases, consistent with the theorem. These decimal values are
+  not used in its proof.
+- At cutoff $40$, roots where the turn is exactly at apocenter indices
+  $n=1,2,3,4,7,10,18,34$ gave first relative-tilt velocity coefficients
+  respectively about
+  $0.2221,-0.00959,-0.02893,-0.03168,-0.02829,-0.02432,-0.01791,-0.01234$.
+  This is ordinary evidence that $C_n$ is nonzero at the sampled roots, but
+  also that its sign is not universal across all resonances.
+
+Evidence level: PROVED BY COMPUTER-ASSISTED ARGUMENT for unconditional
+resonance existence, through the validated transversality input; PROVED
+ANALYTICALLY for the turn-map implication and height asymptotic; ORDINARY
+NUMERICAL EVIDENCE for the displayed probe. Reproduce the latter with:
+
+```bash
+uv run python -m scripts.probe_restricted_turn_map \
+  --resonances 1:1.5:2.0 2:0.3:0.5 3:0.2:0.3 4:0.2:0.3 \
+  7:0.12:0.15 10:0.09:0.12 18:0.07:0.09 34:0.04:0.05 \
+  --phase-span 30000 --max-step 0.03
+```
+
 ## 2026-08-22: incoming-tail theorem and Level-D endpoint result
 
 - Proved uniform propagation from the early overlap

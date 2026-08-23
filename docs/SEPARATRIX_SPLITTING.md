@@ -258,19 +258,18 @@ balance to $\sigma=O(\epsilon^{1/3})$.
 ## Exact status and next theorem
 
 The field, potential, initial-energy, tilt, algebraic parity formulas, and
-nonvanishing of the fixed-section phase coefficient are proved. The following
-steps remain **CONJECTURAL**:
+nonvanishing of the fixed-section phase coefficient are proved. The
+incoming-tail theorem subsequently closed the formerly listed uniform
+matching step. The following steps remain **CONJECTURAL**:
 
-1. uniform propagation from the now-proved early LC overlap to a fixed
-   restricted incoming section, preserving the asymptotic intercept
-   $\Phi_{\rm ref}$;
-2. a function-space construction and convergence proof for the improper
+1. a function-space construction and convergence proof for the improper
    Melnikov integrals, if that representation rather than the proved section
    coefficient is used;
-3. control of the remainders in (15), uniformly in the $O(\epsilon)$ phase
+2. control of the remainders in (15), uniformly in the $O(\epsilon)$ phase
    window;
-4. exclusion of a second brake on the captured side of the shifted
-   separatrix.
+3. splitting of the full finite-$B$ velocity residual near the infinite
+   restricted first-turn resonance sequence and control after later turns.
 
-Even a proof of (16) would classify escape versus capture; it would not alone
-prove nonperiodicity on the captured side.
+Even a proof of (16) would classify escape versus first finite turn; it would
+not alone split the restricted brake-state resonances or prove nonperiodicity
+after the turn.

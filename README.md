@@ -30,9 +30,13 @@ uv run python -m scripts.derive_skinny_matching
 uv run python -m scripts.derive_restricted_scattering
 uv run python -m scripts.derive_finite_plunge
 uv run python -m scripts.probe_restricted_transversality --cutoffs 10 20 40
+uv run python -m scripts.probe_restricted_turn_map \
+  --resonances 2:0.3:0.5 3:0.2:0.3 7:0.12:0.15 \
+  --phase-span 30000 --max-step 0.04
 ```
 
-The rigorous finite restricted-transversality certificate additionally uses
+The rigorous finite restricted-transversality and transverse-scattering
+certificates additionally use
 CAPD 6.1.0 pinned at commit
 `731079217a9254ea2948d742df2b170895effe7f`. After building CAPD with
 `-DCAPD_INTERVAL_TYPE=NATIVE`, run:
@@ -40,7 +44,10 @@ CAPD 6.1.0 pinned at commit
 ```bash
 sh scripts/run_capd_restricted_transversality.sh \
   /path/to/CAPD /path/to/CAPD/build-native
+bash scripts/run_capd_restricted_transverse_scattering.sh \
+  /path/to/CAPD /path/to/CAPD/build-native
 ```
 
 Full derivation and trusted-computing-base details are in
-`docs/COMPUTER_ASSISTED_TRANSVERSALITY.md`.
+`docs/COMPUTER_ASSISTED_TRANSVERSALITY.md` and
+`docs/COMPUTER_ASSISTED_TRANSVERSE_SCATTERING.md`.

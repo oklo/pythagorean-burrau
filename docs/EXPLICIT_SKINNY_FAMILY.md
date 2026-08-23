@@ -115,8 +115,91 @@ positive density lies outside the present first-pass escape certificate and
 requires analysis after the first turn.  This does not show that those
 trajectories remain captured or are candidates for periodicity.
 
+## A fixed-resonance shrinking target
+
+The quantitative discrepancy estimate gives a limited shrinking-target
+statement.  It applies to one fixed restricted resonance; it is not uniform
+along the resonance sequence accumulating at the parabolic phase.
+
+Fix a restricted first-turn resonance and let
+$\chi_{\rm res}\in\mathbb R/(2\pi\mathbb Z)$ be its incoming asymptotic
+intercept.  Thus the restricted incoming parabolic orbit labelled by
+$\chi_{\rm res}$ reaches a finite first outer turn at which both the outer
+particle and the collision-regularized heavy binary have zero velocity.
+
+**Theorem 3 (dyadic approximation to a fixed resonance).**  There is a
+constant $C_{\rm res}>0$ such that, for every sufficiently large $N$, some
+integer $n$ with
+\[
+N<n\leq2N
+\]
+satisfies
+\[
+\operatorname{dist}_{S^1}
+ \bigl(\Phi_{\rm ref}(B_n),\chi_{\rm res}\bigr)
+ \leq C_{\rm res}N^{-1/6}
+ \leq C'_{\rm res}B_n^{1/6}.
+\tag{9}
+\]
+Consequently there is an infinite sequence of distinct primitive triples
+from (1) whose exact reference phases converge to this fixed restricted
+resonance intercept.
+
+**Proof.**  Apply the exponential-sum estimate used above directly to the
+$N$ points $F(n)$ with $N<n\leq2N$.  Erdos--Turan gives discrepancy
+$O(N^{-1/6})$ on this dyadic block, uniformly over circular intervals.  An
+interval centered at $\chi_{\rm res}/(2\pi)$ whose length is a sufficiently
+large constant times $N^{-1/6}$ must therefore contain at least one of these
+points.  Multiplication by $2\pi$ proves the first inequality.  On this block
+$B_n=4n/(4n^2+1)\asymp N^{-1}$, which proves the second.  Taking successive
+dyadic blocks gives distinct indices tending to infinity. $\square$
+
+There is also a precise, but only qualitative, dynamical consequence.  Along
+any sequence supplied by Theorem 3, the incoming-tail theorem gives the
+following alternative:
+
+1. a classical collision occurs before the relevant finite-time comparison,
+   already excluding a classical periodic orbit; or
+2. on the collision-free subsequence, the full scaled state on the fixed
+   incoming section converges in the common LC chart to the restricted state
+   labelled by $\chi_{\rm res}$.
+
+In the second case, regularized continuous dependence propagates this
+convergence over the fixed finite interval ending at the chosen restricted
+first turn.  Transversality of that turn, $z''<0$, gives nearby outer-turn
+sections, and the full **scaled** Jacobi velocity residual there tends to
+zero.  This is a near-brake statement only.  It neither proves that a
+finite-$B_n$ velocity residual vanishes nor produces a counterexample.
+Indeed, in the late scaling
+\[
+X=B R,\qquad Y=B Z,\qquad
+t=t_{\rm mono}+B^{3/2}\theta,
+\]
+the physical relative velocities are
+\[
+\dot X=B^{-1/2}R',\qquad \dot Y=B^{-1/2}Z'.
+\tag{10}
+\]
+Thus an $o(1)$ scaled residual need not even tend to zero in physical units,
+and it is never an exact brake without an additional finite-$B$ splitting
+argument.  The current matching theorem also supplies only $o(1)$ fixed-
+section convergence, not an $O(B^{1/6})$ state or velocity estimate.
+
+The exponent in (9) marks the present arithmetic limit.  A phase target of
+radius $B_n^\gamma\asymp n^{-\gamma}$ is forced by the proved discrepancy on
+every large dyadic block only for $\gamma<1/6$ (and at $\gamma=1/6$ only with
+a sufficiently large constant).  Equidistribution alone gives no hit for an
+$O(B_n)$ resonance neighborhood and no exact equality with
+$\chi_{\rm res}$.  Such conclusions require a stronger inhomogeneous
+shrinking-target theorem as well as quantitative full-state matching and a
+finite-$B$ vector-residual splitting calculation.
+
 Status of the exact clock and equidistribution theorem: **PROVED
 ANALYTICALLY**. Status of the nonperiodicity corollaries: **PROVED BY
 COMPUTER-ASSISTED ARGUMENT**, because the existence of the restricted escape
-arc uses the validated transversality sign. The exact identities have symbolic
-regression tests in `tests/test_explicit_skinny_family.py`.
+arc uses the validated transversality sign.  Conditional on one fixed
+restricted resonance intercept, the shrinking-target estimate and its
+collision/LC-convergence alternative are **PROVED ANALYTICALLY**; the
+unconditional existence of such resonances imports the same validated
+transversality input.  The exact identities have symbolic regression tests in
+`tests/test_explicit_skinny_family.py`.
