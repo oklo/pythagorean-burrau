@@ -94,3 +94,43 @@ encounters inside the chart where they are regular.
    appear as $0\in|w|^2$ enclosure and must abort with FAIL (it would
    anyway be a classical termination, but the certificate should not
    silently regularize through it).
+
+## Implementation recipe (worked out, not yet implemented)
+
+State (18-dim, one set): physical $(X,Y,\dot X,\dot Y)$ plus chart block
+$(w,z,h,G,P,t_{\rm phys})$ for the close pair $\{1,3\}$ (relative vector
+$g=d_1=Y+\alpha X$, complement $G=(\beta+m_1\alpha/M_{13})X-(m_3/M_{13})Y$,
+both linear with rational coefficients; inverse linear too).
+
+- **LC-zone field** (in $\sigma$): $w_\sigma=z$,
+  $z_\sigma=\tfrac h2 w+\tfrac{|w|^2}2\bar wF_{\rm ext}$,
+  $h_\sigma=2\operatorname{Re}(wz\overline{F_{\rm ext}})$ [checkpoint
+  EXACT SYMBOLIC IDENTITY with pair mass $M_{13}=m_1+m_3$, constraint
+  $2|z|^2-M_{13}-h|w|^2=0$, $h=$ pair specific energy],
+  $G_\sigma=|w|^2P$, $P_\sigma=|w|^2\ddot G(w^2,G)$,
+  $t_\sigma=|w|^2$; forces regular via
+  $q_2-q_1=G+(m_3/M_{13})w^2$, $q_2-q_3=G-(m_1/M_{13})w^2$.
+- **Entry construction** (unit-time flow, checkpoint idiom: each new
+  variable's rate is its full target expression of the frozen physical
+  variables, so time-1 writes it exactly): half-angle lift
+  $w_r=\sqrt{(|g|+g_x)/2}$, $w_i=\pm\sqrt{(|g|-g_x)/2}$ with the sign
+  taken from a verified enclosure of $\operatorname{sign}(g_y)$ (two
+  compiled variants; FAIL if undetermined), $z=\bar w\dot g/2$,
+  $h=|\dot g|^2/2-M_{13}/|g|$.
+- **Exit construction**: physical variables are stale nonzero, so the
+  exact-write trick needs the damped form
+  $\dot v=c\,(T-v)+\delta$ with $c\ge200$ and $\delta$ an interval
+  parameter bounding $|v(0)-T|e^{-c}$ (rigorous Minkowski inflation via
+  the flow); the inflation is $\sim10^{-84}$ and negligible against
+  working tolerances but must be included for soundness.
+- **Zone bookkeeping**: enter when the accepted-step enclosure has
+  $|g|^2<\rho_{\rm in}^2$, exit when $|g|^2>\rho_{\rm out}^2$ with
+  $\rho_{\rm in}<\rho_{\rm out}$ chosen below the brake separation bound
+  $m_1m_3/(2U_0)$; inside the zone no event checks are needed
+  ($U>m_1m_3/\rho_{\rm out}\gg U_0$ from positions alone) — only
+  $0\notin|w|^2$ (no collision) and regularity of the other two
+  separations.
+- Analogous chart blocks for pairs $\{1,2\}$ and $\{2,3\}$ if their
+  encounters ever reach comparable depth (for $u=1/3$ the $t\approx3.166$
+  encounter is pair $\{1,3\}$: $r_{13}$ dips to $8.3\times10^{-5}$ while
+  $r_{12},r_{23}\approx0.54$).
