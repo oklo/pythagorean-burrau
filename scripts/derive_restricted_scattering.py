@@ -19,6 +19,8 @@ from src.symbolic.restricted_scattering import (
     second_encounter_endpoint_scattering,
     time_shift_melnikov_identity,
     transverse_variational_normal_form,
+    triple_endpoint_finite_mass_exponents,
+    triple_endpoint_mcgehee_shape_exponents,
 )
 
 
@@ -52,6 +54,11 @@ def main() -> None:
     print(f"restricted triple shape spectrum = {restricted_triple_collision_shape_spectrum()}")
     print(f"restricted universal binary LC system = {restricted_universal_binary_lc_system()}")
     print(f"restricted universal binary mu system = {restricted_universal_binary_mu_system()}")
+    print(f"finite-mass endpoint exponents = {triple_endpoint_finite_mass_exponents()}")
+    print(
+        "McGehee endpoint shape exponents = "
+        f"{triple_endpoint_mcgehee_shape_exponents()}"
+    )
 
 
 if __name__ == "__main__":

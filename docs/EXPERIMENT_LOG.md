@@ -455,3 +455,37 @@ escape/return bracket and $A_->0$. Subsequent differentiated-tail,
 transversality, and fibered-exchange arguments promote the one-sided local
 finite-$\varepsilon$ branch to **PROVED BY COMPUTER-ASSISTED ARGUMENT**;
 global captured-component classification remains **CONJECTURAL**.
+
+## 2026-08-23: finite-mass triple-endpoint wedge
+
+- Derived the exact joint scales
+  $h\asymp\varepsilon^{(1+\sqrt{19})/6}$ and
+  $\eta=B\varepsilon^{-(1+\sqrt7)/6}$; the first exponent is larger, so
+  shape-branch preservation forces the inner transverse amplitude to vanish.
+- Constructed the full homogeneous McGehee system and corrected the reduced
+  spectrum to $(-n,\mu,1-\beta_-,1-\beta_+)$ after SO(2) reduction. The
+  Sundman-time factor and the fixed-inertial zero-angular-momentum
+  reconstruction are retained explicitly.
+- Proved a simultaneous base/fiber exchange estimate through the diverging
+  dwell. A first draft was rejected by two independent audits because it
+  imported the restricted exchange without controlling finite-$B$ clock and
+  stable-graph drift.
+- Wrote the reflection/Hadamard-divided heavy-binary LC equation. Its direct
+  source is $B/\eta=\varepsilon^{(1+\sqrt7)/6}\to0$, repairing the invalid
+  inference from ordinary LC continuity to a divided limit.
+- Proved that if
+  $\omega_0(B)+B=o(\varepsilon^{(1+\sqrt{19})/6})$, then collision terminates
+  the classical orbit or the transverse velocity is nonzero near the continued
+  turn. The sign uses the pinned certificates $A_->0$ and $K_->0$.
+- Reduced the unresolved local finite-mass set to
+  $0<\varepsilon<\Delta(B)$, with
+  $\Delta(B)=(\omega_0(B)+B)^{3/(1+\sqrt{19})}\to0$.
+
+Evidence level: **PROVED ANALYTICALLY** for the coupled exchange and **PROVED
+BY COMPUTER-ASSISTED ARGUMENT** for the final wedge exclusion. Both repaired
+versions received independent adversarial endorsement. Reproduce exact
+exponents with:
+
+```bash
+.venv/bin/python -m scripts.derive_restricted_scattering
+```

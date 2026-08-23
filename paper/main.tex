@@ -52,8 +52,8 @@ next compact encounter we prove a positive centered-parabolic endpoint, and
 at its opposite triple-collision endpoint we prove uniqueness and collision
 safety of the universal peel-off base and validate its positive slow-mode
 first-turn transfer. The full conjecture remains open because the compact
-phase interior, finite-parameter triple-endpoint selection, and later turns
-are not yet controlled. A bounded
+phase interior, a shrinking finite-mass triple-endpoint boundary layer, and
+later turns are not yet controlled. A bounded
 catalog audit finds
 a close numerical periodic brake orbit on the
 $3{:}4{:}5$ mass slice, but its initial triangle is not the exact tied right
@@ -988,8 +988,73 @@ fibered exchange theorem gives
 \]
 Thus the restricted second-turn coefficient is positive on a punctured
 one-sided neighborhood of the certified triple endpoint. This is a
-collision-regularized restricted theorem; finite positive mass still requires
-a uniform near-triple transfer theorem.
+collision-regularized restricted theorem. A finite-positive-mass wedge can now
+be transferred as follows.
+
+Let $\omega_0(B),\omega_1(B)\to0$ be respectively the fixed-section full-state
+and divided-transverse matching moduli supplied by the incoming-tail theorem.
+Put
+\[
+ \lambda_s={1+\sqrt{19}\over6},\qquad
+ \lambda_t={1+\sqrt7\over6},\qquad \lambda_s>\lambda_t.
+\]
+For an actual Pythagorean trajectory whose selected intercept
+$\Phi_{\rm ref}(B)$ lies on the certified local restricted branch, let
+$\varepsilon=(\pi-\phi)/4$ be the comparison center-to-collision gap.
+
+\begin{theorem}[Finite-mass triple-endpoint wedge]
+If $B_j\to0$, $\varepsilon_j\to0$, and
+\[
+ \omega_0(B_j)+B_j=o(\varepsilon_j^{\lambda_s}),
+\]
+then either the finite-$B_j$ classical trajectory has a collision during the
+near-triple passage, or it has no full labelled brake near the continued
+restricted second turn. In the collision-free alternative, with
+$\eta_j=B_j\varepsilon_j^{-\lambda_t}$,
+\[
+ {1\over\eta_j}(\mathcal Z_{j,x},\mathcal Z_{j,x,s})
+ \longrightarrow -{A_-\over2}(P_-,P_{-,s})
+\]
+through the heavy-binary encounter and at the simple universal turn.
+\end{theorem}
+\begin{proof}
+Homogeneity leaves the exact finite-$B$ Jacobi field unchanged under
+$R,Z=\varepsilon^{2/3}(\mathcal R,\mathcal Z)$ and
+$\theta=\theta_c+\varepsilon s$. If $h$ is the signed unstable distance from
+the certified collision-stable graph, transversality gives
+$h\asymp\varepsilon^{\lambda_s}$, while the actual transverse displacement
+relative to the inner size is $\eta=B\varepsilon^{-\lambda_t}$.
+
+The full homogeneous McGehee system, after zero-angular-momentum rotation
+reduction, has reduced log-size spectrum
+\[
+ -{\sqrt{19}-1\over4},\quad {1+\sqrt{19}\over4},\quad
+ 1-{3-\sqrt7\over4},\quad 1-{3+\sqrt7\over4}.
+\]
+A simultaneous longitudinal/transverse graph-transform bootstrap bounds the
+translated error by
+\[
+ O\!\left({\omega_0+B\over h}+B|\log h|+\eta+\omega_1\right)=o(1).
+\]
+It also proves that the actual and restricted center scales have ratio
+$1+o(1)$. At the heavy-binary encounter, reflection and Hadamard division of
+the smooth Levi--Civita field leave a direct source of size
+$B/\eta=\varepsilon^{\lambda_t}\to0$. Thus the divided outer state passes
+through the regularized block and converges in physical $C^1$ near the
+separated simple turn. Since $p=-2\xi$, its limit is the one displayed.
+Finally $A_->0$ and $K_-=Z_*(s_t)P_{-,s}(s_t)>0$, so the limiting transverse
+velocity is nonzero. A true finite-$B$ collision instead terminates the
+classical solution. Full details, including the fixed-inertial reconstruction,
+are in \texttt{docs/FINITE\_B\_TRIPLE\_ENDPOINT.md}.
+\end{proof}
+
+In particular, with
+\[
+ \Delta(B)=(\omega_0(B)+B)^{3/(1+\sqrt{19})},
+\]
+all sufficiently small finite masses are excluded from a brake on the local
+branch for $\Delta(B)\le\varepsilon\le\varepsilon_0$. The complementary
+boundary layer $0<\varepsilon<\Delta(B)$ remains open.
 
 Parameterize the restricted incoming parabolic curve by its asymptotic phase
 intercept $\chi$, normalized by

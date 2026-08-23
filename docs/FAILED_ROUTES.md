@@ -171,3 +171,25 @@ $\Gamma^-_{Y_0}(\chi)$. PREPLUNGE_MATCHING.md proves
 $\chi=\Phi_{\rm ref}+o(1)$ at an early overlap. INCOMING_TAIL.md subsequently
 proved uniform propagation down the restricted tail. Thus the raw-section
 gauge remains a failed route, but its invariant-intercept repair is complete.
+
+## Ordinary continuity through the finite-mass triple endpoint
+
+**Status:** DISPROVED as a proof step; repaired by a coupled exchange theorem.
+
+The first finite-$B$ endpoint draft observed correctly that Newtonian
+homogeneity leaves an $O(B)$ vector-field perturbation after the joint inner
+scaling. It then invoked the restricted shifted-Fuchsian exchange over a dwell
+of length $O(|\log h|)$ and used ordinary LC continuity to propagate a state
+after division by the shrinking transverse amplitude. Neither inference was
+valid: fixed-section $C^0$ convergence does not control a diverging saddle
+dwell, and unscaled LC convergence does not imply convergence after division.
+
+The repair in `FINITE_B_TRIPLE_ENDPOINT.md` constructs the full homogeneous
+McGehee system, includes stable-graph and exponent drift, closes the base and
+fiber bounds simultaneously, and compares the actual and restricted center
+clocks. In the heavy-binary LC chart, reflection and Hadamard division expose
+the missing source explicitly as
+$B/\eta=\varepsilon^{(1+\sqrt7)/6}\to0$. The repaired wedge theorem received
+two independent adversarial endorsements. This failed shortcut is retained to
+prevent future use of ordinary continuous dependence in a divided joint
+limit.

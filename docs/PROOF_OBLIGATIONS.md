@@ -176,8 +176,10 @@ $-1/100<\gamma<-1/250$, while the exact even-potential connection matrix gives
 Thus the centered parabolic endpoint is closed. Ordinary evidence gives
 $\mathcal C_2>0$ on every sampled captured phase, all with center mean phase
 in $(0,\pi)$. The precise next obligations are to classify all captured
-components, prove the phase-continuum sign on their compact interiors, and
-analyze the $\phi\to\pi$ triple-collision limit before finite-$B$ transfer.
+components and prove the phase-continuum sign on their compact interiors.
+The certified local $\phi\to\pi$ branch and a finite-$B$ transfer wedge are
+now closed; remote endpoint components and the shrinking finite-mass boundary
+layer remain open.
 The exact blow-up has Newtonian scale
 $\theta=\varepsilon s$, $(r,z)=\varepsilon^{2/3}(R,Z)$ and an equilateral
 collision ray whose transverse indicial exponents are
@@ -230,9 +232,18 @@ Ordinary section projections stabilize near $0.314>0$.
 The completed coefficient proof uses an equivalent topological energy bracket.
 The subsequent order, tangent, and exchange arguments prove uniqueness,
 transversality, and a one-sided local captured branch with positive
-renormalized coefficient. The remaining endpoint obligation is global:
-classify any remote captured components or endpoint accumulations. Finite-$B$
-near-triple transfer is a separate obligation.
+renormalized coefficient. A full finite-mass McGehee/LC exchange transfers
+this sign whenever
+
+\[
+ \omega_0(B)+B=o\!\left(\varepsilon^{(1+\sqrt{19})/6}\right).
+\]
+
+It excludes every local-branch gap above
+$\Delta(B)=(\omega_0(B)+B)^{3/(1+\sqrt{19})}$ for sufficiently small $B$.
+The remaining endpoint obligations are global classification of remote
+captured components and the joint blow-up in
+$0<\varepsilon<\Delta(B)$; finite-$B$ transfer is no longer wholly open.
 
 The singular local part of that implication is now isolated in
 `TRIPLE_ENDPOINT_SELECTION.md`. Exact translation by the center radius turns
@@ -325,6 +336,17 @@ estimate and fibered exchange bound, including the
 $\rho^{\sqrt7/2}$ fast-mode suppression. Combined with transversality, this
 constructs the unconditional local captured branch. Only global endpoint
 localization remains conjectural.
+
+The finite-mass endpoint wedge received two further independent adversarial
+passes. They rejected the first proof for importing the restricted exchange
+over a diverging dwell and for propagating an unscaled LC limit after division
+by the shrinking transverse amplitude. The repaired proof constructs the
+full homogeneous McGehee system, uses the corrected reduced spectrum
+$(-n,\mu,1-\beta_-,1-\beta_+)$ after quotienting rotation, closes the
+longitudinal/transverse estimates simultaneously, and proves the center-scale
+ratio. A reflection/Hadamard identity exposes the divided LC source as
+$B/\eta=\varepsilon^{(1+\sqrt7)/6}\to0$. Both final audits endorsed the
+analytic exchange and the sign-based computer-assisted wedge exclusion.
 
 The first-encounter and terminal-escape theorems received independent
 adversarial derivations. The audit explicitly checked near-collision

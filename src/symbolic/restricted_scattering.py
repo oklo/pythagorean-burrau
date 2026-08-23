@@ -617,6 +617,44 @@ def triple_endpoint_force_monotonicity_identity() -> tuple[sp.Expr, sp.Expr]:
     return derivative, sp.simplify(derivative - cone_formula)
 
 
+def triple_endpoint_finite_mass_exponents() -> tuple[
+    sp.Expr, sp.Expr, sp.Expr, sp.Expr
+]:
+    """Shape-selection and transverse-size exponents in the finite-mass wedge."""
+    shape_unstable = (1 + sp.sqrt(19)) / 4
+    transverse_slow = (3 - sp.sqrt(7)) / 6
+    shape_gap_power = sp.simplify(2 * shape_unstable / 3)
+    transverse_ratio_power = sp.simplify(sp.Rational(2, 3) - transverse_slow)
+    return (
+        shape_gap_power,
+        transverse_ratio_power,
+        sp.simplify(shape_gap_power - (1 + sp.sqrt(19)) / 6),
+        sp.simplify(transverse_ratio_power - (1 + sp.sqrt(7)) / 6),
+    )
+
+
+def triple_endpoint_mcgehee_shape_exponents() -> tuple[
+    sp.Expr, sp.Expr, sp.Expr, sp.Expr, sp.Expr, sp.Expr
+]:
+    """Reduced log-size exponents and the Euclidean Sundman clock factor."""
+    shape_stable = (sp.sqrt(19) - 1) / 4
+    shape_unstable = (sp.sqrt(19) + 1) / 4
+    fiber_slow = (3 - sp.sqrt(7)) / 4
+    fiber_fast = (3 + sp.sqrt(7)) / 4
+    euclidean_ray_factor = sp.sqrt(7) / 2
+    sundman_radial_speed = -2 * euclidean_ray_factor ** sp.Rational(3, 2)
+    transverse_unstable = sp.simplify(1 - fiber_slow)
+    transverse_stable = sp.simplify(1 - fiber_fast)
+    return (
+        sundman_radial_speed,
+        -shape_stable,
+        shape_unstable,
+        transverse_unstable,
+        transverse_stable,
+        sp.simplify(sp.Rational(2, 3) * transverse_unstable),
+    )
+
+
 def restricted_universal_binary_lc_system() -> tuple[
     sp.Matrix, tuple[sp.Symbol, ...]
 ]:

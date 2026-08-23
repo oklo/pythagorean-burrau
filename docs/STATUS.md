@@ -183,10 +183,10 @@ transverse restricted equation gives the exact centered-parabolic value
 An extension of the pinned CAPD/Jost certificate proves
 $-1/100<\gamma<-1/250$, and hence
 $\mathcal C_{2,\mathrm{par}}>21/6250$. Ordinary center-phase data suggest one
-captured component $0<\phi<\pi$; its compact interior and the
-$\phi\to\pi$ triple-collision transition remain unproved. At the latter, the
+captured component $0<\phi<\pi$; its compact interior and the behavior of any
+remote component approaching $\phi\to\pi$ remain unproved. At that endpoint, the
 exact equilateral collision ray has transverse indicial exponents
-$(3\pm\sqrt7)/6$, so the missing endpoint theorem is a fractional-power
+$(3\pm\sqrt7)/6$, so the local endpoint mechanism is a fractional-power
 McGehee selection and transition law rather than ordinary analytic
 continuation in phase. Its exact scalar form is
 \[
@@ -202,16 +202,17 @@ increasing peel-off orbit modulo logarithmic-time translation. An exact
 energy identity proves that it crosses the center with
 $Z_s(0)>9^{1/3}\sqrt{5/18}$; a monotone-factor argument proves a strictly
 positive light--binary separation at the prescribed binary collision. This
-closes existence, uniqueness, and collision safety of the candidate
-universal base, but not its selection by the finite-$\varepsilon$ family.
+closes existence, uniqueness, and collision safety of the universal base.
+The shifted-Fuchsian exchange and certified transversality also prove its
+selection on a one-sided local finite-$\varepsilon$ branch; only global
+component localization remains open.
 A direct universal peel-off shoot converges to
 $K_-\approx2.435>0$, a simple first turn at $s\approx1.03207$, and
 $Z_t\approx0.95495$. The sign $K_->0$ is now **PROVED BY
 COMPUTER-ASSISTED ARGUMENT**. A Riccati barrier supplies
 $p_s(0)/p(0)>1/1000$ at the center, and a pinned CAPD proof covers the full
 analytic center-speed interval $[1/2,3/4]$ in 256 slabs through the
-prescribed binary collision and unique first turn. The sole remaining endpoint
-obligation is finite-$\varepsilon$ selection. The global coefficient has an
+prescribed binary collision and unique first turn. The global coefficient has an
 exact final-infall Fuchsian formulation:
 the collision-stable base has exponent $(-1+\sqrt{19})/4$, the slow field has
 exponent $(3-\sqrt7)/4$, and $A_-$ is one explicit scalar projector.
@@ -242,9 +243,16 @@ renormalized asymptotic. Transversality supplies a one-sided local incoming
 parabolic branch for which that localization is automatic. Therefore the
 collision-regularized restricted problem has a genuine captured branch with
 $\phi\uparrow\pi$ and positive renormalized second-turn coefficient. What
-remains is global classification of any remote captured components approaching
-the same phase and, separately, uniform transfer through a finite positive-mass
-near-triple encounter.
+remains in the restricted problem is global classification of any remote
+captured components approaching the same phase. For finite positive mass, the
+coupled McGehee/LC theorem now transfers the local result whenever
+\[
+ \omega_0(B)+B=o\!\left(\varepsilon^{(1+\sqrt{19})/6}\right).
+\]
+It excludes brakes on the certified local branch for
+$\Delta(B)\le\varepsilon\le\varepsilon_0$, where
+$\Delta(B)=(\omega_0(B)+B)^{3/(1+\sqrt{19})}\to0$. The thinner joint
+boundary layer $0<\varepsilon<\Delta(B)$ remains open.
 
 Late-resonance simplicity has also been narrowed to a differentiable
 parabolic-passage lemma. For the degree-four McGehee map, the exact Kepler

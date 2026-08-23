@@ -28,8 +28,10 @@ from src.symbolic.restricted_scattering import (
     transverse_rotation_wronskian_identity,
     transverse_variational_normal_form,
     triple_endpoint_fast_frobenius_corrections,
+    triple_endpoint_finite_mass_exponents,
     triple_endpoint_force_monotonicity_identity,
     triple_endpoint_matching_determinant,
+    triple_endpoint_mcgehee_shape_exponents,
     triple_endpoint_shifted_fuchsian_identities,
     turn_resonance_radial_determinants,
 )
@@ -333,6 +335,25 @@ def test_triple_endpoint_force_is_monotone_in_certified_cone() -> None:
     ) ** sp.Rational(5, 2)
     assert sp.simplify(derivative - expected) == 0
     assert residual == 0
+
+
+def test_triple_endpoint_finite_mass_wedge_exponents() -> None:
+    shape_power, transverse_power, shape_residual, transverse_residual = (
+        triple_endpoint_finite_mass_exponents()
+    )
+    assert shape_residual == 0
+    assert transverse_residual == 0
+    assert float(shape_power) > float(transverse_power) > 0
+
+
+def test_triple_endpoint_mcgehee_shape_exponents() -> None:
+    radial_speed, long_stable, long_unstable, trans_unstable, trans_stable, ratio = (
+        triple_endpoint_mcgehee_shape_exponents()
+    )
+    assert radial_speed < 0
+    assert long_stable < 0 < long_unstable
+    assert trans_stable < 0 < trans_unstable
+    assert sp.simplify(ratio - (1 + sp.sqrt(7)) / 6) == 0
 
 
 def test_restricted_universal_binary_collision_is_lc_regular() -> None:
