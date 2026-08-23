@@ -15,6 +15,7 @@ from src.symbolic.restricted_scattering import (
     restricted_transverse_linearization,
     restricted_triple_collision_phase_mode,
     restricted_triple_collision_shape_spectrum,
+    restricted_universal_binary_lc_system,
     second_encounter_endpoint_scattering,
     time_shift_melnikov_identity,
     transverse_rotation_wronskian_identity,
@@ -148,6 +149,18 @@ def test_restricted_triple_collision_shape_spectrum() -> None:
         assert sp.simplify(
             eigenvalue**2 - eigenvalue / 3 - sp.Rational(1, 2)
         ) == 0
+
+
+def test_restricted_universal_binary_collision_is_lc_regular() -> None:
+    field, variables = restricted_universal_binary_lc_system()
+    lc, height, velocity, transverse, transverse_velocity = variables
+    assert field.subs(lc, 0) == sp.zeros(4, 1)
+    assert sp.simplify(field[0] + 3 * lc**2 * velocity) == 0
+    assert sp.simplify(field[2] + 3 * lc**2 * transverse_velocity) == 0
+    for entry in field:
+        assert not entry.has(sp.Abs)
+    assert height in field.free_symbols
+    assert transverse in field.free_symbols
 
 
 def test_incoming_tilt_has_integrable_quadrupole_source() -> None:

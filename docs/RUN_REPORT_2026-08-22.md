@@ -339,7 +339,7 @@ bash scripts/run_capd_restricted_transverse_scattering.sh \
 ```
 
 The repository contains pinned Python dependencies in `uv.lock`, a pinned CAPD
-commit in both verifier wrappers, and 69 deterministic symbolic/unit tests.
+commit in both verifier wrappers, and 70 deterministic symbolic/unit tests.
 
 ## Single highest-leverage next action
 
@@ -365,5 +365,7 @@ the exact target has already reduced to two scalar signs:
  \longrightarrow 4^{(\sqrt7-1)/6}A_-K_-.
 \]
 The next lemma should validate the slow returned-Jost coefficient $A_-$ and
-the universal first-turn transfer $K_-$. These steps are required before
-excluding a second or later brake.
+the universal first-turn transfer $K_-$. Ordinary universal shooting gives
+$K_-\approx2.435$ with a simple first turn just after the prescribed binary
+collision, so $K_-$ is now a concrete finite interval-Newton/LC certificate.
+These steps are required before excluding a second or later brake.

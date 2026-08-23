@@ -313,6 +313,33 @@ def restricted_triple_collision_shape_spectrum() -> tuple[
     return fixed_residual, linear_coefficient, eigenvalues
 
 
+def restricted_universal_binary_lc_system() -> tuple[
+    sp.Matrix, tuple[sp.Symbol, ...]
+]:
+    """Return the universal triple-endpoint field in binary LC coordinate."""
+    lc = sp.symbols("lambda", real=True)
+    height, velocity, transverse, transverse_velocity = sp.symbols(
+        "Z V P Q", real=True
+    )
+    binary_scale = sp.real_root(9, 3)
+    separation = binary_scale * lc**2
+    radius_squared = height**2 + separation**2 / 4
+    time_jacobian = -3 * lc**2
+    field = sp.Matrix(
+        [
+            time_jacobian * velocity,
+            time_jacobian
+            * (-2 * height / radius_squared ** sp.Rational(3, 2)),
+            time_jacobian * transverse_velocity,
+            time_jacobian
+            * (separation**2 - 2 * height**2)
+            * transverse
+            / radius_squared ** sp.Rational(5, 2),
+        ]
+    )
+    return field, (lc, height, velocity, transverse, transverse_velocity)
+
+
 def incoming_tilt_forcing_identity() -> tuple[sp.Expr, sp.Expr]:
     """Return the equation source for ``h=xi+z/2`` on the incoming tail."""
     r, z = sp.symbols("r z", real=True)

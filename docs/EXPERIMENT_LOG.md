@@ -69,6 +69,12 @@
   Reproduce with
   `python -m scripts.probe_second_encounter --cutoff 40 --phases 8
   --phase-lower 2.72 --phase-upper 2.775 --phase-span 10000 --max-step 0.012`.
+- Shooting the universal peel-off orbit from incoming cutoff $L=100,1000,
+  10000$ gives $K_-=2.42248,2.43345,2.43456$, respectively, with a simple
+  turn at $s\approx1.03207$ and $Z_t\approx0.95495$. This strongly isolates
+  the finite validation target $K_->0$ but remains ordinary evidence. Use
+  `python -m scripts.probe_triple_endpoint --cutoffs 100 1000 10000
+  --shoot-center -4 -1 --max-step 0.5`.
 
 Evidence level: EXACT SYMBOLIC IDENTITY for the Wronskian, binary tidal
 coefficient, and macroscopic Kepler-transfer formulas; PROVED ANALYTICALLY for the restricted late-turn limit

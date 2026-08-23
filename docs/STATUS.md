@@ -194,7 +194,11 @@ continuation in phase. Its exact scalar form is
  \longrightarrow 4^{(\sqrt7-1)/6}A_-K_-.
 \]
 Ordinary renormalized data support $A_-K_->0$; neither factor is yet
-validated.
+validated. A direct universal peel-off shoot converges to
+$K_-\approx2.435>0$, a simple first turn at $s\approx1.03207$, and
+$Z_t\approx0.95495$. This isolates $K_->0$ as a finite interval-Newton/LC
+certificate; the global slow-mode projection $A_-$ is the other endpoint
+obligation.
 
 Late-resonance simplicity has also been narrowed to a differentiable
 parabolic-passage lemma. For the degree-four McGehee map, the exact Kepler

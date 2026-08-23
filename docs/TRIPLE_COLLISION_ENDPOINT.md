@@ -181,6 +181,26 @@ After the orbit peels away, the coordinate
 regularizes the prescribed binary collision whenever the limiting light
 orbit has $Z(1)\ne0$.
 
+Explicitly, with $V=Z_s$, $Q=P_s$, $C=9^{1/3}$, and
+$D^2=Z^2+C^2\lambda^4/4$, the regular field is
+
+\[
+ {d\over d\lambda}
+ \begin{pmatrix}Z\\V\\P\\Q\end{pmatrix}
+ =
+ \begin{pmatrix}
+ -3\lambda^2V\\
+ 6\lambda^2Z/D^3\\
+ -3\lambda^2Q\\
+ -3\lambda^2(C^2\lambda^4-2Z^2)P/D^5
+ \end{pmatrix}.
+\tag{9g}
+\]
+
+It is analytic across $\lambda=0$ on every box with $Z>0$. This exact field
+is now generated symbolically and regression-tested, and is the finite
+propagation core for a future $K_-$ interval certificate.
+
 ## Renormalized endpoint target
 
 Put $\delta=\pi-\phi=4\varepsilon$ and suppose the incoming returned field
@@ -249,6 +269,42 @@ The simultaneous stabilization of all four renormalized quantities is
 **ORDINARY NUMERICAL EVIDENCE** for the slow-mode scaling and a positive
 $\mathscr T$. The probe uses finite-cutoff asymptotic data and supplies no
 enclosure.
+
+A second diagnostic shoots the universal base orbit from the equilateral
+collision manifold so that its center crossing is $s=0$, initializes the
+canonical slow field by $P_-\sim(-s)^{\alpha_-}$, regularizes the prescribed
+binary collision at $s=1$, and records its first turn:
+
+| incoming cutoff $L$ | $Z_s(0)$ | $P_-(0)$ | $P_{-,s}(0)$ | turn $s$ | turn $Z$ | $K_-$ |
+|---:|---:|---:|---:|---:|---:|---:|
+| $100$ | $1.472787$ | $1.654176$ | $1.698048$ | $1.032326$ | $0.955229$ | $2.422481$ |
+| $1000$ | $1.472571$ | $1.660413$ | $1.704642$ | $1.032081$ | $0.954957$ | $2.433454$ |
+| $10000$ | $1.472564$ | $1.661126$ | $1.705381$ | $1.032072$ | $0.954947$ | $2.434564$ |
+
+This is ordinary evidence for a unique captured peel-off orbit with
+$Z(1)>0$, a simple first turn just after the binary collision, and
+
+\[
+ K_-\approx2.435>0.
+\tag{15}
+\]
+
+Reproduce both diagnostics with
+
+~~~bash
+uv run python -m scripts.probe_second_encounter \
+  --cutoff 40 --phases 8 --phase-lower 2.72 --phase-upper 2.775 \
+  --phase-span 10000 --max-step 0.012
+uv run python -m scripts.probe_triple_endpoint \
+  --cutoffs 100 1000 10000 --shoot-center -4 -1 --max-step 0.5
+~~~
+
+The universal calculation is particularly suitable for validation: enclose
+the one-dimensional unstable collision manifold in the $(\tau,y)$ chart,
+use interval Newton on the center condition, propagate through $s=1$ in the
+$\lambda$ chart (9f), and enclose the simple turn with $K_->0$. It would
+settle the second of the two scalar signs but not the global coefficient
+$A_-$.
 
 ## Missing selection theorem
 

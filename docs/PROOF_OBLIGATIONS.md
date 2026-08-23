@@ -191,7 +191,10 @@ Wronskian sign. Precisely, with $\delta=\pi-\phi$, the target is
 \]
 where $A_-$ is the slow Fuchsian Jost coefficient and $K_-$ is its universal
 first-turn transfer. `TRIPLE_COLLISION_ENDPOINT.md` records the exact
-reduction.
+reduction. Ordinary universal shooting gives $K_-\approx2.435>0$, making a
+collision-manifold/interval-Newton validation of $K_->0$ the more localized
+of the two remaining sign obligations. The global projection $A_-$ remains
+separate.
 
 ## Adversarial checklist
 
