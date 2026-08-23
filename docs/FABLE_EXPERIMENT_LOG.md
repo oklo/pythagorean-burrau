@@ -91,3 +91,10 @@ All entries are ORDINARY NUMERICAL EVIDENCE unless marked otherwise.
     double-precision events are pure noise at the O(1) level; the
     "closest interior near-brake" is unverified.  Decision deferred to
     the rigorous 512-bit atlas at u=171/500.
+
+13. **171/500 resolution, cross-validated.**  Independent 50-, 60-, and
+    90-digit order-40 Taylor integrations to t=18.2 all give exactly 25
+    dI/dt-zero events, none after t≈13.4, minimum event kinetic energy
+    ≈0.136, and no low-K event anywhere.  The u≈0.342 "near-brake" is
+    conclusively double-precision noise.  (Integrator cross-checked
+    against DOP853 to 2.5e-10 at t=2.)
