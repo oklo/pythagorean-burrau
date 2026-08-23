@@ -73,6 +73,10 @@ inside an exceptionally deep close approach — they bracket an apparent
 collision parameter between $0.41$ and $0.4125$; higher precision or an
 LC chart would be needed.  $u=1/5,1/6,1/7,1/4$ are deep-encounter cases
 (see `FABLE_FAILED_ROUTES.md`); $u=1/4$ may be retried at high precision.
+Measured first-encounter depths (high-precision Taylor, ordinary):
+$u=2/9$: $1.8\times10^{-5}$ at $t=0.220$; $u=5/18$: $2.2\times10^{-4}$
+at $t=0.298$ (retry queued at tolerance $10^{-75}$); $u=3/19$:
+$4.1\times10^{-7}$ at $t=0.136$ — LC-regime, dropped.
 
 ### u = 1/3 — triple (4, 3, 5)   [RUN IN PROGRESS]
 
