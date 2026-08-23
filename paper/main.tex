@@ -64,7 +64,9 @@ distinct real tied parameters have a finite-time classical collision, though
 none of these isolated parameters is proved rational.  The certified limiting
 collision--ejection continuation also crosses the following heavy-binary
 collision into a strict escape cone.  A hierarchical Jacobi-energy bootstrap
-transfers this to a finite-mass local collision-or-escape theorem.
+transfers this to a finite-mass local collision-or-escape theorem.  Hence
+every sufficiently late phase bracket either contains an earlier collision or
+contains an open tied collision-or-escape interval.
 The full conjecture remains open because the compact
 phase interior, the one-parameter planar scattering family exposed by the
 finite-mass triple-endpoint blow-up, and later turns are not yet controlled. A
@@ -1628,6 +1630,33 @@ An exact positive-mass collision terminates the classical branch; otherwise
 the member reaches the terminal section and escapes.
 \end{proof}
 
+\begin{corollary}[Open-window refinement]
+Every sufficiently late skinny phase-cycle bracket either contains a
+classical collision before the common selected chart, or contains a nonempty
+open tied parameter interval every member of which collides or escapes.
+\end{corollary}
+
+\begin{proof}
+On a bracket without an earlier collision, use the segment in the real
+collision-sampling proof from \(H=0\) to \(H=B^{p/2}\).  The flow makes
+\(H,T\) continuous, while the uniform estimate
+\(T/B\to\Theta_*\ne0\) keeps the denominator nonzero.  Thus the continuous
+normalized coordinate satisfies
+\[
+ {H\over|T|^p}=0
+ \quad\hbox{at the first endpoint},\qquad
+ {H\over|T|^p}\asymp B^{-p/2}\longrightarrow+\infty
+ \quad\hbox{at the second}.
+\]
+It therefore traverses the interior of
+\([1.2679251755,1.2679451755]\).  The preimage of that interior is a nonempty
+open set and hence contains an open interval.  Restricted to this preimage,
+compactness of the projective-amplitude interval, uniform endpoint
+localization, and differentiated regularized convergence supply the remaining
+finite-mass cusp hypotheses.  The preceding theorem classifies every member
+of this open set as collision or escape.
+\end{proof}
+
 This boundary emanates from the massless planar joint-limit collision and
 persists in the surrounding finite-mass section family. It is not a tied
 finite-mass Pythagorean orbit or a brake, and no positive-mass classical
@@ -1636,8 +1665,8 @@ neighborhood of this first root. What remains is exclusion or certification
 of other collision zeros and outgoing control on the remaining compact
 components.  In
 particular, the exact tied trajectory selects only one point
-$(\widehat\kappa_B,\delta_B)$ on the fixed section; the corollary does not
-prove that it solves
+$(\widehat\kappa_B,\delta_B)$ on the fixed section; the collision-boundary
+persistence corollary does not prove that it solves
 $\widehat\kappa_B=\widehat\kappa_c(B,\delta_B)$.  The theorem replaces this
 section-dependent condition by the intrinsic scalar gap
 \[

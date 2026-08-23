@@ -512,6 +512,15 @@ audited by three adversarial passes.  The restricted continuation and strict
 margins are **PROVED BY COMPUTER-ASSISTED ARGUMENT**; the hierarchical escape
 lemma is **PROVED ANALYTICALLY**.
 
+This also upgrades the phase-cycle sampling theorem.  On every late bracket
+with no earlier collision, the continuous tied coordinate
+\(\kappa_B=H_B/|T_B|^p\) runs from \(0\) to
+\(\asymp B^{-p/2}\).  It therefore traverses the interior of the explicit
+escape interval.  The preimage is nonempty and open, hence contains a tied
+open interval, and every member of the full preimage collides or escapes.
+Hence every sufficiently late phase bracket either contains an earlier
+classical collision or contains an open nonperiodicity interval.
+
 ## Endpoint status
 
 ### Skinny endpoint $u\to0$
@@ -529,6 +538,8 @@ Proved:
   nonperiodic;
 - infinitely many distinct real tied parameters have an exact finite-time
   classical collision, although none is proved rational;
+- every late phase bracket either contains an earlier collision or an open
+  tied collision-or-escape interval;
 - the first certified planar collision boundary and both local
   collision-free sides satisfy a finite-mass collision-or-escape theorem;
 - every first outer turn in the accumulating parabolic layer has nonzero

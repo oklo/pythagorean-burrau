@@ -15,7 +15,11 @@ sign, and isosceles endpoint collision theorem are complete.  The exact
 skinny phase winding and normalized collision graph now also prove that
 infinitely many distinct real tied parameters accumulating at \(u=0\) suffer
 a finite-time classical collision.  These isolated real collision parameters
-are not proved rational.  In addition, a
+are not proved rational.  The explicit escape cusp sharpens the sampling:
+every sufficiently late phase bracket either already contains an earlier
+collision or contains a nonempty open tied interval on which every member
+collides or escapes.  Thus the traversed local cusp alternative now supplies
+an open set, not merely an isolated IVT point.  In addition, a
 Levi--Civita argument proves that every sufficiently skinny real member avoids
 the limiting heavy-pair collision on its first encounter, with exact
 $B^{11}$ miss and $B^{11/2}$ angular-momentum asymptotics. The universal

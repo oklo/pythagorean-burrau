@@ -206,6 +206,69 @@ light--heavy collision and terminates the solution.  Since the brackets
 \(I_n\) are disjoint and tend to zero, the resulting collision parameters
 are distinct and accumulate only at the skinny endpoint. \(\square\)
 
+## Open-window refinement
+
+Let
+\[
+ \mathcal K=[\kappa_-,\kappa_+]
+ =[1.2679251755,\,1.2679451755],
+ \qquad \mathcal K^\circ=(\kappa_-,\kappa_+)
+\tag{15}
+\]
+in the same normalized spectral coordinates.  The tiled
+collision-or-escape theorem proves collision or escape for every sufficiently
+small compatible finite-mass member with normalized projective coordinate in
+a neighborhood of \(\mathcal K\).
+
+**Corollary.** Every sufficiently late phase-cycle bracket \(I_n\) satisfies
+at least one of:
+
+1. some parameter of \(I_n\) has a classical collision before the common
+   selected late chart; or
+2. \(I_n\) contains a nonempty open subinterval every member of which either
+   collides classically or escapes, and therefore is nonperiodic.
+
+Consequently, either infinitely many phase brackets contain an earlier
+collision, or infinitely many pairwise disjoint open tied nonperiodicity
+intervals arise by traversing the explicit collision-or-escape cusp.
+
+**Proof.** Suppose the first alternative fails on \(I_n\).  Use the segment
+\([b_n^0,b_n^1]\) of (10).  Its normalized tied coordinate
+\[
+ \kappa_B={H_B\over|T_B|^p}
+\tag{16}
+\]
+is continuous because the collision-free flow makes \(H_B,T_B\) continuous,
+while \(T_B/B\to\Theta_*\ne0\) uniformly keeps the denominator nonzero.  At the
+first endpoint \(\kappa_{b_n^0}=0\).  At the second,
+\[
+ \kappa_{b_n^1}
+ ={B_n^{p/2}\over|T_{b_n^1}|^p}
+ \asymp B_n^{-p/2}\longrightarrow+\infty.
+\tag{17}
+\]
+Thus (16) traverses every value of \(\mathcal K\).  The preimage
+\[
+ \mathcal O_n=\{B\in(b_n^0,b_n^1):
+                 \kappa_-<\kappa_B<\kappa_+\}
+\tag{18}
+\]
+is open and nonempty, hence contains a nonempty open subinterval.  After
+restricting to \(\mathcal O_n\), compactness of \(\mathcal K\), uniform endpoint
+localization, and the differentiated joint-inclination/LC theorem give all
+remaining collision-cusp hypotheses uniformly for large \(n\).  Every member
+of \(\mathcal O_n\) therefore either collides before the terminal section or
+reaches the positive-mass escape cone.  In either case it has no classical
+second brake.  The \(I_n\) are pairwise disjoint, which proves the last
+assertion. \(\square\)
+
+If alternative 2 occurs infinitely often, the inverse image of each
+\(\mathcal O_n\) under the local homeomorphism
+\(B(u)=2u/(1+u^2)\) is open and contains a rational Euclid parameter, hence a
+primitive Pythagorean triple.  If alternative 1 occurs infinitely often, the
+collision parameters need not be rational.  This dichotomy does not use
+rational density at isolated points.
+
 ## Coordinate and arithmetic scope
 
 For an oriented rescaling of the asymptotic eigenvectors,
@@ -219,11 +282,16 @@ coordinate-free.
 The theorem is real, not arithmetic.  Every rational Euclid parameter gives
 a rational \(B=2u/(1+u^2)\), but the intermediate-value roots above are
 isolated and need not be rational.  Rational density cannot be applied to
-them.  No new rational collision or second-brake candidate is claimed.
+them.  It can legitimately be applied to an open set \(\mathcal O_n\) in the
+second alternative of the refinement, yielding rational nonperiodic members
+there.  The dichotomy does not prove that this alternative occurs infinitely
+often, and no new rational collision or second-brake candidate is claimed.
 
 **Status:** the collision-sampling theorem is **PROVED BY COMPUTER-ASSISTED
 ARGUMENT** because it uses the certified transverse restricted endpoint and
 the certified base collision root.  Its phase winding, continuity,
 intermediate-value step, and finite-mass transfer are **PROVED ANALYTICALLY**.
+The open-window refinement additionally uses the certified tiled escape cusp
+and is **PROVED BY COMPUTER-ASSISTED ARGUMENT**.
 The assertion that any sampled collision parameter is rational is
 **CONJECTURAL** and receives no support from cardinality.

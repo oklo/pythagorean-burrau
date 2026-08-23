@@ -388,8 +388,10 @@ There is now one exact partial substitute: the phase-cycle argument in
 `REAL_COLLISION_SAMPLING.md` proves that every sufficiently late cycle either
 already contains an earlier classical collision or contains a zero of
 \(\Delta_{\rm intr}\).  Thus infinitely many real tied parameters collide.
-It does not distinguish which alternative occurs in a given cycle and does
-not prove that any isolated collision parameter is rational.  Even
+The explicit cusp strengthens the second alternative to a nonempty open tied
+interval all of whose members collide or escape.  It still does not
+distinguish which alternative occurs in a given cycle and does not prove that
+any isolated collision parameter from the first alternative is rational. Even
 a nonzero sign controls only the local selected encounter; exclusion of other
 collisions and a later brake still requires the global scattering map.
 

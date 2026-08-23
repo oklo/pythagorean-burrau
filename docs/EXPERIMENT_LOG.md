@@ -804,3 +804,9 @@ it is not a remainder proof.
   that every sufficiently small compatible member of this local cusp either
   collides classically or escapes; every collision-free member is
   nonperiodic.
+- On a late no-prior-collision phase bracket, the exact tied coordinate
+  \(H/|T|^p\) runs continuously from \(0\) to
+  \(\asymp B^{-p/2}\).  Its preimage of the explicit cusp interior is
+  therefore nonempty and open and contains a tied nonperiodicity interval.
+  Thus each late bracket contains either an earlier collision or such an open
+  interval.
