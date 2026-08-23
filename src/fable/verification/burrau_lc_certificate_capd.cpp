@@ -436,7 +436,7 @@ int main(int argc, char** argv) {
     // Physical phases interleaved with at most one LC passage.
     std::unique_ptr<PhaseRunner> phys(
         new PhaseRunner(physical_field, order, tolerance));
-    Ival phys_target = phys->tm->getCurrentTime() + Ival(25);
+    Ival phys_target = set.getCurrentTime() + Ival(25);
 
     for (;;) {
       const bool more = phys->step(phys_target, set);
@@ -518,15 +518,23 @@ int main(int argc, char** argv) {
         {
           Map entry_field = make_entry_field(form_a);
           PhaseRunner entry(entry_field, 20, 1e-30);
-          const Ival target = entry.tm->getCurrentTime() + Ival(1);
+          const Ival target = set.getCurrentTime() + Ival(1);
           while (entry.step(target, set)) {
+          }
+          // Guard: the chart block must now be genuinely written.
+          const Vector post_entry(set);
+          const Ival w2chk = post_entry[8] * post_entry[8] +
+                             post_entry[9] * post_entry[9];
+          if (!(w2chk.leftBound() > 0)) {
+            std::cerr << "FAIL entry construction did not write the chart\n";
+            return 1;
           }
         }
 
         // LC passage.
         {
           PhaseRunner lc(lc_field, order, tolerance);
-          const Ival lc_target = lc.tm->getCurrentTime() + Ival(10);
+          const Ival lc_target = set.getCurrentTime() + Ival(10);
           long lc_steps = 0;
           for (;;) {
             const bool lc_more = lc.step(lc_target, set);
@@ -572,7 +580,7 @@ int main(int argc, char** argv) {
             }
           }
           PhaseRunner exitr(exit_field, 20, 1e-30);
-          const Ival target = exitr.tm->getCurrentTime() + Ival(1);
+          const Ival target = set.getCurrentTime() + Ival(1);
           while (exitr.step(target, set)) {
           }
           const Vector post(set);
@@ -583,7 +591,7 @@ int main(int argc, char** argv) {
 
         // Resume physical integration with a fresh runner.
         phys.reset(new PhaseRunner(physical_field, order, tolerance));
-        phys_target = phys->tm->getCurrentTime() + Ival(25);
+        phys_target = set.getCurrentTime() + Ival(25);
       }
     }
 
