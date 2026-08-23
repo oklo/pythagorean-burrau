@@ -1,5 +1,31 @@
 # Experiment log
 
+## 2026-08-22: restricted phase windows and phase-gauge audit
+
+- Used restricted transversality to prove adjacent open hyperbolic-escape and
+  finite-turn phase windows.
+- An independent adversarial pass verified the stable-curve separation and
+  found a phase-gauge error in the first draft: the center/collision clock
+  $\Phi_{\rm ref}$ had been compared directly with a raw incoming-section
+  phase.
+- Repaired the statement by fixing $\Sigma^-_{Y_0}$ and using the exact raw
+  reference phase
+  \[
+  \Phi_{\rm sec,ref}=n_{\rm bin}t_0(BY_0)
+  =\Phi_{\rm ref}-{4\over3}\sqrt{M/N}Y_0^{3/2}+O(B).
+  \]
+  A symbolic regression test verifies the limiting correction and that the
+  derivative still has leading coefficient $-3\pi/2$ after multiplication by
+  $B^{5/2}$.
+- Made collision-free section reach and convergence in one common
+  regularized chart explicit hypotheses. Proved that a compact strict-escape
+  arc transfers to the terminal escape inequalities by the physical scalings
+  $e=-C/B+o(B^{-1})$ and $\dot\rho=sB^{-1/2}+o(B^{-1/2})$.
+- Under those still-conjectural matching hypotheses, infinitely many open
+  terminal nonperiodicity intervals contain rational Euclid parameters. This
+  is a conditional Level-D bridge, not an unconditional result for any
+  Pythagorean triple.
+
 ## 2026-08-22: validated restricted Jacobi sign
 
 - Reparameterized the restricted base/Jacobi equations by eccentric anomaly,

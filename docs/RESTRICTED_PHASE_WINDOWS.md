@@ -1,0 +1,198 @@
+# Phase windows around the restricted parabolic separatrix
+
+Restricted transversality creates open escape and return windows. This is an
+exact theorem for the auxiliary rectilinear restricted limit. The final
+section states precisely what uniform finite-$B$ matching would transfer to
+the Pythagorean--Burrau family.
+
+## Section splitting function
+
+Use the conventions of `PARABOLIC_MANIFOLD.md`. At the center section $z=0$,
+let
+\[
+V_u(\phi)>0
+\]
+be the crossing speed of the orbit arriving parabolically from $z=-\infty$,
+and let
+\[
+V_s(\phi)>0
+\]
+be the speed whose positive-$z$ future is parabolic. Define
+\[
+\Delta(\phi)=V_u(\phi)-V_s(\phi).
+\tag{1}
+\]
+Both curves are analytic near the apocenter phase. Reversibility gives
+\[
+V_s(\phi)=V_u(-\phi),
+\]
+so $\Delta$ is odd. Restricted transversality proves
+\[
+\kappa:=\Delta'(0)=2V_u'(0)\ne0.
+\tag{2}
+\]
+
+**Theorem 1 (two-sided phase windows).** There are $\delta,c>0$ such that
+for $0<|\phi|<\delta$,
+\[
+|\Delta(\phi)|\ge c|\phi|,
+\qquad
+\operatorname{sgn}\Delta(\phi)=\operatorname{sgn}(\kappa\phi).
+\tag{3}
+\]
+On the side $\Delta>0$, the parabolic incoming orbit leaves the center section
+above the outgoing parabolic threshold and escapes to $z=+\infty$ with
+strictly positive limiting speed. On the side $\Delta<0$, it turns at a finite
+positive $z$.
+
+**Proof.** Analyticity and (2) give (3), after reducing $\delta$. For $z>0$,
+\[
+w'=z''=-{2z\over(z^2+r^2/4)^{3/2}}<0,
+\]
+so until a turn $w$ decreases. If an unturned orbit has bounded $z$, then
+after it is bounded away from zero the negative acceleration has a uniform
+negative bound and forces a finite turn. Otherwise $z\to\infty$ and
+$w\downarrow w_\infty\ge0$. The case $w_\infty=0$ is exactly McGehee's
+unique local parabolic stable graph, while $w_\infty>0$ is hyperbolic escape.
+Turning and strict hyperbolic escape are open. The two complementary
+center-speed intervals are connected, and their common boundary can only be
+the unique parabolic speed. The upper orientation follows from the exact
+Kepler normal form $w=\sqrt2x+o(x)$ at $x=0$. Hence the upper interval escapes
+and the lower interval turns in finite time. \(\square\)
+
+The turn is not a three-body brake: the prescribed binary generally has
+nonzero velocity. The theorem classifies escape versus return only.
+
+## Robust compact subwindows
+
+Choose compact arcs with nonempty relative interiors
+\[
+J_{\rm esc}\Subset\{0<|\phi|<\delta:\Delta(\phi)>0\},
+\qquad
+J_{\rm ret}\Subset\{0<|\phi|<\delta:\Delta(\phi)<0\}.
+\tag{4}
+\]
+Continuous dependence gives a positive section margin on each arc. Therefore
+the corresponding outcome persists under sufficiently small perturbations of
+the incoming section state and the restricted vector field, up to the escape
+certificate on $J_{\rm esc}$ and up to a transverse outer turn on
+$J_{\rm ret}$.
+
+This robustness is local on compact nonsingular sections. It does not itself
+show that the true finite-$B$ orbit arrives inside either perturbed window.
+
+## Incoming-section phase gauge
+
+The phase in (1) is recorded at the center section. Matching is more
+convenient on a fixed large incoming restricted section
+\[
+\Sigma^-_{Y_0}=\{z=-Y_0,\ w>0\}.
+\]
+Propagate the compact center arcs in (4) backward along the restricted
+parabolic incoming curve. Analytic flow on the intervening compact
+collision-regularized segment gives open incoming-section arcs
+$J^-_{\rm esc}$ and $J^-_{\rm ret}$. Membership in these arcs is expressed
+in the **raw binary phase on $\Sigma^-_{Y_0}$**, not in the center phase.
+
+For the collapsed-pair reference fall, define exactly
+\[
+\Phi_{\rm sec,ref}(B;Y_0)=n_{\rm bin}t_0(BY_0),
+\tag{5}
+\]
+where $t_0$ is formula (2a) of `SKINNY_MATCHING.md`. Its relation to the
+center/collision clock is
+\[
+\Phi_{\rm sec,ref}
+=\Phi_{\rm ref}-{4\over3}\sqrt{M\over N}Y_0^{3/2}+O(B),
+\tag{6}
+\]
+and therefore
+\[
+\Phi_{\rm sec,ref}'(B;Y_0)
+=-{3\pi\over2}B^{-5/2}(1+o(1)).
+\tag{7}
+\]
+This distinction repairs a genuine gauge trap: comparing a raw section phase
+directly with $\Phi_{\rm ref}$ would leave the nonvanishing flight correction
+in (6).
+
+## Uniform terminal transfer
+
+On a closed subarc of $J^-_{\rm esc}$, the restricted limiting speed has a
+strict uniform positive lower bound. By a finite cover, there is one large
+finite outgoing scaled section on which all these restricted trajectories
+have a strict positive outer-energy margin. Continuous dependence transfers
+the section inequalities to the finite-$B$ flow in the common regularized
+chart.
+
+Here is why this finite section implies terminal rather than merely local
+escape. In physical Jacobi variables on that section,
+\[
+r=B\,O(1),\quad \rho=B\,O(1),\quad
+e=-{C+o(1)\over B},\quad
+\dot\rho={s+o(1)\over\sqrt B},
+\tag{8}
+\]
+uniformly on the compact arc, with $C,s>0$. In the theorem of
+`ESCAPE_CRITERIA.md`, choose $\eta=c/B$ with fixed sufficiently small $c>0$.
+Then $R=M/\eta=O(B)$; choosing the common outgoing section sufficiently far
+out makes
+\[
+\delta={C_1+o(1)\over B}>0.
+\]
+The tidal allowance in (E) is $O(1)$, whereas
+$-\eta-e=(C-c+o(1))/B$. Thus all strict terminal-certificate inequalities
+hold for small $B$. This proves a uniform terminal escape-or-classical-
+collision alternative on the finite-$B$ perturbation of the compact
+restricted arc. Either outcome excludes a later classical brake.
+
+## Conditional rational consequence
+
+Every lift of an open subarc of $J^-_{\rm esc}$ has infinitely many disjoint
+reference preimage intervals accumulating at $B=0$. Since
+\[
+B(u)={2u\over1+u^2}
+\]
+is a homeomorphism near zero and rational $u$ is dense, every such interval
+contains rational Euclid parameters.
+
+**Conditional Corollary 2.** Fix $Y_0$ as above. Assume that for every
+sufficiently small $B>0$ the true skinny trajectory reaches
+$\Sigma^-_{Y_0}$ collision-free and, uniformly as $B\to0$,
+\[
+\operatorname{dist}_{S^1}\!\left(
+\Phi_{\rm true,sec}(B;Y_0),
+\Phi_{\rm sec,ref}(B;Y_0)\right)=o(1).
+\tag{9}
+\]
+Assume also that, in one common regularized section chart, the full scaled
+section state has distance $o(1)$ from the restricted parabolic incoming
+curve at that true raw phase. Then infinitely many open parameter intervals
+containing rational $u$ satisfy the terminal certificate and hence have no
+later classical brake. In particular, infinitely many primitive Pythagorean
+triples are nonperiodic.
+
+**Proof.** Shrink a compact escape arc inside $J^-_{\rm esc}$ by a fixed
+positive phase margin. Equations (7)--(9) and convergence of the other section
+coordinates put the true data in the robust perturbed escape window throughout
+a nonempty subinterval of every sufficiently small reference preimage
+component. Each subinterval contains rational $u$. The uniform terminal
+transfer (8) excludes every later brake. Reducing the Euclid triple preserves
+the normalized dynamics. \(\square\)
+
+No approximation rate relative to the shrinking $B$-width of a preimage
+interval is needed: after shrinking the phase arc by a fixed angular margin,
+the uniform circular error in (9) is eventually smaller than that margin.
+
+This corollary is not presently unconditional because (9), collision-free
+section reach, and full section-data convergence remain **CONJECTURAL**. It
+identifies their payoff exactly: the missing matching theorem would
+immediately deliver a Level-D infinite rational subfamily, not merely
+numerical evidence. Captured windows would still require a separate no-brake
+theorem.
+
+Status of Theorem 1: **PROVED BY COMPUTER-ASSISTED ARGUMENT**, through the
+restricted transversality input.
+
+Status of Conditional Corollary 2: **PROVED ANALYTICALLY as an implication**;
+its matching hypotheses are **CONJECTURAL**.

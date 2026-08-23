@@ -63,6 +63,28 @@ def reference_section_phase() -> tuple[sp.Expr, sp.Symbol]:
     return sp.simplify(unperturbed_binary_mean_motion() * time), radius
 
 
+def fixed_scaled_section_phase() -> tuple[sp.Expr, sp.Symbol]:
+    """Raw binary phase where the reference fall reaches rho=epsilon*Y."""
+    epsilon, _, _, _ = matching_symbols()
+    scaled_radius = sp.symbols("Y", positive=True)
+    phase, radius = reference_section_phase()
+    return sp.simplify(phase.subs(radius, epsilon * scaled_radius)), scaled_radius
+
+
+def fixed_section_phase_limits() -> tuple[sp.Expr, sp.Expr]:
+    """Center-flight correction and sweep coefficient at fixed scaled Y."""
+    epsilon, _, _, _ = matching_symbols()
+    section_phase, scaled_radius = fixed_scaled_section_phase()
+    correction = sp.limit(
+        reference_collision_phase() - section_phase, epsilon, 0, dir="+"
+    )
+    derivative = sp.diff(section_phase, epsilon)
+    sweep = sp.limit(
+        epsilon ** sp.Rational(5, 2) * derivative, epsilon, 0, dir="+"
+    )
+    return sp.simplify(correction), sp.simplify(sweep)
+
+
 def reference_collision_time_gap_coefficients() -> tuple[sp.Expr, sp.Expr]:
     """Coefficients of rho^(3/2) and rho^(5/2) in the remaining fall time."""
     _, _, _, total_mass = matching_symbols()

@@ -262,7 +262,8 @@ nonvanishing of the fixed-section phase coefficient are proved. The following
 steps remain **CONJECTURAL**:
 
 1. uniform Levi--Civita matching through $O(\epsilon^{-3/2})$ preceding
-   collision-like binary cycles, with $o(1)$ lifted phase error;
+   collision-like binary cycles, with $o(1)$ circular phase error in the raw
+   fixed-section gauge;
 2. a function-space construction and convergence proof for the improper
    Melnikov integrals, if that representation rather than the proved section
    coefficient is used;

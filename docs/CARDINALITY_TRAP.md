@@ -37,25 +37,31 @@ logical step.
 
 ## A legitimate but still conditional endpoint bridge
 
-The collapsed-pair reference clock now supplies one exact use of rational
-density. It satisfies
+The collapsed-pair reference section clock now supplies one exact use of
+rational density. At a fixed scaled incoming section it satisfies
 \[
-\Phi_{\rm ref}'(B)=-{3\pi\over2}B^{-5/2}(1+o(1)),
+\Phi_{\rm sec,ref}'(B;Y_0)=-{3\pi\over2}B^{-5/2}(1+o(1)),
 \]
 so every nonempty open limiting phase arc pulls back to infinitely many open
 parameter intervals accumulating at $u=0$. Each interval contains rational
 Euclid parameters. This is a topological statement about an open condition,
 not an assertion that an isolated zero is irrational.
 
-Two missing hypotheses prevent its use as a nonperiodicity theorem:
+The second ingredient is now proved in the restricted limit:
+`RESTRICTED_PHASE_WINDOWS.md` constructs a genuinely open restricted
+hyperbolic-escape phase arc with a robust finite-$B$ terminal consequence.
+One missing matching hypothesis
+still prevents an unconditional nonperiodicity theorem:
 
-1. the true binary phase must satisfy
-   $\Phi_{\rm true}-\Phi_{\rm ref}=o(1)$ through
-   $O(B^{-3/2})$ regularized cycles;
-2. the selected limiting phase set must have a rigorously open dynamical
-   consequence, such as a strict terminal escape certificate.
+\[
+\operatorname{dist}_{S^1}(\Phi_{\rm true,sec},
+\Phi_{\rm sec,ref})=o(1)
+\]
+must hold in one phase gauge together with collision-free reach and convergence
+of the remaining incoming section data through $O(B^{-3/2})$ regularized
+cycles.
 
-Even after those hypotheses are proved, the argument would establish
-infinitely many rational escape subfamilies, not all rational parameters.
+Even after that hypothesis is proved, the argument would establish infinitely
+many rational terminal nonperiodicity subfamilies, not all rational parameters.
 Landing on the parabolic separatrix is a point condition and receives no
 rational exclusion from this interval argument.

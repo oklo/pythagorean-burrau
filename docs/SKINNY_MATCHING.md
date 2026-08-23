@@ -105,23 +105,55 @@ For a rational Pythagorean parameter, $A$ and $\epsilon=B$ are rational, so
 the fourth power is rational. This is not an arithmetic obstruction for the
 true flow: (4) concerns only the decoupled clock.
 
-The clock also has the exact asymptotic derivative
+The center clock also has the exact asymptotic derivative
 \[
 \Phi_{\rm ref}'(\epsilon)
 =-{3\pi\over2}\epsilon^{-5/2}+O(\epsilon^{-3/2}).
 \tag{4a}
 \]
 It is therefore strictly decreasing on some punctured endpoint interval and
-tends to infinity there. For every nonempty open phase arc
+tends to infinity there.
+
+There are two phase gauges, and they must not be confused. Fix a large but
+finite restricted incoming section
+\[
+\Sigma^-_{Y_0}=\{z=-Y_0,\ w>0\},\qquad Y_0>0,
+\]
+and put $\rho=\epsilon Y_0$ in (2a). The raw reference binary phase on that
+section is
+\[
+\Phi_{\rm sec,ref}(\epsilon;Y_0)
+:=n_{\rm bin}t_0(\epsilon Y_0).
+\tag{4b}
+\]
+It is not $\Phi_{\rm ref}$: by (2b),
+\[
+\Phi_{\rm sec,ref}
+=\Phi_{\rm ref}
+-{4\over3}\sqrt{M\over N}\,Y_0^{3/2}+O(\epsilon).
+\tag{4c}
+\]
+For fixed $Y_0$, however,
+\[
+\Phi_{\rm sec,ref}'(\epsilon;Y_0)
+=-{3\pi\over2}\epsilon^{-5/2}+O(\epsilon^{-3/2}),
+\tag{4d}
+\]
+so this correctly gauged section phase is also strictly decreasing and tends
+to infinity. Equivalently one may add the restricted section-to-center flight
+phase to a raw section phase and work with a center-phase intercept. All
+matching statements below use the raw phase gauge (4b).
+
+For every nonempty open phase arc
 $J\subset\mathbb R/(2\pi\mathbb Z)$, the set
 \[
-\{u>0:\Phi_{\rm ref}(B(u))\bmod2\pi\in J\}
+\{u>0:\Phi_{\rm sec,ref}(B(u);Y_0)\bmod2\pi\in J\}
 \]
 contains infinitely many open intervals accumulating at $u=0$, and every
 such interval contains rational $u$. This is an exact theorem about the
-reference clock. It becomes a theorem about the true trajectory only after
-uniform $o(1)$ phase matching, and only for an open scattering condition, not
-for hitting one exact separatrix phase.
+reference section clock. It becomes a theorem about the true trajectory only
+after uniform $o(1)$ phase matching in this same gauge, and only for an open
+scattering condition, not for hitting one exact separatrix phase.
 
 ## Incoming local energy
 
@@ -174,7 +206,8 @@ late scaled outer radius tends to infinity. Formal force estimates give:
   $O(\epsilon^{5/2-3\alpha/2})$.
 
 Both displayed phase errors tend to zero for every fixed $0<\alpha<1$.
-Equivalently, put $\rho=\epsilon Y$.  The exact reference clock gives
+Equivalently, put $\rho=\epsilon Y$. The exact relation between the center
+and raw section clocks is
 \[
 \begin{split}
 \Phi_\rho={}&\Phi_{\rm ref}
@@ -194,22 +227,31 @@ $(5/32)\sqrt{\epsilon/\rho}$ and a direct binary tidal phase correction of
 order $\epsilon^{5/2}\rho^{-3/2}$; both vanish in this overlap. The
 coefficient and the use of averaging for the true repeated encounter map are
 **CONJECTURAL** until the uniform theorem below is proved.
-These estimates strongly suggest
+Let $\Phi_{\rm true,sec}(\epsilon;Y_0)$ denote the regularized binary phase
+at the first collision-free crossing of $\Sigma^-_{Y_0}$. These estimates
+strongly suggest the gauge-consistent statement
 \[
-\Phi_{\rm true}
-=\Phi_{\rm ref}+o(1)
-\pmod {2\pi}
+\operatorname{dist}_{S^1}\!\left(
+\Phi_{\rm true,sec},\Phi_{\rm sec,ref}\right)=o(1).
 \tag{6}
 \]
-at the incoming restricted section.
-
-Status of (6): **CONJECTURAL**. The missing proof is not an elementary
-pointwise force bound. It must iterate a Levi--Civita binary return map through
-$O(\epsilon^{-3/2})$ collision-like cycles without losing the small error,
-while matching the outer radial comparison uniformly as
-$\rho\downarrow\epsilon^\alpha$.
+Here circular distance is sufficient; no integer-valued lift is required for
+the open phase windows. Status of (6): **CONJECTURAL**. The missing proof is
+not an elementary pointwise force bound. It must iterate a Levi--Civita binary
+return map through $O(\epsilon^{-3/2})$ collision-like cycles without losing
+the small error, match the outer radial comparison uniformly as
+$\rho\downarrow\epsilon^\alpha$, and then propagate in a common regularized
+chart from the overlap to the fixed section $\Sigma^-_{Y_0}$.
 
 Equation (6) is the first indispensable lemma for using the restricted
 separatrix. Once proved, strict escape or return regions of the limiting
 scattering map pull back to infinitely many shrinking parameter windows
 accumulating at $\epsilon=0$.
+
+Féjoz's rigorous Levi--Civita averaging theorem shows that regularized and
+unregularized averaged planar three-body Hamiltonians agree near inner
+collisions. It provides the correct coordinate framework, but does not by
+itself make (6) uniform in this singular regime: the eccentricity tends to
+one, the number of cycles is $O(\epsilon^{-3/2})$, and the outer section
+shrinks with $\epsilon$. A successful use must track the theorem's constants
+through all three limits rather than cite fixed-parameter averaging.

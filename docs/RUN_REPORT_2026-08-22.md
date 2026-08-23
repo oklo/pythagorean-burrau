@@ -54,6 +54,15 @@ numerical/family-intersection evidence.
    puts the time-$\pi$ map under McGehee's degenerate stable-manifold theorem;
    stable tangents contract, contradicting the validated Jacobi growth under
    hypothetical tangency. Thus the restricted crossing is transverse.
+8. **Restricted phase-window theorem.** The transverse splitting function has
+   opposite signs on two one-sided apocenter phase arcs. One arc gives
+   hyperbolic outer escape and the other a finite outer turn. Conditional on
+   the still-open uniform true/reference phase-and-section matching theorem,
+   the exact raw fixed-section reference clock then produces infinitely many
+   open terminal nonperiodicity intervals containing rational Euclid
+   parameters. An independent
+   audit caught and repaired the distinction between that section gauge and
+   the center/collision clock.
 
 ## Conjecture status
 
@@ -185,7 +194,10 @@ theorem.
    \]
    with $\Phi_{\rm ref}'\sim-(3\pi/2)B^{-5/2}$. Every open reference phase arc
    therefore has infinitely many parameter preimages containing rational
-   Euclid parameters. True-orbit $o(1)$ phase matching remains unproved.
+   Euclid parameters. On a raw incoming section the correct reference is
+   $\Phi_{\rm sec,ref}=\Phi_{\rm ref}-(4/3)\sqrt{M/N}Y_0^{3/2}+O(B)$;
+   true-orbit $o(1)$ circular phase matching in that same gauge remains
+   unproved.
 2. The exact finite-$B$ local Jacobi field was expanded through order $B^2$:
    \[
    r''=-{2\over r^2}-B{r\over d^3}+{B^2\over2r^2}+O(B^3),
@@ -251,13 +263,15 @@ sh scripts/run_capd_restricted_transversality.sh \
 ```
 
 The repository contains pinned Python dependencies in `uv.lock`, a pinned CAPD
-commit in the verifier wrapper, and 44 deterministic symbolic/unit tests.
+commit in the verifier wrapper, and 45 deterministic symbolic/unit tests.
 
 ## Single highest-leverage next action
 
 Prove uniform true-orbit phase matching through the
-$O(B^{-3/2})$ regularized tight-binary cycles, with an $o(1)$ lifted phase
-error on a nonsingular incoming restricted section. Restricted transversality
-is now a theorem, so this matching result would transfer the escape/capture
-threshold geometry to finite $B$; captured-branch second-brake exclusion would
+$O(B^{-3/2})$ regularized tight-binary cycles, with $o(1)$ circular phase
+error relative to $\Phi_{\rm sec,ref}$ and full-state convergence on one fixed
+regularized incoming section. Restricted transversality
+is now a theorem, so this matching result would make the restricted phase
+windows an unconditional Level-D nonperiodicity result for infinitely many
+primitive Pythagorean triples. Captured-branch second-brake exclusion would
 still remain.

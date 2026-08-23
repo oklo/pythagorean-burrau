@@ -52,7 +52,8 @@ the estimate's magnitude is not validated, although nonvanishing is now
 proved below.
 
 The first current skinny obligation is therefore a uniform regularized
-matching theorem with $o(1)$ lifted phase error. Restricted transversality is
+matching theorem with $o(1)$ circular phase error in one fixed section gauge.
+Restricted transversality is
 now closed, but it does not by itself resolve finite-$B$ phases on the captured
 side, so no Level-D skinny nonperiodicity theorem is yet claimed.
 
@@ -72,3 +73,13 @@ Hypothetical tangency would make the growing Jacobi field such a contracting
 tangent, a contradiction. The remaining obstruction lies in uniform
 finite-$B$ matching, separatrix persistence, and captured-branch brake
 exclusion.
+
+Transversality also proves two one-sided limiting phase windows: incoming
+parabolic data escape hyperbolically on one side and turn at finite outer
+height on the other. Combined with the exact rapidly sweeping raw
+fixed-section reference clock, a gauge-consistent uniform $o(1)$ phase and
+section matching theorem would immediately
+yield infinitely many open finite-$B$ terminal nonperiodicity intervals
+containing rational Euclid parameters. This is a proved conditional
+implication, not yet a
+Level-D theorem because the matching hypothesis remains open.

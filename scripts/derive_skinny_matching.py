@@ -4,6 +4,7 @@
 from src.symbolic.skinny_matching import (
     degenerate_binary_mean_square_separation,
     exact_incoming_tilt,
+    fixed_section_phase_limits,
     reference_collision_phase,
     reference_collision_time_gap_coefficients,
     reference_cycle_count,
@@ -23,6 +24,7 @@ def main() -> None:
         "epsilon^(5/2) phase derivative -> "
         f"{reference_phase_derivative_leading_coefficient()}"
     )
+    print(f"fixed-section correction and sweep = {fixed_section_phase_limits()}")
     print(
         "collision-time gap coefficients = "
         f"{reference_collision_time_gap_coefficients()}"

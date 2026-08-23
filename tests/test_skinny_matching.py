@@ -4,6 +4,8 @@ from src.symbolic.skinny_matching import (
     degenerate_binary_mean_square_separation,
     exact_incoming_tilt,
     exact_outer_direction_product,
+    fixed_scaled_section_phase,
+    fixed_section_phase_limits,
     matching_symbols,
     reference_collision_phase,
     reference_collision_time_gap_coefficients,
@@ -41,6 +43,16 @@ def test_scaled_incoming_energy_starts_at_minus_two_epsilon() -> None:
 
 def test_phase_sweeps_at_epsilon_to_the_minus_five_halves() -> None:
     assert reference_phase_derivative_leading_coefficient() == -3 * sp.pi / 2
+
+
+def test_fixed_scaled_section_phase_has_correct_gauge_and_sweep() -> None:
+    epsilon, _, _, _ = matching_symbols()
+    section_phase, scaled_radius = fixed_scaled_section_phase()
+    raw_phase, radius = reference_section_phase()
+    assert sp.simplify(section_phase - raw_phase.subs(radius, epsilon * scaled_radius)) == 0
+    correction, sweep = fixed_section_phase_limits()
+    assert correction == 4 * scaled_radius ** sp.Rational(3, 2) / 3
+    assert sweep == -3 * sp.pi / 2
 
 
 def test_exact_point_fall_section_formulas() -> None:
