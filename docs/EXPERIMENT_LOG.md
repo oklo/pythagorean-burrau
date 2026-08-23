@@ -1,5 +1,45 @@
 # Experiment log
 
+## 2026-08-22: incoming-tail theorem and Level-D endpoint result
+
+- Proved uniform propagation from the early overlap
+  $Y_e=B^{\alpha-1}\to\infty$ to a fixed large incoming restricted section.
+  The key radius-dependent bounds are
+  \[
+  |\mathscr H_N-E_{\rm ref,B}|\le CY^{-3},\qquad
+  |\mathscr L|\le CY^{-3/2},
+  \]
+  which close $-Y_\theta\asymp Y^{-1/2}$ uniformly.
+- Replaced informal collision-sensitive oscillator actions by the exact LC
+  normal invariants
+  \[
+  \mathcal J=(E+1,L,K),\qquad
+  K=p_xp_y-(E/2)z_xz_y.
+  \]
+  Their transverse Jacobian has determinant $-1/2$ on the radial circle, and
+  their forced derivatives are uniformly $O(BY^{-3})$ through collision.
+- Kept the exact finite-$B$ intercept subtraction until fixed radius and proved
+  \[
+  \operatorname{dist}_{S^1}
+  \bigl(\Lambda_B(Y)+F_B(Y),\chi_B\bigr)
+  \le CY^{-1/2}+o(1).
+  \]
+  Taking $B\to0$ first and then $Y\to\infty$ retains the restricted
+  quadrupole flight-time correction and identifies the correct asymptotic
+  intercept.
+- Proved weighted transverse uniqueness from the exact reflection-odd
+  mean-value equation. In log radius its coefficient matrix is an
+  $L^1$ perturbation with growing modes $Y$ and $Y^{1/2}$; inherited
+  $O(Y^{-1})$ decay forces rectilinearity.
+- Independent adversarial passes found and forced repair of the constant
+  energy, partial LC block, unspecified-action, phase-gauge, and nonlinear
+  transverse gaps. Three final passes endorsed the repaired theorem.
+- Combining matching with the restricted hyperbolic-escape window and terminal
+  certificate proves infinitely many open real skinny intervals nonperiodic.
+  Rational density then yields infinitely many distinct primitive
+  Pythagorean triples. This is an unconditional Level-D theorem; the full
+  rational and strong real conjectures remain unresolved.
+
 ## 2026-08-22: pre-plunge matching and phase-gauge audits
 
 - Used restricted transversality to prove adjacent open hyperbolic-escape and
@@ -31,11 +71,9 @@
   regularized chart explicit hypotheses. Proved that a compact strict-escape
   arc transfers to the terminal escape inequalities by the physical scalings
   $e=-C/B+o(B^{-1})$ and $\dot\rho=sB^{-1/2}+o(B^{-1/2})$.
-- Under the remaining, still-conjectural incoming-tail hypothesis, infinitely
-  many open
-  terminal nonperiodicity intervals contain rational Euclid parameters. This
-  is a conditional Level-D bridge, not an unconditional result for any
-  Pythagorean triple.
+- The then-conjectural incoming-tail hypothesis was subsequently proved in the
+  section above, promoting these terminal windows to an unconditional
+  Level-D result.
 
 ## 2026-08-22: validated restricted Jacobi sign
 
@@ -96,8 +134,9 @@ sh scripts/run_capd_restricted_transversality.sh \
 
 Evidence levels: EXACT SYMBOLIC IDENTITY and PROVED ANALYTICALLY for the
 reference formulas and phase sweep; EXACT SYMBOLIC IDENTITY for the local
-field and gauge cancellation; ORDINARY NUMERICAL EVIDENCE for transversality;
-CONJECTURAL for true-orbit matching and the finite-$B$ splitting expansion.
+field and gauge cancellation; ORDINARY NUMERICAL EVIDENCE for transversality
+at this stage; true-orbit matching and transversality were subsequently proved
+above, while the finite-$B$ splitting expansion remains CONJECTURAL.
 Reproduction commands:
 
 ```bash
@@ -158,7 +197,8 @@ integration is a regression check only. Reproduction commands:
 
 Evidence level: PROVED ANALYTICALLY for the local limiting vector field and
 the auxiliary separatrix theorem. Matching the exact finite-$B$ trajectory to
-incoming limiting data is CONJECTURAL. Reproduce the identities with:
+incoming limiting data was subsequently proved in the incoming-tail theorem.
+Reproduce the identities with:
 
     .venv/bin/python -m scripts.derive_restricted_scattering
 

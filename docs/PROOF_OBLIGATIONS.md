@@ -45,62 +45,50 @@ orbit cannot itself settle this classical collision-free problem.
 
 ## Endpoint route
 
-For $u\to0$, the regularized first-encounter map and a conditional terminal
-escape criterion are proved. The first heavy-pair collision is replaced by a
-positive miss of order $B^{11}$, but the first outgoing section is still
-deeply bound. The remaining obligation is uniform control of
-$O(B^{-3/2})$ binary cycles and the phase-sensitive later close interaction,
-including a matched asymptotic derivation of the proved restricted limit. That
-limit has an exact zero-energy parabolic phase, so a uniform strict-escape
-claim is impossible. One must compute its finite-$B$ separatrix splitting and
-exclude second brakes on the nonescaping side, or derive an exact condition
-for landing on the separatrix. At $u=\sqrt2-1$, the exact
+For $u\to0$, the first-encounter, pre-plunge, and incoming-tail matching
+theorems are proved. A fixed-margin restricted escape arc transfers to
+infinitely many open real parameter intervals on which every orbit either
+collides classically before section reach or satisfies the terminal
+escape-or-collision certificate. This proves an infinite primitive
+Pythagorean subfamily. The remaining skinny obligation is to classify the
+intervening captured phase windows and the separatrix phases; escape/capture
+classification alone does not settle all sufficiently small $u$. At
+$u=\sqrt2-1$, the exact
 trajectory is now proved to have monotone shrinking half-base and finite
 collision.  The remaining obligation is a regularized transverse analysis of
 how that collision unfolds when $A\ne B$ and whether any second-brake branch
 can emerge.
 
-The long-cycle part of the skinny matching obligation is now closed.
-`PREPLUNGE_MATCHING.md` proves that for every $0<\alpha<1/6$, either a prior
-classical collision occurs or the orbit reaches the physical overlap radius
-$\rho=B^\alpha$ with its renormalized asymptotic intercept satisfying
+The full skinny matching obligation through a fixed incoming restricted
+section is now closed. PREPLUNGE_MATCHING.md controls the
+$O(B^{-3/2})$ early cycle train to $\rho=B^\alpha$ for every
+$0<\alpha<1/6$. INCOMING_TAIL.md then proves, in one common LC section chart,
 \[
-\operatorname{dist}_{S^1}(\chi_\alpha,\Phi_{\rm ref})=o(1)
+\operatorname{dist}\!\left(S_B(Y_0),
+\Gamma^-_{Y_0}(\Phi_{\rm ref}(B))\right)=o(1),
 \]
-after $O(B^{-3/2})$ regularized cycles. The remaining matching obligation is
-to propagate those data in a common regularized chart from
-$Y=B^{\alpha-1}\to\infty$ to a fixed scaled section $\Sigma^-_{Y_0}$ and
-prove
-\[
-\operatorname{dist}(S_B(Y_0),
-\Gamma^-_{Y_0}(\Phi_{\rm ref}(B)))=o(1).
-\]
-A raw fixed-section phase is not the correct reference coordinate: besides
-the monopole flight correction, the restricted quadrupole tail leaves a
-finite $Y_0$-dependent shift. At parabolic infinity, explicitly
-fix the $|\theta|^{-1/3}$ time-translation mode; otherwise the naive phase
-Jacobi field makes the Melnikov integral a zero boundary term. The completed
-gauge-free alternative constructs the incoming and outgoing parabolic curves
-$V_u(\phi),V_s(\phi)$ on $z=0$ and proves
+or an earlier classical collision has already excluded periodicity. The proof
+retains the exact finite-$B$ intercept until fixed radius, includes the
+restricted quadrupole flight correction, and uses a weighted transverse
+uniqueness lemma at parabolic infinity.
+
+The gauge-free restricted construction proves
 \[
 V_u'(0)-V_s'(0)=2V_u'(0)\ne0.
 \]
-The remaining task is to prove uniform finite-$B$ persistence and exclude a
-second brake for phases on the captured side. Escape/capture classification
-alone is not the conjecture.
+Together with the completed matching and terminal transfer, this gives the
+Level-D open escape intervals. The remaining task is to exclude a second
+brake for phases on the captured side and to classify exact separatrix phases.
 
 Restricted transversality is closed. CAPD interval Taylor integration proves
 $h'(\pi/4)>14/625$, while the compactified time-$\pi$ map satisfies
 McGehee's sector hypotheses. Tangents to its fixed-phase stable curve contract;
 under a hypothetical tangency, $h=z'-\eta_{\rm pin}$ would be such a tangent,
-but the validated sign forces it to grow. The remaining obligations are all
-finite-$B$: uniform matching, persistence and signed displacement of the
-separatrix, and exclusion of second brakes throughout the captured branches.
-More precisely, `RESTRICTED_PHASE_WINDOWS.md` proves that collision-free
-section reach plus uniform $o(1)$ full-state intercept matching would
-already yield infinitely many open terminal windows containing rational Euclid
-parameters. Thus this matching theorem alone would give a Level-D infinite
-rational subfamily; it would not handle the captured windows.
+but the validated sign forces it to grow. Uniform matching and terminal
+transfer are now closed, so infinitely many open terminal windows containing
+rational Euclid parameters are an unconditional Level-D theorem. Remaining
+finite-$B$ obligations are persistence and signed displacement of the exact
+separatrix and exclusion of second brakes throughout the captured branches.
 
 ## Adversarial checklist
 
@@ -122,3 +110,12 @@ rederived the compactification and $O_7$ map, checked McGehee's hypotheses and
 the tangent contraction, and required three repairs now included in the proof:
 exact time-map factorization, the explicit Lipschitz estimate, and the
 three-component phase-gauge subtraction.
+
+Three independent adversarial passes audited the incoming-tail theorem. They
+found and forced repair of: a nonuniform constant-energy estimate; an invalid
+partial-LC-block physical-time bound; unspecified oscillator “actions”; a
+noncommuting phase/radius limit; and use of a linearized transverse equation
+for a possibly nonaxis solution. The final proof uses the radius-dependent
+energy defect $O(Y^{-3})$, exact LC invariants $(E+1,L,K)$, separate endpoint
+blocks, the exact intercept subtraction, and reflection-odd mean-value
+factorization. All three final passes endorsed the repaired theorem.

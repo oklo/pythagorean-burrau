@@ -36,9 +36,13 @@ parabolic time-translation gauge in the candidate splitting integral. A
 rigorous interval-Taylor computation proves the remaining finite Jacobi sign
 uniformly on an explicit launch-speed interval. An analytic compactification
 then verifies McGehee's degenerate stable-manifold hypotheses and proves that
-the limiting incoming and outgoing parabolic curves cross transversely. This
-auxiliary limiting theorem does not yet provide uniform finite-parameter
-matching or exclude brakes on captured branches. A bounded catalog audit finds
+the limiting incoming and outgoing parabolic curves cross transversely.
+Radius-dependent tail estimates and exact Levi--Civita normal invariants then
+match the true finite-parameter state to the restricted incoming curve.
+Consequently infinitely many open skinny parameter intervals, and hence
+infinitely many primitive Pythagorean triples, are nonperiodic. This does not
+exclude brakes on the intervening captured phase windows and therefore does
+not prove the full conjecture. A bounded catalog audit finds
 a close numerical periodic brake orbit on the
 $3{:}4{:}5$ mass slice, but its initial triangle is not the exact tied right
 triangle.
@@ -278,12 +282,12 @@ Squaring the transverse displacement and converting the scaled angular
 momentum to physical time gives the two coefficients.
 \end{proof}
 
-The result does not yet prove skinny nonperiodicity. The binary remains bound
+The first-encounter result alone does not prove skinny nonperiodicity. The binary remains bound
 with specific energy $-M/\epsilon+O(\epsilon^3)$, and the first-passage outer
 radial escape margin is $-2+O(\epsilon)$. The outer body falls back on an
 order-one time scale, during which the binary executes
-$O(\epsilon^{-3/2})$ cycles. A phase-uniform theorem for the subsequent close
-interaction remains open.
+$O(\epsilon^{-3/2})$ cycles. Later sections control this train and prove
+nonperiodicity on infinitely many phase windows, but not uniformly in phase.
 
 \begin{lemma}[Terminal escape certificate]
 For a prospective binary of total mass $M$ and an outer body of mass $m_c$,
@@ -395,8 +399,8 @@ pair by a point mass gives the exact reference clock
 Moreover
 $\Phi_{\rm ref}'\sim-(3\pi/2)\epsilon^{-5/2}$. Thus every open phase arc
 has infinitely many reference preimage intervals accumulating at zero, each
-containing rational Euclid parameters. This conclusion concerns the reference
-clock until a matching theorem is supplied.
+containing rational Euclid parameters. The matching theorem below transfers
+this reference statement to compact open windows of the true flow.
 
 That long-cycle step can be proved without finite-eccentricity averaging. Fix
 $0<\alpha<1/6$ and stop at physical outer radius
@@ -417,8 +421,90 @@ already ended the orbit, the renormalized incoming intercept satisfies
 =O(\epsilon^{1/2-3\alpha})=o(1).
 \tag{PM}
 \]
-The remaining matching problem is propagation from this early overlap to one
-fixed section of the full restricted incoming parabolic tail.
+\begin{theorem}[Incoming-tail matching]
+Fix a sufficiently large scaled incoming section $\Sigma^-_K$. As
+$\epsilon\to0$, either a classical collision occurs before section reach or
+the exact regularized state $S_\epsilon(K)$ satisfies
+\[
+\operatorname{dist}\!\left(
+S_\epsilon(K),\Gamma^-_K(\Phi_{\rm ref}(\epsilon))\right)=o(1),
+\tag{IT}
+\]
+where $\Gamma^-_K(\chi)$ is the restricted incoming parabolic state with
+asymptotic mean-anomaly intercept $\chi$.
+\end{theorem}
+\begin{proof}
+Put $Y_e=\epsilon^{\alpha-1}$ with $0<\alpha<1/6$. The exact cancellation of
+the outer dipole leaves an $O(Y^{-4})$ remainder on the tail. If
+\[
+\mathcal H_N={1\over2}|Z_\theta|^2-{N\over Y},
+\qquad \mathcal L=Z\times Z_\theta ,
+\]
+then the pre-plunge rates and a simultaneous energy--torque bootstrap give
+\[
+|\mathcal H_N-E_{\rm ref,\epsilon}|\le CY^{-3},\qquad
+|\mathcal L|\le CY^{-3/2},\qquad
+-Y_\theta\asymp Y^{-1/2}.
+\tag{TB}
+\]
+These estimates are uniform for $K\le Y\le Y_e$.
+
+Collision-uniform binary control uses exact LC first integrals rather than a
+singular Delaunay chart. With normalized energy $E$ set
+\[
+\mathcal J=(E+1,L,K_{12}),\quad
+L=z_xp_y-z_yp_x,\quad
+K_{12}=p_xp_y-{E\over2}z_xz_y .
+\]
+On the radial LC circle,
+\[
+\det{\partial(L,K_{12})\over\partial(z_y,p_y)}=-{1\over2}.
+\]
+The three components are antipodal-invariant uniform normal coordinates, and
+direct differentiation of the forced LC equations gives
+$|\mathcal J_s|\le C\epsilon Y^{-3}$. Complete LC blocks have uniformly
+comparable physical lengths; the two incomplete endpoint blocks are bounded
+directly in LC time. Consequently
+\[
+|\mathcal J(Y)|\le
+O(\epsilon^{5/2-3\alpha})+C\epsilon Y^{-3/2},
+\]
+and the accumulated binary-clock error is
+\[
+O(\epsilon^{1-3\alpha/2})
++O(\epsilon|\log\epsilon|)=o(1).
+\tag{BC}
+\]
+
+Retain the exact finite-$\epsilon$ subtraction
+\[
+F_\epsilon(Y)=n_{\rm bin}
+\bigl(t_{\rm mono}-t_0(\epsilon Y)\bigr)
+\]
+until $Y$ is fixed. The reciprocal-speed consequence of (TB) and (BC) is
+\[
+\operatorname{dist}_{S^1}\!\left(
+\Lambda_\epsilon(Y)+F_\epsilon(Y),\chi_\epsilon\right)
+\le CY^{-1/2}+o(1),
+\tag{PG}
+\]
+where $\chi_\epsilon=\Phi_{\rm ref}(\epsilon)+o(1)$. The
+$CY^{-1/2}$ term retains the restricted quadrupole flight correction.
+
+For any sequence $\epsilon_n\to0$, LC compactness gives a diagonal limiting
+restricted tail. The inherited angular bounds are
+$Z_\perp=O(Y^{-1})$ and $Z'_\perp=O(Y^{-5/2})$. Reflection oddness factors
+the exact transverse equation as
+\[
+\xi''+\left(2Y^{-3}+O(Y^{-5})\right)\xi=0.
+\]
+With $x=\log Y$ this is an $L^1$ perturbation of a constant system whose modes
+are $Y$ and $Y^{1/2}$; the inherited decay forces $\xi\equiv0$. The limit is
+therefore the rectilinear incoming parabolic orbit. Taking
+$\epsilon_n\to0$ at fixed $Y$ in (PG), and only then $Y\to\infty$, identifies
+its intercept as the limit of $\Phi_{\rm ref}(\epsilon_n)$. Uniqueness of the
+incoming McGehee graph proves (IT).
+\end{proof}
 
 On the limiting symmetric orbit let $d^2=z^2+r^2/4$. Expansion of the exact
 finite-parameter Jacobi field gives
@@ -515,7 +601,7 @@ It is analytic at $(x,w)=(0,0)$ and through $r=0$. Since
 $\int_0^\pi r\,d\psi=\pi/2$, its time-$\pi$ map has, after
 $X=x$, $Y=w-\sqrt2x$, the form
 \[
-X_1=X-\frac\pi8X^3(Y+\sqrt2X)+O_7,qquad
+X_1=X-\frac\pi8X^3(Y+\sqrt2X)+O_7,\qquad
 Y_1=Y+{\pi\sqrt2\over8}X^3Y+O_7.
 \tag{PM}
 \]
@@ -537,7 +623,7 @@ on a narrowed sector, hence $|\varphi'|$ is correspondingly small for $X>0$.
 Restricting (PM) to this graph gives, for positive constants $c_i$ and small
 $X$,
 \[
-c_1X^4\le X-F(X)\le c_2X^4,qquad
+c_1X^4\le X-F(X)\le c_2X^4,\qquad
 0<F'(X)\le1-c_3X^3.
 \]
 Thus $X_n^{-3}\asymp n$, $\sum X_n^3=\infty$, and every stable-curve tangent
@@ -556,7 +642,7 @@ $h=z'-\eta_{\rm pin}$. The
 validated theorem and $a>0$ imply
 $h(\theta)\ge h(\pi/4)+(14/625)(\theta-\pi/4)$. But
 \[
-\delta X_n=-{X_n^3\over4}h(\theta_n),qquad
+\delta X_n=-{X_n^3\over4}h(\theta_n),\qquad
 \theta_n=\theta_0+n\pi/2,
 \]
 so $X_n^{-3}\asymp n$ makes $\liminf|\delta X_n|>0$, contradicting tangent
@@ -582,16 +668,32 @@ Parameterize the restricted incoming parabolic curve by its asymptotic phase
 intercept $\chi$, normalized by
 $\chi=\lim_{Y\to\infty}(\phi_Y+(4/3)Y^{3/2})$ modulo $2\pi$. This coordinate
 includes the finite restricted quadrupole correction between infinity and a
-fixed section; a raw monopole section phase does not. Consequently, if the
-true full regularized state on a fixed incoming section converges to the
-restricted state with intercept $\Phi_{\rm ref}(B)$, infinitely many open
-terminal nonperiodicity intervals accumulating at $B=0$ contain rational
-Euclid parameters. Strict restricted escape on a compact intercept arc
+fixed section; a raw monopole section phase does not. The incoming-tail
+theorem inserts the true full regularized state, producing infinitely many
+open terminal nonperiodicity intervals accumulating at
+$B=0$ result. Strict restricted escape on a compact intercept arc
 transfers to a finite outgoing scaled section; there
 $e=-C/B+o(B^{-1})$ and $\dot\rho=sB^{-1/2}+o(B^{-1/2})$, so the terminal
 escape lemma applies uniformly, yielding escape or an earlier classical inner
-collision and excluding a later brake in either case. This is a rigorous
-conditional implication; the uniform matching hypothesis remains open.
+collision and excluding a later brake in either case.
+
+\begin{theorem}[Infinite subfamily]
+There are infinitely many open real Euclid-parameter intervals accumulating
+at $u=0$ on which the Pythagorean--Burrau solution is nonperiodic. In
+particular, infinitely many distinct primitive Pythagorean triples satisfy the
+nonperiodicity conjecture.
+\end{theorem}
+\begin{proof}
+Shrink a restricted escape-intercept arc by a fixed positive margin. The
+incoming-tail theorem and robust terminal transfer cover every sufficiently
+small preimage interval. A trajectory that collides before section reach is
+already nonperiodic; every other trajectory satisfies the terminal
+escape-or-collision certificate. The exact derivative
+$\Phi_{\rm ref}'\sim-(3\pi/2)B^{-5/2}$ gives infinitely many disjoint
+preimage intervals. Since $B(u)=2u/(1+u^2)$ is a homeomorphism near zero and
+rational $u$ is dense, each contains a rational Euclid parameter. Reduction
+by the simultaneous mass--length scaling gives distinct primitive triples.
+\end{proof}
 
 \section{Cardinality and the remaining obstruction}
 
@@ -604,9 +706,9 @@ The active route factors a possible brake, away from Jacobi degeneracies, into
 two radial-rate equations followed by an angular-slip equation, and seeks to
 classify the isolated double-radial events along the first-syzygy continuation.
 Ordinary scans show both signs of angular slip on different double-radial
-events, ruling out a universal fixed-sign shortcut. The skinny fallback has
-now resolved the first limiting collision exactly, but uniform control through
-the later phase-sensitive plunge is open.
+events, ruling out a universal fixed-sign shortcut. The skinny route now
+controls the full incoming plunge and proves open escape windows, but exclusion
+of second brakes on captured windows remains open.
 
 \section{Necessary integral identities}
 

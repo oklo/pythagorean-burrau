@@ -10,6 +10,12 @@ are assigned evidence levels in `docs/PROOF_LEDGER.md`; open logical gaps are
 tracked separately in `docs/PROOF_OBLIGATIONS.md`.  Numerical experiments are
 not promoted to universal conclusions.
 
+Current strongest result: the full rational and strong real conjectures remain
+open, but infinitely many open skinny Euclid-parameter intervals are proved
+nonperiodic. Consequently infinitely many distinct primitive Pythagorean
+triples satisfy the conjecture. See `docs/INCOMING_TAIL.md` and
+`docs/STATUS.md`.
+
 ## Reproduce the exact checks
 
 ```bash

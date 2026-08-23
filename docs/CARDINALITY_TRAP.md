@@ -35,7 +35,7 @@ of possible intersections followed by exact exclusion.
 No statement in this project may use “the rationals are too sparse” as a
 logical step.
 
-## A legitimate but still conditional endpoint bridge
+## A legitimate endpoint bridge
 
 The collapsed-pair asymptotic-intercept clock now supplies one exact use of
 rational density. It satisfies
@@ -47,21 +47,22 @@ parameter intervals accumulating at $u=0$. Each interval contains rational
 Euclid parameters. This is a topological statement about an open condition,
 not an assertion that an isolated zero is irrational.
 
-The second ingredient is now proved in the restricted limit:
-`RESTRICTED_PHASE_WINDOWS.md` constructs a genuinely open restricted
-hyperbolic-escape phase arc with a robust finite-$B$ terminal consequence.
-One missing matching hypothesis
-still prevents an unconditional nonperiodicity theorem:
+The second ingredient is a genuinely open restricted hyperbolic-escape phase
+arc with a robust finite-$B$ terminal consequence. The incoming-tail theorem
+now proves the formerly missing exact bridge:
 
 \[
 \operatorname{dist}(S_B(Y_0),
 \Gamma^-_{Y_0}(\Phi_{\rm ref}(B)))=o(1)
 \]
-must hold together with collision-free reach. The long $O(B^{-3/2})$ cycle
-train is now controlled at an early overlap; propagation down the incoming
-restricted tail remains.
+holds whenever the solution reaches the fixed section collision-free; an
+earlier classical collision already excludes periodicity. The proof controls
+both the long $O(B^{-3/2})$ cycle train and propagation down the incoming
+restricted tail.
 
-Even after that hypothesis is proved, the argument would establish infinitely
-many rational terminal nonperiodicity subfamilies, not all rational parameters.
-Landing on the parabolic separatrix is a point condition and receives no
-rational exclusion from this interval argument.
+Consequently infinitely many open endpoint intervals, and hence infinitely
+many primitive rational Euclid parameters, are nonperiodic. This is a valid
+use of rational density because the dynamical condition is open and has been
+transferred exactly. It does not address every rational parameter. Landing on
+the parabolic separatrix remains a point condition and receives no rational
+exclusion from this interval argument.

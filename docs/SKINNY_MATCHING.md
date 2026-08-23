@@ -1,9 +1,9 @@
 # Matching toward the late skinny plunge
 
-This note isolates the exact reference phase and incoming energy that a
-uniform matching theorem must recover. It does not claim that the full
-three-body trajectory shadows the reference problem through all intervening
-binary cycles.
+This note isolates the exact reference phase and incoming energy used by the
+uniform matching theorem. The later PREPLUNGE_MATCHING.md and
+INCOMING_TAIL.md notes prove full shadowing through the intervening binary
+cycles and down to a fixed restricted section.
 
 ## Collapsed-pair reference fall
 
@@ -209,7 +209,7 @@ negative-energy passage leave with the same negative energy. Escape windows
 can only arise from phase-dependent energy transfer or from symmetry-breaking
 corrections.
 
-## Required uniform shadowing theorem
+## Uniform shadowing target and resolution
 
 Choose an intermediate radius
 \[
@@ -244,11 +244,11 @@ $1\ll Y\ll\epsilon^{-2/5}$.  For the degenerate Kepler binary,
 \[
 \langle |X|^2\rangle={5\over8}\epsilon^2.
 \]
-Formal averaging then gives an outer-quadrupole arrival correction
+Formal averaging suggests an outer-quadrupole arrival correction
 $(5/32)\sqrt{\epsilon/\rho}$ and a direct binary tidal phase correction of
-order $\epsilon^{5/2}\rho^{-3/2}$; both vanish in this overlap. The
-coefficient and the use of averaging for the true repeated encounter map are
-**CONJECTURAL** until the uniform theorem below is proved.
+order $\epsilon^{5/2}\rho^{-3/2}$; this particular coefficient remains
+**CONJECTURAL** and is not used. The uniform theorem below is instead proved
+by direct LC block estimates.
 Let $S_\epsilon(Y_0)$ be the full regularized state at the first
 collision-free crossing of $\Sigma^-_{Y_0}$, and let
 $\Gamma^-_{Y_0}(\chi)$ be the restricted incoming parabolic state on that
@@ -260,23 +260,22 @@ S_\epsilon(Y_0),
 \tag{6}
 \]
 Circular intercept distance is sufficient; no integer-valued lift is required
-for the open phase windows. `PREPLUNGE_MATCHING.md` now proves the long-cycle
+for the open phase windows. PREPLUNGE_MATCHING.md proves the long-cycle
 part: at every deliberately early overlap
 $\rho=\epsilon^\alpha$, $0<\alpha<1/6$, the renormalized true intercept (4e)
 has distance $o(1)$ from $\Phi_{\rm ref}$, unless an earlier classical
-collision already excludes periodicity. Status of the full fixed-section
-statement (6): **CONJECTURAL**. Its remaining content is a uniform incoming-
-tail theorem from that overlap to fixed $Y_0$ in the full restricted scaling.
+collision already excludes periodicity. INCOMING_TAIL.md proves the full
+fixed-section statement (6) by uniform propagation from that overlap to fixed
+$Y_0$ in the full restricted scaling. Status: **PROVED ANALYTICALLY**.
 
-Equation (6) is the remaining indispensable lemma for using the restricted
-separatrix. Once proved, strict terminal regions of the limiting scattering
-map pull back to infinitely many shrinking parameter windows accumulating at
+Equation (6), combined with strict terminal regions of the limiting scattering
+map, gives infinitely many shrinking nonperiodicity windows accumulating at
 $\epsilon=0$.
 
 Féjoz's rigorous Levi--Civita averaging theorem shows that regularized and
 unregularized averaged planar three-body Hamiltonians agree near inner
 collisions. It provides the correct coordinate framework, but does not by
 itself make (6) uniform in this singular regime. The elementary regularized
-estimate in `PREPLUNGE_MATCHING.md` avoids finite-eccentricity averaging for
+estimate in PREPLUNGE_MATCHING.md avoids finite-eccentricity averaging for
 the long early cycle train. Féjoz's framework may still be useful for a
 sharper expansion, but is no longer needed merely to reach the early overlap.

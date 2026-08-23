@@ -197,7 +197,7 @@ h=z'-\eta_{\rm pin}
 \]
 is the fixed-phase homogeneous field
 \[
-h''=ah,qquad h(0)=v_*,\quad h'(0)=0.
+h''=ah,\qquad h(0)=v_*,\quad h'(0)=0.
 \]
 Equation (11a) shows directly that the phase components cancel in (12), so
 $h$ is a tangent to the fixed-phase stable curve of Lemma 1.
@@ -235,14 +235,13 @@ COMPUTER-ASSISTED ARGUMENT**.
 ## Scope
 
 Theorem 2 classifies the zero-energy threshold in the universal skinny
-late-plunge limit. It does not prove any interval of finite-$B$ trajectories
-nonperiodic. The next indispensable steps are:
+late-plunge limit. Together with the subsequently proved incoming-tail and
+terminal-transfer theorems, it yields infinitely many open finite-$B$
+nonperiodicity intervals. The remaining indispensable steps are:
 
-1. uniform incoming-tail propagation from the now-matched early overlap to a
-   fixed restricted section, retaining the asymptotic intercept;
-2. persistence and signed finite-$B$ displacement of the transverse
+1. persistence and signed finite-$B$ displacement of the transverse
    separatrix;
-3. exclusion of second brakes on every captured branch, not only
+2. exclusion of second brakes on every captured branch, not only
    escape/capture classification.
 
 Primary source: R. McGehee, “A Stable Manifold Theorem for Degenerate Fixed

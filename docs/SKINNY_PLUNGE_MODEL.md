@@ -45,9 +45,9 @@ Z_{\theta\theta}
 
 After Levi--Civita regularization of the prescribed heavy binary, this
 convergence also holds through its binary collisions whenever $Z\ne0$. Status:
-**PROVED ANALYTICALLY** as a local vector-field limit. Matching the exact
-Pythagorean initial state to an incoming condition at scaled infinity,
-uniformly over its diverging binary phase, remains open.
+**PROVED ANALYTICALLY** as a local vector-field limit. PREPLUNGE_MATCHING.md
+and INCOMING_TAIL.md subsequently match the exact Pythagorean state to this
+incoming condition uniformly over its diverging binary phase.
 
 ## Symmetric rectilinear restricted problem
 

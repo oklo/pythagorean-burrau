@@ -25,7 +25,7 @@ A=\sqrt{1-\epsilon^2},\quad M=1+A,\quad N=M+\epsilon.
 Put $r=|X|$ and $\rho=|Y|$. Let $\bar Y$ be the point-mass reference fall
 with the same initial outer position,
 \[
-\ddot{\bar Y}=-N{\bar Y\over|\bar Y|^3},qquad
+\ddot{\bar Y}=-N{\bar Y\over|\bar Y|^3},\qquad
 \bar Y(0)=Y(0),\quad \dot{\bar Y}(0)=0,
 \]
 and let $t_0(\rho)$ be its exact first arrival time at radius $\rho$.
@@ -95,6 +95,27 @@ Then
 Here $t_{\rm mono}$ is the exact collapsed-pair collision time (1) of
 `SKINNY_MATCHING.md`, and
 $\Phi_{\rm ref}=n_{\rm bin}t_{\rm mono}$.
+If $\mathcal C(\ell)$ denotes the antipodal-quotient LC state of the radial
+Kepler binary with mean anomaly $\ell$, then the full regularized binary state
+also satisfies
+\[
+\operatorname{dist}_{\rm LC}\!\left(
+(z,p)(t_\alpha),
+\mathcal C(n_{\rm bin}t_0(\epsilon^\alpha))\right)=o(1).
+\tag{5c}
+\]
+Indeed, $\ell=\Theta+\sin\Theta$ is a homeomorphism of the phase circle; its
+inverse is only Hölder at collision, but continuity is enough to combine
+(21) and (25). No Lipschitz inverse is asserted.
+More sharply, if $\mathcal J$ denotes the collection of LC variables
+transverse to the Kepler phase circle, variation of constants before the
+secular phase integration gives
+\[
+|\mathcal J(t_\alpha)|=O(\epsilon^{5/2-3\alpha}).
+\tag{5d}
+\]
+The physical outer-energy error is (15), so its late-scaled value is
+$O(\epsilon^{3-3\alpha})$.
 The outer direction and velocity also obey
 \[
 \left|\widehat Y(t_\alpha)-\widehat Y(0)\right|
@@ -241,8 +262,8 @@ On the interval above, $|x|\le2$ and the exact scaled perturbation satisfies
 In Levi--Civita variables $x=z^2$, $d\tau=|z|^2ds$, $p=z_s$, and scaled
 osculating energy $E=\epsilon e/M$, the exact equations are
 \[
-z_s=p,qquad
-p_s={E\over2}z+g,qquad
+z_s=p,\qquad
+p_s={E\over2}z+g,\qquad
 E_s=2\operatorname{Re}(\bar z\,\bar p F_\epsilon),
 \quad
 g={1\over2}|z|^2\bar z F_\epsilon.
@@ -250,7 +271,7 @@ g={1\over2}|z|^2\bar z F_\epsilon.
 \]
 Initially $(z,p,E)=(1,0,-1)$. The unperturbed solution is
 \[
-z_0(s)=\cos(s/\sqrt2),qquad
+z_0(s)=\cos(s/\sqrt2),\qquad
 p_0(s)=-{1\over\sqrt2}\sin(s/\sqrt2).
 \tag{19}
 \]
@@ -265,8 +286,53 @@ interval, (17)--(18) give
 =O(\epsilon^{5/2-3\alpha}).
 \tag{20}
 \]
-Variation of constants around the bounded harmonic-oscillator propagator,
-rather than a general exponential Gronwall estimate, gives
+For later matching one needs the normal rate before allowing the frequency
+shear to accumulate. Write $z=(z_x,z_y)$ and $p=(p_x,p_y)$ and define
+\[
+\mathcal J=(E+1,L,K),\qquad
+L=z_xp_y-z_yp_x,\qquad
+K=p_xp_y-{E\over2}z_xz_y.
+\tag{20a}
+\]
+These are exact first integrals of the unforced LC oscillator. On the radial
+circle,
+\[
+\det{\partial(L,K)\over\partial(z_y,p_y)}
+=-p_x^2-{z_x^2\over2}=-{1\over2},
+\tag{20b}
+\]
+so, together with $E+1$, they are uniform normal coordinates through both
+collision and apocenter. Direct differentiation of (18) gives
+\[
+E_s=2\operatorname{Re}(\bar z\,\bar p F_\epsilon),\qquad
+L_s=z_xg_y-z_yg_x,
+\]
+\[
+K_s=g_xp_y+p_xg_y
+-\operatorname{Re}(\bar z\,\bar p F_\epsilon)z_xz_y.
+\tag{20c}
+\]
+The defining map is considered on the LC constraint manifold. Its components
+are invariant under $(z,p)\mapsto(-z,-p)$ and therefore descend to the
+antipodal quotient.
+Thus $|\mathcal J_s|\le C\delta_\epsilon$ on the bounded LC tube, and
+\[
+\sup_{s\le S}|\mathcal J(s)|
+\le C S\delta_\epsilon
+=O(\epsilon^{5/2-3\alpha}).
+\tag{20d}
+\]
+This is (5d). The larger state error below is the accumulated phase shear
+$S\sup|\mathcal J|$, not a larger normal action.
+Indeed, let $X_0$ be the unforced LC vector field and use a local lift of the
+genuine regularized phase $\Theta$. The smooth scalar
+$X_0\Theta-\sqrt2$ vanishes on the radial circle. Since $\mathcal J$ is a
+uniform defining map, the normal-coordinate divisibility lemma gives
+\[
+|X_0\Theta-\sqrt2|\le C|\mathcal J|.
+\]
+The forcing changes $\Theta_s$ by $O(\delta_\epsilon)$, so integrating the
+phase rate and using (20d) gives
 \[
 \sup_{s\le S}\bigl(|z-z_0|+|p-p_0|\bigr)
 =O(S^2\delta_\epsilon)
@@ -315,7 +381,7 @@ safe restriction $\alpha<1/6$. This proves (5).
 Since $\Phi_{\rm ref}=n_{\rm bin}t_{\rm mono}$ exactly, (5a)--(5b) follow at
 once.
 
-## What this closes and what remains
+## What this closes and the subsequent completion
 
 Theorem 1 proves uniform phase and outer-state matching across the entire
 $O(\epsilon^{-3/2})$ train of early near-collision cycles. It replaces the
@@ -323,15 +389,15 @@ former conjectural repeated-cycle assertion on the deliberately early overlap
 section (1), and matches the correct asymptotic intercept rather than a raw
 phase on a fixed late section.
 
-It does **not** yet prove convergence on the fixed restricted section
+This theorem alone does not prove convergence on the fixed restricted section
 $\Sigma^-_{Y_0}$. Between $\rho=\epsilon^\alpha$ and
 $\rho=\epsilon Y_0$, the multipole perturbation is no longer uniformly small;
 the correct comparison is the full restricted incoming parabolic tail, not
-the point-mass monopole. The remaining matching obligation is therefore a
-tail theorem from the proved overlap data to fixed $Y_0$, followed by the
-already-proved phase-window transfer.
+the point-mass monopole. INCOMING_TAIL.md supplies the required tail theorem
+from the proved overlap data to fixed $Y_0$, followed by the phase-window
+transfer.
 
-That tail theorem must retain the exact finite-$\epsilon$ subtraction in
+The tail theorem retains the exact finite-$\epsilon$ subtraction in
 (5a) throughout the early overlap. It cannot replace it there by the limiting
 restricted correction $(4/3)Y^{3/2}$: at
 $Y=\epsilon^{\alpha-1}$ their coefficient difference contributes
@@ -340,7 +406,7 @@ $Y=\epsilon^{\alpha-1}$ their coefficient difference contributes
 =O(\epsilon Y^{3/2}),
 \]
 which need not tend to zero for $\alpha<1/6$. The limiting restricted gauge is
-introduced only after propagation to fixed $Y$. This noncommuting-limit issue
-is part of the remaining proof obligation, not an error in (5a).
+introduced only after propagation to fixed $Y$. Its gauge-invariant
+$O(Y^{-1/2})+o(1)$ estimate resolves this noncommuting-limit issue.
 
 Status of Theorem 1: **PROVED ANALYTICALLY**.

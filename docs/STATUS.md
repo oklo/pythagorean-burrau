@@ -4,17 +4,22 @@ Date: 2026-08-22
 
 The complete run summary is `RUN_REPORT_2026-08-22.md`.
 
-Outcome so far: major partial theorem, but unresolved conjecture. The main rational conjecture
-and strong real conjecture remain CONJECTURAL.  No rational or real exact
-second-brake intersection has been established.  The exact foundations,
+Outcome so far: **major partial theorem (Level D), but unresolved full
+conjecture**. The main rational conjecture and strong real conjecture remain
+CONJECTURAL. No rational or real exact second-brake intersection has been
+established. Infinitely many open real skinny parameter intervals are now
+proved nonperiodic; consequently infinitely many distinct primitive
+Pythagorean triples satisfy the conjecture. The exact foundations,
 coordinate-valid brake residual, universal reduced system, uniform fourth-jet
 sign, and isosceles endpoint collision theorem are complete. In addition, a
 Levi--Civita argument proves that every sufficiently skinny real member avoids
 the limiting heavy-pair collision on its first encounter, with exact
 $B^{11}$ miss and $B^{11/2}$ angular-momentum asymptotics. The universal
-rectilinear restricted limit now has a proved transverse parabolic
+rectilinear restricted limit has a proved transverse parabolic
 stable/unstable crossing, using an analytic McGehee-map reduction and one
-validated interval Jacobi sign.
+validated interval Jacobi sign. Uniform pre-plunge and incoming-tail matching
+transfer one restricted hyperbolic-escape window to the exact finite-$B$
+family.
 
 The closest catalog threat, the Li--Liao $F_{30}$ family on the
 $3{:}4{:}5$ mass slice, was locally continued.  Its periodic branch comes
@@ -27,15 +32,13 @@ Both slip signs occur numerically, so the target is an event index or branch
 classification.  The simpler global Pythagorean-defect barrier was numerically
 falsified after the first close encounter.
 
-Active fallback: extend the proved skinny first-encounter map across the
-$O(B^{-3/2})$ intervening binary cycles to the outer plunge. The first
-outgoing section cannot escape: its radial energy margin is $-2+O(B)$. A
-proved conditional binary--escaper certificate can terminate the argument
-after a later slingshot. The universal late-plunge limit is now derived, but
-it has an exact zero-energy parabolic separatrix at the apocenter phase.
-Consequently the next target is a matched finite-$B$ separatrix-splitting
-calculation plus a no-brake classification on its nonescaping side.
-Perturbation away from the solved isosceles-right collision endpoint is
+Active fallback: extend the new skinny Level-D theorem across the captured
+phase windows. The $O(B^{-3/2})$ early cycle train and the incoming parabolic
+tail are now matched rigorously. On compact restricted escape arcs, the exact
+finite-$B$ trajectory reaches the terminal escape-or-collision certificate.
+The remaining endpoint target is a finite-$B$ separatrix-splitting
+calculation plus a no-brake classification on the nonescaping side.
+Perturbation away from the solved isosceles-right collision endpoint remains
 secondary.
 
 The collapsed-pair reference clock is now exact through a nonsingular overlap
@@ -51,16 +54,16 @@ estimate the transverse incoming/outgoing slope difference near $-0.90623$;
 the estimate's magnitude is not validated, although nonvanishing is now
 proved below.
 
-The long-cycle part of skinny matching is now proved. For every
-$0<\alpha<1/6$, either a prior classical collision occurs or direct
-Levi--Civita oscillator estimates carry the solution through
-$O(B^{-3/2})$ collision-like cycles to $\rho=B^\alpha$, with matched outer
-state and asymptotic phase intercept
-$\chi_\alpha=\Phi_{\rm ref}+o(1)$. The remaining matching obligation is the
-incoming parabolic tail from scaled radius $Y=B^{\alpha-1}\to\infty$ to one
-fixed $Y_0$. Restricted transversality is now closed, but it does not by
-itself resolve finite-$B$ phases on the captured side, so no Level-D skinny
-nonperiodicity theorem is yet claimed.
+The full incoming skinny matching is now proved. For every
+$0<\alpha<1/6$, either a prior classical collision occurs or direct LC
+oscillator estimates carry the solution through $O(B^{-3/2})$ collision-like
+cycles to $\rho=B^\alpha$, with
+$\chi_\alpha=\Phi_{\rm ref}+o(1)$. Radius-dependent energy and torque bounds,
+exact LC normal invariants, and a weighted transverse uniqueness lemma then
+carry the full state down the incoming parabolic tail to any fixed large
+$Y_0$. Restricted transversality and terminal transfer therefore give an
+unconditional Level-D skinny nonperiodicity theorem on infinitely many open
+phase-preimage intervals. Captured phases remain unresolved.
 
 The transversality task is no longer intrinsically infinite-time. Exact
 comparison proves $\sqrt8<v_*<4$ for the restricted separatrix. An exact
@@ -75,15 +78,13 @@ Thus growth is now a computer-assisted theorem. Restricted transversality is
 also proved: $z=2/x^2$ gives an analytic time-$\pi$ map satisfying McGehee's
 degree-four sector hypotheses, whose fixed-phase stable tangents contract.
 Hypothetical tangency would make the growing Jacobi field such a contracting
-tangent, a contradiction. The remaining obstruction lies in uniform
-finite-$B$ matching, separatrix persistence, and captured-branch brake
-exclusion.
+tangent, a contradiction. Uniform finite-$B$ matching is now closed. The
+remaining endpoint obstructions are separatrix persistence and
+captured-branch brake exclusion.
 
 Transversality also proves two one-sided limiting phase windows: incoming
 parabolic data escape hyperbolically on one side and turn at finite outer
 height on the other. Combined with the exact rapidly sweeping asymptotic-
-intercept clock, a uniform incoming-tail theorem would immediately
-yield infinitely many open finite-$B$ terminal nonperiodicity intervals
-containing rational Euclid parameters. This is a proved conditional
-implication, not yet a
-Level-D theorem because the matching hypothesis remains open.
+intercept clock and the proved incoming-tail theorem, this yields infinitely
+many open finite-$B$ terminal nonperiodicity intervals containing rational
+Euclid parameters. It is now an unconditional Level-D theorem.

@@ -2,16 +2,27 @@
 
 ## Outcome
 
-**MAJOR PARTIAL THEOREM; CONJECTURE UNRESOLVED.** This run did not prove the rational Pythagorean--Burrau
+**MAJOR PARTIAL THEOREM (LEVEL D); FULL CONJECTURE UNRESOLVED.** This run did not prove the rational Pythagorean--Burrau
 nonperiodicity conjecture, prove the strong real conjecture, or produce a
-rigorous counterexample. It produced exact structural reductions, proved
+rigorous counterexample. It did prove nonperiodicity on infinitely many open
+real skinny parameter intervals and hence for infinitely many primitive
+Pythagorean triples. It also produced exact structural reductions, proved
 endpoint and first-near-collision theorems, a terminal analytic escape
 certificate, a uniform computer-assisted Taylor-sign theorem, and bounded
 numerical/family-intersection evidence.
 
 ## Strongest exact theorems proved
 
-1. **First skinny-miss theorem.** There is $B_0>0$ such that every real
+1. **Incoming-tail and infinite-subfamily theorem.** For any fixed sufficiently
+   large incoming scaled section, the exact skinny state either has already
+   ended in a classical collision or converges uniformly to the restricted
+   incoming parabolic state with intercept $\Phi_{\rm ref}(B)$. Exact LC normal
+   invariants, radius-dependent energy/torque bounds, and weighted transverse
+   uniqueness cover every collision-like binary passage. A compact restricted
+   hyperbolic-escape arc therefore transfers to infinitely many open exact
+   parameter intervals. Every such interval is nonperiodic, and rational
+   density yields infinitely many distinct primitive Pythagorean triples.
+2. **First skinny-miss theorem.** There is $B_0>0$ such that every real
    Pythagorean--Burrau member with $0<B<B_0$ is collision-free through its
    first heavy-pair encounter. Levi--Civita analytic dependence gives
    \[
@@ -20,31 +31,31 @@ numerical/family-intersection evidence.
    \]
    This treats the positive near-collision as an ordinary trajectory rather
    than substituting the collision limit.
-2. **Terminal escape certificate.** Explicit strict inequalities in binary
+3. **Terminal escape certificate.** Explicit strict inequalities in binary
    and outer Jacobi coordinates imply that the future solution either has a
    classical inner collision or escapes hyperbolic--elliptically, with no
    later brake. The proof uses a radial comparison energy and an integrated
-   tidal-work bound. It is a conditional theorem, not yet a certificate for
-   the skinny trajectory.
-3. **Isosceles-right endpoint theorem.**  At the real endpoint
+   tidal-work bound. Incoming-tail transfer now verifies its hypotheses on
+   infinitely many skinny phase windows.
+4. **Isosceles-right endpoint theorem.**  At the real endpoint
    $u=\sqrt2-1$, symmetry reduces the base half-separation to
    $x''<0$.  Hence $x'$ never vanishes again and a binary or triple collision
    occurs in finite time, no later than $2^{1/4}$.  Therefore this endpoint has
    no classical second brake.  The endpoint is irrational and is not an
    integer Pythagorean triple.
-4. **Uniform fourth-jet theorem.**  The exact rational formula for
+5. **Uniform fourth-jet theorem.**  The exact rational formula for
    $D^{(4)}(0)$ has degree-20 numerator $P_{20}$.  An exact Sturm sequence has
    10 sign variations at both $0$ and $83/200$, proving
    $D^{(4)}(0)<0$ throughout $0<u\le\sqrt2-1$.  Together with
    $D''(0)>0$, the first two nonzero defect-jet signs are uniformly $+,-$.
-5. **Exact brake reduction.**  The derivative of three Hopf invariants of two
+6. **Exact brake reduction.**  The derivative of three Hopf invariants of two
    Jacobi vectors vanishes exactly when every labelled inertial velocity
    vanishes, using zero linear and angular momentum.  This remains valid at
    syzygy, unlike mutual-distance derivatives.
-6. **Primitive/rational equivalence.**  Simultaneous mass--length scaling,
+7. **Primitive/rational equivalence.**  Simultaneous mass--length scaling,
    Euclid parametrization including the parity reduction, leg exchange, and
    the second-brake lemma were proved exactly.
-7. **Validated restricted Jacobi sign.** In the collision-regularized
+8. **Validated restricted Jacobi sign.** In the collision-regularized
    rectilinear restricted limit, CAPD interval Taylor integration on 256
    overlapping launch-speed slabs proves
    \[
@@ -54,14 +65,13 @@ numerical/family-intersection evidence.
    puts the time-$\pi$ map under McGehee's degenerate stable-manifold theorem;
    stable tangents contract, contradicting the validated Jacobi growth under
    hypothetical tangency. Thus the restricted crossing is transverse.
-8. **Restricted phase-window theorem.** The transverse splitting function has
+9. **Restricted phase-window theorem.** The transverse splitting function has
    opposite signs on two one-sided apocenter phase arcs. One arc gives
-   hyperbolic outer escape and the other a finite outer turn. Conditional on
-   the still-open incoming-tail matching theorem, the exact asymptotic-
-   intercept clock then produces infinitely many
-   open terminal nonperiodicity intervals containing rational Euclid
-   parameters.
-9. **Pre-plunge matching theorem.** For every $0<\alpha<1/6$, either a prior
+   hyperbolic outer escape and the other a finite outer turn. The proved
+   incoming-tail theorem and exact asymptotic-intercept clock produce
+   infinitely many open terminal nonperiodicity intervals containing rational
+   Euclid parameters.
+10. **Pre-plunge matching theorem.** For every $0<\alpha<1/6$, either a prior
    inner collision occurs or the orbit reaches $\rho=B^\alpha$ after the full
    $O(B^{-3/2})$ early cycle train with matched outer state and
    $\chi_\alpha=\Phi_{\rm ref}+o(1)$. Independent audit repaired the
@@ -71,6 +81,8 @@ numerical/family-intersection evidence.
 
 - Full rational conjecture: **CONJECTURAL / unresolved**.
 - Strong real conjecture: **CONJECTURAL / unresolved**.
+- Infinite primitive Pythagorean subfamily: **PROVED ANALYTICALLY** through
+  infinitely many open skinny real parameter intervals.
 - Exact real second-brake intersection found: **none**.
 - Exact rational candidate found: **none**.
 - Closest robust real near-brake in the bounded scan:
@@ -122,12 +134,11 @@ numerical/family-intersection evidence.
 - $u\to0$: exact negative initial tight-pair torque and a proved regularized
   first-encounter theorem:
   $h_{enc}\sim-(15\pi/64)B^{11/2}$ and
-  $r_{min}\sim(225\pi^2/16384)B^{11}$. Thus an existential skinny interval is
-  collision-free through this first encounter. It is not yet proved
-  nonperiodic: the binary makes $O(B^{-3/2})$ cycles before the later outer
-  plunge, and the scattering phase has no limit. The local plunge limit is
-  proved and contains an exact zero-energy parabolic separatrix, preventing a
-  phase-uniform strict-escape argument.
+  $r_{min}\sim(225\pi^2/16384)B^{11}$. The full $O(B^{-3/2})$ cycle train and
+  incoming parabolic tail are now matched. Infinitely many open skinny
+  intervals are proved nonperiodic by transfer of a restricted hyperbolic-
+  escape window. The intervening captured windows and exact separatrix phases
+  remain unresolved, so no punctured neighborhood theorem is claimed.
 
 ## Cardinality and arithmetic route
 
@@ -173,9 +184,9 @@ derived.  Arithmetic exclusion is therefore inactive rather than failed.
 3. Control birth/death of events through collision, escape, infinite time, and
    both parameter endpoints.
 4. Treat arbitrarily close but collision-free binary passages uniformly.
-5. Match the exact trajectory through the $O(B^{-3/2})$ repeated binary cycles
-   to the restricted incoming data, compute the finite-$B$ separatrix
-   splitting, and exclude second brakes on its nonescaping side.
+5. Compute the finite-$B$ separatrix splitting and exclude second brakes on
+   its captured/nonescaping side; the repeated-cycle and incoming-tail
+   matching parts are now proved.
 6. Obtain a transverse regularized analysis of the isosceles endpoint
    collision.
 7. If real brake intersections are found, derive and prove a genuine exact
@@ -199,8 +210,9 @@ theorem.
    therefore has infinitely many parameter preimages containing rational
    Euclid parameters. The full $O(B^{-3/2})$ early cycle train is now matched
    at $\rho=B^\alpha$, $0<\alpha<1/6$, in the exact finite-$B$ intercept
-   gauge. Propagation down the restricted incoming tail to fixed $Y_0$
-   remains unproved.
+   gauge. Propagation down the restricted incoming tail to fixed $Y_0$ is now
+   proved using radius-dependent energy/torque estimates, exact LC normal
+   invariants, and weighted transverse uniqueness.
 2. The exact finite-$B$ local Jacobi field was expanded through order $B^2$:
    \[
    r''=-{2\over r^2}-B{r\over d^3}+{B^2\over2r^2}+O(B^3),
@@ -236,8 +248,8 @@ theorem.
    then proves stable/unstable transversality. The slope difference near
    $-0.90623$ remains only an ordinary numerical estimate of its magnitude.
 
-These results strengthen the outcome as a major Level-E structural reduction,
-not a proof of the rational or strong real conjecture. No real or rational
+These results strengthen the outcome to a major Level-D partial theorem, not a
+proof of the full rational or strong real conjecture. No real or rational
 second-brake candidate was found.
 
 ## Reproduction
@@ -259,6 +271,9 @@ uv run python -m scripts.probe_double_radial
 uv run python -m scripts.continue_f30
 uv run python -m scripts.probe_dynamics --u 1/3 --t-end 4 \
   --samples 20001 --rtol 1e-13 --atol 1e-15 --max-step 0.001
+uv run pytest tests/test_incoming_tail.py -q
+mkdir -p /private/tmp/pythagorean-paper-build
+tectonic -X compile paper/main.tex --outdir /private/tmp/pythagorean-paper-build
 
 # after building pinned CAPD 6.1.0 with native intervals
 sh scripts/run_capd_restricted_transversality.sh \
@@ -266,14 +281,12 @@ sh scripts/run_capd_restricted_transversality.sh \
 ```
 
 The repository contains pinned Python dependencies in `uv.lock`, a pinned CAPD
-commit in the verifier wrapper, and 47 deterministic symbolic/unit tests.
+commit in the verifier wrapper, and 52 deterministic symbolic/unit tests.
 
 ## Single highest-leverage next action
 
-Prove the uniform incoming-tail theorem from the now-matched overlap
-$\rho=B^\alpha$ to one fixed regularized section, retaining the exact
-finite-$B$ intercept subtraction until scaled radius is fixed. Restricted
-transversality is now a theorem, so this tail result would make the phase
-windows an unconditional Level-D nonperiodicity result for infinitely many
-primitive Pythagorean triples. Captured-branch second-brake exclusion would
-still remain.
+Analyze the restricted finite-turn/captured phase window through its next
+close interaction and find a monotone event index or terminal transition that
+excludes a second brake. Uniform incoming-tail matching and the escape windows
+are now closed; captured-branch exclusion is the narrowest obstruction to
+turning the Level-D endpoint theorem into a punctured-neighborhood theorem.

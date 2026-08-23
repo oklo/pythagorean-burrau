@@ -133,6 +133,7 @@ is not the monopole field.
 
 The repair is to label the incoming parabolic curve by its asymptotic phase
 intercept $\chi$ and compare the full fixed-section state with
-$\Gamma^-_{Y_0}(\chi)$. `PREPLUNGE_MATCHING.md` proves
-$\chi=\Phi_{\rm ref}+o(1)$ at an early overlap. Uniform propagation down the
-restricted tail remains open.
+$\Gamma^-_{Y_0}(\chi)$. PREPLUNGE_MATCHING.md proves
+$\chi=\Phi_{\rm ref}+o(1)$ at an early overlap. INCOMING_TAIL.md subsequently
+proved uniform propagation down the restricted tail. Thus the raw-section
+gauge remains a failed route, but its invariant-intercept repair is complete.

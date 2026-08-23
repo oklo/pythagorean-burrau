@@ -153,7 +153,7 @@ hold for small $B$. This proves a uniform terminal escape-or-classical-
 collision alternative on the finite-$B$ perturbation of the compact
 restricted arc. Either outcome excludes a later classical brake.
 
-## Conditional rational consequence
+## Rational consequence
 
 Every lift of an open subarc of $J^\infty_{\rm esc}$ has infinitely many disjoint
 reference preimage intervals accumulating at $B=0$. Since
@@ -163,16 +163,16 @@ B(u)={2u\over1+u^2}
 is a homeomorphism near zero and rational $u$ is dense, every such interval
 contains rational Euclid parameters.
 
-**Conditional Corollary 2.** Fix $Y_0$ as above. Assume that for every
-sufficiently small $B>0$ the true skinny trajectory reaches
-$\Sigma^-_{Y_0}$ collision-free and, in one common regularized section chart,
-its full scaled state $S_B(Y_0)$ satisfies uniformly
+**Corollary 2.** The incoming-tail theorem proves that, unless an earlier
+classical collision has already excluded periodicity, the true skinny
+trajectory reaches $\Sigma^-_{Y_0}$ in one common regularized chart and
+satisfies uniformly
 \[
 \operatorname{dist}\!\left(
 S_B(Y_0),\Gamma^-_{Y_0}(\Phi_{\rm ref}(B))\right)=o(1).
 \tag{9}
 \]
-Then infinitely many open parameter intervals containing rational $u$ satisfy
+Consequently infinitely many open parameter intervals containing rational $u$ satisfy
 the terminal certificate and hence have no later classical brake. In
 particular, infinitely many primitive Pythagorean triples are nonperiodic.
 
@@ -189,15 +189,12 @@ interval is needed: after shrinking the intercept arc by a fixed angular
 margin, the uniform section error in (9) is eventually smaller than the
 corresponding compact-state margin.
 
-This corollary is not presently unconditional because (9) and collision-free
-tail propagation to the fixed section remain **CONJECTURAL**. It
-identifies their payoff exactly: the missing matching theorem would
-immediately deliver a Level-D infinite rational subfamily, not merely
-numerical evidence. Captured windows would still require a separate no-brake
-theorem.
+The collision alternative in the incoming-tail theorem needs no openness:
+pointwise, either collision has already excluded a classical period or the
+matched state transfers to the terminal window. Captured windows still
+require a separate no-brake theorem.
 
 Status of Theorem 1: **PROVED BY COMPUTER-ASSISTED ARGUMENT**, through the
 restricted transversality input.
 
-Status of Conditional Corollary 2: **PROVED ANALYTICALLY as an implication**;
-its matching hypotheses are **CONJECTURAL**.
+Status of Corollary 2: **PROVED ANALYTICALLY**.
