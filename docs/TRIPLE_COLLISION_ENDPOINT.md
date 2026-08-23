@@ -692,6 +692,16 @@ uv run python -m scripts.probe_triple_jost_projection \
   --cutoff 40 --phase 2.77 --sections 0.2 0.1 0.05 0.02
 ~~~
 
+The complementary collision-stable shoot and the exact rigorous target are
+in `TRIPLE_ENDPOINT_MATCHING_CERTIFICATE.md`. On a regular $r=1/2$ section,
+the match is a $4\times4$ system in $(\chi,a,A_-,A_+)$. Its transverse
+determinant is the exact constant $-\sqrt7$, so only the two base curves need
+a transversality enclosure. The returned Jost field is regularized at
+parabolic infinity by
+$P=x^2p$, $\Omega=z\dot p-\dot zp$, with boundary values
+$(2\gamma,-\mathscr W_\infty)$. Ordinary backward shooting gives
+$a\approx-0.24695$ and $\widehat A_-\approx0.31>0$.
+
 ## Missing selection theorem
 
 To close the endpoint one must still prove:

@@ -166,6 +166,14 @@ int main() {
         z * incoming_derivative - w * incoming_value;
     const interval scattering_wronskian =
         2.0 * center_value * center_derivative;
+    const interval scattering_lower = interval(11.0) / interval(25.0);
+    const interval scattering_upper = interval(9.0) / interval(20.0);
+    if (!(scattering_wronskian.leftBound() > scattering_lower.rightBound() &&
+          scattering_wronskian.rightBound() < scattering_upper.leftBound())) {
+      std::cerr << "FAIL scattering Wronskian enclosure: W="
+                << scattering_wronskian << "\n";
+      return 1;
+    }
 
     const interval j2_upper = 2.0 / (c0 * sqrt(k_lower));
     const interval j3_upper =
@@ -208,7 +216,8 @@ int main() {
               << " upper_H_hex=[" << high_energy.leftBound() << ","
               << high_energy.rightBound() << "]"
               << " z_hex=[" << z.leftBound() << "," << z.rightBound() << "]"
-              << " rational_thresholds=k0>7/20,k0prime>3/5,-1/100<gamma<-1/250"
+              << " rational_thresholds=k0>7/20,k0prime>3/5,"
+                 "11/25<W<9/20,-1/100<gamma<-1/250"
               << " k0_hex=[" << center_value.leftBound() << ","
               << center_value.rightBound() << "]"
               << " k0prime_hex=[" << center_derivative.leftBound() << ","
@@ -217,6 +226,8 @@ int main() {
               << incoming_q.rightBound() << "]"
               << " incoming_W_hex=[" << incoming_wronskian.leftBound() << ","
               << incoming_wronskian.rightBound() << "]"
+              << " W_infinity_hex=[" << scattering_wronskian.leftBound() << ","
+              << scattering_wronskian.rightBound() << "]"
               << " gamma_hex=[" << gamma.leftBound() << ","
               << gamma.rightBound() << "]\n";
     return 0;

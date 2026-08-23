@@ -752,7 +752,7 @@ $\mathcal W_\infty\approx0.4457$. A finite CAPD enclosure, joined to an
 analytic outgoing-Jost tail bound, proves
 \[
 k_+(0)>7/20,\qquad k_+'(0)>3/5,
-\qquad \mathcal W_\infty=2k_+(0)k_+'(0)>21/50.
+\qquad {11\over25}<\mathcal W_\infty=2k_+(0)k_+'(0)<{9\over20}.
 \]
 Consequently $C_n<0$ at every sufficiently late restricted resonance. The
 first-order tail theorem then proves that every fixed such resonance has a
@@ -876,8 +876,32 @@ A scalar comparison with the exact equilateral orbit shows that, conditional
 on a negative shape-stable coefficient, the selected base remains in the
 cone $z<-(\sqrt3/2)r$ throughout the final infall; thus that coefficient sign
 also needs validation at only one regular section.
-A finite-cutoff diagnostic gives $\widehat A_-\approx0.314>0$, but no
-validated sign is claimed.
+
+This match can be made square without adding a hidden dynamical parameter.
+On the regular section $r=1/2$, let $U(\chi)$ be the incoming parabolic base
+curve, $C(a)$ the collision-stable base curve, $J(\chi)$ the returned Jost
+state, and $P_\pm(a)$ the canonical collision modes. The four residuals are
+\[
+ C(a)-U(\chi)=0,
+ \qquad A_-P_-(a)+A_+P_+(a)-J(\chi)=0.
+\]
+Their Jacobian is block lower triangular. In physical time the exact
+collision-mode Wronskian is
+\[
+ W(P_-,P_+)=-\sqrt7,
+\]
+so its determinant is $-\sqrt7$ times the oriented determinant of the two
+base curves. Thus only the base intersection requires a transversality
+certificate, after which
+\[
+ A_-={W(J,P_+)\over-\sqrt7}.
+\]
+At incoming infinity, $z=-2/x^2$ and the regular fiber variables
+$P=x^2p$, $\Omega=z\dot p-\dot zp$ tend directly to
+$(2\gamma,-\mathcal W_\infty)$ and obey an analytic system. Hence both
+singular ends attach to one compact interval-Newton problem. A backward
+finite-cutoff diagnostic gives $a\approx-0.24695$ and
+$\widehat A_-\approx0.31>0$, but no validated sign is claimed.
 
 Parameterize the restricted incoming parabolic curve by its asymptotic phase
 intercept $\chi$, normalized by

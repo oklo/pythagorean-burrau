@@ -4,6 +4,9 @@ from src.symbolic.restricted_scattering import (
     binary_tidal_transverse_first_variation,
     collision_kepler_transverse_transfer,
     collision_regularized_jacobi_system,
+    incoming_parabolic_infinity_compactification,
+    incoming_returned_jost_compactification,
+    incoming_returned_jost_wronskian_compactification,
     incoming_tilt_forcing_identity,
     maximum_softened_vertical_force,
     outer_energy_exchange_identity,
@@ -24,6 +27,7 @@ from src.symbolic.restricted_scattering import (
     time_shift_melnikov_identity,
     transverse_rotation_wronskian_identity,
     transverse_variational_normal_form,
+    triple_endpoint_matching_determinant,
     turn_resonance_radial_determinants,
 )
 
@@ -90,6 +94,59 @@ def test_parabolic_infinity_compactification_and_period_map() -> None:
         ]
     )
     assert all(sp.simplify(entry) == 0 for entry in transformed - expected_transformed)
+
+
+def test_incoming_parabolic_infinity_compactification() -> None:
+    field, variables = incoming_parabolic_infinity_compactification()
+    phase, x, velocity = variables
+    separation = sp.cos(phase) ** 2
+    z = -2 / x**2
+    radius_squared = z**2 + separation**2 / 4
+    expected_x = sp.simplify((x**3 / 4) * separation * velocity)
+    expected_velocity = sp.simplify(
+        -2 * z * separation / radius_squared ** sp.Rational(3, 2)
+    )
+    assert sp.simplify(field[0] - expected_x) == 0
+    assert sp.simplify(field[1] - expected_velocity) == 0
+
+
+def test_incoming_returned_jost_compactification() -> None:
+    field, variables = incoming_returned_jost_compactification()
+    phase, x, velocity, normalized_field, normalized_velocity = variables
+    separation = sp.cos(phase) ** 2
+    z = -2 / x**2
+    p = normalized_field / x**2
+    p_velocity = x * normalized_velocity
+    radius_squared = z**2 + separation**2 / 4
+    coefficient = (separation**2 - 2 * z**2) / radius_squared ** sp.Rational(5, 2)
+    x_phase = separation * x**3 * velocity / 4
+    expected_p_phase = separation * p_velocity
+    expected_q_phase = separation * coefficient * p
+    derived_p_phase = sp.diff(p, x) * x_phase + sp.diff(p, normalized_field) * field[2]
+    derived_q_phase = (
+        sp.diff(p_velocity, x) * x_phase
+        + sp.diff(p_velocity, normalized_velocity) * field[3]
+    )
+    assert sp.simplify(derived_p_phase - expected_p_phase) == 0
+    assert sp.simplify(derived_q_phase - expected_q_phase) == 0
+
+
+def test_incoming_returned_jost_wronskian_compactification() -> None:
+    field, variables = incoming_returned_jost_wronskian_compactification()
+    phase, x, velocity, normalized_field, wronskian = variables
+    separation = sp.cos(phase) ** 2
+    z = -2 / x**2
+    p = normalized_field / x**2
+    p_velocity = -(x**2 * wronskian + velocity * normalized_field) / 2
+    radius_squared = z**2 + separation**2 / 4
+    coefficient = (separation**2 - 2 * z**2) / radius_squared ** sp.Rational(5, 2)
+    z_acceleration = -2 * z / radius_squared ** sp.Rational(3, 2)
+    expected_wronskian_phase = separation * (
+        z * coefficient * p - z_acceleration * p
+    )
+    assert sp.simplify(z * p_velocity - velocity * p - wronskian) == 0
+    assert sp.simplify(field[3] - expected_wronskian_phase) == 0
+    assert sp.simplify(field[2] + separation * x**4 * wronskian / 2) == 0
 
 
 def test_turn_resonance_determinant_factorizations() -> None:
@@ -217,6 +274,13 @@ def test_restricted_terminal_collision_r_chart_exponents() -> None:
         (3 - sp.sqrt(7)) / 4,
         (3 + sp.sqrt(7)) / 4,
     )
+
+
+def test_triple_endpoint_matching_transverse_block_is_invertible() -> None:
+    wronskian, determinant = triple_endpoint_matching_determinant()
+    base_determinant = sp.symbols("D_base", nonzero=True, real=True)
+    assert wronskian == -sp.sqrt(7)
+    assert determinant == -sp.sqrt(7) * base_determinant
 
 
 def test_restricted_universal_binary_collision_is_lc_regular() -> None:

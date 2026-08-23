@@ -22,7 +22,7 @@
   $\mathscr W_\infty=2k_+(0)k_+'(0)$. Analytic outgoing-tail bounds and a
   pinned CAPD enclosure through eccentric anomaly $320\pi$ prove
   $k_+(0)>7/20$, $k_+'(0)>3/5$, hence
-  $\mathscr W_\infty>21/50$. The verifier checks the upper bracketing launch
+  $11/25<\mathscr W_\infty<9/20$. The verifier checks the upper bracketing launch
   on every accepted time step, rather than inferring first-leg escape from its
   endpoint alone.
 - The exact symmetric outer-torque factorization was independently audited.
@@ -82,6 +82,17 @@
   because the incoming cutoff and collision gap are not enclosed. Reproduce
   with `python -m scripts.probe_triple_jost_projection --cutoff 40 --phase
   2.77 --sections 0.2 0.1 0.05 0.02`.
+- A complementary backward shoot from the collision-stable Fuchsian family
+  used `scripts/probe_triple_stable_match.py`. At outer cutoff $K=20$ and
+  local cutoff $X=24$, the frozen-zero-energy match gave
+  $a=-0.24695456$ and $\widehat A_-=0.31103$. The local-cutoff result was
+  stable from $X=20$ to $24$; the outer-cutoff drift remains unvalidated.
+  The same linear solve decomposed the slow coefficient as
+  $0.35064\gamma+0.69626\mathscr W_\infty$, exposing a large prospective
+  sign margin but not enclosing it. The scalar frozen-section residual has
+  ordinary derivative $-20.26$ with respect to $a$ at the matched point.
+  This is **ORDINARY NUMERICAL EVIDENCE** and serves only to localize the
+  interval-Newton box described in `TRIPLE_ENDPOINT_MATCHING_CERTIFICATE.md`.
 
 Evidence level: EXACT SYMBOLIC IDENTITY for the Wronskian, binary tidal
 coefficient, and macroscopic Kepler-transfer formulas; PROVED ANALYTICALLY for the restricted late-turn limit

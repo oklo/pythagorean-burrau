@@ -116,6 +116,87 @@ def parabolic_infinity_compactification() -> tuple[sp.Matrix, tuple[sp.Symbol, .
     return field, (psi, x, velocity)
 
 
+def incoming_parabolic_infinity_compactification() -> tuple[
+    sp.Matrix, tuple[sp.Symbol, ...]
+]:
+    """Analytic incoming chart ``z=-2/x**2`` at parabolic infinity."""
+    psi = sp.symbols("psi", real=True)
+    x, velocity = sp.symbols("x velocity", real=True)
+    separation = sp.cos(psi) ** 2
+    field = sp.Matrix(
+        [
+            separation * x**3 * velocity / 4,
+            separation
+            * x**4
+            / (2 * (1 + separation**2 * x**4 / 16) ** sp.Rational(3, 2)),
+        ]
+    )
+    return field, (psi, x, velocity)
+
+
+def incoming_returned_jost_compactification() -> tuple[
+    sp.Matrix, tuple[sp.Symbol, ...]
+]:
+    """Regular returned-Jost fiber over the incoming parabolic chart.
+
+    Here ``z=-2/x**2``, ``P=x**2*p``, and ``Q=p_dot/x``.  The independent
+    variable is binary eccentric anomaly and ``dt/dpsi=cos(psi)**2``.
+    """
+    psi = sp.symbols("psi", real=True)
+    x, velocity, normalized_field, normalized_velocity = sp.symbols(
+        "x velocity P Q", real=True
+    )
+    separation = sp.cos(psi) ** 2
+    denominator = 1 + separation**2 * x**4 / 16
+    coefficient_factor = (1 - separation**2 * x**4 / 8) / denominator ** sp.Rational(
+        5, 2
+    )
+    field = sp.Matrix(
+        [
+            separation * x**3 * velocity / 4,
+            separation * x**4 / (2 * denominator ** sp.Rational(3, 2)),
+            separation
+            * (x**2 * velocity * normalized_field / 2 + x**3 * normalized_velocity),
+            -separation
+            * (
+                x**3 * coefficient_factor * normalized_field
+                + x**2 * velocity * normalized_velocity
+            )
+            / 4,
+        ]
+    )
+    return field, (psi, x, velocity, normalized_field, normalized_velocity)
+
+
+def incoming_returned_jost_wronskian_compactification() -> tuple[
+    sp.Matrix, tuple[sp.Symbol, ...]
+]:
+    """Regular incoming fiber in ``(P, Omega)`` variables.
+
+    ``P=x**2*p`` and ``Omega=z*p_dot-z_dot*p`` retain both returned-Jost
+    constants directly at the parabolic fixed circle.
+    """
+    psi = sp.symbols("psi", real=True)
+    x, velocity, normalized_field, wronskian = sp.symbols(
+        "x velocity P Omega", real=True
+    )
+    separation = sp.cos(psi) ** 2
+    denominator = 1 + separation**2 * x**4 / 16
+    field = sp.Matrix(
+        [
+            separation * x**3 * velocity / 4,
+            separation * x**4 / (2 * denominator ** sp.Rational(3, 2)),
+            -separation * x**4 * wronskian / 2,
+            -sp.Rational(3, 32)
+            * separation**3
+            * x**6
+            * normalized_field
+            / denominator ** sp.Rational(5, 2),
+        ]
+    )
+    return field, (psi, x, velocity, normalized_field, wronskian)
+
+
 def parabolic_stroboscopic_leading_map() -> tuple[sp.Matrix, sp.Matrix]:
     """Degree-four period-map term before and after the stable-ray shear."""
     x, velocity, transverse = sp.symbols("x velocity transverse", real=True)
@@ -429,6 +510,33 @@ def restricted_terminal_collision_r_chart() -> tuple[
         transverse_coefficient,
         transverse_exponents,
     )
+
+
+def triple_endpoint_matching_determinant() -> tuple[sp.Expr, sp.Expr]:
+    """Return the collision-mode Wronskian and block shooting determinant.
+
+    The collision modes are normalized by ``P_± ~ r**beta_±``.  The first
+    factor of the full four-dimensional determinant is the oriented base
+    intersection determinant ``D_base``.
+    """
+    radius = sp.symbols("r", positive=True, real=True)
+    base_determinant = sp.symbols("D_base", nonzero=True, real=True)
+    beta_minus = (3 - sp.sqrt(7)) / 4
+    beta_plus = (3 + sp.sqrt(7)) / 4
+    radial_speed = -2 * sp.sqrt((1 - radius) / radius)
+    mode_minus = radius**beta_minus
+    mode_plus = radius**beta_plus
+    velocity_minus = sp.diff(mode_minus, radius) * radial_speed
+    velocity_plus = sp.diff(mode_plus, radius) * radial_speed
+    wronskian_limit = sp.simplify(
+        sp.limit(
+            mode_minus * velocity_plus - velocity_minus * mode_plus,
+            radius,
+            0,
+            dir="+",
+        )
+    )
+    return wronskian_limit, sp.simplify(base_determinant * wronskian_limit)
 
 
 def restricted_universal_binary_lc_system() -> tuple[

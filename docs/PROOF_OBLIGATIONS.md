@@ -215,6 +215,18 @@ intersection of that one-dimensional collision-stable family with the
 incoming parabolic manifold, plus the sign of one propagated linear field.
 Ordinary section projections stabilize near $0.314>0$.
 
+`TRIPLE_ENDPOINT_MATCHING_CERTIFICATE.md` makes this certificate square and
+finite. On the regular $r=1/2$ section its variables are the incoming
+intercept $\chi$, collision coefficient $a$, and the two transverse
+coefficients $(A_-,A_+)$. The $4\times4$ Jacobian is block triangular and its
+transverse determinant is exactly $-\sqrt7$, so only the oriented base-curve
+intersection can be singular. Regular compact variables
+$P=x^2p$, $\Omega=z\dot p-\dot zp$ remove the divergent returned field at parabolic
+infinity. The remaining rigorous work is explicit endpoint remainder boxes,
+a compact interval propagation, a two-dimensional interval-Newton enclosure,
+and the scalar Wronskian sign. Ordinary backward shooting localizes
+$a\approx-0.24695$ and $A_-\approx0.31$.
+
 ## Adversarial checklist
 
 Every promoted lemma must be checked for hidden genericity; vector-valued
@@ -251,6 +263,16 @@ $0.314$ projection only as ordinary finite-gap evidence. It caught and
 prompted repair of a collision-coordinate exponent-name collision and
 required derivative-strengthened Fuchsian asymptotics for both the projector
 and the limit $\dot w\to0^+$.
+
+The finite matching reduction received a second independent dimension and
+coordinate audit. It confirmed that one collision-stable base coefficient is
+sufficient but that the incoming intercept and both transverse collision
+modes must be retained. It also identified a subtle loss of
+$\mathscr W_\infty$ if only the limiting values of
+$(P,Q)=(x^2p,\dot p/x)$ are imposed. The repaired certificate uses
+$(P,\Omega)$ with $\Omega=z\dot p-\dot zp$, for which the boundary data are
+directly $(2\gamma,-\mathscr W_\infty)$. The audit independently derived the
+$-\sqrt7$ transverse determinant and endorsed the regular $r=1/2$ section.
 
 The first-encounter and terminal-escape theorems received independent
 adversarial derivations. The audit explicitly checked near-collision

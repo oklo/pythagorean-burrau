@@ -193,7 +193,15 @@ Outward-rounded interval evaluation proves the rational bounds
 \]
 
 The half-line factorization
-$\mathscr W_\infty=2k_+(0)k_+'(0)$ now proves (1).
+$\mathscr W_\infty=2k_+(0)k_+'(0)$ and direct outward-rounded evaluation of
+the same two intervals give the sharper two-sided enclosure
+
+\[
+ \boxed{{11\over25}<\mathscr W_\infty<{9\over20}.}
+\tag{14a}
+\]
+
+In particular this strengthens the lower bound in (1).
 
 ## Validated rotation coefficient
 
@@ -303,4 +311,4 @@ inequalities (3)--(10) and (16)--(21).
 
 Status of the monotonicity and tail lemmas: **PROVED ANALYTICALLY**.
 
-Status of (7), (14), (22), and (1): **PROVED BY COMPUTER-ASSISTED ARGUMENT**.
+Status of (7), (14), (14a), (22), and (1): **PROVED BY COMPUTER-ASSISTED ARGUMENT**.

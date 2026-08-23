@@ -143,7 +143,7 @@ derivative. Analytic tail inequalities plus CAPD interval propagation now
 prove
 \[
 k_+(0)>7/20,\qquad k_+'(0)>3/5,
-\qquad \mathscr W_\infty>21/50.
+\qquad {11\over25}<\mathscr W_\infty<{9\over20}.
 \]
 Therefore $C_n<0$ for every sufficiently late restricted resonance. An exact
 cubic outer-torque cancellation upgrades the first-order transverse match
@@ -193,7 +193,8 @@ continuation in phase. Its exact scalar form is
  (\pi-\phi)^{(\sqrt7-1)/6}\mathcal C_2(\phi)
  \longrightarrow 4^{(\sqrt7-1)/6}A_-K_-.
 \]
-Ordinary renormalized data support $A_-K_->0$. The universal factor $K_-$ is
+Ordinary renormalized data support $A_-K_->0$. The scattering input is now
+sharply certified by $11/25<\mathscr W_\infty<9/20$. The universal factor $K_-$ is
 now validated positive; $A_-$ is not. The autonomous limiting shape equation
 has a unique
 increasing peel-off orbit modulo logarithmic-time translation. An exact
@@ -215,6 +216,14 @@ the collision-stable base has exponent $(-1+\sqrt{19})/4$, the slow field has
 exponent $(3-\sqrt7)/4$, and $A_-$ is one explicit scalar projector. Ordinary
 finite-gap sections stabilize near $A_-\approx0.314>0$; this is not yet a
 validated sign.
+
+The global projection is now formulated as an exact finite $4\times4$
+matching problem on a regular $r=1/2$ section. Its transverse block has the
+constant Wronskian determinant $-\sqrt7$, leaving only a two-dimensional
+base-curve intersection and one scalar Wronskian sign to validate. The
+incoming normalization $P=x^2p$, $\Omega=z\dot p-\dot zp$ is analytic at parabolic
+infinity. A backward stable-manifold diagnostic independently localizes
+$a\approx-0.24695$ and $A_-\approx0.31>0$; these values are ordinary evidence.
 
 Late-resonance simplicity has also been narrowed to a differentiable
 parabolic-passage lemma. For the degree-four McGehee map, the exact Kepler
