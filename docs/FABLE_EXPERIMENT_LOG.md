@@ -83,3 +83,11 @@ All entries are ORDINARY NUMERICAL EVIDENCE unless marked otherwise.
 11. **u=1/3 runs.**  768-bit/1e-80 main run and 1088-bit/1e-130
     insurance run in progress with the fixed code; 512-bit/1e-60 atlas
     for u=171/500 in progress.
+
+12. **Near-brake reliability check.**  Re-integrating u=0.342 at rtol
+    1e-13 gives, at the same t=17.6209, a hierarchical configuration
+    (r13=0.075, both other distances ~9.6, speeds 1.5-3.5) — flatly
+    inconsistent with the rtol 1e-12 near-stop.  Late-time
+    double-precision events are pure noise at the O(1) level; the
+    "closest interior near-brake" is unverified.  Decision deferred to
+    the rigorous 512-bit atlas at u=171/500.
