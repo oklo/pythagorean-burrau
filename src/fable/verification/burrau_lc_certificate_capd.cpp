@@ -357,6 +357,24 @@ struct PhaseRunner {
     tm->stopAfterStep(true);
   }
 
+  // One direct solver step (no time map): respects setMaxStep, keeps the
+  // set's clock a sum of exact machine steps.  Used inside the LC zone,
+  // where the step cap must actually bind (ITimeMap overrides maxStep,
+  // and target arithmetic compounds the time-interval width).
+  void direct_move(Set& set, double cap) {
+    for (;;) {
+      try {
+        solver.setMaxStep(Ival(cap));
+        set.move(solver);
+        return;
+      } catch (const std::exception&) {
+        ++capped_retries;
+        if (capped_retries > 200000 || cap < 1e-14) throw;
+        cap /= 2;
+      }
+    }
+  }
+
   // One accepted step toward target; returns false when target reached.
   bool step(const Ival& target, Set& set) {
     for (;;) {
@@ -530,6 +548,14 @@ int main(int argc, char** argv) {
             std::cerr << "FAIL entry construction did not write the chart\n";
             return 1;
           }
+          if (std::getenv("FABLE_DEBUG") != nullptr) {
+            std::cout << "entry form_a=" << form_a;
+            for (int i = 8; i < 18; ++i) {
+              std::cout << " v" << i << "="
+                        << bound_double(post_entry[i].leftBound());
+            }
+            std::cout << "\n" << std::flush;
+          }
         }
 
         // LC passage.
@@ -538,13 +564,13 @@ int main(int argc, char** argv) {
           // Small sigma-steps keep each step's swept enclosure of w well
           // inside a disc that excludes w = 0 (|w| ~ 9e-3 at closest
           // approach, |dw/dsigma| ~ 1), so the per-step no-collision check
-          // certifies the strong collision-free statement.
-          lc.step_cap = 1.0 / 500.0;
-          lc.cap_ceiling = 1.0 / 500.0;
-          const Ival lc_target = set.getCurrentTime() + Ival(10);
+          // certifies the strong collision-free statement.  Direct solver
+          // moves make the cap actually bind.
+          const double lc_cap = 1.0 / 4000.0;
           long lc_steps = 0;
           for (;;) {
-            const bool lc_more = lc.step(lc_target, set);
+            lc.direct_move(set, lc_cap);
+            const bool lc_more = lc_steps < 20000;
             ++lc_steps;
             const Vector lc_enc = set.getLastEnclosure();
             const Ival w2enc =
@@ -561,6 +587,20 @@ int main(int argc, char** argv) {
             const Vector lc_snap(set);
             const Ival w2 =
                 lc_snap[8] * lc_snap[8] + lc_snap[9] * lc_snap[9];
+            if (std::getenv("FABLE_DEBUG") != nullptr && lc_steps % 5 == 1) {
+              std::cout << "lc step " << lc_steps << " |w|2="
+                        << bound_double(w2.leftBound()) << " wr="
+                        << bound_double(lc_snap[8].leftBound()) << " wi="
+                        << bound_double(lc_snap[9].leftBound()) << " tp="
+                        << to_double(lc_snap[17])
+                        << " encw2left=" << bound_double(
+                               (set.getLastEnclosure()[8] *
+                                    set.getLastEnclosure()[8] +
+                                set.getLastEnclosure()[9] *
+                                    set.getLastEnclosure()[9])
+                                   .leftBound()) << "\n"
+                      << std::flush;
+            }
             if (w2.leftBound() > rho_out.rightBound()) {
               std::cout << "LC exit after " << lc_steps
                         << " sigma-steps at tp=" << to_double(lc_snap[17])
