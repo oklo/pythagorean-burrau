@@ -570,7 +570,7 @@ The deterministic ordinary probe
     .venv/bin/python -m scripts.probe_planar_joint_shape
 
 initializes the lower-equilateral stable asymptotics at $\zeta=22$, includes
-the complete exact cubic stable-manifold jet, and integrates backward to
+the complete exact quartic stable-manifold jet, and integrates backward to
 $|w|=20$. With transverse sign $T=-1$ it found:
 
 | $\kappa$ | minimum light-heavy shape distance | outgoing $\Lambda$ | zeros of $\Lambda$ |
@@ -603,15 +603,57 @@ $u(\kappa,\sigma)=0$. Running the regularized ordinary shoot
 from the same truncated stable tail gives
 
 \[
- \kappa_{\rm num}=1.2679351753,\qquad
- \sigma_{\rm num}=-1.0712485057,
+ \kappa_{\rm num}=1.26793517550,\qquad
+ \sigma_{\rm num}=-1.07124850572,
 \]
 
-with $|u|=1.9\times10^{-9}$, finite-difference determinant about $-3.45307$,
-$|v|=0.707106781186544$, constraint residual about $1.1\times10^{-14}$,
+with $|u|=4.6\times10^{-12}$, finite-difference determinant about
+$-3.45305779$, $|v|=0.707106781186543$, constraint residual about
+$1.2\times10^{-14}$,
 radial clock $t=1.07823523$, and other-primary distance $2.1872$. These are
 **ORDINARY NUMERICAL EVIDENCE** from a finite tail truncation, not a validated
 zero. The displacement from the unregularized scan is itself a warning not to
 infer collision location from a close-passage minimum. All decimals are only
 a seed box for a future interval-Newton proof; no ordinary close-passage
 output is promoted.
+
+The default shoot now starts at $\zeta=10$. Varying the finite tail section
+with the quartic jet gives collision seeds
+
+| $\zeta_0$ | $\kappa_{\rm num}$ |
+|---:|---:|
+| 6 | 1.26793486796 |
+| 8 | 1.26793517243 |
+| 10 | 1.26793517550 |
+| 12 | 1.26793517552 |
+
+This convergence is ordinary evidence consistent with an $O_5$ tail defect;
+it is not a remainder proof.
+
+## 2026-08-23: analytic tail enclosure and validated finite LC stage
+
+- Completed the weighted analytic stable-parameterization argument around the
+  lower equilateral rest point. On $|p|\le1/200$, $|\nu|\le1/2500$, the exact
+  quartic polynomial has a unique normalized correction $E$ satisfying
+  $\|E\|<1/125000000$. On half radii,
+  $\|E\|<1/4000000000$ and
+  $\|\mathcal DE\|<1/800000000$, with explicit $\kappa$-tangent bounds.
+  Exact symbolic tests verify the algebraic coefficient bounds, homological
+  gap, residual majorant, contraction constant, and exponential tail
+  inclusion. Status: **PROVED ANALYTICALLY**.
+- Propagated the full rigorous tail box for
+  $1.26793\le\kappa\le1.26794$ with pinned CAPD 6.1.0 native intervals from
+  $\zeta=10$ to $\zeta=0.3$, then through the analytic LC coordinate change
+  and a reversed LC leg of exact duration $1071249/1000000$. Every accepted
+  LC step satisfies $t>1$, $R>2$, and other-primary distance $>1$.
+- The terminal LC enclosure is
+
+  \[
+  -0.017807<\operatorname{Re}u<0.016661,\qquad
+  -0.003953<\operatorname{Im}u<0.004019.
+  \]
+
+  Status: **VALIDATED NUMERICAL RESULT** for finite propagation and chart
+  safety, but not a collision root. Independent interval conversion loses
+  the parameter correlation. The next implementation must preserve the
+  affine $\kappa$ direction, propagate its tangent, and apply interval Newton.

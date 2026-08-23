@@ -168,14 +168,21 @@ total degree three is
 \]
 
 where $p=Te^{-a_T\zeta}$, $\nu=He^{-a_L\zeta}$ and all seven exact
-coefficients are displayed in `PLANAR_JOINT_SHAPE_DYNAMICS.md`. Symbolic
-substitution gives zero residual through degree three.
+coefficients are displayed in `PLANAR_JOINT_SHAPE_DYNAMICS.md`. The exact
+degree-four correction has monomials $p^3\nu,p\nu^3$ in $x$ and
+$p^4,p^2\nu^2,\nu^4$ in $q$. Symbolic substitution gives zero residual
+through degree four. The analytic majorant theorem in
+`PLANAR_STABLE_TAIL_ENCLOSURE.md` proves a unique normalized stable
+parameterization $P=P_4+E$ with
+$\|E\|_{1/200,1/2500}<1/125000000$ and, on half radii,
+$\|E\|<1/4000000000$, $\|\mathcal DE\|<1/800000000$. This closes the
+former $O_5$ tail obligation for $5/4\le\kappa\le13/10$, $\zeta\ge10$.
 
 At a selected light-heavy encounter, the forced Levi--Civita chart has
 
 \[
- q=u^2,quad t_\sigma=|u|^2,quad
- 2|v|^2-1-h|u|^2=0,quad
+ q=u^2,\qquad t_\sigma=|u|^2,\qquad
+ 2|v|^2-1-h|u|^2=0,\qquad
  \ell=q\times q_t=2\det(u,v).
 \]
 

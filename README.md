@@ -53,8 +53,13 @@ sh scripts/run_capd_restricted_transversality.sh \
   /path/to/CAPD /path/to/CAPD/build-native
 bash scripts/run_capd_restricted_transverse_scattering.sh \
   /path/to/CAPD /path/to/CAPD/build-native
+bash scripts/run_capd_planar_light_collision_shape.sh \
+  /path/to/CAPD /path/to/CAPD/build-native
 ```
 
 Full derivation and trusted-computing-base details are in
 `docs/COMPUTER_ASSISTED_TRANSVERSALITY.md` and
-`docs/COMPUTER_ASSISTED_TRANSVERSE_SCATTERING.md`.
+`docs/COMPUTER_ASSISTED_TRANSVERSE_SCATTERING.md`. The planar collision
+wrapper validates only the finite stable-tail-to-LC propagation stage; its
+scope and remaining interval-Newton obligation are recorded in
+`docs/COMPUTER_ASSISTED_PLANAR_LIGHT_COLLISION_STAGE.md`.

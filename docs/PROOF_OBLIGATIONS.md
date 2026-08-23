@@ -293,6 +293,19 @@ nearby continuations into two sides. Proving that the full adjacent parameter
 intervals are collision-free also requires excluding all other collision
 zeros. The LC zero would classify a limiting collision parameter, not continue
 an actual classical collision.
+
+The finite-tail truncation is no longer an obligation. The analytic stable
+parameterization theorem proves, uniformly for
+$5/4\le\kappa\le13/10$ at $\zeta\ge10$, explicit enclosures for the state and
+its $\kappa$ tangent. Pinned CAPD propagation has also carried the full
+$1.26793\le\kappa\le1.26794$ tail box through the nonsingular shape leg and a
+fixed LC leg while proving the chart-domain inequalities. Its terminal
+$u$-box contains zero but is not a root proof: independent interval conversion
+discarded the decisive $\kappa$ correlation. The localized remaining
+obligation is to retain that affine direction through the coordinate change,
+propagate the variational equation, and apply interval Newton to
+$(\kappa,\sigma)\mapsto u$.
+
 Any certificate must also keep $t>0$, bound
 $|u^2+\epsilon R(t)|$ away from zero, fix one LC deck lift and the
 $\sigma$ gauge, and reconstruct physical data only on an exit circle bounded

@@ -293,12 +293,24 @@ switch between $\kappa=1.260$ and $1.265$, accompanied by a light-heavy
 minimum separation below $10^{-4}$. This suggests an isolated collision
 parameter that would locally separate two continuations; it is not a validated
 zero or collision result, and it does not exclude other collision parameters.
-The forced-LC ordinary shoot, initialized with the complete exact cubic
+The forced-LC ordinary shoot, initialized with the complete exact quartic
 stable-manifold jet, refines the collision seed to
-$\kappa\approx1.26793518$, with residual $1.9\times10^{-9}$ and
-finite-difference transverse determinant about $-3.45$. The stable tail is
-truncated and the integration is not interval validated, so this remains
+$\kappa\approx1.2679351755$, with residual $4.6\times10^{-12}$ and
+finite-difference transverse determinant about $-3.45305779$. The stable tail is
+now enclosed analytically: the unique normalized graph $P=P_4+E$ satisfies
+$\|E\|<1/125000000$ on $|p|\le1/200$, $|\nu|\le1/2500$, with explicit
+half-radius position, velocity, and parameter-tangent bounds. Thus truncation
+is removed from the proof obligations, although the displayed root remains
 ordinary evidence only.
+
+Pinned CAPD 6.1.0 native-interval propagation validates the full parameter
+box $1.26793\le\kappa\le1.26794$ from $\zeta=10$ to $\zeta=0.3$, converts it
+to the forced-LC chart, and carries it for the fixed duration
+$1071249/1000000$. It proves throughout that $t>1$, $R>2$, and the distance to
+the other primary is greater than one. The final regularized-position box
+contains zero, but independent coordinate boxes lose the $\kappa$ correlation
+and are too wide for interval Newton. This finite propagation is a
+**VALIDATED NUMERICAL RESULT**, not a validated collision root.
 The corresponding analytic forced Levi--Civita chart is complete. In complex
 variables $q=u^2$, $dt=|u|^2d\sigma$, its collision residual is the square map
 \[
@@ -306,7 +318,10 @@ variables $q=u^2$, $dt=|u|^2d\sigma$, its collision residual is the square map
 \]
 The next certificate is an interval-Newton zero with
 $\det(\partial_\kappa u,v)\ne0$, followed by exclusion of other collision
-zeros and componentwise outgoing-sign bounds. Regularized continuation is used
+zeros and componentwise outgoing-sign bounds. Its immediate technical repair
+is to preserve $\kappa$ as an affine doubleton direction through the
+shape-to-LC change and propagate the variational equation. Regularized
+continuation is used
 only to classify the limiting map; an exact finite-mass collision remains
 classical termination.
 

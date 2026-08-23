@@ -29,6 +29,28 @@ SQUARED_TRANSVERSE_LONGITUDINAL = (
     / 124.0
 )
 LONGITUDINAL_CUBIC = 121.0 / 5100.0 - 29.0 * np.sqrt(19.0) / 10200.0
+TRANSVERSE_CUBIC_LONGITUDINAL = (
+    -93651910.0 * np.sqrt(399.0)
+    - 392572319.0 * np.sqrt(21.0)
+    + 1018625929.0 * np.sqrt(3.0)
+    + 250916714.0 * np.sqrt(57.0)
+) / 45037296.0
+TRANSVERSE_LONGITUDINAL_CUBIC = (
+    -386571066.0 * np.sqrt(399.0)
+    - 833244582.0 * np.sqrt(21.0)
+    + 312559697.0 * np.sqrt(57.0)
+    + 6447516829.0 * np.sqrt(3.0)
+) / 8038436400.0
+TRANSVERSE_QUARTIC = (-3671.0 * np.sqrt(3.0) + 187.0 * np.sqrt(21.0)) / 76464.0
+TRANSVERSE_SQUARED_LONGITUDINAL_SQUARED = (
+    -1022448154.0 * np.sqrt(21.0)
+    - 213073373.0 * np.sqrt(399.0)
+    + 2563820254.0 * np.sqrt(3.0)
+    + 612798518.0 * np.sqrt(57.0)
+) / 267947880.0
+LONGITUDINAL_QUARTIC = (
+    -4307297.0 * np.sqrt(3.0) + 308435.0 * np.sqrt(57.0)
+) / 242413200.0
 
 
 def shape_field(_zeta: float, state: np.ndarray) -> np.ndarray:
@@ -57,7 +79,7 @@ def shape_field(_zeta: float, state: np.ndarray) -> np.ndarray:
 
 
 def initial_state(kappa: float, zeta: float, transverse_sign: float) -> np.ndarray:
-    """Stable-manifold state through exact total degree three."""
+    """Stable-manifold state through exact total degree four."""
     transverse = transverse_sign * np.exp(-TRANSVERSE_RATE * zeta)
     longitudinal = kappa * np.exp(-LONGITUDINAL_RATE * zeta)
     horizontal = (
@@ -65,6 +87,8 @@ def initial_state(kappa: float, zeta: float, transverse_sign: float) -> np.ndarr
         + MIXED_HORIZONTAL * transverse * longitudinal
         + TRANSVERSE_CUBIC * transverse**3
         + TRANSVERSE_LONGITUDINAL_SQUARED * transverse * longitudinal**2
+        + TRANSVERSE_CUBIC_LONGITUDINAL * transverse**3 * longitudinal
+        + TRANSVERSE_LONGITUDINAL_CUBIC * transverse * longitudinal**3
     )
     vertical_offset = (
         longitudinal
@@ -72,6 +96,9 @@ def initial_state(kappa: float, zeta: float, transverse_sign: float) -> np.ndarr
         + LONGITUDINAL_QUADRATIC * longitudinal**2
         + SQUARED_TRANSVERSE_LONGITUDINAL * transverse**2 * longitudinal
         + LONGITUDINAL_CUBIC * longitudinal**3
+        + TRANSVERSE_QUARTIC * transverse**4
+        + TRANSVERSE_SQUARED_LONGITUDINAL_SQUARED * transverse**2 * longitudinal**2
+        + LONGITUDINAL_QUARTIC * longitudinal**4
     )
     horizontal_speed = (
         -TRANSVERSE_RATE * transverse
@@ -84,6 +111,14 @@ def initial_state(kappa: float, zeta: float, transverse_sign: float) -> np.ndarr
         * TRANSVERSE_LONGITUDINAL_SQUARED
         * transverse
         * longitudinal**2
+        - (3.0 * TRANSVERSE_RATE + LONGITUDINAL_RATE)
+        * TRANSVERSE_CUBIC_LONGITUDINAL
+        * transverse**3
+        * longitudinal
+        - (TRANSVERSE_RATE + 3.0 * LONGITUDINAL_RATE)
+        * TRANSVERSE_LONGITUDINAL_CUBIC
+        * transverse
+        * longitudinal**3
     )
     vertical_speed = (
         -LONGITUDINAL_RATE * longitudinal
@@ -94,6 +129,13 @@ def initial_state(kappa: float, zeta: float, transverse_sign: float) -> np.ndarr
         * transverse**2
         * longitudinal
         - 3.0 * LONGITUDINAL_RATE * LONGITUDINAL_CUBIC * longitudinal**3
+        - 4.0 * TRANSVERSE_RATE * TRANSVERSE_QUARTIC * transverse**4
+        - 2.0
+        * (TRANSVERSE_RATE + LONGITUDINAL_RATE)
+        * TRANSVERSE_SQUARED_LONGITUDINAL_SQUARED
+        * transverse**2
+        * longitudinal**2
+        - 4.0 * LONGITUDINAL_RATE * LONGITUDINAL_QUARTIC * longitudinal**4
     )
     return np.array(
         [

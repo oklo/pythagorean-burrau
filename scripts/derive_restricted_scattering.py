@@ -13,6 +13,7 @@ from src.symbolic.restricted_scattering import (
     planar_joint_shape_identities,
     planar_joint_shape_quadratic_bending,
     planar_joint_shape_stable_cubic_jet,
+    planar_joint_shape_stable_quartic_correction,
     restricted_equilateral_triple_collision,
     restricted_terminal_collision_r_chart,
     restricted_triple_collision_phase_mode,
@@ -73,6 +74,10 @@ def main() -> None:
         f"{planar_joint_shape_quadratic_bending()}"
     )
     print(f"planar joint stable cubic jet = {planar_joint_shape_stable_cubic_jet()}")
+    print(
+        "planar joint stable quartic correction = "
+        f"{planar_joint_shape_stable_quartic_correction()}"
+    )
     print(
         "forced planar light-collision LC constraint = "
         f"{forced_planar_light_collision_lc_constraint()}"

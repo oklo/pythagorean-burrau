@@ -836,7 +836,7 @@ equilateral end. Tangent-line bounds for $Q$, together with
 $0<y_\tau\le y+\sqrt3/2$, make
 $g=-\alpha_-+(7/100)(y+\sqrt3/2)$ a strict lower barrier. Hence
 \[
- p(0)>0,qquad {p_s(0)\over p(0)}
+ p(0)>0,\qquad {p_s(0)\over p(0)}
  \ge-\alpha_-+{7\sqrt3\over200}>0.
 \]
 The passage through the prescribed binary collision and the subsequent
@@ -1197,16 +1197,61 @@ classification, not an invariant-strip assertion. On the incoming half
 $t=t_c-\theta$, so the physical angular-momentum sign is opposite the
 $\zeta$-oriented sign above.
 
-For the collision shoot we use the exact cubic stable jet. With
+For the collision shoot we use the exact quartic stable jet. With
 $p=Te^{-a_T\zeta}$ and $\nu=He^{-a_L\zeta}$ it has the normalized form
 \[
- x=p+Ap\nu+Bp^3+Cp\nu^2+O_4,qquad
+ x=p+Ap\nu+Bp^3+Cp\nu^2+O_4,\qquad
  q=\nu+Kp^2+D\nu^2+Ep^2\nu+F\nu^3+O_4,
 \]
-where $K=(2\sqrt{21}-5\sqrt3)/4$ and all seven coefficients are explicit
-elements of $\mathbb Q(\sqrt3,\sqrt7,\sqrt{19})$. Direct substitution kills
-the full residual through total degree three. The exact jet does not replace
-the required enclosure of $O_4$.
+Its degree-four correction is
+\[
+ x_{[4]}=Gp^3\nu+Hp\nu^3,\qquad
+ q_{[4]}=Ip^4+Jp^2\nu^2+L\nu^4.
+\]
+All twelve coefficients are explicit elements of
+$\mathbb Q(\sqrt3,\sqrt7,\sqrt{19})$. Direct substitution kills the full
+residual through total degree four.
+
+\begin{theorem}[Stable-tail enclosure]
+Let $P_4$ be this quartic parameterization and equip vector power series with
+the weighted coefficient norm
+\[
+ \|F\|_{r_T,r_L}=\sum_{i,j}(|F^x_{ij}|+|F^q_{ij}|)r_T^ir_L^j.
+\]
+On $|p|\le1/200$, $|\nu|\le1/2500$, there is a unique normalized analytic
+stable parameterization $P=P_4+E$, absolutely convergent on the closed
+polydisc, such that
+\[
+ \|E\|_{1/200,1/2500}< {1\over125000000}.
+\]
+On the half polydisc,
+\[
+ \|E\|<{1\over4000000000},\qquad
+ \|\mathcal DE\|<{1\over800000000},
+\]
+and
+\[
+ \|\partial_\kappa E\|<10^{-9},\qquad
+ \|\partial_\kappa\mathcal DE\|<5\cdot10^{-9}.
+\]
+These half-radius estimates apply to the real collision-shooting tail
+$p=-e^{-a_T\zeta}$, $\nu=\kappa e^{-a_L\zeta}$ for
+$5/4\le\kappa\le13/10$ and $\zeta\ge10$.
+\end{theorem}
+
+\begin{proof}
+The homological inverse on degrees at least two has norm below $30/17$ because
+its smallest divisor is
+$(5+2\sqrt7)/18>17/30$. Exact algebraic coefficient bounds on $P_4$ and an
+eightyfold Cauchy dilation give residual norm $<13/80^5$. On the base-radius
+ball $R=271/50000$, a rational majorant gives
+$\|D^2\nabla W\|<9$, hence contraction factor
+$(30/17)9R<1/10$. The correction is consequently below
+$13/1671168000<1/125000000$. Since it begins in degree five, restriction to
+half radii and coefficient differentiation give the displayed state and
+parameter-tangent bounds. Exact Taylor lower bounds for the two exponentials
+put the stated real tail inside the half polydisc.
+\end{proof}
 
 \begin{lemma}[Forced light-collision chart]
 Let $\epsilon=\pm1$ select the heavy primary at $\epsilon R/2$ and put
@@ -1280,6 +1325,22 @@ continuations locally; identifying full adjacent collision-free components
 also requires excluding every other collision zero. Its regularized
 continuation is not a physical continuation of a classical finite-mass
 collision.
+
+\paragraph{Validated finite stage.}
+For $1.26793\le\kappa\le1.26794$, pinned CAPD 6.1.0 native-interval
+integration propagates the rigorous stable-tail box from $\zeta=10$ to
+$\zeta=0.3$, converts it to the selected-primary LC chart, and propagates the
+reversed LC flow for the exact duration $1071249/1000000$. Every accepted LC
+step satisfies $t>1$, $R>2$, and distance to the other primary greater than
+one. At the final fixed time,
+\[
+ -0.017807<\operatorname{Re}u<0.016661,
+ \qquad
+ -0.003953<\operatorname{Im}u<0.004019.
+\]
+This validates finite propagation and chart safety, but not a collision zero:
+the present interval coordinate conversion loses the affine $\kappa$
+correlation, so the terminal box is too wide for interval Newton.
 
 Parameterize the restricted incoming parabolic curve by its asymptotic phase
 intercept $\chi$, normalized by

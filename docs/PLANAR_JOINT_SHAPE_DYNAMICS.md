@@ -392,8 +392,57 @@ The velocity jet follows exactly from
 $p_\zeta=-a_Tp$, $\nu_\zeta=-a_L\nu$. Direct symbolic substitution in (3)
 annuls every monomial through total degree three. In particular, (17d)
 extends the inward-bending identity from one coefficient to the complete
-cubic tail needed by collision shooting. It is an exact jet, not a remainder
-bound; validation still requires an enclosure of $O_4$.
+cubic tail needed by collision shooting. It is an exact jet, not by itself a
+remainder bound; the rigorous remainder enclosure is supplied below after the
+degree-four correction.
+
+The degree-four correction is also exact:
+
+\[
+ x_{[4]}=Gp^3\nu+Hp\nu^3,
+ \qquad
+ q_{[4]}=Ip^4+Jp^2\nu^2+L\nu^4,
+\tag{17e}
+\]
+
+with
+
+\[
+ \begin{aligned}
+ G={}&{-93651910\sqrt{399}-392572319\sqrt{21}
+       +1018625929\sqrt3+250916714\sqrt{57}\over45037296},\\
+ H={}&{-386571066\sqrt{399}-833244582\sqrt{21}
+       +312559697\sqrt{57}+6447516829\sqrt3\over8038436400},\\
+ I={}&{-3671\sqrt3+187\sqrt{21}\over76464},\\
+ J={}&{-1022448154\sqrt{21}-213073373\sqrt{399}
+       +2563820254\sqrt3+612798518\sqrt{57}\over267947880},\\
+ L={}&{-4307297\sqrt3+308435\sqrt{57}\over242413200}.
+ \end{aligned}
+\tag{17f}
+\]
+
+Adding (17e) to (17c) makes the residual vanish through total degree four.
+The analytic majorant theorem in `PLANAR_STABLE_TAIL_ENCLOSURE.md` completes
+this local calculation: on $|p|\le1/200$, $|\nu|\le1/2500$ there is a unique
+normalized analytic stable parameterization $P=P_4+E$ with
+
+\[
+ \|E\|_{1/200,1/2500}< {1\over125000000}.
+\tag{17g}
+\]
+
+On half radii it proves
+
+\[
+ \|E\|<{1\over4000000000},\qquad
+ \|\mathcal DE\|<{1\over800000000},
+\tag{17h}
+\]
+
+and corresponding parameter-tangent bounds. In particular, for
+$5/4\le\kappa\le13/10$ and $\zeta\ge10$, (17h) is a rigorous position and
+logarithmic-velocity box for the real tail used in collision shooting. Thus
+the former $O_5$ truncation obligation is closed.
 
 ## Signed-tail lemma
 
@@ -429,7 +478,8 @@ obstruction.
 
 ## Status
 
-Equations (1)--(14), the convexity bound (16), and the signed-tail lemma are
-**PROVED ANALYTICALLY**. Their symbolic components are covered by exact
-regression tests. Global outer-strip invariance and global classification of
-all $\mathscr U_\kappa$ are **CONJECTURAL**.
+Equations (1)--(14), the convexity bound (16), the signed-tail lemma, and the
+stable-tail enclosure (17g)--(17h) are **PROVED ANALYTICALLY**. The jet and
+all majorant inequalities are covered by exact symbolic regression tests.
+Global outer-strip invariance and global classification of all
+$\mathscr U_\kappa$ are **CONJECTURAL**.

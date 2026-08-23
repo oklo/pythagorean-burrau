@@ -19,6 +19,7 @@ from src.symbolic.restricted_scattering import (
     planar_joint_shape_identities,
     planar_joint_shape_quadratic_bending,
     planar_joint_shape_stable_cubic_jet,
+    planar_joint_shape_stable_quartic_correction,
     restricted_equilateral_triple_collision,
     restricted_terminal_collision_r_chart,
     restricted_transverse_linearization,
@@ -421,6 +422,114 @@ def test_planar_joint_shape_stable_cubic_jet() -> None:
     assert float(squared_mixed) > 0
     assert float(long_cubic) > 0
     assert residuals == (0, 0)
+
+
+def test_planar_joint_shape_stable_quartic_correction() -> None:
+    coefficients, residuals, fifth_defect = planar_joint_shape_stable_quartic_correction()
+    trans_cubic_long, trans_long_cubic, trans_quartic, mixed_quartic, long_quartic = (
+        coefficients
+    )
+    assert float(trans_cubic_long) < 0
+    assert float(trans_long_cubic) > 0
+    assert float(trans_quartic) < 0
+    assert float(mixed_quartic) > 0
+    assert float(long_quartic) < 0
+    assert residuals == (0, 0)
+    transverse, longitudinal = sp.symbols("p h", real=True)
+    horizontal_defect, vertical_defect = fifth_defect
+    assert horizontal_defect != 0
+    assert vertical_defect != 0
+    assert sp.Poly(horizontal_defect, transverse, longitudinal).total_degree() == 5
+    assert sp.Poly(vertical_defect, transverse, longitudinal).total_degree() == 5
+
+    cubic_coefficients, _ = planar_joint_shape_stable_cubic_jet()
+    coefficient_bounds = (
+        sp.Rational(1, 10),
+        sp.Rational(13, 100),
+        sp.Rational(11, 100),
+        sp.Rational(1, 10),
+        sp.Rational(1, 5),
+        sp.Rational(29, 100),
+        sp.Rational(3, 250),
+        sp.Rational(1, 4),
+        sp.Rational(1, 4),
+        sp.Rational(2, 25),
+        sp.Rational(47, 100),
+        sp.Rational(11, 500),
+    )
+    for coefficient, bound in zip(
+        cubic_coefficients + coefficients, coefficient_bounds, strict=True
+    ):
+        assert sp.ask(sp.Q.positive(bound - coefficient)) is True
+        assert sp.ask(sp.Q.positive(bound + coefficient)) is True
+
+    dilated_transverse = sp.Rational(2, 5)
+    dilated_longitudinal = sp.Rational(4, 125)
+    a, k, d, b, c, e, f, g, h, i, j, ell = coefficient_bounds
+    def coordinate_majorants(
+        transverse_radius: sp.Rational, longitudinal_radius: sp.Rational
+    ) -> tuple[sp.Expr, sp.Expr]:
+        horizontal = (
+            transverse_radius
+            + a * transverse_radius * longitudinal_radius
+            + b * transverse_radius**3
+            + c * transverse_radius * longitudinal_radius**2
+            + g * transverse_radius**3 * longitudinal_radius
+            + h * transverse_radius * longitudinal_radius**3
+        )
+        vertical = (
+            longitudinal_radius
+            + k * transverse_radius**2
+            + d * longitudinal_radius**2
+            + e * transverse_radius**2 * longitudinal_radius
+            + f * longitudinal_radius**3
+            + i * transverse_radius**4
+            + j * transverse_radius**2 * longitudinal_radius**2
+            + ell * longitudinal_radius**4
+        )
+        return horizontal, vertical
+
+    dilated_horizontal, dilated_vertical = coordinate_majorants(
+        dilated_transverse, dilated_longitudinal
+    )
+    assert dilated_horizontal < sp.Rational(41, 100)
+    assert dilated_vertical < sp.Rational(3, 50)
+    assert (
+        sp.Rational(41, 100) ** 2
+        + sp.Rational(3, 50) ** 2
+        + sp.Rational(41, 100)
+        + 2 * sp.Rational(3, 50)
+        < sp.Rational(3, 4)
+    )
+
+    base_transverse = sp.Rational(1, 200)
+    base_longitudinal = sp.Rational(1, 2500)
+    base_horizontal, base_vertical = coordinate_majorants(
+        base_transverse, base_longitudinal
+    )
+    majorant_radius = sp.Rational(271, 50000)
+    assert base_horizontal + base_vertical < majorant_radius
+    assert majorant_radius**2 + 2 * majorant_radius < sp.Rational(1, 80)
+    assert sp.Rational(9, 16) * sp.Rational(80, 79) ** 5 < 1
+    assert sp.Rational(225, 256) * sp.Rational(80, 79) ** 7 < 1
+
+    homological_lower = sp.Rational(17, 30)
+    exact_homological_gap = (5 + 2 * sp.sqrt(7)) / 18
+    assert sp.ask(sp.Q.positive(exact_homological_gap - homological_lower)) is True
+    contraction_upper = sp.Rational(30, 17) * 9 * majorant_radius
+    assert contraction_upper < sp.Rational(1, 10)
+    residual_upper = sp.Rational(13, 80**5)
+    correction_upper = (
+        sp.Rational(30, 17) * sp.Rational(10, 9) * residual_upper
+    )
+    assert correction_upper < sp.Rational(1, 125_000_000)
+
+    exp_six_lower = sum(sp.Rational(6) ** n / sp.factorial(n) for n in range(14))
+    exp_long_lower = sum(
+        sp.Rational(80, 9) ** n / sp.factorial(n) for n in range(14)
+    )
+    assert exp_six_lower > 400
+    assert exp_long_lower > 6500
 
 
 def test_forced_planar_light_collision_lc_constraint() -> None:

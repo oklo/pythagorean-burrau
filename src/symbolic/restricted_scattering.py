@@ -853,6 +853,141 @@ def planar_joint_shape_stable_cubic_jet() -> tuple[
     )
 
 
+def planar_joint_shape_stable_quartic_correction() -> tuple[
+    tuple[sp.Expr, ...], tuple[sp.Expr, sp.Expr], tuple[sp.Expr, sp.Expr]
+]:
+    """Exact degree-four correction to the lower stable-manifold jet.
+
+    The coefficient order is ``(G, H, I, J, L)`` for the monomials
+    ``(p**3*h, p*h**3, p**4, p**2*h**2, h**4)``.
+    """
+    cubic, _ = planar_joint_shape_stable_cubic_jet()
+    (
+        mixed,
+        bending,
+        long_squared,
+        trans_cubic,
+        trans_long_squared,
+        trans_squared_long,
+        long_cubic,
+    ) = cubic
+    transverse, longitudinal, bookkeeping = sp.symbols("p h epsilon", real=True)
+    transverse_rate = (1 + sp.sqrt(7)) / 6
+    longitudinal_rate = (1 + sp.sqrt(19)) / 6
+    trans_cubic_long = (
+        -93651910 * sp.sqrt(399)
+        - 392572319 * sp.sqrt(21)
+        + 1018625929 * sp.sqrt(3)
+        + 250916714 * sp.sqrt(57)
+    ) / 45037296
+    trans_long_cubic = (
+        -386571066 * sp.sqrt(399)
+        - 833244582 * sp.sqrt(21)
+        + 312559697 * sp.sqrt(57)
+        + 6447516829 * sp.sqrt(3)
+    ) / 8038436400
+    trans_quartic = (-3671 * sp.sqrt(3) + 187 * sp.sqrt(21)) / 76464
+    trans_squared_long_squared = (
+        -1022448154 * sp.sqrt(21)
+        - 213073373 * sp.sqrt(399)
+        + 2563820254 * sp.sqrt(3)
+        + 612798518 * sp.sqrt(57)
+    ) / 267947880
+    long_quartic = (-4307297 * sp.sqrt(3) + 308435 * sp.sqrt(57)) / 242413200
+    horizontal = (
+        transverse
+        + mixed * transverse * longitudinal
+        + trans_cubic * transverse**3
+        + trans_long_squared * transverse * longitudinal**2
+        + trans_cubic_long * transverse**3 * longitudinal
+        + trans_long_cubic * transverse * longitudinal**3
+    )
+    vertical_offset = (
+        longitudinal
+        + bending * transverse**2
+        + long_squared * longitudinal**2
+        + trans_squared_long * transverse**2 * longitudinal
+        + long_cubic * longitudinal**3
+        + trans_quartic * transverse**4
+        + trans_squared_long_squared * transverse**2 * longitudinal**2
+        + long_quartic * longitudinal**4
+    )
+    vertical = -sp.sqrt(3) / 2 + vertical_offset
+
+    def tail_derivative(expression: sp.Expr) -> sp.Expr:
+        return sp.expand(
+            -transverse_rate * transverse * sp.diff(expression, transverse)
+            - longitudinal_rate * longitudinal * sp.diff(expression, longitudinal)
+        )
+
+    plus_squared = (horizontal + sp.Rational(1, 2)) ** 2 + vertical**2
+    minus_squared = (horizontal - sp.Rational(1, 2)) ** 2 + vertical**2
+    horizontal_force = (
+        2 * horizontal
+        - (horizontal + sp.Rational(1, 2)) / plus_squared ** sp.Rational(3, 2)
+        - (horizontal - sp.Rational(1, 2)) / minus_squared ** sp.Rational(3, 2)
+    ) / 9
+    vertical_force = (
+        2 * vertical
+        - vertical / plus_squared ** sp.Rational(3, 2)
+        - vertical / minus_squared ** sp.Rational(3, 2)
+    ) / 9
+    horizontal_residual = (
+        tail_derivative(tail_derivative(horizontal))
+        + tail_derivative(horizontal) / 3
+        - horizontal_force
+    )
+    vertical_residual = (
+        tail_derivative(tail_derivative(vertical_offset))
+        + tail_derivative(vertical_offset) / 3
+        - vertical_force
+    )
+
+    def through_quartic(expression: sp.Expr) -> sp.Expr:
+        scaled = expression.subs(
+            {
+                transverse: bookkeeping * transverse,
+                longitudinal: bookkeeping * longitudinal,
+            }
+        )
+        return sp.simplify(
+            sp.series(scaled, bookkeeping, 0, 5).removeO().expand()
+        )
+
+    def degree_five(expression: sp.Expr) -> sp.Expr:
+        scaled = expression.subs(
+            {
+                transverse: bookkeeping * transverse,
+                longitudinal: bookkeeping * longitudinal,
+            }
+        )
+        return sp.factor(
+            sp.series(scaled, bookkeeping, 0, 6)
+            .removeO()
+            .expand()
+            .coeff(bookkeeping, 5)
+        )
+
+    corrections = (
+        trans_cubic_long,
+        trans_long_cubic,
+        trans_quartic,
+        trans_squared_long_squared,
+        long_quartic,
+    )
+    return (
+        corrections,
+        (
+            through_quartic(horizontal_residual),
+            through_quartic(vertical_residual),
+        ),
+        (
+            degree_five(horizontal_residual),
+            degree_five(vertical_residual),
+        ),
+    )
+
+
 def forced_planar_light_collision_lc_constraint() -> tuple[
     sp.Matrix, sp.Expr, sp.Expr, sp.Expr
 ]:

@@ -173,16 +173,31 @@ into the inner strip with exact coefficient
 This failed shortcut is recorded explicitly.
 
 The complete lower-equilateral stable-manifold jet is now known through total
-degree three. In tail variables $p=Te^{-a_T\zeta}$ and
+degree four. In tail variables $p=Te^{-a_T\zeta}$ and
 $\nu=He^{-a_L\zeta}$ it is
 \[
  x=p+Ap\nu+Bp^3+Cp\nu^2+O_4,
  \qquad
  q=\nu+Kp^2+D\nu^2+Ep^2\nu+F\nu^3+O_4,
 \]
-with all seven coefficients explicit algebraic numbers. Exact symbolic
-substitution annihilates the ODE residual through degree three. The ordinary
-LC seed uses this jet; a rigorous $O_4$ tail enclosure remains an obligation.
+with all seven cubic coefficients explicit algebraic numbers, followed by
+five explicit quartic coefficients. Exact symbolic substitution annihilates
+the ODE residual through degree four.
+
+The former $O_5$ obligation is now closed analytically. In the weighted
+power-series norm, a contraction with homological gap $>17/30$, residual
+bound $13/80^5$, and contraction factor $<1/10$ proves the unique normalized
+stable graph $P=P_4+E$ on
+
+\[
+ |p|\le {1\over200},\qquad |\nu|\le {1\over2500},
+ \qquad \|E\|<{1\over125000000}.
+\]
+
+At half radii, $\|E\|<1/4000000000$ and
+$\|\mathcal DE\|<1/800000000$, with explicit $\kappa$-tangent bounds. These
+estimates apply uniformly to $5/4\le\kappa\le13/10$ at $\zeta\ge10$ and
+rigorously initialize the collision shoot.
 
 ### Forced light-heavy Levi--Civita chart
 
@@ -224,15 +239,14 @@ and makes an isolated collision the square shooting residual
 This supplies a rigorous interval-Newton formulation for an apparent
 collision zero. A deterministic regularized ordinary shoot gives
 \[
- \kappa\approx1.26793518,
+ \kappa\approx1.2679351755,
  \quad \sigma\approx-1.07124851,
- \quad \det(\partial_\kappa u,v)\approx-3.45307,
+ \quad \det(\partial_\kappa u,v)\approx-3.45305779,
 \]
-with $|u|\approx1.9\times10^{-9}$ and the LC constraint at roundoff. The
-finite stable-tail truncation and all displayed decimals are ordinary
-evidence only. A transverse validated zero would separate the
-nearby continuations locally; existence, transversality, and exclusion of
-other collision zeros are not yet validated.
+with $|u|\approx4.6\times10^{-12}$ and the LC constraint at roundoff. The
+displayed root decimals remain ordinary evidence only. A transverse validated
+zero would separate the nearby continuations locally; existence,
+transversality, and exclusion of other collision zeros are not yet validated.
 All physical velocity and angular signs include the factor
 $\eta=dt/d\theta$; in particular the incoming LC orientation is backward in
 physical time.
@@ -253,6 +267,33 @@ normal form
 Thus validating one transverse root automatically proves local avoidance on
 both punctured sides, while leaving other collision times as a separate
 global obligation.
+
+### Validated finite collision-shooting stage
+
+For the full parameter interval
+
+\[
+ 1.26793\le\kappa\le1.26794,
+\]
+
+pinned CAPD 6.1.0 native-interval integration carries the analytic tail box
+from $\zeta=10$ to $\zeta=0.3$, converts it into the selected-primary LC
+chart, and propagates the reversed LC flow for the exact duration
+$1071249/1000000$. On every accepted LC step it proves $t>1$, $R>2$, and
+distance to the other primary greater than one. At the terminal time,
+
+\[
+ -0.017807<\operatorname{Re}u<0.016661,
+ \qquad
+ -0.003953<\operatorname{Im}u<0.004019.
+\]
+
+This is a **VALIDATED NUMERICAL RESULT** showing that the rigorous tail reaches
+the candidate neighborhood inside one analytic chart. It is not a collision
+root certificate: the interval coordinate conversion discarded the
+$\kappa$ correlation, making the final box too wide for interval Newton.
+The remaining local repair is to retain $\kappa$ as an affine doubleton
+direction through that conversion and propagate its tangent.
 
 ## Endpoint status
 
@@ -368,10 +409,13 @@ At the end of this run:
     .venv/bin/python -m scripts.probe_planar_joint_shape
     .venv/bin/python -m scripts.probe_planar_light_collision_lc
     tectonic -o /private/tmp/pythagorean-paper-build paper/main.tex
+    bash scripts/run_capd_planar_light_collision_shape.sh \
+      /private/tmp/pythagorean-capd \
+      /private/tmp/pythagorean-capd/build-native
 
 Results before this report:
 
-- 90 tests passed;
+- 91 tests passed;
 - lint passed;
 - the paper built successfully;
 - the only TeX diagnostic was the pre-existing 0.42 pt overfull box.
@@ -381,13 +425,11 @@ computer-assisted proof notes and repository README.
 
 ## Highest-leverage next action
 
-Construct a collision-regularized Poincare transition map for the planar
-family across the finite inner strip $|y|<\sqrt3/2$, using the exact global
-Lyapunov inequality, the factorized torque, and the signed outer-strip entry
-data. Ordinary regularized probing suggests an isolated light-heavy collision
-near $\kappa=1.26793518$, in the same close-passage region where the crude
-unregularized probe changes its outgoing angular sign. The target is to
-validate that collision,
+Preserve the affine $\kappa$ direction from the analytic stable-tail box
+through the shape-to-LC coordinate change, integrate the corresponding
+variational state, and apply interval Newton to the square collision residual
+near $\kappa=1.2679351755$. A transverse certificate would validate that
+collision and its signed impact-parameter crossing. Then
 exclude other collision zeros, define $\mathscr S(\kappa)$ componentwise, and prove nonvanishing
 on each collision-free component with certified endpoint limits. This is now
 a one-parameter compact transition problem rather than an uncontrolled

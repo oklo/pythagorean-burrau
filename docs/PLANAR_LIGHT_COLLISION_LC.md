@@ -262,17 +262,20 @@ near $\kappa\approx1.26$ for the chosen normalization, but its closest
 reported distances are too small for trustworthy unregularized scattering.
 The regularized ordinary shoot refines a collision seed to
 $\kappa\approx1.26793517$ and gives a finite-difference determinant about
-$-3.45$. The stable tail remains finitely truncated, so those decimals are
-only a seed box for (10), never evidence for the theorem.
+$-3.45$. The tail truncation has since been removed by the analytic theorem
+in `PLANAR_STABLE_TAIL_ENCLOSURE.md`, but those root decimals are still only a
+seed box for (10), never evidence for the theorem. A pinned CAPD run has
+validated propagation of the full tail box through a fixed LC time while
+keeping the chart domain safe; independent coordinate boxes lose too much
+$\kappa$ correlation to validate a zero.
 The next computer-assisted task is:
 
-1. use a weighted stable-manifold tail to enclose the incoming state;
-2. propagate to a fixed LC entry circle;
+1. preserve $\kappa$ as an affine direction through the shape-to-LC map;
+2. propagate the parameter tangent together with the LC state;
 3. solve (10) by interval Newton in $(\kappa,\sigma)$;
 4. prove the determinant (11) avoids zero;
-5. enclose $t$ away from zero and the other-primary distance away from zero;
-6. exclude all other collision zeros before naming global components;
-7. bound the outgoing angular scalar separately on the collision-free
+5. exclude all other collision zeros before naming global components;
+6. bound the outgoing angular scalar separately on the collision-free
    component boundaries.
 
 ## Status

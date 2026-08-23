@@ -119,7 +119,7 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--kappa-seed", type=float, default=1.267935)
     parser.add_argument("--sigma-seed", type=float, default=-1.071249)
-    parser.add_argument("--zeta-start", type=float, default=20.0)
+    parser.add_argument("--zeta-start", type=float, default=10.0)
     parser.add_argument("--zeta-entry", type=float, default=0.3)
     parser.add_argument("--transverse-sign", type=float, default=-1.0)
     parser.add_argument("--primary", choices=(-1, 1), type=int, default=1)
