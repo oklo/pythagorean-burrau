@@ -35,12 +35,23 @@
   neighborhood around every fixed sufficiently late restricted resonance.
   This compactness argument does not require radial-root simplicity.  It is
   not uniform as $n\to\infty$.
+- Identified the exact crossover mode at a physical first-turn radius
+  $R=BZ=O(1)$. The outgoing inner field has nonrotation term
+  $-(\mathscr W_\infty)\sqrt z$, while the collision-normalized transverse
+  Jacobi field on the macroscopic radial Kepler arc reaches apocenter with
+  velocity $-1/R$. This gives the candidate signed expansion
+  $\dot Y_x=-(\mathscr W_\infty/2R)B^{3/2}+o(B^{3/2})$ for fixed $R$.
+- Replaced the nonuniform Cartesian remainder by normalized outer angular
+  momentum. Exact torque, LC block, and radial-concavity estimates prove
+  $(Y\times\dot Y)/B^{3/2}\to\mathscr W_\infty/2$ uniformly in first-turn
+  height. Together with the validated sign, this excludes a full labelled
+  brake at every first turn in the accumulating skinny parabolic layer.
 
-Evidence level: EXACT SYMBOLIC IDENTITY for the Wronskian and binary tidal
-coefficient formulas; PROVED ANALYTICALLY for the restricted late-turn limit
-and first-order finite-$B$ transfer; PROVED BY COMPUTER-ASSISTED ARGUMENT for
-$\mathscr W_\infty>21/50$, eventual $C_n<0$, and the resulting fixed-resonance
-finite-$B$ exclusion. Reproduce the ordinary probe with:
+Evidence level: EXACT SYMBOLIC IDENTITY for the Wronskian, binary tidal
+coefficient, and macroscopic Kepler-transfer formulas; PROVED ANALYTICALLY for the restricted late-turn limit
+and both fixed-resonance and uniform first-turn finite-$B$ transfer; PROVED BY
+COMPUTER-ASSISTED ARGUMENT for $\mathscr W_\infty>21/50$, eventual $C_n<0$,
+and the resulting first-turn exclusions. Reproduce the ordinary probe with:
 
 ```bash
 uv run python -m scripts.probe_restricted_turn_map \

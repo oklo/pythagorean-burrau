@@ -42,9 +42,9 @@ tail are now matched rigorously. On compact restricted escape arcs, the exact
 finite-$B$ trajectory reaches the terminal escape-or-collision certificate.
 The restricted nonescaping side has infinitely many exact first-turn brake
 states accumulating at the separatrix, so a uniform limiting no-brake
-classification is impossible. Fixed sufficiently late resonances are now
-split at finite $B$ one at a time. The remaining endpoint target is a joint
-late-resonance estimate, separatrix persistence, and control after later turns.
+classification is impossible. Fixed resonances and the full accumulating
+first-turn layer are now split at finite $B$. The remaining endpoint target is
+separatrix persistence and control after later turns.
 Perturbation away from the solved isosceles-right collision endpoint remains
 secondary.
 
@@ -70,10 +70,9 @@ exact LC normal invariants, and a weighted transverse uniqueness lemma then
 carry the full state down the incoming parabolic tail to any fixed large
 $Y_0$. Restricted transversality and terminal transfer therefore give an
 unconditional Level-D skinny nonperiodicity theorem on infinitely many open
-phase-preimage intervals. Finite-turn phases remain unresolved in the
-finite-$B$ problem except in neighborhoods of each fixed sufficiently late
-first-turn resonance; no estimate is yet uniform along the accumulating
-resonance sequence.
+phase-preimage intervals. On finite-turn phases approaching the separatrix,
+the first outer turn is now uniformly proved not to be a brake. Evolution
+after that turn remains unresolved.
 
 The transversality task is no longer intrinsically infinite-time. Exact
 comparison proves $\sqrt8<v_*<4$ for the restricted separatrix. An exact
@@ -88,10 +87,9 @@ Thus growth is now a computer-assisted theorem. Restricted transversality is
 also proved: $z=2/x^2$ gives an analytic time-$\pi$ map satisfying McGehee's
 degree-four sector hypotheses, whose fixed-phase stable tangents contract.
 Hypothetical tangency would make the growing Jacobi field such a contracting
-tangent, a contradiction. Uniform finite-$B$ matching is now closed. The
-remaining endpoint obstructions are separatrix persistence, a splitting
-estimate uniform along the infinite restricted turn-resonance sequence, and
-later-turn control.
+tangent, a contradiction. Uniform finite-$B$ matching and first-turn
+splitting are now closed. The remaining endpoint obstructions are separatrix
+persistence and later-turn control.
 
 Transversality also proves two one-sided limiting phase windows: incoming
 parabolic data escape hyperbolically on one side and turn at finite outer
@@ -155,9 +153,24 @@ restricted segment. Consequently every fixed sufficiently late resonance has
 a punctured finite-$B$ neighborhood containing no full labelled brake, even
 if the turn-phase root is multiple. The proof never bounds physical binary
 transverse velocity at collision; it converts back only at the separated
-apocenter. The remaining endpoint gap is joint uniformity as
-$n\to\infty$---the certified coefficient itself decays like $Z_n^{-1}$---and
-control after later outer turns.
+apocenter. The angular-momentum theorem below removes the apparent loss from
+$C_n\asymp Z_n^{-1}$ and leaves control after later outer turns as the
+remaining finite-turn gap.
+
+The joint first-turn crossover is now closed. The certified
+inner scattering field has outgoing nonrotation mode
+$-(\mathscr W_\infty)\sqrt z$. On a macroscopic radial Kepler arc turning at
+$R$, the collision-normalized $\sqrt s$ Jacobi field is explicit and has
+apocenter velocity $-1/R$. More invariantly, an exact torque/LC bootstrap
+proves uniformly in the first-turn height
+\[
+ {Y\times\dot Y\over B^{3/2}}(t_{\rm turn})
+ \longrightarrow{\mathscr W_\infty\over2}>{21\over100}.
+\]
+Thus no full labelled brake can occur at the first outer turn anywhere in the
+accumulating skinny parabolic layer. The remaining problem is the inward leg
+and subsequent central encounters: the theorem does not prevent a second or
+later outer turn from being a brake.
 
 Late-resonance simplicity has also been narrowed to a differentiable
 parabolic-passage lemma. For the degree-four McGehee map, the exact Kepler

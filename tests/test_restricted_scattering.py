@@ -2,6 +2,7 @@ import sympy as sp
 
 from src.symbolic.restricted_scattering import (
     binary_tidal_transverse_first_variation,
+    collision_kepler_transverse_transfer,
     collision_regularized_jacobi_system,
     incoming_tilt_forcing_identity,
     maximum_softened_vertical_force,
@@ -128,3 +129,13 @@ def test_binary_tidal_transverse_source_gains_exterior_skinny_factor() -> None:
 def test_parabolic_map_preserves_kepler_energy_through_degree_seven() -> None:
     drift, expected = parabolic_truncated_energy_drift()
     assert sp.expand(drift - expected) == 0
+
+
+def test_collision_kepler_mode_transfers_to_nonzero_turn_velocity() -> None:
+    residual, collision_normalization, turn_velocity = (
+        collision_kepler_transverse_transfer()
+    )
+    (turn_radius,) = tuple(turn_velocity.free_symbols)
+    assert sp.simplify(residual) == 0
+    assert collision_normalization == 1
+    assert sp.simplify(turn_velocity + 1 / turn_radius) == 0

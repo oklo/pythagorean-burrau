@@ -344,5 +344,6 @@ Status of (15) and eventual $C_n<0$: **PROVED BY COMPUTER-ASSISTED
 ARGUMENT**. The subsequently proved first-order LC incoming theorem transfers
 this to a finite-$B$ no-brake neighborhood around every fixed sufficiently
 late resonance. Radial simplicity is unnecessary for that compactness
-argument. Joint uniformity as the resonance index tends to infinity remains
-open.
+argument. The outgoing angular-momentum theorem subsequently makes the
+first-turn exclusion uniform as the resonance index tends to infinity. It
+does not control later outer turns.

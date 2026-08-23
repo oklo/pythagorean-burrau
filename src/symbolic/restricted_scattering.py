@@ -154,6 +154,26 @@ def parabolic_truncated_energy_drift() -> tuple[sp.Expr, sp.Expr]:
     return drift, expected
 
 
+def collision_kepler_transverse_transfer() -> tuple[sp.Expr, sp.Expr, sp.Expr]:
+    """Transverse Jacobi mode from a radial collision to apocenter.
+
+    The radial Kepler arc is ``s=R*sin(psi)**2`` with
+    ``dt/dpsi=R**(3/2)*sin(psi)**2``. The normalized collision mode tends to
+    ``sqrt(s)`` and reaches apocenter with physical velocity ``-1/R``.
+    """
+    psi = sp.symbols("psi", positive=True)
+    turn_radius = sp.symbols("R", positive=True)
+    radius = turn_radius * sp.sin(psi) ** 2
+    time_rate = turn_radius ** sp.Rational(3, 2) * sp.sin(psi) ** 2
+    mode = sp.sqrt(turn_radius) * sp.sin(psi) * sp.cos(psi)
+    velocity = sp.simplify(sp.diff(mode, psi) / time_rate)
+    acceleration = sp.simplify(sp.diff(velocity, psi) / time_rate)
+    equation_residual = sp.trigsimp(acceleration + 2 * mode / radius**3)
+    collision_normalization = sp.limit(mode / sp.sqrt(radius), psi, 0, dir="+")
+    turn_velocity = sp.simplify(velocity.subs(psi, sp.pi / 2))
+    return equation_residual, collision_normalization, turn_velocity
+
+
 def turn_resonance_radial_determinants() -> tuple[sp.Expr, sp.Expr, sp.Expr]:
     """Return the three equivalent radial Jacobians at a turn resonance."""
     height, acceleration, phase_velocity = sp.symbols(

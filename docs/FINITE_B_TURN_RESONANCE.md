@@ -390,4 +390,7 @@ certificate in that note prove $\mathscr W_\infty>21/50$, and therefore
 $C_n<0$ at all sufficiently late restricted resonances. The first-order
 incoming theorem now transfers this sign to a local finite-$B$ no-brake
 neighborhood around every fixed such resonance without requiring radial
-simplicity. The conclusion is not uniform as the resonance index diverges.
+simplicity. `OUTGOING_ANGULAR_MOMENTUM.md` subsequently removes the apparent
+loss as the resonance index diverges and excludes a full brake at the first
+outer turn uniformly throughout the accumulating layer. Later turns remain
+open.

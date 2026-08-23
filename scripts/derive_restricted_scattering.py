@@ -3,6 +3,7 @@
 
 from src.symbolic.restricted_scattering import (
     binary_tidal_transverse_first_variation,
+    collision_kepler_transverse_transfer,
     maximum_softened_vertical_force,
     outer_energy_exchange_identity,
     parabolic_truncated_energy_drift,
@@ -29,6 +30,7 @@ def main() -> None:
     drift, drift_expected = parabolic_truncated_energy_drift()
     print(f"truncated parabolic energy drift = {drift}")
     print(f"truncated parabolic energy drift expected = {drift_expected}")
+    print(f"collision-Kepler transverse transfer = {collision_kepler_transverse_transfer()}")
 
 
 if __name__ == "__main__":

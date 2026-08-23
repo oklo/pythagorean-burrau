@@ -54,9 +54,10 @@ Pythagorean subfamily. The restricted finite-turn side has infinitely many
 exact first-turn brake-state resonances accumulating at the separatrix, so a
 uniform limiting no-brake lemma is false. The fixed-resonance finite-$B$
 splitting is now computed: every fixed sufficiently late restricted resonance
-has a neighborhood free of full finite-$B$ brakes. The remaining skinny
-obligation is to make that exclusion jointly uniform as the resonance index
-diverges, control later turns, and classify the separatrix phases. At
+has a neighborhood free of full finite-$B$ brakes. The normalized angular-
+momentum theorem further makes the first-turn exclusion uniform over the
+accumulating resonance layer. The remaining skinny obligation is to control
+later turns and classify the exact finite-$B$ separatrix phase. At
 $u=\sqrt2-1$, the exact
 trajectory is now proved to have monotone shrinking half-base and finite
 collision.  The remaining obligation is a regularized transverse analysis of
@@ -127,9 +128,9 @@ through every fixed restricted segment. A failed intermediate formulation
 remains instructive: divided LC normal invariants can tend to zero while
 physical transverse binary velocity blows up at a near-collision phase. The
 proof instead propagates the smooth divided LC invariants and converts to
-physical derivatives only at a uniformly separated apocenter. What remains is
-a joint estimate as $n\to\infty$, since $C_n\asymp Z_n^{-1}\to0$, and
-exclusion of brakes after later outer turns.
+physical derivatives only at a uniformly separated apocenter. The uniform
+angular-momentum theorem removes the loss from
+$C_n\asymp Z_n^{-1}\to0$. Exclusion of brakes after later outer turns remains.
 
 The late-simplicity problem is now reduced more precisely in
 `LATE_RESONANCE_SIMPLICITY.md`. In McGehee variables the degree-four map has
@@ -143,6 +144,21 @@ estimate
 \]
 including the entrance region at parabolic infinity. A $C^0$ relative
 asymptotic is insufficient.
+
+The joint finite-$B$ crossover is now closed at the first outer turn. The
+outgoing inner field satisfies
+$p_-=\gamma z-\mathscr W_\infty\sqrt z+o(\sqrt z)$. On the macroscopic
+radial Kepler arc turning at $R$, the normalized $\sqrt s$ transverse mode
+reaches apocenter with velocity $-1/R$. More invariantly, the exact torque
+bootstrap proves uniformly in turn height
+\[
+ {Y\times\dot Y\over B^{3/2}}(t_{\rm turn})
+ \longrightarrow {\mathscr W_\infty\over2}>0.
+\]
+`OUTGOING_ANGULAR_MOMENTUM.md` records the proof. The highest-leverage
+endpoint obligation is now to continue this signed scalar through the inward
+leg after the first turn and classify its change across subsequent central
+encounters; a second or later brake remains open.
 
 ## Adversarial checklist
 
