@@ -351,15 +351,21 @@ The corresponding LC constraint is
 section and the certified nonsingular limiting Jacobian prove that the
 collision root persists uniquely under positive mass and compatible local
 section-state perturbations.  For the exact tied trajectory the remaining
-scalar obligation in that chart is
+scalar obligation can now be stated intrinsically.  The differentiated
+two-mode inclination theorem transports the normalized projective-amplitude
+family and its \(\kappa\)-tangent through the long saddle dwell and the
+scaled \(Q\)-adapted LC chart.  It gives the local graph
+\(\kappa_c(B,T,S,\Xi)\), so the tied gap is
 \[
- \widehat\Delta_c(B)=
- \widehat\kappa_B-\widehat\kappa_c(B,\delta_B).
+ \Delta_{\rm intr}(B)=
+ \kappa_B-\kappa_c(B,T_B,S_B,\Xi_B),
+ \qquad \kappa_B={H_B\over|T_B|^{\mu/\tau}}.
 \]
-No sign, zero, or oscillation theorem for \(\widehat\Delta_c\) has been
-proved.  A differentiated inclination estimate is also still required to
-relate the fixed-section coordinate to the intrinsic projective amplitude
-through the logarithmically long saddle dwell.  Even
+The proof uses a common Lyapunov--Perron weight
+\(\mu/2<\omega<\tau\), an unstable-manifold shadow on the infinite tail,
+and \(C^1\) stable holonomy only at a fixed finite section; two independent
+adversarial passes endorsed the repair.  No sign, zero, or oscillation theorem
+for \(\Delta_{\rm intr}\) has been proved.  Even
 a nonzero sign controls only the local selected encounter; exclusion of other
 collisions and a later brake still requires the global scattering map.
 

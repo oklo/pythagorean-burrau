@@ -35,7 +35,14 @@ within about $0.00369$ of the tied shape but its two exact matching equations
 cross zero at different parameters; no numerical intersection was found.
 
 Active primary route: use the first certified transverse collision as a
-boundary of the one-parameter planar scattering map. Exclude every other
+boundary of the one-parameter planar scattering map. A differentiated
+two-mode inclination theorem now carries normalized projective-amplitude
+tangents through the logarithmic finite-mass saddle dwell and the scaled
+collision chart. It promotes the fixed-section boundary to a unique graph
+\(\kappa_c(B,T,S,\Xi)\); for the exact tied curve the remaining local
+question is the scalar sign/zero problem
+\(\Delta_{\rm intr}(B)=\kappa_B-
+\kappa_c(B,T_B,S_B,\Xi_B)\). Exclude every other
 collision zero on compact $\kappa$ ranges, propagate both punctured sides to
 common outgoing sections, and prove a componentwise nonvanishing scattering
 scalar. This is now a compact one-parameter transition problem. The simpler
@@ -349,8 +356,15 @@ constrained incoming section and this repaired LC block promote the certified
 root to a unique nearby finite-mass collision boundary in local section state
 space.  The tied Pythagorean trajectory selects only one section point, so
 the still-open bridge is its signed gap from that boundary; no crossing of
-the tied curve is claimed.  Differentiated inclination through the preceding
-long saddle dwell remains open.
+the tied curve is claimed.  The differentiated inclination theorem now
+transports the normalized amplitude slice and its tangent through the
+preceding long saddle dwell.  It uses a common weight
+\(\mu/2<\omega<\tau\), a nonlinear unstable shadow, and a separate
+\(C^1\) stable-holonomy comparison at a finite tail section.  In the scaled
+\(Q\)-adapted LC chart, the shooting map converges in \(C^1\), giving a
+unique normalized collision graph.  Both independent adversarial rereads
+endorse the repaired proof.  No theorem yet determines the intrinsic gap
+\(\Delta_{\rm intr}(B)\).
 The corresponding analytic forced Levi--Civita chart is complete. In complex
 variables $q=u^2$, $dt=|u|^2d\sigma$, its collision residual is the square map
 \[

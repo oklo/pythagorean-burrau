@@ -55,6 +55,10 @@ safety of the universal peel-off base and validate its positive slow-mode
 first-turn transfer. In the remaining planar joint-limit family, an analytic
 stable-tail enclosure and a correlated interval-Newton computation prove one
 unique transverse light--heavy collision parameter in an explicit local box.
+An exact collision-adapted finite-mass reduction and a differentiated
+two-mode inclination theorem continue this root to a normalized collision
+graph through the logarithmic saddle dwell; the exact tied curve is reduced
+locally to one unresolved scalar signed gap from that graph.
 The full conjecture remains open because the compact
 phase interior, the one-parameter planar scattering family exposed by the
 finite-mass triple-endpoint blow-up, and later turns are not yet controlled. A
@@ -1457,6 +1461,57 @@ local uniqueness, and transversality.  Orthogonal projection onto $v^\perp$,
 followed by $q=u^2$ and $|v|^2=(1+B)/2$, gives the displayed coefficient.
 \end{proof}
 
+\begin{theorem}[Differentiated joint inclination]
+Let $K$ be a compact projective-amplitude interval inside the validated
+pre-collision chart and set $p=\mu/\tau$.  In the normalized family
+$H=\kappa|T|^p$, with stable entrance coordinate $S$ fixed, translate the
+logarithmic saddle dwell by $L_T=-\tau^{-1}\log|T|$ and scale size by
+$\rho_T=|T|^{1/\tau}$.  If
+\[
+ B|\log|T||+B+|T|^{2-p}+e^{-cL_T}
+ +\|\widehat\Xi\|\longrightarrow0,
+\]
+where $\widehat\Xi$ contains the Newtonian-scaled energy, clock, and remaining
+triangular deviations, then the state and its $\kappa$-tangent converge on
+every common collision-free compact interval.  Through the selected limiting
+collision the same assertion holds in the scaled $(u,v,Q,P,h)$
+Levi--Civita chart.
+
+Consequently the certified collision root extends uniquely as a $C^1$ graph
+\[
+ \kappa=\kappa_c(B,T,S,\Xi),
+ \qquad \kappa_c(B,T,S,\Xi)\longrightarrow\kappa_c.
+\]
+Its determinant retains the certified negative sign.  At fixed parameters,
+\[
+ r_{\min,\mathrm{local}}
+ =\rho_T{2\widehat D^2\over1+B}(\kappa-\kappa_c)^2
+  +o\!\left(\rho_T|\kappa-\kappa_c|^2\right).
+\]
+\end{theorem}
+
+\begin{proof}
+Choose a fixed weight $\mu/2<\omega<\tau$.  For small $B$ it also satisfies
+$\mu_B/2<\omega<\tau_B$, and the quadratic Lyapunov--Perron Green denominator
+is bounded below by $2\omega-\mu_B>0$.  Construct only the nonlinear
+unstable-manifold shadow on the infinite weighted tail.  Translation changes
+its two homogeneous coefficients by
+$e^{(\mu_B-\mu)L_T}$ and $e^{(\tau_B-\tau)L_T}$; these tend to one because
+$B L_T\to0$.  Differentiating the uniformly contracting fixed-point equation
+gives convergence of the $\kappa$-tangent.
+
+A bounded finite-entrance stable datum does not belong to that half-line
+weighted ball.  Instead, $C^1$ stable-foliation holonomy compares the actual
+orbit and tangent with the shadow at one fixed incoming-tail section, with
+error $O(e^{-c(L_T-A)}+\rho_T|E|)+o(1)$.  Compact variational flow and the
+zero-angular-momentum fixed-axis reconstruction propagate this estimate.
+The scaled collision-adapted $Q$--LC vector field is analytic at $u=0$ and
+propagates the variational equation through the regularized zero.  The
+parameter-dependent implicit-function theorem and the certified determinant
+give the graph.  The $C^1$ expansion of $u$ transverse to the root, together
+with $q=u^2$ and $|v|^2=(1+B)/2$, gives the last formula.
+\end{proof}
+
 This boundary emanates from the massless planar joint-limit collision and
 persists in the surrounding finite-mass section family. It is not a tied
 finite-mass Pythagorean orbit or a brake, and no positive-mass classical
@@ -1465,9 +1520,14 @@ other collision zeros and componentwise outgoing-sign control.  In
 particular, the exact tied trajectory selects only one point
 $(\widehat\kappa_B,\delta_B)$ on the fixed section; the corollary does not
 prove that it solves
-$\widehat\kappa_B=\widehat\kappa_c(B,\delta_B)$.  Relating this fixed-section
-coordinate differentiably to the intrinsic projective amplitude across the
-long saddle dwell is a separate open inclination estimate.
+$\widehat\kappa_B=\widehat\kappa_c(B,\delta_B)$.  The theorem replaces this
+section-dependent condition by the intrinsic scalar gap
+\[
+ \Delta_{\rm intr}(B)=
+ {H_B\over|T_B|^{\mu/\tau}}
+ -\kappa_c(B,T_B,S_B,\Xi_B).
+\]
+No sign or zero theorem for this gap is proved here.
 
 Parameterize the restricted incoming parabolic curve by its asymptotic phase
 intercept $\chi$, normalized by
@@ -1597,7 +1657,9 @@ at parameter endpoints.  If real intersections remain, an exact arithmetic
 bridge is still required. In the planar joint-limit family, one transverse
 collision boundary is now certified; global use of it requires exclusion of
 other collision zeros and outgoing-sign control on every collision-free
-component.
+component.  Differentiated transport through the finite-mass saddle dwell is
+complete; on the exact tied curve the remaining local condition is the scalar
+sign/zero problem for $\Delta_{\rm intr}(B)$.
 
 \begin{thebibliography}{9}
 \bibitem{Burrau1913} C. Burrau, Astronomische Nachrichten 195 (1913), 113.

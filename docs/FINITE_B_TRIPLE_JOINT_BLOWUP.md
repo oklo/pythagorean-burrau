@@ -359,8 +359,19 @@ full boundary-layer transfer problem is reduced to:
 2. prove that the relevant outgoing section exists on each collision-free
    branch;
 3. prove a sign or nonvanishing theorem for $\mathscr S(\kappa)$;
-4. prove a separate fibered inclination estimate and attach the
-   $\kappa\to\pm\infty$ limits to the certified rectilinear endpoint data.
+4. attach the $\kappa\to\pm\infty$ limits to the certified rectilinear
+   endpoint data.
+
+The separate differentiated inclination step is now complete; see
+`DIFFERENTIATED_JOINT_INCLINATION.md`.  In the normalized family
+$H=\kappa|T|^{\mu/\tau}$ it proves convergence of the state and
+$\kappa$-tangent through the logarithmic dwell and, in scaled $Q$-adapted LC
+coordinates, through the selected limiting collision.  Combined with the
+validated transverse root, it gives a unique local collision graph
+$\kappa_c(B,T,S,\Xi)$.  For the tied endpoint curve the remaining local
+quantity is the scalar
+$\Delta_{\rm intr}(B)=\kappa_B-
+\kappa_c(B,T_B,S_B,\Xi_B)$; its sign is not known.
 
 This is one autonomous one-parameter restricted problem, with no rapidly
 oscillating $B$-phase and no unknown matching modulus.  A brake during the
@@ -388,5 +399,8 @@ The full derivation is in PLANAR_JOINT_SHAPE_DYNAMICS.md.
 IDENTITY** or exact homogeneity. The parity-amplitude lemma,
 intrinsic-coordinate convergence (4)--(5), and the joint blow-up theorem are
 **PROVED ANALYTICALLY** from the symmetric auxiliary family, the persisted
-hyperbolic splitting, and the proved matching theorems. The global
+hyperbolic splitting, and the proved matching theorems.  The differentiated
+inclination theorem is also **PROVED ANALYTICALLY**, and its normalized
+collision graph is **PROVED BY COMPUTER-ASSISTED ARGUMENT** through the
+validated base root. The global
 classification and sign of $\mathscr S$ are **CONJECTURAL**.

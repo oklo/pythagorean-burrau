@@ -373,10 +373,48 @@ compatible section-state perturbations.  At fixed perturbation,
 \]
 
 This is a structural persistence theorem, not a collision theorem for the
-tied Pythagorean curve.  The unresolved bridge is the signed fixed-section
-gap \(\widehat\kappa_B-\widehat\kappa_c(B,\delta_B)\), together with a
-differentiated inclination theorem relating this coordinate to the intrinsic
-projective amplitude through the long saddle dwell.
+tied Pythagorean curve.
+
+### Differentiated inclination and normalized collision graph
+
+The missing parameter-tangent theorem is now proved.  For
+\(H=\kappa|T|^{\mu/\tau}\), choose a common weighted-tail exponent
+
+\[
+ {\mu\over2}<\omega<\tau.
+\]
+
+The positive-mass nonlinear unstable shadow is a uniformly \(C^1_\kappa\)
+Lyapunov--Perron fixed point in this space because
+\(2\omega-\mu_B>0\).  The actual bounded stable entrance datum is not put in
+that half-line norm; instead uniform \(C^1\) stable holonomy compares the
+actual orbit and its tangent with the shadow at one fixed tail section.
+Exponent drift costs \(O(B|\log|T||)\), and the scaled energy costs
+\(O(\rho_T|E|)\).  Compact variational flow, fixed-axis reconstruction, and
+the scaled \(Q\)-adapted LC chart then propagate state-and-tangent convergence
+through the limiting selected collision.
+
+The certified root therefore continues as a unique graph
+
+\[
+ \kappa_c(B,T,S,\Xi)
+\]
+
+through every admissible cusp with
+\(B|\log|T||+B+|T|^{2-\mu/\tau}+e^{-cL_T}
++\|\widehat\Xi\|\to0\).  For the tied endpoint state the remaining local
+condition is exactly
+
+\[
+ \boxed{\Delta_{\rm intr}(B)=
+ \kappa_B-\kappa_c(B,T_B,S_B,\Xi_B).}
+\]
+
+Two independent adversarial rereads endorsed the repaired argument.  The
+differentiated inclination theorem is **PROVED ANALYTICALLY** and the graph
+is **PROVED BY COMPUTER-ASSISTED ARGUMENT** through its certified base root.
+No sign or zero theorem for \(\Delta_{\rm intr}\) is known; thus no tied
+collision is claimed.
 
 ## Endpoint status
 
@@ -500,9 +538,9 @@ At the end of this run:
       /private/tmp/pythagorean-capd \
       /private/tmp/pythagorean-capd/build-native
 
-Results before this report:
+Results at this checkpoint:
 
-- 91 tests passed;
+- 92 tests passed;
 - lint passed;
 - the paper built successfully;
 - the only TeX diagnostic was the pre-existing 0.42 pt overfull box.
@@ -513,7 +551,10 @@ computer-assisted proof notes and repository README.
 ## Highest-leverage next action
 
 Use the validated transverse collision as the first certified boundary of the
-planar scattering map. Exclude every other collision zero on a compact
+planar scattering map.  The long-dwell derivative bridge is now closed; the
+highest-leverage tied-family question is a sign/zero theorem for
+\(\Delta_{\rm intr}(B)\).  In parallel, exclude every other collision zero
+on a compact
 $\kappa$ range, propagate both punctured sides to common outgoing sections,
 define $\mathscr S(\kappa)$ componentwise, and prove its nonvanishing with
 certified endpoint limits. This is now a one-parameter compact transition

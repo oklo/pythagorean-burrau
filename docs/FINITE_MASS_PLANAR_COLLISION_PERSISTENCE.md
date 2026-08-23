@@ -5,8 +5,10 @@ belongs to the massless projective limit.  This note proves the precise
 finite-mass conclusion that follows from its transversality.  The collision
 persists as a codimension-one boundary in a local constrained incoming-section
 state family.  This does **not** prove that the one-dimensional tied
-Pythagorean curve meets that boundary, nor does it supply differentiated
-inclination through the preceding long saddle dwell.
+Pythagorean curve meets that boundary.  The separate differentiated
+inclination theorem in `DIFFERENTIATED_JOINT_INCLINATION.md` now transports
+this graph through the preceding long saddle dwell in normalized projective
+coordinates, but it does not determine the tied curve's signed gap.
 
 ## Exact selected-pair equation
 
@@ -348,16 +350,24 @@ remaining arithmetic/dynamical bridge is the scalar signed gap
 \tag{17}
 \]
 
-Relating \(\widehat\kappa_B\) in the fixed-section chart differentiably to
-the intrinsic projective amplitude
-\(\kappa_B=H_B/|T_B|^{\mu/\tau}\) through the logarithmically long saddle
-dwell requires a separate differentiated inclination estimate.  The joint
-blow-up theorem currently proves trajectory convergence, not this parameter
-tangent statement.
+The differentiated inclination theorem now replaces this section-dependent
+gap by a normalized intrinsic one.  With all stable and triangular entrance
+coordinates displayed explicitly, it gives a unique local collision graph
+\(\kappa_c(B,T,S,\Xi)\) and reduces the actual endpoint trajectory to
 
-Controlling the sign or zeros of (17), and excluding other encounters before
+\[
+ \Delta_{\rm intr}(B)
+ =\kappa_B-\kappa_c(B,T_B,S_B,\Xi_B),
+ \qquad \kappa_B={H_B\over|T_B|^{\mu/\tau}}.
+\tag{18}
+\]
+
+Thus differentiated transport through the logarithmic dwell is closed.  No
+sign, zero, or oscillation theorem for (18) has been proved.
+
+Controlling the sign or zeros of (18), and excluding other encounters before
 a common outgoing section, is the next finite-mass obligation.  Equality in
-(17) would prove classical termination, not periodicity.  Nonzero sign would
+(18) would prove classical termination, not periodicity.  Nonzero sign would
 select one local scattering side but would not by itself exclude a later
 brake.
 

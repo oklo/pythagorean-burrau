@@ -70,4 +70,6 @@ planar limiting family; see
 `docs/COMPUTER_ASSISTED_PLANAR_LIGHT_COLLISION_ROOT.md`.
 The exact positive-light-mass reduction and the resulting persistence theorem
 for that collision boundary are in
-`docs/FINITE_MASS_PLANAR_COLLISION_PERSISTENCE.md`.
+`docs/FINITE_MASS_PLANAR_COLLISION_PERSISTENCE.md`.  The differentiated
+two-mode inclination theorem and normalized finite-mass collision graph are
+in `docs/DIFFERENTIATED_JOINT_INCLINATION.md`.

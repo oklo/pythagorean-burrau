@@ -717,5 +717,29 @@ it is not a remainder proof.
 - Status: **PROVED BY COMPUTER-ASSISTED ARGUMENT** for persistence of the
   local fixed-section collision boundary.  The exact Pythagorean state
   supplies only one selected section point; whether it meets the boundary is
-  still conjectural.  Differentiated inclination through the preceding long
-  saddle dwell remains a separate obligation.
+  still conjectural.
+
+## 2026-08-23: differentiated joint inclination and normalized collision graph
+
+- Replaced the insufficient state-only joint inclination estimate by a
+  parameter-tangent theorem for the normalized family
+  \(H=\kappa|T|^{\mu/\tau}\).  A fixed weight
+  \(\mu/2<\omega<\tau\) contains both finite-mass unstable modes and gives
+  the uniform quadratic Green gap \(2\omega-\mu_B>0\).
+- An adversarial audit caught that bounded stable entrance data cannot be put
+  in the infinite-tail weighted ball.  The repaired proof constructs only
+  the nonlinear unstable shadow there and compares the actual state and its
+  \(\kappa\)-tangent at a fixed tail section using uniform \(C^1\) stable
+  holonomy.  A second audit caught and repaired an unjustified \(C^2\)
+  holonomy claim; the miss-distance remainder is therefore
+  \(o((\kappa-\kappa_c)^2)\), which is the sharp conclusion from \(C^1\).
+- Scaled \(Q\)-adapted LC variables carry both state and tangent through the
+  selected limiting collision.  The certified root consequently defines a
+  unique normalized finite-mass graph
+  \(\kappa_c(B,T,S,\Xi)\) throughout the stated admissible cusp.
+- Both independent final adversarial rereads endorse the repaired result.
+  The differentiated inclination theorem is **PROVED ANALYTICALLY**; the
+  collision graph inherits **PROVED BY COMPUTER-ASSISTED ARGUMENT** from the
+  validated base root.  The tied scalar gap
+  \(\Delta_{\rm intr}(B)=\kappa_B-
+  \kappa_c(B,T_B,S_B,\Xi_B)\) remains **CONJECTURAL**.
