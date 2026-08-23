@@ -385,7 +385,7 @@ projectors are
 In binary Levi--Civita scale $u\asymp\sigma^{1/3}$, their exponents are
 
 \[
- \beta_\pm=3\alpha_\pm={3\pm\sqrt7\over2}.
+ \kappa_\pm=3\alpha_\pm={3\pm\sqrt7\over2}.
 \tag{9e}
 \]
 
@@ -417,8 +417,135 @@ $D^2=Z^2+C^2\lambda^4/4$, the regular field is
 \]
 
 It is analytic across $\lambda=0$ on every box with $Z>0$. This exact field
-is now generated symbolically and regression-tested, and is the finite
-propagation core for a future $K_-$ interval certificate.
+is generated symbolically and regression-tested, and is the finite
+propagation core used by the $K_-$ interval certificate below.
+
+## Exact final-infall chart for the global coefficient
+
+The remaining coefficient $A_-$ belongs to the *global* orbit that arrives
+from parabolic infinity and ends in equilateral triple collision. On the last
+heavy-binary infall, its separation $r\in(0,1)$ is monotone and satisfies
+
+\[
+ \dot r^2={4(1-r)\over r},
+ \qquad \ddot r=-{2\over r^2}.
+\tag{9h}
+\]
+
+The exact remaining physical time is
+
+\[
+ \sigma(r)={1\over2}\left[\arcsin\sqrt r-\sqrt{r(1-r)}\right]
+ ={r^{3/2}\over3}+O(r^{5/2}).
+\tag{9h1}
+\]
+
+Thus $r$, rather than physical time, gives an exact Fuchsian chart. Put
+$y=z/r$ and
+
+\[
+ \widehat Q(y)={1-2y^2\over(y^2+1/4)^{5/2}}.
+\tag{9i}
+\]
+
+Direct substitution into the base and transverse equations gives
+
+\[
+ 2r^2(1-r)y_{rr}+r(3-4r)y_r
+ +y\left[(y^2+1/4)^{-3/2}-1\right]=0,
+\tag{9j}
+\]
+
+\[
+ 2r^2(1-r)p_{rr}-rp_r-{\widehat Q(y)\over2}p=0.
+\tag{9k}
+\]
+
+The equilateral solution $y=-\sqrt3/2$ is exact on the whole final infall,
+not only asymptotically at collision. Linearizing (9j) there gives the shape
+exponents
+
+\[
+ \nu_\pm={-1\pm\sqrt{19}\over4}.
+\tag{9l}
+\]
+
+The admissible collision-stable base family therefore has the
+derivative-strengthened asymptotics
+
+\[
+ y=-{\sqrt3\over2}+a r^{\nu_+}+o(r^{\nu_+}),
+ \qquad
+ ry_r=a\nu_+r^{\nu_+}+o(r^{\nu_+});
+\]
+
+the scalar $a$ selects the global heteroclinic. Since
+$\widehat Q(-\sqrt3/2)=-1/2$, equation (9k) has exponents
+
+\[
+ \beta_\pm={3\pm\sqrt7\over4}={3\over2}\alpha_\pm.
+\tag{9m}
+\]
+
+In this chart the slow returned-Jost coefficient is the finite limit
+
+\[
+ \widehat A_-
+ =\lim_{r\downarrow0}r^{-\beta_-}
+ {\beta_+p-rp_r\over\beta_+-\beta_-}.
+\tag{9n}
+\]
+
+This limit is not a merely formal Frobenius coefficient. With
+$x=-\log r$, the first-order form of (9k) is its constant hyperbolic Euler
+system plus a coefficient perturbation
+$O(e^{-\min(1,\nu_+)x})$. Standard exponential-dichotomy/Volterra
+asymptotic integration gives canonical modes $P_\pm$ satisfying
+
+\[
+ P_\pm=r^{\beta_\pm}(1+o(1)),
+ \qquad rP_{\pm,r}=\beta_\pm r^{\beta_\pm}(1+o(1)),
+\]
+
+and a unique decomposition $p=\widehat A_-P_-+\widehat A_+P_+$. This proves
+the limit (9n). The same argument gives the derivative-strengthened base
+asymptotics used above and below.
+
+The coefficient $A_-$ in the physical collision-time normalization differs
+from $\widehat A_-$ by the positive factor $9^{\beta_-/3}$, so their signs
+are identical. Equations (9j)--(9n) reduce the remaining global sign to a
+one-dimensional stable-manifold/parabolic-manifold intersection, followed by
+one scalar Fuchsian projection. They are exact and symbolically tested.
+
+The sign of the base stable coefficient also has a global geometric meaning.
+Let $q=-(\sqrt3/2)r$ be the exact equilateral comparator and $w=z-q$.
+
+**Lemma (conditional final-infall cone).** If the collision-stable coefficient
+$a$ in (9l) is negative, then throughout the entire last binary infall
+
+\[
+ z<-{\sqrt3\over2}r,
+ \qquad {d\over dt}\left(z+{\sqrt3\over2}r\right)>0.
+\tag{9o}
+\]
+
+**Proof.** Near collision,
+$w=a r^{1+\nu_+}(1+o(1))<0$ and $\dot w\to0$ from above. For fixed $r$ the
+scalar force
+
+\[
+ f_r(z)=-{2z\over(z^2+r^2/4)^{3/2}}
+\]
+
+has $\partial_zf_r>0$ whenever $z\le-\sqrt3r/2$. Since $q$ is itself an
+exact solution, $w<0$ implies $\ddot w=f_r(z)-f_r(q)<0$. Working backward
+from collision gives $\dot w(t)>\lim_{s\uparrow t_c}\dot w(s)=0$, and then
+$w(t)=-\int_t^{t_c}\dot w(s)\,ds<0$. This continuation argument reaches the
+previous apocenter. $\square$
+
+Thus a validation of $a<0$ at one regular final-infall section certifies the
+whole cone, not merely a sampled sign. The finite-gap shape proxies below
+support $a<0$, but no validated heteroclinic match is yet available.
 
 ## Renormalized endpoint target
 
@@ -544,6 +671,26 @@ uv run python -m scripts.probe_triple_endpoint \
 The validation deliberately covers the coarse analytic center box rather
 than shooting the one-dimensional unstable collision manifold. It settles
 the second of the two scalar signs but not the global coefficient $A_-$.
+
+A finite-cutoff diagnostic of (9n), using incoming phase $2.77$ and center
+collision gap $6.64\times10^{-4}$, gives
+
+| final-infall section $r$ | $y=z/r$ | shape-stable proxy | slow Jost projector |
+|---:|---:|---:|---:|
+| $0.20$ | $-0.92825$ | $-0.24037$ | $0.31754$ |
+| $0.10$ | $-0.88310$ | $-0.11808$ | $0.31427$ |
+| $0.05$ | $-0.83477$ | $0.38676$ | $0.31384$ |
+| $0.02$ | $-0.69639$ | $4.53101$ | $0.32528$ |
+
+The first three projector values localize
+$\widehat A_-\approx0.314>0$. The shape proxy reveals the expected
+finite-gap boundary-layer contamination at the smaller sections. These are
+**ORDINARY NUMERICAL EVIDENCE**, not an enclosure. Reproduce them with
+
+~~~bash
+uv run python -m scripts.probe_triple_jost_projection \
+  --cutoff 40 --phase 2.77 --sections 0.2 0.1 0.05 0.02
+~~~
 
 ## Missing selection theorem
 

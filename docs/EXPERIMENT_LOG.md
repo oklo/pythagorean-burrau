@@ -76,6 +76,12 @@
   independently proved by the pinned full-box certificate. Use
   `python -m scripts.probe_triple_endpoint --cutoffs 100 1000 10000
   --shoot-center -4 -1 --max-step 0.5`.
+- The exact final-infall $r$-Fuchsian projector, evaluated at finite-gap
+  sections $r=0.2,0.1,0.05$, gives $0.31754,0.31427,0.31384$. This localizes
+  the remaining global sign near $A_-\approx0.314>0$ but is ordinary evidence
+  because the incoming cutoff and collision gap are not enclosed. Reproduce
+  with `python -m scripts.probe_triple_jost_projection --cutoff 40 --phase
+  2.77 --sections 0.2 0.1 0.05 0.02`.
 
 Evidence level: EXACT SYMBOLIC IDENTITY for the Wronskian, binary tidal
 coefficient, and macroscopic Kepler-transfer formulas; PROVED ANALYTICALLY for the restricted late-turn limit

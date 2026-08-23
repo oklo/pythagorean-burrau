@@ -339,7 +339,7 @@ bash scripts/run_capd_restricted_transverse_scattering.sh \
 ```
 
 The repository contains pinned Python dependencies in `uv.lock`, a pinned CAPD
-commit in all three verifier wrappers, and 73 deterministic symbolic/unit tests.
+commit in all three verifier wrappers, and 74 deterministic symbolic/unit tests.
 
 ## Single highest-leverage next action
 
@@ -377,5 +377,9 @@ slow field has $p_s(0)/p(0)>1/1000$ at the center crossing. A replayed pinned
 CAPD proof covers the entire analytic center-speed interval $[1/2,3/4]$ in
 256 slabs through the binary collision and unique first turn, proving
 $K_->0$. The highest-leverage remaining endpoint work is now the
-finite-$\varepsilon$ selection theorem and the sign of $A_-$. These steps
-are required before excluding a second or later brake.
+finite-$\varepsilon$ selection theorem and the sign of $A_-$. The final
+binary infall now supplies an exact Fuchsian chart reducing $A_-$ to a
+one-dimensional collision-stable/parabolic-manifold intersection and one
+scalar projector; ordinary values stabilize near $0.314>0$. Validating that
+finite matching is the next action. These steps are required before excluding
+a second or later brake.

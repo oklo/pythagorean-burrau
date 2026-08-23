@@ -266,10 +266,11 @@ A rigorous second-turn exclusion can now be split into:
    collision boundaries;
 2. validate $\mathcal C_2(\psi)>0$ on the compact finite-turn interiors,
    regularizing every binary collision and covering the phase continuum;
-3. analyze the $\phi\to\pi$ triple-collision limit in a McGehee chart and
-   prove a nonzero one-sided sign or a finite-$B$ exclusion neighborhood;
-   the exact collision ray and indicial exponents are in
-   `TRIPLE_COLLISION_ENDPOINT.md`;
+3. complete the $\phi\to\pi$ triple-collision selection theorem. The exact
+   collision ray, both Fuchsian charts, unique collision-safe universal base,
+   and positive universal transfer $K_-$ are now proved in
+   `TRIPLE_COLLISION_ENDPOINT.md`; the global projection $A_-$ and
+   finite-$\varepsilon$ selection remain;
 4. transfer the compact restricted sign to finite $B$ using divided LC
    variables, then repeat the uniform outgoing angular-momentum tail theorem.
 

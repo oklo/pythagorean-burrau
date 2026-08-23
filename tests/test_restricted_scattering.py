@@ -12,6 +12,7 @@ from src.symbolic.restricted_scattering import (
     parabolic_truncated_energy_drift,
     phase_wronskian_identity,
     restricted_equilateral_triple_collision,
+    restricted_terminal_collision_r_chart,
     restricted_transverse_linearization,
     restricted_triple_collision_phase_mode,
     restricted_triple_collision_shape_energy,
@@ -173,6 +174,49 @@ def test_restricted_triple_collision_slow_field_barrier_constants() -> None:
     assert initial_gap > 0
     assert margin > 0
     assert center_lower > 0
+
+
+def test_restricted_terminal_collision_r_chart_exponents() -> None:
+    (
+        shape_equation,
+        transverse_equation,
+        shape_residual,
+        shape_linear,
+        shape_exponents,
+        transverse,
+        exponents,
+    ) = restricted_terminal_collision_r_chart()
+    radius = sp.symbols("r", positive=True, real=True)
+    shape = sp.symbols("y", real=True)
+    shape_first, shape_second = sp.symbols("y_r y_rr", real=True)
+    field, field_first, field_second = sp.symbols("p p_r p_rr", real=True)
+    raw_coefficient = (1 - 2 * shape**2) / (
+        shape**2 + sp.Rational(1, 4)
+    ) ** sp.Rational(5, 2)
+    expected_shape = (
+        2 * radius**2 * (1 - radius) * shape_second
+        + radius * (3 - 4 * radius) * shape_first
+        + shape
+        * ((shape**2 + sp.Rational(1, 4)) ** (-sp.Rational(3, 2)) - 1)
+    )
+    expected_transverse = (
+        2 * radius**2 * (1 - radius) * field_second
+        - radius * field_first
+        - raw_coefficient * field / 2
+    )
+    assert sp.simplify(shape_equation - expected_shape) == 0
+    assert sp.simplify(transverse_equation - expected_transverse) == 0
+    assert shape_residual == 0
+    assert shape_linear == -sp.Rational(9, 4)
+    assert shape_exponents == (
+        (-1 - sp.sqrt(19)) / 4,
+        (-1 + sp.sqrt(19)) / 4,
+    )
+    assert transverse == -sp.Rational(1, 2)
+    assert exponents == (
+        (3 - sp.sqrt(7)) / 4,
+        (3 + sp.sqrt(7)) / 4,
+    )
 
 
 def test_restricted_universal_binary_collision_is_lc_regular() -> None:

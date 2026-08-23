@@ -372,6 +372,65 @@ def restricted_triple_collision_slow_field_barrier() -> tuple[
     )
 
 
+def restricted_terminal_collision_r_chart() -> tuple[
+    sp.Expr,
+    sp.Expr,
+    sp.Expr,
+    sp.Expr,
+    tuple[sp.Expr, sp.Expr],
+    sp.Expr,
+    tuple[sp.Expr, sp.Expr],
+]:
+    """Return exact Fuchsian data using binary separation as final-infall time."""
+    radius = sp.symbols("r", positive=True, real=True)
+    shape = sp.symbols("y", real=True)
+    shape_first, shape_second = sp.symbols("y_r y_rr", real=True)
+    transverse, transverse_first, transverse_second = sp.symbols(
+        "p p_r p_rr", real=True
+    )
+    equilateral_shape = -sp.sqrt(3) / 2
+    shape_force = shape * (
+        (shape**2 + sp.Rational(1, 4)) ** (-sp.Rational(3, 2)) - 1
+    )
+    shape_equation = (
+        2 * radius**2 * (1 - radius) * shape_second
+        + radius * (3 - 4 * radius) * shape_first
+        + shape_force
+    )
+    shape_residual = sp.simplify(shape_force.subs(shape, equilateral_shape))
+    shape_linear_coefficient = sp.simplify(
+        sp.diff(shape_force, shape).subs(shape, equilateral_shape)
+    )
+    shape_exponents = (
+        (-1 - sp.sqrt(19)) / 4,
+        (-1 + sp.sqrt(19)) / 4,
+    )
+    raw_transverse_coefficient = (1 - 2 * shape**2) / (
+        shape**2 + sp.Rational(1, 4)
+    ) ** sp.Rational(5, 2)
+    transverse_equation = (
+        2 * radius**2 * (1 - radius) * transverse_second
+        - radius * transverse_first
+        - raw_transverse_coefficient * transverse / 2
+    )
+    transverse_coefficient = sp.simplify(
+        raw_transverse_coefficient.subs(shape, equilateral_shape)
+    )
+    transverse_exponents = (
+        (3 - sp.sqrt(7)) / 4,
+        (3 + sp.sqrt(7)) / 4,
+    )
+    return (
+        shape_equation,
+        transverse_equation,
+        shape_residual,
+        shape_linear_coefficient,
+        shape_exponents,
+        transverse_coefficient,
+        transverse_exponents,
+    )
+
+
 def restricted_universal_binary_lc_system() -> tuple[
     sp.Matrix, tuple[sp.Symbol, ...]
 ]:

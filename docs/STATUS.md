@@ -210,7 +210,11 @@ $p_s(0)/p(0)>1/1000$ at the center, and a pinned CAPD proof covers the full
 analytic center-speed interval $[1/2,3/4]$ in 256 slabs through the
 prescribed binary collision and unique first turn. Finite-$\varepsilon$
 selection and the global slow-mode projection $A_-$ remain the endpoint
-obligations.
+obligations. The latter now has an exact final-infall Fuchsian formulation:
+the collision-stable base has exponent $(-1+\sqrt{19})/4$, the slow field has
+exponent $(3-\sqrt7)/4$, and $A_-$ is one explicit scalar projector. Ordinary
+finite-gap sections stabilize near $A_-\approx0.314>0$; this is not yet a
+validated sign.
 
 Late-resonance simplicity has also been narrowed to a differentiable
 parabolic-passage lemma. For the degree-four McGehee map, the exact Kepler

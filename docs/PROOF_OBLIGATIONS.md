@@ -207,7 +207,13 @@ CAPD proof covers the whole analytic speed box, the prescribed binary
 collision, and the first turn. Ordinary shooting gives the non-rigorous
 magnitude $K_-\approx2.435$. The remaining endpoint obligations are the
 finite-$\varepsilon$ base/field selection theorem and the sign of the global
-projection $A_-$.
+projection $A_-$. On the final binary infall, exact use of $r$ as independent
+variable now reduces $A_-$ to a Fuchsian projector with exponents
+$(3\pm\sqrt7)/4$. The collision-stable base has one free coefficient with
+shape exponent $(-1+\sqrt{19})/4$. Thus the next certificate is a scalar
+intersection of that one-dimensional collision-stable family with the
+incoming parabolic manifold, plus the sign of one propagated linear field.
+Ordinary section projections stabilize near $0.314>0$.
 
 ## Adversarial checklist
 
@@ -234,6 +240,17 @@ bases cover every center logarithmic derivative $r\ge1/1000$, so no hidden
 upper cutoff on $r$ is present. The replay reproduced the stored hexadecimal
 certificate. The audit explicitly rejected any inference from $K_->0$ to
 finite-$\varepsilon$ selection or to the sign of $A_-$.
+
+An independent audit rederived the exact final-infall equations, both
+indicial pairs, the $r$-projector, and the positive conversion factor between
+$\widehat A_-$ and $A_-$. It also checked that the projector limit follows
+from a constant hyperbolic Euler system plus exponentially decaying
+coefficients in $x=-\log r$. The conditional cone lemma's time orientation
+and force comparison were verified. The audit treated the displayed
+$0.314$ projection only as ordinary finite-gap evidence. It caught and
+prompted repair of a collision-coordinate exponent-name collision and
+required derivative-strengthened Fuchsian asymptotics for both the projector
+and the limit $\dot w\to0^+$.
 
 The first-encounter and terminal-escape theorems received independent
 adversarial derivations. The audit explicitly checked near-collision
