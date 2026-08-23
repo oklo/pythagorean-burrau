@@ -2,7 +2,7 @@
 
 Date: 2026-08-23
 
-The complete run summary is `RUN_REPORT_2026-08-22.md`.
+The complete run summary is `RUN_REPORT_2026-08-23.md`.
 
 Outcome so far: **major partial theorem (Level D), but unresolved full
 conjecture**. The main rational conjecture and strong real conjecture remain
