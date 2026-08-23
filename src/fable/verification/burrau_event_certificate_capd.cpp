@@ -35,6 +35,7 @@
 #include <cstdlib>
 #include <iomanip>
 #include <iostream>
+#include <memory>
 #include <stdexcept>
 #include <string>
 #include <type_traits>
@@ -127,7 +128,7 @@ struct Scalars {
   Ival potential;
 };
 
-Scalars evaluate_scalars(const Vector& s) {
+Scalars evaluate_scalars(const Vector& s, bool want_potential) {
   const Ival &x1 = s[0], &x2 = s[1], &y1 = s[2], &y2 = s[3];
   const Ival &u1 = s[4], &u2 = s[5], &v1 = s[6], &v2 = s[7];
   Scalars out;
@@ -138,15 +139,18 @@ Scalars evaluate_scalars(const Vector& s) {
   out.b1 = dot(x1, x2, u1, u2) - dot(y1, y2, v1, v2);
   out.b2 = dot(u1, u2, y1, y2) + dot(x1, x2, v1, v2);
   out.b3 = cross(u1, u2, y1, y2) + cross(x1, x2, v1, v2);
-  const Ival d11 = y1 + 3 * x1 / 7;
-  const Ival d12 = y2 + 3 * x2 / 7;
-  const Ival d21 = y1 - 4 * x1 / 7;
-  const Ival d22 = y2 - 4 * x2 / 7;
-  const Ival r12 = sqrt(dot(x1, x2, x1, x2));
-  const Ival r13 = sqrt(dot(d11, d12, d11, d12));
-  const Ival r23 = sqrt(dot(d21, d22, d21, d22));
-  out.potential =
-      kM1() * kM2() / r12 + kM1() * kM3() / r13 + kM2() * kM3() / r23;
+  out.potential = Ival(0);
+  if (want_potential) {
+    const Ival d11 = y1 + 3 * x1 / 7;
+    const Ival d12 = y2 + 3 * x2 / 7;
+    const Ival d21 = y1 - 4 * x1 / 7;
+    const Ival d22 = y2 - 4 * x2 / 7;
+    const Ival r12 = sqrt(dot(x1, x2, x1, x2));
+    const Ival r13 = sqrt(dot(d11, d12, d11, d12));
+    const Ival r23 = sqrt(dot(d21, d22, d21, d22));
+    out.potential =
+        kM1() * kM2() / r12 + kM1() * kM3() / r13 + kM2() * kM3() / r23;
+  }
   return out;
 }
 
@@ -249,7 +253,7 @@ int main(int argc, char** argv) {
     Solver solver(field, order);
     solver.setAbsoluteTolerance(tolerance);
     solver.setRelativeTolerance(tolerance);
-    TimeMap time_map(solver);
+    std::unique_ptr<TimeMap> time_map(new TimeMap(solver));
 
     // Exact tied initial state for u = 1/3.
     Vector initial(8);
@@ -267,7 +271,7 @@ int main(int argc, char** argv) {
     const Ival final_time = Ival(14);
     const double escape_check_start = 11.5;
 
-    time_map.stopAfterStep(true);
+    time_map->stopAfterStep(true);
 
     // Near a deep binary encounter the trial-step rough enclosure can
     // sweep across the collision set, making the interval vector field
@@ -285,10 +289,11 @@ int main(int argc, char** argv) {
     bool initial_phase = true;
     Ival final_margin;
 
+    bool finished = false;
     do {
       try {
         solver.setMaxStep(Ival(step_cap));
-        time_map(final_time, set);
+        (*time_map)(final_time, set);
       } catch (const std::exception& step_error) {
         ++capped_retries;
         if (capped_retries > 4000 || step_cap < 1e-13) {
@@ -297,6 +302,10 @@ int main(int argc, char** argv) {
         const double last = bound_double(solver.getStep().rightBound());
         const double reference = (last > 1e-13 && last < step_cap) ? last : step_cap;
         step_cap = reference / 2;
+        // A thrown step can leave the time map in a spurious completed
+        // state; rebuild it (the set carries its own current time).
+        time_map.reset(new TimeMap(solver));
+        time_map->stopAfterStep(true);
         continue;
       }
       if (step_cap < 1e6) {
@@ -304,8 +313,8 @@ int main(int argc, char** argv) {
       }
       ++steps;
       const Vector enclosure = set.getLastEnclosure();
-      const Ival current_time = time_map.getCurrentTime();
-      const Scalars sc = evaluate_scalars(enclosure);
+      const Ival current_time = time_map->getCurrentTime();
+      const Scalars sc = evaluate_scalars(enclosure, initial_phase);
 
       if (initial_phase) {
         // Initial phase: prove U < 2 U0 on every step enclosure up to and
@@ -364,7 +373,16 @@ int main(int argc, char** argv) {
           break;
         }
       }
-    } while (!time_map.completed());
+      if (time_map->completed()) {
+        if (to_double(current_time) <
+            bound_double(final_time.leftBound()) - 1e-9) {
+          time_map.reset(new TimeMap(solver));
+          time_map->stopAfterStep(true);
+          continue;
+        }
+        finished = true;
+      }
+    } while (!finished);
 
     if (!certified) {
       std::cerr << "FAIL terminal escape certificate did not fire\n";
