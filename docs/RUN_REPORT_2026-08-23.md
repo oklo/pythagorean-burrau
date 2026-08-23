@@ -142,6 +142,10 @@ with equality only at the two equilateral shapes. Consequently:
   $w_\zeta\ne0$ at every finite collision-free point.
 
 The last assertion concerns shape velocity, not physical velocity.
+A LaSalle alpha-limit argument additionally proves that such an orbit cannot
+remain in a compact collision-free region when continued away from its
+equilateral end. It must approach a collision boundary or become unbounded in
+shape/shape velocity; compact recurrent capture is excluded.
 
 On the outer strip,
 
@@ -236,7 +240,8 @@ is eventually found, a new exact arithmetic bridge would still be required.
    real zero of the three-component brake residual.
 2. Classify the one-parameter planar family $\mathscr U_\kappa$, including
    inner-strip transitions, collision branches, and a common outgoing
-   scattering scalar.
+   scattering scalar. Compact collision-free backward capture is already
+   excluded.
 3. Continue the proved nonzero skinny angular momentum through the compact
    second and later central-encounter maps.
 4. Control the exact finite-$B$ separatrix displacement and the accumulating

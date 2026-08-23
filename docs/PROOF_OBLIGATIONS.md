@@ -276,6 +276,10 @@ remaining lemma is a classification of transitions through
 $|y|<\sqrt3/2$, including light-heavy collision branches and the LC matching
 of the physical angular sign. Global outer-strip invariance is false at
 $\kappa=0$ and must not be assumed.
+The sharp bound $W\ge11/36$ and LaSalle's argument now exclude every compact
+collision-free backward-captured component, so the transition classification
+needs only genuine collision-boundary approaches and unbounded shape/velocity
+exits; recurrent compact trapping is no longer an open outcome.
 
 The singular local part of that implication is now isolated in
 `TRIPLE_ENDPOINT_SELECTION.md`. Exact translation by the center radius turns

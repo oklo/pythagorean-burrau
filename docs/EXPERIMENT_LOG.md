@@ -541,6 +541,9 @@ outgoing scattering scalar remain **CONJECTURAL**.
 - Proved the strict identity
   $\mathcal E_\zeta=-|w_\zeta|^2/3$, excluding nonconstant periodic shape
   orbits and equilateral-to-equilateral connections.
+- Proved the sharp global minimum $W\ge11/36$. A nonhomothetic
+  equilateral-stable orbit has no finite zero of $w_\zeta$, and a LaSalle
+  alpha-limit argument excludes compact collision-free backward capture.
 - Factored the angular equation exactly as
   $\Lambda_\zeta+\Lambda/3=-xyK(x,y)$ with $K>0$.
 - Proved

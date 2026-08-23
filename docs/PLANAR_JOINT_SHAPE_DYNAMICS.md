@@ -164,6 +164,38 @@ Statement (10b) concerns shape velocity. It does not by itself say that the
 physical light velocity vanishes or not, because
 $Z_t=Ct^{-1/3}(2w/3+w_\zeta)$.
 
+**Theorem (no compact backward capture).** Let a nonhomothetic solution tend
+to $e_\pm$ as $\zeta\to+\infty$. Its maximal continuation toward decreasing
+$\zeta$ cannot remain in a compact subset of
+\[
+ \{(w,w_\zeta):w\ne\pm e_x/2\}.
+\tag{10c}
+\]
+Thus every such projective orbit, continued away from its equilateral end,
+either approaches the light-heavy collision set (at a finite endpoint or
+asymptotically) or becomes unbounded in shape or shape velocity. In
+particular there is no compact collision-free captured component of the
+stable manifold.
+
+**Proof.** Suppose a complete backward tail were contained in a compact
+collision-free phase-space set. Since $\mathcal E$ is monotone and bounded
+there, it has a limit $\mathcal E_-$ as $\zeta\to-\infty$, and the
+$\alpha$-limit set is nonempty, compact, and invariant. The energy is constant
+on that set. Equation (9) then forces $w_\zeta=0$ throughout it, and invariance
+forces $\nabla W=0$. Hence it contains a rest point with energy $-W$.
+
+But (10) gives $\mathcal E_->\!-11/36$, whereas the global bound (10a) gives
+$-W\le-11/36$ at every rest point. This is impossible. If the maximal
+backward interval is finite, failure of continuation can occur only at a
+collision singularity or by escape from every compact phase-space set.
+\(\square\)
+
+Indeed, if both $w$ and $w_\zeta$ were bounded along the complete tail, then
+$W=|w_\zeta|^2/2-\mathcal E$ would be bounded above. Since $W$ tends to
+infinity both at the two deleted collision points and as $|w|\to\infty$, this
+would give uniform collision clearance and phase-space precompactness,
+contradicting the theorem.
+
 ## Exact torque factorization
 
 Let

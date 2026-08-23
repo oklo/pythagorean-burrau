@@ -280,6 +280,9 @@ damped gradient and
  \Lambda_\zeta+{\Lambda\over3}=-xyK(x,y),\quad K>0.
 \]
 This excludes nonconstant periodic shape or equilateral homoclinic motion.
+The sharp global bound $W\ge11/36$ further proves that a nonhomothetic
+equilateral-stable orbit never has zero shape velocity and cannot remain in a
+compact collision-free region when continued backward.
 It proves a fixed angular sign while $|y|\ge\sqrt3/2$, where
 $W_{xx}\ge(7/4-8/(3\sqrt3))/9$. The exact quadratic coefficient
 $(2\sqrt{21}-5\sqrt3)/4>0$ shows that $\kappa=0$ enters the inner strip, so
