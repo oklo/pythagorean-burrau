@@ -355,12 +355,13 @@ classification only near the certified root; excluding or certifying every
 remaining collision boundary on a larger compact \(\kappa\)-range remains
 open.
 
-For the second certified collision boundary, ordinary continuation reaches a
-large terminal escape cone only after another very close positive-primary
-passage.  `SECOND_COLLISION_OUTGOING.md` gives the exact third LC chart that
-regularizes this passage.  Its interval propagation, nonselected-primary
-separation, heavy-binary bridge, and finite-mass transfer remain open; no
-outgoing theorem for the second root is yet claimed.
+For the second certified collision boundary, the third positive-primary LC
+chart, nonselected-primary separation, heavy-binary bridge, and finite-mass
+transfer are now closed in
+`COMPUTER_ASSISTED_PLANAR_SECOND_COLLISION_ESCAPE.md`.  The explicit narrow
+box (1.2640119181\le\kappa\le1.2640119321) is entirely collision-or-escape.
+Classifying the adjacent components beyond this box, including any further
+collision boundaries, remains open.
 
 The selected finite-mass relative coordinate now gives an exact perturbative
 bridge:

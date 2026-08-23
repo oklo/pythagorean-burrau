@@ -367,15 +367,17 @@ The interval determinant lies in \([98.8377,99.2930]\); the nonregularized
 primary stays separated and the collision occurs at \(0.6152<t<0.6153\),
 strictly before the prescribed heavy-binary collision.  Thus this is a second
 transverse collision graph of the planar limiting family, reached without an
-earlier collision.  It is **PROVED BY COMPUTER-ASSISTED ARGUMENT**.  Its two
-outgoing sides remain unclassified.  Three independent adversarial audits
+earlier collision.  It is **PROVED BY COMPUTER-ASSISTED ARGUMENT**.  Three independent adversarial audits
 identified and then endorsed the repair \(\Re v_->1/2\), which makes
 \(\Re u_-\) strictly decreasing and excludes a hidden regularized recollision.
-Ordinary continuation of its regularized outgoing branch eventually has very
-large escape margins, but first passes within about \(4.3\times10^{-4}\) of
-the positive primary.  The exact negative-to-positive LC switch has been
-derived in `SECOND_COLLISION_OUTGOING.md`; this third chart is the next
-validated propagation target.
+Its regularized outgoing branch passes very close to the positive primary,
+so a third LC chart was introduced.  Pinned CAPD now carries the whole narrow
+root box through that passage and the heavy-binary bridge.  Squared
+nonselected-primary separations stay above $0.0655$, and the restricted and
+finite-mass hierarchical escape margins exceed $3.13$ and $3.26$.
+Consequently every sufficiently small compatible positive-mass member near
+this second boundary also collides or escapes.  Three adversarial replays
+endorsed the chart algebra, interval logic, and finite-mass transfer.
 
 ### Positive-mass persistence of the collision boundary
 
@@ -687,6 +689,9 @@ At the end of this run:
     bash scripts/run_capd_planar_light_collision_newton.sh \
       /private/tmp/pythagorean-capd \
       /private/tmp/pythagorean-capd/build-native --second-root
+    bash scripts/run_capd_planar_light_collision_newton.sh \
+      /private/tmp/pythagorean-capd \
+      /private/tmp/pythagorean-capd/build-native --second-escape
 
 Results at this checkpoint:
 
@@ -700,15 +705,12 @@ computer-assisted proof notes and repository README.
 
 ## Highest-leverage next action
 
-Enclose the certified second collision root through the exact
-negative-to-positive-primary LC switch in `SECOND_COLLISION_OUTGOING.md`.
-The required proof is finite: propagate the root box to a fixed switch
-section, certify the square-root sheet and negative-primary separation,
-cross the close positive-primary passage in the third LC chart, and fire the
-existing heavy-binary escape cone.  Only after this component is classified
-should the planar audit resume locating further collision zeros.  The
-long-dwell derivative bridge and the first boundary's infinite-time outgoing
-classification are already closed.
+Extend the two certified collision-or-escape boxes across their adjacent
+compact planar components.  Locate every remaining collision zero, use an LC
+chart at each close passage, and propagate each collision-free component to a
+common terminal section where either the hierarchical escape cone or a
+nonzero brake scalar fires.  Both known collision boundaries now have
+infinite-time outgoing classifications.
 For the tied family, the parallel highest-leverage question remains a
 componentwise sign/zero theorem for \(\Delta_{\rm intr}(B)\), upgrading the
 cyclewise collision dichotomy to a classified root sequence.  This is a

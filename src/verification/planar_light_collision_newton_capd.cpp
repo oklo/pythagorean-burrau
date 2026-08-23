@@ -151,6 +151,57 @@ IMap make_other_pair_lc_field() {
               "/2," + energy_derivative + ",- (ar^2+ai^2);");
 }
 
+IMap make_positive_pair_entry_map() {
+  const std::string scale = "exp(log(9)/3)";
+  const std::string separation =
+      "(" + scale + "*exp(2*log(at)/3))";
+  const std::string selected_norm = "(ar^2+ai^2)";
+  const std::string qx = "(ar^2-ai^2-" + separation + ")";
+  const std::string qy = "(2*ar*ai)";
+  const std::string qnorm = "sqrt(" + qx + "^2+" + qy + "^2)";
+  const std::string ci = "(-sqrt((" + qnorm + "-" + qx + ")/2))";
+  // This switch occurs close to the negative real q-axis.  Computing cr from
+  // sqrt((|q|+qx)/2) loses interval significance there; qy/(2*ci) is the
+  // equivalent, cancellation-free lift on the already certified qy<0 sheet.
+  const std::string cr = "(" + qy + "/(2*(" + ci + ")))";
+  const std::string qtx =
+      "(2*(ar*br-ai*bi)/" + selected_norm + "-2*" + separation +
+      "/(3*at))";
+  const std::string qty =
+      "(2*(ar*bi+ai*br)/" + selected_norm + ")";
+  const std::string dr = "((" + cr + ")*(" + qtx + ")+(" + ci +
+                         ")*(" + qty + "))/2";
+  const std::string di = "((" + cr + ")*(" + qty + ")-(" + ci +
+                         ")*(" + qtx + "))/2";
+  const std::string energy = "((" + qtx + ")^2+(" + qty + ")^2)/2-1/(" +
+                             qnorm + ")";
+  return IMap("var:ar,ai,br,bi,ah,at;fun:" + cr + "," + ci + "," + dr +
+              "," + di + "," + energy + ",at;");
+}
+
+IMap make_positive_pair_lc_field() {
+  const std::string scale = "exp(log(9)/3)";
+  const std::string separation =
+      "(" + scale + "*exp(2*log(ct)/3))";
+  const std::string qx = "(cr^2-ci^2)";
+  const std::string qy = "(2*cr*ci)";
+  const std::string other_squared =
+      "((" + qx + "+" + separation + ")^2+" + qy + "^2)";
+  const std::string other_denominator =
+      "(" + other_squared + "*sqrt(" + other_squared + "))";
+  const std::string gx = "(1/(" + separation + ")^2-(" + qx + "+" +
+                         separation + ")/" + other_denominator + ")";
+  const std::string gy = "(-" + qy + "/" + other_denominator + ")";
+  const std::string force_real = "(cr*" + gx + "+ci*" + gy + ")";
+  const std::string force_imag = "(cr*" + gy + "-ci*" + gx + ")";
+  const std::string energy_derivative =
+      "(-2*((cr*dr-ci*di)*" + gx + "+(cr*di+ci*dr)*" + gy + "))";
+  return IMap("var:cr,ci,dr,di,ch,ct;fun:-dr,-di,-ch*cr/2-"
+              "(cr^2+ci^2)*" +
+              force_real + "/2,-ch*ci/2-(cr^2+ci^2)*" + force_imag +
+              "/2," + energy_derivative + ",- (cr^2+ci^2);");
+}
+
 TailData stable_tail_data(const interval& kappa) {
   using namespace capd;
   const interval sqrt3 = sqrt(interval(3.0));
@@ -489,6 +540,18 @@ struct EscapeEvaluation {
   interval finite_mass_margin;
 };
 
+struct SecondEscapeEvaluation {
+  IVector negative_lc_exit;
+  IVector positive_lc_entry;
+  IVector positive_lc_exit;
+  IVector bridge_exit;
+  interval minimum_negative_chart_other_squared;
+  interval minimum_positive_chart_other_squared;
+  interval minimum_bridge_primary_squared;
+  interval escape_margin;
+  interval finite_mass_margin;
+};
+
 EscapeEvaluation evaluate_collision_ejection_escape(const interval& kappa) {
   const interval lc_duration = interval(61.0) / interval(25.0);
   const IVector state = evaluate_escape_lc_state(kappa, lc_duration);
@@ -597,6 +660,232 @@ EscapeEvaluation evaluate_collision_ejection_escape(const interval& kappa) {
           finite_mass_margin};
 }
 
+SecondEscapeEvaluation evaluate_second_collision_ejection_escape(
+    const interval& kappa, const interval& collision_duration) {
+  const Evaluation collision =
+      evaluate_other_pair_collision(kappa, collision_duration);
+
+  C0Rect2Set negative_set(collision.final_state);
+  IMap negative_field = make_other_pair_lc_field();
+  IOdeSolver negative_solver(negative_field, 30);
+  negative_solver.setAbsoluteTolerance(1e-15);
+  negative_solver.setRelativeTolerance(1e-15);
+  ITimeMap negative_time_map(negative_solver);
+  const interval negative_duration =
+      interval(83687424.0) / interval(100000000.0);
+  negative_time_map.stopAfterStep(true);
+  interval minimum_negative_other_squared = interval(1000000.0);
+  do {
+    negative_time_map(negative_duration, negative_set);
+    const IVector enclosure = negative_set.getLastEnclosure();
+    const interval separation =
+        exp(log(interval(9.0)) / interval(3.0)) *
+        exp(interval(2.0) * log(enclosure[5]) / interval(3.0));
+    const interval qx = sqr(enclosure[0]) - sqr(enclosure[1]);
+    const interval qy = interval(2.0) * enclosure[0] * enclosure[1];
+    const interval other_squared = sqr(qx - separation) + sqr(qy);
+    minimum_negative_other_squared =
+        interval(std::min(minimum_negative_other_squared.leftBound(),
+                          other_squared.leftBound()),
+                 std::min(minimum_negative_other_squared.rightBound(),
+                          other_squared.rightBound()));
+    if (!(enclosure[5].leftBound() > 0.4 &&
+          other_squared.leftBound() > 0.01)) {
+      std::cerr << std::hexfloat
+                << "SECOND_ESCAPE_NEGATIVE_PATH enclosure=" << enclosure
+                << " other_squared=" << other_squared << "\n";
+      throw std::runtime_error(
+          "second-root negative-primary outgoing path lost separation");
+    }
+  } while (!negative_time_map.completed());
+  const IVector negative_exit = static_cast<IVector>(negative_set);
+
+  const interval negative_norm =
+      sqr(negative_exit[0]) + sqr(negative_exit[1]);
+  const interval separation =
+      exp(log(interval(9.0)) / interval(3.0)) *
+      exp(interval(2.0) * log(negative_exit[5]) / interval(3.0));
+  const interval positive_qx =
+      sqr(negative_exit[0]) - sqr(negative_exit[1]) - separation;
+  const interval positive_qy =
+      interval(2.0) * negative_exit[0] * negative_exit[1];
+  const interval positive_norm_squared =
+      sqr(positive_qx) + sqr(positive_qy);
+  if (!(negative_norm.leftBound() > 0.01 &&
+        positive_norm_squared.leftBound() > 0.01 &&
+        positive_qy.rightBound() < 0.0)) {
+    throw std::runtime_error(
+        "positive-primary LC switch did not certify its square-root sheet");
+  }
+  IMap positive_entry_map = make_positive_pair_entry_map();
+  const IVector positive_entry = positive_entry_map(negative_exit);
+  if (!(positive_entry[0].leftBound() > 0.0 &&
+        positive_entry[1].rightBound() < 0.0 &&
+        positive_entry[5].leftBound() > 0.4)) {
+    std::cerr << std::hexfloat
+              << "SECOND_ESCAPE_POSITIVE_ENTRY state=" << positive_entry
+              << "\n";
+    throw std::runtime_error("positive-primary LC entry left its selected lift");
+  }
+
+  C0Rect2Set positive_set(positive_entry);
+  IMap positive_field = make_positive_pair_lc_field();
+  IOdeSolver positive_solver(positive_field, 30);
+  positive_solver.setAbsoluteTolerance(1e-15);
+  positive_solver.setRelativeTolerance(1e-15);
+  ITimeMap positive_time_map(positive_solver);
+  const interval positive_duration =
+      interval(123106953.0) / interval(100000000.0);
+  positive_time_map.stopAfterStep(true);
+  interval minimum_positive_other_squared = interval(1000000.0);
+  do {
+    positive_time_map(positive_duration, positive_set);
+    const IVector enclosure = positive_set.getLastEnclosure();
+    const interval current_separation =
+        exp(log(interval(9.0)) / interval(3.0)) *
+        exp(interval(2.0) * log(enclosure[5]) / interval(3.0));
+    const interval qx = sqr(enclosure[0]) - sqr(enclosure[1]);
+    const interval qy = interval(2.0) * enclosure[0] * enclosure[1];
+    const interval other_squared =
+        sqr(qx + current_separation) + sqr(qy);
+    minimum_positive_other_squared =
+        interval(std::min(minimum_positive_other_squared.leftBound(),
+                          other_squared.leftBound()),
+                 std::min(minimum_positive_other_squared.rightBound(),
+                          other_squared.rightBound()));
+    if (!(enclosure[5].leftBound() > 0.25 &&
+          other_squared.leftBound() > 0.01)) {
+      std::cerr << std::hexfloat
+                << "SECOND_ESCAPE_POSITIVE_PATH enclosure=" << enclosure
+                << " other_squared=" << other_squared << "\n";
+      throw std::runtime_error(
+          "second-root positive-primary LC path lost separation");
+    }
+  } while (!positive_time_map.completed());
+  const IVector positive_exit = static_cast<IVector>(positive_set);
+
+  const interval cr = positive_exit[0];
+  const interval ci = positive_exit[1];
+  const interval dr = positive_exit[2];
+  const interval di = positive_exit[3];
+  const interval radial_time = positive_exit[5];
+  const interval u_squared = sqr(cr) + sqr(ci);
+  const interval qx = sqr(cr) - sqr(ci);
+  const interval qy = interval(2.0) * cr * ci;
+  const interval qtx =
+      interval(2.0) * (cr * dr - ci * di) / u_squared;
+  const interval qty =
+      interval(2.0) * (cr * di + ci * dr) / u_squared;
+  const interval lambda = exp(log(radial_time) / interval(3.0));
+  const interval binary_separation =
+      exp(log(interval(9.0)) / interval(3.0)) * sqr(lambda);
+
+  IVector bridge_initial(5);
+  bridge_initial[0] = lambda;
+  bridge_initial[1] = qx + binary_separation / interval(2.0);
+  bridge_initial[2] = qy;
+  bridge_initial[3] =
+      qtx + binary_separation / (interval(3.0) * radial_time);
+  bridge_initial[4] = qty;
+  C0Rect2Set bridge_set(bridge_initial);
+
+  IMap bridge_field = make_heavy_binary_bridge_field();
+  IOdeSolver bridge_solver(bridge_field, 30);
+  bridge_solver.setAbsoluteTolerance(1e-15);
+  bridge_solver.setRelativeTolerance(1e-15);
+  ITimeMap bridge_time_map(bridge_solver);
+  const double lambda_center =
+      (lambda.leftBound() + lambda.rightBound()) / 2.0;
+  const interval bridge_end = interval(lambda_center + 2.0);
+  bridge_time_map.stopAfterStep(true);
+  interval minimum_bridge_primary_squared = interval(1000000.0);
+  do {
+    bridge_time_map(bridge_end, bridge_set);
+    const IVector enclosure = bridge_set.getLastEnclosure();
+    const interval half_binary =
+        exp(log(interval(9.0)) / interval(3.0)) * sqr(enclosure[0]) /
+        interval(2.0);
+    const interval plus_squared =
+        sqr(enclosure[1] + half_binary) + sqr(enclosure[2]);
+    const interval minus_squared =
+        sqr(enclosure[1] - half_binary) + sqr(enclosure[2]);
+    const interval step_minimum(
+        std::min(plus_squared.leftBound(), minus_squared.leftBound()),
+        std::min(plus_squared.rightBound(), minus_squared.rightBound()));
+    minimum_bridge_primary_squared =
+        interval(std::min(minimum_bridge_primary_squared.leftBound(),
+                          step_minimum.leftBound()),
+                 std::min(minimum_bridge_primary_squared.rightBound(),
+                          step_minimum.rightBound()));
+    if (!(plus_squared.leftBound() > 0.01 &&
+          minus_squared.leftBound() > 0.01)) {
+      std::cerr << std::hexfloat
+                << "SECOND_ESCAPE_BRIDGE_PATH enclosure=" << enclosure
+                << " plus_squared=" << plus_squared
+                << " minus_squared=" << minus_squared << "\n";
+      throw std::runtime_error(
+          "second-root heavy-binary bridge approached a primary");
+    }
+  } while (!bridge_time_map.completed());
+
+  const IVector bridge_exit = static_cast<IVector>(bridge_set);
+  if (!(bridge_exit[0].rightBound() < -1.9 &&
+        bridge_exit[0].leftBound() > -2.1)) {
+    throw std::runtime_error(
+        "second-root heavy-binary bridge missed the target lambda section");
+  }
+  const interval outer_radius =
+      sqrt(sqr(bridge_exit[1]) + sqr(bridge_exit[2]));
+  const interval radial_clock_speed =
+      (bridge_exit[1] * bridge_exit[3] +
+       bridge_exit[2] * bridge_exit[4]) /
+      outer_radius;
+  const interval physical_outward_speed = -radial_clock_speed;
+  const interval scale = exp(log(interval(9.0)) / interval(3.0));
+  const interval half_binary =
+      scale * sqr(bridge_exit[0]) / interval(2.0);
+  const interval clearance = outer_radius - half_binary;
+  const interval binary_boundary_speed =
+      scale / (interval(3.0) * (-bridge_exit[0]));
+  const interval comparison_speed = interval(2.0);
+  const interval escape_margin =
+      physical_outward_speed -
+      interval(2.0) / (comparison_speed * clearance) - comparison_speed -
+      binary_boundary_speed;
+  const interval inner_separation = scale * sqr(bridge_exit[0]);
+  const interval outer_clearance = outer_radius - inner_separation;
+  const interval energy_ceiling = interval(1.0) / interval(100.0);
+  const interval cone_speed = interval(3.0) / interval(2.0);
+  const interval binary_envelope_speed =
+      sqrt(interval(4.0) / inner_separation +
+           interval(2.0) * energy_ceiling);
+  const interval finite_mass_margin =
+      physical_outward_speed -
+      interval(2.0) / (cone_speed * outer_clearance) -
+      binary_envelope_speed - cone_speed;
+  if (!(clearance.leftBound() > 10.0 &&
+        physical_outward_speed.leftBound() > 2.5 &&
+        escape_margin.leftBound() > 0.0 &&
+        outer_clearance.leftBound() > 10.0 &&
+        finite_mass_margin.leftBound() > 0.0)) {
+    std::cerr << std::hexfloat
+              << "SECOND_ESCAPE_TERMINAL bridge_exit=" << bridge_exit
+              << " escape_margin=" << escape_margin
+              << " finite_mass_margin=" << finite_mass_margin << "\n";
+    throw std::runtime_error(
+        "second-root post-binary state failed the analytic escape test");
+  }
+  return {negative_exit,
+          positive_entry,
+          positive_exit,
+          bridge_exit,
+          minimum_negative_other_squared,
+          minimum_positive_other_squared,
+          minimum_bridge_primary_squared,
+          escape_margin,
+          finite_mass_margin};
+}
+
 IVector interval_newton(const IVector& center, const IVector& value,
                         const IMatrix& jacobian) {
   return center - capd::matrixAlgorithms::gauss(jacobian, value);
@@ -621,8 +910,11 @@ int main(int argc, char** argv) {
     int escape_tile_count = 10;
     int escape_tile_radius = 1;
     bool second_root_only = false;
+    bool second_escape_only = false;
     if (argc == 2 && std::string(argv[1]) == "--second-root") {
       second_root_only = true;
+    } else if (argc == 2 && std::string(argv[1]) == "--second-escape") {
+      second_escape_only = true;
     } else if ((argc == 4 || argc == 5) &&
         std::string(argv[1]) == "--escape-tiles") {
       first_escape_offset = parse_integer(argv[2]);
@@ -632,8 +924,8 @@ int main(int argc, char** argv) {
       }
     } else if (argc != 1) {
       std::cerr << "usage: " << argv[0]
-                << " [--second-root | --escape-tiles FIRST_OFFSET COUNT "
-                   "[RADIUS]]\n";
+                << " [--second-root | --second-escape | --escape-tiles "
+                   "FIRST_OFFSET COUNT [RADIUS]]\n";
       return 2;
     }
     if (escape_tile_count < 1 || escape_tile_count > 1000 ||
@@ -688,6 +980,43 @@ int main(int argc, char** argv) {
       }
       std::cout << "PASS_SECOND_ROOT method=CAPD-6.1.0-native "
                    "stage=planar-second-light-collision-interval-newton\n";
+      return 0;
+    }
+    if (second_escape_only) {
+      const interval second_kappa_center =
+          interval(12640119251.0) / interval(10000000000.0);
+      const interval second_duration_center =
+          interval(10275749204.0) / interval(10000000000.0);
+      const interval second_kappa_radius =
+          interval(7.0) / interval(1000000000.0);
+      const interval second_duration_radius =
+          interval(5.0) / interval(100000000.0);
+      const interval second_kappa_box =
+          second_kappa_center + symmetric(second_kappa_radius);
+      const interval second_duration_box =
+          second_duration_center + symmetric(second_duration_radius);
+      const SecondEscapeEvaluation second_escape =
+          evaluate_second_collision_ejection_escape(second_kappa_box,
+                                                     second_duration_box);
+      std::cout << std::hexfloat
+                << "SECOND_ESCAPE_DATA method=CAPD-6.1.0-native"
+                << " kappa_box=" << second_kappa_box
+                << " duration_box=" << second_duration_box
+                << " negative_lc_exit=" << second_escape.negative_lc_exit
+                << " positive_lc_entry=" << second_escape.positive_lc_entry
+                << " positive_lc_exit=" << second_escape.positive_lc_exit
+                << " bridge_exit=" << second_escape.bridge_exit
+                << " minimum_negative_chart_other_squared="
+                << second_escape.minimum_negative_chart_other_squared
+                << " minimum_positive_chart_other_squared="
+                << second_escape.minimum_positive_chart_other_squared
+                << " minimum_bridge_primary_squared="
+                << second_escape.minimum_bridge_primary_squared
+                << " escape_margin=" << second_escape.escape_margin
+                << " finite_mass_margin="
+                << second_escape.finite_mass_margin << "\n";
+      std::cout << "PASS_SECOND_ESCAPE method=CAPD-6.1.0-native "
+                   "stage=planar-second-collision-ejection-escape\n";
       return 0;
     }
     const interval kappa_center = interval(12679351755.0) / interval(10000000000.0);

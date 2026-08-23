@@ -19,3 +19,8 @@ interval-Newton collision root.
 ten-tile replay covering the explicit interval
 `[1.2679251755, 1.2679451755]`, including the worst separation and escape
 margins on every tile.
+
+`validated_planar_second_light_collision_root_capd.txt` records the distinct
+opposite-primary interval-Newton collision root.  Its three-chart regularized
+continuation and terminal escape enclosure are recorded separately in
+`validated_planar_second_collision_escape_capd.txt`.

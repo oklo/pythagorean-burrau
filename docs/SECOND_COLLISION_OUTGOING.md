@@ -1,9 +1,10 @@
 # Outgoing program for the second planar collision
 
 This note records the exact third-chart reduction exposed by ordinary
-continuation of the certified opposite-primary root.  Every decimal in the
-diagnostic section is **ORDINARY NUMERICAL EVIDENCE**.  The coordinate formulas
-are **EXACT SYMBOLIC IDENTITIES**.
+continuation of the certified opposite-primary root.  The coordinate formulas
+are **EXACT SYMBOLIC IDENTITIES**.  The validation target described below has
+now been completed; the rigorous certificate and promoted theorem are in
+`COMPUTER_ASSISTED_PLANAR_SECOND_COLLISION_ESCAPE.md`.
 
 ## Why the heavy-binary bridge alone is insufficient
 
@@ -90,9 +91,9 @@ finite-mass hierarchical margin about \(4.29\).  These large terminal margins
 make interval wrapping and nonselected-primary separation, rather than the
 escape inequality, the remaining issues.
 
-## Validation target
+## Completed validation target
 
-A rigorous outgoing classification of the second root requires:
+The outgoing classification was completed by the following steps:
 
 1. propagate the tightened interval-Newton root box in the negative-primary
    LC chart to a fixed pre-passage section;
@@ -104,6 +105,10 @@ A rigorous outgoing classification of the second root requires:
 5. transfer the strict limiting cone through the existing positive-mass
    hierarchical-energy lemma.
 
-Success would classify a neighborhood of the second collision graph as
-collision or escape, just as for the first root.  Until those interval steps
-are complete, the second root's outgoing classification is **CONJECTURAL**.
+The pinned enclosure proves squared nonselected-primary distances greater
+than (0.1760), (0.1639), and (0.06558) in the two LC blocks and the
+heavy-binary bridge, respectively.  It reaches restricted and hierarchical
+escape margins greater than (3.1388) and (3.2680).  The outgoing limiting
+classification is therefore **PROVED BY COMPUTER-ASSISTED ARGUMENT**; the
+positive-mass transfer is recorded separately and does not physically
+continue a classical collision.

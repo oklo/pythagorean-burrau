@@ -59,6 +59,8 @@ bash scripts/run_capd_planar_light_collision_newton.sh \
   /path/to/CAPD /path/to/CAPD/build-native
 bash scripts/run_capd_planar_light_collision_newton.sh \
   /path/to/CAPD /path/to/CAPD/build-native --second-root
+bash scripts/run_capd_planar_light_collision_newton.sh \
+  /path/to/CAPD /path/to/CAPD/build-native --second-escape
 ```
 
 Full derivation and trusted-computing-base details are in
@@ -75,8 +77,9 @@ The same correlated verifier uses a second LC chart to certify a distinct
 transverse collision with the opposite primary; see
 `docs/COMPUTER_ASSISTED_PLANAR_SECOND_COLLISION_ROOT.md`.
 Its regularized outgoing branch has an exact third, positive-primary LC chart
-recorded in `docs/SECOND_COLLISION_OUTGOING.md`; the corresponding interval
-escape enclosure remains open.
+recorded in `docs/SECOND_COLLISION_OUTGOING.md`.  The corresponding interval
+collision-or-escape enclosure and finite-mass transfer are proved in
+`docs/COMPUTER_ASSISTED_PLANAR_SECOND_COLLISION_ESCAPE.md`.
 The exact positive-light-mass reduction and the resulting persistence theorem
 for that collision boundary are in
 `docs/FINITE_MASS_PLANAR_COLLISION_PERSISTENCE.md`.  The differentiated

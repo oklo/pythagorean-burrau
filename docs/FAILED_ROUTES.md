@@ -277,3 +277,23 @@ bounds all future tidal energy by \(2BK\) with \(K<\infty\) uniformly on the
 scaled terminal neighborhood.  A validated strict margin \(>0.69\) closes
 the simultaneous bootstrap.  This failure is retained to prevent future
 promotion of a restricted escape cone to finite mass by continuity alone.
+
+## Ordinary-coordinate bridge after the second planar collision
+
+**Status:** FAILED AS A VALIDATED IMPLEMENTATION; repaired by a third LC
+chart.
+
+The regularized continuation of the second collision root eventually enters
+a large escape cone, but a direct ordinary-coordinate bridge passes within
+about $4.3\times10^{-4}$ of the positive primary.  That is a smooth close
+passage, not a collision, and it makes componentwise interval propagation
+needlessly ill-conditioned.  Declaring it a collision would violate the
+classical problem, while stopping before it would leave the outgoing
+classification open.
+
+The repair switches exactly from the negative-primary coordinate to
+$q_+=q_--Re_x$, uses a cancellation-free square-root lift, and crosses the
+passage in a positive-primary LC chart.  The resulting pinned certificate
+keeps the unregularized primary separated and then reaches the heavy-binary
+escape bridge.  See
+`COMPUTER_ASSISTED_PLANAR_SECOND_COLLISION_ESCAPE.md`.

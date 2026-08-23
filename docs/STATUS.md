@@ -46,11 +46,13 @@ certificate is explicit on
 of its collision-free local sides are completely nonperiodic.  A second
 two-chart interval-Newton proof now certifies a distinct transverse collision
 with the opposite primary at \(\kappa\simeq1.2640119251\), reached without an
-earlier collision.  Its outgoing sides are not yet classified.
-Ordinary continuation shows a large eventual escape margin but a further
-\(4.3\times10^{-4}\) positive-primary near-passage.  The exact
-negative-to-positive LC switch is now written down; validating that third
-chart is the immediate outgoing task.
+earlier collision.  A third LC chart now carries its whole narrow parameter
+box through the subsequent positive-primary close passage and heavy-binary
+collision to a strict escape cone.  The limiting restricted and finite-mass
+hierarchical margins exceed $3.13$ and $3.26$, respectively.  Hence every
+sufficiently small compatible positive-mass member near this second boundary
+also collides or escapes.  Three independent adversarial passes endorsed the
+certificate and transfer.
 
 The closest catalog threat, the Li--Liao $F_{30}$ family on the
 $3{:}4{:}5$ mass slice, was locally continued.  Its periodic branch comes

@@ -4,8 +4,9 @@ set -euo pipefail
 PINNED_CAPD_COMMIT=731079217a9254ea2948d742df2b170895effe7f
 
 if [ "$#" -lt 1 ] || [ "$#" -gt 5 ] || \
-   { [ "$#" -eq 3 ] && [ "$3" != "--second-root" ]; }; then
-  echo "usage: $0 CAPD_SOURCE_DIR [CAPD_BUILD_DIR [--second-root | FIRST_OFFSET COUNT [RADIUS]]]" >&2
+   { [ "$#" -eq 3 ] && [ "$3" != "--second-root" ] && \
+     [ "$3" != "--second-escape" ]; }; then
+  echo "usage: $0 CAPD_SOURCE_DIR [CAPD_BUILD_DIR [--second-root | --second-escape | FIRST_OFFSET COUNT [RADIUS]]]" >&2
   exit 2
 fi
 
@@ -47,7 +48,7 @@ REPOSITORY_DIR=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 OUTPUT_BINARY=${TMPDIR:-/tmp}/planar_light_collision_newton_capd
 VERIFIER_ARGS=()
 if [ "$#" -eq 3 ]; then
-  VERIFIER_ARGS=(--second-root)
+  VERIFIER_ARGS=("$3")
 elif [ "$#" -eq 4 ]; then
   VERIFIER_ARGS=(--escape-tiles "$3" "$4")
 elif [ "$#" -eq 5 ]; then
