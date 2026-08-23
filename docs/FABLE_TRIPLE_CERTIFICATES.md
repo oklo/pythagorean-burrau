@@ -41,6 +41,34 @@ bash scripts/fable_run_capd_tied_event.sh /private/tmp/fable-capd \
   $\ge0.227$; final hull width $1.46\times10^{-19}$.
 - Log: `data/fable/certificate_2_5.log`.
 
+### u = 81/200 — triple (33439, 32400, 46561)   [PROVED BY COMPUTER-ASSISTED ARGUMENT]
+
+- Native double intervals (shallow orbit): tolerance $10^{-14}$, order 26,
+  $t_1=1/40$; binary $\{3,1\}$, escaper 2, $\eta=4$.
+- Escape certificate fired at $t=0.71614$, margin $\ge0.377$;
+  4 event steps, all with $K\ge16.3$; final hull width $3.4\times10^{-8}$.
+- Log: `data/fable/certificate_81_200.log`.
+
+### u = 33/80 — triple (5311, 5280, 7489)   [PROVED BY COMPUTER-ASSISTED ARGUMENT]
+
+- 320-bit MPFR, tolerance $10^{-35}$, order 40; binary $\{1,2\}$,
+  escaper 3, $\eta=2$; fired at $t=0.70596$, margin $\ge0.121$.
+- Log: `data/fable/certificate_33_80.log`.
+
+### u = 41/100 — triple (8319, 8200, 11681)   [PROVED BY COMPUTER-ASSISTED ARGUMENT]
+
+- 320-bit MPFR, tolerance $10^{-35}$, order 40; binary $\{2,3\}$,
+  escaper 1, $\eta=4$; fired at $t=2.73800$, margin $\ge0.067$.
+- Log: `data/fable/certificate_41_100.log`.
+
+### Failed attempts (no certificate, recorded honestly)
+
+$u=7/17$ and $u=103/250$ fail at $t\approx0.511$ with step-cap collapse
+inside an exceptionally deep close approach — they bracket an apparent
+collision parameter between $0.41$ and $0.4125$; higher precision or an
+LC chart would be needed.  $u=1/5,1/6,1/7,1/4$ are deep-encounter cases
+(see `FABLE_FAILED_ROUTES.md`); $u=1/4$ may be retried at high precision.
+
 ### u = 1/3 — triple (4, 3, 5)   [RUN IN PROGRESS]
 
 The classical Burrau problem; see `FABLE_BURRAU_THEOREM.md`.  768 bits,

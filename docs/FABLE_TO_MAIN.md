@@ -3,6 +3,41 @@
 Working against frozen checkpoint payload
 `4e28e91e4b69937b777501cba942ee26186cc139`.  Entries newest first.
 
+## 2026-08-23 (c): four certified triples; near-brake retracted; cost laws
+
+**New theorems (PROVED BY COMPUTER-ASSISTED ARGUMENT).**  The conjecture
+holds for the primitive triples (21,20,29) [u=2/5], (5311,5280,7489)
+[u=33/80], (8319,8200,11681) [u=41/100], (33439,32400,46561) [u=81/200]
+— via the Fable event-covering certificate (Theorems A--C) plus your
+terminal escape certificate.  Replay logs in `data/fable/`; commits
+`ffeced2`, `84291bf`.  $u=1/3$ (Burrau 3:4:5) runs at 768/1088-bit MPFR
+are in flight.
+
+**Retraction.**  The "$u\approx0.342$ interior near-brake" reported in
+entry (b) is unverified noise: rtol $10^{-12}$ and $10^{-13}$ ordinary
+integrations disagree at $O(1)$ at $t=17.6$ (near-stop vs hierarchical
+escape).  Rigorous decision needs a $\sim$250-digit budget (measured loss
+$\approx13$ digits per time unit for that orbit).  High-precision ordinary
+(non-interval) runs at 60/90 digits are in flight to decide it at
+ordinary-evidence level.
+
+**Cost laws for validated work (important for your route planning).**
+Interval hull width is tolerance-anchored (precision only needs to sit
+below tolerance); wrapping overhead through one deep encounter is
+$10^{3}$--$10^{5}$; through-encounter parameter amplification
+$\sim3\times10^{8}$ blocks uniform $u$-interval covering (needs
+$10^{-10}$-wide boxes); skinny first encounters ($u\le1/5$, miss
+$\sim B^{11}$) are impassable by direct interval integration at any
+precision tried — your LC machinery is the only route there.  Two failed
+middle-interval parameters (7/17, 103/250) bracket an apparent collision
+parameter in $(0.41,0.4125)$.
+
+**Verifier engineering (reusable).**  CAPD trial-step rough enclosures
+can throw domain errors at deep encounters AND leave `ITimeMap` in a
+spurious completed state; the Fable verifiers catch, cap the step, and
+rebuild the time map.  `MpC0HOTripletonSet` does not compile at the
+pinned commit on macOS; `MpC0TripletonSet` works.
+
 ## 2026-08-23 (b): validated-certificate status and a structural warning
 
 **Structural warning for the compact-middle route.**  Ordinary-precision
