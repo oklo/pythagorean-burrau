@@ -6,6 +6,9 @@ from src.dynamics.cartesian import right_hand_side
 from src.symbolic.mutual_distances import (
     _generic_ordered_syzygy_first_gap_energy_margin,
     first_gap_static_energy_obstruction,
+    initial_log_torque_threshold_gap,
+    log_torque_shape_rate_identity,
+    log_torque_shape_threshold,
     ordered_history_centrifugal_reduction,
     ordered_history_shape_time_rhs,
     ordered_obtuse_gravity_first_bernstein_coefficients,
@@ -14,9 +17,13 @@ from src.symbolic.mutual_distances import (
     ordered_obtuse_log_torque_ratio_gravity_curvature,
     ordered_shape_gravity_bernstein_coefficients,
     ordered_shape_gravity_gap,
+    ordered_shape_log_torque_kernel,
+    ordered_shape_log_torque_kernel_bernstein_coefficients,
     ordered_syzygy_first_gap_energy_bernstein_coefficients,
     ordered_syzygy_first_gap_energy_numerator,
+    ordered_syzygy_second_gap_static_obstruction,
     pair_torque_kinetic_coefficient,
+    second_gap_barrier_outward_contact_obstruction,
     squared_distance_accelerations,
     torque_history_ratio_identity,
     torque_rate_first_return_static_obstruction,
@@ -50,6 +57,77 @@ def test_squared_distance_equations_at_345_launch() -> None:
 
 def test_torque_history_ratio_scalar_ode() -> None:
     assert torque_history_ratio_identity() == 0
+
+
+def test_log_torque_rate_has_an_exact_algebraic_history_threshold() -> None:
+    assert log_torque_shape_rate_identity() == 0
+    coefficient, threshold, variables = log_torque_shape_threshold()
+    m, n, x, y = variables
+    witness = torque_rate_first_return_static_obstruction()
+    witness_values = {
+        m: sp.Rational(21, 29),
+        n: sp.Rational(20, 29),
+        x: sp.Rational(39, 40),
+        y: sp.Rational(1, 30),
+    }
+    witness_eta = sp.factor(
+        (witness_values[m] / witness_values[n])
+        * (-witness["ell_31"] / witness["ell_23"])
+    )
+    assert sp.factor(threshold.subs(witness_values) - witness_eta) == 0
+    assert sp.sign(coefficient.subs(witness_values)) == 1
+
+    kernel, cube_variables = ordered_shape_log_torque_kernel()
+    numerator, denominator = sp.fraction(kernel)
+    polynomial = sp.Poly(numerator, *cube_variables)
+    assert tuple(
+        polynomial.degree(variable) for variable in cube_variables
+    ) == (7, 6, 2)
+    coefficients = ordered_shape_log_torque_kernel_bernstein_coefficients()
+    signs = tuple(sp.sign(value) for value in coefficients)
+    assert len(coefficients) == 168
+    assert signs.count(-1) == 134
+    assert signs.count(0) == 34
+    assert set(signs) == {-1, 0}
+    _, _, parameter = cube_variables
+    expected_denominator = 16 * (
+        -1 - (3 - 2 * sp.sqrt(2)) * parameter**2
+    )
+    assert sp.factor(denominator - expected_denominator) == 0
+
+    initial_gap, tied_parameter = initial_log_torque_threshold_gap()
+    expected_gap = (
+        8
+        * tied_parameter
+        * (1 + tied_parameter**2) ** 3
+        * (tied_parameter**2 + 2 * tied_parameter - 1)
+        * (
+            2 * tied_parameter**4
+            - 3 * tied_parameter**3
+            + 3 * tied_parameter**2
+            + tied_parameter
+            + 1
+        )
+        / (
+            (tied_parameter - 1) ** 5
+            * (tied_parameter + 1) ** 4
+            * (
+                tied_parameter**3
+                - tied_parameter**2
+                + 3 * tied_parameter
+                + 1
+            )
+            * (
+                tied_parameter**4
+                + 2 * tied_parameter**3
+                + 6 * tied_parameter**2
+                + 2 * tied_parameter
+                + 1
+            )
+        )
+    )
+    assert sp.factor(initial_gap - expected_gap) == 0
+    assert sp.sign(initial_gap.subs(tied_parameter, sp.Rational(1, 3))) == 1
 
 
 def test_ordered_history_reduces_both_centrifugal_gaps_to_two_scalars() -> None:
@@ -266,6 +344,80 @@ def test_ordered_syzygy_kinetic_coefficient_matches_transverse_minimum() -> None
         values[y] * (values[m] + x) / (x * (values[n] + values[y]))
     )
     assert sp.factor(torque_ratio.subs(values) - expected_ratio) == 0
+
+
+def test_second_gap_static_sign_fails_even_on_ordered_syzygy_face() -> None:
+    obstruction = ordered_syzygy_second_gap_static_obstruction()
+    assert obstruction["u"] == sp.Rational(1, 3)
+    assert obstruction["m1"] == sp.Rational(4, 5)
+    assert obstruction["m2"] == sp.Rational(3, 5)
+    assert obstruction["r31"] == sp.Rational(3, 700)
+    assert obstruction["r23"] == sp.Rational(697, 700)
+    assert 0 < obstruction["eta"] < 1
+    assert sp.sign(obstruction["kinetic_coefficient"]) == 1
+    assert sp.sign(obstruction["potential"] - obstruction["initial_potential"]) == 1
+    assert sp.factor(
+        obstruction["amplitude"]
+        * obstruction["kinetic_coefficient"]
+        / 2
+        - obstruction["potential"]
+        + obstruction["initial_potential"]
+    ) == 0
+    assert sp.sign(obstruction["amplitude"]) == 1
+    assert sp.sign(obstruction["centrifugal_coefficient"]) == -1
+    assert sp.sign(obstruction["gravity_gap"]) == 1
+    assert sp.sign(obstruction["crossing_coefficient"]) == -1
+    assert sp.sign(obstruction["second_acceleration"]) == -1
+    assert obstruction["second_acceleration"] == sp.Rational(
+        -96354167469624287, 1827657180810
+    )
+
+
+def test_second_gap_critical_barrier_is_not_pointwise_invariant() -> None:
+    obstruction = second_gap_barrier_outward_contact_obstruction()
+    assert obstruction["u"] == sp.Rational(1, 3)
+    assert obstruction["m1"] == sp.Rational(4, 5)
+    assert obstruction["m2"] == sp.Rational(3, 5)
+    assert obstruction["r23_ratio"] == sp.Rational(499, 500)
+    assert obstruction["r31_ratio"] == sp.Rational(1, 20)
+    assert obstruction["eta"] == sp.Rational(3, 20)
+    assert obstruction["pythagorean_defect"] == sp.Rational(187, 125000)
+    assert obstruction["twice_area_ratio"] == 4 * sp.sqrt(37986) / 15625
+    assert sp.sign(obstruction["gravity_gap"]) == 1
+    assert sp.sign(obstruction["centrifugal_coefficient"]) == -1
+    assert sp.sign(obstruction["amplitude"]) == 1
+    assert sp.factor(
+        obstruction["gravity_gap"]
+        + obstruction["amplitude"]
+        * obstruction["centrifugal_coefficient"]
+    ) == 0
+    assert tuple(
+        sp.sign(obstruction[name])
+        for name in ("ell_12", "ell_23", "ell_31")
+    ) == (-1, 1, -1)
+    assert sp.factor(
+        sp.diff(obstruction["kinetic"], sp.symbols("sigma", real=True)).subs(
+            sp.symbols("sigma", real=True), obstruction["scale_rate"]
+        )
+    ) == 0
+    assert sp.sign(obstruction["kinetic_minimum"]) == 1
+    assert sp.sign(obstruction["physical_scale"]) == 1
+    assert sp.factor(
+        obstruction["kinetic_minimum"]
+        - obstruction["potential"]
+        + obstruction["initial_potential"]
+        * obstruction["physical_scale"]
+    ) == 0
+    assert (
+        0
+        < obstruction["current_ratio"]
+        < obstruction["eta"]
+        < obstruction["initial_ratio"]
+        < 1
+    )
+    assert sp.sign(obstruction["history_rate"]) == -1
+    assert sp.sign(obstruction["area_rate"]) == -1
+    assert sp.sign(obstruction["log_barrier_rate"]) == 1
 
 
 def test_pair_torque_kinetic_coefficient_matches_gram_inverse() -> None:

@@ -1274,3 +1274,33 @@ it is not a remainder proof.
   about $0.018$ for the first gap and $0.60$ for the second over the sampled
   middle parameters.  These ratios are discovery evidence only; the exact
   next target is a reachable $(Z,\eta)$ barrier.
+- Tested whether the successful first-gap syzygy-face argument extends to
+  the second gap.  It does not.  At exact tied parameter $u=1/3$, choose the
+  ordered collision-free syzygy
+  $(r_{12},r_{23},r_{31})=(1,697/700,3/700)$, zero radial velocities, and the
+  unique transverse amplitude giving $H=-U_0$.  Exact elimination gives
+  $\eta=419/32759$, $\dot\Delta_2/\ell_{23}=-292607/131036$, all three
+  launch torque signs, and
+  $(r_{23}-r_{31})''=-96354167469624287/1827657180810<0$.  The state is not
+  claimed reachable.  It disproves every proof of the second syzygy-face
+  sign based only on tied masses, energy, $P=L=0$, torque signs, and crossing
+  direction.  In the two-scalar variables it violates the exact required
+  barrier by $Z/Z_*=1.3724399581\ldots$.
+- Eliminated normalized shape velocity from the first derivative of
+  $J=\log k$.  The exact result is
+  $J_s=(W/\delta)\mathcal A(u,x,y)[\eta-h(u,x,y)]$.  A complete ordered-cone
+  substitution reduces $\mathcal A>0$ to a degree-$(7,6,2)$ kernel with 168
+  exact $\mathbb Q(\sqrt2)$ Bernstein coefficients: 134 strict signed and
+  34 zero, with the opposite strict denominator sign.  At the tied launch,
+  $h-k(0)>0$ factors analytically.  Hence global decrease of $k$ is exactly
+  the scalar history noncontact problem $\eta<h$.  The earlier $u=2/5$
+  static $J'=0$ obstruction was independently recovered as the exact equality
+  $eta=h$.
+- Tested the natural first-contact barrier for the remaining second gap.
+  The exact strict ordered-obtuse state
+  $u=1/3$, $(x,y,\eta)=(499/500,1/20,3/20)$ satisfies
+  $k<\eta<k(0)$, lies on $Z=Z_*$, has energy $-U_0$, $P=L=0$, torque signs
+  $(-,+,-)$, and decreasing area.  Yet exact radical arithmetic gives
+  $d\log(Z/Z_*)/ds=50.8829734688\ldots>0$.  This disproves a pointwise
+  inward-vector-field proof even after imposing the elementary
+  weighted-history envelope.

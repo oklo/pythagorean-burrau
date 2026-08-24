@@ -596,10 +596,83 @@ current centrifugal terms.
 In normalized side ratios $x=p/R$, $y=q/R$,
 
 \[
- k={y^3(1-x^3)\over x^3(1-y^3)},\qquad
- {\dot k\over k}=3\left{{\dot y\over y(1-y^3)}
+k={y^3(1-x^3)\over x^3(1-y^3)},\qquad
+{\dot k\over k}=3\left{{\dot y\over y(1-y^3)}
                     -{\dot x\over x(1-x^3)}\right\}.
 \]
+
+The first derivative itself has a sharper algebraic reduction.  Use shape
+time $ds=dt/R^{3/2}$, put $W=\ell_{23}/\sqrt R>0$ and
+$\delta=\Delta_2/R^2>0$, and retain $m=m_1$, $n=m_2$.  Define
+
+\[
+\begin{aligned}
+ B={}&-nx^5-nx^3y^2+nx^3+nx^2+2ny^5-ny^2-n\\
+    &+x^5y^2-x^3y^4+x^3y^2-x^2y^5+y^7+y^5-2y^2,\\
+ N={}&2mx^5-mx^2y^3-mx^2-my^5+my^3+my^2-m\\
+    &+x^7-x^5y^2+x^5-x^4y^3+x^2y^5+x^2y^3-2x^2,
+\end{aligned}
+\]
+
+and
+
+\[
+ h={y^2N\over x^2B},\qquad
+ \mathcal A={-3B\over
+ 2my^2(x-1)(y-1)(x^2+x+1)(y^2+y+1)}.
+\]
+
+Solving the three pair-angular-momentum constraints for normalized shape
+velocity, with the homothetic rate left free, gives the exact cancellation
+of that free rate:
+
+\[
+ \boxed{J_s={W\over\delta}\mathcal A(\eta-h)},
+ \qquad J=\log k.
+\]
+
+This is an **EXACT SYMBOLIC IDENTITY**.  Moreover
+$\mathcal A>0$ on the entire strict ordered triangle cone and strict
+fundamental mass interval.  Indeed, after
+
+\[
+ x=1-{tw\over2},\qquad y=1-t+{tw\over2},\qquad
+ u=(\sqrt2-1)v,
+\]
+
+the rational expression $-B$ has tensor degree $(7,6,2)$.  Its numerator has
+168 exact $\mathbb Q(\sqrt2)$ Bernstein coefficients, 134 strictly negative
+and 34 zero, while its denominator is
+
+\[
+ -16\{1+(3-2\sqrt2)v^2\}<0.
+\]
+
+Thus $-B>0$, hence $B<0$ and $\mathcal A>0$.  This is **PROVED BY
+COMPUTER-ASSISTED ARGUMENT** using exact arithmetic.  Consequently
+
+\[
+ \boxed{J_s<0\quad\Longleftrightarrow\quad\eta<h(u,x,y)}.
+\]
+
+At the initial tied shape, $eta(0+)=k(0)$ and direct factorization gives
+
+\[
+ h(0)-k(0)=
+ {8u(1+u^2)^3(u^2+2u-1)
+ (2u^4-3u^3+3u^2+u+1)\over
+ (u-1)^5(u+1)^4(u^3-u^2+3u+1)
+ (u^4+2u^3+6u^2+2u+1)}>0
+\]
+
+for $0<u<\sqrt2-1$.  The two signed factors
+$u^2+2u-1$ and $(u-1)^5$ are both negative and every other factor is
+positive.  The launch therefore lies strictly on the decreasing side of the
+threshold.  A first return of $J_s$ to zero is exactly the scalar contact
+$\eta=h$, not merely a three-component velocity condition.  The exact
+$u=2/5$ ambient first-return obstruction below satisfies this equality,
+showing that the remaining task is to prove that the *brake-generated*
+history never reaches the explicit graph $\eta=h$.
 
 There is a new global sign in its second derivative.  Let
 $J=\log k$.  The part of $\ddot J$ obtained by setting the instantaneous
@@ -839,6 +912,56 @@ before it.  It does prove that the first adverse centrifugal term cannot
 overturn the desired concavity at the terminal ordered-syzygy face.  The
 second gap and the reachable-history interior remain open.
 
+There is no analogous static theorem for the second gap, even on this face.
+An exact ambient obstruction already occurs at the $3{:}4{:}5$ masses.  Take
+
+\[
+ u={1\over3},\quad (m,n)=\left({4\over5},{3\over5}\right),\quad
+ R=1,\quad q={3\over700},\quad p={697\over700}.
+\]
+
+This is the syzygy parameter $z=1/100$ above, and
+$\eta=419/32759\in(0,1)$.  Set radial velocities to zero and choose
+$a=\ell_{23}>0$ by
+
+\[
+ a^2=Z={476958362267\over2867548600}.
+\]
+
+The unique transverse velocities at this $a$ have $P=L=0$ and
+$2K=a^2F=2(U-U_0)$, so the total energy is exactly the Burrau energy.  The
+pair angular momenta have signs $(-,+,-)$, and
+
+\[
+ {\dot\Delta_2\over a}=-{292607\over131036}<0,
+\]
+
+so the state even has the correct orientation for a first positive-to-negative
+syzygy crossing.  Gravity alone gives
+$\mathfrak g_{23}-\mathfrak g_{31}>0$, but the exact centrifugal coefficient
+is negative and the full acceleration is
+
+\[
+ (r_{23}-r_{31})''
+ =-{96354167469624287\over1827657180810}<0.
+\]
+
+This **DISPROVES** the implication from tied masses, Burrau energy,
+$P=L=0$, strict launch torque signs, ordered collision-free syzygy geometry,
+and crossing direction to $(r_{23}-r_{31})''>0$.  The state is not claimed
+reachable from the brake.  In the two-scalar formulation below, its critical
+amplitude is
+
+\[
+ Z_*={\mathfrak g_{23}-\mathfrak g_{31}\over-C_2}
+ ={4764595771490855887\over39314226426562500},
+ \qquad {Z\over Z_*}=1.3724399581\ldots>1.
+\]
+
+Thus the exact remaining second-face obligation is a reachability estimate
+$Z<Z_*(x,y,\eta)$ wherever its centrifugal coefficient $C_2$ is negative.
+Neither energy nor first-crossing kinematics supplies it.
+
 For the latter, two exact dimensionless formulas isolate the remaining
 history variable.  With $R=r_{12}$, $x=r_{23}/R$, $y=r_{31}/R$,
 $Z=\ell_{23}^2/R$, and the same $\eta$, the centrifugal parts of the two gap
@@ -860,6 +983,66 @@ $\delta=\Delta_2/R^2$, and $\sigma=d\log R/ds$, then
 Thus the two centrifugal gaps depend on the common amplitude $Z$ and the
 single weighted-history ratio $\eta$; this is an **EXACT SYMBOLIC IDENTITY**,
 not yet a closed invariant system because $(x,y,\delta,\sigma)$ also evolve.
+
+The most direct critical-amplitude barrier is not pointwise invariant.  A
+sharper exact ambient obstruction again uses $u=1/3$, but now at the strict
+ordered obtuse shape
+
+\[
+ x={499\over500},\qquad y={1\over20},\qquad
+ 1-x^2-y^2={187\over125000}>0,qquad
+ \eta={3\over20}.
+\]
+
+This value of $eta$ even satisfies the necessary monotone-history envelope
+
+\[
+ k={748501\over993887740501}<\eta<
+ k(0)={1647\over6272}.
+\]
+
+Here
+
+\[
+ \mathfrak g_{23}-\mathfrak g_{31}
+ ={1402530187533191\over1941429671875}>0,
+ \qquad
+ C_2=-{49821857095\over497005996}<0,
+\]
+
+so put the state exactly on the critical surface with
+
+\[
+ Z=Z_*=-{\mathfrak g_{23}-\mathfrak g_{31}\over C_2}
+ ={5610120750132764\over778466517109375}.
+\]
+
+The pair-angular-momentum constraints leave one homothetic rate.  Choose its
+exact kinetic-energy minimizer and then the physical scale
+
+\[
+ R={717603860876220132499755190629\over
+       669041277379938998505911848960}>0.
+\]
+
+The resulting algebraic state has $P=L=0$, energy $-U_0$, torque signs
+$(-,+,-)$, and decreasing normalized area
+$\delta_s=-5.8202956316\ldots<0$.  Nevertheless exact radical arithmetic
+gives
+
+\[
+ {d\over ds}\log{Z\over Z_*}
+ =50.8829734688\ldots>0.
+\]
+
+Both displayed decimal signs are regressions of factorizations into a
+strictly signed rational factor times the square root of a positive integer;
+the exact expressions are returned by
+`second_gap_barrier_outward_contact_obstruction`.  This **DISPROVES** a
+pointwise inward-vector-field proof for $Z<Z_*$ based on current ordered
+right/obtuse shape, energy, $P=L=0$, torque signs, decreasing area, and even
+$k<\eta<k(0)$.  The brake-generated correlation among the full histories of
+$(x,y,Z,\eta)$ remains indispensable.
 
 ## Planar endpoint stable jet and collision normal form
 

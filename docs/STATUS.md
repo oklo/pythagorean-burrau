@@ -21,7 +21,13 @@ also disproved the strongest static total-energy domination of the first
 difference at an interior state, so the missing estimate must use integrated
 torque history or an equivalent reachability constraint.  That history has
 now been reduced to the scalar weighted-average equation
-$\dot\eta=(F/{\cal A})(k-\eta)$.  Exact tensor-Bernstein arithmetic proves
+$\dot\eta=(F/{\cal A})(k-\eta)$.  Exact velocity elimination now gives the
+stronger first-order identity
+$(\log k)_s=(W/\delta)\mathcal A(u,x,y)[\eta-h(u,x,y)]$, with
+$\mathcal A>0$ on the full strict ordered cone by a new 168-coefficient exact
+Bernstein certificate.  Since $h-k(0)>0$ factors analytically, monotonicity of
+$k$ is precisely the scalar brake-history noncontact problem $\eta<h$.
+Exact tensor-Bernstein arithmetic also proves
 the gravitational contribution to $(\log k)''$ is strictly negative on the
 entire ordered right/obtuse cone, and the full launch curvature is negative
 analytically.  The velocity-Hessian contribution along reachable states is
@@ -37,7 +43,17 @@ negative, 14 zero).  This is a genuine syzygy-face theorem, but it does not
 prove persistence of ordering or interior monotonicity.  Both centrifugal
 gaps have also been reduced exactly to the common amplitude
 $Z=\ell_{23}^2/r_{12}$ and the scalar history ratio $\eta$; a reachable
-barrier for $(Z,\eta)$ is now the sharp interior target. The imported Fable event theorem gives a new exact global
+barrier for $(Z,\eta)$ is now the sharp interior target.  An exact
+energy-compatible $u=1/3$ ordered-syzygy state with $P=L=0$, the launch
+torque signs, and first-crossing orientation has
+$(r_{23}-r_{31})''<0$.  It is not claimed reachable, but it proves that the
+second syzygy-face sign itself requires the history bound; quantitatively the
+state violates the needed amplitude threshold by a factor
+$1.3724399581\ldots$.  A second exact strict ordered-obtuse state lies on the
+critical surface $Z=Z_*$ with decreasing area and even
+$k<\eta<k(0)$, but has $d\log(Z/Z_*)/ds>0$.  Thus neither the static
+second-face sign nor pointwise inwardness follows from the natural current
+constraints; full brake-generated correlation is required. The imported Fable event theorem gives a new exact global
 reduction: every brake is a strict $I$-maximum with $U=U_0$ and explicit
 pairwise collision separation (uniform on parameter compacts away from
 $u=0$), while every fold/minimum of $I$ has $K\ge U_0$.

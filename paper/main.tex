@@ -2675,6 +2675,37 @@ $x=p/R$, $y=q/R$ gives
 \[
  k={y^3(1-x^3)\over x^3(1-y^3)}.
 \]
+There is an exact first-order threshold hidden in these variables.  In shape
+time $ds=dt/R^{3/2}$, put $W=\ell_{23}/\sqrt R$ and
+$\delta=\Delta_2/R^2$.  Exact elimination of normalized shape velocity gives
+\[
+ (\log k)_s={W\over\delta}\mathcal A(u,x,y)
+ [\eta-h(u,x,y)].
+\]
+Here $h=y^2N/(x^2B)$, where
+\[
+\begin{aligned}
+B={}&-m_2x^5-m_2x^3y^2+m_2x^3+m_2x^2+2m_2y^5-m_2y^2-m_2\\
+&+x^5y^2-x^3y^4+x^3y^2-x^2y^5+y^7+y^5-2y^2,\\
+N={}&2m_1x^5-m_1x^2y^3-m_1x^2-m_1y^5+m_1y^3+m_1y^2-m_1\\
+&+x^7-x^5y^2+x^5-x^4y^3+x^2y^5+x^2y^3-2x^2,
+\end{aligned}
+\]
+and
+\[
+ \mathcal A={-3B\over
+ 2m_1y^2(x-1)(y-1)(x^2+x+1)(y^2+y+1)}.
+\]
+On the complete ordered shape--mass cube, $-B$ has a degree-$(7,6,2)$
+numerator with 168 exact Bernstein coefficients, 134 strict and 34 zero,
+and a denominator of the opposite strict sign.  Hence
+$\mathcal A>0$ and
+\[
+ (\log k)_s<0\quad\Longleftrightarrow\quad\eta<h.
+\]
+At the tied launch, $h-k(0)>0$ by exact factorization.  Thus the monotonicity
+problem is precisely a scalar history noncontact problem for the graph
+$\eta=h$, rather than a sign problem for an uncontrolled velocity Hessian.
 For $J=\log k$, the purely gravitational contribution to $\ddot J$ is
 strictly negative throughout the ordered right/obtuse cone.  After the same
 $(s,w,v)$ substitution, its degree-$(9,9,2)$ numerator has 300 nonnegative
@@ -2690,8 +2721,9 @@ At the brake the velocity term vanishes and
  u^3(1-u)^3(u^4+3)(u^4+2u^3+6u^2+2u+1)}<0.
 \]
 The total curvature contains an additional velocity-Hessian term.  Its
-reachable-state domination by the proved gravitational margin is the current
-missing monotonicity lemma.
+sign is not controlled by current-state inequalities.  The first-order
+threshold above supersedes direct curvature domination as the primary
+formulation: the missing lemma is the brake-history inequality $\eta<h$.
 
 The qualifier ``reachable-state'' is essential even at a hypothetical first
 return of $J'$ to zero.  For the exact tied parameter $u=2/5$ and strict
@@ -2789,6 +2821,29 @@ at every such ordered syzygy.  This closes the first-gap inequality on the
 terminal face, but neither proves persistence of the ordered cone nor
 controls the second gap.
 
+The complementary second-gap statement is false under the same
+instantaneous hypotheses, even with the first-crossing orientation imposed.
+At $u=1/3$, take
+\[
+ (m,n)=\left({4\over5},{3\over5}\right),\qquad
+ (r_{12},r_{23},r_{31})=\left(1,{697\over700},{3\over700}\right).
+\]
+The collinear constraints give $\eta=419/32759$.  Set the radial velocities
+to zero and choose the transverse amplitude by
+\[
+ \ell_{23}^2={476958362267\over2867548600}.
+\]
+Then $P=L=0$, $H=-U_0$, the pair angular momenta have signs $(-,+,-)$, and
+$\dot\Delta_2/\ell_{23}=-292607/131036<0$.  Nevertheless exact arithmetic
+gives
+\[
+ (r_{23}-r_{31})''
+ =-{96354167469624287\over1827657180810}<0.
+\]
+This state is not asserted brake-reachable.  It proves that local syzygy
+geometry, energy, crossing direction, and torque signs do not control the
+second gap; an accumulated-history estimate is essential there as well.
+
 The remaining centrifugal terms admit a two-scalar history reduction.  Set
 $R=r_{12}$, $x=r_{23}/R$, $y=r_{31}/R$,
 $Z=\ell_{23}^2/R$, and retain $\eta$.  After multiplication by $R^2$ the two
@@ -2799,6 +2854,23 @@ gap contributions are exactly
 \]
 Thus the sharp interior problem is a reachable barrier for $(Z,\eta)$
 coupled to shape, rather than three independent pair-angular-momentum bounds.
+
+That critical barrier is not pointwise invariant under the natural local
+constraints.  At $u=1/3$, the exact strict ordered-obtuse state
+\[
+ (x,y,\eta)=\left({499\over500},{1\over20},{3\over20}\right)
+\]
+satisfies $k<\eta<k(0)$.  Put
+$Z=(\mathfrak g_{23}-\mathfrak g_{31})/(-C_2)$, choose the kinetic-minimizing
+homothetic rate, and choose the positive physical scale from $H=-U_0$.
+The resulting state has $P=L=0$, torque signs $(-,+,-)$, and decreasing
+area, but exact radical arithmetic gives
+\[
+ {d\over ds}\log{Z\over Z_*}=50.8829734688\ldots>0.
+\]
+This ambient state is not asserted brake-reachable.  It proves that a valid
+second-gap barrier must encode a stronger correlation from the entire brake
+history.
 
 At energy $-U_0$, the Jacobi--Maupertuis metric is
 $2(U-U_0)ds_m^2$.  A second-brake segment is a degenerate-boundary geodesic

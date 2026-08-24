@@ -104,6 +104,180 @@ def ordered_history_shape_time_rhs() -> tuple[
 
 
 @lru_cache(maxsize=1)
+def log_torque_shape_threshold() -> tuple[
+    sp.Expr, sp.Expr, tuple[sp.Symbol, ...]
+]:
+    """Return ``A`` and ``h`` in ``(log k)_s=(W/delta) A (eta-h)``."""
+    mass_1, mass_2, side_23, side_31 = sp.symbols(
+        "m n x y", positive=True
+    )
+    kernel = (
+        -mass_2 * side_23**5
+        - mass_2 * side_23**3 * side_31**2
+        + mass_2 * side_23**3
+        + mass_2 * side_23**2
+        + 2 * mass_2 * side_31**5
+        - mass_2 * side_31**2
+        - mass_2
+        + side_23**5 * side_31**2
+        - side_23**3 * side_31**4
+        + side_23**3 * side_31**2
+        - side_23**2 * side_31**5
+        + side_31**7
+        + side_31**5
+        - 2 * side_31**2
+    )
+    threshold = sp.factor(
+        side_31**2
+        * (
+            2 * mass_1 * side_23**5
+            - mass_1 * side_23**2 * side_31**3
+            - mass_1 * side_23**2
+            - mass_1 * side_31**5
+            + mass_1 * side_31**3
+            + mass_1 * side_31**2
+            - mass_1
+            + side_23**7
+            - side_23**5 * side_31**2
+            + side_23**5
+            - side_23**4 * side_31**3
+            + side_23**2 * side_31**5
+            + side_23**2 * side_31**3
+            - 2 * side_23**2
+        )
+        / (side_23**2 * kernel)
+    )
+    coefficient = sp.factor(
+        -3
+        * kernel
+        / (
+            2
+            * mass_1
+            * side_31**2
+            * (side_23 - 1)
+            * (side_31 - 1)
+            * (side_23**2 + side_23 + 1)
+            * (side_31**2 + side_31 + 1)
+        )
+    )
+    return coefficient, threshold, (mass_1, mass_2, side_23, side_31)
+
+
+@lru_cache(maxsize=1)
+def log_torque_shape_rate_identity() -> sp.Expr:
+    """Residual in the exact algebraic first-derivative threshold identity."""
+    coefficient, threshold, variables = log_torque_shape_threshold()
+    mass_1, mass_2, side_23, side_31 = variables
+    amplitude, history_ratio, area = sp.symbols(
+        "W eta delta", positive=True
+    )
+    scale_rate = sp.symbols("sigma", real=True)
+    apex_x = (side_31**2 + 1 - side_23**2) / 2
+    ell_23 = amplitude
+    ell_31 = -(mass_2 / mass_1) * history_ratio * amplitude
+    ell_12 = -(1 - history_ratio) * amplitude / mass_1
+    velocity_3_y = (
+        area * scale_rate
+        - (apex_x - 1) * ell_12
+        - ell_23
+        + ell_31
+    )
+    velocity_3_x = (apex_x * velocity_3_y - ell_31) / area
+    shape_23_rate = (
+        (
+            (apex_x - 1) * (velocity_3_x - scale_rate)
+            + area * (velocity_3_y - ell_12)
+        )
+        / side_23
+        - side_23 * scale_rate
+    )
+    shape_31_rate = (
+        (apex_x * velocity_3_x + area * velocity_3_y) / side_31
+        - side_31 * scale_rate
+    )
+    log_rate = 3 * (
+        shape_31_rate / (side_31 * (1 - side_31**3))
+        - shape_23_rate / (side_23 * (1 - side_23**3))
+    )
+    residual = sp.together(
+        area * log_rate / amplitude
+        - coefficient * (history_ratio - threshold)
+    )
+    numerator, denominator = sp.fraction(residual)
+    area_squared = sp.factor(side_31**2 - apex_x**2)
+    reduced_numerator = sp.expand(numerator).subs(area**2, area_squared)
+    return sp.factor(reduced_numerator / denominator)
+
+
+@lru_cache(maxsize=1)
+def ordered_shape_log_torque_kernel() -> tuple[
+    sp.Expr, tuple[sp.Symbol, ...]
+]:
+    """Return the signed linear-coefficient kernel on the ordered cube."""
+    coefficient, _, physical_variables = log_torque_shape_threshold()
+    mass_1, mass_2, side_23, side_31 = physical_variables
+    # Remove the manifestly positive factors from A; this leaves -kernel.
+    kernel = sp.factor(
+        coefficient
+        * 2
+        * mass_1
+        * side_31**2
+        * (side_23 - 1)
+        * (side_31 - 1)
+        * (side_23**2 + side_23 + 1)
+        * (side_31**2 + side_31 + 1)
+        / 3
+    )
+    triangle_scale, order_split, parameter = sp.symbols(
+        "t w v", nonnegative=True
+    )
+    tied_parameter = (sp.sqrt(2) - 1) * parameter
+    substitution = {
+        mass_1: (1 - tied_parameter**2) / (1 + tied_parameter**2),
+        mass_2: 2 * tied_parameter / (1 + tied_parameter**2),
+        side_23: 1 - triangle_scale * order_split / 2,
+        side_31: 1 - triangle_scale + triangle_scale * order_split / 2,
+    }
+    return (
+        sp.factor(sp.together(kernel.subs(substitution))),
+        (triangle_scale, order_split, parameter),
+    )
+
+
+@lru_cache(maxsize=1)
+def ordered_shape_log_torque_kernel_bernstein_coefficients() -> tuple[
+    sp.Expr, ...
+]:
+    """Exact Bernstein certificate for positivity of the linear kernel."""
+    kernel, variables = ordered_shape_log_torque_kernel()
+    numerator, _ = sp.fraction(kernel)
+    return _tensor_bernstein_coefficients(numerator, variables)
+
+
+@lru_cache(maxsize=1)
+def initial_log_torque_threshold_gap() -> tuple[sp.Expr, sp.Symbol]:
+    """Return ``h(initial shape)-k(initial shape)`` on the tied family."""
+    _, threshold, variables = log_torque_shape_threshold()
+    mass_1, mass_2, side_23, side_31 = variables
+    parameter = sp.symbols("u", positive=True)
+    tied_mass_1 = (1 - parameter**2) / (1 + parameter**2)
+    tied_mass_2 = 2 * parameter / (1 + parameter**2)
+    substitution = {
+        mass_1: tied_mass_1,
+        mass_2: tied_mass_2,
+        side_23: tied_mass_1,
+        side_31: tied_mass_2,
+    }
+    initial_current_ratio = (
+        tied_mass_1**-3 - 1
+    ) / (tied_mass_2**-3 - 1)
+    return (
+        sp.factor(threshold.subs(substitution) - initial_current_ratio),
+        parameter,
+    )
+
+
+@lru_cache(maxsize=1)
 def _radial_gravity_terms() -> tuple[tuple[sp.Expr, ...], tuple[sp.Symbol, ...]]:
     """Return unscaled radial gravity terms for tied masses."""
     expressions = squared_distance_accelerations()
@@ -392,6 +566,301 @@ def ordered_syzygy_first_gap_energy_bernstein_coefficients() -> tuple[
     """Exact Bernstein certificate for the ordered-syzygy first gap."""
     numerator, variables = ordered_syzygy_first_gap_energy_numerator()
     return _tensor_bernstein_coefficients(numerator, variables)
+
+
+@lru_cache(maxsize=1)
+def ordered_syzygy_second_gap_static_obstruction() -> dict[str, sp.Expr]:
+    """Exact energy-compatible syzygy state with adverse second acceleration.
+
+    This is an ambient state, not a state asserted reachable from the Burrau
+    brake.  It shows that tied masses, energy, zero momentum/angular momentum,
+    the pre-syzygy pair-torque signs, and the first-crossing orientation do
+    not force ``(r23-r31)'' > 0`` on the ordered-syzygy face.
+    """
+    parameter = sp.Rational(1, 3)
+    syzygy_fraction = sp.Rational(1, 100)
+    mass_1 = (1 - parameter**2) / (1 + parameter**2)
+    mass_2 = 2 * parameter / (1 + parameter**2)
+    side_31 = sp.factor(
+        mass_2 * syzygy_fraction / (mass_1 + mass_2)
+    )
+    side_23 = 1 - side_31
+    history_ratio = sp.factor(
+        side_31
+        * (mass_1 + side_23)
+        / (side_23 * (mass_2 + side_31))
+    )
+    kinetic_coefficient = sp.factor(
+        mass_2
+        * (
+            mass_1 * mass_2
+            + mass_1 * side_31**2
+            + mass_2 * side_23**2
+        )
+        / (
+            mass_1
+            * side_23**2
+            * (mass_2 + side_31) ** 2
+        )
+    )
+    potential = sp.factor(
+        mass_1 * mass_2
+        + mass_2 / side_23
+        + mass_1 / side_31
+    )
+    initial_potential = sp.factor(
+        mass_1 * mass_2 + 1 / (mass_1 * mass_2)
+    )
+    amplitude = sp.factor(
+        2 * (potential - initial_potential) / kinetic_coefficient
+    )
+    centrifugal_coefficient = sp.factor(
+        side_23**-3
+        - mass_2**2
+        * history_ratio**2
+        / (mass_1**2 * side_31**3)
+    )
+    gravity_gap = sp.factor(
+        mass_2
+        - mass_1
+        + (2 * mass_1 + 1) / side_31**2
+        - (2 * mass_2 + 1) / side_23**2
+    )
+    second_acceleration = sp.factor(
+        gravity_gap + amplitude * centrifugal_coefficient
+    )
+    crossing_coefficient = sp.factor(
+        -(
+            mass_1 * mass_2
+            + mass_1 * side_31**2
+            + mass_2 * side_23**2
+        )
+        / (mass_1 * side_23 * (mass_2 + side_31))
+    )
+    return {
+        "u": parameter,
+        "z": syzygy_fraction,
+        "m1": mass_1,
+        "m2": mass_2,
+        "r23": side_23,
+        "r31": side_31,
+        "eta": history_ratio,
+        "kinetic_coefficient": kinetic_coefficient,
+        "potential": potential,
+        "initial_potential": initial_potential,
+        "amplitude": amplitude,
+        "centrifugal_coefficient": centrifugal_coefficient,
+        "gravity_gap": gravity_gap,
+        "second_acceleration": second_acceleration,
+        "crossing_coefficient": crossing_coefficient,
+    }
+
+
+@lru_cache(maxsize=1)
+def second_gap_barrier_outward_contact_obstruction() -> dict[str, sp.Expr]:
+    """Exact interior state where the critical second-gap barrier points out.
+
+    The normalized state lies on ``Z=G/(-C2)`` and satisfies the tied energy,
+    zero momentum/angular momentum, the pre-syzygy torque signs, and
+    decreasing positive area.  Nevertheless ``d log(Z/Zstar)/ds > 0``.
+    It is not asserted reachable from the Burrau brake.
+    """
+    parameter = sp.Rational(1, 3)
+    side_23 = sp.Rational(499, 500)
+    side_31 = sp.Rational(1, 20)
+    history_ratio = sp.Rational(3, 20)
+    mass_1 = (1 - parameter**2) / (1 + parameter**2)
+    mass_2 = 2 * parameter / (1 + parameter**2)
+
+    _, gravity_second, physical_variables = _radial_gravity_gaps()
+    physical_23, physical_31, physical_12, physical_parameter = (
+        physical_variables
+    )
+    gravity_shape = sp.factor(
+        gravity_second.subs(
+            {
+                physical_23: side_23,
+                physical_31: side_31,
+                physical_12: 1,
+                physical_parameter: parameter,
+            }
+        )
+    )
+    centrifugal_coefficient = sp.factor(
+        side_23**-3
+        - mass_2**2
+        * history_ratio**2
+        / (mass_1**2 * side_31**3)
+    )
+    amplitude = sp.factor(-gravity_shape / centrifugal_coefficient)
+    angular_amplitude = sp.sqrt(amplitude)
+
+    apex_x = (side_31**2 + 1 - side_23**2) / 2
+    twice_area = sp.sqrt(side_31**2 - apex_x**2)
+    ell_23 = angular_amplitude
+    ell_31 = -(mass_2 / mass_1) * history_ratio * angular_amplitude
+    ell_12 = -(1 - history_ratio) * angular_amplitude / mass_1
+    scale_rate = sp.symbols("sigma", real=True)
+    relative_12 = sp.Matrix([scale_rate, ell_12])
+    velocity_3_y = (
+        twice_area * scale_rate
+        - (apex_x - 1) * ell_12
+        - ell_23
+        + ell_31
+    )
+    velocity_3_x = (apex_x * velocity_3_y - ell_31) / twice_area
+    relative_13 = sp.Matrix([velocity_3_x, velocity_3_y])
+    total_mass = mass_1 + mass_2 + 1
+    velocity_1 = -(
+        mass_2 * relative_12 + relative_13
+    ) / total_mass
+    velocity_2 = velocity_1 + relative_12
+    velocity_3 = velocity_1 + relative_13
+    kinetic = sp.factor(
+        (
+            mass_1 * velocity_1.dot(velocity_1)
+            + mass_2 * velocity_2.dot(velocity_2)
+            + velocity_3.dot(velocity_3)
+        )
+        / 2
+    )
+    minimizing_scale_rate = sp.factor(
+        sp.solve(sp.diff(kinetic, scale_rate), scale_rate)[0]
+    )
+    kinetic_minimum = sp.factor(
+        kinetic.subs(scale_rate, minimizing_scale_rate)
+    )
+    potential = sp.factor(
+        mass_1 * mass_2 + mass_2 / side_23 + mass_1 / side_31
+    )
+    initial_potential = sp.factor(
+        mass_1 * mass_2 + 1 / (mass_1 * mass_2)
+    )
+    physical_scale = sp.factor(
+        (potential - kinetic_minimum) / initial_potential
+    )
+
+    shape_23_rate = sp.factor(
+        (
+            (apex_x - 1) * (velocity_3_x - scale_rate)
+            + twice_area * (velocity_3_y - ell_12)
+        )
+        / side_23
+        - side_23 * scale_rate
+    )
+    shape_31_rate = sp.factor(
+        (apex_x * velocity_3_x + twice_area * velocity_3_y)
+        / side_31
+        - side_31 * scale_rate
+    )
+    current_ratio = sp.factor(
+        (side_23**-3 - 1) / (side_31**-3 - 1)
+    )
+    initial_ratio = sp.factor(
+        (mass_1**-3 - 1) / (mass_2**-3 - 1)
+    )
+    torque_rate = sp.factor(
+        mass_1
+        * twice_area
+        * (side_31**-3 - 1)
+        / angular_amplitude
+    )
+    history_rate = sp.factor(
+        torque_rate * (current_ratio - history_ratio)
+    )
+
+    shape_23_symbol, shape_31_symbol, ratio_symbol = sp.symbols(
+        "p q eta", positive=True
+    )
+    symbolic_gravity = gravity_second.subs(
+        {
+            physical_23: shape_23_symbol,
+            physical_31: shape_31_symbol,
+            physical_12: 1,
+            physical_parameter: parameter,
+        }
+    )
+    symbolic_coefficient = (
+        shape_23_symbol**-3
+        - mass_2**2
+        * ratio_symbol**2
+        / (mass_1**2 * shape_31_symbol**3)
+    )
+    evaluation = {
+        shape_23_symbol: side_23,
+        shape_31_symbol: side_31,
+        ratio_symbol: history_ratio,
+    }
+    log_barrier_rate = sp.factor(
+        2 * torque_rate
+        - scale_rate
+        + (
+            sp.diff(symbolic_coefficient, shape_23_symbol)
+            / symbolic_coefficient
+            - sp.diff(symbolic_gravity, shape_23_symbol)
+            / symbolic_gravity
+        ).subs(evaluation)
+        * shape_23_rate
+        + (
+            sp.diff(symbolic_coefficient, shape_31_symbol)
+            / symbolic_coefficient
+            - sp.diff(symbolic_gravity, shape_31_symbol)
+            / symbolic_gravity
+        ).subs(evaluation)
+        * shape_31_rate
+        + (
+            sp.diff(symbolic_coefficient, ratio_symbol)
+            / symbolic_coefficient
+        ).subs(evaluation)
+        * history_rate
+    )
+    log_barrier_rate = sp.radsimp(
+        sp.factor(log_barrier_rate.subs(scale_rate, minimizing_scale_rate))
+    )
+    apex_x_rate = sp.factor(
+        side_31 * shape_31_rate - side_23 * shape_23_rate
+    )
+    area_rate = sp.factor(
+        (
+            side_31 * shape_31_rate
+            - apex_x * apex_x_rate
+        )
+        / twice_area
+    ).subs(scale_rate, minimizing_scale_rate)
+
+    return {
+        "u": parameter,
+        "m1": mass_1,
+        "m2": mass_2,
+        "r23_ratio": side_23,
+        "r31_ratio": side_31,
+        "eta": history_ratio,
+        "pythagorean_defect": 1 - side_23**2 - side_31**2,
+        "twice_area_ratio": twice_area,
+        "gravity_gap": gravity_shape,
+        "centrifugal_coefficient": centrifugal_coefficient,
+        "amplitude": amplitude,
+        "ell_12": ell_12,
+        "ell_23": ell_23,
+        "ell_31": ell_31,
+        "kinetic": kinetic,
+        "scale_rate": minimizing_scale_rate,
+        "kinetic_minimum": kinetic_minimum,
+        "potential": potential,
+        "initial_potential": initial_potential,
+        "physical_scale": physical_scale,
+        "current_ratio": current_ratio,
+        "initial_ratio": initial_ratio,
+        "history_rate": history_rate,
+        "shape_23_rate": shape_23_rate.subs(
+            scale_rate, minimizing_scale_rate
+        ),
+        "shape_31_rate": shape_31_rate.subs(
+            scale_rate, minimizing_scale_rate
+        ),
+        "area_rate": area_rate,
+        "log_barrier_rate": log_barrier_rate,
+    }
 
 
 @lru_cache(maxsize=1)

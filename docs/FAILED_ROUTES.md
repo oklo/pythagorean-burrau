@@ -739,3 +739,88 @@ arithmetic.  This state is not asserted reachable from the Burrau brake.  It
 shows precisely that a barrier proof at $J'=0$ must use the fact that the
 velocity and pair angular momenta were accumulated from zero along the
 trajectory; current-state inequalities do not suffice.
+
+## Static second-gap sign on the ordered-syzygy face
+
+**Status:** DISPROVED by an exact energy-compatible ambient state.
+
+The first gap has a proved negative acceleration at every ordered syzygy with
+the launch torque signs.  The tempting complementary claim
+
+\[
+ (r_{23}-r_{31})''>0
+\]
+
+is false under the same instantaneous hypotheses, even after imposing the
+orientation of a first syzygy crossing.  At
+
+\[
+ u={1\over3},\quad(m_1,m_2)=\left({4\over5},{3\over5}\right),\quad
+ (r_{12},r_{23},r_{31})=\left(1,{697\over700},{3\over700}\right),
+\]
+
+the collinear momentum equations give
+$\eta=419/32759\in(0,1)$.  With zero radial velocities and
+
+\[
+ \ell_{23}^2={476958362267\over2867548600},
+\]
+
+the unique transverse velocities have $P=L=0$, exact energy $-U_0$, pair
+angular-momentum signs $(-,+,-)$, and
+$\dot\Delta_2/\ell_{23}=-292607/131036<0$.  Nevertheless
+
+\[
+ (r_{23}-r_{31})''
+ =-{96354167469624287\over1827657180810}<0.
+\]
+
+All quantities are exact rationals apart from the harmless algebraic choice
+of the positive square root for $\ell_{23}$.  The state is not asserted
+brake-reachable.  It proves that the second syzygy-face inequality requires
+an accumulated torque-amplitude bound, not merely energy, signs, and local
+crossing data.  The sharp remaining form is
+$Z<Z_*=(\mathfrak g_{23}-\mathfrak g_{31})/(-C_2)$ whenever $C_2<0$.
+
+## Pointwise inwardness of the critical second-gap amplitude
+
+**Status:** DISPROVED by an exact interior contact state.
+
+It is natural to strengthen the preceding static sign attempt by declaring
+$H=Z/Z_*$ and proving $H_s<0$ whenever $H=1$.  This also fails under every
+obvious current-state constraint.  At $u=1/3$, take
+
+\[
+ (x,y,\eta)=\left({499\over500},{1\over20},{3\over20}\right).
+\]
+
+The shape is strict ordered obtuse, since
+$1-x^2-y^2=187/125000>0$, and its current and initial torque-rate ratios
+satisfy
+
+\[
+ {748501\over993887740501}=k<\eta<k(0)={1647\over6272}.
+\]
+
+Set $Z=Z_*$ exactly, solve the pair-angular-momentum constraints, choose the
+remaining homothetic rate to minimize kinetic energy, and set the physical
+scale to
+
+\[
+ {717603860876220132499755190629\over
+  669041277379938998505911848960}.
+\]
+
+This gives exact energy $-U_0$, $P=L=0$, torque signs $(-,+,-)$, and
+decreasing normalized area.  Direct exact differentiation of the Newton
+vector field gives
+
+\[
+ {d\over ds}\log H=50.8829734688\ldots>0.
+\]
+
+The sign is an exact positive rational multiple of the square root of a
+positive integer, not a floating-point inference.  Thus even the critical
+surface points outward at a state satisfying the elementary weighted-history
+envelope.  A valid invariant must use more of the brake-generated path than
+the current values and inequalities for $(x,y,Z,\eta)$.

@@ -192,6 +192,30 @@ reachable.  Hence the indispensable missing hypothesis must retain the
 integral origin of the pair angular momenta or an equivalent trajectory
 history constraint.
 
+There is now a first-order formulation of this same obstruction which is
+sharper than the curvature inequality.  Exact elimination of the normalized
+shape velocity gives an explicit rational graph $h(u,x,y)$ and a proved
+positive coefficient $\mathcal A$ such that
+
+\[
+ (\log k)_s={W\over\delta}\mathcal A(\eta-h).
+\]
+
+The positivity proof is a complete 168-coefficient exact Bernstein
+certificate on the ordered shape--mass cube.  At launch $h-k(0)>0$ by an
+exact signed factorization.  Therefore the monotonicity obligation is now
+equivalent to the scalar no-contact theorem
+
+\[
+ \eta(t)<h(u,x(t),y(t))
+\]
+
+on every brake-reachable ordered segment.  The exact $u=2/5$ static
+first-return witness satisfies $\eta=h$, so current-state bounds including
+$k<\eta<k(0)$ do not prove the inequality.  A successful argument must
+compare the weighted history defining $\eta$ with the evolution of the
+explicit threshold $h$.
+
 One terminal face of this reachability problem is now closed.  At a
 collision-free syzygy with body 3 between bodies 1 and 2, the collinear
 momentum constraints determine the torque ratio and transverse kinetic
@@ -220,6 +244,41 @@ Z\left(x^{-3}-{m_2^2\eta^2\over m_1^2y^3}\right).
 This reduces the next search to a reachable barrier for the two scalars
 $(Z,\eta)$ coupled to the normalized shape $(x,y)$, rather than three
 independent pair angular momenta.
+
+The second-gap barrier is genuinely history-dependent even at syzygy.  The
+exact $u=1/3$ ambient state
+
+\[
+ (R,r_{23},r_{31})=\left(1,{697\over700},{3\over700}\right)
+\]
+
+has energy $-U_0$, $P=L=0$, the strict launch torque signs, and
+$\dot\Delta_2<0$, yet $(r_{23}-r_{31})''<0$.  Therefore obligation 3 cannot
+be closed from local syzygy geometry and crossing orientation.  If
+
+\[
+ C_2=x^{-3}-{m_2^2\eta^2\over m_1^2y^3}<0,
+ \qquad
+ Z_*={\mathfrak g_{23}-\mathfrak g_{31}\over-C_2},
+\]
+
+the precise missing assertion is $Z<Z_*$ on every reachable ordered segment
+(at least whenever the second gap could first lose monotonicity).  The exact
+obstruction has $Z/Z_*=1.3724399581\ldots$; it quantifies how much sharper
+than total energy the trajectory-history estimate must be.
+
+Nor is the surface $Z=Z_*$ pointwise inward under the natural local
+constraints.  An exact strict ordered-obtuse $u=1/3$ state with
+$(x,y,\eta)=(499/500,1/20,3/20)$ has energy $-U_0$, $P=L=0$, decreasing
+area, and $k<\eta<k(0)$, but
+
+\[
+ {d\over ds}\log(Z/Z_*)=50.8829734688\ldots>0.
+\]
+
+Thus the remaining invariant cannot be a scalar barrier depending only on
+the current $(x,y,Z,\eta)$ through $Z/Z_*$.  It must encode a stronger
+brake-generated correlation or use a different global mechanism.
 
 Exhaustive compact-middle covering is not an acceptable substitute: measured
 through-encounter parameter amplification is about $3\times10^8$ and grows

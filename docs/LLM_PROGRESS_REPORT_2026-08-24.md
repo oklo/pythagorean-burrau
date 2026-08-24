@@ -26,7 +26,7 @@ The full rational conjecture is **not proved**. The stronger assertion for
 every real tied parameter is also **not proved**. No rational counterexample
 and no real second-brake intersection have been found.
 
-A difficulty-weighted completion estimate is currently about **43%**, with
+A difficulty-weighted completion estimate is currently about **44%**, with
 rough uncertainty of plus or minus 15 percentage points. This measures
 progress toward the universal theorem, not the amount of code or manuscript
 already written.
@@ -57,6 +57,60 @@ centrifugal terms are now expressed using a common amplitude
 $Z=\ell_{23}^2/r_{12}$ and the single weighted history ratio $\eta$; the
 highest-leverage missing lemma is a reachable barrier for $(Z,\eta)$ coupled
 to the normalized shape.
+
+The complementary static second-gap claim has now been disproved exactly.
+At $u=1/3$ and the collision-free ordered syzygy
+
+\[
+ (r_{12},r_{23},r_{31})=\left(1,{697\over700},{3\over700}\right),
+\]
+
+there is an exact zero-radial, transverse state with Burrau energy, $P=L=0$,
+all three launch torque signs, and $\dot\Delta_2<0$, but
+
+\[
+ (r_{23}-r_{31})''
+ =-{96354167469624287\over1827657180810}<0.
+\]
+
+This state is not claimed reachable from the brake.  It rules out a static
+second-face repair and localizes the necessary new theorem to
+$Z<Z_*=(\mathfrak g_{23}-\mathfrak g_{31})/(-C_2)$ along reachable states.
+The witness has $Z/Z_*=1.3724399581\ldots$, so the required history estimate
+must improve the total-energy allowance by a definite amount.
+
+The torque-rate monotonicity problem now has an exact first-order normal
+form.  In Newtonian shape time,
+
+\[
+ (\log k)_s={W\over\delta}\mathcal A(u,x,y)
+ [\eta-h(u,x,y)],qquad \mathcal A>0.
+\]
+
+Both $h$ and $\mathcal A$ are explicit rational functions.  Positivity of
+$\mathcal A$ on the complete ordered shape--mass cube is certified by 168
+exact $\mathbb Q(\sqrt2)$ Bernstein coefficients (134 strict, 34 zero) and
+a denominator of the opposite strict sign.  At launch $h-k(0)>0$ by exact
+factorization.  Thus $k$ decreases exactly while $\eta<h$; the former
+velocity-curvature problem is now the scalar history noncontact problem of
+preventing the weighted average $\eta$ from reaching the explicit graph
+$h$.  The earlier $u=2/5$ ambient $J'=0$ witness exactly satisfies
+$\eta=h$, confirming the reduction independently.
+
+A direct barrier for the second gap still fails even in first-contact form.
+An exact $u=1/3$ strict ordered-obtuse state at
+$(x,y,\eta)=(499/500,1/20,3/20)$ lies on $Z=Z_*$, has Burrau energy,
+$P=L=0$, launch torque signs, decreasing area, and
+$k<\eta<k(0)$, yet
+
+\[
+ {d\over ds}\log(Z/Z_*)=50.8829734688\ldots>0.
+\]
+
+The sign is proved in exact radical arithmetic.  Therefore the next theorem
+must use a stronger correlation inherited from the entire brake-launched
+history; current values plus the elementary weighted-average envelope are
+insufficient.
 
 ## 2. Exact reductions already established
 
