@@ -367,9 +367,13 @@ are now certified in
 positive-primary collision and the fourth is a negative-primary collision;
 their exact root projections are disjoint by more than
 $1.2058\times10^{-11}$.  The fourth verifier includes a broader uniqueness
-strip proving that its exact branch misses the earlier collision.  Classifying
-the neighboring parameter regions through the heavy-pair collision, including
-excluding or locating any additional boundaries, remains open.
+strip proving that its exact branch misses the earlier collision.  The entire
+fourth-root box is now continued rigorously to a fifth positive-primary LC
+entry in `COMPUTER_ASSISTED_PLANAR_FOURTH_TO_FIFTH_ENTRY.md`.  The fifth
+passage is extraordinarily sensitive: a fresh box restart loses the impact-
+parameter correlation.  A correlation-preserving fifth-chart propagation,
+the subsequent sixth negative-primary chart, and terminal escape enclosure
+remain open, as does exclusion or location of additional boundaries.
 
 The selected finite-mass relative coordinate now gives an exact perturbative
 bridge:

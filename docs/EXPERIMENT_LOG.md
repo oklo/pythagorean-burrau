@@ -867,3 +867,18 @@ it is not a remainder proof.
   first-zero arguments, and strict parameter-gap exclusion.  They also
   confirmed that no terminal escape claim is made for either new outgoing
   component.
+- Starting at the full fourth-root parameter box and the fixed post-root clock
+  $S_4=0.37284$, pinned CAPD propagates a further $0.42716$ in the negative-
+  primary LC chart.  The positive-primary squared distance stays above
+  $0.333865$; at exit $|u_-|^2>0.213057$, $q_{+,x}<-0.577809$, and
+  $|q_+|^2>0.333864$.  The exact negative-to-positive switch therefore enters
+  a uniform fifth LC chart with $u_{+,i}<-0.760137$ and $t>0.240640$.
+  Status: **PROVED BY COMPUTER-ASSISTED ARGUMENT** as a collision-or-fifth-
+  entry statement, not an escape theorem.
+- Ordinary continuation of a representative fourth-root ejection finds a
+  positive-primary passage near $t=0.18817$ with apparent miss distance
+  $2.5\times10^{-7}$, then a negative-primary passage near $t=0.13873$ with
+  apparent miss distance $0.00422$.  It later reaches restricted and
+  hierarchical escape margins near $9.99$ and $10.13$.  These are
+  **ORDINARY NUMERICAL EVIDENCE**.  A direct interval box restart at the fifth
+  entry spans the collision sheet and loses impact-parameter correlation.

@@ -64,7 +64,13 @@ primary.  A broader monotone collision window proves the exact fourth member
 misses the third boundary by a parameter gap greater than
 $1.2058\times10^{-11}$.  These are limiting real collision parameters, not
 Pythagorean or periodic solutions; their outgoing adjacent components remain
-to be classified.
+to be classified.  The whole fourth-root box has now been carried rigorously,
+with the terminating collision alternative, to a uniformly regular fifth
+positive-primary LC chart.  The intervening negative-chart other-primary
+squared distance exceeds $0.333865$, and the fifth switch has
+$|q_+|^2>0.333864$.  Ordinary continuation sees an extremely close fifth
+passage, a sixth negative-primary passage, and then escape margins near ten;
+none of those post-entry observations is yet validated.
 
 The closest catalog threat, the Li--Liao $F_{30}$ family on the
 $3{:}4{:}5$ mass slice, was locally continued.  Its periodic branch comes
@@ -87,9 +93,13 @@ The first root no longer needs outgoing-sign work: its selected-pair and
 heavy-binary LC continuation, strict escape inequalities, and finite-mass
 tidal bootstrap now give a full local collision-or-escape theorem.  The next
 target is to extend this classification across the adjacent compact
-\(\kappa\)-components.  The nearest additional collision zero has now been
-certified; the target is to certify every remaining collision zero,
-and propagate each resulting component to a terminal cone. The simpler
+\(\kappa\)-components.  The nearest two additional collision zeros are now
+certified, and the fourth-root box reaches the fifth LC chart with large
+entry margins.  The immediate target is a correlation-preserving fifth-chart
+propagation, an exact switch through the subsequent sixth negative-primary
+passage, and then the already available terminal cone.  More globally, every
+remaining collision zero must be certified or excluded before the neighboring
+regions are called components. The simpler
 global Pythagorean-defect barrier was numerically falsified after the first
 close encounter.
 

@@ -297,3 +297,24 @@ passage in a positive-primary LC chart.  The resulting pinned certificate
 keeps the unregularized primary separated and then reaches the heavy-binary
 escape bridge.  See
 `COMPUTER_ASSISTED_PLANAR_SECOND_COLLISION_ESCAPE.md`.
+
+## Independent box restart at the fifth planar close encounter
+
+**Status:** FAILED AS A TERMINAL VALIDATION; the incoming fifth-chart entry is
+certified, but its outgoing section needs correlation preservation.
+
+The full fourth-root parameter box can be propagated rigorously through its
+negative-primary ejection to a positive-primary LC entry with large chart
+margins.  Ordinary continuation shows that the ensuing passage has miss
+distance of order $10^{-7}$.  Restarting CAPD from the componentwise interval
+image in the fifth chart discards the small impact-parameter correlation.
+Near the outgoing section the hull of the LC coordinate still contains zero,
+so division by $|u_+|^2$ cannot reconstruct an ordinary bridge state.  Longer
+propagation makes the clock enclosure reach the heavy-collision boundary.
+
+This failure does not prove a collision.  The LC field remains analytic and
+the correct theorem remains collision-or-escape.  The repair must preserve a
+doubleton or another validated parameterization through the nonlinear fifth
+entry (or use a transverse outgoing LC section), then switch to the sixth
+negative-primary LC chart seen by ordinary continuation.  Merely lowering an
+ordinary-distance threshold cannot recover the lost correlation.

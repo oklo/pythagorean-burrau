@@ -399,6 +399,19 @@ reviews endorsed the chart algebra, the full $C^1$ derivative chain, the
 monotone first-zero arguments, the strict parameter-gap exclusion, and the
 limited scope: neither outgoing adjacent component has yet been classified.
 
+The fourth-root input box has also been propagated beyond its regularized
+ejection to a fifth positive-primary LC entry.  On the intervening block the
+other-primary squared distance exceeds $0.333865$; the outgoing fourth LC norm
+exceeds $0.213057$, and the fifth switch has $q_{+,x}<-0.577809$ and
+$|q_+|^2>0.333864$.  Thus every member of the box either has a terminating
+classical collision or reaches that analytic fifth chart.  Ordinary
+continuation predicts two further close passages and then escape with margins
+near ten, but a componentwise fifth-chart box restart loses the extremely
+small impact-parameter correlation.  Terminal classification remains open.
+Three independent adversarial replays endorsed this collision-or-entry
+theorem, including its dependency on the earlier pinned fourth-root
+certificate.  A fourth replay matched the stored hexadecimal fields exactly.
+
 ### Positive-mass persistence of the collision boundary
 
 For the selected primary, the exact finite-mass Jacobi coordinate
@@ -715,6 +728,15 @@ At the end of this run:
     bash scripts/run_capd_planar_light_collision_newton.sh \
       /private/tmp/pythagorean-capd \
       /private/tmp/pythagorean-capd/build-native --second-escape-wide
+    bash scripts/run_capd_planar_light_collision_newton.sh \
+      /private/tmp/pythagorean-capd \
+      /private/tmp/pythagorean-capd/build-native --third-root
+    bash scripts/run_capd_planar_light_collision_newton.sh \
+      /private/tmp/pythagorean-capd \
+      /private/tmp/pythagorean-capd/build-native --fourth-root
+    bash scripts/run_capd_planar_light_collision_newton.sh \
+      /private/tmp/pythagorean-capd \
+      /private/tmp/pythagorean-capd/build-native --fourth-fifth-entry
 
 Results at this checkpoint:
 

@@ -1402,6 +1402,252 @@ SecondEscapeEvaluation evaluate_second_collision_ejection_escape(
           finite_mass_margin};
 }
 
+struct FourthOutgoingEvaluation {
+  IVector fourth_exit;
+  IVector fifth_entry;
+  IVector fifth_exit;
+  IVector bridge_exit;
+  interval minimum_fourth_other_squared;
+  interval fourth_exit_selected_norm;
+  interval fifth_switch_qx;
+  interval fifth_switch_squared;
+  interval minimum_fifth_other_squared;
+  interval minimum_bridge_primary_squared;
+  interval escape_margin;
+  interval finite_mass_margin;
+};
+
+FourthOutgoingEvaluation evaluate_fourth_outgoing(
+    const interval& kappa, const interval& fourth_start_duration,
+    const interval& fourth_extra_duration,
+    const interval& fifth_duration, bool stop_after_fifth_entry = false) {
+  const Evaluation start =
+      evaluate_fourth_pair_collision(kappa, fourth_start_duration);
+
+  C0Rect2Set fourth_set(start.final_state);
+  IMap fourth_field = make_other_pair_lc_field();
+  IOdeSolver fourth_solver(fourth_field, 30);
+  fourth_solver.setAbsoluteTolerance(1e-15);
+  fourth_solver.setRelativeTolerance(1e-15);
+  ITimeMap fourth_time_map(fourth_solver);
+  fourth_time_map.stopAfterStep(true);
+  interval minimum_fourth_other_squared = interval(1000000.0);
+  do {
+    fourth_time_map(fourth_extra_duration, fourth_set);
+    const IVector enclosure = fourth_set.getLastEnclosure();
+    const interval separation =
+        exp(log(interval(9.0)) / interval(3.0)) *
+        exp(interval(2.0) * log(enclosure[5]) / interval(3.0));
+    const interval qx = sqr(enclosure[0]) - sqr(enclosure[1]);
+    const interval qy = interval(2.0) * enclosure[0] * enclosure[1];
+    const interval other_squared = sqr(qx - separation) + sqr(qy);
+    minimum_fourth_other_squared =
+        interval(std::min(minimum_fourth_other_squared.leftBound(),
+                          other_squared.leftBound()),
+                 std::min(minimum_fourth_other_squared.rightBound(),
+                          other_squared.rightBound()));
+    if (!(enclosure[5].leftBound() > 0.05 &&
+          other_squared.leftBound() > 0.01)) {
+      std::cerr << std::hexfloat
+                << "FOURTH_OUTGOING_NEGATIVE_PATH enclosure=" << enclosure
+                << " other_squared=" << other_squared << "\n";
+      throw std::runtime_error(
+          "fourth outgoing negative chart lost its ordinary denominator");
+    }
+  } while (!fourth_time_map.completed());
+  const IVector fourth_exit = static_cast<IVector>(fourth_set);
+  const interval fourth_selected_norm =
+      sqr(fourth_exit[0]) + sqr(fourth_exit[1]);
+  const interval separation =
+      exp(log(interval(9.0)) / interval(3.0)) *
+      exp(interval(2.0) * log(fourth_exit[5]) / interval(3.0));
+  const interval fourth_qx =
+      sqr(fourth_exit[0]) - sqr(fourth_exit[1]);
+  const interval fourth_qy =
+      interval(2.0) * fourth_exit[0] * fourth_exit[1];
+  const interval positive_qx = fourth_qx - separation;
+  const interval positive_squared =
+      sqr(positive_qx) + sqr(fourth_qy);
+  if (!(fourth_selected_norm.leftBound() > 1e-5 &&
+        positive_qx.rightBound() < -0.05 &&
+        positive_squared.leftBound() > 0.01)) {
+    std::cerr << std::hexfloat
+              << "FOURTH_OUTGOING_FIFTH_SWITCH fourth_exit=" << fourth_exit
+              << " selected_norm=" << fourth_selected_norm
+              << " positive_qx=" << positive_qx
+              << " positive_squared=" << positive_squared << "\n";
+    throw std::runtime_error(
+        "fourth outgoing fifth-chart switch lost its square-root sheet");
+  }
+
+  IMap fifth_entry_map = make_positive_pair_entry_map();
+  const IVector fifth_entry = fifth_entry_map(fourth_exit);
+  if (!(fifth_entry[1].rightBound() < 0.0 &&
+        fifth_entry[5].leftBound() > 0.05)) {
+    throw std::runtime_error(
+        "fourth outgoing fifth-chart entry lost its selected lift");
+  }
+  if (stop_after_fifth_entry) {
+    const IVector empty_state(static_cast<IVector::size_type>(0));
+    return {fourth_exit,
+            fifth_entry,
+            empty_state,
+            empty_state,
+            minimum_fourth_other_squared,
+            fourth_selected_norm,
+            positive_qx,
+            positive_squared,
+            interval(0.0),
+            interval(0.0),
+            interval(0.0),
+            interval(0.0)};
+  }
+  C0Rect2Set fifth_set(fifth_entry);
+  IMap fifth_field = make_positive_pair_lc_field();
+  IOdeSolver fifth_solver(fifth_field, 30);
+  fifth_solver.setAbsoluteTolerance(1e-15);
+  fifth_solver.setRelativeTolerance(1e-15);
+  ITimeMap fifth_time_map(fifth_solver);
+  fifth_time_map.stopAfterStep(true);
+  interval minimum_fifth_other_squared = interval(1000000.0);
+  do {
+    fifth_time_map(fifth_duration, fifth_set);
+    const IVector enclosure = fifth_set.getLastEnclosure();
+    const interval current_separation =
+        exp(log(interval(9.0)) / interval(3.0)) *
+        exp(interval(2.0) * log(enclosure[5]) / interval(3.0));
+    const interval qx = sqr(enclosure[0]) - sqr(enclosure[1]);
+    const interval qy = interval(2.0) * enclosure[0] * enclosure[1];
+    const interval other_squared =
+        sqr(qx + current_separation) + sqr(qy);
+    minimum_fifth_other_squared =
+        interval(std::min(minimum_fifth_other_squared.leftBound(),
+                          other_squared.leftBound()),
+                 std::min(minimum_fifth_other_squared.rightBound(),
+                          other_squared.rightBound()));
+    if (!(enclosure[5].leftBound() > 0.01 &&
+          other_squared.leftBound() > 0.01)) {
+      std::cerr << std::hexfloat
+                << "FOURTH_OUTGOING_POSITIVE_PATH enclosure=" << enclosure
+                << " other_squared=" << other_squared << "\n";
+      throw std::runtime_error(
+          "fourth outgoing fifth chart lost its ordinary denominator");
+    }
+  } while (!fifth_time_map.completed());
+  const IVector fifth_exit = static_cast<IVector>(fifth_set);
+  const interval fifth_selected_norm =
+      sqr(fifth_exit[0]) + sqr(fifth_exit[1]);
+  if (!(fifth_selected_norm.leftBound() > 1e-5)) {
+    std::cerr << std::hexfloat
+              << "FOURTH_OUTGOING_FIFTH_EXIT fifth_exit=" << fifth_exit
+              << " selected_norm=" << fifth_selected_norm << "\n";
+    throw std::runtime_error(
+        "fourth outgoing fifth chart has not cleared the selected primary");
+  }
+
+  IMap fifth_exit_map = make_positive_exit_to_bridge_map();
+  const IVector bridge_initial = fifth_exit_map(fifth_exit);
+  C0Rect2Set bridge_set(bridge_initial);
+  IMap bridge_field = make_heavy_binary_bridge_field();
+  IOdeSolver bridge_solver(bridge_field, 30);
+  bridge_solver.setAbsoluteTolerance(1e-15);
+  bridge_solver.setRelativeTolerance(1e-15);
+  ITimeMap bridge_time_map(bridge_solver);
+  const double lambda_center =
+      (bridge_initial[0].leftBound() + bridge_initial[0].rightBound()) / 2.0;
+  const interval bridge_end = interval(lambda_center + 2.0);
+  bridge_time_map.stopAfterStep(true);
+  interval minimum_bridge_primary_squared = interval(1000000.0);
+  do {
+    bridge_time_map(bridge_end, bridge_set);
+    const IVector enclosure = bridge_set.getLastEnclosure();
+    const interval half_binary =
+        exp(log(interval(9.0)) / interval(3.0)) * sqr(enclosure[0]) /
+        interval(2.0);
+    const interval plus_squared =
+        sqr(enclosure[1] + half_binary) + sqr(enclosure[2]);
+    const interval minus_squared =
+        sqr(enclosure[1] - half_binary) + sqr(enclosure[2]);
+    const interval step_minimum(
+        std::min(plus_squared.leftBound(), minus_squared.leftBound()),
+        std::min(plus_squared.rightBound(), minus_squared.rightBound()));
+    minimum_bridge_primary_squared =
+        interval(std::min(minimum_bridge_primary_squared.leftBound(),
+                          step_minimum.leftBound()),
+                 std::min(minimum_bridge_primary_squared.rightBound(),
+                          step_minimum.rightBound()));
+    if (!(plus_squared.leftBound() > 0.001 &&
+          minus_squared.leftBound() > 0.001)) {
+      std::cerr << std::hexfloat
+                << "FOURTH_OUTGOING_BRIDGE_PATH enclosure=" << enclosure
+                << " plus_squared=" << plus_squared
+                << " minus_squared=" << minus_squared << "\n";
+      throw std::runtime_error(
+          "fourth outgoing bridge approached a light primary");
+    }
+  } while (!bridge_time_map.completed());
+
+  const IVector bridge_exit = static_cast<IVector>(bridge_set);
+  if (!(bridge_exit[0].rightBound() < -1.9 &&
+        bridge_exit[0].leftBound() > -2.1)) {
+    throw std::runtime_error(
+        "fourth outgoing bridge missed the terminal lambda section");
+  }
+  const interval outer_radius =
+      sqrt(sqr(bridge_exit[1]) + sqr(bridge_exit[2]));
+  const interval radial_clock_speed =
+      (bridge_exit[1] * bridge_exit[3] +
+       bridge_exit[2] * bridge_exit[4]) /
+      outer_radius;
+  const interval physical_outward_speed = -radial_clock_speed;
+  const interval scale = exp(log(interval(9.0)) / interval(3.0));
+  const interval half_binary =
+      scale * sqr(bridge_exit[0]) / interval(2.0);
+  const interval clearance = outer_radius - half_binary;
+  const interval binary_boundary_speed =
+      scale / (interval(3.0) * (-bridge_exit[0]));
+  const interval comparison_speed = interval(2.0);
+  const interval escape_margin =
+      physical_outward_speed -
+      interval(2.0) / (comparison_speed * clearance) - comparison_speed -
+      binary_boundary_speed;
+  const interval inner_separation = scale * sqr(bridge_exit[0]);
+  const interval outer_clearance = outer_radius - inner_separation;
+  const interval energy_ceiling = interval(1.0) / interval(100.0);
+  const interval cone_speed = interval(3.0) / interval(2.0);
+  const interval binary_envelope_speed =
+      sqrt(interval(4.0) / inner_separation +
+           interval(2.0) * energy_ceiling);
+  const interval finite_mass_margin =
+      physical_outward_speed -
+      interval(2.0) / (cone_speed * outer_clearance) -
+      binary_envelope_speed - cone_speed;
+  if (!(clearance.leftBound() > 10.0 &&
+        physical_outward_speed.leftBound() > 2.5 &&
+        escape_margin.leftBound() > 0.0 &&
+        outer_clearance.leftBound() > 10.0 &&
+        finite_mass_margin.leftBound() > 0.0)) {
+    std::cerr << std::hexfloat
+              << "FOURTH_OUTGOING_TERMINAL bridge_exit=" << bridge_exit
+              << " escape_margin=" << escape_margin
+              << " finite_mass_margin=" << finite_mass_margin << "\n";
+    throw std::runtime_error(
+        "fourth outgoing terminal state failed the escape test");
+  }
+  return {fourth_exit,
+          fifth_entry,
+          fifth_exit,
+          bridge_exit,
+          minimum_fourth_other_squared,
+          fourth_selected_norm,
+          positive_qx,
+          positive_squared,
+          minimum_fifth_other_squared,
+          minimum_bridge_primary_squared,
+          escape_margin,
+          finite_mass_margin};
+}
+
 IVector interval_newton(const IVector& center, const IVector& value,
                         const IMatrix& jacobian) {
   return center - capd::matrixAlgorithms::gauss(jacobian, value);
@@ -1434,10 +1680,13 @@ int main(int argc, char** argv) {
     bool third_root_probe = false;
     bool third_root_only = false;
     bool fourth_root_only = false;
+    bool fourth_fifth_entry_only = false;
+    bool fourth_outgoing_probe = false;
     int second_probe_offset = 0;
     int second_probe_radius = 0;
     int second_fourth_duration_million = 0;
     int second_fourth_duration_radius_million = 0;
+    int second_fifth_duration_million = 0;
     if (argc == 2 && std::string(argv[1]) == "--second-root") {
       second_root_only = true;
     } else if (argc == 2 && std::string(argv[1]) == "--second-escape") {
@@ -1449,11 +1698,19 @@ int main(int argc, char** argv) {
       fourth_root_only = true;
     } else if (argc == 2 && std::string(argv[1]) == "--third-root") {
       third_root_only = true;
+    } else if (argc == 2 &&
+               std::string(argv[1]) == "--fourth-fifth-entry") {
+      fourth_fifth_entry_only = true;
     } else if (argc == 4 &&
                std::string(argv[1]) == "--second-escape-probe") {
       second_escape_probe = true;
       second_probe_offset = parse_integer(argv[2]);
       second_probe_radius = parse_integer(argv[3]);
+    } else if (argc == 4 &&
+               std::string(argv[1]) == "--fourth-outgoing-probe") {
+      fourth_outgoing_probe = true;
+      second_fourth_duration_million = parse_integer(argv[2]);
+      second_fifth_duration_million = parse_integer(argv[3]);
     } else if (argc == 5 &&
                std::string(argv[1]) == "--second-fourth-probe") {
       second_fourth_probe = true;
@@ -1484,10 +1741,13 @@ int main(int argc, char** argv) {
     } else if (argc != 1) {
       std::cerr << "usage: " << argv[0]
                 << " [--second-root | --third-root | --fourth-root | "
+                   "--fourth-fifth-entry | "
                    "--second-escape | "
                    "--second-escape-wide | --second-escape-probe "
                    "OFFSET_NANO RADIUS_NANO | --escape-tiles FIRST_OFFSET "
-                   "COUNT [RADIUS] | --second-fourth-probe OFFSET_NANO "
+                   "COUNT [RADIUS] | --fourth-outgoing-probe "
+                   "FOURTH_EXTRA_MILLION FIFTH_DURATION_MILLION | "
+                   "--second-fourth-probe OFFSET_NANO "
                    "RADIUS_NANO DURATION_MILLION | "
                    "--second-fourth-root-probe OFFSET_NANO RADIUS_NANO "
                    "DURATION_MILLION DURATION_RADIUS_MILLION | "
@@ -1510,6 +1770,14 @@ int main(int argc, char** argv) {
          second_fourth_duration_million > 10000000)) {
       throw std::invalid_argument(
           "fourth probe radius/duration is outside its safe range");
+    }
+    if (fourth_outgoing_probe &&
+        (second_fourth_duration_million < 1 ||
+         second_fourth_duration_million > 10000000 ||
+         second_fifth_duration_million < 1 ||
+         second_fifth_duration_million > 10000000)) {
+      throw std::invalid_argument(
+          "fourth outgoing probe durations are outside their safe ranges");
     }
     if (second_fourth_root_probe &&
         (second_probe_radius < 1 || second_probe_radius > 1000000 ||
@@ -1903,6 +2171,77 @@ int main(int argc, char** argv) {
                 << " radius_nano=" << second_probe_radius
                 << " duration_million=" << second_fourth_duration_million
                 << " kappa_box=" << kappa_box
+                << " minimum_bridge_primary_squared="
+                << result.minimum_bridge_primary_squared
+                << " escape_margin=" << result.escape_margin
+                << " finite_mass_margin=" << result.finite_mass_margin
+                << "\n";
+      return 0;
+    }
+    if (fourth_fifth_entry_only) {
+      const interval kappa_center =
+          interval(1264009098895.0) / interval(1000000000000.0);
+      const interval kappa_radius =
+          interval(395.0) / interval(1000000000000.0);
+      const interval kappa_box =
+          kappa_center + symmetric(kappa_radius);
+      const interval fourth_start_duration =
+          interval(37284.0) / interval(100000.0);
+      const interval fourth_extra_duration =
+          interval(427160.0) / interval(1000000.0);
+      const FourthOutgoingEvaluation result = evaluate_fourth_outgoing(
+          kappa_box, fourth_start_duration, fourth_extra_duration,
+          interval(0.0), true);
+      std::cout << std::hexfloat
+                << "FOURTH_FIFTH_ENTRY_DATA method=CAPD-6.1.0-native"
+                << " kappa_box=" << kappa_box
+                << " fourth_start_duration=" << fourth_start_duration
+                << " fourth_extra_duration=" << fourth_extra_duration
+                << " fourth_exit=" << result.fourth_exit
+                << " fifth_entry=" << result.fifth_entry
+                << " minimum_fourth_other_squared="
+                << result.minimum_fourth_other_squared
+                << " fourth_exit_selected_norm="
+                << result.fourth_exit_selected_norm
+                << " fifth_switch_qx=" << result.fifth_switch_qx
+                << " fifth_switch_squared="
+                << result.fifth_switch_squared << "\n";
+      std::cout << "PASS_FOURTH_FIFTH_ENTRY method=CAPD-6.1.0-native "
+                   "stage=planar-fourth-outgoing-fifth-chart-entry\n";
+      return 0;
+    }
+    if (fourth_outgoing_probe) {
+      const interval kappa_center =
+          interval(1264009098895.0) / interval(1000000000000.0);
+      const interval kappa_radius =
+          interval(395.0) / interval(1000000000000.0);
+      const interval kappa_box =
+          kappa_center + symmetric(kappa_radius);
+      const interval fourth_start_duration =
+          interval(37284.0) / interval(100000.0);
+      const interval fourth_extra_duration =
+          interval(static_cast<double>(second_fourth_duration_million)) /
+          interval(1000000.0);
+      const interval fifth_duration =
+          interval(static_cast<double>(second_fifth_duration_million)) /
+          interval(1000000.0);
+      const FourthOutgoingEvaluation result = evaluate_fourth_outgoing(
+          kappa_box, fourth_start_duration, fourth_extra_duration,
+          fifth_duration);
+      std::cout << std::hexfloat
+                << "PASS_FOURTH_OUTGOING_PROBE method=CAPD-6.1.0-native"
+                << " kappa_box=" << kappa_box
+                << " fourth_start_duration=" << fourth_start_duration
+                << " fourth_extra_duration=" << fourth_extra_duration
+                << " fifth_duration=" << fifth_duration
+                << " fourth_exit=" << result.fourth_exit
+                << " fifth_entry=" << result.fifth_entry
+                << " fifth_exit=" << result.fifth_exit
+                << " bridge_exit=" << result.bridge_exit
+                << " minimum_fourth_other_squared="
+                << result.minimum_fourth_other_squared
+                << " minimum_fifth_other_squared="
+                << result.minimum_fifth_other_squared
                 << " minimum_bridge_primary_squared="
                 << result.minimum_bridge_primary_squared
                 << " escape_margin=" << result.escape_margin

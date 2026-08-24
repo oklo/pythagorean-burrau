@@ -67,6 +67,8 @@ bash scripts/run_capd_planar_light_collision_newton.sh \
   /path/to/CAPD /path/to/CAPD/build-native --third-root
 bash scripts/run_capd_planar_light_collision_newton.sh \
   /path/to/CAPD /path/to/CAPD/build-native --fourth-root
+bash scripts/run_capd_planar_light_collision_newton.sh \
+  /path/to/CAPD /path/to/CAPD/build-native --fourth-fifth-entry
 ```
 
 Full derivation and trusted-computing-base details are in
@@ -93,6 +95,9 @@ distinct, classically reached positive- and negative-primary collision roots;
 their parameter projections are separated by more than
 `1.2058e-11`.  See
 `docs/COMPUTER_ASSISTED_PLANAR_THIRD_FOURTH_COLLISION_ROOTS.md`.
+The fourth-root box is continued, with the classical collision alternative,
+to a uniform fifth positive-primary LC chart in
+`docs/COMPUTER_ASSISTED_PLANAR_FOURTH_TO_FIFTH_ENTRY.md`.
 The exact positive-light-mass reduction and the resulting persistence theorem
 for that collision boundary are in
 `docs/FINITE_MASS_PLANAR_COLLISION_PERSISTENCE.md`.  The differentiated

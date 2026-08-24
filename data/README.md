@@ -32,3 +32,8 @@ The 195-tile contiguous enlargement is summarized in
 transverse collision roots.  The fourth record includes the separate
 earlier-root uniqueness strip and strict parameter-gap exclusion needed to
 prove classical reachability.
+
+`validated_planar_fourth_to_fifth_entry_capd.txt` records the regularized
+outgoing propagation of the whole fourth-root box to a uniformly analytic
+fifth positive-primary LC chart.  Its scope is collision-or-fifth-entry, not
+terminal escape.
