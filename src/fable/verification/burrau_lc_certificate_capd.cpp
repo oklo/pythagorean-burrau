@@ -423,6 +423,8 @@ int main(int argc, char** argv) {
   const int precision = argc > 1 ? std::atoi(argv[1]) : 512;
   const double tolerance = argc > 2 ? std::atof(argv[2]) : 1e-110;
   const int order = argc > 3 ? std::atoi(argv[3]) : 80;
+  const long rho_in_den = argc > 4 ? std::atol(argv[4]) : 80;
+  const long rho_out_den = argc > 5 ? std::atol(argv[5]) : 50;
   capd::MpFloat::setDefaultPrecision(precision);
   try {
     Map physical_field = make_physical_field();
@@ -447,8 +449,13 @@ int main(int argc, char** argv) {
     // r13 ~ 8.3e-5, goes that deep; the t=0.376 encounter bottoms at
     // 2.8e-3), exit above 1/500; brake-free zone bound
     // |g| < 1/4 < m1 m3 / U0 = 240/769.
-    const Ival rho_in_sq = Ival(1) / Ival(6400);   // enter below 1/80
-    const Ival rho_out = Ival(1) / Ival(50);       // exit above 1/50
+    const Ival rho_in_sq =
+        (Ival(1) / Ival(rho_in_den)) * (Ival(1) / Ival(rho_in_den));
+    const Ival rho_out = Ival(1) / Ival(rho_out_den);
+    if (!(rho_out.leftBound() > (Ival(1) / Ival(rho_in_den)).rightBound())) {
+      std::cerr << "FAIL zone thresholds out of order\n";
+      return 2;
+    }
     const Ival zone_bound = Ival(1) / Ival(4);
 
     long steps = 0;
