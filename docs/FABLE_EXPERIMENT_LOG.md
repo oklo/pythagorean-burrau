@@ -163,3 +163,14 @@ All entries are ORDINARY NUMERICAL EVIDENCE unless marked otherwise.
     each including the 8.3e-5 deep encounter at ~2; precision headroom
     must exceed ~50 digits).  The calibrated finisher
     (640/1e-150/order-135, +11 margin) is in flight, ETA ~3.5 h.
+
+20. **Burn scaling law (bit-identical twin experiment).**  640- and
+    768-bit runs at 1e-150/order-135 produced bit-identical hull widths
+    (1.10147e-101 at t=1.72), proving the burn is deterministic
+    wrapping, not rounding noise.  Burn scales with STEP COUNT
+    (h ~ tol^{1/(order+1)}), so deepening tolerance at fixed order
+    raises the requirement nearly as fast as the budget.  Rule: hold
+    order ≈ tolerance-digits so steps stay constant; then requirement
+    stays ~139 and margin = tolerance − 139.  Finisher config:
+    640 bits / 1e-150 / order 150 / zone 1/25-1/17 (+11 margin at
+    constant requirement).
