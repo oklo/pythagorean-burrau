@@ -144,6 +144,25 @@ first-syzygy cone theorem has been reduced to three coupled obligations:
 The two gravitational signs alone do not close any of these velocity
 inequalities.
 
+The strongest purely instantaneous total-energy repair has now been ruled
+out exactly.  Minimizing kinetic energy at fixed
+$(L,\ell_{23},\ell_{31})$ gives an optimal Gram-inverse bound, but an exact
+interior ordered-right/obtuse state with the required torque signs makes the
+resulting first-gap upper margin positive.  Therefore obligations 2 and 3
+must use reachability from the brake.  The most direct missing estimates are
+history-dependent comparisons for
+
+\[
+ { -\ell_{31}(t)\over\ell_{23}(t)}
+ ={m_2\int_0^t\Delta_2(r_{23}^{-3}-r_{12}^{-3})\,ds
+   \over
+   m_1\int_0^t\Delta_2(r_{31}^{-3}-r_{12}^{-3})\,ds}
+\]
+
+and the analogous ratio $-\ell_{12}/\ell_{23}$.  A viable proof must couple
+these integrals to the evolving side ratios; no inequality depending only on
+the current shape, $H$, $L$, and torque signs can close the cone.
+
 Exhaustive compact-middle covering is not an acceptable substitute: measured
 through-encounter parameter amplification is about $3\times10^8$ and grows
 further at late events. The event reduction is a smaller exact problem, but

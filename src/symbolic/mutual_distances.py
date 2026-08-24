@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
+from collections import defaultdict
 from functools import lru_cache
+from itertools import product
 
 import sympy as sp
 
@@ -86,27 +88,35 @@ def _tensor_bernstein_coefficients(
 ) -> tuple[sp.Expr, ...]:
     polynomial = sp.Poly(numerator, *variables)
     degrees = tuple(polynomial.degree(variable) for variable in variables)
-    power_coefficients = dict(polynomial.terms())
-    result: list[sp.Expr] = []
-    for i in range(degrees[0] + 1):
-        for j in range(degrees[1] + 1):
-            for k in range(degrees[2] + 1):
-                order = (i, j, k)
-                coefficient = sum(
-                    value
-                    * sp.binomial(order[0], exponent[0])
-                    / sp.binomial(degrees[0], exponent[0])
-                    * sp.binomial(order[1], exponent[1])
-                    / sp.binomial(degrees[1], exponent[1])
-                    * sp.binomial(order[2], exponent[2])
-                    / sp.binomial(degrees[2], exponent[2])
-                    for exponent, value in power_coefficients.items()
-                    if all(
-                        exponent[index] <= order[index] for index in range(3)
-                    )
+    coefficients = dict(polynomial.terms())
+    for axis, degree in enumerate(degrees):
+        grouped: defaultdict[tuple[int, ...], dict[int, sp.Expr]] = defaultdict(
+            dict
+        )
+        for exponent, value in coefficients.items():
+            other = exponent[:axis] + exponent[axis + 1 :]
+            grouped[other][exponent[axis]] = value
+        transformed: dict[tuple[int, ...], sp.Expr] = {}
+        for other, power_line in grouped.items():
+            for order in range(degree + 1):
+                value = sum(
+                    coefficient
+                    * sp.binomial(order, exponent)
+                    / sp.binomial(degree, exponent)
+                    for exponent, coefficient in power_line.items()
+                    if exponent <= order
                 )
-                result.append(sp.simplify(coefficient))
-    return tuple(result)
+                key = other[:axis] + (order,) + other[axis:]
+                # Only rational binomial factors are introduced here.  An
+                # expansion keeps coefficients in canonical Q(sqrt(2)) form
+                # and is dramatically faster than general-purpose simplify
+                # for the four-dimensional certificate below.
+                transformed[key] = sp.expand(value)
+        coefficients = transformed
+    return tuple(
+        coefficients[order]
+        for order in product(*(range(degree + 1) for degree in degrees))
+    )
 
 
 @lru_cache(maxsize=1)
@@ -141,3 +151,144 @@ def ordered_obtuse_gravity_first_bernstein_coefficients() -> tuple[sp.Expr, ...]
     gap, variables = ordered_obtuse_gravity_first_gap()
     numerator, _ = sp.fraction(gap)
     return _tensor_bernstein_coefficients(numerator, variables)
+
+
+@lru_cache(maxsize=1)
+def _generic_first_gap_energy_margin() -> tuple[
+    sp.Expr, sp.Expr, tuple[sp.Symbol, ...]
+]:
+    """Generic unit-``r12`` signed-torque energy margin."""
+    m, n, p, q, z = sp.symbols("m n p q z", positive=True)
+    expressions = squared_distance_accelerations()
+    m1, m2, m3 = sp.symbols("m1 m2 m3", positive=True)
+    x, y, r12_squared = sp.symbols("x y z", positive=True)
+    v23, v31, v12 = sp.symbols("v23sq v31sq v12sq", nonnegative=True)
+    substitution = {
+        m1: m,
+        m2: n,
+        m3: 1,
+        x: p**2,
+        y: q**2,
+        r12_squared: 1,
+        v23: 0,
+        v31: 0,
+        v12: 0,
+    }
+    gravity = (
+        expressions["z_second"].subs(substitution) / 2
+        - expressions["x_second"].subs(substitution) / (2 * p)
+    )
+    kinetic = _pair_torque_kinetic_coefficient(m, n, p, q, z)
+    potential = m * n + n / p + m / q
+    centrifugal = (1 / m - z / n) ** 2 - 1 / p**3
+    margin = sp.cancel(gravity + 2 * potential * centrifugal / kinetic)
+    return margin, kinetic, (m, n, p, q, z)
+
+
+@lru_cache(maxsize=1)
+def _generic_signed_torque_first_gap_margin() -> tuple[
+    sp.Expr, tuple[sp.Symbol, ...]
+]:
+    """Generic energy margin with the full pre-syzygy torque sign cone."""
+    margin, _, variables = _generic_first_gap_energy_margin()
+    m, n, p, q, z = variables
+    h = sp.symbols("h", nonnegative=True)
+    signed_margin = sp.cancel(margin.subs(z, n * h / m))
+    return signed_margin, (m, n, p, q, h)
+
+
+@lru_cache(maxsize=1)
+def first_gap_static_energy_obstruction() -> tuple[
+    sp.Expr, tuple[sp.Rational, ...]
+]:
+    """Exact interior point where the optimal static energy bound is positive.
+
+    This disproves the proposed implication from ordered right/obtuse shape,
+    the pre-syzygy torque signs, zero angular momentum, and total energy alone
+    to ``(r12-r23)''<0``. It does not describe a reachable Burrau state.
+    """
+    depth = sp.Rational(99, 100)
+    order_split = sp.Rational(1, 10**6)
+    parameter = sp.Rational(99, 100)
+    torque_ratio = sp.Rational(1, 10**6)
+    root_two_minus_one = sp.sqrt(2) - 1
+    triangle_scale = (
+        2
+        - sp.sqrt(2)
+        + root_two_minus_one * depth
+    )
+    side_23 = 1 - triangle_scale * order_split / 2
+    side_31 = 1 - triangle_scale + triangle_scale * order_split / 2
+    tied_parameter = root_two_minus_one * parameter
+    mass_1 = (1 - tied_parameter**2) / (1 + tied_parameter**2)
+    mass_2 = 2 * tied_parameter / (1 + tied_parameter**2)
+    margin, variables = _generic_signed_torque_first_gap_margin()
+    m, n, p, q, h = variables
+    value = sp.cancel(
+        margin.subs(
+            {
+                m: mass_1,
+                n: mass_2,
+                p: side_23,
+                q: side_31,
+                h: torque_ratio,
+            }
+        )
+    )
+    return value, (depth, order_split, parameter, torque_ratio)
+
+
+def _pair_torque_kinetic_coefficient(
+    mass_1: sp.Expr,
+    mass_2: sp.Expr,
+    side_23: sp.Expr,
+    side_31: sp.Expr,
+    torque_ratio: sp.Expr,
+) -> sp.Expr:
+    """Closed Gram-inverse coefficient for ``ell23=1, ell31=-ratio``.
+
+    The third mass and ``r12`` are one. This expression is the exact result
+    of minimizing twice the kinetic energy over translation-reduced
+    velocities subject to total angular momentum zero and the two stated
+    pair angular momenta.
+    """
+    m = mass_1
+    n = mass_2
+    p = side_23
+    q = side_31
+    z = torque_ratio
+    numerator = (
+        m**2 * n**2 * z
+        - m**2 * n**2 * p**2 * z**2
+        - m**2 * n**2 * p**2 * z
+        - m**2 * n**2 * q**2 * z
+        - m**2 * n**2 * q**2
+        - m**2 * n * p**2 * z**2
+        + m**2 * n * q**2 * z
+        + m * n**2 * p**2 * z
+        - m * n**2 * q**2
+        + m**2 * n * p**4 * z**2
+        - m**2 * n * p**2 * q**2 * z**2
+        + m**2 * n * p**2 * q**2 * z
+        - m**2 * n * q**4 * z
+        - m**2 * p**2 * q**2 * z**2
+        - m * n**2 * p**4 * z
+        + m * n**2 * p**2 * q**2 * z
+        - m * n**2 * p**2 * q**2
+        + m * n**2 * q**4
+        + 2 * m * n * p**2 * q**2 * z
+        - n**2 * p**2 * q**2
+    )
+    heron_product = (
+        (-1 + p - q) * (-1 + p + q) * (1 + p - q) * (1 + p + q)
+    )
+    denominator = m * n * heron_product * (m * n + m * q**2 + n * p**2)
+    return 4 * numerator / denominator
+
+
+def pair_torque_kinetic_coefficient() -> tuple[
+    sp.Expr, tuple[sp.Symbol, ...]
+]:
+    """Return the generic optimal kinetic coefficient and its variables."""
+    m, n, p, q, z = sp.symbols("m n p q z", positive=True)
+    return _pair_torque_kinetic_coefficient(m, n, p, q, z), (m, n, p, q, z)

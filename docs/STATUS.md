@@ -16,7 +16,10 @@ subcone one has $\mathfrak g_{12}-\mathfrak g_{23}<0$. Both are finite
 tensor-Bernstein certificates over complete shape--mass cubes in exact
 $\mathbb Q(\sqrt2)$ arithmetic, not trajectory samples. The remaining cone
 theorem is localized to preservation of obtuseness and domination of two
-possibly adverse centrifugal differences. The imported Fable event theorem gives a new exact global
+possibly adverse centrifugal differences.  Exact kinetic minimization has
+also disproved the strongest static total-energy domination of the first
+difference at an interior state, so the missing estimate must use integrated
+torque history or an equivalent reachability constraint. The imported Fable event theorem gives a new exact global
 reduction: every brake is a strict $I$-maximum with $U=U_0$ and explicit
 pairwise collision separation (uniform on parameter compacts away from
 $u=0$), while every fold/minimum of $I$ has $K\ge U_0$.
@@ -41,7 +44,10 @@ complete half-orbit with validated positive swept separations and sub-$10^{-9}$
 endpoint-residual widths, but the $C^1$ root enclosure is still pending; this
 is a useful threat localization, not a validated nonintersection. The first
 radius-$10^{-8}$ $C^1$ box wrapped at scaled time $0.225958$ despite the
-regular center flow; a smaller-box replay is pending. Infinitely
+regular center flow.  A half-step center replay also completed, but accumulated
+$10^{-6}$ rather than smaller residual widths, so a one-piece smaller-box
+replay is no longer justified; sectioned multiple shooting is the next
+validation architecture. Infinitely
 many open real skinny parameter intervals are now
 proved nonperiodic; consequently infinitely many distinct primitive
 Pythagorean triples satisfy the conjecture. The exact foundations,

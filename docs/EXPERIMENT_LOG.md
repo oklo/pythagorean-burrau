@@ -1210,3 +1210,22 @@ it is not a remainder proof.
   steps; the active 256-bit/order-50 replay at maximum step
   $2.5\times10^{-4}$ tests whether a rigorously much smaller Newton box is
   viable.
+- The maximum-step-$2.5\times10^{-4}$ F30 point-center replay completed in
+  4233 validated steps and retained
+  $r_{\min}^2\ge1.74907\times10^{-7}$, but accumulated endpoint residual
+  radii of about $3.14\times10^{-7}$, $1.23\times10^{-6}$, and
+  $1.86\times10^{-6}$.  This is worse than the earlier maximum-step
+  $5\times10^{-4}$ center enclosure because twice as many interval steps
+  accumulate more wrapping.  A radius-$10^{-10}$ one-piece $C^1$ run is
+  therefore not justified.  The next F30 validation architecture must use
+  sectioned multiple shooting or stronger reconditioning.
+- Derived the exact minimum kinetic energy compatible with prescribed
+  $(L,\ell_{23},\ell_{31})$ as a Jacobi Gram inverse.  This gives the optimal
+  static total-energy bound on the first centrifugal gap while respecting
+  the pre-syzygy torque signs.  The proposed global domination nevertheless
+  fails at the exact interior cube point
+  $(s,w,v,h)=(99/100,10^{-6},99/100,10^{-6})$, where exact
+  $\mathbb Q(\sqrt2)$ arithmetic gives a positive margin
+  $93.2280669052696\ldots$.  The obstruction is not claimed reachable; it
+  proves that the cone argument requires integrated torque history rather
+  than instantaneous energy and sign data.

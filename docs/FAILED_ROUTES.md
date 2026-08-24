@@ -615,3 +615,78 @@ remaining issue is parameter-set representation and amplification. No
 interval Newton inclusion or periodic-orbit existence claim has been
 obtained; see
 `F30_MASS_SIDE_VALIDATION.md`.
+
+Halving the center maximum step to $2.5\times10^{-4}$ does not repair this
+architecture.  The center again completes collision-free, but 4233 interval
+steps accumulate terminal residual radii between $3.1\times10^{-7}$ and
+$1.9\times10^{-6}$, worse than the earlier center run.  Consequently a
+one-piece radius-$10^{-10}$ $C^1$ retry is abandoned.  Sectioned multiple
+shooting or explicit reconditioning is required.
+
+## Static energy domination of the first centrifugal gap
+
+**Status:** DISPROVED by an exact interior state; torque history is required.
+
+On the pre-syzygy sign cone write
+
+\[
+ \ell_{23}=a>0,\qquad -\ell_{31}={m_2\over m_1}ha,
+ \qquad 0<h<1.
+\]
+
+The zero-angular-momentum identity then gives
+$-\ell_{12}=a(1-h)/m_1>0$.  For a fixed noncollinear shape, exact quadratic
+minimization of kinetic energy gives
+
+\[
+ 2K\ge {a^2\over R^2}F,
+ \qquad
+ F=y^T(CM_v^{-1}C^T)^{-1}y>0,
+ \qquad y=(0,1,-m_2h/m_1)^T,
+\]
+
+where $R=r_{12}$, $M_v$ is the Jacobi mass metric, and the rows of $C$ are
+total angular momentum, $\ell_{23}$, and $\ell_{31}$.  This is the optimal
+instantaneous energy bound respecting all three torque signs.  If
+
+\[
+ C_1={(1-h)^2\over m_1^2}-{1\over p^3}>0,
+ \qquad p={r_{23}\over r_{12}},
+\]
+
+then the strongest scale-independent bound obtainable from total energy is
+
+\[
+ \mathfrak g_{12}-\mathfrak g_{23}+{2U_{\rm sh}C_1\over F}.
+\]
+
+It is not sign-definite.  In the complete ordered-right/obtuse cube use
+$t=2-\sqrt2+(\sqrt2-1)s$, $u=(\sqrt2-1)v$, and
+
+\[
+ r_{23}/r_{12}=1-tw/2,qquad
+ r_{31}/r_{12}=1-t+tw/2.
+\]
+
+At the exact interior point
+
+\[
+ (s,w,v,h)=\left({99\over100},{1\over10^6},
+ {99\over100},{1\over10^6}\right)
+\]
+
+exact $\mathbb Q(\sqrt2)$ arithmetic gives $C_1>0$ and
+
+\[
+ \mathfrak g_{12}-\mathfrak g_{23}+{2U_{\rm sh}C_1\over F}
+ =93.2280669052696428\ldots>0.
+\]
+
+Taking the overall scale sufficiently small realizes this adverse sign with
+the energy $H=-U_0$ and the minimizing velocity.  This is a legitimate
+instantaneous state satisfying the ordered right/obtuse shape, $L=0$, total
+energy, and torque-sign constraints; it is not asserted to be reachable from
+the Burrau brake.  Therefore reachability information encoded in the torque
+integrals, or an equivalent history-dependent invariant, is indispensable.
+The exact Gram formula and obstruction are regressed in
+`tests/test_mutual_distances.py`.

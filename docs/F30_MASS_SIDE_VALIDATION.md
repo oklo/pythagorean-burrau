@@ -166,13 +166,31 @@ velocities to order $20$--$36$, while the constant parameter coordinates
 remain narrow. This localizes the obstruction to propagated parameter
 wrapping, not the regularized point flow or a collision.
 
-No interval Newton or Krawczyk inclusion has yet been obtained. Halving the
-point-center step is now being tested to shrink its endpoint residual from
-$O(10^{-10})$ toward $O(10^{-13})$; that would permit a radius-$10^{-10}$
-box and reduce the amplified parameter uncertainty by two orders of
-magnitude. If it still wraps, the principled repair is a stronger Lohner
-representation, parameter subdivision for the Jacobian hull, or sectioned
-multiple shooting that preserves all five parameter tangents.
+No interval Newton or Krawczyk inclusion has yet been obtained.  The
+maximum-step-$2.5\times10^{-4}$ center replay has now completed in 4233
+validated steps, with
+
+\[
+ r_{\min}^2\ge1.74907\times10^{-7}
+\]
+
+and terminal residual enclosures approximately
+
+\[
+\begin{aligned}
+z_r&\in[-3.131,3.131]10^{-7},\\
+z_i&\in[-1.225,1.225]10^{-6},\\
+G\cdot P&\in[-1.851,1.851]10^{-6}.
+\end{aligned}
+\]
+
+Halving the maximum step therefore worsened, rather than improved, the
+one-piece endpoint enclosure: the increased number of interval steps
+accumulated more wrapping.  It does not support a radius-$10^{-10}$ full
+$C^1$ replay.  The principled next repair is now sectioned multiple shooting
+with reconditioning at regular sections (or an equivalent stronger Lohner
+representation), preserving all five parameter tangents while resetting the
+state enclosure between segments.
 
 ## Reproduction
 

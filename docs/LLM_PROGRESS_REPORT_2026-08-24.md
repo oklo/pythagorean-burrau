@@ -463,13 +463,26 @@ negative. Thus gravity points into both side-order faces. The remaining cone
 problem is purely velocity-dependent plus persistence of obtuseness: two
 centrifugal differences must be bounded by the certified force margins.
 
+The strongest instantaneous energy repair has been derived and exactly
+falsified.  A Jacobi Gram inverse gives the optimal minimum kinetic energy at
+fixed $(L,\ell_{23},\ell_{31})$, hence the sharp total-energy bound compatible
+with the pre-syzygy torque signs.  At the exact interior cube point
+$(s,w,v,h)=(99/100,10^{-6},99/100,10^{-6})$, however, the resulting first-gap
+upper margin is $93.2280669052696\ldots>0$.  This state is not claimed
+reachable from the initial brake.  Its role is to prove that current shape,
+energy, zero angular momentum, and torque signs do not suffice: the cone route
+must exploit the integrated torque history or another reachability invariant.
+
 The first full F30 $C^1$ parameter-box run did not complete.  At radius
 $10^{-8}$ it wrapped at scaled time $0.225958$, with pair-energy width already
 about $517$, although the fixed center is regular and completes the whole
 half-orbit.  This cleanly identifies a set-representation failure rather than
-a dynamical singularity.  The active repair is to tighten the rigorous point
-residual enough to use a radius-$10^{-10}$ box before resorting to sectioned
-multiple shooting.
+a dynamical singularity.  The proposed repair was to tighten the rigorous
+point residual enough to use a radius-$10^{-10}$ box.  That test has resolved
+negatively: halving the maximum step completed collision-free but accumulated residual radii up to
+$1.86\times10^{-6}$, worse than the earlier run.  The next credible F30
+calculation is therefore sectioned multiple shooting or equivalent
+reconditioning, not another one-piece smaller-box replay.
 
 ## 9. Active routes and next actions
 

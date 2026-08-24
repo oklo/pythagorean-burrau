@@ -561,6 +561,78 @@ both side-gap faces in the candidate cone. To prove the full cone one must
 still show that the orbit stays right/obtuse and that each possibly adverse
 centrifugal difference is dominated by its gravitational margin.
 
+### Optimal instantaneous energy--torque reduction, and its obstruction
+
+The first centrifugal domination problem can be reduced exactly, but not
+solved from instantaneous invariants alone.  Normalize $r_{12}=1$, put
+$q_1=(0,0)$, $q_2=(1,0)$, and use translation-reduced Jacobi velocity
+$V_J=(U_x,U_y,V_x,V_y)^T$ with mass matrix
+
+\[
+ M_v=\operatorname{diag}(\mu_1,\mu_1,\mu_2,\mu_2).
+\]
+
+Let $C$ be the $3\times4$ matrix whose rows evaluate total angular momentum,
+$\ell_{23}$, and $\ell_{31}$ on $V_J$.  On a noncollinear shape $C$ has full
+row rank.  Prescribing
+
+\[
+ (L,\ell_{23},\ell_{31})=(0,a,-xa)
+\]
+
+and minimizing the positive quadratic form $2K=V_J^TM_vV_J$ gives the exact
+Gram-inverse formula
+
+\[
+ 2K_{\min}=a^2F,
+ \qquad
+ F=(0,1,-x)(CM_v^{-1}C^T)^{-1}(0,1,-x)^T>0.
+\]
+
+At physical scale $R$, the right side is $a^2F/R^2$.  This is an **EXACT
+SYMBOLIC IDENTITY**, independently regressed against direct matrix inversion.
+On the pre-syzygy torque-sign cone set $x=(m_2/m_1)h$, $0<h<1$.  The weighted
+pair-angular-momentum identity gives
+
+\[
+ -\ell_{12}={a(1-h)\over m_1},
+\]
+
+so the first centrifugal coefficient is
+
+\[
+ C_1={(1-h)^2\over m_1^2}-{1\over p^3},
+ \qquad p=r_{23}/r_{12}.
+\]
+
+When $C_1>0$, energy $K=U_{\rm sh}/R-U_0$ yields the sharp instantaneous
+upper margin
+
+\[
+ \mathcal M_1=\mathfrak g_{12}-\mathfrak g_{23}
+              +{2U_{\rm sh}C_1\over F};
+\]
+
+the omitted term $-2U_0RC_1/F$ only improves the inequality.  Unfortunately
+$\mathcal M_1$ is not negative on the full cube. At the exact interior point
+
+\[
+ (s,w,v,h)=\left({99\over100},{1\over10^6},
+ {99\over100},{1\over10^6}\right)
+\]
+
+in the preceding right/obtuse parameterization, exact
+$\mathbb Q(\sqrt2)$ arithmetic gives $C_1>0$ and
+
+\[
+ \mathcal M_1=93.2280669052696428\ldots>0.
+\]
+
+Thus the optimal static implication from shape, $H=-U_0$, $L=0$, and the
+three torque signs to $(r_{12}-r_{23})''<0$ is **DISPROVED**.  This point is
+not claimed reachable from the brake.  A successful cone theorem must use
+the integrated torque history or an equivalent reachability constraint.
+
 ## Planar endpoint stable jet and collision normal form
 
 The massless planar joint endpoint has an autonomous logarithmic shape flow.
