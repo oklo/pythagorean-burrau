@@ -2,12 +2,18 @@ import sympy as sp
 
 from src.symbolic.initial_identities import (
     center_of_mass,
+    defect_fourth_bernstein_coefficients,
     defect_fourth_numerator,
+    defect_sixth_bernstein_coefficients,
+    defect_sixth_numerator,
     euclid_symbols,
     expected_defect_fourth_derivative,
+    expected_defect_sixth_derivative,
     expected_signed_area_second_derivative,
     identity_residuals,
     pythagorean_defect_fourth_derivative,
+    pythagorean_defect_sixth_derivative,
+    signed_area_second_bernstein_coefficients,
     signed_area_second_derivative,
     signed_area_second_numerator,
     tight_pair_initial_specific_torque,
@@ -47,6 +53,80 @@ def test_defect_fourth_derivative_is_negative_on_fundamental_interval() -> None:
     assert sp.Rational(2) < sp.Rational(283, 200) ** 2
 
 
+def test_fourth_derivative_has_negative_bernstein_certificate() -> None:
+    expected = (
+        sp.Rational(-1),
+        sp.Rational(-19, 20),
+        sp.Rational(-86, 95),
+        sp.Rational(-1313, 1520),
+        sp.Rational(-63901, 77520),
+        sp.Rational(-3823, 4864),
+        sp.Rational(-185677, 248064),
+        sp.Rational(-1177527, 1653760),
+        sp.Rational(-1819581, 2687360),
+        sp.Rational(-27715771, 42997760),
+        sp.Rational(-58252257, 94595072),
+        sp.Rational(-101898611, 171991040),
+        sp.Rational(-24804157, 42997760),
+        sp.Rational(-181712839, 317521920),
+        sp.Rational(-37060991, 63504384),
+        sp.Rational(-157122943, 254017536),
+        sp.Rational(-219023483, 317521920),
+        sp.Rational(-10188109, 12451840),
+        sp.Rational(-25856203, 24903680),
+        sp.Rational(-3686723, 2621440),
+        sp.Rational(-2112047, 1048576),
+    )
+    assert defect_fourth_bernstein_coefficients() == expected
+    assert all(coefficient < 0 for coefficient in expected)
+
+
+def test_defect_sixth_derivative_identity() -> None:
+    residual = sp.cancel(
+        pythagorean_defect_sixth_derivative() - expected_defect_sixth_derivative()
+    )
+    assert residual == 0
+
+
+def test_sixth_derivative_has_positive_bernstein_certificate() -> None:
+    expected = (
+        sp.Rational(19),
+        sp.Rational(266, 15),
+        sp.Rational(28861, 1740),
+        sp.Rational(63103, 4060),
+        sp.Rational(6395887, 438480),
+        sp.Rational(7813165, 570024),
+        sp.Rational(97995461, 7600320),
+        sp.Rational(395397937, 32572800),
+        sp.Rational(1903835447, 166483200),
+        sp.Rational(822381181, 76304800),
+        sp.Rational(44652539959, 4395156480),
+        sp.Rational(1062904231, 110988800),
+        sp.Rational(46339562047, 5134438400),
+        sp.Rational(57924715549, 6813004800),
+        sp.Rational(73076017417, 9128755200),
+        sp.Rational(34682896469, 4604067840),
+        sp.Rational(147143231691, 20763443200),
+        sp.Rational(13083275107261, 1962145382400),
+        sp.Rational(142418163589111, 22673679974400),
+        sp.Rational(4249318181351, 716010946560),
+        sp.Rational(177734203151437, 31504481648640),
+        sp.Rational(1849150776667, 340957593600),
+        sp.Rational(43499899224473, 8182982246400),
+        sp.Rational(3826743850991, 711563673600),
+        sp.Rational(18951324099991, 3320630476800),
+        sp.Rational(644065041443, 99618914304),
+        sp.Rational(14565220793867, 1839118417920),
+        sp.Rational(178980837823, 17028874240),
+        sp.Rational(1746818009353, 116769423360),
+        sp.Rational(2824577023, 125829120),
+        sp.Rational(37475266287, 1073741824),
+    )
+    assert defect_sixth_numerator().subs(euclid_symbols()[0], 0) == 19
+    assert defect_sixth_bernstein_coefficients() == expected
+    assert all(coefficient > 0 for coefficient in expected)
+
+
 def test_tight_pair_initial_torque_formula() -> None:
     u, _, _ = euclid_symbols()
     expected = -8 * u**4 * (u**4 + 3) / (
@@ -74,6 +154,24 @@ def test_signed_area_initial_acceleration_is_negative() -> None:
         assert tuple(sp.sign(poly.subs(u, endpoint)) for poly in sturm_sequence) == signs
     assert sp.count_roots(numerator, 0, sp.Rational(83, 200)) == 0
     assert numerator.subs(u, 0) == -1
+
+
+def test_signed_area_numerator_has_negative_bernstein_certificate() -> None:
+    expected = (
+        sp.Rational(-1),
+        sp.Rational(-9, 10),
+        sp.Rational(-49, 60),
+        sp.Rational(-181, 240),
+        sp.Rational(-241, 336),
+        sp.Rational(-179, 252),
+        sp.Rational(-991, 1344),
+        sp.Rational(-3091, 3840),
+        sp.Rational(-10693, 11520),
+        sp.Rational(-2919, 2560),
+        sp.Rational(-1543, 1024),
+    )
+    assert signed_area_second_bernstein_coefficients() == expected
+    assert all(coefficient < 0 for coefficient in expected)
 
 
 def test_all_pair_angular_momentum_derivatives_factor_through_area() -> None:

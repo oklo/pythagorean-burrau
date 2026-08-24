@@ -344,9 +344,60 @@ An exact fourth-order calculation gives
 D^{(4)}(0)={P_{20}(u)\over
 u^4(u-1)^4(u+1)^2(1+u^2)^4}.
 \]
-Exact Sturm arithmetic shows that $P_{20}$ has no zero on
-$(0,83/200)$ and $P_{20}(0)=-1$.  Hence $D^{(4)}(0)<0$ throughout the
-fundamental interval.  This uniform local sign still supplies no global cone.
+For $t=2u$, the 21 coefficients of $P_{20}(t/2)$ in the degree-20 Bernstein
+basis are
+\[
+\begin{gathered}
+-1,-{19\over20},-{86\over95},-{1313\over1520},-{63901\over77520},
+-{3823\over4864},-{185677\over248064},-{1177527\over1653760},\\
+-{1819581\over2687360},-{27715771\over42997760},
+-{58252257\over94595072},-{101898611\over171991040},
+-{24804157\over42997760},\\
+-{181712839\over317521920},-{37060991\over63504384},
+-{157122943\over254017536},-{219023483\over317521920},\\
+-{10188109\over12451840},-{25856203\over24903680},
+-{3686723\over2621440},-{2112047\over1048576}.
+\end{gathered}
+\]
+They are all strictly negative. Positivity and partition of unity of that
+basis prove $P_{20}<0$ on $0\le u\le1/2$. Hence
+$D^{(4)}(0)<0$ throughout the fundamental interval.  This analytic uniform
+local sign still supplies no global cone.
+
+One further exact recurrence gives
+\[
+D^{(6)}(0)=-{R_{30}(u)\over
+8u^7(1-u)^7(1+u)^3(1+u^2)^5}.
+\]
+For $t=2u$, the degree-30 Bernstein coefficients of $R_{30}(t/2)$ are
+\[
+\begin{gathered}
+19,{266\over15},{28861\over1740},{63103\over4060},
+{6395887\over438480},{7813165\over570024},{97995461\over7600320},\\
+{395397937\over32572800},{1903835447\over166483200},
+{822381181\over76304800},{44652539959\over4395156480},
+{1062904231\over110988800},\\
+{46339562047\over5134438400},{57924715549\over6813004800},
+{73076017417\over9128755200},{34682896469\over4604067840},
+{147143231691\over20763443200},\\
+{13083275107261\over1962145382400},
+{142418163589111\over22673679974400},
+{4249318181351\over716010946560},
+{177734203151437\over31504481648640},\\
+{1849150776667\over340957593600},
+{43499899224473\over8182982246400},
+{3826743850991\over711563673600},
+{18951324099991\over3320630476800},\\
+{644065041443\over99618914304},
+{14565220793867\over1839118417920},
+{178980837823\over17028874240},
+{1746818009353\over116769423360},\\
+{2824577023\over125829120},{37475266287\over1073741824}.
+\end{gathered}
+\]
+They are all positive, so $D^{(6)}(0)<0$ throughout the fundamental
+interval. The finite pattern $D^{(2)}>0,D^{(4)}<0,D^{(6)}<0$ supplies no
+global remainder estimate.
 
 The same calculation for twice oriented area
 $\Delta_2=(q_2-q_1)\times(q_3-q_1)$ gives
@@ -358,8 +409,15 @@ where
 Q_{10}=u^{10}-10u^9+19u^8-28u^7-14u^6+8u^5-2u^4
 -4u^3-3u^2+2u-1.
 \]
-The length-$11$ Sturm sequence has five sign variations at both rational
-endpoints $0$ and $83/200$, so it has no root there. Since $Q_{10}(0)=-1$,
+Put $t=2u$.  The eleven coefficients of $Q_{10}(t/2)$ in the degree-10
+Bernstein basis are
+\[
+\left(-1,-{9\over10},-{49\over60},-{181\over240},-{241\over336},
+-{179\over252},-{991\over1344},-{3091\over3840},
+-{10693\over11520},-{2919\over2560},-{1543\over1024}\right).
+\]
+They are all strictly negative.  Positivity and partition of unity of the
+Bernstein basis prove $Q_{10}<0$ on $0\le u\le1/2$, and hence
 $\ddot\Delta_2(0)<0$ on the full fundamental interval. This proves
 uniform initial motion toward syzygy, not global area concavity.
 

@@ -135,25 +135,105 @@ P_{20}={}&u^{20}-4u^{19}+10u^{18}-84u^{17}+25u^{16}-78u^{15}
 \end{aligned}
 \]
 
-The exact Sturm sequence has length 21 and has 10 sign variations both at
-$0$ and at $83/200$.  It follows that $P_{20}$ has no root in that interval.
-Since $P_{20}(0)=-1$ and
-$\sqrt2-1<83/200$, while the denominator is positive,
+Again there is an elementary Bernstein certificate on a larger interval.
+For $t=2u$, the degree-20 Bernstein coefficients of $P_{20}(t/2)$ are
+
+\[
+\begin{gathered}
+-1,-{19\over20},-{86\over95},-{1313\over1520},-{63901\over77520},
+-{3823\over4864},-{185677\over248064},-{1177527\over1653760},\\
+-{1819581\over2687360},-{27715771\over42997760},
+-{58252257\over94595072},-{101898611\over171991040},
+-{24804157\over42997760},\\
+-{181712839\over317521920},-{37060991\over63504384},
+-{157122943\over254017536},-{219023483\over317521920},\\
+-{10188109\over12451840},-{25856203\over24903680},
+-{3686723\over2621440},-{2112047\over1048576}.
+\end{gathered}
+\]
+
+They are all strictly negative, proving $P_{20}<0$ on $0\le u\le1/2$.
+The exact length-21 Sturm sequence, retained independently, has 10 sign
+variations both at $0$ and at $83/200$.  Since the denominator is positive,
 
 \[
 \boxed{D^{(4)}(0)<0\quad(0<u\le\sqrt2-1).}
 \]
 
-The derivative formula is an EXACT SYMBOLIC IDENTITY; the uniform sign is
-PROVED BY COMPUTER-ASSISTED ARGUMENT using exact rational Sturm arithmetic.
+The derivative formula is an **EXACT SYMBOLIC IDENTITY** and the Bernstein
+argument makes the uniform sign **PROVED ANALYTICALLY**.
 The local series begins
 
 \[
-D(t)={\ddot D(0)\over2}t^2+{D^{(4)}(0)\over24}t^4+O(t^6),
+D(t)={\ddot D(0)\over2}t^2+{D^{(4)}(0)\over24}t^4
+ +{D^{(6)}(0)\over720}t^6+O(t^8),
 \]
 
-with uniform signs $+,-$.  The later numerical sign changes show that this
-finite jet still does not imply a global barrier.
+The sixth derivative and its sign are established next.  Later numerical sign
+changes show that this finite jet still does not imply a global barrier.
+
+Carrying the even force recurrence through one more order gives the new exact
+identity
+
+\[
+D^{(6)}(0)=-{R_{30}(u)\over
+8u^7(1-u)^7(1+u)^3(1+u^2)^5}.
+\]
+
+The recurrence writes
+$q=q_0+q_2t^2+q_4t^4+q_6t^6+O(t^8)$, expands each pair force through $t^4$,
+and matches $q''=2q_2+12q_4t^2+30q_6t^4+O(t^6)$.  This is independently
+regressed against the displayed rational function.  Explicitly, for
+$R=R_0+R_2\epsilon+R_4\epsilon^2$ and $d=|R_0|$, the first two force
+coefficients of $R/|R|^3$ are
+
+\[
+ {R_2\over d^3}-{3R_0(R_0\cdot R_2)\over d^5},
+\]
+\[
+ {R_4\over d^3}-{3R_2(R_0\cdot R_2)\over d^5}
+ +R_0\left[-{3R_0\cdot R_4+\frac32|R_2|^2\over d^5}
+ +{15(R_0\cdot R_2)^2\over2d^7}\right].
+\]
+
+For $t=2u$, the
+degree-30 Bernstein coefficients of $R_{30}(t/2)$ are
+
+\[
+\begin{gathered}
+19,{266\over15},{28861\over1740},{63103\over4060},
+{6395887\over438480},{7813165\over570024},{97995461\over7600320},\\
+{395397937\over32572800},{1903835447\over166483200},
+{822381181\over76304800},{44652539959\over4395156480},
+{1062904231\over110988800},\\
+{46339562047\over5134438400},{57924715549\over6813004800},
+{73076017417\over9128755200},{34682896469\over4604067840},
+{147143231691\over20763443200},\\
+{13083275107261\over1962145382400},
+{142418163589111\over22673679974400},
+{4249318181351\over716010946560},
+{177734203151437\over31504481648640},\\
+{1849150776667\over340957593600},
+{43499899224473\over8182982246400},
+{3826743850991\over711563673600},
+{18951324099991\over3320630476800},\\
+{644065041443\over99618914304},
+{14565220793867\over1839118417920},
+{178980837823\over17028874240},
+{1746818009353\over116769423360},\\
+{2824577023\over125829120},{37475266287\over1073741824}.
+\end{gathered}
+\]
+
+All are positive. Thus $R_{30}>0$ on $0\le u\le1/2$ and
+
+\[
+\boxed{D^{(6)}(0)<0\quad(0<u\le\sqrt2-1).}
+\]
+
+This is an **EXACT SYMBOLIC IDENTITY** plus an analytic Bernstein sign proof.
+The now-proved local sign pattern $D^{(2)}>0,D^{(4)}<0,D^{(6)}<0$ still does
+not control the Taylor remainder or the later close encounters.
 
 For twice oriented area
 $\Delta_2=(q_2-q_1)\times(q_3-q_1)$, the initial brake also has
@@ -171,22 +251,40 @@ where
  -4u^3-3u^2+2u-1.
 \]
 
-The exact Sturm sequence has length $11$.  Its signs at the two rational
-endpoints are
+There is a shorter analytic sign certificate. Put $t=2u$.  In the degree-10
+Bernstein basis $B_{k,10}(t)=\binom{10}{k}t^k(1-t)^{10-k}$,
+
+\[
+ Q_{10}(t/2)=\sum_{k=0}^{10}\beta_kB_{k,10}(t),
+\]
+
+where
+
+\[
+(\beta_0,\ldots,\beta_{10})=
+\left(-1,-{9\over10},-{49\over60},-{181\over240},-{241\over336},
+-{179\over252},-{991\over1344},-{3091\over3840},
+-{10693\over11520},-{2919\over2560},-{1543\over1024}\right).
+\]
+
+Every coefficient is strictly negative, while the Bernstein basis is
+nonnegative and sums to one on $0\le t\le1$. Therefore $Q_{10}<0$ on the
+larger interval $0\le u\le1/2$.  As an independent exact regression, the
+Sturm sequence has length $11$ and its signs at $0$ and $83/200$ are
 
 \[
 (-,+,+,-,-,+,+,+,-,+,+),\qquad
 (-,-,+,-,-,+,+,+,-,-,+),
 \]
 
-respectively.  Both strings have five variations, so $Q_{10}$ has no root
-on $[0,83/200]$; moreover $Q_{10}(0)=-1$. Hence
+respectively, with five variations in both strings. Hence
 
 \[
  \boxed{\ddot\Delta_2(0)<0\qquad(0<u\le\sqrt2-1).}
 \]
 
-This is a uniform local motion toward the first syzygy, not a proof that the
+This is **PROVED ANALYTICALLY** uniform local motion toward the first syzygy,
+not a proof that the
 area is globally concave or that the first-syzygy type cannot change.
 
 ## Brake residual in a binary Levi--Civita chart

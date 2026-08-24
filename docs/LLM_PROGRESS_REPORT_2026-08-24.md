@@ -403,6 +403,19 @@ syzygy this requires all three pairwise mutual-distance orderings to reverse
 at some (not necessarily common) times.  This is a new global necessary event
 condition, not yet an exclusion theorem.
 
+The uniform fourth-defect and initial area-acceleration signs no longer depend
+on computer-assisted Sturm arguments.  After setting $t=2u$, respectively
+all 21 and all 11 rational coefficients of their numerators in the Bernstein
+basis on $[0,1]$ are strictly negative. Positivity and partition of unity of
+that basis give elementary analytic proofs of $D^{(4)}(0)<0$ and
+$\ddot\Delta_2(0)<0$ on the larger interval $0\le u\le1/2$.
+
+The exact defect jet now extends to sixth order.  A direct even force-series
+recurrence produces a degree-30 numerator $R_{30}$, and all 31 of its exact
+rational Bernstein coefficients on $[0,1/2]$ are positive.  Because the
+closed formula has an overall minus sign, $D^{(6)}(0)<0$ analytically on the
+whole fundamental interval.  No global Taylor-remainder estimate is claimed.
+
 ## 9. Active routes and next actions
 
 Primary route:

@@ -5,6 +5,25 @@ from __future__ import annotations
 import sympy as sp
 
 
+def _bernstein_coefficients_on_half_interval(
+    expression: sp.Expr, degree: int, variable: sp.Symbol
+) -> tuple[sp.Rational, ...]:
+    """Return coefficients of expression(t/2) in a fixed Bernstein basis."""
+    polynomial = sp.Poly(expression.subs(variable, variable / 2), variable)
+    power_coefficients = [polynomial.nth(index) for index in range(degree + 1)]
+    return tuple(
+        sp.factor(
+            sum(
+                power_coefficients[index]
+                * sp.binomial(order, index)
+                / sp.binomial(degree, index)
+                for index in range(order + 1)
+            )
+        )
+        for order in range(degree + 1)
+    )
+
+
 def euclid_symbols() -> tuple[sp.Symbol, sp.Expr, sp.Expr]:
     u = sp.symbols("u", positive=True)
     a = (1 - u**2) / (1 + u**2)
@@ -150,10 +169,154 @@ def defect_fourth_numerator() -> sp.Expr:
     )
 
 
+def defect_fourth_bernstein_coefficients() -> tuple[sp.Rational, ...]:
+    """Coefficients of P_20(t/2) in the degree-20 Bernstein basis."""
+    u, _, _ = euclid_symbols()
+    return _bernstein_coefficients_on_half_interval(
+        defect_fourth_numerator(), 20, u
+    )
+
+
 def expected_defect_fourth_derivative() -> sp.Expr:
     u, _, _ = euclid_symbols()
     denominator = u**4 * (u - 1) ** 4 * (u + 1) ** 2 * (1 + u**2) ** 4
     return defect_fourth_numerator() / denominator
+
+
+def pythagorean_defect_sixth_derivative() -> sp.Expr:
+    """Return ``D^(6)(0)`` from an exact even force-series recurrence."""
+    masses, positions = initial_data()
+    initial_accelerations = accelerations(masses, positions)
+    _, a, b = euclid_symbols()
+    known_distances = {(0, 1): sp.Integer(1), (0, 2): b, (1, 2): a}
+    position_two = [value / 2 for value in initial_accelerations]
+
+    def force_coefficient(
+        delta_zero: sp.Matrix,
+        delta_two: sp.Matrix,
+        delta_four: sp.Matrix,
+        distance: sp.Expr,
+        order: int,
+    ) -> sp.Matrix:
+        squared_one = 2 * delta_zero.dot(delta_two)
+        if order == 1:
+            return delta_two / distance**3 - (
+                sp.Rational(3, 2)
+                * delta_zero
+                * squared_one
+                / distance**5
+            )
+        squared_two = 2 * delta_zero.dot(delta_four) + delta_two.dot(delta_two)
+        return (
+            delta_four / distance**3
+            - sp.Rational(3, 2) * delta_two * squared_one / distance**5
+            + delta_zero
+            * (
+                -sp.Rational(3, 2) * squared_two / distance**5
+                + sp.Rational(15, 8) * squared_one**2 / distance**7
+            )
+        )
+
+    acceleration_two: list[sp.Matrix] = []
+    for i in range(3):
+        value = sp.zeros(2, 1)
+        for j in range(3):
+            if i == j:
+                continue
+            key = tuple(sorted((i, j)))
+            value += masses[j] * force_coefficient(
+                positions[j] - positions[i],
+                position_two[j] - position_two[i],
+                sp.zeros(2, 1),
+                known_distances[key],
+                1,
+            )
+        acceleration_two.append(value.applyfunc(sp.factor))
+    position_four = [value / 12 for value in acceleration_two]
+
+    acceleration_four: list[sp.Matrix] = []
+    for i in range(3):
+        value = sp.zeros(2, 1)
+        for j in range(3):
+            if i == j:
+                continue
+            key = tuple(sorted((i, j)))
+            value += masses[j] * force_coefficient(
+                positions[j] - positions[i],
+                position_two[j] - position_two[i],
+                position_four[j] - position_four[i],
+                known_distances[key],
+                2,
+            )
+        acceleration_four.append(
+            value.applyfunc(lambda expression: sp.factor(sp.cancel(expression)))
+        )
+    position_six = [value / 30 for value in acceleration_four]
+
+    def squared_distance_six_coefficient(i: int, j: int) -> sp.Expr:
+        delta_zero = positions[j] - positions[i]
+        delta_two = position_two[j] - position_two[i]
+        delta_four = position_four[j] - position_four[i]
+        delta_six = position_six[j] - position_six[i]
+        return 2 * delta_zero.dot(delta_six) + 2 * delta_two.dot(delta_four)
+
+    coefficient = (
+        squared_distance_six_coefficient(0, 1)
+        - squared_distance_six_coefficient(1, 2)
+        - squared_distance_six_coefficient(2, 0)
+    )
+    return sp.factor(sp.cancel(sp.factorial(6) * coefficient))
+
+
+def defect_sixth_numerator() -> sp.Expr:
+    u, _, _ = euclid_symbols()
+    return (
+        3 * u**30
+        - 68 * u**29
+        + 897 * u**28
+        - 2712 * u**27
+        + 12919 * u**26
+        - 14924 * u**25
+        + 16261 * u**24
+        - 10376 * u**23
+        + 147823 * u**22
+        - 172284 * u**21
+        + 36741 * u**20
+        + 412240 * u**19
+        - 202573 * u**18
+        - 113044 * u**17
+        + 445241 * u**16
+        + 68720 * u**15
+        - 160855 * u**14
+        + 102884 * u**13
+        + 24931 * u**12
+        + 32008 * u**11
+        + 15685 * u**10
+        - 28244 * u**9
+        + 15087 * u**8
+        - 7784 * u**7
+        + 6565 * u**6
+        - 3620 * u**5
+        + 1495 * u**4
+        - 576 * u**3
+        + 209 * u**2
+        - 76 * u
+        + 19
+    )
+
+
+def expected_defect_sixth_derivative() -> sp.Expr:
+    u, _, _ = euclid_symbols()
+    denominator = 8 * u**7 * (1 - u) ** 7 * (1 + u) ** 3 * (1 + u**2) ** 5
+    return -defect_sixth_numerator() / denominator
+
+
+def defect_sixth_bernstein_coefficients() -> tuple[sp.Rational, ...]:
+    """Coefficients of R_30(t/2) in the degree-30 Bernstein basis."""
+    u, _, _ = euclid_symbols()
+    return _bernstein_coefficients_on_half_interval(
+        defect_sixth_numerator(), 30, u
+    )
 
 
 def tight_pair_initial_specific_torque() -> sp.Expr:
@@ -207,6 +370,14 @@ def expected_signed_area_second_derivative() -> sp.Expr:
     u, _, _ = euclid_symbols()
     denominator = 2 * u**2 * (u - 1) ** 2 * (1 + u**2) ** 3
     return signed_area_second_numerator() / denominator
+
+
+def signed_area_second_bernstein_coefficients() -> tuple[sp.Rational, ...]:
+    """Coefficients of Q_10(t/2) in the degree-10 Bernstein basis."""
+    u, _, _ = euclid_symbols()
+    return _bernstein_coefficients_on_half_interval(
+        signed_area_second_numerator(), 10, u
+    )
 
 
 def expected_identities() -> dict[str, sp.Expr]:

@@ -1150,3 +1150,13 @@ it is not a remainder proof.
   $r_{\min}^2>1.22160\times10^{-7}$ over every swept enclosure, and enclosed
   the three endpoint residuals inside widths below $9.3\times10^{-10}$.
   The full $C^1$ Newton/Krawczyk box remains pending.
+- Replaced the Sturm-only proofs of both $D^{(4)}(0)<0$ and
+  $\ddot\Delta_2(0)<0$ by elementary analytic certificates: respectively all
+  21 and all 11 exact rational Bernstein coefficients of their numerators on
+  $0\le u\le1/2$ are negative. The exact Sturm sequences remain as
+  independent regressions.
+- Extended the exact Pythagorean-defect jet to sixth order.  The force-series
+  recurrence gives $D^{(6)}(0)=-R_{30}/[8u^7(1-u)^7(1+u)^3(1+u^2)^5]$;
+  all 31 rational Bernstein coefficients of $R_{30}$ on $[0,1/2]$ are
+  positive. Hence $D^{(6)}(0)<0$ analytically on the full fundamental
+  interval. This is local and supplies no Taylor-remainder bound.
