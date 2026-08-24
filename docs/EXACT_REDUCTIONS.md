@@ -561,6 +561,118 @@ both side-gap faces in the candidate cone. To prove the full cone one must
 still show that the orbit stays right/obtuse and that each possibly adverse
 centrifugal difference is dominated by its gravitational margin.
 
+### Scalar torque-history comparison
+
+The two torque integrals admit a useful dimensionless reduction.  On a
+positive-area ordered segment put $R=r_{12}$, $p=r_{23}$, $q=r_{31}$ and
+
+\[
+ F=\Delta_2(q^{-3}-R^{-3}),\qquad
+ G=\Delta_2(p^{-3}-R^{-3}),
+\]
+
+so $0<G<F$.  For ${\cal A}(t)=\int_0^tF\,ds$ and
+${\cal C}(t)=\int_0^tG\,ds$, define
+
+\[
+ \eta={{\cal C}\over{\cal A}}
+ ={m_1\over m_2}{-\ell_{31}\over\ell_{23}},
+ \qquad
+ k={G\over F}={p^{-3}-R^{-3}\over q^{-3}-R^{-3}}.
+\]
+
+Direct quotient differentiation gives the exact scalar equation
+
+\[
+ \boxed{\dot\eta={F\over{\cal A}}(k-\eta)}.
+\]
+
+Thus $\eta$ is a positively weighted history average of $k$.  In particular,
+if $k$ is strictly decreasing, then
+$k(t)<\eta(t)<k(0)$ for every $t>0$ on that ordered segment. This is an
+**EXACT SYMBOLIC IDENTITY** and is the desired bridge from torque history to
+current centrifugal terms.
+
+In normalized side ratios $x=p/R$, $y=q/R$,
+
+\[
+ k={y^3(1-x^3)\over x^3(1-y^3)},\qquad
+ {\dot k\over k}=3\left{{\dot y\over y(1-y^3)}
+                    -{\dot x\over x(1-x^3)}\right\}.
+\]
+
+There is a new global sign in its second derivative.  Let
+$J=\log k$.  The part of $\ddot J$ obtained by setting the instantaneous
+velocity to zero while retaining Newton's acceleration satisfies
+
+\[
+ \boxed{\ddot J_{\rm grav}<0}
+\]
+
+throughout the strict ordered right/obtuse cone and strict fundamental mass
+interval. In the $(s,w,v)$ cube above, its rational numerator has tensor
+degree $(9,9,2)$.  All 300 exact $\mathbb Q(\sqrt2)$ Bernstein coefficients
+are nonnegative, with 268 strictly positive.  The factored denominator is
+
+\[
+ -4096(1+u^2)p^3q^3(1-p^3)(1-q^3)<0.
+\]
+
+Independent Cartesian-force evaluations regress the formula. This is a
+**PROVED BY COMPUTER-ASSISTED ARGUMENT** global curvature contribution,
+including arbitrarily close positive separations.
+
+At the initial brake the velocity contribution vanishes, and an independent
+exact reduction gives
+
+\[
+ \ddot J(0)=
+ {3(1+u^2)^4(u^2+2u-1)
+ (2u^4-3u^3+3u^2+u+1)
+ \over
+ u^3(1-u)^3(u^4+3)(u^4+2u^3+6u^2+2u+1)}<0
+\]
+
+for $0<u<\sqrt2-1$.  The quartic is positive because it equals
+$2u^4+3u^2(1-u)+u+1$; the only signed factor is
+$u^2+2u-1$.  Hence $k$ initially decreases analytically, with equality only
+at the symmetric endpoint.
+
+The total curvature is
+$\ddot J=\ddot J_{\rm grav}+Q_J(q,\dot q)$, where $Q_J$ is the velocity
+Hessian term.  Its sign is not controlled by instantaneous constraints, even
+on the first-return boundary $\dot J=0$.  An exact witness uses
+
+\[
+ u={2\over5},\quad(m_1,m_2)=\left({21\over29},{20\over29}\right),
+ \quad(R,p,q)=\left(1,{39\over40},{1\over30}\right).
+\]
+
+In the unit-$R$ Jacobi gauge, set $U=(0,-1)$ and solve the two exact linear
+conditions $L=\dot J=0$ for the complementary velocity. The solution has
+
+\[
+ (\ell_{12},\ell_{23},\ell_{31})
+ =\left(-1,
+ {28914232361390649\over36366761131529200},
+ -{122841961770469\over1818338056576460}\right),
+\]
+
+so it has precisely the pre-syzygy torque signs.  Nevertheless
+$Q_J=8951.51393211\ldots>0$.  Scale the shape to $R=1/2$ and choose the
+velocity amplitude from $H=-U_0$. Exact arithmetic then gives
+
+\[
+ R^3\ddot J=10682.0701224264\ldots>0.
+\]
+
+This **DISPROVES** any first-return proof based only on current ordered
+right/obtuse shape, energy, $L=0$, $\dot J=0$, and the three torque signs. The
+witness is not claimed reachable from the brake. Ordinary probes find both
+$k$ and $\dot J$ strictly decreasing/negative to first syzygy for all
+resolved middle parameters, so the remaining theorem is specifically a
+reachable-history inequality for $Q_J$, not an ambient cone inequality.
+
 ### Optimal instantaneous energy--torque reduction, and its obstruction
 
 The first centrifugal domination problem can be reduced exactly, but not

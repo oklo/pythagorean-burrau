@@ -19,7 +19,16 @@ theorem is localized to preservation of obtuseness and domination of two
 possibly adverse centrifugal differences.  Exact kinetic minimization has
 also disproved the strongest static total-energy domination of the first
 difference at an interior state, so the missing estimate must use integrated
-torque history or an equivalent reachability constraint. The imported Fable event theorem gives a new exact global
+torque history or an equivalent reachability constraint.  That history has
+now been reduced to the scalar weighted-average equation
+$\dot\eta=(F/{\cal A})(k-\eta)$.  Exact tensor-Bernstein arithmetic proves
+the gravitational contribution to $(\log k)''$ is strictly negative on the
+entire ordered right/obtuse cone, and the full launch curvature is negative
+analytically.  The velocity-Hessian contribution along reachable states is
+the remaining monotonicity obstruction.  An exact $u=2/5$ ambient state now
+also disproves a static first-return repair using $J'=0$, energy, zero angular
+momentum, and all torque signs; the integral origin of the velocity is an
+indispensable hypothesis. The imported Fable event theorem gives a new exact global
 reduction: every brake is a strict $I$-maximum with $U=U_0$ and explicit
 pairwise collision separation (uniform on parameter compacts away from
 $u=0$), while every fold/minimum of $I$ has $K\ge U_0$.

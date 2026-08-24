@@ -31,9 +31,27 @@ def squared_distance_accelerations() -> dict[str, sp.Expr]:
     return {"x_second": x_second, "y_second": y_second, "z_second": z_second}
 
 
+def torque_history_ratio_identity() -> sp.Expr:
+    """Residual in ``h'=(f/A)(k-h)`` for two accumulated torque rates."""
+    numerator_integral, denominator_integral = sp.symbols("B A", positive=True)
+    numerator_rate, denominator_rate = sp.symbols("g f", positive=True)
+    history_ratio = numerator_integral / denominator_integral
+    instantaneous_ratio = numerator_rate / denominator_rate
+    quotient_derivative = (
+        numerator_rate * denominator_integral
+        - numerator_integral * denominator_rate
+    ) / denominator_integral**2
+    return sp.factor(
+        quotient_derivative
+        - denominator_rate
+        / denominator_integral
+        * (instantaneous_ratio - history_ratio)
+    )
+
+
 @lru_cache(maxsize=1)
-def _radial_gravity_gaps() -> tuple[sp.Expr, sp.Expr, tuple[sp.Symbol, ...]]:
-    """Return unscaled g12-g23 and g23-g31 for tied masses."""
+def _radial_gravity_terms() -> tuple[tuple[sp.Expr, ...], tuple[sp.Symbol, ...]]:
+    """Return unscaled radial gravity terms for tied masses."""
     expressions = squared_distance_accelerations()
     m1, m2, m3 = sp.symbols("m1 m2 m3", positive=True)
     x, y, z = sp.symbols("x y z", positive=True)
@@ -56,11 +74,15 @@ def _radial_gravity_gaps() -> tuple[sp.Expr, sp.Expr, tuple[sp.Symbol, ...]]:
     gravity_23 = expressions["x_second"].subs(substitution) / (2 * r23)
     gravity_31 = expressions["y_second"].subs(substitution) / (2 * r31)
     gravity_12 = expressions["z_second"].subs(substitution) / (2 * r12)
-    return (
-        gravity_12 - gravity_23,
-        gravity_23 - gravity_31,
-        (r23, r31, r12, u),
-    )
+    return (gravity_12, gravity_23, gravity_31), (r23, r31, r12, u)
+
+
+@lru_cache(maxsize=1)
+def _radial_gravity_gaps() -> tuple[sp.Expr, sp.Expr, tuple[sp.Symbol, ...]]:
+    """Return unscaled g12-g23 and g23-g31 for tied masses."""
+    gravity, variables = _radial_gravity_terms()
+    gravity_12, gravity_23, gravity_31 = gravity
+    return gravity_12 - gravity_23, gravity_23 - gravity_31, variables
 
 
 @lru_cache(maxsize=1)
@@ -154,6 +176,50 @@ def ordered_obtuse_gravity_first_bernstein_coefficients() -> tuple[sp.Expr, ...]
 
 
 @lru_cache(maxsize=1)
+def ordered_obtuse_log_torque_ratio_gravity_curvature() -> tuple[
+    sp.Expr, tuple[sp.Symbol, ...]
+]:
+    """Return the gravity contribution to ``(log k)''`` on the obtuse cube."""
+    gravity, physical_variables = _radial_gravity_terms()
+    gravity_12, gravity_23, gravity_31 = gravity
+    r23, r31, r12, u = physical_variables
+    depth, order_split, parameter = sp.symbols("s w v", nonnegative=True)
+    lower_scale = 2 - sp.sqrt(2)
+    triangle_scale = lower_scale + (1 - lower_scale) * depth
+    side_23 = 1 - triangle_scale * order_split / 2
+    side_31 = 1 - triangle_scale + triangle_scale * order_split / 2
+    tied_parameter = (sp.sqrt(2) - 1) * parameter
+    substitution = {
+        r23: side_23,
+        r31: side_31,
+        r12: 1,
+        u: tied_parameter,
+    }
+    radial_12 = gravity_12.subs(substitution)
+    radial_23 = gravity_23.subs(substitution)
+    radial_31 = gravity_31.subs(substitution)
+    ratio_23_second = radial_23 - side_23 * radial_12
+    ratio_31_second = radial_31 - side_31 * radial_12
+    curvature = sp.factor(
+        sp.together(
+            3 * ratio_31_second / (side_31 * (1 - side_31**3))
+            - 3 * ratio_23_second / (side_23 * (1 - side_23**3))
+        )
+    )
+    return curvature, (depth, order_split, parameter)
+
+
+@lru_cache(maxsize=1)
+def ordered_obtuse_log_torque_ratio_gravity_bernstein_coefficients() -> tuple[
+    sp.Expr, ...
+]:
+    """Exact Bernstein coefficients for the gravity curvature numerator."""
+    curvature, variables = ordered_obtuse_log_torque_ratio_gravity_curvature()
+    numerator, _ = sp.fraction(curvature)
+    return _tensor_bernstein_coefficients(numerator, variables)
+
+
+@lru_cache(maxsize=1)
 def _generic_first_gap_energy_margin() -> tuple[
     sp.Expr, sp.Expr, tuple[sp.Symbol, ...]
 ]:
@@ -236,6 +302,142 @@ def first_gap_static_energy_obstruction() -> tuple[
         )
     )
     return value, (depth, order_split, parameter, torque_ratio)
+
+
+@lru_cache(maxsize=1)
+def torque_rate_first_return_static_obstruction() -> dict[str, sp.Expr]:
+    """Exact ambient state defeating a static ``(log k)'=0`` barrier."""
+    euclid_parameter = sp.Rational(2, 5)
+    mass_1 = (1 - euclid_parameter**2) / (1 + euclid_parameter**2)
+    mass_2 = 2 * euclid_parameter / (1 + euclid_parameter**2)
+    side_23 = sp.Rational(39, 40)
+    side_31 = sp.Rational(1, 30)
+    alpha = mass_1 / (mass_1 + mass_2)
+    beta = mass_2 / (mass_1 + mass_2)
+    reduced_1 = mass_1 * mass_2 / (mass_1 + mass_2)
+    reduced_2 = (mass_1 + mass_2) / (mass_1 + mass_2 + 1)
+    apex_x = (side_31**2 + 1 - side_23**2) / 2
+    apex_y = sp.sqrt(side_31**2 - apex_x**2)
+    jacobi_x = apex_x - beta
+    pair_23 = sp.Matrix([jacobi_x - alpha, apex_y])
+    pair_31 = sp.Matrix([jacobi_x + beta, apex_y])
+    velocity_x = sp.Integer(0)
+    velocity_y = sp.Integer(-1)
+    complement_x, complement_y = sp.symbols("Vx Vy", real=True)
+    pair_23_velocity = sp.Matrix(
+        [complement_x - alpha * velocity_x, complement_y - alpha * velocity_y]
+    )
+    pair_31_velocity = sp.Matrix(
+        [complement_x + beta * velocity_x, complement_y + beta * velocity_y]
+    )
+    angular_momentum = (
+        reduced_1 * velocity_y
+        + reduced_2 * (jacobi_x * complement_y - apex_y * complement_x)
+    )
+    radial_23 = pair_23.dot(pair_23_velocity) / side_23
+    radial_31 = pair_31.dot(pair_31_velocity) / side_31
+    log_ratio_rate = 3 * (
+        radial_31 / (side_31 * (1 - side_31**3))
+        - radial_23 / (side_23 * (1 - side_23**3))
+    )
+    solution = sp.solve(
+        [angular_momentum, log_ratio_rate],
+        [complement_x, complement_y],
+        dict=True,
+    )[0]
+    radial_23 = sp.factor(radial_23.subs(solution))
+    radial_31 = sp.factor(radial_31.subs(solution))
+    ell_12 = velocity_y
+    ell_23 = sp.factor(
+        (
+            pair_23[0] * pair_23_velocity[1]
+            - pair_23[1] * pair_23_velocity[0]
+        ).subs(solution)
+    )
+    ell_31 = sp.factor(
+        (
+            pair_31[0] * pair_31_velocity[1]
+            - pair_31[1] * pair_31_velocity[0]
+        ).subs(solution)
+    )
+
+    def first_log_derivative(value: sp.Expr) -> sp.Expr:
+        return 3 / (value * (1 - value**3))
+
+    def second_log_derivative(value: sp.Expr) -> sp.Expr:
+        return -3 * (1 - 4 * value**3) / (value - value**4) ** 2
+
+    relative_rate_23 = radial_23 / side_23
+    relative_rate_31 = radial_31 / side_31
+    omega_12 = ell_12
+    omega_23 = ell_23 / side_23**2
+    omega_31 = ell_31 / side_31**2
+    ratio_23_second = side_23 * (omega_23**2 - omega_12**2)
+    ratio_31_second = side_31 * (omega_31**2 - omega_12**2)
+    velocity_curvature = sp.factor(
+        second_log_derivative(side_31)
+        * (side_31 * relative_rate_31) ** 2
+        + first_log_derivative(side_31) * ratio_31_second
+        - second_log_derivative(side_23)
+        * (side_23 * relative_rate_23) ** 2
+        - first_log_derivative(side_23) * ratio_23_second
+    )
+    kinetic = sp.factor(
+        (
+            reduced_1 * (velocity_x**2 + velocity_y**2)
+            + reduced_2
+            * (
+                solution[complement_x] ** 2
+                + solution[complement_y] ** 2
+            )
+        )
+        / 2
+    )
+
+    gravity, variables = _radial_gravity_terms()
+    gravity_12, gravity_23, gravity_31 = gravity
+    r23, r31, r12, u = variables
+    substitution = {
+        r23: side_23,
+        r31: side_31,
+        r12: 1,
+        u: euclid_parameter,
+    }
+    radial_gravity_12 = gravity_12.subs(substitution)
+    radial_gravity_23 = gravity_23.subs(substitution)
+    radial_gravity_31 = gravity_31.subs(substitution)
+    gravity_curvature = sp.factor(
+        first_log_derivative(side_31)
+        * (radial_gravity_31 - side_31 * radial_gravity_12)
+        - first_log_derivative(side_23)
+        * (radial_gravity_23 - side_23 * radial_gravity_12)
+    )
+    shape_potential = (
+        mass_1 * mass_2 + mass_2 / side_23 + mass_1 / side_31
+    )
+    initial_potential = (
+        mass_1 * mass_2 + 1 / (mass_1 * mass_2)
+    )
+    physical_scale = sp.Rational(1, 2)
+    scaled_curvature_numerator = sp.factor(
+        gravity_curvature
+        + shape_potential * velocity_curvature / kinetic
+        - physical_scale
+        * initial_potential
+        * velocity_curvature
+        / kinetic
+    )
+    return {
+        "angular_momentum": sp.factor(angular_momentum.subs(solution)),
+        "log_ratio_rate": sp.factor(log_ratio_rate.subs(solution)),
+        "ell_12": ell_12,
+        "ell_23": ell_23,
+        "ell_31": ell_31,
+        "velocity_curvature": velocity_curvature,
+        "kinetic": kinetic,
+        "gravity_curvature": gravity_curvature,
+        "scaled_curvature_numerator": scaled_curvature_numerator,
+    }
 
 
 def _pair_torque_kinetic_coefficient(

@@ -350,6 +350,46 @@ def initial_side_order_second_derivatives() -> tuple[sp.Expr, sp.Expr]:
     return base_minus_long_leg, long_minus_short_leg
 
 
+def initial_torque_ratio_log_curvature() -> sp.Expr:
+    """Return ``(log k)''(0)`` for the instantaneous torque-rate ratio.
+
+    Here ``k=(r23^-3-r12^-3)/(r31^-3-r12^-3)`` on the strict fundamental
+    interval. All first distance derivatives vanish at the brake.
+    """
+    _, a, b = euclid_symbols()
+    radial_23_second = -(b + 1) / a**2 - a**2
+    radial_31_second = -(a + 1) / b**2 - b**2
+    radial_12_second = -(a + b + 1 / a + 1 / b)
+    ratio_23_second = radial_23_second - a * radial_12_second
+    ratio_31_second = radial_31_second - b * radial_12_second
+
+    def logit_cube_derivative(value: sp.Expr) -> sp.Expr:
+        return 3 / (value * (1 - value**3))
+
+    curvature = (
+        logit_cube_derivative(b) * ratio_31_second
+        - logit_cube_derivative(a) * ratio_23_second
+    )
+    return sp.factor(sp.cancel(curvature))
+
+
+def expected_initial_torque_ratio_log_curvature() -> sp.Expr:
+    u, _, _ = euclid_symbols()
+    positive_quartic = 2 * u**4 - 3 * u**3 + 3 * u**2 + u + 1
+    return (
+        3
+        * (1 + u**2) ** 4
+        * (u**2 + 2 * u - 1)
+        * positive_quartic
+        / (
+            u**3
+            * (1 - u) ** 3
+            * (u**4 + 3)
+            * (u**4 + 2 * u**3 + 6 * u**2 + 2 * u + 1)
+        )
+    )
+
+
 def side_order_first_numerator() -> sp.Expr:
     u, _, _ = euclid_symbols()
     return (

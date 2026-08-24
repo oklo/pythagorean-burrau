@@ -1229,3 +1229,27 @@ it is not a remainder proof.
   $93.2280669052696\ldots$.  The obstruction is not claimed reachable; it
   proves that the cone argument requires integrated torque history rather
   than instantaneous energy and sign data.
+- Normalized the two positive pre-syzygy torque integrals to
+  $\eta=(m_1/m_2)(-\ell_{31}/\ell_{23})$.  Exact quotient differentiation
+  gives $\dot\eta=(F/{\cal A})(k-\eta)$, where
+  $k=(r_{23}^{-3}-r_{12}^{-3})/(r_{31}^{-3}-r_{12}^{-3})$. Thus monotonicity
+  of one current-shape scalar would give a rigorous history bound.
+- Proved an exact global component of that monotonicity. On the complete
+  ordered right/obtuse shape--mass cube, the gravitational contribution to
+  $(\log k)''$ has a tensor-degree $(9,9,2)$ numerator with 300 nonnegative
+  $\mathbb Q(\sqrt2)$ Bernstein coefficients, 268 positive, over a strictly
+  negative factored denominator. Hence it is strictly negative. At the
+  launch, where the velocity term vanishes, the full curvature factors
+  analytically and is negative for every strict fundamental parameter.
+- A bounded ordinary replay at $u=0.1,0.2,0.25,1/3,0.38,0.4,0.41,0.414,$
+  and $0.4142$ found no positive sampled increment of $k$ before first
+  syzygy; $k$ fell from its launch value in every case.  The unresolved
+  velocity-Hessian term prevents promotion to a global theorem.
+- The static first-return version was then tested exactly and disproved. For
+  $u=2/5$ and $(r_{12},r_{23},r_{31})=(1,39/40,1/30)$, exact linear
+  elimination produces an $L=(\log k)'=0$ velocity with pair-torque signs
+  $(-,+,-)$ but positive velocity curvature. At physical scale $1/2$, the
+  energy-normalized full curvature remains positive with numerator
+  $10682.0701224264\ldots$. This is an ambient state, not a reachable-orbit
+  claim; it rules out discarding the integrated history even at a
+  hypothetical first-return boundary.

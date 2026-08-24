@@ -55,6 +55,14 @@ first_syzygy.terminal = True
 first_syzygy.direction = -1
 
 
+def instantaneous_torque_rate_ratio(distances: np.ndarray) -> float:
+    """Return k=(r23^-3-r12^-3)/(r31^-3-r12^-3)."""
+    r12, r23, r31 = distances
+    return float(
+        (r23**-3 - r12**-3) / (r31**-3 - r12**-3)
+    )
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -114,6 +122,10 @@ def main() -> None:
         area_accelerations = np.array(
             [twice_area_second_derivative(state, masses) for state in states]
         )
+        torque_rate_ratios = np.array(
+            [instantaneous_torque_rate_ratio(row) for row in distances]
+        )
+        torque_rate_increments = np.diff(torque_rate_ratios)
         print(
             f"u={parameter} status=ORDINARY_NUMERICAL_EVIDENCE "
             f"first_syzygy={syzygy_time:.16g} "
@@ -121,6 +133,8 @@ def main() -> None:
             f"min_r23_minus_r31={np.min(second_gap):.16g} "
             f"max_first_gap_increment={np.max(first_increments):.3e} "
             f"min_second_gap_increment={np.min(second_increments):.3e} "
+            f"max_torque_rate_ratio_increment="
+            f"{np.max(torque_rate_increments):.3e} "
             f"area_second_range=[{np.min(area_accelerations):.8g},"
             f"{np.max(area_accelerations):.8g}]"
         )

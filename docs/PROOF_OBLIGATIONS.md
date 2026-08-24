@@ -163,6 +163,35 @@ and the analogous ratio $-\ell_{12}/\ell_{23}$.  A viable proof must couple
 these integrals to the evolving side ratios; no inequality depending only on
 the current shape, $H$, $L$, and torque signs can close the cone.
 
+For the first ratio this coupling is now scalar.  With
+
+\[
+ k={r_{23}^{-3}-r_{12}^{-3}\over
+        r_{31}^{-3}-r_{12}^{-3}},qquad
+ \eta={m_1\over m_2}{-\ell_{31}\over\ell_{23}},
+\]
+
+one has exactly $\dot\eta=(F/{\cal A})(k-\eta)$.  Proving $k$ decreases to
+first syzygy would give $k<\eta<k(0)$ automatically.  The gravitational part
+of $(\log k)''$ is now proved strictly negative over the full ordered
+right/obtuse cube, and the full initial curvature is negative analytically.
+The remaining sharp sub-obligation is
+
+\[
+ Q_J(q,\dot q)<-\ddot J_{\rm grav},
+ \qquad J=\log k,
+\]
+
+only on states reachable from the brake while $J'<0$.  Ordinary ambient-state
+tests show both signs for the velocity Hessian, so sign-definiteness must not
+be assumed.  The weaker static first-return boundary version also fails
+exactly: at $u=2/5$, shape $(R,p,q)=(1,39/40,1/30)$, there is an exact
+$L=J'=0$ velocity with torque signs $(-,+,-)$ for which, after imposing
+$H=-U_0$ at scale $R=1/2$, one has $J''>0$.  This state is not known
+reachable.  Hence the indispensable missing hypothesis must retain the
+integral origin of the pair angular momenta or an equivalent trajectory
+history constraint.
+
 Exhaustive compact-middle covering is not an acceptable substitute: measured
 through-encounter parameter amplification is about $3\times10^8$ and grows
 further at late events. The event reduction is a smaller exact problem, but

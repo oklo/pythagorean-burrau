@@ -473,6 +473,28 @@ reachable from the initial brake.  Its role is to prove that current shape,
 energy, zero angular momentum, and torque signs do not suffice: the cone route
 must exploit the integrated torque history or another reachability invariant.
 
+That history has now been compressed to one scalar comparison.  With
+$\eta=(m_1/m_2)(-\ell_{31}/\ell_{23})$ and
+$k=(r_{23}^{-3}-r_{12}^{-3})/(r_{31}^{-3}-r_{12}^{-3})$, exact quotient
+differentiation gives $\dot\eta=(F/{\cal A})(k-\eta)$. Thus a proof that $k$
+decreases would automatically trap the nonlocal torque ratio between its
+current and launch values.  A new exact cube certificate proves that gravity
+contributes strictly negatively to $(\log k)''$: its degree-$(9,9,2)$
+numerator has 300 nonnegative exact Bernstein coefficients, 268 positive,
+over a negative denominator.  The full launch curvature is also negative by
+an elementary factorization.  The unresolved term is now the velocity
+Hessian along brake-reachable states; ordinary trajectories keep the full
+curvature negative to first syzygy, but this has not been proved.
+
+Even a static first-return repair is now excluded exactly.  At $u=2/5$ and
+the strict ordered obtuse shape $(r_{12},r_{23},r_{31})=(1,39/40,1/30)$,
+exact elimination gives an $L=(\log k)'=0$ velocity with torque signs
+$(-,+,-)$ and positive velocity curvature.  After scaling to $r_{12}=1/2$
+and imposing $H=-U_0$, the full curvature is still positive.  This state is
+not claimed reachable from the Burrau brake.  It proves that the missing
+monotonicity lemma must retain integrated trajectory history even at a
+hypothetical first return of $(\log k)'$ to zero.
+
 The first full F30 $C^1$ parameter-box run did not complete.  At radius
 $10^{-8}$ it wrapped at scaled time $0.225958$, with pair-energy width already
 about $517$, although the fixed center is regular and completes the whole

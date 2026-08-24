@@ -690,3 +690,52 @@ the Burrau brake.  Therefore reachability information encoded in the torque
 integrals, or an equivalent history-dependent invariant, is indispensable.
 The exact Gram formula and obstruction are regressed in
 `tests/test_mutual_distances.py`.
+
+## Static first-return barrier for the torque-rate ratio
+
+**Status:** DISPROVED by an exact ambient state; reachable history remains
+essential.
+
+Let
+
+\[
+ J=\log {r_{23}^{-3}-r_{12}^{-3}\over
+              r_{31}^{-3}-r_{12}^{-3}}.
+\]
+
+Since gravity contributes strictly negatively to $J''$ on the ordered
+right/obtuse cone, a natural first-return strategy is to suppose $J'$ first
+returns to zero and prove $J''<0$ from the current state.  Even after adding
+energy, zero angular momentum, and all three pre-syzygy torque signs, that
+ambient implication is false.
+
+Take the exact tied parameter $u=2/5$, masses
+$(21/29,20/29,1)$, and the strict ordered obtuse shape
+
+\[
+ (r_{12},r_{23},r_{31})=\left(1,{39\over40},{1\over30}\right).
+\]
+
+In unit-$r_{12}$ Jacobi coordinates set the selected relative velocity
+$U=(0,-1)$ and solve the two exact linear equations $L=J'=0$ for the
+complementary velocity. Exact elimination gives pair angular momenta
+
+\[
+ \left(-1,
+ {28914232361390649\over36366761131529200},
+ -{122841961770469\over1818338056576460}\right),
+\]
+
+which have signs $(-,+,-)$, while the velocity curvature is
+$Q_J=8951.51393211\ldots>0$.  At physical scale $r_{12}=1/2$, choosing the
+amplitude so that $H=-U_0$ gives
+
+\[
+ r_{12}^3J''=10682.0701224264\ldots>0.
+\]
+
+All signs and both linear constraints are checked in exact algebraic
+arithmetic.  This state is not asserted reachable from the Burrau brake.  It
+shows precisely that a barrier proof at $J'=0$ must use the fact that the
+velocity and pair angular momenta were accumulated from zero along the
+trajectory; current-state inequalities do not suffice.

@@ -2657,6 +2657,65 @@ throughout the strict ordered right/obtuse cone. Gravity thus points into
 both side-order faces; persistence of obtuseness and domination of the two
 centrifugal differences remain open.
 
+The torque history itself reduces to a scalar weighted average.  On a
+positive-area ordered segment put $R=r_{12}$, $p=r_{23}$, $q=r_{31}$ and
+\[
+ F=\Delta_2(q^{-3}-R^{-3}),\quad
+ G=\Delta_2(p^{-3}-R^{-3}),\quad
+ k={G\over F}.
+\]
+If ${\cal A}=\int_0^tF\,ds$ and ${\cal C}=\int_0^tG\,ds$, then
+\[
+ \eta={{\cal C}\over{\cal A}}
+ ={m_1\over m_2}{-\ell_{31}\over\ell_{23}},qquad
+ \dot\eta={F\over{\cal A}}(k-\eta).
+\]
+Thus strict decrease of $k$ would imply $k(t)<\eta(t)<k(0)$.  Writing
+$x=p/R$, $y=q/R$ gives
+\[
+ k={y^3(1-x^3)\over x^3(1-y^3)}.
+\]
+For $J=\log k$, the purely gravitational contribution to $\ddot J$ is
+strictly negative throughout the ordered right/obtuse cone.  After the same
+$(s,w,v)$ substitution, its degree-$(9,9,2)$ numerator has 300 nonnegative
+exact Bernstein coefficients, 268 positive, while its denominator is
+\[
+ -4096(1+u^2)p^3q^3(1-p^3)(1-q^3)<0.
+\]
+At the brake the velocity term vanishes and
+\[
+ \ddot J(0)=
+ {3(1+u^2)^4(u^2+2u-1)(2u^4-3u^3+3u^2+u+1)
+ \over
+ u^3(1-u)^3(u^4+3)(u^4+2u^3+6u^2+2u+1)}<0.
+\]
+The total curvature contains an additional velocity-Hessian term.  Its
+reachable-state domination by the proved gravitational margin is the current
+missing monotonicity lemma.
+
+The qualifier ``reachable-state'' is essential even at a hypothetical first
+return of $J'$ to zero.  For the exact tied parameter $u=2/5$ and strict
+ordered obtuse shape
+\[
+ (R,p,q)=\left(1,{39\over40},{1\over30}\right),
+\]
+exactly solving $L=J'=0$ gives a velocity with
+\[
+ (\ell_{12},\ell_{23},\ell_{31})
+ =\left(-1,
+ {28914232361390649\over36366761131529200},
+ -{122841961770469\over1818338056576460}\right).
+\]
+Thus all three pre-syzygy torque signs hold, but the velocity curvature is
+positive.  At scale $R=1/2$, after choosing its amplitude from $H=-U_0$,
+exact arithmetic gives
+\[
+ R^3J''=10682.0701224264\ldots>0.
+\]
+This ambient state is not asserted brake-reachable. It disproves a static
+first-return barrier and forces any proof of monotonicity to retain the
+integrated origin of the velocity.
+
 There is a sharp obstruction to closing the first difference using only
 instantaneous energy and the torque signs.  At a fixed noncollinear shape,
 let $M_v$ be the translation-reduced Jacobi mass matrix and let the rows of

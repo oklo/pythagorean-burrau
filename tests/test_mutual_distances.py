@@ -7,10 +7,14 @@ from src.symbolic.mutual_distances import (
     first_gap_static_energy_obstruction,
     ordered_obtuse_gravity_first_bernstein_coefficients,
     ordered_obtuse_gravity_first_gap,
+    ordered_obtuse_log_torque_ratio_gravity_bernstein_coefficients,
+    ordered_obtuse_log_torque_ratio_gravity_curvature,
     ordered_shape_gravity_bernstein_coefficients,
     ordered_shape_gravity_gap,
     pair_torque_kinetic_coefficient,
     squared_distance_accelerations,
+    torque_history_ratio_identity,
+    torque_rate_first_return_static_obstruction,
 )
 
 
@@ -37,6 +41,10 @@ def test_squared_distance_equations_at_345_launch() -> None:
         expressions["z_second"].subs(substitution)
         + 2 * (a + b + 1 / a + 1 / b)
     ) == 0
+
+
+def test_torque_history_ratio_scalar_ode() -> None:
+    assert torque_history_ratio_identity() == 0
 
 
 def test_gravity_widens_second_gap_on_ordered_shape_cube() -> None:
@@ -97,6 +105,36 @@ def test_gravity_compresses_first_gap_on_ordered_obtuse_rectangle() -> None:
     ) == 0
 
 
+def test_gravity_strictly_decreases_log_torque_rate_ratio() -> None:
+    curvature, variables = ordered_obtuse_log_torque_ratio_gravity_curvature()
+    numerator, denominator = sp.fraction(curvature)
+    polynomial = sp.Poly(numerator, *variables)
+    assert tuple(polynomial.degree(variable) for variable in variables) == (9, 9, 2)
+    coefficients = (
+        ordered_obtuse_log_torque_ratio_gravity_bernstein_coefficients()
+    )
+    signs = tuple(sp.sign(coefficient) for coefficient in coefficients)
+    assert len(coefficients) == 300
+    assert signs.count(0) == 32
+    assert signs.count(1) == 268
+    assert set(signs) == {0, 1}
+
+    s_value, w, v = variables
+    triangle_scale = 2 - sp.sqrt(2) + (sp.sqrt(2) - 1) * s_value
+    side_23 = 1 - triangle_scale * w / 2
+    side_31 = 1 - triangle_scale + triangle_scale * w / 2
+    u = (sp.sqrt(2) - 1) * v
+    expected_denominator = (
+        -4096
+        * (1 + u**2)
+        * side_23**3
+        * side_31**3
+        * (1 - side_23**3)
+        * (1 - side_31**3)
+    )
+    assert sp.factor(denominator - expected_denominator) == 0
+
+
 def test_pair_torque_kinetic_coefficient_matches_gram_inverse() -> None:
     coefficient, variables = pair_torque_kinetic_coefficient()
     m, n, p, q, z = variables
@@ -149,6 +187,22 @@ def test_static_signed_torque_energy_bound_has_exact_obstruction() -> None:
     assert all(0 < coordinate < 1 for coordinate in cube_point)
     assert sp.sign(margin) == 1
     assert float(margin) == pytest.approx(93.22806690526964, rel=2e-15)
+
+
+def test_static_first_return_barrier_has_exact_obstruction() -> None:
+    obstruction = torque_rate_first_return_static_obstruction()
+    assert obstruction["angular_momentum"] == 0
+    assert obstruction["log_ratio_rate"] == 0
+    assert tuple(
+        sp.sign(obstruction[name]) for name in ("ell_12", "ell_23", "ell_31")
+    ) == (-1, 1, -1)
+    assert sp.sign(obstruction["velocity_curvature"]) == 1
+    assert sp.sign(obstruction["kinetic"]) == 1
+    assert sp.sign(obstruction["gravity_curvature"]) == -1
+    assert sp.sign(obstruction["scaled_curvature_numerator"]) == 1
+    assert float(obstruction["scaled_curvature_numerator"]) == pytest.approx(
+        10682.0701224264, rel=2e-14
+    )
 
 
 @pytest.mark.parametrize(
@@ -224,4 +278,47 @@ def test_ordered_obtuse_first_gap_matches_cartesian_force(
         gap.subs(dict(zip(variables, (depth, order_split, parameter), strict=True)))
     )
     assert radial_12 - radial_23 == pytest.approx(evaluated, rel=5e-12)
+    assert evaluated < 0
+
+
+@pytest.mark.parametrize(
+    ("depth", "order_split", "parameter"),
+    ((0.15, 0.25, 0.2), (0.55, 0.65, 0.55), (0.9, 0.15, 0.9)),
+)
+def test_log_torque_ratio_gravity_curvature_matches_cartesian_force(
+    depth: float, order_split: float, parameter: float
+) -> None:
+    u = (np.sqrt(2.0) - 1.0) * parameter
+    masses = np.array(
+        [(1 - u * u) / (1 + u * u), 2 * u / (1 + u * u), 1.0]
+    )
+    triangle_scale = 2 - np.sqrt(2.0) + (np.sqrt(2.0) - 1) * depth
+    r23 = 1 - triangle_scale * order_split / 2
+    r31 = 1 - triangle_scale + triangle_scale * order_split / 2
+    q3x = (r31 * r31 + 1 - r23 * r23) / 2
+    q3y = np.sqrt(r31 * r31 - q3x * q3x)
+    positions = np.array([[0.0, 0.0], [1.0, 0.0], [q3x, q3y]])
+    state = np.concatenate([positions.ravel(), np.zeros(6)])
+    accelerations = right_hand_side(0.0, state, masses)[6:].reshape(3, 2)
+    radial_12 = np.dot(
+        positions[1] - positions[0], accelerations[1] - accelerations[0]
+    )
+    radial_23 = np.dot(
+        positions[2] - positions[1], accelerations[2] - accelerations[1]
+    ) / r23
+    radial_31 = np.dot(
+        positions[0] - positions[2], accelerations[0] - accelerations[2]
+    ) / r31
+    direct = (
+        3 * (radial_31 - r31 * radial_12) / (r31 * (1 - r31**3))
+        - 3 * (radial_23 - r23 * radial_12) / (r23 * (1 - r23**3))
+    )
+
+    curvature, variables = ordered_obtuse_log_torque_ratio_gravity_curvature()
+    evaluated = float(
+        curvature.subs(
+            dict(zip(variables, (depth, order_split, parameter), strict=True))
+        )
+    )
+    assert direct == pytest.approx(evaluated, rel=1e-9)
     assert evaluated < 0

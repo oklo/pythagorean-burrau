@@ -10,9 +10,11 @@ from src.symbolic.initial_identities import (
     expected_defect_fourth_derivative,
     expected_defect_sixth_derivative,
     expected_initial_side_order_second_derivatives,
+    expected_initial_torque_ratio_log_curvature,
     expected_signed_area_second_derivative,
     identity_residuals,
     initial_side_order_second_derivatives,
+    initial_torque_ratio_log_curvature,
     pythagorean_defect_fourth_derivative,
     pythagorean_defect_sixth_derivative,
     side_order_first_bernstein_coefficients,
@@ -31,6 +33,16 @@ def test_center_of_mass_formula() -> None:
     _, a, b = euclid_symbols()
     expected = sp.Matrix([(b - a) / 2, a * b / (a + b + 1)])
     assert (center_of_mass() - expected).applyfunc(sp.simplify) == sp.zeros(2, 1)
+
+
+def test_instantaneous_torque_ratio_initially_decreases() -> None:
+    u, _, _ = euclid_symbols()
+    curvature = initial_torque_ratio_log_curvature()
+    assert sp.factor(curvature - expected_initial_torque_ratio_log_curvature()) == 0
+    positive_quartic = 2 * u**4 - 3 * u**3 + 3 * u**2 + u + 1
+    assert sp.expand(
+        positive_quartic - (2 * u**4 + 3 * u**2 * (1 - u) + u + 1)
+    ) == 0
 
 
 def test_defect_acceleration_is_positive_on_full_real_family() -> None:
