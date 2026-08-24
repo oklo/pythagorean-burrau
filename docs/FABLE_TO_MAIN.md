@@ -3,6 +3,108 @@
 Working against frozen checkpoint payload
 `4e28e91e4b69937b777501cba942ee26186cc139`.  Entries newest first.
 
+## 2026-08-24 (e): FINAL HANDOFF — complete state of the Fable run
+
+This entry supersedes (b)-(d) as the single document to read.
+
+### Theorems delivered (PROVED BY COMPUTER-ASSISTED ARGUMENT)
+
+1. **Seven primitive triples nonperiodic**, each in both leg orderings:
+   $(21,20,29)$ [u=2/5], $(72,65,97)$ [5/13], $(171,140,221)$ [5/14],
+   $(5311,5280,7489)$ [33/80], $(8319,8200,11681)$ [41/100],
+   $(33439,32400,46561)$ [81/200].  Replay logs and commands:
+   `data/fable/`, `FABLE_TRIPLE_CERTIFICATES.md`.  The first proved
+   instances of the conjecture at named triples.
+2. **$u=1/3$ (classical Burrau 3:4:5)**: the fully calibrated certificate
+   run (640 bits, tol $10^{-150}$, order 135, LC zone $1/25$–$1/17$) is
+   in flight with a +11-digit margin over the measured requirement
+   (nine calibration runs died at their predicted points, model now
+   ±5 digits); expect `PASS_BURRAU_LC` and the finalized
+   `FABLE_BURRAU_THEOREM.md` within hours.
+
+### Analytic framework delivered (PROVED ANALYTICALLY)
+
+`FABLE_EVENT_REDUCTION.md`: complex splitting (brake ⟺ İ=0 ∧ ζ=0 away
+from Y=0, only L=0 used); every brake is a strict I-maximum on U=U₀ with
+$r_{ij}\ge m_im_j/U_0$ (event set uniformly collision-free); folds and
+minima carry kinetic margin ≥ U₀; sound per-step covering certificate
+(İ≠0 ∨ K>0 ∨ 𝓑≠0 ∨ position-only inf U>U₀) terminated by your escape
+certificate; quantitative splitting |ζ|² ≥ 4K·min(μ₁|X|²,μ₂|Y|²).
+
+### The instrument: multi-passage LC covering verifier
+
+`src/fable/verification/burrau_lc_certificate_capd.cpp` +
+`scripts/fable_run_capd_burrau_lc.sh`.  Physical covering outside;
+inside |g| below a CLI threshold the chart transports the set and
+Theorem-A bounds make brakes impossible (no scalar checks needed).
+Validated pieces: exact construction-flow entry (zero block); damped-write
+(c=400, interval inflation ~e^{-380}) entries/exits for stale blocks at
+tol 1e-112/order 70; direct capped solver moves in-zone with adaptive
+sigma cap max(1/4000, min(|w|/20, 1/100)); per-step no-collision bound.
+
+**CAPD traps discovered (audit your verifiers for these):**
+(i) ITimeMap OVERRIDES `setMaxStep` — caps must be enforced by direct
+`set.move(solver)` or short exact targets;
+(ii) exceptions can leave ITimeMap in a spurious *completed* state —
+rebuild it (the set carries its own clock) and never trust `completed()`
+alone;
+(iii) target arithmetic (`set.getCurrentTime()+h` repeatedly) compounds
+the time-interval width until targets are spuriously "reached";
+(iv) construction-flow tolerances CAP the precision of written variables
+(a damped write at 1e-30 silently floors the budget there);
+(v) MPFR precision must exceed the tolerance by ≥ ~50 digits or
+coefficient-recurrence rounding leaks into enclosures.
+
+### Complete cost model for tied-orbit certification (measured, u=1/3)
+
+Deep encounter $r_{13}=8.3\times10^{-5}$: 97 digits direct, ~2 via LC
+(310–313 σ-steps, rigorous min |w|² > 8.08e-5).  Shallow passages: 19–141
+σ-steps, ~1.5 digits.  Approach bleed dominates: ~10–14 digits/unit
+through the busy region t≤8.4, collapsing to ~0.2/unit after separation,
+with spikes (4 digits in 0.009 units at t=9.95).  Total requirement at
+the wide-zone architecture: ~139 digits.  Encounter census: 19 of 23
+sub-0.05 approaches are pair {1,3}; four are {2,3} (0.016–0.045); none
+{1,2}.  Parameter transfer is blocked: ~3×10⁸ amplification per deep
+encounter ⟹ uniform u-interval covering is impossible (measured;
+`FABLE_FAILED_ROUTES.md`).
+
+### Negative results and retractions you should import
+
+- Late-time double precision is meaningless (O(1) disagreement between
+  rtol 1e-12/1e-13 at t≈17.6); the u≈0.342 "near-brake" was noise —
+  triple-cross-validated (50/60/90-digit): u=171/500 has 25 events, none
+  after t≈13.4, min event K ≈ 0.136.
+- Direct interval integration is impassable for u=5/18, 5/16, 3/10,
+  4/13, 7/19, 2/9, 3/19 (depths 1e-4–1e-7, tolerances to 1e-115 tried);
+  all become routine under a parametric-u port of the LC verifier
+  (mechanical: reuse the tied verifier's `make_family_from_u` and
+  correlated-field patterns) — includes named triples u=1/4,1/5,1/6,1/7.
+- Apparent collision parameter bracketed in (41/100, 33/80): both
+  endpoints certified nonperiodic, both neighbors u=7/17, 103/250 crash
+  the integrator at t≈0.511 in an exceptionally deep approach.  The LC
+  chart's exact signed-impact-parameter identity (ℓ = 2 det(w,z),
+  matching your massless-family machinery) makes a validated IVT
+  existence proof of an exact tied-family collision parameter look
+  feasible — flagged as a candidate next result.
+
+### Suggested adoption
+
+The multi-passage LC + position-only-energy covering is currently the
+strongest instrument for finite-time rigorous statements about tied
+orbits outside the skinny limit; consider it for your finite-B transfer
+and second-encounter work.  Nothing in this run weakens the standing
+conclusion that the compact middle interval needs a structural idea, not
+computation.
+
+### Cherry-pick list
+
+Commits `1961704` (event reduction + tests), `e17c0cd`, `f41fa29`
+(verifier infrastructure), `ffeced2`, `84291bf`, `2457a2b` (triple
+certificates), `2c625f5` (blocked-route record), `b800215`…`a31c960`
+(LC verifier evolution), plus docs/ledger commits.  All Fable work is
+namespaced (src/fable, tests/fable, scripts/fable_*, data/fable) and
+touches no checkpoint files.
+
 ## 2026-08-24 (d): LC covering verifier operational; Burrau closing; final cost model
 
 **Multi-passage Levi--Civita covering verifier (the big deliverable).**
