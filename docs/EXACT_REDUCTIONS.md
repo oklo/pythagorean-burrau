@@ -745,6 +745,122 @@ three torque signs to $(r_{12}-r_{23})''<0$ is **DISPROVED**.  This point is
 not claimed reachable from the brake.  A successful cone theorem must use
 the integrated torque history or an equivalent reachability constraint.
 
+### Exact first-gap concavity on the ordered-syzygy face
+
+The preceding interior obstruction disappears on the collision-free syzygy
+face.  Write $(m_1,m_2,m_3)=(m,n,1)$, scale $r_{12}=1$, and suppose body 3
+lies between bodies 1 and 2.  Put
+
+\[
+ q=r_{31},\qquad p=r_{23}=1-q,
+ \qquad a=\ell_{23}>0,
+ \qquad \eta={m\over n}{-\ell_{31}\over\ell_{23}}.
+\]
+
+Total transverse momentum and zero total angular momentum determine all
+three transverse velocities once $a$ is fixed.  Exact elimination gives
+
+\[
+ \eta={q(m+p)\over p(n+q)},\qquad
+ -{\ell_{12}\over a}={1-\eta\over m},
+\]
+
+and
+
+\[
+ 2K\ge a^2F,\qquad
+ F={n\{mn+mq^2+np^2\}\over mp^2(n+q)^2}>0.
+\]
+
+The inequality allows arbitrary radial velocities; equality is the unique
+transverse kinetic energy.  The strict launch torque signs are equivalent on
+this face to
+
+\[
+ 0<\eta<1\quad\Longleftrightarrow\quad
+ 0<q<{n\over m+n}.
+\]
+
+At energy $H=-U_0$, with
+$U=mn+n/p+m/q$, one has $K=U-U_0<U$.  The first side-gap acceleration is
+
+\[
+ (r_{12}-r_{23})''=
+ \mathfrak g_{12}-\mathfrak g_{23}+a^2C_1,
+ \qquad
+ C_1={(1-\eta)^2\over m^2}-{1\over p^3}.
+\]
+
+If $C_1\le0$, the already proved gravitational inequality makes this
+strictly negative.  If $C_1>0$, the energy bound gives
+
+\[
+ (r_{12}-r_{23})''
+ <\mathcal M_{\rm syz}:=
+ \mathfrak g_{12}-\mathfrak g_{23}+{2UC_1\over F}.
+\]
+
+It remains only to determine the sign of this explicit rational function.
+Set
+
+\[
+ u=(\sqrt2-1)v,\qquad
+ m={1-u^2\over1+u^2},\qquad
+ n={2u\over1+u^2},\qquad
+ q={nz\over m+n},\qquad 0<v,z<1.
+\]
+
+Before this substitution the denominator of $\mathcal M_{\rm syz}$ is
+
+\[
+ mnq^2(1-q)^2\{mn+mq^2+n(1-q)^2\}>0.
+\]
+
+Clearing the additional positive mass and mass-sum denominators produces a
+bidegree $(20,6)$ polynomial in $(v,z)$.  Its 147 exact
+$\mathbb Q(\sqrt2)$ tensor-Bernstein coefficients are all nonpositive: 133
+are strictly negative and 14 are zero.  Because every Bernstein basis
+function is positive in the open square, the polynomial and hence
+$\mathcal M_{\rm syz}$ are strictly negative there.  Therefore
+
+\[
+ \boxed{(r_{12}-r_{23})''<0}
+\]
+
+at every collision-free ordered syzygy with body 3 in the middle, strict
+pre-syzygy torque signs, $P=L=0$, and the tied fundamental masses.  This is
+**PROVED BY COMPUTER-ASSISTED ARGUMENT** in exact arithmetic.  The symbolic
+test independently checks the denominator, the positive clearing factor,
+the transverse kinetic minimization, and every Bernstein sign.
+
+The result does not prove that the brake-launched orbit remains in the
+ordered right/obtuse cone until syzygy, nor that the first gap is monotone
+before it.  It does prove that the first adverse centrifugal term cannot
+overturn the desired concavity at the terminal ordered-syzygy face.  The
+second gap and the reachable-history interior remain open.
+
+For the latter, two exact dimensionless formulas isolate the remaining
+history variable.  With $R=r_{12}$, $x=r_{23}/R$, $y=r_{31}/R$,
+$Z=\ell_{23}^2/R$, and the same $\eta$, the centrifugal parts of the two gap
+accelerations after multiplication by $R^2$ are
+
+\[
+ Z\left\{{(1-\eta)^2\over m^2}-x^{-3}\right\},\qquad
+ Z\left\{x^{-3}-{n^2\eta^2\over m^2y^3}\right\}.
+\]
+
+If $ds=dt/R^{3/2}$, $W=\sqrt Z=\ell_{23}/\sqrt R$,
+$\delta=\Delta_2/R^2$, and $\sigma=d\log R/ds$, then
+
+\[
+ W_s=m\delta(y^{-3}-1)-{\sigma W\over2},\qquad
+ \eta_s={m\delta(y^{-3}-1)\over W}(k-\eta).
+\]
+
+Thus the two centrifugal gaps depend on the common amplitude $Z$ and the
+single weighted-history ratio $\eta$; this is an **EXACT SYMBOLIC IDENTITY**,
+not yet a closed invariant system because $(x,y,\delta,\sigma)$ also evolve.
+
 ## Planar endpoint stable jet and collision normal form
 
 The massless planar joint endpoint has an autonomous logarithmic shape flow.

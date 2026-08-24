@@ -26,10 +26,37 @@ The full rational conjecture is **not proved**. The stronger assertion for
 every real tied parameter is also **not proved**. No rational counterexample
 and no real second-brake intersection have been found.
 
-A difficulty-weighted completion estimate is currently about **42%**, with
+A difficulty-weighted completion estimate is currently about **43%**, with
 rough uncertainty of plus or minus 15 percentage points. This measures
 progress toward the universal theorem, not the amount of code or manuscript
 already written.
+
+### Later exact update: the ordered-syzygy face
+
+The torque-history route has produced one further exact theorem.  If a tied
+fundamental-mass orbit reaches a collision-free syzygy with body 3 between
+bodies 1 and 2 while retaining the strict launch torque signs, then
+
+\[
+ (r_{12}-r_{23})''<0
+\]
+
+at that event.  Collinear momentum constraints determine the torque ratio
+and the sharp transverse kinetic energy.  Combining them with $H=-U_0$
+reduces the only adverse case to a bidegree $(20,6)$ polynomial on the
+$(v,z)$ unit square.  Its 147 exact $\mathbb Q(\sqrt2)$ Bernstein
+coefficients are 133 negative and 14 zero, so the margin is strictly negative
+in the open square.  The test suite independently checks the positive
+denominator, positive clearing factor, kinetic minimization, and every
+coefficient sign.
+
+This is a significant Level-E boundary theorem, not a global cone theorem.
+It does not show that the ordered right/obtuse cone persists until syzygy or
+that the first gap decreases throughout the preceding arc.  The two adverse
+centrifugal terms are now expressed using a common amplitude
+$Z=\ell_{23}^2/r_{12}$ and the single weighted history ratio $\eta$; the
+highest-leverage missing lemma is a reachable barrier for $(Z,\eta)$ coupled
+to the normalized shape.
 
 ## 2. Exact reductions already established
 

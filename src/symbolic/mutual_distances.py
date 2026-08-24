@@ -49,6 +49,60 @@ def torque_history_ratio_identity() -> sp.Expr:
     )
 
 
+def ordered_history_centrifugal_reduction() -> tuple[
+    tuple[sp.Expr, sp.Expr], tuple[sp.Symbol, ...]
+]:
+    """Return the two scaled centrifugal gaps in ``(Z, eta)`` variables.
+
+    Here ``x=r23/r12``, ``y=r31/r12``,
+    ``Z=ell23**2/r12``, and
+    ``eta=(m/n)(-ell31/ell23)``.  The weighted pair-angular-momentum
+    identity at zero total momentum and angular momentum supplies
+    ``ell12=-(1-eta)ell23/m``.
+    """
+    mass_1, mass_2, side_23, side_31, amplitude, history_ratio = sp.symbols(
+        "m n x y Z eta", positive=True
+    )
+    first_gap = amplitude * (
+        (1 - history_ratio) ** 2 / mass_1**2 - side_23**-3
+    )
+    second_gap = amplitude * (
+        side_23**-3
+        - mass_2**2
+        * history_ratio**2
+        / (mass_1**2 * side_31**3)
+    )
+    return (
+        (first_gap, second_gap),
+        (mass_1, mass_2, side_23, side_31, amplitude, history_ratio),
+    )
+
+
+def ordered_history_shape_time_rhs() -> tuple[
+    tuple[sp.Expr, sp.Expr], tuple[sp.Symbol, ...]
+]:
+    """Return ``(W_s, eta_s)`` in Newtonian shape time ``ds=dt/R**(3/2)``."""
+    mass_1, side_31, twice_area, amplitude, ratio, current = sp.symbols(
+        "m y delta W eta k", positive=True
+    )
+    scale_rate = sp.symbols("sigma", real=True)
+    torque_source = mass_1 * twice_area * (side_31**-3 - 1)
+    amplitude_rhs = torque_source - scale_rate * amplitude / 2
+    ratio_rhs = torque_source * (current - ratio) / amplitude
+    return (
+        (amplitude_rhs, ratio_rhs),
+        (
+            mass_1,
+            side_31,
+            twice_area,
+            scale_rate,
+            amplitude,
+            ratio,
+            current,
+        ),
+    )
+
+
 @lru_cache(maxsize=1)
 def _radial_gravity_terms() -> tuple[tuple[sp.Expr, ...], tuple[sp.Symbol, ...]]:
     """Return unscaled radial gravity terms for tied masses."""
@@ -216,6 +270,127 @@ def ordered_obtuse_log_torque_ratio_gravity_bernstein_coefficients() -> tuple[
     """Exact Bernstein coefficients for the gravity curvature numerator."""
     curvature, variables = ordered_obtuse_log_torque_ratio_gravity_curvature()
     numerator, _ = sp.fraction(curvature)
+    return _tensor_bernstein_coefficients(numerator, variables)
+
+
+@lru_cache(maxsize=1)
+def _generic_ordered_syzygy_first_gap_energy_margin() -> tuple[
+    sp.Expr, sp.Expr, sp.Expr, tuple[sp.Symbol, ...]
+]:
+    """Generic sharp first-gap energy margin on an ordered syzygy.
+
+    The variables are masses ``m,n`` and ``y=r31/r12``; ``r23/r12=1-y``.
+    """
+    mass_1, mass_2, side_31 = sp.symbols("m n q", positive=True)
+    side_23 = 1 - side_31
+    torque_ratio = sp.factor(
+        side_31
+        * (mass_1 + side_23)
+        / (side_23 * (mass_2 + side_31))
+    )
+    kinetic_coefficient = sp.factor(
+        mass_2
+        * (
+            mass_1 * mass_2
+            + mass_1 * side_31**2
+            + mass_2 * side_31**2
+            - 2 * mass_2 * side_31
+            + mass_2
+        )
+        / (
+            mass_1
+            * side_23**2
+            * (mass_2 + side_31) ** 2
+        )
+    )
+    potential = (
+        mass_1 * mass_2 + mass_2 / side_23 + mass_1 / side_31
+    )
+    centrifugal_coefficient = sp.factor(
+        (1 - torque_ratio) ** 2 / mass_1**2 - 1 / side_23**3
+    )
+    expressions = squared_distance_accelerations()
+    m1, m2, m3 = sp.symbols("m1 m2 m3", positive=True)
+    x_squared, y_squared, r12_squared = sp.symbols("x y z", positive=True)
+    v23, v31, v12 = sp.symbols("v23sq v31sq v12sq", nonnegative=True)
+    substitution = {
+        m1: mass_1,
+        m2: mass_2,
+        m3: 1,
+        x_squared: side_23**2,
+        y_squared: side_31**2,
+        r12_squared: 1,
+        v23: 0,
+        v31: 0,
+        v12: 0,
+    }
+    gravity_gap = (
+        expressions["z_second"].subs(substitution) / 2
+        - expressions["x_second"].subs(substitution) / (2 * side_23)
+    ).subs(
+        {
+            sp.Abs(side_31 - 1): 1 - side_31,
+            sp.Abs(side_31**2 - 1): 1 - side_31**2,
+        }
+    )
+    margin = sp.factor(
+        sp.cancel(
+            gravity_gap
+            + 2
+            * potential
+            * centrifugal_coefficient
+            / kinetic_coefficient
+        )
+    )
+    return (
+        margin,
+        kinetic_coefficient,
+        torque_ratio,
+        (mass_1, mass_2, side_31),
+    )
+
+
+@lru_cache(maxsize=1)
+def ordered_syzygy_first_gap_energy_numerator() -> tuple[
+    sp.Expr, tuple[sp.Symbol, ...]
+]:
+    """Positive-denominator-cleared numerator on the tied syzygy square."""
+    generic_margin, _, _, generic_variables = (
+        _generic_ordered_syzygy_first_gap_energy_margin()
+    )
+    mass_1, mass_2, side_31 = generic_variables
+    generic_numerator, _ = sp.fraction(generic_margin)
+    polynomial = sp.Poly(generic_numerator, mass_1, mass_2, side_31)
+    parameter, syzygy_fraction = sp.symbols("v z", nonnegative=True)
+    tied_parameter = (sp.sqrt(2) - 1) * parameter
+    mass_denominator = 1 + tied_parameter**2
+    mass_1_numerator = 1 - tied_parameter**2
+    mass_2_numerator = 2 * tied_parameter
+    mass_sum_numerator = mass_1_numerator + mass_2_numerator
+    maximum_mass_degree = max(
+        exponent[0] + exponent[1] for exponent, _ in polynomial.terms()
+    )
+    maximum_side_degree = polynomial.degree(side_31)
+    cleared = sum(
+        coefficient
+        * mass_1_numerator ** exponent[0]
+        * mass_2_numerator ** (exponent[1] + exponent[2])
+        * syzygy_fraction ** exponent[2]
+        * mass_denominator
+        ** (maximum_mass_degree - exponent[0] - exponent[1])
+        * mass_sum_numerator
+        ** (maximum_side_degree - exponent[2])
+        for exponent, coefficient in polynomial.terms()
+    )
+    return sp.expand(cleared), (parameter, syzygy_fraction)
+
+
+@lru_cache(maxsize=1)
+def ordered_syzygy_first_gap_energy_bernstein_coefficients() -> tuple[
+    sp.Expr, ...
+]:
+    """Exact Bernstein certificate for the ordered-syzygy first gap."""
+    numerator, variables = ordered_syzygy_first_gap_energy_numerator()
     return _tensor_bernstein_coefficients(numerator, variables)
 
 

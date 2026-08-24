@@ -28,7 +28,16 @@ analytically.  The velocity-Hessian contribution along reachable states is
 the remaining monotonicity obstruction.  An exact $u=2/5$ ambient state now
 also disproves a static first-return repair using $J'=0$, energy, zero angular
 momentum, and all torque signs; the integral origin of the velocity is an
-indispensable hypothesis. The imported Fable event theorem gives a new exact global
+indispensable hypothesis.  A new exact boundary theorem nevertheless closes
+the first gap on every collision-free ordered syzygy with body 3 in the
+middle and the strict launch torque signs:
+$(r_{12}-r_{23})''<0$.  Collinear momentum reduction and energy leave a
+bidegree $(20,6)$ numerator with 147 exact Bernstein coefficients (133
+negative, 14 zero).  This is a genuine syzygy-face theorem, but it does not
+prove persistence of ordering or interior monotonicity.  Both centrifugal
+gaps have also been reduced exactly to the common amplitude
+$Z=\ell_{23}^2/r_{12}$ and the scalar history ratio $\eta$; a reachable
+barrier for $(Z,\eta)$ is now the sharp interior target. The imported Fable event theorem gives a new exact global
 reduction: every brake is a strict $I$-maximum with $U=U_0$ and explicit
 pairwise collision separation (uniform on parameter compacts away from
 $u=0$), while every fold/minimum of $I$ has $K\ge U_0$.

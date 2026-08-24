@@ -2752,6 +2752,54 @@ angular momentum, and the three torque signs cannot establish the cone;
 integrated torque history or an equivalent reachability condition is
 essential.
 
+On the collision-free ordered-syzygy face, however, the first gap does have
+the desired strict acceleration.  Write $(m_1,m_2,m_3)=(m,n,1)$, normalize
+$r_{12}=1$, and suppose body 3 lies between bodies 1 and 2, so that
+$q=r_{31}$ and $p=r_{23}=1-q$.  With $a=\ell_{23}>0$ and
+$\eta=(m/n)(-\ell_{31}/\ell_{23})$, transverse momentum and zero total
+angular momentum give
+\[
+ \eta={q(m+p)\over p(n+q)},\qquad
+ -{\ell_{12}\over a}={1-\eta\over m},
+ \qquad
+ 2K\ge a^2{n(mn+mq^2+np^2)\over mp^2(n+q)^2}.
+\]
+The strict launch torque signs are equivalent to
+$0<q<n/(m+n)$.  If the centrifugal coefficient
+$C_1=(1-\eta)^2/m^2-p^{-3}$ is nonpositive, the proved gravitational
+inequality immediately gives $(r_{12}-r_{23})''<0$.  Otherwise energy gives
+the strict upper bound
+\[
+ (r_{12}-r_{23})''<
+ \mathfrak g_{12}-\mathfrak g_{23}+{2UC_1\over F},
+ \quad
+ U=mn+{n\over p}+{m\over q},
+ \quad
+ F={n(mn+mq^2+np^2)\over mp^2(n+q)^2}.
+\]
+Put $u=(\sqrt2-1)v$ and $q=nz/(m+n)$.  After clearing a manifestly positive
+denominator, the right side has a bidegree-$(20,6)$ numerator in $(v,z)$.
+Its 147 exact $\mathbb Q(\sqrt2)$ Bernstein coefficients consist of 133
+negative and 14 zero values.  Hence the numerator is strictly negative for
+$0<v,z<1$, and therefore
+\[
+ \boxed{(r_{12}-r_{23})''<0}
+\]
+at every such ordered syzygy.  This closes the first-gap inequality on the
+terminal face, but neither proves persistence of the ordered cone nor
+controls the second gap.
+
+The remaining centrifugal terms admit a two-scalar history reduction.  Set
+$R=r_{12}$, $x=r_{23}/R$, $y=r_{31}/R$,
+$Z=\ell_{23}^2/R$, and retain $\eta$.  After multiplication by $R^2$ the two
+gap contributions are exactly
+\[
+ Z\left({(1-\eta)^2\over m^2}-x^{-3}\right),\qquad
+ Z\left(x^{-3}-{n^2\eta^2\over m^2y^3}\right).
+\]
+Thus the sharp interior problem is a reachable barrier for $(Z,\eta)$
+coupled to shape, rather than three independent pair-angular-momentum bounds.
+
 At energy $-U_0$, the Jacobi--Maupertuis metric is
 $2(U-U_0)ds_m^2$.  A second-brake segment is a degenerate-boundary geodesic
 chord.  A Morse-index or convexity obstruction remains open.

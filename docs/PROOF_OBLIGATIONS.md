@@ -192,6 +192,35 @@ reachable.  Hence the indispensable missing hypothesis must retain the
 integral origin of the pair angular momenta or an equivalent trajectory
 history constraint.
 
+One terminal face of this reachability problem is now closed.  At a
+collision-free syzygy with body 3 between bodies 1 and 2, the collinear
+momentum constraints determine the torque ratio and transverse kinetic
+energy exactly.  Combining their sharp lower bound with $H=-U_0$ reduces the
+first gap to a bidegree $(20,6)$ exact Bernstein certificate.  It proves
+
+\[
+ (r_{12}-r_{23})''<0
+\]
+
+whenever the strict pre-syzygy torque signs persist to that ordered syzygy.
+Thus obligation 2 is closed *on the syzygy face*.  It remains open in the
+interior, and obligations 1 and 3 remain fully open.  In particular this
+endpoint concavity does not prove that $r_{12}-r_{23}$ decreased throughout
+the preceding arc.
+
+For the interior estimate, put $Z=\ell_{23}^2/R$ and retain the weighted
+history variable $\eta$.  After multiplication by $R^2$ the two centrifugal
+gaps are exactly
+
+\[
+Z\left({(1-\eta)^2\over m_1^2}-x^{-3}\right),\qquad
+Z\left(x^{-3}-{m_2^2\eta^2\over m_1^2y^3}\right).
+\]
+
+This reduces the next search to a reachable barrier for the two scalars
+$(Z,\eta)$ coupled to the normalized shape $(x,y)$, rather than three
+independent pair angular momenta.
+
 Exhaustive compact-middle covering is not an acceptable substitute: measured
 through-encounter parameter amplification is about $3\times10^8$ and grows
 further at late events. The event reduction is a smaller exact problem, but

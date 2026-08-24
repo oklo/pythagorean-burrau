@@ -4,13 +4,18 @@ import sympy as sp
 
 from src.dynamics.cartesian import right_hand_side
 from src.symbolic.mutual_distances import (
+    _generic_ordered_syzygy_first_gap_energy_margin,
     first_gap_static_energy_obstruction,
+    ordered_history_centrifugal_reduction,
+    ordered_history_shape_time_rhs,
     ordered_obtuse_gravity_first_bernstein_coefficients,
     ordered_obtuse_gravity_first_gap,
     ordered_obtuse_log_torque_ratio_gravity_bernstein_coefficients,
     ordered_obtuse_log_torque_ratio_gravity_curvature,
     ordered_shape_gravity_bernstein_coefficients,
     ordered_shape_gravity_gap,
+    ordered_syzygy_first_gap_energy_bernstein_coefficients,
+    ordered_syzygy_first_gap_energy_numerator,
     pair_torque_kinetic_coefficient,
     squared_distance_accelerations,
     torque_history_ratio_identity,
@@ -45,6 +50,29 @@ def test_squared_distance_equations_at_345_launch() -> None:
 
 def test_torque_history_ratio_scalar_ode() -> None:
     assert torque_history_ratio_identity() == 0
+
+
+def test_ordered_history_reduces_both_centrifugal_gaps_to_two_scalars() -> None:
+    gaps, variables = ordered_history_centrifugal_reduction()
+    m, n, x, y, z_value, eta = variables
+    first_gap, second_gap = gaps
+    assert sp.factor(
+        first_gap
+        - z_value * ((1 - eta) ** 2 / m**2 - x**-3)
+    ) == 0
+    assert sp.factor(
+        second_gap
+        - z_value * (x**-3 - n**2 * eta**2 / (m**2 * y**3))
+    ) == 0
+
+    rhs, rhs_variables = ordered_history_shape_time_rhs()
+    m_rhs, y_rhs, delta, sigma, amplitude, eta_rhs, current = rhs_variables
+    amplitude_rhs, eta_derivative = rhs
+    source = m_rhs * delta * (y_rhs**-3 - 1)
+    assert sp.factor(amplitude_rhs - source + sigma * amplitude / 2) == 0
+    assert sp.factor(
+        eta_derivative - source * (current - eta_rhs) / amplitude
+    ) == 0
 
 
 def test_gravity_widens_second_gap_on_ordered_shape_cube() -> None:
@@ -133,6 +161,111 @@ def test_gravity_strictly_decreases_log_torque_rate_ratio() -> None:
         * (1 - side_31**3)
     )
     assert sp.factor(denominator - expected_denominator) == 0
+
+
+def test_first_gap_acceleration_is_negative_at_every_ordered_syzygy() -> None:
+    generic_margin, kinetic_coefficient, torque_ratio, generic_variables = (
+        _generic_ordered_syzygy_first_gap_energy_margin()
+    )
+    m, n, y = generic_variables
+    _, denominator = sp.fraction(generic_margin)
+    positive_factor = m * n + m * y**2 + n * (1 - y) ** 2
+    expected_denominator = (
+        m * n * y**2 * (1 - y) ** 2 * positive_factor
+    )
+    assert sp.factor(denominator - expected_denominator) == 0
+    side_23 = 1 - y
+    potential = m * n + n / side_23 + m / y
+    centrifugal_coefficient = (
+        (1 - torque_ratio) ** 2 / m**2 - side_23**-3
+    )
+    gravity_gap = sp.factor(
+        generic_margin
+        - 2 * potential * centrifugal_coefficient / kinetic_coefficient
+    )
+    direct_collinear_gravity_gap = (
+        -n - (m + 1) / y**2 + n / side_23**2
+    )
+    assert sp.factor(gravity_gap - direct_collinear_gravity_gap) == 0
+
+    numerator, variables = ordered_syzygy_first_gap_energy_numerator()
+    polynomial = sp.Poly(numerator, *variables)
+    assert tuple(polynomial.degree(variable) for variable in variables) == (20, 6)
+    coefficients = ordered_syzygy_first_gap_energy_bernstein_coefficients()
+    signs = tuple(sp.sign(coefficient) for coefficient in coefficients)
+    assert len(coefficients) == 147
+    assert signs.count(-1) == 133
+    assert signs.count(0) == 14
+    assert set(signs) == {-1, 0}
+
+    parameter, syzygy_fraction = variables
+    cube_values = {
+        parameter: sp.Rational(1, 2),
+        syzygy_fraction: sp.Rational(1, 2),
+    }
+    tied_parameter = (sp.sqrt(2) - 1) * cube_values[parameter]
+    mass_1 = (1 - tied_parameter**2) / (1 + tied_parameter**2)
+    mass_2 = 2 * tied_parameter / (1 + tied_parameter**2)
+    side_31 = (
+        mass_2
+        * cube_values[syzygy_fraction]
+        / (mass_1 + mass_2)
+    )
+    generic_values = {m: mass_1, n: mass_2, y: side_31}
+    generic_numerator, _ = sp.fraction(generic_margin)
+    generic_polynomial = sp.Poly(generic_numerator, m, n, y)
+    maximum_mass_degree = max(
+        exponent[0] + exponent[1]
+        for exponent, _ in generic_polynomial.terms()
+    )
+    maximum_side_degree = generic_polynomial.degree(y)
+    mass_denominator = 1 + tied_parameter**2
+    mass_sum_numerator = (
+        1 - tied_parameter**2 + 2 * tied_parameter
+    )
+    clearing_factor = (
+        mass_denominator**maximum_mass_degree
+        * mass_sum_numerator**maximum_side_degree
+    )
+    assert sp.factor(
+        numerator.subs(cube_values)
+        - generic_numerator.subs(generic_values) * clearing_factor
+    ) == 0
+    assert sp.sign(generic_margin.subs(generic_values)) == -1
+    assert sp.sign(kinetic_coefficient.subs(generic_values)) == 1
+    assert 0 < torque_ratio.subs(generic_values) < 1
+    assert float(generic_margin.subs(generic_values)) == pytest.approx(
+        -98.52430370591595, rel=2e-14
+    )
+
+
+def test_ordered_syzygy_kinetic_coefficient_matches_transverse_minimum() -> None:
+    _, kinetic_coefficient, torque_ratio, variables = (
+        _generic_ordered_syzygy_first_gap_energy_margin()
+    )
+    m, n, y = variables
+    values = {m: sp.Rational(4, 5), n: sp.Rational(3, 5), y: sp.Rational(1, 5)}
+    x = 1 - values[y]
+    velocity_1, velocity_2, velocity_3 = sp.symbols("v1 v2 v3")
+    solution = sp.solve(
+        [
+            values[m] * velocity_1 + values[n] * velocity_2 + velocity_3,
+            values[n] * velocity_2 + values[y] * velocity_3,
+            x * (velocity_2 - velocity_3) - 1,
+        ],
+        [velocity_1, velocity_2, velocity_3],
+        dict=True,
+    )[0]
+    twice_kinetic = (
+        values[m] * solution[velocity_1] ** 2
+        + values[n] * solution[velocity_2] ** 2
+        + solution[velocity_3] ** 2
+    )
+    assert sp.factor(kinetic_coefficient.subs(values) - twice_kinetic) == 0
+    expected_ratio = (
+        values[y] * (values[m] + x) / (x * (values[n] + values[y]))
+    )
+    assert sp.factor(torque_ratio.subs(values) - expected_ratio) == 0
 
 
 def test_pair_torque_kinetic_coefficient_matches_gram_inverse() -> None:

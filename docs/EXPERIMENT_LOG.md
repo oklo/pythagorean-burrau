@@ -1253,3 +1253,24 @@ it is not a remainder proof.
   $10682.0701224264\ldots$. This is an ambient state, not a reachable-orbit
   claim; it rules out discarding the integrated history even at a
   hypothetical first-return boundary.
+- Restricted the optimal energy--torque calculation to a collision-free
+  ordered syzygy with body 3 in the middle.  Collinear momentum constraints
+  give the exact torque ratio
+  $\eta=q(m+1-q)/[(1-q)(n+q)]$ and the sharp transverse coefficient
+  $F=n[mn+mq^2+n(1-q)^2]/[m(1-q)^2(n+q)^2]$.  The strict torque signs are
+  exactly $0<q<n/(m+n)$.  Parameterizing this interval by
+  $q=nz/(m+n)$ and $u=(\sqrt2-1)v$ reduces the energy upper margin for
+  $(r_{12}-r_{23})''$ to a bidegree $(20,6)$ polynomial.  Its 147 exact
+  $\mathbb Q(\sqrt2)$ Bernstein coefficients consist of 133 negative and 14
+  zero values, proving strict negativity in the open square.  This closes the
+  first-gap acceleration on the ordered-syzygy face but not its interior
+  history or the second gap.
+- Re-expressed both centrifugal side-gap terms using only
+  $Z=\ell_{23}^2/r_{12}$ and the weighted torque-history ratio $\eta$.
+  Their exact shape-time evolution begins with
+  $W_s=m_1\delta(y^{-3}-1)-\sigma W/2$ and
+  $\eta_s=m_1\delta(y^{-3}-1)(k-\eta)/W$, $W=\sqrt Z$.
+  Ordinary pre-syzygy probes put the adverse centrifugal/gravity ratio below
+  about $0.018$ for the first gap and $0.60$ for the second over the sampled
+  middle parameters.  These ratios are discovery evidence only; the exact
+  next target is a reachable $(Z,\eta)$ barrier.
