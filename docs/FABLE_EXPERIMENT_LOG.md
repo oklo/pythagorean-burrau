@@ -146,3 +146,10 @@ All entries are ORDINARY NUMERICAL EVIDENCE unless marked otherwise.
     multi-passage LC (damped-write entries into stale chart blocks) to
     remove the ~47-digit pre-encounter tax from the four shallower
     encounters, after which even a 1e-110 budget finishes comfortably.
+
+18. **Precision-headroom effect.**  At 512 bits (154 digits) a 135-digit
+    tolerance leaves only 19 digits of headroom and the order-135
+    coefficient recurrences leak rounding noise into the enclosures
+    (~20/unit burn versus ~11 at 64-digit headroom).  Configs must keep
+    tolerance at least ~50 digits above the MPFR precision floor.  Final
+    Burrau racer: 640 bits / 1e-135 / order 135 / zone 1/25-1/17.
