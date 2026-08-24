@@ -300,8 +300,8 @@ escape bridge.  See
 
 ## Independent box restart at the fifth planar close encounter
 
-**Status:** FAILED AS A TERMINAL VALIDATION; the incoming fifth-chart entry is
-certified, but its outgoing section needs correlation preservation.
+**Status:** REPAIRED THROUGH THE FIFTH OUTGOING SECTION; direct continuation
+through the overlapping fifth--sixth passages still fails.
 
 The full fourth-root parameter box can be propagated rigorously through its
 negative-primary ejection to a positive-primary LC entry with large chart
@@ -312,9 +312,20 @@ Near the outgoing section the hull of the LC coordinate still contains zero,
 so division by $|u_+|^2$ cannot reconstruct an ordinary bridge state.  Longer
 propagation makes the clock enclosure reach the heavy-collision boundary.
 
-This failure does not prove a collision.  The LC field remains analytic and
-the correct theorem remains collision-or-escape.  The repair must preserve a
-doubleton or another validated parameterization through the nonlinear fifth
-entry (or use a transverse outgoing LC section), then switch to the sixth
-negative-primary LC chart seen by ordinary continuation.  Merely lowering an
-ordinary-distance threshold cannot recover the lost correlation.
+This failure did not prove a collision.  It was repaired by retaining one
+persistent CAPD doubleton through every nonlinear chart map and by terminating
+on the transverse fifth-LC section $c_i=1/20$.  The full fourth-root box now
+reaches that outgoing section with both primary distances strictly positive;
+see `COMPUTER_ASSISTED_PLANAR_FOURTH_TO_FIFTH_OUTGOING.md`.
+
+A direct ordinary-coordinate bridge after that section still fails.  The
+fifth positive-primary and sixth negative-primary encounters overlap: an
+immediate switch to the negative-primary LC chart leaves the unregularized
+positive-primary denominator enclosing zero, even on a one-picounit
+$\kappa$ tile and with smaller solver steps.  Moving the fifth outgoing
+section farther out improves its own selected-pair separation but does not
+create a single-centre interval domain spanning the overlap.  This is again a
+chart obstruction, not evidence of collision.  The next repair should use a
+simultaneous two-centre regularization (or an equivalent correlated atlas)
+before attempting the terminal escape bridge.  Merely shrinking the time
+step or the parameter tile does not address the overlapping singular charts.

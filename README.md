@@ -69,6 +69,8 @@ bash scripts/run_capd_planar_light_collision_newton.sh \
   /path/to/CAPD /path/to/CAPD/build-native --fourth-root
 bash scripts/run_capd_planar_light_collision_newton.sh \
   /path/to/CAPD /path/to/CAPD/build-native --fourth-fifth-entry
+bash scripts/run_capd_planar_light_collision_newton.sh \
+  /path/to/CAPD /path/to/CAPD/build-native --fourth-fifth-outgoing
 ```
 
 Full derivation and trusted-computing-base details are in
@@ -98,6 +100,12 @@ their parameter projections are separated by more than
 The fourth-root box is continued, with the classical collision alternative,
 to a uniform fifth positive-primary LC chart in
 `docs/COMPUTER_ASSISTED_PLANAR_FOURTH_TO_FIFTH_ENTRY.md`.
+Keeping one correlated doubleton through the nonlinear chart chain carries
+the full box through that close passage to a transverse outgoing fifth-LC
+section; see
+`docs/COMPUTER_ASSISTED_PLANAR_FOURTH_TO_FIFTH_OUTGOING.md`.  The exact
+quintic tail sharpening used there is proved in
+`docs/PLANAR_STABLE_QUINTIC_ENCLOSURE.md`.
 The exact positive-light-mass reduction and the resulting persistence theorem
 for that collision boundary are in
 `docs/FINITE_MASS_PLANAR_COLLISION_PERSISTENCE.md`.  The differentiated

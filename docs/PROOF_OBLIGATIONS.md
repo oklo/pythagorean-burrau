@@ -368,12 +368,16 @@ positive-primary collision and the fourth is a negative-primary collision;
 their exact root projections are disjoint by more than
 $1.2058\times10^{-11}$.  The fourth verifier includes a broader uniqueness
 strip proving that its exact branch misses the earlier collision.  The entire
-fourth-root box is now continued rigorously to a fifth positive-primary LC
-entry in `COMPUTER_ASSISTED_PLANAR_FOURTH_TO_FIFTH_ENTRY.md`.  The fifth
-passage is extraordinarily sensitive: a fresh box restart loses the impact-
-parameter correlation.  A correlation-preserving fifth-chart propagation,
-the subsequent sixth negative-primary chart, and terminal escape enclosure
-remain open, as does exclusion or location of additional boundaries.
+fourth-root box is continued first to a fifth positive-primary LC entry in
+`COMPUTER_ASSISTED_PLANAR_FOURTH_TO_FIFTH_ENTRY.md` and now through that close
+passage to the transverse outgoing section $c_i=1/20$ in
+`COMPUTER_ASSISTED_PLANAR_FOURTH_TO_FIFTH_OUTGOING.md`.  The latter retains a
+single correlated doubleton through every nonlinear chart map.  Immediately
+after that section the fifth and sixth close passages overlap, so neither
+ordinary coordinates nor either single-centre LC chart gives a uniform
+interval domain.  Constructing a simultaneous two-centre regularization,
+then reaching a terminal escape or non-brake section, remains open, as does
+exclusion or location of additional boundaries.
 
 The selected finite-mass relative coordinate now gives an exact perturbative
 bridge:

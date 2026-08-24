@@ -22,6 +22,7 @@ from src.symbolic.restricted_scattering import (
     planar_joint_shape_quadratic_bending,
     planar_joint_shape_stable_cubic_jet,
     planar_joint_shape_stable_quartic_correction,
+    planar_joint_shape_stable_quintic_correction,
     restricted_equilateral_triple_collision,
     restricted_terminal_collision_r_chart,
     restricted_transverse_linearization,
@@ -532,6 +533,55 @@ def test_planar_joint_shape_stable_quartic_correction() -> None:
     )
     assert exp_six_lower > 400
     assert exp_long_lower > 6500
+
+
+def test_planar_joint_shape_stable_quintic_correction() -> None:
+    coefficients, residuals = planar_joint_shape_stable_quintic_correction()
+    expected = (
+        (139388 - 52377 * sp.sqrt(7)) / 22656,
+        (
+            -774477456573583
+            - 138316082351786 * sp.sqrt(19)
+            + 233813248132331 * sp.sqrt(7)
+            + 65671343849527 * sp.sqrt(133)
+        )
+        / 3414727782720,
+        (
+            -12013435545841763 * sp.sqrt(133)
+            - 29654748827119993 * sp.sqrt(7)
+            + 11068114004318700 * sp.sqrt(19)
+            + 201875601915437169
+        )
+        / 116407941497942400,
+        (
+            -2922965759 * sp.sqrt(133)
+            - 12051945556 * sp.sqrt(7)
+            + 31581467405
+            + 7786167931 * sp.sqrt(19)
+        )
+        / 360298368,
+        (
+            -69108245795306 * sp.sqrt(7)
+            - 4224822501153 * sp.sqrt(133)
+            + 57183552400781
+            + 40730719418703 * sp.sqrt(19)
+        )
+        / 4898087246400,
+        (-2131571208 + 209218965 * sp.sqrt(19)) / 35984892800,
+    )
+    assert residuals == (0,) * 6
+    assert all(
+        sp.simplify(actual - target) == 0
+        for actual, target in zip(coefficients, expected, strict=True)
+    )
+    assert tuple(sp.ask(sp.Q.positive(coefficient)) for coefficient in coefficients) == (
+        True,
+        False,
+        True,
+        False,
+        True,
+        False,
+    )
 
 
 def test_forced_planar_light_collision_lc_constraint() -> None:

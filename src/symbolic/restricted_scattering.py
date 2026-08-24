@@ -988,6 +988,47 @@ def planar_joint_shape_stable_quartic_correction() -> tuple[
     )
 
 
+def planar_joint_shape_stable_quintic_correction() -> tuple[
+    tuple[sp.Expr, ...], tuple[sp.Expr, ...]
+]:
+    """Exact degree-five correction to the lower stable-manifold jet.
+
+    Reflection symmetry leaves three horizontal monomials
+    ``(p**5, p**3*h**2, p*h**4)`` and three vertical monomials
+    ``(p**4*h, p**2*h**3, h**5)``. Each coefficient is the diagonal
+    homological inverse of the corresponding degree-five defect.
+    """
+    _, _, fifth_defect = planar_joint_shape_stable_quartic_correction()
+    transverse, longitudinal = sp.symbols("p h", real=True)
+    transverse_rate = (1 + sp.sqrt(7)) / 6
+    longitudinal_rate = (1 + sp.sqrt(19)) / 6
+    horizontal_poly = sp.Poly(fifth_defect[0], transverse, longitudinal)
+    vertical_poly = sp.Poly(fifth_defect[1], transverse, longitudinal)
+    specifications = (
+        (horizontal_poly, 5, 0, sp.Rational(1, 6)),
+        (horizontal_poly, 3, 2, sp.Rational(1, 6)),
+        (horizontal_poly, 1, 4, sp.Rational(1, 6)),
+        (vertical_poly, 4, 1, sp.Rational(1, 2)),
+        (vertical_poly, 2, 3, sp.Rational(1, 2)),
+        (vertical_poly, 0, 5, sp.Rational(1, 2)),
+    )
+    coefficients: list[sp.Expr] = []
+    residuals: list[sp.Expr] = []
+    for polynomial, transverse_degree, longitudinal_degree, hessian in specifications:
+        decay = (
+            transverse_degree * transverse_rate
+            + longitudinal_degree * longitudinal_rate
+        )
+        divisor = sp.simplify(decay**2 - decay / 3 - hessian)
+        defect = polynomial.coeff_monomial(
+            transverse**transverse_degree * longitudinal**longitudinal_degree
+        )
+        coefficient = sp.radsimp(-defect / divisor)
+        coefficients.append(coefficient)
+        residuals.append(sp.simplify(divisor * coefficient + defect))
+    return tuple(coefficients), tuple(residuals)
+
+
 def forced_planar_light_collision_lc_constraint() -> tuple[
     sp.Matrix, sp.Expr, sp.Expr, sp.Expr
 ]:

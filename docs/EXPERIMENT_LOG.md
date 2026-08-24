@@ -882,3 +882,28 @@ it is not a remainder proof.
   hierarchical escape margins near $9.99$ and $10.13$.  These are
   **ORDINARY NUMERICAL EVIDENCE**.  A direct interval box restart at the fifth
   entry spans the collision sheet and loses impact-parameter correlation.
+- The stable-tail graph was sharpened by solving all six total-degree-five
+  homological equations exactly.  The coefficients have signs
+  $(+,-,+,-,+,-)$, and the remaining weighted coefficient remainder starts in
+  degree six.  At $\zeta=15$ this gains an additional factor below $0.04403$
+  in every remainder and tangent box.  Status: **EXACT SYMBOLIC IDENTITY**
+  for the coefficients and **PROVED ANALYTICALLY** for the degree-six
+  enclosure.
+- The lost impact-parameter correlation was repaired without parameter
+  tiling.  A persistent CAPD $C^0$ doubleton is transported through
+  dimension-preserving exact maps; dimension-changing maps are represented
+  as auxiliary graph ODEs, preserving every earlier generator through
+  dimensions $13\to19\to24\to30$.  A rigorous Poincare map carries the full
+  fourth-root box to the outgoing fifth-LC section $c_i=1/20$.  There
+  $|c|^2>0.0021667155$, the other-primary squared distance is
+  $>0.4599473198$, and $-d_i>0.7401537751$.  Status: **PROVED BY
+  COMPUTER-ASSISTED ARGUMENT** as a collision-or-fifth-outgoing-section
+  theorem, not an escape theorem.
+- Direct continuation beyond that section fails in every tested
+  single-centre atlas because the fifth and sixth close passages overlap.  An
+  immediate negative-primary LC switch leaves the positive-primary
+  denominator enclosing zero, including on a one-picounit parameter tile and
+  at smaller integration steps.  Moving the outgoing section farther from
+  the fifth primary does not separate the overlap.  Status: **FAILED** as a
+  chart strategy; the proposed repair is a simultaneous two-centre
+  regularization.

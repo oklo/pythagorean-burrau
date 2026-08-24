@@ -400,17 +400,25 @@ monotone first-zero arguments, the strict parameter-gap exclusion, and the
 limited scope: neither outgoing adjacent component has yet been classified.
 
 The fourth-root input box has also been propagated beyond its regularized
-ejection to a fifth positive-primary LC entry.  On the intervening block the
-other-primary squared distance exceeds $0.333865$; the outgoing fourth LC norm
-exceeds $0.213057$, and the fifth switch has $q_{+,x}<-0.577809$ and
-$|q_+|^2>0.333864$.  Thus every member of the box either has a terminating
-classical collision or reaches that analytic fifth chart.  Ordinary
-continuation predicts two further close passages and then escape with margins
-near ten, but a componentwise fifth-chart box restart loses the extremely
-small impact-parameter correlation.  Terminal classification remains open.
-Three independent adversarial replays endorsed this collision-or-entry
-theorem, including its dependency on the earlier pinned fourth-root
-certificate.  A fourth replay matched the stored hexadecimal fields exactly.
+ejection and through the extremely close fifth positive-primary passage.  The
+first entry theorem gives an intervening other-primary squared distance above
+$0.333865$ and a fifth switch with $|q_+|^2>0.333864$.  A new verifier keeps
+one CAPD doubleton correlated through exact nonlinear chart embeddings of
+dimensions $13\to19\to24\to30$ and terminates on the outgoing fifth-LC
+section $c_i=1/20$.  There the selected LC norm is above $0.0021667155$, the
+other-primary squared distance is above $0.4599473198$, and the section
+derivative is above $0.7401537751$.  Thus every member of the full box either
+has a terminating classical collision or reaches this regular outgoing
+section.  The exact quintic stable-tail graph and degree-six remainder are
+used to keep the initial enclosure thin.
+
+Ordinary continuation predicts one more negative-primary passage and then
+escape with margins near ten.  Direct continuation after the new section is
+not yet validated: the fifth and sixth close passages overlap, so ordinary
+coordinates and either single-centre LC chart lose a denominator before the
+other chart becomes uniformly regular.  One-picounit parameter tiles and
+smaller solver steps do not repair this geometric overlap.  A simultaneous
+two-centre regularization is the current terminal-classification obligation.
 
 ### Positive-mass persistence of the collision boundary
 
@@ -665,8 +673,10 @@ and phase equidistribution do not imply that any one of them is rational.
 2. Classify the one-parameter planar family $\mathscr U_\kappa$: use the first
    certified collision-or-escape cusp as the initial component, exclude or
    certify all remaining collision zeros, and construct terminal certificates
-   on every remaining collision-free component. Compact collision-free backward
-   capture is already excluded.  The phase-cycle theorem forces infinitely
+   on every remaining collision-free component.  For the fourth-root box this
+   now specifically requires a simultaneous two-centre chart for the
+   overlapping fifth--sixth passages. Compact collision-free backward capture
+   is already excluded.  The phase-cycle theorem forces infinitely
    many real tied collisions but does not identify whether a particular cycle
    hits this selected graph or contains an earlier collision.
 3. Continue the proved nonzero skinny angular momentum through the compact
@@ -737,25 +747,33 @@ At the end of this run:
     bash scripts/run_capd_planar_light_collision_newton.sh \
       /private/tmp/pythagorean-capd \
       /private/tmp/pythagorean-capd/build-native --fourth-fifth-entry
+    bash scripts/run_capd_planar_light_collision_newton.sh \
+      /private/tmp/pythagorean-capd \
+      /private/tmp/pythagorean-capd/build-native --fourth-fifth-outgoing
 
 Results at this checkpoint:
 
-- 93 tests passed;
+- 94 tests passed;
 - lint passed;
 - the paper built successfully;
 - the only TeX diagnostic was the pre-existing 0.42 pt overfull box.
+
+The earlier fourth-root and fourth-to-fifth-entry numerical interval fields
+replayed unchanged.  The new fourth-to-fifth-outgoing output matched its
+pinned hexadecimal record exactly after the three metadata header lines.
 
 The pinned CAPD 6.1.0 certificates and replay commands are documented in the
 computer-assisted proof notes and repository README.
 
 ## Highest-leverage next action
 
-Extend the two certified collision-or-escape boxes across their adjacent
-compact planar components.  Locate every remaining collision zero, use an LC
-chart at each close passage, and propagate each collision-free component to a
-common terminal section where either the hierarchical escape cone or a
-nonzero brake scalar fires.  Both known collision boundaries now have
-infinite-time outgoing classifications.
+Construct a simultaneous two-centre regularization for the overlapping fifth
+positive-primary and sixth negative-primary passages after the new transverse
+outgoing section.  Preserve the existing 30-dimensional correlated doubleton
+until the family reaches a separated Jacobi state, then apply the already
+available hierarchical escape cone.  In parallel, locate every remaining
+collision zero before declaring adjacent intervals to be complete scattering
+components.
 For the tied family, the parallel highest-leverage question remains a
 componentwise sign/zero theorem for \(\Delta_{\rm intr}(B)\), upgrading the
 cyclewise collision dichotomy to a classified root sequence.  This is a

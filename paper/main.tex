@@ -1270,6 +1270,21 @@ parameter-tangent bounds. Exact Taylor lower bounds for the two exponentials
 put the stated real tail inside the half polydisc.
 \end{proof}
 
+The degree-five defect can also be removed exactly.  Reflection symmetry
+gives
+\[
+ E_5^x=Mp^5+Np^3\nu^2+Op\nu^4,
+ \qquad E_5^q=Pp^4\nu+Qp^2\nu^3+R\nu^5,
+\]
+where all six coefficients lie in $\mathbb Q(\sqrt7,\sqrt{19})$ and have
+signs $(+,-,+,-,+,-)$.  Exact homological substitution kills every
+degree-five residual.  Since homogeneous degrees are disjoint in the
+coefficient $\ell^1$ norm used above, writing $P=P_4+E_5+E_{\ge6}$ preserves
+the four norm bounds while restriction to normalized radius $\lambda$ gains
+$\lambda^6$ instead of $\lambda^5$.  At $\zeta=15$ the collision verifier
+has $\lambda<0.04403$.  The six radical expressions and exact symbolic
+regression are recorded in the companion quintic-enclosure note.
+
 \begin{lemma}[Forced light-collision chart]
 Let $\epsilon=\pm1$ select the heavy primary at $\epsilon R/2$ and put
 $q=Z-\epsilon R/2$. On either heavy-binary half let
@@ -1649,6 +1664,42 @@ chain is a terminating classical collision.  Conditional on no such zero,
 classical uniqueness identifies the trajectory with the regularized chain
 and proves arrival at the fifth chart.  The pinned hexadecimal record appears
 in the companion proof note.
+\end{proof}
+
+\begin{theorem}[Outgoing section after the fifth passage]
+For every
+\[
+ 1.2640090985\le\kappa\le1.26400909929,
+\]
+the limiting classical branch either collides or crosses the outgoing fifth
+positive-primary LC section $c_i=1/20$.  At the crossing,
+\[
+ |c|^2>0.002166715533586436,
+ \qquad r_{\rm other}^2>0.4599473198119462,
+ \qquad -d_i>0.740153775124572.
+\]
+In particular the section is collision-free and uniformly transverse.  No
+terminal escape assertion is made.
+\end{theorem}
+
+\begin{proof}
+Use the exact quintic tail enclosure at $\zeta=15$ and retain one CAPD
+doubleton from the stable tail.  Dimension-preserving nonlinear chart maps
+act directly on this set.  For a dimension-changing map $y=F(x)$, append
+dormant coordinates and integrate the exact auxiliary graph system
+\[
+ x'=0,\qquad y'=F(x),\qquad y(0)=0
+\]
+for one auxiliary unit.  This preserves all correlation generators through
+dimensions $13\to19\to24\to30$ instead of replacing each nonlinear image by
+an interval product.  The final 30-dimensional system freezes the old
+coordinates and propagates the fifth six-dimensional LC state to the
+Poincare section.  The pinned interval image gives the three displayed strict
+bounds.  Every ordinary denominator and square-root sheet in the preceding
+chain stays inside its analytic domain.  A selected-pair zero is a terminating
+classical collision; conditional on no such zero, uniqueness identifies the
+regularized and classical branches up to the section.  Auxiliary graph time
+is bookkeeping and is not physical flight time.
 \end{proof}
 
 The first root's transversality has an exact positive-mass consequence.  In the full late
