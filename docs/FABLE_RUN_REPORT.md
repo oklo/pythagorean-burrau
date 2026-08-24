@@ -4,9 +4,12 @@ Date: 2026-08-23.  Checkpoint payload:
 `4e28e91e4b69937b777501cba942ee26186cc139`.
 Branch: `fable/global-brake-obstruction`.
 
-**DRAFT — final outcomes of the in-flight $u=1/3$ and $u=5/13$
-certificates and the $u=171/500$ high-precision probe are appended at the
-end when they complete.**
+**Status: near-final.  The $u=1/3$ certificate's calibrated run
+(640 bits, $10^{-150}$, order 135, wide LC zone) is in flight with an
++11-digit margin over the measured requirement; on `PASS_BURRAU_LC` the
+theorem record in `FABLE_BURRAU_THEOREM.md` is finalized.  Everything
+else below is complete.  The definitive handoff for the live agent is
+entry (e) of `FABLE_TO_MAIN.md`.**
 
 ## Strongest theorems proved in this run
 
@@ -29,10 +32,9 @@ end when they complete.**
    - $(5311,5280,7489)$ — $u=33/80$;
    - $(8319,8200,11681)$ — $u=41/100$;
    - $(33439,32400,46561)$ — $u=81/200$;
-   with pinned-CAPD certificates archived in `data/fable/` and replay
-   commands in `FABLE_TRIPLE_CERTIFICATES.md`.
-   [PENDING AT DRAFT TIME: $u=1/3$, i.e. the classical $3{:}4{:}5$
-   Burrau problem, at 768- and 1088-bit MPFR; $u=5/13$ $(72,65,97)$.]
+   plus $(72,65,97)$ — $u=5/13$ — and $(171,140,221)$ — $u=5/14$;
+   pinned-CAPD certificates archived in `data/fable/`, replay commands in
+   `FABLE_TRIPLE_CERTIFICATES.md`.  [$u=1/3$: calibrated run in flight.]
 
 ## Status of the conjectures
 
@@ -136,9 +138,14 @@ blocked-route record), `84291bf` (33/80, 41/100 certificates),
 
 ## Single highest-leverage next action
 
-Finish and audit the $u=1/3$ certificate (the historic Burrau problem —
-first proved instance of the conjecture at the founding triple), then
-port the covering verifier onto the live agent's LC-regularized charts so
-the certificate factory reaches the deep-encounter rationals
-($1/4,1/5,1/6,\dots$) — the only visible path by which finitely-many-at-a-time
-becomes systematically-many.
+Land and audit the $u=1/3$ certificate, then two candidates of clearly
+higher marginal value than further routine triples:
+(1) a validated IVT existence proof of an exact **collision parameter**
+inside $(41/100,\,33/80)$ using the LC chart's signed impact parameter
+$\ell=2\det(w,z)$ — a new qualitative theorem about the tied family's
+boundary structure; and
+(2) porting the multi-passage LC covering architecture onto the live
+agent's finite-$B$ second-encounter program, where it touches genuinely
+open questions.  A parametric-$u$ port of the LC verifier (unlocking
+$u=1/4,1/5,1/6,1/7$ and the other blocked rationals) remains available
+as routine follow-up.
