@@ -924,3 +924,52 @@ it is not a remainder proof.
   from a componentwise Poincare image fails sooner.  Status: **VALIDATED
   NUMERICAL RESULT** for this finite probe only; no terminal classification
   is claimed.
+- Solved all 24 stable-graph homological equations in degrees six through
+  eight exactly. Their substitution residuals simplify to zero, and the
+  previously proved coefficient-norm remainder now starts in degree nine.
+  Status: **EXACT SYMBOLIC IDENTITY** for the coefficients and **PROVED
+  ANALYTICALLY** for the sharpened remainder.
+- Compiled the full verifier against CAPD's MPFR types at 200-bit default
+  precision. Merely changing arithmetic while retaining the native
+  \(10^{-15}\) local tolerance did not materially improve the fourth-root
+  phase enclosure. Tightening to \(10^{-20}\) contracted the first Newton
+  image, but its direct state evaluation still enclosed \(v_i=0\). A
+  \(10^{-22}\) replay gave nearly the same phase width. Status: these two
+  subroutes are **DISPROVED** as sufficient sign arguments; they diagnosed
+  root-box dependency as the remaining width.
+- A second interval-Newton step centered inside the first image repairs that
+  dependency. The refined box has \(\kappa\)-width below
+  \(2.9\times10^{-15}\) and regularized-time width below
+  \(6.26\times10^{-9}\). Re-evaluation proves
+  \(-3.83235\times10^{-7}\le v_i\le-3.68194\times10^{-7}<0\).
+  Status: **PROVED BY COMPUTER-ASSISTED ARGUMENT**.
+- Fed an outward-widened rational hull of that MP certificate directly into
+  the simultaneous two-centre chart at the fourth collision. At the next
+  positive focus, native CAPD proves
+  \(-1.31081\times10^{-5}\le\beta\le-1.25935\times10^{-5}\) and
+  \(\sinh^2(\beta/2)>3.96496\times10^{-11}\). Thus the regularized
+  collision--ejection branch has a smooth fifth near-passage, not an
+  additional collision. Status: **PROVED BY COMPUTER-ASSISTED ARGUMENT** for
+  the planar massless boundary; its classical orbit already terminated at
+  the fourth collision, and no finite-mass or Pythagorean claim is made.
+- Continued the same branch through the sixth negative focus with selected
+  distance \(>1.09816\times10^{-6}\) and the seventh positive focus with
+  distance \(>0.0506366\). A componentwise ordinary restart failed by
+  wrapping, but embedding the two-centre-to-bridge map as an auxiliary graph
+  ODE retained all six Poincare generators. The resulting bridge has minimum
+  light--primary squared distance \(>0.00262385\), restricted escape margin
+  \(>10.2599\), and finite-mass-form comparison margin \(>10.3953\).
+  Status: **PROVED BY COMPUTER-ASSISTED ARGUMENT** for the regularized
+  massless boundary branch. Analytic continuity gives a local massless
+  collision-or-escape theorem.
+- Derived the exact finite-mass LC chart for the fourth root's opposite
+  primary. With \(q=Z+R/(1+A)\), the Kepler parameter is \(A+B\), and
+  \(Q=R-Bq/(A+B)\) cancels the singular pair force. Added exact symbolic
+  regression tests. The native focus replay now also audits \(p_r<0\) on
+  every whole-step enclosure, proving that the successive focus sections
+  exhaust possible collisions. Compact convergence through this segment and
+  the heavy-pair LC bridge transfers the strict \(>10.39\) hierarchical
+  margin. Status: **PROVED BY COMPUTER-ASSISTED ARGUMENT** that every
+  sufficiently small compatible positive-mass member in a local fourth-root
+  cusp either collides classically or escapes. The cusp size is non-effective
+  and tied-family entry is not claimed.

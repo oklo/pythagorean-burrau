@@ -372,18 +372,28 @@ fourth-root box is continued first to a fifth positive-primary LC entry in
 `COMPUTER_ASSISTED_PLANAR_FOURTH_TO_FIFTH_ENTRY.md` and now through that close
 passage to the transverse outgoing section $c_i=1/20$ in
 `COMPUTER_ASSISTED_PLANAR_FOURTH_TO_FIFTH_OUTGOING.md`.  The latter retains a
-single correlated doubleton through every nonlinear chart map.  Immediately
+single correlated doubleton through every nonlinear chart map. Immediately
 after that section the fifth and sixth close passages overlap, so neither
 ordinary coordinates nor either single-centre LC chart gives a uniform
-interval domain.  The exact simultaneous polynomial two-centre field and its
-algebraic fifth-section initialization are now derived in
-`PLANAR_TWO_CENTRE_REGULARIZATION.md`.  The nonredundant \(\xi\) chart removes
-the constraint drift and validates a one-picounit tile for \(0.7\)
-regularized-time units, but the retained Poincare set then wraps in \(p\) and
-\(E\).  A section-adapted doubleton or validated time correction onto the
-exact fifth section is the localized open repair.  Propagation to a separated
-terminal escape or non-brake section remains open, as does exclusion or
-location of additional boundaries.
+interval domain. The exact simultaneous polynomial two-centre field is
+derived in `PLANAR_TWO_CENTRE_REGULARIZATION.md`.
+
+The fifth-focus collision question is now closed by bypassing the wrapped
+outgoing-section restart. The exact fourth collision initializes the
+two-centre chart directly. A 200-bit CAPD replay with the octic stable graph
+and two nested interval-Newton steps proves a strictly negative transverse
+collision phase. The native rational-hull replay then proves a strictly
+negative focus coordinate and positive selected distance. A second focus map
+resolves the sixth close passage, and a correlation-preserving graph embedding
+into the ordinary bridge reaches the strict escape cone; see
+`COMPUTER_ASSISTED_PLANAR_FOURTH_COLLISION_PHASE.md`. The localized open
+positive-mass transfer is now closed in
+FINITE_MASS_FOURTH_COLLISION_ESCAPE.md: the exact opposite-primary LC block,
+compact collision-free focus segment, heavy-pair LC bridge, and hierarchical
+escape lemma give a local collision-or-escape cusp. The remaining localized
+obligations are an effective tied-family bound for that neighborhood and
+global continuation across the neighboring parameter components. Exclusion
+or location of further collision boundaries also remains open.
 
 The selected finite-mass relative coordinate now gives an exact perturbative
 bridge:

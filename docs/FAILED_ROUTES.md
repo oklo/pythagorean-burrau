@@ -300,8 +300,8 @@ escape bridge.  See
 
 ## Independent box restart at the fifth planar close encounter
 
-**Status:** REPAIRED THROUGH THE FIFTH OUTGOING SECTION; direct continuation
-through the overlapping fifth--sixth passages still fails.
+**Status:** REPAIRED THROUGH THE FIFTH FOCUS BY A DIFFERENT INITIALIZATION;
+the componentwise fifth-section restart itself still fails.
 
 The full fourth-root parameter box can be propagated rigorously through its
 negative-primary ejection to a positive-primary LC entry with large chart
@@ -325,10 +325,17 @@ positive-primary denominator enclosing zero, even on a one-picounit
 $\kappa$ tile and with smaller solver steps.  Moving the fifth outgoing
 section farther out improves its own selected-pair separation but does not
 create a single-centre interval domain spanning the overlap.  This is again a
-chart obstruction, not evidence of collision.  The next repair should use a
-simultaneous two-centre regularization (or an equivalent correlated atlas)
-before attempting the terminal escape bridge.  Merely shrinking the time
-step or the parameter tile does not address the overlapping singular charts.
+chart obstruction, not evidence of collision. Merely shrinking the time step
+or the parameter tile does not address the overlapping singular charts.
+
+The successful repair bypasses the wrapped fifth-section state. A
+multiprecision interval-Newton localization evaluates the exact fourth
+collision phase, and that collision state initializes the simultaneous
+two-centre chart directly. The resulting focus certificate proves a positive
+miss distance. Two further Poincare sections reach a well-separated focus.
+A componentwise ordinary bridge restart there still wraps, but an auxiliary
+graph ODE retaining all six two-centre generators repairs that final loss and
+reaches the strict escape cone.
 
 ## Redundant two-centre variables and componentwise Poincare restart
 
@@ -346,8 +353,22 @@ the componentwise Poincare image narrows position but widens the decisive
 momentum direction and fails sooner.
 
 None of these failures indicates a collision or invalidates the analytic
-chart. The next repair must preserve the implicit section-time correlation,
-for example by a section-adapted Poincare doubleton or an interval-Newton time
-correction onto the exact fifth section. Reboxing or adding redundant
-constraints without a constraint-preserving set representation does not
-solve that problem.
+chart. They remain failed formulations of the fifth-section restart. The
+successful focus proof instead initializes at the earlier exact collision,
+where the chart map has no implicit section-time uncertainty. Reboxing or
+adding redundant constraints without a constraint-preserving set
+representation still does not solve the original restart problem. The later
+two-centre-to-ordinary conversion succeeds only after it is embedded as a
+correlation-preserving graph map.
+
+## Double-precision fourth-root phase seed
+
+**Status:** DISPROVED as a quantitative phase estimate.
+
+The ordinary DOP853/SciPy chart chain in `probe_fourth_collision_root.py`
+stalled at a collision residual of order \\(10^{-6}\\) and suggested
+\\(v_i\\approx-7\\times10^{-6}\\). The validated 200-bit nested interval-Newton
+calculation instead proves
+\\(-3.83235\\times10^{-7}\\le v_i\\le-3.68194\\times10^{-7}\\). The ordinary seed
+was useful only for locating the broad root neighborhood. Its terminal phase
+must not be used in any proof or cached certificate.

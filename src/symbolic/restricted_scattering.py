@@ -1029,6 +1029,146 @@ def planar_joint_shape_stable_quintic_correction() -> tuple[
     return tuple(coefficients), tuple(residuals)
 
 
+def planar_joint_shape_stable_high_order_corrections(
+    maximum_degree: int = 8,
+) -> tuple[dict[int, tuple[tuple[int, int, sp.Expr], ...]], tuple[sp.Expr, ...]]:
+    """Recursively compute the exact stable graph through degree eight.
+
+    Each returned item is ``(transverse_degree, longitudinal_degree,
+    coefficient)``. Reflection parity is imposed before applying the same
+    diagonal homological inverse used by the quintic calculation.
+    """
+    if maximum_degree < 5 or maximum_degree > 8:
+        raise ValueError("maximum_degree must lie between five and eight")
+    cubic, _ = planar_joint_shape_stable_cubic_jet()
+    quartic, _, _ = planar_joint_shape_stable_quartic_correction()
+    quintic, _ = planar_joint_shape_stable_quintic_correction()
+    p, h, epsilon = sp.symbols("p h epsilon", real=True)
+    transverse_rate = (1 + sp.sqrt(7)) / 6
+    longitudinal_rate = (1 + sp.sqrt(19)) / 6
+    (
+        mixed,
+        bending,
+        long_squared,
+        trans_cubic,
+        trans_long_squared,
+        trans_squared_long,
+        long_cubic,
+    ) = cubic
+    g, horizontal_13, vertical_40, vertical_22, vertical_04 = quartic
+    m, n, o, vertical_41, vertical_23, vertical_05 = quintic
+    horizontal = (
+        p
+        + mixed * p * h
+        + trans_cubic * p**3
+        + trans_long_squared * p * h**2
+        + g * p**3 * h
+        + horizontal_13 * p * h**3
+        + m * p**5
+        + n * p**3 * h**2
+        + o * p * h**4
+    )
+    vertical_offset = (
+        h
+        + bending * p**2
+        + long_squared * h**2
+        + trans_squared_long * p**2 * h
+        + long_cubic * h**3
+        + vertical_40 * p**4
+        + vertical_22 * p**2 * h**2
+        + vertical_04 * h**4
+        + vertical_41 * p**4 * h
+        + vertical_23 * p**2 * h**3
+        + vertical_05 * h**5
+    )
+
+    def tail_derivative(expression: sp.Expr) -> sp.Expr:
+        return sp.expand(
+            -transverse_rate * p * sp.diff(expression, p)
+            - longitudinal_rate * h * sp.diff(expression, h)
+        )
+
+    def defect_at_degree(degree: int) -> tuple[sp.Poly, sp.Poly]:
+        scaled_horizontal = horizontal.subs({p: epsilon * p, h: epsilon * h})
+        scaled_vertical_offset = vertical_offset.subs(
+            {p: epsilon * p, h: epsilon * h}
+        )
+        scaled_vertical = -sp.sqrt(3) / 2 + scaled_vertical_offset
+        plus_squared = (scaled_horizontal + sp.Rational(1, 2)) ** 2 + scaled_vertical**2
+        minus_squared = (scaled_horizontal - sp.Rational(1, 2)) ** 2 + scaled_vertical**2
+        horizontal_force = (
+            2 * scaled_horizontal
+            - (scaled_horizontal + sp.Rational(1, 2))
+            / plus_squared ** sp.Rational(3, 2)
+            - (scaled_horizontal - sp.Rational(1, 2))
+            / minus_squared ** sp.Rational(3, 2)
+        ) / 9
+        vertical_force = (
+            2 * scaled_vertical
+            - scaled_vertical / plus_squared ** sp.Rational(3, 2)
+            - scaled_vertical / minus_squared ** sp.Rational(3, 2)
+        ) / 9
+        horizontal_linear = (
+            tail_derivative(tail_derivative(horizontal))
+            + tail_derivative(horizontal) / 3
+        ).subs({p: epsilon * p, h: epsilon * h})
+        vertical_linear = (
+            tail_derivative(tail_derivative(vertical_offset))
+            + tail_derivative(vertical_offset) / 3
+        ).subs({p: epsilon * p, h: epsilon * h})
+        horizontal_residual = sp.series(
+            horizontal_linear - horizontal_force,
+            epsilon,
+            0,
+            degree + 1,
+        ).removeO().expand().coeff(epsilon, degree)
+        vertical_residual = sp.series(
+            vertical_linear - vertical_force,
+            epsilon,
+            0,
+            degree + 1,
+        ).removeO().expand().coeff(epsilon, degree)
+        return sp.Poly(horizontal_residual, p, h), sp.Poly(vertical_residual, p, h)
+
+    corrections: dict[int, tuple[tuple[int, int, sp.Expr], ...]] = {
+        5: (
+            (5, 0, m),
+            (3, 2, n),
+            (1, 4, o),
+            (4, 1, vertical_41),
+            (2, 3, vertical_23),
+            (0, 5, vertical_05),
+        )
+    }
+    checks: list[sp.Expr] = []
+    for degree in range(6, maximum_degree + 1):
+        horizontal_defect, vertical_defect = defect_at_degree(degree)
+        degree_corrections: list[tuple[int, int, sp.Expr]] = []
+        for transverse_degree in range(degree + 1):
+            longitudinal_degree = degree - transverse_degree
+            is_horizontal = transverse_degree % 2 == 1
+            polynomial = horizontal_defect if is_horizontal else vertical_defect
+            hessian = sp.Rational(1, 6) if is_horizontal else sp.Rational(1, 2)
+            decay = (
+                transverse_degree * transverse_rate
+                + longitudinal_degree * longitudinal_rate
+            )
+            divisor = sp.simplify(decay**2 - decay / 3 - hessian)
+            monomial = p**transverse_degree * h**longitudinal_degree
+            defect = polynomial.coeff_monomial(monomial)
+            coefficient = sp.radsimp(-defect / divisor)
+            checks.append(sp.simplify(divisor * coefficient + defect))
+            degree_corrections.append(
+                (transverse_degree, longitudinal_degree, coefficient)
+            )
+            if is_horizontal:
+                horizontal += coefficient * monomial
+            else:
+                vertical_offset += coefficient * monomial
+        corrections[degree] = tuple(degree_corrections)
+    return corrections, tuple(checks)
+
+
 def planar_joint_shape_two_centre_regularization() -> tuple[
     sp.Matrix,
     tuple[sp.Symbol, ...],
@@ -1285,6 +1425,106 @@ def finite_mass_selected_collision_reduction() -> tuple[
         ]
     )
     gravitational_parameter = 1 + skinny
+    constraint = (
+        2 * (v_real**2 + v_imag**2)
+        - gravitational_parameter
+        - energy * radius_squared
+    )
+    variables = (u_real, u_imag, v_real, v_imag, energy)
+    constraint_derivative = sp.simplify(
+        sum(
+            sp.diff(constraint, variable) * field[index]
+            for index, variable in enumerate(variables)
+        )
+    )
+    collision_speed_gap = sp.simplify(
+        constraint.subs({u_real: 0, u_imag: 0})
+        - (2 * (v_real**2 + v_imag**2) - gravitational_parameter)
+    )
+    return (
+        equation_residual,
+        pair_center_residual,
+        constraint_derivative,
+        collision_speed_gap,
+    )
+
+
+def finite_mass_opposite_collision_reduction() -> tuple[
+    sp.Matrix, sp.Matrix, sp.Expr, sp.Expr
+]:
+    """Opposite light--heavy equation and finite-mass LC invariants.
+
+    In the same late Jacobi variables as the selected-collision reduction,
+    choose q=Z+R/M instead. This is the light-body displacement from the
+    primary of mass A. The returned vector residuals verify
+
+    q''=-(A+B) Phi(q)-Phi(R)-Phi(q-R)
+
+    and cancellation of the singular pair force in Q=R-B*q/(A+B). The
+    scalar residuals verify the corresponding forced-Kepler LC constraint
+    with gravitational parameter A+B.
+    """
+    skinny, heavy = sp.symbols("B A", real=True)
+    total_heavy = 1 + heavy
+    total_mass = total_heavy + skinny
+    force_r_x, force_r_y = sp.symbols("F_Rx F_Ry", real=True)
+    force_q_x, force_q_y = sp.symbols("F_qx F_qy", real=True)
+    force_other_x, force_other_y = sp.symbols("F_ox F_oy", real=True)
+    force_r = sp.Matrix([force_r_x, force_r_y])
+    force_q = sp.Matrix([force_q_x, force_q_y])
+    force_other = sp.Matrix([force_other_x, force_other_y])
+    binary_acceleration = (
+        -total_heavy * force_r
+        + skinny * (force_other - force_q)
+    )
+    outer_acceleration = -(
+        total_mass
+        / total_heavy
+        * (heavy * force_q + force_other)
+    )
+    relative_acceleration = sp.simplify(
+        outer_acceleration + binary_acceleration / total_heavy
+    )
+    expected = (
+        -(heavy + skinny) * force_q
+        - force_r
+        - force_other
+    )
+    equation_residual = sp.simplify(relative_acceleration - expected)
+    collision_pair_center_acceleration = sp.simplify(
+        binary_acceleration
+        - skinny * relative_acceleration / (heavy + skinny)
+    )
+    expected_pair_center_acceleration = -(
+        total_mass
+        / (heavy + skinny)
+        * (heavy * force_r - skinny * force_other)
+    )
+    pair_center_residual = sp.simplify(
+        collision_pair_center_acceleration - expected_pair_center_acceleration
+    )
+
+    u_real, u_imag, v_real, v_imag, energy = sp.symbols(
+        "u_r u_i v_r v_i h", real=True
+    )
+    force_real, force_imag = sp.symbols("G_r G_i", real=True)
+    radius_squared = u_real**2 + u_imag**2
+    conjugate_u_times_force_real = u_real * force_real + u_imag * force_imag
+    conjugate_u_times_force_imag = u_real * force_imag - u_imag * force_real
+    u_times_v_real = u_real * v_real - u_imag * v_imag
+    u_times_v_imag = u_real * v_imag + u_imag * v_real
+    field = sp.Matrix(
+        [
+            v_real,
+            v_imag,
+            energy * u_real / 2
+            + radius_squared * conjugate_u_times_force_real / 2,
+            energy * u_imag / 2
+            + radius_squared * conjugate_u_times_force_imag / 2,
+            2 * (u_times_v_real * force_real + u_times_v_imag * force_imag),
+        ]
+    )
+    gravitational_parameter = heavy + skinny
     constraint = (
         2 * (v_real**2 + v_imag**2)
         - gravitational_parameter

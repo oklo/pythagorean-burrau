@@ -1739,6 +1739,153 @@ $s=iu/\sqrt R$, $c=\sqrt{1-s^2}$.  Thus the remaining obstruction is a
 finite validated propagation in a regular field, not the existence of a
 common analytic chart.
 
+\begin{theorem}[Fourth-boundary collision--ejection classification]
+The fourth limiting collision root has the refined enclosure
+\[
+ \begin{aligned}
+ 1.26400909893331527&\leq\kappa_4
+          \leq1.26400909893331813,\\
+ 0.371840180067887265&\leq\tau_4
+          \leq0.371840186320052546,
+ \end{aligned}
+\]
+and its transverse negative-primary LC velocity satisfies
+\[
+ -3.832349985449157\,10^{-7}
+ \leq v_i\leq
+ -3.681944345249734\,10^{-7}<0.                         \tag{38}
+\]
+On the regularized collision--ejection continuation, the following positive
+and negative two-centre foci are both noncollisional.  Their normalized
+selected distances obey
+\[
+ r_+\geq3.964960196340643\,10^{-11},
+ \qquad r_-\geq1.098165821369775\,10^{-6}.              \tag{39}
+\]
+At the next positive focus the selected distance exceeds
+$0.0506366673765623$.  The continuation then reaches the strict restricted
+escape cone with margin greater than $10.2599662232953$, without another
+light--primary collision; the finite-mass-form comparison expression has
+margin greater than $10.3953509156741$.
+\end{theorem}
+
+\begin{proof}
+The degree-eight stable graph leaves a rigorously bounded order-nine tail at
+the entrance section.  A 200-bit MPFR-backed CAPD integration and interval
+Newton step first maps the fourth-root box strictly into
+\[
+ [1.26400909893313121,1.26400909893350310]
+\]
+in the parameter coordinate.  A nested Newton localization of the same
+unique root gives the displayed parameter and clock boxes.  Re-evaluation on
+that image gives (38).  The nesting is only a refinement: existence and
+uniqueness come from the first strict inclusion.
+
+At the negative collision introduce elliptic two-centre coordinates
+\[
+ \alpha=\pi,\quad\beta=0,
+ \quad p_r=-{2v_r\over3},\quad p_i=-{2v_i\over3}.
+\]
+The first positive focus is $\alpha=2\pi$, where
+$r_+=\sinh^2(\beta/2)$.  An outward-widened rational hull of the independent
+multiprecision certificate propagates under the simultaneous regularized
+field to
+\[
+ -1.310804394749059\,10^{-5}
+ \leq\beta\leq-1.259358598132686\,10^{-5},
+\]
+which proves the first inequality in (39).  The next negative focus has
+\[
+ -0.002181489558789266
+ \leq\beta\leq-0.002095867762413745,
+\]
+and hence the second inequality in (39).
+
+At the next positive focus, embed the exact two-centre-to-ordinary map as an
+auxiliary graph ODE instead of taking a componentwise interval hull.  This
+retains all six incoming doubleton generators.  The resulting ordinary
+heavy-binary bridge crosses the regularized binary section and reaches the
+terminal escape section with both light--primary squared distances greater
+than $0.00262385439850217$.  Direct outward-rounded evaluation gives the two
+strict escape margins stated above.  The pinned source versions, hexadecimal
+input boxes, and reproduction commands are recorded in the companion
+computer-assisted proof note.
+\end{proof}
+
+The theorem classifies the mathematical collision--ejection continuation of
+the boundary member.  Its classical Newtonian solution itself ends at the
+fourth collision; no postcollision trajectory is being declared physical.
+
+\begin{corollary}[Local limiting collision or escape]
+There is an open parameter interval containing $\kappa_4$ such that every
+member of the limiting planar family either suffers a terminating classical
+collision or, if it remains collision-free, enters the strict escape cone.
+In particular no collision-free member in this interval is periodic.
+\end{corollary}
+
+\begin{proof}
+Take the finite regularized chart chain from a compact incoming section to
+the terminal escape section.  All nonselected distances and all chart sheets
+have strict margins on the certified boundary chain.  The fourth collision
+is transverse by (38), so the regularized flow and the collision sheet depend
+analytically on the initial parameter near the root.  Compactness gives a
+single neighborhood on which the chart chain is defined until either a
+selected collision occurs or the terminal section is reached.  In the latter
+case the strict clearance and escape inequalities persist by continuity.
+The former case terminates the classical orbit, while the latter excludes a
+second brake and every bounded periodic orbit.
+\end{proof}
+
+\begin{theorem}[Positive-mass fourth-boundary cusp]
+There are a constrained incoming-section neighborhood of the fourth limiting
+root and $B_0>0$ such that every compatible member with $0<B<B_0$ either
+suffers a finite classical collision or its light body escapes to infinity.
+Consequently every collision-free member of this local cusp is nonperiodic.
+\end{theorem}
+
+\begin{proof}
+The fourth root selects the primary of mass $A$.  In the finite-mass Jacobi
+variables put
+\[
+ q=Z+{R\over1+A},\qquad Q=R-{B\over A+B}q.
+\]
+Exact subtraction of the Jacobi equations gives
+\[
+ q_{\theta\theta}=-(A+B)\Phi(q)-\Phi(R)-\Phi(q-R)
+\]
+and
+\[
+ Q_{\theta\theta}=-{1+A+B\over A+B}\left[
+ A\Phi\left(Q+{B\over A+B}q\right)
+ +B\Phi\left(Q-{A\over A+B}q\right)\right].
+\]
+Thus $q=u^2$, $dt=|u|^2d\sigma$ gives a real-analytic collision block at
+$u=0$, with preserved constraint
+\[
+ 2|v|^2-(A+B)-h|u|^2=0.
+\]
+The other-primary separation is strict, so the fourth transverse collision
+persists on a smooth local sheet.
+
+On the limiting collision--ejection branch, a collision in elliptic
+two-centre coordinates can occur only at an integral-$\pi$ focus with
+$\beta=0$.  The validated replay proves $p_r<0$, and hence
+$\alpha_\sigma=-p_r>0$, on the whole-step enclosures through the next three
+foci.  The strict distances in (39), together with the seventh-focus and
+bridge clearances, therefore make the segment from a fixed fourth-LC ejection
+section to a fixed heavy-pair LC entry compact and collision-free.  Ordinary
+continuous dependence transfers that segment.  The collision-adapted
+heavy-pair chart transfers the prescribed binary crossing and the scaled
+terminal state.
+
+Finally apply the branch-independent hierarchical Jacobi lemma with
+$\epsilon=1/100$ and $c=3/2$.  Its limiting terminal margin is greater than
+$10.3953509156741$.  The scaled inner energy tends to zero, the future tidal
+integral is uniformly bounded, and its coefficient is the light mass $B$.
+Thus the strict comparison persists for small $B$.  A true collision is
+classical termination; conditional on no collision, the light body escapes.
+\end{proof}
+
 The first root's transversality has an exact positive-mass consequence.  In the full late
 Jacobi equations put $A=\sqrt{1-B^2}$, $M=1+A$, and select the same primary by
 \[

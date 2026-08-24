@@ -1,8 +1,9 @@
 # Simultaneous two-centre regularization of the planar shape equation
 
 Status: **EXACT SYMBOLIC IDENTITY** for the coordinate change, polynomial
-field, preserved constraints, and collision speed. No terminal finite
-propagation in this chart is yet claimed.
+field, preserved constraints, and collision speed; **PROVED BY
+COMPUTER-ASSISTED ARGUMENT** for the fourth-boundary focus chain and terminal
+escape propagation described below.
 
 This chart addresses the overlapping fifth positive-primary and sixth
 negative-primary passages below the fourth planar collision boundary. A
@@ -209,22 +210,60 @@ other-primary separation, so all divisions and square-root sheets in
 
 reconstructs an ordinary shape state for the terminal escape bridge.
 
-## Classical scope and current enclosure obstruction
+## Direct initialization at the fourth negative collision
+
+The wrapped fifth-section restart can be bypassed. At the certified fourth
+negative-primary collision, choose
+
+\[
+ s=1,\qquad c=0,\qquad \xi=\pi,\qquad
+ p=-{2\over3}v_-,
+\tag{14}
+\]
+
+where \(v_-\) is the negative-primary Levi--Civita velocity. The local LC
+constraint gives \(|v_-|^2=1/2\), hence (10) exactly. If \(h_-\) is the local
+LC energy and \(R=9^{1/3}t^{2/3}\), cancellation of the collision singularity
+gives
+
+\[
+ E={Rh_-\over9}-{5\over36},\qquad \zeta=\log t.
+\tag{15}
+\]
+
+Equations (14)--(15) are algebraic and have no implicit Poincare-time
+coordinate. A 200-bit interval-Newton localization of the fourth root proves
+that its transverse LC phase is strictly negative. Propagation to the next
+positive focus \(\alpha=2\pi\) gives a strictly negative \(\beta\), so
+\(\sinh^2(\beta/2)>3.96496\times10^{-11}\). Thus that focus is missed by a
+rigorously positive distance. The following negative-focus distance exceeds
+\(1.09816\times10^{-6}\), and the next positive-focus distance exceeds
+\(0.0506366\).
+
+## Classical scope and terminal continuation
 
 The chart is a mathematical regularization only. If an exact member reaches
 \(s=0\) or \(c=0\), its classical Newtonian trajectory ends. Post-collision
 regularized flow is used only to enclose neighboring collision-free members.
 
-An exploratory CAPD mode propagates a one-picounit parameter tile for \(0.7\)
-units of the nonredundant regularized clock. Beyond that, the current
-Poincare-set representation wraps in \(p\) and \(E\) before a terminal
-section. Restarting from the componentwise Poincare image fails sooner, while
-redundant \((s,c)\) evolution loses the constraint. These are enclosure
-obstructions, not singularities of (7). Inspection of the retained Poincare
-doubleton localizes the dominant wrapping to the implicit section-time
-correlation in \(p\) and \(E\). The likely repair is a section-adapted
-correlated Poincare set or a validated interval-Newton time correction onto
-the exact fifth section.
+The old fifth-section initialization still wraps in \(p\) and \(E\), and
+redundant \((s,c)\) evolution still loses the constraint. These remain failed
+set representations, not singularities of (7). Direct initialization by
+(14)--(15) avoids them and proves the fifth-focus miss.
 
-The next obligation is a correlation-preserving propagation from the fifth
-outgoing section through (7) to a separated exit section.
+At the separated seventh focus, direct componentwise conversion to ordinary
+coordinates still wraps. Embedding the exact conversion
+\[
+ Z=Rz,\qquad
+ \dot Z={R\over t}\left(z_\zeta+{2z\over3}\right),
+ \qquad \lambda=t^{1/3}
+\]
+as an auxiliary graph ODE retains all six two-centre generators. The
+resulting ordinary bridge crosses the heavy-binary collision with both
+light--primary squared distances above \(0.00262385\) and reaches the strict
+escape cone with margin above \(10.25\).
+
+Thus the regularized collision--ejection boundary is terminally classified.
+The remaining local obligation is transfer of this collision-or-escape
+classification to compatible positive light mass. The exact boundary's
+classical orbit is not continued physically past its fourth collision.

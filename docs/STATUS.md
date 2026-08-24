@@ -1,6 +1,6 @@
 # Status
 
-Date: 2026-08-23
+Date: 2026-08-24
 
 The complete run summary is `RUN_REPORT_2026-08-23.md`.
 
@@ -71,8 +71,45 @@ persistent CAPD doubleton preserves the impact-parameter correlation through
 four nonlinear chart changes.  At the section the selected LC norm exceeds
 $0.0021667$, the other-primary squared distance exceeds $0.459947$, and the
 crossing derivative exceeds $0.740153$.  Ordinary continuation sees a sixth
-negative-primary passage and then escape margins near ten; neither the sixth
-passage nor escape is yet validated.
+negative-primary passage and then escape margins near ten; the simultaneous
+two-centre certificate below now validates this continuation.
+
+The overlapping fifth passage is now resolved without treating it as a
+collision. A 200-bit MPFR-backed CAPD replay, using the exact octic stable
+graph and two nested interval-Newton inclusions, proves that the fourth
+negative-collision phase satisfies
+\[
+ -3.832349985449157\times10^{-7}
+ \le v_i\le
+ -3.681944345249734\times10^{-7}<0.
+\]
+An independently composable native-double calculation propagates an
+outward-widened rational hull through the simultaneous elliptic two-centre
+field to the next positive focus. There
+\[
+ -1.310804394749059\times10^{-5}
+ \le\beta\le-1.259358598132686\times10^{-5},
+\qquad
+\sinh^2(\beta/2)>3.96496\times10^{-11}.
+\]
+The following negative focus also has positive separation
+\(>1.09816\times10^{-6}\), and the next positive-focus separation exceeds
+\(0.0506366\). A correlation-preserving graph embedding then enters the
+ordinary heavy-binary bridge. The bridge primary-distance square stays above
+\(0.00262385\), while its restricted and finite-mass-form terminal margins
+exceed \(10.25\) and \(10.39\). Thus the regularized fourth-collision
+ejection branch reaches the strict escape cone without another collision.
+The exact boundary's classical solution still ends at its fourth collision;
+the post-collision computation is a boundary-scattering theorem for nearby
+collision-free massless members, not a Pythagorean counterexample. An exact
+opposite-primary finite-mass LC reduction now cancels the singular pair force
+with \(Q=R-Bq/(A+B)\), and a whole-step audit proves strict two-centre focus
+monotonicity. Compact chart convergence plus the branch-independent
+hierarchical lemma transfers the \(>10.39\) terminal margin: every
+sufficiently small compatible positive-mass member in a neighborhood of the
+fourth boundary either has a terminating classical collision or escapes.
+This neighborhood and its mass threshold remain non-effective, and no claim
+that the exact tied Pythagorean curve enters it is made.
 
 The closest catalog threat, the Li--Liao $F_{30}$ family on the
 $3{:}4{:}5$ mass slice, was locally continued.  Its periodic branch comes
@@ -97,13 +134,16 @@ tidal bootstrap now give a full local collision-or-escape theorem.  The next
 target is to extend this classification across the adjacent compact
 \(\kappa\)-components.  The nearest two additional collision zeros are now
 certified, and the fourth-root box reaches a transverse outgoing fifth-LC
-section.  An exact elliptic two-centre map has now converted the overlapping
+section. An exact elliptic two-centre map has converted the overlapping
 fifth--sixth passages to one polynomial regularized field with preserved
-shape and energy constraints.  A one-picounit tile already propagates for
-\(0.7\) regularized-time units in the nonredundant \(\xi\) chart.  The
-immediate target is a section-adapted doubleton or validated time correction
-that preserves the implicit fifth-section time correlation in \(p\) and
-\(E\), followed by CAPD propagation to the already available terminal cone.
+shape and energy constraints. Multiprecision localization of the fourth root,
+two focus replays, and a correlation-preserving bridge embedding now carry
+the full regularized collision--ejection boundary to the strict terminal
+escape cone. The opposite-primary LC block and hierarchical-energy argument
+now transfer this local classification to sufficiently small compatible
+positive mass. The immediate target is continuation across the adjacent
+compact parameter components and an effective bridge from the exact tied
+curve into the new cusp.
 More globally, every
 remaining collision zero must be certified or excluded before the neighboring
 regions are called components. The simpler

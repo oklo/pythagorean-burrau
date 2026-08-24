@@ -6,6 +6,8 @@ PINNED_CAPD_COMMIT=731079217a9254ea2948d742df2b170895effe7f
 if [ "$#" -lt 1 ] || [ "$#" -gt 7 ] || \
    { [ "$#" -eq 3 ] && [ "$3" != "--second-root" ] && \
      [ "$3" != "--fourth-root" ] && \
+     [ "$3" != "--fourth-root-octic" ] && \
+     [ "$3" != "--fourth-two-centre-terminal" ] && \
      [ "$3" != "--third-root" ] && \
      [ "$3" != "--fourth-fifth-entry" ] && \
      [ "$3" != "--fourth-fifth-outgoing" ] && \
@@ -57,7 +59,8 @@ if [ "$#" -eq 3 ]; then
 elif [ "$#" -eq 4 ]; then
   if [ "$3" = "--fourth-correlated-probe" ] || \
      [ "$3" = "--fourth-correlated-section-probe" ] || \
-     [ "$3" = "--fourth-two-centre-probe" ]; then
+     [ "$3" = "--fourth-two-centre-probe" ] || \
+     [ "$3" = "--fourth-two-centre-cached-probe" ]; then
     VERIFIER_ARGS=("$3" "$4")
   else
     VERIFIER_ARGS=(--escape-tiles "$3" "$4")
@@ -72,10 +75,11 @@ elif [ "$#" -eq 5 ]; then
 elif [ "$#" -eq 6 ]; then
   if [ "$3" = "--second-fourth-probe" ] || \
      [ "$3" = "--fourth-correlated-section-tile" ] || \
-     [ "$3" = "--fourth-two-centre-tile" ]; then
+     [ "$3" = "--fourth-two-centre-tile" ] || \
+     [ "$3" = "--fourth-two-centre-phase-nano" ]; then
     VERIFIER_ARGS=("$3" "$4" "$5" "$6")
   else
-    echo "six arguments require --second-fourth-probe, --fourth-correlated-section-tile, or --fourth-two-centre-tile" >&2
+    echo "six arguments require a supported tile/probe mode" >&2
     exit 2
   fi
 elif [ "$#" -eq 7 ]; then
