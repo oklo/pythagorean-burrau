@@ -1186,6 +1186,21 @@ it is not a remainder proof.
   $(0.36710,0.14670,0.48620)$. Hence a fixed linear half-plane cannot be the
   torque obstruction; a branch-wise winding or cancellation-time comparison
   is required.
+- Proved one global component of the proposed first-syzygy ordering cone.
+  Complete cube coordinates for strict ordered triangles and the strict
+  fundamental mass interval reduce $\mathfrak g_{23}-\mathfrak g_{31}$ to a
+  tensor-degree $(7,6,2)$ rational function. In exact
+  $\mathbb Q(\sqrt2)$ arithmetic, all 168 numerator Bernstein coefficients
+  are nonnegative and 137 are positive; the denominator is positive. Hence
+  gravity always widens $r_{23}-r_{31}$ in that cone. The centrifugal
+  difference remains the exact missing term.
+- The complementary first gravitational gap is now certified on the complete
+  ordered right/obtuse subcone.  A second exact cube map gives 168
+  nonpositive Bernstein coefficients (150 negative) for
+  $\mathfrak g_{12}-\mathfrak g_{23}$ and a positive denominator.
+  Independent Cartesian-force evaluations agree with both symbolic gaps.
+  The cone route is reduced to persistence of obtuseness and domination of
+  two explicit centrifugal differences.
 - The first full global-LC F30 $C^1$ run over a radius-$10^{-8}$ parameter
   box failed at scaled time $0.225958$. The fixed center is regular there,
   but the propagated pair-energy interval had widened to approximately

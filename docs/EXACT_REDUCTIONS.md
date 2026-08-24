@@ -406,6 +406,30 @@ remaining residual is just $(\ell_{12},\ell_{23})\in\mathbb R^2$.  This is
 three unequal longitudinal velocities can have $P=0$, all pair angular
 momenta zero, and $\dot I=0$.  The Hopf residual must cover that locus.
 
+The degeneracy is exactly the syzygy factor.  Rotate a noncollinear
+configuration so that the unweighted Jacobi vectors are
+$X=(R,0)$ and $Y=(C,D)$, write their velocities as $U,V$, and put
+$\alpha=m_1/(m_1+m_2)$ and $\kappa=\mu_1/\mu_2$. On $\dot I=L=0$, the two
+constraints solve $V$ linearly from $U=(u_x,u_y)$.  The resulting map
+
+\[
+ U\longmapsto(\ell_{12},\ell_{23})
+\]
+
+has determinant
+
+\[
+ -\alpha RD\left(1+{\kappa R^2\over C^2+D^2}\right).
+\]
+
+Here $RD=X\times Y$ is proportional to signed triangle area, and every other
+factor is positive. Moreover the complex shape residual becomes
+$\zeta=2\mu_1R(u_x+iu_y)$ under the same two constraints. Thus the torque
+plane and the $\zeta$ plane are exact invertible recharts of the same shape
+velocity at every nonsyzygy $I$ event.  The torque chart's advantage is its
+integrated evolution law, not a new zero set; its determinant explains the
+unavoidable loss at syzygy.
+
 ## Initial side-order acceleration
 
 The side-order part of the preceding event condition has a uniform launch
@@ -449,6 +473,93 @@ ANALYTICALLY** local statements. Ordinary bounded probes suggest both
 monotonicities persist to first syzygy for middle parameters, but that global
 ordering-cone statement remains **CONJECTURAL**, especially uniformly as
 $u\to0$.
+
+One full-shape component of that cone is nevertheless exact.  Write the
+radial equation as
+
+\[
+ \ddot r_{ij}={\ell_{ij}^2\over r_{ij}^3}+\mathfrak g_{ij},
+\]
+
+where $\mathfrak g_{ij}$ is the radial projection of the Newton acceleration
+and the first term is centrifugal.  Scale $r_{12}=1$. Every strict ordered
+nondegenerate triangle $r_{12}>r_{23}>r_{31}$ is uniquely represented by
+
+\[
+ r_{23}=1-{tw\over2},\qquad
+ r_{31}=1-t+{tw\over2},\qquad 0<t,w<1.
+\]
+
+Indeed $t=2(1-r_{23})+(r_{23}-r_{31})$, while $w=2(1-r_{23})/t$; the
+triangle inequality is exactly $t<1$. Put
+$u=(\sqrt2-1)v$, $0<v<1$. Exact substitution into the mutual-distance
+equations expresses $\mathfrak g_{23}-\mathfrak g_{31}$ as a polynomial over
+
+\[
+(tw-2)^3[-1-(3-2\sqrt2)v^2](tw-2t+2)^3,
+\]
+
+whose denominator is positive in the open cube.  The numerator has tensor
+degree $(7,6,2)$.  All 168 exact algebraic Bernstein coefficients on
+$[0,1]^3$ are nonnegative: 31 are zero and 137 are strictly positive.
+Every tensor Bernstein basis function is positive in the open cube, hence
+
+\[
+ \boxed{\mathfrak g_{23}-\mathfrak g_{31}>0}
+\]
+
+throughout the strict ordered shape cone and strict fundamental mass
+interval. This is **PROVED BY COMPUTER-ASSISTED ARGUMENT** using exact
+$\mathbb Q(\sqrt2)$ arithmetic; the coefficient count and denominator are
+deterministically regressed. It covers arbitrarily close positive
+separations, though its margin is not uniform at the cube boundary.
+
+Consequently
+
+\[
+(r_{23}-r_{31})''=
+{\ell_{23}^2\over r_{23}^3}-{\ell_{31}^2\over r_{31}^3}
++(\mathfrak g_{23}-\mathfrak g_{31}).
+\]
+
+The missing invariant-cone lemma is now localized to controlling the
+centrifugal difference along the brake-launched orbit. It cannot simply be
+dropped: ordinary trajectories show it can become negative near the first
+close passage, while the proved gravitational margin remains larger.
+
+The first gravitational gap has the complementary sign on the entire ordered
+right/obtuse region.  In the same $(t,w)$ coordinates,
+
+\[
+r_{23}^2+r_{31}^2-1
+={t^2w^2-2t^2w+2t^2-4t+2\over2}.
+\]
+
+For fixed $t$ its minimum on $0\le w\le1$ occurs at $w=1$.  If
+$t\le2-\sqrt2$, that minimum is nonnegative. Therefore every ordered strict
+right or obtuse triangle has $t>2-\sqrt2$, apart from the excluded symmetric
+endpoint. Put
+
+\[
+t=2-\sqrt2+(\sqrt2-1)s,qquad0<s<1.
+\]
+
+After the same mass substitution $u=(\sqrt2-1)v$, the numerator of
+$\mathfrak g_{12}-\mathfrak g_{23}$ again has tensor degree $(7,6,2)$ on the
+$(s,w,v)$ cube. Its 168 exact Bernstein coefficients are all nonpositive: 18
+are zero and 150 are strictly negative. The factored denominator is positive
+in the open cube. Hence
+
+\[
+\boxed{\mathfrak g_{12}-\mathfrak g_{23}<0}
+\]
+
+throughout the strict ordered right/obtuse region. This is a second **PROVED
+BY COMPUTER-ASSISTED ARGUMENT** exact-$\mathbb Q(\sqrt2)$ inequality, with
+independent Cartesian force regressions. Thus gravity points strictly into
+both side-gap faces in the candidate cone. To prove the full cone one must
+still show that the orbit stays right/obtuse and that each possibly adverse
+centrifugal difference is dominated by its gravitational margin.
 
 ## Planar endpoint stable jet and collision normal form
 

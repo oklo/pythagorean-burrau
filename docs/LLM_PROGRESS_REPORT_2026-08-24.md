@@ -26,7 +26,7 @@ The full rational conjecture is **not proved**. The stronger assertion for
 every real tied parameter is also **not proved**. No rational counterexample
 and no real second-brake intersection have been found.
 
-A difficulty-weighted completion estimate is currently about **40%**, with
+A difficulty-weighted completion estimate is currently about **42%**, with
 rough uncertainty of plus or minus 15 percentage points. This measures
 progress toward the universal theorem, not the amount of code or manuscript
 already written.
@@ -438,6 +438,30 @@ four quadrants, and three have the origin in their ordinary convex hull.
 Therefore this exact residual does not resurrect a universal fixed-linear-sign
 proof. Its remaining advantage is the exact torque integral evolution, which
 supports branch-wise winding or comparison of the two cancellation times.
+
+An exact determinant now relates the torque residual to the earlier complex
+shape residual. On an $I$ event its configuration-dependent linear map has
+determinant $-\alpha(X\times Y)(1+\kappa|X|^2/|Y|^2)$. Thus the two residuals
+are invertible recharts away from syzygy and lose rank precisely there; the
+torque formulation contributes evolution equations, not a different zero
+set.
+
+One global-in-shape inequality now supports the ordering route.  Exact
+tensor-Bernstein arithmetic on a complete cube parameterization proves that
+the gravitational radial contribution always satisfies
+$\mathfrak g_{23}-\mathfrak g_{31}>0$ whenever
+$r_{12}>r_{23}>r_{31}$ and $0<u<\sqrt2-1$. All 168 algebraic coefficients
+are nonnegative and 137 are positive. The only remaining term in the second
+gap acceleration is the signed centrifugal difference, which ordinary data
+show can be negative but not large enough to overturn gravity before first
+syzygy.
+
+The complementary force inequality is also proved on the complete ordered
+right/obtuse subcone: $\mathfrak g_{12}-\mathfrak g_{23}<0$. Its exact cube
+certificate has 168 nonpositive Bernstein coefficients, 150 strictly
+negative. Thus gravity points into both side-order faces. The remaining cone
+problem is purely velocity-dependent plus persistence of obtuseness: two
+centrifugal differences must be bounded by the certified force margins.
 
 The first full F30 $C^1$ parameter-box run did not complete.  At radius
 $10^{-8}$ it wrapped at scaled time $0.225958$, with pair-energy width already

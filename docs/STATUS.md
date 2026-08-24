@@ -7,7 +7,16 @@ The complete run summary is `RUN_REPORT_2026-08-23.md`.
 Outcome so far: **major partial theorem (Levels D and E), but unresolved full
 conjecture**. The main rational conjecture and strong real conjecture remain
 CONJECTURAL. No rational or real exact second-brake intersection has been
-established. The imported Fable event theorem gives a new exact global
+established. A new exact shape-cone calculation now proves that gravity points
+strictly into both side-order faces relevant to the observed first-syzygy
+cone: throughout every strict ordered shape
+$r_{12}>r_{23}>r_{31}$ one has
+$\mathfrak g_{23}-\mathfrak g_{31}>0$, and throughout its right/obtuse
+subcone one has $\mathfrak g_{12}-\mathfrak g_{23}<0$. Both are finite
+tensor-Bernstein certificates over complete shape--mass cubes in exact
+$\mathbb Q(\sqrt2)$ arithmetic, not trajectory samples. The remaining cone
+theorem is localized to preservation of obtuseness and domination of two
+possibly adverse centrifugal differences. The imported Fable event theorem gives a new exact global
 reduction: every brake is a strict $I$-maximum with $U=U_0$ and explicit
 pairwise collision separation (uniform on parameter compacts away from
 $u=0$), while every fold/minimum of $I$ has $K\ge U_0$.

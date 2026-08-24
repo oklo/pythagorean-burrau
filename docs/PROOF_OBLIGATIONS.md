@@ -99,6 +99,9 @@ Unlike $K$, these two components have signed torque evolution and begin in a
 fixed quadrant.  The missing theorem is a winding/order or integral-comparison
 argument preventing their simultaneous cancellation after syzygy.  Hopf
 coordinates are still required on maximum branches that meet syzygy.
+The exact determinant relating this torque pair to the $\zeta$ shape
+velocity is a positive factor times $-(X\times Y)$, so no additional hidden
+rank loss occurs away from syzygy.
 
 The two initial side gaps point into the numerically observed ordering cone:
 $(r_{12}-r_{23})''(0)<0$ and $(r_{23}-r_{31})''(0)>0$ analytically on the
@@ -111,6 +114,35 @@ strict fundamental interval.  A proposed first-syzygy ordering lemma is
 It would fix the first syzygy type (body 3 in the middle) and preserve the
 three launch torque signs up to that event.  It is presently CONJECTURAL;
 local accelerations and finitely many ordinary trajectories do not prove it.
+
+The gravitational part of the second gap is now closed globally on this
+cone: exact tensor-Bernstein arithmetic proves
+$\mathfrak g_{23}-\mathfrak g_{31}>0$. Therefore the remaining inequality is
+precisely
+
+\[
+{\ell_{23}^2\over r_{23}^3}-{\ell_{31}^2\over r_{31}^3}
+>-(\mathfrak g_{23}-\mathfrak g_{31}).
+\]
+
+The left side can be negative, so positivity of gravity alone does not prove
+the cone.  A torque-integral estimate strong enough to dominate this negative
+centrifugal contribution would prove $r_{23}-r_{31}$ is convex and increasing
+until the first syzygy.
+
+On the ordered right/obtuse subcone, the first gravitational gap is also
+closed with the desired sign:
+$\mathfrak g_{12}-\mathfrak g_{23}<0$.  Consequently a complete
+first-syzygy cone theorem has been reduced to three coupled obligations:
+
+1. preserve $D=r_{12}^2-r_{23}^2-r_{31}^2\ge0$ until first syzygy;
+2. dominate the adverse part of
+   $\ell_{12}^2/r_{12}^3-\ell_{23}^2/r_{23}^3$;
+3. dominate the adverse part of
+   $\ell_{23}^2/r_{23}^3-\ell_{31}^2/r_{31}^3$.
+
+The two gravitational signs alone do not close any of these velocity
+inequalities.
 
 Exhaustive compact-middle covering is not an acceptable substitute: measured
 through-encounter parameter amplification is about $3\times10^8$ and grows
