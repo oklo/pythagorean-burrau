@@ -153,3 +153,13 @@ All entries are ORDINARY NUMERICAL EVIDENCE unless marked otherwise.
     (~20/unit burn versus ~11 at 64-digit headroom).  Configs must keep
     tolerance at least ~50 digits above the MPFR precision floor.  Final
     Burrau racer: 640 bits / 1e-135 / order 135 / zone 1/25-1/17.
+
+19. **Burrau campaign calibration complete.**  Nine configurations have
+    now died in numerically predicted places, making the cost model
+    predictive to ~±5 digits.  Final data: 640/1e-135/order-135 with the
+    wide zone (1/25 in, 1/17 out) reached t=11.32 before its box blew —
+    the total requirement at this architecture is ~139 digits (approach
+    bleed ~10-14/unit through t~8.4 dominates; zone passages ~1.5 digits
+    each including the 8.3e-5 deep encounter at ~2; precision headroom
+    must exceed ~50 digits).  The calibrated finisher
+    (640/1e-150/order-135, +11 margin) is in flight, ETA ~3.5 h.
