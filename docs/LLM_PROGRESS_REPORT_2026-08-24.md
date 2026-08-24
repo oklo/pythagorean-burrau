@@ -416,6 +416,37 @@ rational Bernstein coefficients on $[0,1/2]$ are positive.  Because the
 closed formula has an overall minus sign, $D^{(6)}(0)<0$ analytically on the
 whole fundamental interval.  No global Taylor-remainder estimate is claimed.
 
+The torque route now has a more focused ordering target. Exact Newton
+formulas prove $(r_{12}-r_{23})''(0)<0$ and
+$(r_{23}-r_{31})''(0)>0$ throughout the strict fundamental interval. A
+bounded ordinary probe preserved $r_{12}>r_{23}>r_{31}$ to first syzygy at
+seven middle parameters, which would fix the syzygy type if promoted
+globally. That persistence is still conjectural and loses uniformity near the
+skinny endpoint.
+
+Away from syzygy the torque program now has its own exact brake residual.
+At zero total momentum and angular momentum,
+$(\ell_{12},\ell_{23},\dot I)=0$ is equivalent to all labelled velocities
+vanishing. Thus a regular nonsyzygy maximum branch needs only avoid the origin
+in the signed plane $(\ell_{12},\ell_{23})$. The proof explicitly fails at
+syzygy, where unequal longitudinal velocities give a counterexample and the
+global Hopf residual remains necessary.
+
+The first falsification test is already informative: along the single
+$u=1/3$ trajectory, maximum-event values of $(\ell_{12},\ell_{23})$ enter all
+four quadrants, and three have the origin in their ordinary convex hull.
+Therefore this exact residual does not resurrect a universal fixed-linear-sign
+proof. Its remaining advantage is the exact torque integral evolution, which
+supports branch-wise winding or comparison of the two cancellation times.
+
+The first full F30 $C^1$ parameter-box run did not complete.  At radius
+$10^{-8}$ it wrapped at scaled time $0.225958$, with pair-energy width already
+about $517$, although the fixed center is regular and completes the whole
+half-orbit.  This cleanly identifies a set-representation failure rather than
+a dynamical singularity.  The active repair is to tighten the rigorous point
+residual enough to use a radius-$10^{-10}$ box before resorting to sectioned
+multiple shooting.
+
 ## 9. Active routes and next actions
 
 Primary route:

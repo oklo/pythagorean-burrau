@@ -30,7 +30,9 @@ Pythagorean defect is $-0.00335599728$ and its shooting Jacobian appears
 nonsingular.  Its fixed global-LC center has now been propagated through the
 complete half-orbit with validated positive swept separations and sub-$10^{-9}$
 endpoint-residual widths, but the $C^1$ root enclosure is still pending; this
-is a useful threat localization, not a validated nonintersection. Infinitely
+is a useful threat localization, not a validated nonintersection. The first
+radius-$10^{-8}$ $C^1$ box wrapped at scaled time $0.225958$ despite the
+regular center flow; a smaller-box replay is pending. Infinitely
 many open real skinny parameter intervals are now
 proved nonperiodic; consequently infinitely many distinct primitive
 Pythagorean triples satisfy the conjecture. The exact foundations,

@@ -68,6 +68,7 @@ def main() -> None:
                     f" K={event.kinetic:.6g} |B|={event.residual_norm:.6g}"
                     f" zeta=({event.zeta_real:.6g},{event.zeta_imag:.6g})"
                     f" |zeta|={event.zeta_abs:.6g}"
+                    f" ell=({event.ell_12:.6g},{event.ell_23:.6g})"
                     f" U/U0={event.potential_ratio:.6g}"
                     f" minsep={event.min_separation:.6g}"
                 )

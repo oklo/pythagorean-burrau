@@ -104,6 +104,12 @@ The reconstructed physical half-period is about $6.2892338237914$ and the
 defect is about $-0.0033559972648$. This remains **ORDINARY NUMERICAL
 EVIDENCE**.
 
+A subsequent chart-native DOP853 solve with maximum scaled step $2\times
+10^{-4}$ moves the five coordinates from the verifier center by at most
+$3.1\times10^{-12}$ (the largest change is in $S$). Thus the proposed
+radius-$10^{-10}$ box has a factor greater than 30 of ordinary seed margin;
+this is seed selection evidence, not a validated root bound.
+
 For interval shooting the three endpoint equations are evaluated more sharply
 as
 
@@ -152,9 +158,19 @@ chart residual is enclosed by
 \]
 
 This is a **VALIDATED NUMERICAL RESULT** for the fixed candidate center, not
-a periodic-orbit existence proof.  The corresponding $C^1$ box run is now in
-progress. No interval Newton or Krawczyk inclusion has yet been obtained. If
-the parameter box still wraps, the principled repair is a stronger Lohner
+a periodic-orbit existence proof.  The corresponding $C^1$ run over the
+isotropic radius-$10^{-8}$ parameter box reaches scaled time
+$s\simeq0.225958$ and then hits CAPD's minimum step.  By that point its pair
+energy enclosure has widened to roughly $[-260,257]$ and complementary
+velocities to order $20$--$36$, while the constant parameter coordinates
+remain narrow. This localizes the obstruction to propagated parameter
+wrapping, not the regularized point flow or a collision.
+
+No interval Newton or Krawczyk inclusion has yet been obtained. Halving the
+point-center step is now being tested to shrink its endpoint residual from
+$O(10^{-10})$ toward $O(10^{-13})$; that would permit a radius-$10^{-10}$
+box and reduce the amplified parameter uncertainty by two orders of
+magnitude. If it still wraps, the principled repair is a stronger Lohner
 representation, parameter subdivision for the Jacobian hull, or sectioned
 multiple shooting that preserves all five parameter tangents.
 

@@ -1160,3 +1160,38 @@ it is not a remainder proof.
   all 31 rational Bernstein coefficients of $R_{30}$ on $[0,1/2]$ are
   positive. Hence $D^{(6)}(0)<0$ analytically on the full fundamental
   interval. This is local and supplies no Taylor-remainder bound.
+- Derived the two initial side-order accelerations exactly. On the strict
+  fundamental interval, $(r_{12}-r_{23})''(0)<0$ and
+  $(r_{23}-r_{31})''(0)>0$; the first sign has a ten-coefficient positive
+  Bernstein certificate on $[0,5/12]$, and the second factors elementarily.
+  A bounded ordinary probe at seven middle parameters found
+  $r_{12}>r_{23}>r_{31}$ up to first syzygy, with the first gap decreasing
+  and the second increasing. Evidence beyond the launch derivatives is only
+  **ORDINARY NUMERICAL EVIDENCE**; the skinny $u=0.05$ Cartesian probe failed
+  at its unresolved close encounter and was not counted.
+  The same $u=1/3$ probe gives
+  $\ddot\Delta_2\in[-4043.23,50.0105]$ before first syzygy, ordinary evidence
+  falsifying a global area-concavity route despite its proved negative launch
+  sign.
+
+  Reproduce the bounded middle-parameter probe with
+
+  ```bash
+  .venv/bin/python -m scripts.probe_torque_ordering
+  ```
+- Added $(\ell_{12},\ell_{23})$ to every ordinary $I$-event record.  The
+  $u=1/3$ maxima visit all four torque quadrants. Three maxima at times
+  $2.25385435$, $2.61592744$, and $4.08765262$ have the origin in their
+  ordinary convex hull with positive weights
+  $(0.36710,0.14670,0.48620)$. Hence a fixed linear half-plane cannot be the
+  torque obstruction; a branch-wise winding or cancellation-time comparison
+  is required.
+- The first full global-LC F30 $C^1$ run over a radius-$10^{-8}$ parameter
+  box failed at scaled time $0.225958$. The fixed center is regular there,
+  but the propagated pair-energy interval had widened to approximately
+  $[-260,257]$ and CAPD reached its minimum step. This is a localized
+  wrapping failure, not evidence against periodic existence. A 320-bit,
+  order-60 half-step replay was stopped as needlessly expensive after 100
+  steps; the active 256-bit/order-50 replay at maximum step
+  $2.5\times10^{-4}$ tests whether a rigorously much smaller Newton box is
+  viable.

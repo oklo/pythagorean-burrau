@@ -73,3 +73,28 @@ def double_radial_slip_residual(
             cross2(x_array, vx) / x_squared - cross2(y_array, vy) / y_squared,
         ]
     )
+
+
+def pair_angular_momentum_brake_residual(
+    positions: ArrayLike, velocities: ArrayLike, masses: ArrayLike
+) -> NDArray[np.float64]:
+    """Return ``(ell_12, ell_23, I_dot)`` about the center of mass.
+
+    At zero total linear and angular momentum this vanishes exactly at a
+    labelled brake whenever the configuration is noncollinear. At syzygy the
+    residual is degenerate and the Hopf residual must be used instead.
+    """
+    q = np.asarray(positions, dtype=float)
+    v = np.asarray(velocities, dtype=float)
+    m = np.asarray(masses, dtype=float)
+    total_mass = float(np.sum(m))
+    center = np.sum(m[:, None] * q, axis=0) / total_mass
+    center_velocity = np.sum(m[:, None] * v, axis=0) / total_mass
+    centered_positions = q - center
+    centered_velocities = v - center_velocity
+    ell_12 = cross2(q[1] - q[0], v[1] - v[0])
+    ell_23 = cross2(q[2] - q[1], v[2] - v[1])
+    inertia_derivative = 2 * float(
+        np.sum(m[:, None] * centered_positions * centered_velocities)
+    )
+    return np.array([ell_12, ell_23, inertia_derivative])

@@ -86,6 +86,32 @@ once.  A useful next lemma would show that one of these three order reversals
 is impossible on each maximum branch, or else classify the syzygy at which
 the common area factor changes sign.
 
+Away from syzygy, the exact residual
+$(\ell_{12},\ell_{23},\dot I)$ is equivalent to a labelled brake at
+$P=L=0$.  Thus on every regular nonsyzygy maximum branch the origin-avoidance
+problem can be written as
+
+\[
+ u\longmapsto(\ell_{12},\ell_{23})(u,t_k(u))\ne(0,0).
+\]
+
+Unlike $K$, these two components have signed torque evolution and begin in a
+fixed quadrant.  The missing theorem is a winding/order or integral-comparison
+argument preventing their simultaneous cancellation after syzygy.  Hopf
+coordinates are still required on maximum branches that meet syzygy.
+
+The two initial side gaps point into the numerically observed ordering cone:
+$(r_{12}-r_{23})''(0)<0$ and $(r_{23}-r_{31})''(0)>0$ analytically on the
+strict fundamental interval.  A proposed first-syzygy ordering lemma is
+
+\[
+ r_{12}>r_{23}>r_{31}\quad\hbox{until }\Delta_2=0.
+\]
+
+It would fix the first syzygy type (body 3 in the middle) and preserve the
+three launch torque signs up to that event.  It is presently CONJECTURAL;
+local accelerations and finitely many ordinary trajectories do not prove it.
+
 Exhaustive compact-middle covering is not an acceptable substitute: measured
 through-encounter parameter amplification is about $3\times10^8$ and grows
 further at late events. The event reduction is a smaller exact problem, but

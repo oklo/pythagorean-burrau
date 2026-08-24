@@ -329,6 +329,77 @@ def tight_pair_initial_specific_torque() -> sp.Expr:
     return sp.factor(sp.simplify(cross))
 
 
+def initial_side_order_second_derivatives() -> tuple[sp.Expr, sp.Expr]:
+    """Return second derivatives of r12-r23 and r23-r31 at the brake."""
+    masses, positions = initial_data()
+    newton_accelerations = accelerations(masses, positions)
+    _, a, b = euclid_symbols()
+    known_distances = {(0, 1): sp.Integer(1), (1, 2): a, (2, 0): b}
+
+    def distance_second(i: int, j: int) -> sp.Expr:
+        delta = positions[j] - positions[i]
+        delta_acceleration = newton_accelerations[j] - newton_accelerations[i]
+        return sp.factor(delta.dot(delta_acceleration) / known_distances[(i, j)])
+
+    base_minus_long_leg = sp.factor(
+        sp.cancel(distance_second(0, 1) - distance_second(1, 2))
+    )
+    long_minus_short_leg = sp.factor(
+        sp.cancel(distance_second(1, 2) - distance_second(2, 0))
+    )
+    return base_minus_long_leg, long_minus_short_leg
+
+
+def side_order_first_numerator() -> sp.Expr:
+    u, _, _ = euclid_symbols()
+    return (
+        u**9
+        - 9 * u**8
+        + 10 * u**7
+        - 10 * u**6
+        - 8 * u**5
+        - 16 * u**4
+        - 2 * u**3
+        + 2 * u**2
+        - u
+        + 1
+    )
+
+
+def side_order_first_bernstein_coefficients() -> tuple[sp.Rational, ...]:
+    """Coefficients on [0,5/12] of the numerator controlling r12-r23."""
+    u, _, _ = euclid_symbols()
+    degree = 9
+    upper = sp.Rational(5, 12)
+    polynomial = sp.Poly(side_order_first_numerator().subs(u, upper * u), u)
+    power_coefficients = [polynomial.nth(index) for index in range(degree + 1)]
+    return tuple(
+        sp.factor(
+            sum(
+                power_coefficients[index]
+                * sp.binomial(order, index)
+                / sp.binomial(degree, index)
+                for index in range(order + 1)
+            )
+        )
+        for order in range(degree + 1)
+    )
+
+
+def expected_initial_side_order_second_derivatives() -> tuple[sp.Expr, sp.Expr]:
+    u, _, _ = euclid_symbols()
+    first = -side_order_first_numerator() / (
+        2 * u * (u - 1) ** 2 * (u + 1) * (u**2 + 1) ** 2
+    )
+    second = -(
+        (u**2 + 2 * u - 1)
+        * (3 * u**2 - 2 * u + 1)
+        * (u**2 * (u - 1) ** 2 + (u + 1) ** 2)
+        / (2 * u**2 * (u - 1) ** 2 * (u**2 + 1) ** 2)
+    )
+    return first, second
+
+
 def signed_area_second_derivative() -> sp.Expr:
     """Return the second derivative of twice oriented area at the brake."""
     masses, positions = initial_data()

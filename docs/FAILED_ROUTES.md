@@ -84,6 +84,31 @@ counterexample to that auxiliary lemma.
 The exact local identity $D''(0)>0$ remains useful as a jet and as proof that
 the incenter coincidence is not preserved.
 
+## Global oriented-area concavity
+
+**Status:** DISPROVED by converged ORDINARY NUMERICAL EVIDENCE as a candidate
+global lemma; the later positive acceleration is not yet interval validated.
+
+Although the exact Bernstein argument proves $\ddot\Delta_2(0)<0$ for every
+fundamental parameter, the sign does not persist even to first syzygy in the
+middle interval.  For $u=1/3$, a DOP853 replay with tolerance refinement gives
+
+\[
+ \min_{[0,t_{\rm syz}]}\ddot\Delta_2\approx-4043.23,
+ \qquad
+ \max_{[0,t_{\rm syz}]}\ddot\Delta_2\approx50.0105,
+\]
+
+with $t_{\rm syz}\approx0.3756716785$. The expression for
+$\ddot\Delta_2$ includes the exact velocity cross term, not merely the force
+terms. This rules out global area concavity as the primary structural lemma
+on ordinary evidence while preserving the analytic launch sign. Reproduce
+the bounded probe with
+
+```bash
+.venv/bin/python -m scripts.probe_torque_ordering --u 1/3
+```
+
 ## First skinny passage implies immediate escape
 
 **Status:** DISPROVED analytically as an asymptotic route.
@@ -549,6 +574,25 @@ This does not exclude a branch-dependent winding/order invariant, a nonlinear
 barrier, or a state-dependent projection.  It prevents promoting a sampled
 quadrant pattern into the missing global theorem.
 
+The exact torque residual has the same limitation.  At $u=1/3$, the three
+ordinary maximum-event values
+
+\[
+\begin{array}{c|c}
+t&(\ell_{12},\ell_{23})\\ \hline
+2.2538543510&(-0.227839,0.631627)\\
+2.61592744&(0.299009,0.303293)\\
+4.0876526251&(0.0818102,-0.568424)
+\end{array}
+\]
+
+have the origin in their convex hull with positive weights approximately
+$(0.36710,0.14670,0.48620)$. Thus no fixed homogeneous linear projection of
+$(\ell_{12},\ell_{23})$ is positive at every maximum either.  The torque
+residual remains useful because its components obey exact signed integral
+equations; the viable target is branch-wise winding/order or comparison of
+the two cancellation times, not a universal half-plane.
+
 ## Direct interval shooting of the F30 mass--side candidate
 
 **Status:** FAILED in physical/Jacobi coordinates; localized chart repair
@@ -563,7 +607,11 @@ point center, parameter subdivision cannot fix it.
 The pair-$23$ Levi--Civita repair is now implemented globally, using the
 regularized half-duration as the shooting parameter. A 192-bit center run
 passes its deepest selected-pair encounter but later wraps at scaled time
-$0.542$. Thus the singular denominator is repaired; the remaining issue is
-long-flow set representation. No interval Newton inclusion or periodic-orbit
-existence claim has been obtained; see
+$0.542$. A 256-bit/order-50 point center subsequently traverses the whole
+half-orbit, but the radius-$10^{-8}$ $C^1$ parameter box wraps at
+$s\simeq0.225958$: its pair-energy enclosure has already grown to about
+$[-260,257]$. Thus the singular denominator and point flow are repaired; the
+remaining issue is parameter-set representation and amplification. No
+interval Newton inclusion or periodic-orbit existence claim has been
+obtained; see
 `F30_MASS_SIDE_VALIDATION.md`.

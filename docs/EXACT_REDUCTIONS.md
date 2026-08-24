@@ -378,6 +378,78 @@ have been crossed.  This **PROVED ANALYTICALLY** torque-reversal lemma is a
 necessary event condition, not an assertion that the three reversals cannot
 occur at different times.
 
+The same variables give a coordinate-independent reduced brake residual away
+from syzygy.  For arbitrary origin, total mass $M$, weighted position
+$Q=\sum m_iq_i$, momentum $P=\sum m_i\dot q_i$, and angular momentum $L$,
+
+\[
+ m_1m_2\ell_{12}+m_2m_3\ell_{23}+m_3m_1\ell_{31}
+ =ML-Q\times P.
+\]
+
+Hence $P=L=0$ and $\ell_{12}=\ell_{23}=0$ imply $\ell_{31}=0$.  If the
+configuration is noncollinear and collision-free, write
+$\dot r_{ij}=\lambda_{ij}r_{ij}$.  The closure identities
+$r_{12}+r_{23}+r_{31}=0$ and
+$\dot r_{12}+\dot r_{23}+\dot r_{31}=0$ then force all three $\lambda_{ij}$
+to be one common $\lambda$.  In the center-of-mass frame
+$\dot q_i=\lambda q_i$, and therefore $\dot I=2\lambda I$.  Since $I>0$,
+
+\[
+ \boxed{(\ell_{12},\ell_{23},\dot I)=0
+ \quad\Longleftrightarrow\quad\hbox{a labelled brake}}
+\]
+
+on the noncollinear $P=L=0$ domain.  At a regular nonsyzygy $I$-maximum, the
+remaining residual is just $(\ell_{12},\ell_{23})\in\mathbb R^2$.  This is
+**PROVED ANALYTICALLY**.  Noncollinearity is indispensable: at a syzygy,
+three unequal longitudinal velocities can have $P=0$, all pair angular
+momenta zero, and $\dot I=0$.  The Hopf residual must cover that locus.
+
+## Initial side-order acceleration
+
+The side-order part of the preceding event condition has a uniform launch
+direction. Directly from Newton's accelerations,
+
+\[
+ (r_{12}-r_{23})''(0)=-{S_9(u)\over
+ 2u(1-u)^2(1+u)(1+u^2)^2},
+\]
+
+where
+
+\[
+S_9=u^9-9u^8+10u^7-10u^6-8u^5-16u^4-2u^3+2u^2-u+1.
+\]
+
+On $0\le u\le5/12$, its degree-9 Bernstein coefficients are
+
+\[
+1,{103\over108},{2377\over2592},{64471\over72576},{5027\over5832},
+{3244279\over3919104},{96520723\over125411328},
+{428088589\over644972544},{615514573\over1289945088},
+{850511897\over5159780352}.
+\]
+
+They are strictly positive. Since $\sqrt2-1<5/12$, the first side gap has
+strictly negative initial acceleration on the full fundamental interval.
+The other gap factors more simply:
+
+\[
+ (r_{23}-r_{31})''(0)=
+ -{(u^2+2u-1)(3u^2-2u+1)
+ [u^2(u-1)^2+(u+1)^2]\over
+ 2u^2(1-u)^2(1+u^2)^2}.
+\]
+
+It is strictly positive for $0<u<\sqrt2-1$ and zero at the symmetric
+endpoint. Thus the initial ordering $r_{12}>r_{23}>r_{31}$ begins by
+compressing the first gap and widening the second. These are **PROVED
+ANALYTICALLY** local statements. Ordinary bounded probes suggest both
+monotonicities persist to first syzygy for middle parameters, but that global
+ordering-cone statement remains **CONJECTURAL**, especially uniformly as
+$u\to0$.
+
 ## Planar endpoint stable jet and collision normal form
 
 The massless planar joint endpoint has an autonomous logarithmic shape flow.

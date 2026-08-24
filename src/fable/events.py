@@ -21,7 +21,11 @@ from dataclasses import dataclass
 import numpy as np
 from numpy.typing import ArrayLike, NDArray
 
-from src.dynamics.brake_residual import hopf_velocity, jacobi_vectors
+from src.dynamics.brake_residual import (
+    hopf_velocity,
+    jacobi_vectors,
+    pair_angular_momentum_brake_residual,
+)
 from src.dynamics.cartesian import kinetic_energy, mutual_distances
 
 
@@ -135,6 +139,8 @@ class EventRecord:
     zeta_real: float
     zeta_imag: float
     zeta_abs: float
+    ell_12: float
+    ell_23: float
     min_separation: float
     is_maximum: bool
 
@@ -147,6 +153,10 @@ def event_record(
     kinetic = kinetic_energy(values, masses)
     i_ddot = 2 * u_value - 4 * u_potential_0
     zeta_value = zeta(values, masses)
+    positions, velocities = split_state(values)
+    torque_residual = pair_angular_momentum_brake_residual(
+        positions, velocities, masses
+    )
     return EventRecord(
         time=float(time),
         i_value=moment_of_inertia(values, masses),
@@ -157,6 +167,8 @@ def event_record(
         zeta_real=float(zeta_value.real),
         zeta_imag=float(zeta_value.imag),
         zeta_abs=float(abs(zeta_value)),
+        ell_12=float(torque_residual[0]),
+        ell_23=float(torque_residual[1]),
         min_separation=float(np.min(mutual_distances(values))),
         is_maximum=bool(i_ddot < 0),
     )

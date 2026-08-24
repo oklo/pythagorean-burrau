@@ -4,6 +4,7 @@ from src.dynamics.brake_residual import (
     double_radial_slip_residual,
     hopf_velocity,
     jacobi_vectors,
+    pair_angular_momentum_brake_residual,
 )
 
 
@@ -43,3 +44,31 @@ def test_double_radial_slip_vanishes_only_for_common_rotation() -> None:
     )
     assert np.allclose(unequal_rotation[:2], 0)
     assert unequal_rotation[2] != 0
+
+
+def test_pair_angular_momentum_residual_kills_nonzero_homothety() -> None:
+    positions = np.array([[-1.0, 0.0], [0.0, 1.0], [1.0, 0.0]])
+    masses = np.ones(3)
+    center = np.average(positions, axis=0, weights=masses)
+    homothetic_velocities = 2.0 * (positions - center)
+    residual = pair_angular_momentum_brake_residual(
+        positions, homothetic_velocities, masses
+    )
+    assert np.allclose(residual[:2], 0)
+    assert residual[2] > 0
+    assert np.allclose(
+        pair_angular_momentum_brake_residual(
+            positions, np.zeros((3, 2)), masses
+        ),
+        0,
+    )
+
+
+def test_pair_angular_momentum_residual_is_degenerate_at_syzygy() -> None:
+    positions = np.array([[-1.0, 0.0], [0.0, 0.0], [1.0, 0.0]])
+    velocities = np.array([[1.0, 0.0], [-2.0, 0.0], [1.0, 0.0]])
+    masses = np.ones(3)
+    assert np.allclose(
+        pair_angular_momentum_brake_residual(positions, velocities, masses), 0
+    )
+    assert not np.allclose(velocities, 0)

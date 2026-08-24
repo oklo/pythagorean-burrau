@@ -9,10 +9,13 @@ from src.symbolic.initial_identities import (
     euclid_symbols,
     expected_defect_fourth_derivative,
     expected_defect_sixth_derivative,
+    expected_initial_side_order_second_derivatives,
     expected_signed_area_second_derivative,
     identity_residuals,
+    initial_side_order_second_derivatives,
     pythagorean_defect_fourth_derivative,
     pythagorean_defect_sixth_derivative,
+    side_order_first_bernstein_coefficients,
     signed_area_second_bernstein_coefficients,
     signed_area_second_derivative,
     signed_area_second_numerator,
@@ -135,6 +138,29 @@ def test_tight_pair_initial_torque_formula() -> None:
     assert sp.factor(tight_pair_initial_specific_torque() - expected) == 0
 
 
+def test_initial_side_order_accelerations_and_sign_certificates() -> None:
+    actual = initial_side_order_second_derivatives()
+    expected = expected_initial_side_order_second_derivatives()
+    assert all(
+        sp.factor(sp.cancel(left - right)) == 0
+        for left, right in zip(actual, expected, strict=True)
+    )
+    bernstein = (
+        sp.Rational(1),
+        sp.Rational(103, 108),
+        sp.Rational(2377, 2592),
+        sp.Rational(64471, 72576),
+        sp.Rational(5027, 5832),
+        sp.Rational(3244279, 3919104),
+        sp.Rational(96520723, 125411328),
+        sp.Rational(428088589, 644972544),
+        sp.Rational(615514573, 1289945088),
+        sp.Rational(850511897, 5159780352),
+    )
+    assert side_order_first_bernstein_coefficients() == bernstein
+    assert all(coefficient > 0 for coefficient in bernstein)
+
+
 def test_signed_area_initial_acceleration_is_negative() -> None:
     u, _, _ = euclid_symbols()
     residual = sp.cancel(
@@ -205,3 +231,33 @@ def test_all_pair_angular_momentum_derivatives_factor_through_area() -> None:
         sp.expand(left - right) == 0
         for left, right in zip(actual, expected, strict=True)
     )
+
+
+def test_pair_angular_momenta_reconstruct_total_angular_momentum() -> None:
+    m1, m2, m3 = sp.symbols("m_1 m_2 m_3", positive=True)
+    symbols = sp.symbols(
+        "q1x q1y q2x q2y q3x q3y v1x v1y v2x v2y v3x v3y", real=True
+    )
+    q1 = sp.Matrix(symbols[0:2])
+    q2 = sp.Matrix(symbols[2:4])
+    q3 = sp.Matrix(symbols[4:6])
+    v1 = sp.Matrix(symbols[6:8])
+    v2 = sp.Matrix(symbols[8:10])
+    v3 = sp.Matrix(symbols[10:12])
+
+    def cross(left: sp.Matrix, right: sp.Matrix) -> sp.Expr:
+        return left[0] * right[1] - left[1] * right[0]
+
+    pair_sum = (
+        m1 * m2 * cross(q2 - q1, v2 - v1)
+        + m2 * m3 * cross(q3 - q2, v3 - v2)
+        + m3 * m1 * cross(q1 - q3, v1 - v3)
+    )
+    total_mass = m1 + m2 + m3
+    angular_momentum = (
+        m1 * cross(q1, v1) + m2 * cross(q2, v2) + m3 * cross(q3, v3)
+    )
+    weighted_position = m1 * q1 + m2 * q2 + m3 * q3
+    momentum = m1 * v1 + m2 * v2 + m3 * v3
+    expected = total_mass * angular_momentum - cross(weighted_position, momentum)
+    assert sp.expand(pair_sum - expected) == 0
