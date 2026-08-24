@@ -325,6 +325,13 @@ finite-segment validation; a terminal pass remains required. Therefore the
 LC verifier is useful machinery, not yet a completed
 \(3{:}4{:}5\) certificate.
 
+A fresh 512-bit production replay is now beyond that smoke horizon. It
+crossed the deep passage near $t=3.166$ in 141 LC steps, reconstructed the
+physical state with hull width below $6.7\times10^{-61}$, and subsequently
+crossed additional certified LC passages near $t=4.593$ and $t=5.555$.
+The run remains active and has not yet reached the terminal escape marker, so
+this is validated finite-segment progress, not a promoted theorem.
+
 ### 7.1 Nearby periodic-family intersection audit
 
 A new two-mass continuation sharpens the $F_{30}$ audit. Solving the three
@@ -333,15 +340,21 @@ periodic family gives an ordinary-numerical general Burrau candidate with
 \[
  (m_1,m_2,m_3)\approx(0.594811646571,0.801774973308,1),
 \]
-but
+but, in a global pair-$23$ Levi--Civita shooting formulation,
 \[
- m_1^2+m_2^2-1\approx-0.003355997281.
+ m_1^2+m_2^2-1\approx-0.0033559972648.
 \]
 Its five-equation shooting Jacobian has ordinary smallest singular value
 about $0.199$, so this intersection appears isolated and locally separated
-from the Pythagorean circle. Independent DOP853 and implicit Radau solves
-agree in the two masses to about $3.2\times10^{-11}$. This is not yet a
-validated periodic existence or nonintersection theorem.
+from the Pythagorean circle. Independent regularized DOP853 and implicit
+Radau solves agree to roughly $10^{-13}$ in the five shooting parameters.
+The global chart also resolves a deeper ordinary minimum separation near
+$5.0009\times10^{-4}$ which coarse physical-time sampling missed. Exact
+symbolic tests verify the global LC equations and all initial/side parameter
+tangents. A low-precision interval center run passed the deepest encounter
+but wrapped later at scaled time $0.542$; a higher-precision replay is in
+progress. This is not yet a validated periodic existence or nonintersection
+theorem.
 
 ## 8. Why the universal theorem remains hard
 
@@ -364,6 +377,14 @@ through-encounter parameter amplification reaches approximately
 and terminal times diverge near escape boundaries. A universal proof needs a
 structural event-branch obstruction, a global topological invariant, or an
 exact arithmetic exclusion after real intersections are classified.
+
+Signed maximum-event diagnostics also rule out one oversimplified structural
+idea. On the single $u=1/3$ orbit, values of $\zeta$ at strict maxima occupy
+all four quadrants, and three early values have the origin in their ordinary
+convex hull. Consequently no fixed homogeneous real linear projection of
+$\zeta$ can be sign-definite across all maxima. A viable theorem must be
+branch-dependent, nonlinear, or topological rather than a fixed quadrant
+rule.
 
 ## 9. Active routes and next actions
 

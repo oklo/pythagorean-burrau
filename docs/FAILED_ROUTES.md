@@ -522,3 +522,48 @@ the initial construction state, completes the interval flow, and audits with
 $t_{\rm end,left}-t_{\rm start,right}$, rejecting a nonpositive result.  A
 fresh four-passage deep-encounter replay passed.  The pre-repair smoke alone
 must not be cited; the archived smoke summary records the post-repair replay.
+
+## Fixed linear projection of maximum-event shape velocity
+
+**Status:** DISPROVED as a universal sign architecture by converged
+**ORDINARY NUMERICAL EVIDENCE**.
+
+Recording both components of
+$\zeta=\mu_1\overline X\dot X-\mu_2\overline Y\dot Y$ at strict maxima of
+$I$ shows all four quadrants on the single $u=1/3$ trajectory.  More
+decisively, the three ordinary event values
+
+\[
+\begin{array}{c|c}
+t& (\operatorname{Re}\zeta,\operatorname{Im}\zeta)\\ \hline
+1.1472220464&(0.06162387,-0.31306428)\\
+2.2538543510&(-0.28476246,-0.15623215)\\
+4.0876526251&(0.06391316,0.05609840)
+\end{array}
+\]
+
+have the origin in their convex hull, with positive weights approximately
+$(0.04671,0.182996,0.770296)$.  Hence no fixed homogeneous real linear
+functional of $\zeta$ can be strictly positive at every maximum event.
+This does not exclude a branch-dependent winding/order invariant, a nonlinear
+barrier, or a state-dependent projection.  It prevents promoting a sampled
+quadrant pattern into the missing global theorem.
+
+## Direct interval shooting of the F30 mass--side candidate
+
+**Status:** FAILED in physical/Jacobi coordinates; localized chart repair
+required.
+
+The exact eleven-state Jacobi interval verifier crosses the first close
+pair-$23$ passage. Its point-center flow reaches the minimum time step at
+scaled time $s\simeq0.280269$, physical time $t\simeq1.7626$, at the
+second close pair-$23$ passage. Because the failure already occurs for the
+point center, parameter subdivision cannot fix it.
+
+The pair-$23$ Levi--Civita repair is now implemented globally, using the
+regularized half-duration as the shooting parameter. A 192-bit center run
+passes its deepest selected-pair encounter but later wraps at scaled time
+$0.542$. Thus the singular denominator is repaired; the remaining issue is
+long-flow set representation. No interval Newton inclusion or periodic-orbit
+existence claim has been obtained; see
+`F30_MASS_SIDE_VALIDATION.md`.

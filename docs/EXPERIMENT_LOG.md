@@ -1103,3 +1103,38 @@ it is not a remainder proof.
   was deliberately stopped at $t\simeq3.1670$, before any terminal escape
   certificate; it is therefore a finite validated smoke audit, not a proof
   for $(3,4,5)$.
+- Extended the ordinary maximum-event records to retain signed
+  $(\operatorname{Re}\zeta,\operatorname{Im}\zeta)$.  On the single
+  $u=1/3$ orbit, maximum events occur in all four quadrants.  Three events at
+  $t\simeq1.14722,2.25385,4.08765$ have the origin in their ordinary convex
+  hull.  This disproves a fixed linear-projection sign architecture as a
+  plausible universal obstruction, but is not a theorem about zeros of a
+  particular event branch.
+- Implemented an experimental five-variable CAPD interval-Newton verifier
+  for the nearby general mass--side $F_{30}$ candidate in an exact
+  eleven-state Jacobi field.  The 256-bit point-center flow crosses the first
+  close pair-$23$ passage but fails at scaled time $0.280269$, physical
+  time about $1.7626$, during the second close pair-$23$ passage.  The
+  failure is present before the parameter-box $C^1$ flow, so subdivision
+  is not a repair; pair-$23$ Levi--Civita propagation is required.
+- Replaced that direct formulation by one global pair-$23$ Levi--Civita
+  flow, using regularized half-duration as the fifth shooting parameter.
+  Independent DOP853 and Radau roots agree to roughly $10^{-13}$ in the
+  parameters and give defect $-0.0033559972648$. Regularized sampling
+  resolves a previously missed minimum separation near
+  $5.0009\times10^{-4}$. A 192-bit point-center enclosure passed that
+  deepest encounter but wrapped at scaled time $0.542$; a 256-bit/order-50
+  run is in progress. Exact symbolic tests pass for the global LC field and
+  its parameter tangents. Evidence remains **ORDINARY NUMERICAL EVIDENCE**
+  plus a finite validated segment; there is no interval Newton inclusion.
+- Refined the strongest reliable early maximum-event near-brake around
+  $u=1/4$. On the corresponding regular maximum branch, scalar minimization
+  gives
+  \[
+  u\simeq0.25001393485,\qquad t\simeq3.23732434,
+  \qquad K_{\min}\simeq1.4555186\times10^{-3},
+  \]
+  with $\zeta\simeq-0.0334600-0.00899615i$. Three tolerance/step refinements
+  keep $K$ within $1.6\times10^{-10}$. Thus this branch has an ordinary
+  positive local gap rather than an apparent zero. It is a candidate for a
+  localized interval branch-gap theorem, not a global exclusion.

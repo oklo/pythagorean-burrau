@@ -164,6 +164,9 @@ def test_event_record_classification_at_burrau_start() -> None:
     assert record.is_maximum
     assert abs(record.potential_ratio - 1.0) < 1e-12
     assert record.residual_norm == 0.0
+    assert record.zeta_real == 0.0
+    assert record.zeta_imag == 0.0
+    assert record.zeta_abs == 0.0
     # separation bound r_ij >= m_i m_j / U_0 at a brake
     bound = min(
         masses[0] * masses[1], masses[1] * masses[2], masses[2] * masses[0]

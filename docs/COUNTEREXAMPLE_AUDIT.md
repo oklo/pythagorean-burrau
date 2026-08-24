@@ -127,6 +127,15 @@ $-0.003355997286$, agreeing at the displayed accuracy. It is not a validated
 implicit-function theorem.
 The full record is `data/f30_mass_side_periodic_candidate.txt`.
 
+A later global pair-$23$ Levi--Civita shooting formulation removes the
+physical close-passage stiffness. Independent DOP853 and Radau solutions
+agree to about $10^{-13}$ in the five regularized shooting parameters and
+give defect approximately $-0.0033559972648$. It also resolves a deeper
+ordinary pair-$23$ miss near $5.0009\times10^{-4}$ which the coarse
+physical-time sampling missed. This strengthens the ordinary candidate but
+does not change the audit verdict: the interval-Newton inclusion is still
+open. See `F30_MASS_SIDE_VALIDATION.md`.
+
 ## Collision and symmetry exclusions
 
 - The Szebehely--Peters almost-Pythagorean periodic construction has a binary

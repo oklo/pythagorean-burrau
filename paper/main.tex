@@ -260,6 +260,13 @@ collision and escape endpoints, degenerate events, and the possible number
 of branches.  The nominal dimension count alone supplies none of these
 facts.
 
+Ordinary signed-event diagnostics rule out a simpler global shortcut.  On
+the single (u=1/3) trajectory, maximum-event values of (zeta) occupy all
+four quadrants, and three early values have the origin in their convex hull.
+Thus no fixed real linear projection of (zeta) can be sign-definite over
+all maximum events.  A successful obstruction must instead use branch-wise
+order or winding, a nonlinear barrier, or a state-dependent projection.
+
 \section{Universal reduced system}
 
 Let
@@ -2471,7 +2478,12 @@ candidate at
 Its remaining Pythagorean defect is approximately $-0.003355997281$.
 The five-equation shooting Jacobian has ordinary-numerical smallest singular
 value about $0.199$, suggesting an isolated transverse non-Pythagorean
-intersection.  A validated implicit-function enclosure is still required for
+intersection.  Rewriting the full half-orbit in a global pair-$23$
+Levi--Civita chart and using regularized duration as the fifth shooting
+variable gives independent DOP853 and Radau parameters agreeing to roughly
+$10^{-13}$ and defect $-0.0033559972648$.  That chart resolves an ordinary
+minimum pair separation near $5.0009\times10^{-4}$ without a selected-pair
+singularity.  A validated implicit-function enclosure is still required for
 a local theorem.
 
 \section{Open proof obligations}

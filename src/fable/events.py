@@ -132,6 +132,8 @@ class EventRecord:
     kinetic: float
     potential_ratio: float
     residual_norm: float
+    zeta_real: float
+    zeta_imag: float
     zeta_abs: float
     min_separation: float
     is_maximum: bool
@@ -144,6 +146,7 @@ def event_record(
     u_value = potential(values, masses)
     kinetic = kinetic_energy(values, masses)
     i_ddot = 2 * u_value - 4 * u_potential_0
+    zeta_value = zeta(values, masses)
     return EventRecord(
         time=float(time),
         i_value=moment_of_inertia(values, masses),
@@ -151,7 +154,9 @@ def event_record(
         kinetic=float(kinetic),
         potential_ratio=float(u_value / u_potential_0),
         residual_norm=float(np.linalg.norm(hopf_residual(values, masses))),
-        zeta_abs=float(abs(zeta(values, masses))),
+        zeta_real=float(zeta_value.real),
+        zeta_imag=float(zeta_value.imag),
+        zeta_abs=float(abs(zeta_value)),
         min_separation=float(np.min(mutual_distances(values))),
         is_maximum=bool(i_ddot < 0),
     )

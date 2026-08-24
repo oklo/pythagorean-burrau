@@ -66,6 +66,7 @@ def main() -> None:
                 print(
                     f"    t={event.time:.9g} {kind} I={event.i_value:.6g}"
                     f" K={event.kinetic:.6g} |B|={event.residual_norm:.6g}"
+                    f" zeta=({event.zeta_real:.6g},{event.zeta_imag:.6g})"
                     f" |zeta|={event.zeta_abs:.6g}"
                     f" U/U0={event.potential_ratio:.6g}"
                     f" minsep={event.min_separation:.6g}"
