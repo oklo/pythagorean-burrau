@@ -536,6 +536,8 @@ int main(int argc, char** argv) {
         }
         {
           Map entry_field = make_entry_field(form_a);
+          // Entry rates are constant in construction time (frozen sources),
+          // so Taylor is exact at any order; tolerance is immaterial.
           PhaseRunner entry(entry_field, 20, 1e-30);
           const Ival target = set.getCurrentTime() + Ival(1);
           while (entry.step(target, set)) {
@@ -626,7 +628,11 @@ int main(int argc, char** argv) {
               return 1;
             }
           }
-          PhaseRunner exitr(exit_field, 20, 1e-30);
+          // The damped exit flow has decay rate 400; its integration
+          // tolerance caps the precision of the written physical state,
+          // so it must sit below the main tolerance.  At order 70 the
+          // stiff flow still takes ~1e-3 steps: ~1000 steps total.
+          PhaseRunner exitr(exit_field, 70, 1e-112);
           const Ival target = set.getCurrentTime() + Ival(1);
           while (exitr.step(target, set)) {
           }
