@@ -444,6 +444,18 @@ the first two lower-band focuses certifiable.  A useful local anchor would
 need its own multiprecision point certificate, not a repeated native long
 propagation.
 
+An independent MPFR-200 anchor at the exact rational center
+$\kappa=1.264009098940$ and the fixed fourth-LC clock did pass.  Substituting
+its outward state hull into the local radius-one tile sharpened the first
+focus substantially and retained the two-focus proof, but the componentwise
+third-focus restart still reached momentum widths of order $4\times10^4$ and
+lost transversality.  Starting the octic tail at $\zeta=18$ instead of 15 made
+every decisive anchor width larger: the extra interval flight outweighed the
+smaller analytic tail remainder.  Thus neither roundoff, root-box uncertainty,
+nor tail truncation alone is the dominant obstruction.  The remaining loss is
+the repeated nonlinear chart/Poincare representation of the stable-tail
+uncertainty, and it must be attacked before the section rebox.
+
 ## Double-precision fourth-root phase seed
 
 **Status:** DISPROVED as a quantitative phase estimate.

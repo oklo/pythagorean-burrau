@@ -129,6 +129,14 @@ This is still a massless endpoint-family theorem: the lower band back
 to the fourth root, an effective positive-mass transfer, and entry of the
 exact tied Pythagorean curve remain open.
 
+The lower-band enclosure failure is now localized further.  An MPFR-200
+anchor at the exact rational center $\kappa=1.264009098940$ sharpens the first
+focus but still loses the third componentwise focus restart; moving the octic
+tail start from $\zeta=15$ to 18 makes the anchor wider because of the longer
+interval flight.  The next repair must preserve the stable-tail graph through
+the nonlinear chart and onto the Poincare section, rather than rely on finer
+tiles, a point anchor, or more arithmetic precision alone.
+
 The closest catalog threat, the Li--Liao $F_{30}$ family on the
 $3{:}4{:}5$ mass slice, was locally continued.  Its periodic branch comes
 within about $0.00369$ of the tied shape but its two exact matching equations

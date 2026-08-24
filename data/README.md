@@ -41,3 +41,7 @@ terminal escape.
 `validated_planar_fourth_common_clock_cover_capd.txt` records the integrated
 131-tile common-clock replay and its global worst-case margins on
 `[1.264009099014, 1.264009099457]`.
+
+`validated_planar_fourth_common_clock_anchor_mp_capd.txt` records the
+MPFR-200 fixed-rational common-clock anchor used to diagnose the remaining
+lower-band focus wrapping.

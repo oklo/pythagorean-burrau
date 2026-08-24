@@ -1030,3 +1030,11 @@ it is not a remainder proof.
   propagation was wider, not narrower, and lost the whole-leg $p_r<0$ audit
   before the first focus at offset 45.  Status: **FAILED**; a tile-centered
   repair would require an independent multiprecision point enclosure.
+- Produced that independent MPFR-200 point enclosure at the exact rational
+  center $\kappa=1.264009098940$ and fixed clock $0.37184019$.  A native
+  local mean-value replay sharpened the first focus but still lost the third
+  focus with momentum widths of order $4\times10^4$.  Repeating the MPFR
+  anchor from $\zeta=18$ widened rather than narrowed every decisive state
+  interval.  Status: **VALIDATED NUMERICAL RESULT** for the fixed anchor and
+  **FAILED** as a lower-band repair.  The pinned anchor is archived in
+  `data/validated_planar_fourth_common_clock_anchor_mp_capd.txt`.

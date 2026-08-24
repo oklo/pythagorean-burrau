@@ -67,11 +67,33 @@ interval exact_integer(const char* digits) {
   return interval(digits, digits);
 }
 
+interval exact_integer(long long value) {
+  const std::string digits = std::to_string(value);
+  return interval(digits.c_str(), digits.c_str());
+}
+
 double lower_bound_as_double(const interval& value) {
 #ifdef BURRAU_CAPD_MULTIPRECISION
   return toDouble(value.leftBound());
 #else
   return value.leftBound();
+#endif
+}
+
+double upper_bound_as_double(const interval& value) {
+#ifdef BURRAU_CAPD_MULTIPRECISION
+  return toDouble(value.rightBound());
+#else
+  return value.rightBound();
+#endif
+}
+
+double lower_bound_difference_as_double(
+    const interval& minuend, const interval& subtrahend) {
+#ifdef BURRAU_CAPD_MULTIPRECISION
+  return toDouble(minuend.leftBound() - subtrahend.rightBound());
+#else
+  return minuend.leftBound() - subtrahend.rightBound();
 #endif
 }
 
@@ -2678,23 +2700,25 @@ CommonClockCoverSummary evaluate_fourth_common_clock_escape_cover() {
     ++summary.tile_count;
     summary.maximum_first_focus_beta =
         std::max(summary.maximum_first_focus_beta,
-                 result.first_focus[1].rightBound());
+                 upper_bound_as_double(result.first_focus[1]));
     summary.minimum_first_focus_selected_norm =
         std::min(summary.minimum_first_focus_selected_norm,
-                 result.first_focus_selected_norm.leftBound());
+                 lower_bound_as_double(
+                     result.first_focus_selected_norm));
     summary.minimum_third_focus_alpha_gap =
         std::min(summary.minimum_third_focus_alpha_gap,
-                 third_focus_alpha.leftBound() -
-                     result.separated_section[0].rightBound());
+                 lower_bound_difference_as_double(
+                     third_focus_alpha, result.separated_section[0]));
     summary.minimum_primary_squared =
         std::min(summary.minimum_primary_squared,
-                 result.minimum_primary_squared.leftBound());
+                 lower_bound_as_double(
+                     result.minimum_primary_squared));
     summary.minimum_escape_margin =
         std::min(summary.minimum_escape_margin,
-                 result.escape_margin.leftBound());
+                 lower_bound_as_double(result.escape_margin));
     summary.minimum_finite_mass_margin =
         std::min(summary.minimum_finite_mass_margin,
-                 result.finite_mass_margin.leftBound());
+                 lower_bound_as_double(result.finite_mass_margin));
   };
   for (int offset = 120; offset <= 198; offset += 2) {
     evaluate_tile(offset, 1);
@@ -3682,6 +3706,7 @@ int main(int argc, char** argv) {
     bool third_root_only = false;
     bool fourth_root_only = false;
     bool fourth_root_octic_only = false;
+    bool fourth_common_clock_anchor_only = false;
     bool fourth_fifth_entry_only = false;
     bool fourth_fifth_outgoing_only = false;
     bool fourth_outgoing_probe = false;
@@ -3703,6 +3728,7 @@ int main(int argc, char** argv) {
     int two_centre_duration_million = 0;
     int two_centre_focus_count = 0;
     int collision_phase_scale = 1000000;
+    int common_clock_anchor_offset_pico = 0;
     if (argc == 2 && std::string(argv[1]) == "--second-root") {
       second_root_only = true;
     } else if (argc == 2 && std::string(argv[1]) == "--second-escape") {
@@ -3715,6 +3741,11 @@ int main(int argc, char** argv) {
     } else if (argc == 2 &&
                std::string(argv[1]) == "--fourth-root-octic") {
       fourth_root_octic_only = true;
+    } else if (argc == 3 &&
+               std::string(argv[1]) ==
+                   "--fourth-common-clock-anchor") {
+      fourth_common_clock_anchor_only = true;
+      common_clock_anchor_offset_pico = parse_integer(argv[2]);
     } else if (argc == 2 &&
                std::string(argv[1]) ==
                    "--fourth-common-clock-escape-cover") {
@@ -3838,6 +3869,7 @@ int main(int argc, char** argv) {
       std::cerr << "usage: " << argv[0]
                 << " [--second-root | --third-root | --fourth-root | "
                    "--fourth-root-octic | "
+                   "--fourth-common-clock-anchor OFFSET_PICO | "
                    "--fourth-two-centre-terminal | "
                    "--fourth-fifth-entry | "
                    "--fourth-fifth-outgoing | "
@@ -3947,6 +3979,37 @@ int main(int argc, char** argv) {
          second_fourth_duration_radius_million > 1000000)) {
       throw std::invalid_argument(
           "third-root probe box is outside its safe range");
+    }
+    if (fourth_common_clock_anchor_only &&
+        (common_clock_anchor_offset_pico < -1000 ||
+         common_clock_anchor_offset_pico > 1000)) {
+      throw std::invalid_argument(
+          "common-clock anchor offset is outside its safe range");
+    }
+    if (fourth_common_clock_anchor_only) {
+      const long long numerator =
+          1264009098895LL + common_clock_anchor_offset_pico;
+      const interval kappa =
+          exact_integer(numerator) / exact_integer("1000000000000");
+      const interval common_clock =
+          exact_integer("37184019") / exact_integer("100000000");
+      const Evaluation anchor = evaluate_fourth_pair_collision(
+          kappa, common_clock, kZetaStart, true, true);
+      std::cout << std::scientific << std::setprecision(45)
+                << "FOURTH_COMMON_CLOCK_ANCHOR method=CAPD-6.1.0"
+#ifdef BURRAU_CAPD_MULTIPRECISION
+                   "-MPFR-200"
+#else
+                   "-native"
+#endif
+                << " zeta_start=15"
+                << " offset_pico=" << common_clock_anchor_offset_pico
+                << " kappa=" << kappa
+                << " state=" << anchor.final_state
+                << " kappa_tangent=" << anchor.kappa_tangent << "\n";
+      std::cout << "PASS_FOURTH_COMMON_CLOCK_ANCHOR "
+                   "stage=fixed-rational-fourth-lc-state\n";
+      return 0;
     }
     if (fourth_root_octic_only) {
       const IVector collision = certified_fourth_collision_lc_state();
