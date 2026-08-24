@@ -63,6 +63,46 @@ $\mathcal B=0$ simultaneously* — holds with no hypotheses at all, because
 every scalar is a polynomial in the velocities with no constant term.  The
 soundness of the exclusion certificate (Theorem C) uses only this direction.
 
+## Lemma 1a (exact shape-speed factorization at an event)
+
+Put
+
+\[
+ J_X=\mu_1|X|^2,\qquad J_Y=\mu_2|Y|^2,\qquad
+ s={J_X\over I},\qquad \phi=\arg Y-\arg X.
+\]
+
+At every collision-free zero of $\dot I$ with $X,Y\ne0$ and $L=0$,
+
+\[
+ \boxed{\ \zeta=I\left(\dot s-2i,s(1-s)\dot\phi\right),\qquad
+ |\zeta|^2=8KI\,s(1-s)={8KJ_XJ_Y\over I}.\ }
+\]
+
+**Proof.**  At such an event $\sigma=0$, hence
+$\zeta=2\mu_1\overline X\dot X=-2\mu_2\overline Y\dot Y$.
+Therefore $\operatorname{Re}\zeta=\dot J_X=I\dot s$ and
+$\operatorname{Im}\zeta=2h_X$, where
+$h_X=\mu_1X\times\dot X$ and $h_Y=-h_X$ by $L=0$.  Since
+\[
+ \dot\phi={h_Y\over J_Y}-{h_X\over J_X}
+ =-{Ih_X\over J_XJ_Y},
+\]
+the first formula follows.  Radial--angular decomposition of the Jacobi
+kinetic energy gives, with $d=\dot J_X=-\dot J_Y$ and $h=h_X=-h_Y$,
+\[
+ K={d^2\over8}\left({1\over J_X}+{1\over J_Y}\right)
+   +{h^2\over2}\left({1\over J_X}+{1\over J_Y}\right)
+   ={I(d^2+4h^2)\over8J_XJ_Y}.
+\]
+Here $d^2+4h^2=|\zeta|^2$.  $\blacksquare$
+
+Thus, on a regular maximum branch away from a Jacobi degeneracy, the planar
+origin-avoidance condition is equivalently the scalar strict inequality
+$K=U-U_0>0$.  This is useful for validated enclosures but is not a sign
+obstruction: $K\ge0$ identically, and a genuine brake is a quadratic (or
+higher even-order) zero along a transverse one-parameter branch.
+
 ## Lemma 2 (Lagrange--Jacobi on the tied shell)
 
 Along every collision-free arc of a tied solution,
@@ -95,11 +135,13 @@ into a labelled brake, so $K=0$ and $U=K+U_0=U_0$.  Lemma 2 gives
 $\ddot I=2U_0-4U_0<0$.  Since every potential term is positive,
 $m_im_j/r_{ij}\le U=U_0$.  $\blacksquare$
 
-Consequently the brake locus never approaches any collision: candidate
-events live in the uniformly separated region
-$r_{ij}\ge m_im_j/U_0$, at uniform distance from all singular boundaries of
-the reduced problem.  This is what makes interval enclosures at events well
-conditioned even for orbits with deep intermediate encounters.
+Consequently, for each fixed $u$, the brake locus never approaches a
+collision: candidate events obey the explicit bounds
+$r_{ij}\ge m_im_j/U_0$.  The bounds are uniform on compact parameter
+intervals bounded away from $u=0$, but degenerate in the skinny limit as a
+mass and its associated length tend to zero.  This is what makes interval
+enclosures at events well conditioned for a fixed compact-middle parameter,
+even when its orbit has deep intermediate encounters.
 
 ## Theorem B (structure of the event set)
 
@@ -119,7 +161,7 @@ conditioned even for orbits with deep intermediate encounters.
    that the planar analytic curve $u\mapsto\zeta(u,t_k(u))$ avoids
    $0\in\mathbb C$ (through points with $Y\neq0$; else the statement uses
    $\mathcal B\neq0$);
-4. *(folds)* degenerate events $\dot I=\ddot I=0$ lie on the locus
+4. *(degenerate events)* events with $\dot I=\ddot I=0$ lie on the locus
    $U=2U_0$, where $K=U_0$; a full neighborhood of such an event in the
    $(u,t)$ strip is brake-free, with explicit margin $K\ge U_0/2$ on the
    neighborhood where $U\ge{3\over2}U_0$;
@@ -129,7 +171,8 @@ conditioned even for orbits with deep intermediate encounters.
     \ \ge\ 4K\min\{\mu_1|X|^2,\ \mu_2|Y|^2\},
    \]
    *so the $\zeta$ margin controls, and is controlled by, the kinetic
-   margin and the local geometry.*
+   margin and the local geometry.  When $X,Y\ne0$, Lemma 1a gives the
+   stronger exact equality $|\zeta|^2=8KJ_XJ_Y/I$.*
 
 **Proof.**  (1) Solutions of the Newton equations are real analytic in time
 on collision-free intervals, and analytic in the parameter jointly, by
@@ -193,13 +236,15 @@ hypothesis ($Y\ne0$) is needed anywhere in Theorem C.
 
 * Theorems A--C hold for every real parameter in the fundamental interval;
   nothing restricts them to rationals.
-* Theorem B organizes the global topology: brake candidates form analytic
-  maximum branches whose folds carry a uniform kinetic margin, and the
-  entire event set stays a fixed distance from every collision.  The
-  conjecture over a compact parameter interval is thereby a finite
-  collection of origin-avoidance statements for planar analytic curves,
-  each certifiable by interval enclosures, plus a terminal escape/collision
-  alternative per parameter.
+* Theorem B organizes the local topology: regular brake candidates form
+  analytic maximum branches, while degenerate events carry a uniform kinetic
+  margin, and the
+  event set obeys explicit collision-separation bounds (uniform on parameter
+  compacts bounded away from $u=0$).  A finite uniform time cover would reduce
+  the conjecture on its parameter box to finitely many certified
+  origin-avoidance checks plus a terminal escape/collision alternative.  The
+  event theorem alone supplies neither that cover nor global finiteness of
+  branches.
 * The reduction is exact and parameter-uniform, but it does not by itself
   bound $N$ or the integration time; those bounds are supplied per compact
   parameter set by the terminal certificate actually firing, which is a

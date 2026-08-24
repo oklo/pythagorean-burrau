@@ -49,13 +49,15 @@ maximum of $I$ satisfies $U<2U_0$, hence $r_{ij}>m_im_j/(2U_0)$.
 
 **Theorem B (event-set structure).**  The brake-candidate event set is the
 union of the $I$-apocenter curves $\{\dot I=0,\ \ddot I<0\}$ in the $(u,t)$
-strip.  Its fold points (where branches are born or merge) lie exactly on the
+strip.  Every degenerate event $\dot I=\ddot I=0$ lies on the
 locus $U=2U_0$, which is disjoint from the brake shell $U=U_0$; therefore no
-brake occurs at a fold, and on each regular branch the conjecture is exactly
+brake occurs at such an event, and on each regular branch the conjecture is exactly
 the statement that the continuous planar curve
 $u\mapsto\zeta(u,t_k(u))\in\mathbb C$ avoids the origin.  Collision and
 near-collision boundaries never meet the event set (Theorem A's separation
-bound), so event enclosures are uniformly well conditioned.
+bound); on a fixed compact parameter interval away from $u=0$, event
+enclosures are therefore uniformly separated from collision.  The bound
+degenerates at the skinny endpoint.
 
 **Theorem C (certificate soundness).**  Fix a compact parameter interval
 $[u_-,u_+]$ and for each covering box suppose validated computation produces

@@ -176,3 +176,38 @@ def test_kinetic_energy_at_degenerate_events() -> None:
     masses, state0 = initial_state_real(0.25)
     u0 = potential(state0, masses)
     assert abs(initial_potential(0.25) - u0) < 1e-12
+
+
+def test_damped_construction_forcing_hits_exact_target() -> None:
+    """The LC entry/exit inflation contains an exact graph overwrite.
+
+    This is the scalar identity used coordinatewise by the CAPD runtime
+    gate.  The required constant forcing may depend on the initial graph
+    point; integrating the whole forcing interval encloses all such choices.
+    """
+    rate, duration = sp.symbols("c tau", positive=True)
+    initial, target = sp.symbols("y_0 T", real=True)
+    decay = sp.exp(-rate * duration)
+    forcing = rate * decay * (target - initial) / (1 - decay)
+    endpoint = target + decay * (initial - target) + forcing * (1 - decay) / rate
+    assert sp.simplify(endpoint - target) == 0
+
+
+def test_exact_event_shape_speed_factorization() -> None:
+    """At I_dot=L=0, |zeta|^2 = 8 K J_X J_Y / I exactly."""
+    j_x, j_y = sp.symbols("J_X J_Y", positive=True)
+    d, h = sp.symbols("d h", real=True)
+    kinetic = (d**2 / 8 + h**2 / 2) * (1 / j_x + 1 / j_y)
+    zeta_squared = d**2 + 4 * h**2
+    assert sp.simplify(
+        zeta_squared - 8 * kinetic * j_x * j_y / (j_x + j_y)
+    ) == 0
+
+    inertia = j_x + j_y
+    shape = j_x / inertia
+    shape_rate = d / inertia
+    angle_rate = -h * inertia / (j_x * j_y)
+    shape_zeta_squared = inertia**2 * (
+        shape_rate**2 + 4 * shape**2 * (1 - shape) ** 2 * angle_rate**2
+    )
+    assert sp.simplify(shape_zeta_squared - zeta_squared) == 0

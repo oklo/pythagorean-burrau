@@ -89,6 +89,44 @@ This is useful family-intersection evidence, not a proof of local
 nonintersection.  A validated implicit-function continuation with an interval
 lower bound on the two-component offset would be required for that theorem.
 
+### Two-mass continuation to the general Burrau locus
+
+A sharper five-equation shooting calculation allowed both independent mass
+ratios to vary.  With $m_3=r_{12}=1$, it solved the three Hopf second-brake
+equations together with
+\[
+ r_{23}=m_1,\qquad r_{31}=m_2.
+\]
+The same $F_{30}$ branch converged to the ordinary-numerical candidate
+\[
+ (m_1,m_2,m_3)\approx
+ (0.594811646571,0.801774973308,1),
+\]
+\[
+ (x,y,T/2)\approx
+ (0.144521106463,0.476902140010,6.28923382327).
+\]
+Its sampled minimum separation is about $0.00263339$, but the remaining
+Pythagorean mass defect is
+\[
+ m_1^2+m_2^2-1\approx-0.003355997281.
+\]
+Equivalently, because the side matching is imposed, its triangle has right
+defect $r_{12}^2-r_{23}^2-r_{31}^2\approx+0.003355997281$: it is a general
+mass--side-tied periodic candidate, not a Pythagorean one.
+
+At tighter DOP853 tolerances the five residuals were below
+$2.8\times10^{-9}$ in magnitude, relative energy drift was below
+$2.0\times10^{-10}$, and a centered finite-difference shooting Jacobian had
+smallest singular value about $0.199$ and determinant about
+$-4.39\times10^4$. This is strong ordinary evidence that the nearby general
+Burrau intersection is isolated and transverse, and that the right-angle
+condition misses it locally. An independent implicit Radau solve returned
+$m_1=0.594811646539$, $m_2=0.801774973328$ and Pythagorean defect
+$-0.003355997286$, agreeing at the displayed accuracy. It is not a validated
+implicit-function theorem.
+The full record is `data/f30_mass_side_periodic_candidate.txt`.
+
 ## Collision and symmetry exclusions
 
 - The Szebehely--Peters almost-Pythagorean periodic construction has a binary

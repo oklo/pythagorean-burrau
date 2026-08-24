@@ -43,6 +43,46 @@ second-brake locus; endpoint limits; and proof that later evolution cannot
 undo the separation.  Moeckel--Montgomery--Venturelli's regularized collision
 orbit cannot itself settle this classical collision-free problem.
 
+## Maximum-event branch route
+
+The exact event reduction is complete: every brake is a strict maximum of
+$I$, lies on $U=U_0$, and obeys an explicit pairwise collision-separation
+bound (uniform on parameter compacts away from $u=0$). Folds and
+minima carry the uniform kinetic margin $K\ge U_0$. On every regular maximum
+branch $t=t_k(u)$, the remaining condition is the planar origin-avoidance
+problem
+
+\[
+ u\longmapsto\zeta(u,t_k(u))\in\mathbb C\setminus\{0\}.
+\]
+
+Writing $s=\mu_1|X|^2/I$ and $\phi=\arg Y-\arg X$, the exact event identity
+\[
+ \zeta=I(\dot s-2is(1-s)\dot\phi),\qquad
+ |\zeta|^2=8KI s(1-s)
+\]
+shows that the same condition is $K=U-U_0>0$ away from Jacobi degeneracy.
+This scalar is nonnegative and has an even-order zero at a transverse brake,
+so ordinary sign arguments and intermediate-value reasoning cannot exclude
+or force a zero.
+
+Five individual rational parameters have complete validated covers, but the
+unresolved universal obligations are:
+
+1. bound or classify the number of maximum branches before the terminal
+   collision/escape alternative, uniformly on a parameter component;
+2. prove a sign, winding, Wronskian, or ordering invariant that keeps every
+   branch image away from the origin;
+3. classify branch creation at collision, escape, infinite return time, and
+   degenerate $\dot I=\ddot I=0$ events;
+4. if real zeros remain, locate them rigorously before attempting rational
+   exclusion.
+
+Exhaustive compact-middle covering is not an acceptable substitute: measured
+through-encounter parameter amplification is about $3\times10^8$ and grows
+further at late events. The event reduction is a smaller exact problem, but
+not by itself the missing global obstruction.
+
 ## Endpoint route
 
 For $u\to0$, the first-encounter, pre-plunge, and incoming-tail matching

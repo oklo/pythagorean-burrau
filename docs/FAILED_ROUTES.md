@@ -492,3 +492,33 @@ exact 500-millisecond branch skipped its evolution. All three are repaired.
 The first and third affected diagnostics or unused branches, while the
 second invalidated pre-repair lower-anchor experiments. Every result retained
 in the proof ledger was replayed after the relevant repair.
+
+## Brute-force compact-middle parameter covering
+
+**Status:** FAILED as a plausible universal proof architecture.
+
+Validated point certificates are effective, but measured parameter
+amplification through one compact-middle close encounter is about
+$3\times10^8$ and later event horizons can amplify much more.  Escape times
+also need not be uniformly bounded near boundaries of the escaping set.
+Consequently a rectangular subdivision of the entire $u$ interval would
+require uncontrolled refinement and supplies no finiteness theorem.  This
+does not disprove the conjecture or validated covering on a prescribed
+compact box.  It shows that the universal step must classify maximum-event
+branches or provide a sign, winding, or ordering obstruction; isolated point
+certificates cannot simply be extrapolated into a continuum proof.
+
+## Nominal-duration damped LC overwrite audit
+
+**Status:** DISPROVED as a rigorous duration bound; repaired.
+
+The first runtime overwrite gate used
+$\tau_-=t_{\rm target,left}-t_{\rm start,right}$.  CAPD's interval time map
+may declare completion as soon as the current-time interval overlaps the
+target, which does not prove that every trajectory advanced by that nominal
+lower duration.  Because the admissible overwrite gap grows with duration,
+this could accept an unjustifiably large gap.  The repaired verifier saves
+the initial construction state, completes the interval flow, and audits with
+$t_{\rm end,left}-t_{\rm start,right}$, rejecting a nonpositive result.  A
+fresh four-passage deep-encounter replay passed.  The pre-repair smoke alone
+must not be cited; the archived smoke summary records the post-repair replay.

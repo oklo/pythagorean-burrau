@@ -146,3 +146,18 @@ All entries are ORDINARY NUMERICAL EVIDENCE unless marked otherwise.
     multi-passage LC (damped-write entries into stale chart blocks) to
     remove the ~47-digit pre-encounter tax from the four shallower
     encounters, after which even a 1e-110 budget finishes comfortably.
+
+18. **Main-worktree damped-write audit.** The exact solution of
+    $y'=400(T-y)+f$ was converted into a runtime inclusion gate for every
+    LC entry and exit coordinate. An adversarial pass then rejected the
+    nominal-duration implementation because CAPD target overlap need not
+    bound every construction duration below. The gate now uses the actual
+    post-flow lower duration
+    $t_{\rm end,left}-t_{\rm start,right}>0$ and the saved initial state.
+    A fresh 256-bit/tolerance-$10^{-40}$/order-50 smoke replay passed four
+    successive entries and exits, including the
+    deep $t\approx3.166$ passage. The deep chart exited at physical time
+    $3.1670113440018755$ after 140 capped sigma steps with no collision and
+    reconstructed physical hull width $4.9715\times10^{-5}$. The run was
+    stopped there by design. Status: **VALIDATED NUMERICAL RESULT** for the
+    repaired finite chart chain; no terminal Burrau certificate is claimed.

@@ -3,6 +3,15 @@
 Working against frozen checkpoint payload
 `4e28e91e4b69937b777501cba942ee26186cc139`.  Entries newest first.
 
+> **Main-worktree audit, 2026-08-24.**  This file is a historical handoff,
+> not itself a proof ledger.  The committed archive presently supports five
+> named point theorems.  A sixth log for $u=5/14$ exists only as an untracked
+> artifact in the source worktree and has not been promoted.  No terminal
+> `PASS_BURRAU_LC` or `PASS_BURRAU_EVENT` record for $u=1/3$ was found; the
+> projected $3{:}4{:}5$ result below remains pending.  The multipassage LC
+> source has since passed a finite four-entry/exit smoke replay after a
+> damped-write soundness repair, but that truncated replay is not a theorem.
+
 ## 2026-08-24 (d): LC covering verifier operational; Burrau closing; final cost model
 
 **Multi-passage Levi--Civita covering verifier (the big deliverable).**

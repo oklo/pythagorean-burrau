@@ -428,6 +428,23 @@ Evidence level: ORDINARY NUMERICAL EVIDENCE.  Reproduce the central point:
 .venv/bin/python -m scripts.continue_f30
 ```
 
+On 2026-08-24 the continuation was extended to both independent mass ratios.
+A five-equation solve imposed the three Hopf brake residuals and the two
+mass--opposite-side equalities. It located a nearby general Burrau periodic
+candidate at $(m_1,m_2)\approx(0.594811646571,0.801774973308)$, but its
+Pythagorean defect is $-0.003355997281$. A tighter replay gave relative energy
+drift $1.91\times10^{-10}$ and a finite-difference shooting Jacobian with
+smallest singular value $0.199$. An independent implicit Radau solve agreed
+in the masses to $3.2\times10^{-11}$ and in the Pythagorean defect to
+$4.9\times10^{-12}$. Status remains **ORDINARY NUMERICAL
+EVIDENCE**; no validated periodic existence or local exclusion is claimed.
+Reproduce with
+
+```bash
+uv run python -m scripts.continue_f30 --solve-mass-side \
+  --diagnose-jacobian --rtol 2e-13 --atol 2e-15 --max-step 0.001
+```
+
 ## 2026-08-23: certified global triple-endpoint coefficient
 
 - Attached the exact collision-stable base family and canonical fast mode at
@@ -1064,3 +1081,25 @@ it is not a remainder proof.
   that skipped propagation. The state enclosures of the first bug were
   unaffected, no stored proof used the third branch, and all pre-repair
   lower-anchor experiments affected by the second bug were discarded.
+
+## 2026-08-24: Fable event reduction and LC-verifier audit
+
+- Imported and independently replayed the exact event-cover architecture.
+  The $u=2/5$ command returned `PASS_TIED_EVENT` after 613 validated steps
+  and a terminal escape margin above $0.2271$.  This independently supports
+  the archived theorem for $(21,20,29)$.
+- Audited the multipassage pair-$\{1,3\}$ Levi--Civita equations and found a
+  localized proof gap in the damped entry/exit graph overwrite: an inflated
+  forcing interval was used without checking that it contained the exact
+  state-dependent constant forcing.  Added the exact scalar formula and a
+  coordinatewise runtime inclusion gate.  An independent adversarial pass
+  then found that CAPD target overlap did not justify the nominal duration
+  lower bound.  The final gate uses the actual post-flow clock lower endpoint
+  minus the saved start upper endpoint; it rejects nonpositive durations.
+- At 256 bits, the post-adversarial-repair verifier completed four LC
+  entry/exit cycles for
+  exact $u=1/3$, including the deep encounter near physical time $3.166$.
+  Every $|w|^2>0$ collision check and every overwrite gate passed.  The run
+  was deliberately stopped at $t\simeq3.1670$, before any terminal escape
+  certificate; it is therefore a finite validated smoke audit, not a proof
+  for $(3,4,5)$.

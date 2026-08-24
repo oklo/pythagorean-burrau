@@ -12,7 +12,7 @@
 \title{Exact Reductions for the Pythagorean--Burrau\\
 Nonperiodicity Conjecture}
 \author{Working research draft}
-\date{August 22, 2026}
+\date{August 24, 2026}
 
 \begin{document}
 \maketitle
@@ -24,7 +24,12 @@ triple.  The desired nonperiodicity theorem is not proved in this draft.  We
 give exact reductions to primitive triples and a rational algebraic parameter
 curve, prove equivalence with absence of a second brake, construct a
 syzygy-valid three-component reduced brake residual, derive the universal
-zero-angular-momentum reduced system, and verify exact initial identities.  We
+zero-angular-momentum reduced system, and verify exact initial identities.
+The Lagrange--Jacobi identity further reduces every possible second brake to
+an explicitly collision-separated strict maximum of the moment of inertia and
+gives a finite validated-cover criterion.  This criterion has certified five
+named primitive triples, but it does not yet control all maximum-event
+branches over the parameter curve.  We
 also prove that the real isosceles-right endpoint has no second brake and ends
 in finite collision. At the opposite singular endpoint, a Levi--Civita
 argument proves that every sufficiently skinny member avoids the limiting
@@ -156,6 +161,104 @@ Away from triple collision, $Dh$ has rank three and kernel equal to the common
 rotation direction.  Since total linear and angular momentum vanish,
 $\Bcal=0$ is equivalent to vanishing of every labelled inertial velocity.
 Unlike three mutual-distance derivatives, this remains true at syzygy.
+
+\section{Maximum-event reduction}
+
+Let
+\[
+ I=\mu_1|X|^2+\mu_2|Y|^2,\qquad
+ \sigma=\mu_1\overline X\dot X+\mu_2\overline Y\dot Y,
+ \qquad
+ \zeta=\mu_1\overline X\dot X-\mu_2\overline Y\dot Y .
+\]
+Here complex multiplication identifies the oriented plane with $\mathbb C$.
+Then $\dot I=2\operatorname{Re}\sigma$ and the angular momentum is
+$L=\operatorname{Im}\sigma$.  Consequently, at $L=0$ and away from $Y=0$,
+\[
+ \dot I=0\ \hbox{ and }\ \zeta=0
+ \quad\Longleftrightarrow\quad
+ \dot X=\dot Y=0.
+\]
+The implication from a brake to these three scalar equalities is
+unconditional.  At the Jacobi degeneracy $Y=0$, the Hopf residual $\Bcal$
+above supplies the coordinate-independent converse.
+
+This splitting has an exact shape interpretation.  Put
+$J_X=\mu_1|X|^2$, $J_Y=\mu_2|Y|^2$, $s=J_X/I$, and
+$\phi=\arg Y-\arg X$.  At every zero of $\dot I$ with $X,Y\ne0$ and $L=0$,
+\[
+ \boxed{\quad
+ \zeta=I\left(\dot s-2i,s(1-s)\dot\phi\right),\qquad
+ |\zeta|^2={8KJ_XJ_Y\over I}=8KI\,s(1-s).
+ \quad}
+\]
+Indeed $\sigma=0$ gives
+$\zeta=2\mu_1\overline X\dot X=-2\mu_2\overline Y\dot Y$; decomposing each
+Jacobi velocity into radial and angular parts proves both formulas.  Thus a
+maximum event is a brake exactly when its shape velocity vanishes, and the
+origin-avoidance problem can equivalently be written as the scalar strict
+inequality $K=U-U_0>0$.  Because this scalar is nonnegative and has an
+even-order zero at a transverse brake, this reformulation does not create a
+sign-change argument by itself.
+
+\begin{theorem}[Brake-event identities]
+Along a collision-free free-fall solution with initial potential $U_0$, every
+brake satisfies
+\[
+ K=0,\qquad U=U_0,\qquad \ddot I=-2U_0<0,
+ \qquad r_{ij}\geq {m_im_j\over U_0}.
+\]
+At any zero of $\dot I$ for which $\ddot I\geq0$, one instead has
+$K\geq U_0$.
+\end{theorem}
+\begin{proof}
+With positive potential magnitude $U$ and energy $H=K-U=-U_0$, the
+Lagrange--Jacobi identity is
+\[
+ \ddot I=4K-2U=2K-2U_0=2U-4U_0.
+\]
+At a brake $K=0$, giving the first three assertions.  Since every summand
+$m_im_j/r_{ij}$ is positive and bounded above by $U=U_0$, the separation
+bound follows.  If $\ddot I\geq0$, the middle expression instead gives
+$K\geq U_0$.
+\end{proof}
+
+\begin{corollary}[Validated-cover criterion]
+Suppose a finite sequence of validated flow enclosures covers a classical
+trajectory segment and every enclosure proves at least one of
+\[
+ \dot I\ne0,\qquad K>0,\qquad \Bcal\ne0.
+\]
+Then that segment contains no brake.  If its terminal enclosure satisfies a
+proved forward collision-or-escape criterion that permits no later brake,
+the initial free-fall solution is nonperiodic.
+\end{corollary}
+
+This criterion has been implemented with exact rational initial data and
+MPFR interval arithmetic.  The archived certificates prove the conjecture
+for
+\[
+(21,20,29),\ (5311,5280,7489),\ (8319,8200,11681),
+\ (33439,32400,46561),\ (72,65,97)
+\]
+in both leg orderings.  These are five point theorems, not a parameter-cover
+argument.
+
+For each fixed $u$ the separation bound is positive, and it is uniform on
+every compact parameter interval bounded away from $u=0$.  It degenerates in
+the skinny limit and is not a parameter-uniform Euclidean separation theorem
+on the whole open interval.
+
+On any regular strict-maximum branch, the implicit-function theorem locally
+gives $t=t_k(u)$.  The unresolved condition becomes the planar
+origin-avoidance problem
+\[
+ u\longmapsto \zeta(u,t_k(u))\in\mathbb C\setminus\{0\}.
+\]
+To turn this into a universal theorem one must also control branch creation,
+collision and escape endpoints, degenerate events, and the possible number
+of branches.  The nominal dimension count alone supplies none of these
+facts.
 
 \section{Universal reduced system}
 
@@ -2307,9 +2410,13 @@ measure zero, analyticity, nor the nominal three-equations/two-unknowns count
 excludes rational zeros.  A proof still requires either no real zero, an exact
 arithmetic characterization of all real zeros, or a finite exact reduction.
 
-The active route factors a possible brake, away from Jacobi degeneracies, into
-two radial-rate equations followed by an angular-slip equation, and seeks to
-classify the isolated double-radial events along the first-syzygy continuation.
+The active compact-middle route follows the strict-maximum branches
+$\dot I=0$, on which the exact shape-speed factorization reduces a possible
+brake to $\zeta=0$, equivalently $K=U-U_0=0$.  It seeks to classify these
+branches and prove their shape speed never vanishes.  The earlier local route
+factors a possible brake into two radial-rate equations followed by an
+angular-slip equation; it remains useful where its two-by-two event Jacobian
+is nonsingular.
 Ordinary scans show both signs of angular slip on different double-radial
 events, ruling out a universal fixed-sign shortcut. The skinny route now
 controls the full incoming plunge and proves open escape windows. On the
@@ -2355,7 +2462,17 @@ catalog supplies a validated exact counterexample.  Local shooting continuation
 of the $F_{30}$ family varies its masses and reduces the tied-shape gap to about
 $0.00369$, but the two shape-matching coordinates cross zero at distinct mass
 parameters.  This is ordinary numerical evidence, not validated
-nonintersection.
+nonintersection.  Allowing both independent mass ratios to vary and imposing
+the two mass--opposite-side equations locates a nearby general Burrau periodic
+candidate at
+\[
+ (m_1,m_2,m_3)\approx(0.594811646571,0.801774973308,1).
+\]
+Its remaining Pythagorean defect is approximately $-0.003355997281$.
+The five-equation shooting Jacobian has ordinary-numerical smallest singular
+value about $0.199$, suggesting an isolated transverse non-Pythagorean
+intersection.  A validated implicit-function enclosure is still required for
+a local theorem.
 
 \section{Open proof obligations}
 

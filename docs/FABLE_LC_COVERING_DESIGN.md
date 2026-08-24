@@ -95,7 +95,7 @@ encounters inside the chart where they are regular.
    anyway be a classical termination, but the certificate should not
    silently regularize through it).
 
-## Implementation recipe (worked out, not yet implemented)
+## Implementation recipe (subsequently implemented and under audit)
 
 State (18-dim, one set): physical $(X,Y,\dot X,\dot Y)$ plus chart block
 $(w,z,h,G,P,t_{\rm phys})$ for the close pair $\{1,3\}$ (relative vector
@@ -134,3 +134,48 @@ both linear with rational coefficients; inverse linear too).
   encounters ever reach comparable depth (for $u=1/3$ the $t\approx3.166$
   encounter is pair $\{1,3\}$: $r_{13}$ dips to $8.3\times10^{-5}$ while
   $r_{12},r_{23}\approx0.54$).
+
+## 2026-08-24 main-worktree audit of the damped writes
+
+The implementation is now present in
+`src/fable/verification/burrau_lc_certificate_capd.cpp`. An independent
+main-worktree audit made the informal exit inflation into a runtime proof
+obligation. For one scalar coordinate, with frozen target $T$,
+
+\[
+ y'=c(T-y)+f,
+\]
+
+the endpoint after duration $\tau$ equals $T$ for
+
+\[
+ f_*={ce^{-c\tau}(T-y_0)\over1-e^{-c\tau}}.
+\]
+
+Thus a symmetric forcing interval $[-\varepsilon,\varepsilon]$ contains an
+exact graph overwrite whenever
+
+\[
+ |T-y_0|\le
+ {\varepsilon(1-e^{-c\tau_-})\over ce^{-c\tau_-}},
+\]
+
+where $\tau_->0$ is the rigorous lower construction duration. An adversarial
+audit caught that CAPD can declare a target reached when the current-time
+interval merely overlaps it; the nominal target difference was therefore not
+a valid lower duration. The verifier now runs the construction, computes
+\[
+ \tau_-=(t_{\rm end})_{\rm left}-(t_{\rm start})_{\rm right},
+\]
+requires it to be positive, and applies the coordinatewise audit to the
+saved initial construction state. The scalar identity has an exact SymPy
+regression in `tests/fable/test_event_reduction.py`.
+
+A fresh 256-bit, tolerance-$10^{-40}$, order-50 post-repair smoke replay
+passed four stale-block
+entry/exit cycles through physical time $3.1670113440$, including the deep
+$t\simeq3.166$ encounter. The deep LC passage exited after 140 capped
+$\sigma$-steps; every swept enclosure had $|w|^2>0$, and the reconstructed
+physical hull width was below $4.98\times10^{-5}$. The replay was deliberately
+stopped after this audit target. This is a **VALIDATED NUMERICAL RESULT** for
+the finite chart chain, not a $3{:}4{:}5$ nonperiodicity theorem.

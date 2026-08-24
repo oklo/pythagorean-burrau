@@ -7,7 +7,27 @@ The complete run summary is `RUN_REPORT_2026-08-23.md`.
 Outcome so far: **major partial theorem (Levels D and E), but unresolved full
 conjecture**. The main rational conjecture and strong real conjecture remain
 CONJECTURAL. No rational or real exact second-brake intersection has been
-established. Infinitely many open real skinny parameter intervals are now
+established. The imported Fable event theorem gives a new exact global
+reduction: every brake is a strict $I$-maximum with $U=U_0$ and explicit
+pairwise collision separation (uniform on parameter compacts away from
+$u=0$), while every fold/minimum of $I$ has $K\ge U_0$.
+Accordingly a validated time cover may exclude a brake stepwise using any of
+$\dot I\ne0$, $K>0$, or $\mathcal B\ne0$ before invoking the terminal
+binary--escaper theorem. At every regular $I$ event away from Jacobi
+degeneracy, the exact identity
+$|\zeta|^2=8KI s(1-s)$ identifies $\zeta$ with the two-component shape
+velocity and reduces origin avoidance to the scalar inequality $K>0$; its
+zeros are even-order, so this is not a sign-change proof. Five committed
+point certificates, including an
+independently replayed $u=2/5$ case, prove the conjecture for named primitive
+triples in the compact middle. The exact $3{:}4{:}5$ certificate remains
+pending: its repaired multipassage LC verifier now passes four construction
+cycles through the deep $t\simeq3.166$ encounter, but no terminal PASS record
+has been obtained. A two-mass continuation of the nearby $F_{30}$ periodic
+family locates an ordinary-numerical general mass--side-tied candidate, but its
+Pythagorean defect is $-0.00335599728$ and its shooting Jacobian appears
+nonsingular; this is a useful threat localization, not a validated
+nonintersection. Infinitely many open real skinny parameter intervals are now
 proved nonperiodic; consequently infinitely many distinct primitive
 Pythagorean triples satisfy the conjecture. The exact foundations,
 coordinate-valid brake residual, universal reduced system, uniform fourth-jet

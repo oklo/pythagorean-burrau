@@ -350,6 +350,96 @@ Ival pair_g_sq(const Vector& s) {
   return g1 * g1 + g2 * g2;
 }
 
+Ival damped_write_gap_allowance(const Ival& forcing,
+                                const Ival& duration_lower) {
+  // For y' = c(T-y)+f with frozen T and duration tau,
+  // y(tau)=T exactly when
+  //   f = c exp(-c tau) (T-y(0))/(1-exp(-c tau)).
+  // The right side decreases with tau.  Thus the interval forcing
+  // contains the required state-dependent value whenever every target
+  // gap is bounded by the quantity below at the rigorous lower duration.
+  if (!(duration_lower.leftBound() > 0)) {
+    throw std::runtime_error(
+        "damped construction has no positive duration lower bound");
+  }
+  const Ival rate(400);
+  const Ival decay = exp(-rate * duration_lower);
+  const Ival forcing_magnitude(forcing.rightBound());
+  return forcing_magnitude * (Ival(1) - decay) / (rate * decay);
+}
+
+void require_gap_inside_allowance(const Ival& gap,
+                                  const Ival& allowance,
+                                  const char* label) {
+  const auto bound = allowance.leftBound();
+  if (!(gap.leftBound() >= -bound && gap.rightBound() <= bound)) {
+    std::cerr << "FAIL " << label << " gap=["
+              << bound_double(gap.leftBound()) << ","
+              << bound_double(gap.rightBound()) << "] allowance="
+              << bound_double(bound) << "\n";
+    throw std::runtime_error(
+        "damped construction forcing does not cover exact overwrite");
+  }
+}
+
+void audit_entry_damped_write(const Vector& s, bool form_a,
+                              const Ival& forcing,
+                              const Ival& duration_lower) {
+  const Ival gx = s[2] + 3 * s[0] / 7;
+  const Ival gy = s[3] + 3 * s[1] / 7;
+  const Ival gdx = s[6] + 3 * s[4] / 7;
+  const Ival gdy = s[7] + 3 * s[5] / 7;
+  const Ival abs_g = sqrt(gx * gx + gy * gy);
+  Ival wr, wi;
+  if (form_a) {
+    wr = sqrt((abs_g + gx) / 2);
+    wi = gy / (2 * wr);
+  } else {
+    wi = sqrt((abs_g - gx) / 2);
+    wr = gy / (2 * wi);
+  }
+  Vector target(9);
+  target[0] = wr;
+  target[1] = wi;
+  target[2] = (wr * gdx + wi * gdy) / 2;
+  target[3] = (wr * gdy - wi * gdx) / 2;
+  target[4] = (gdx * gdx + gdy * gdy) / 2 - Ival(9) / (5 * abs_g);
+  target[5] = 16 * s[0] / 21 - 5 * s[2] / 9;
+  target[6] = 16 * s[1] / 21 - 5 * s[3] / 9;
+  target[7] = 16 * s[4] / 21 - 5 * s[6] / 9;
+  target[8] = 16 * s[5] / 21 - 5 * s[7] / 9;
+  const Ival allowance =
+      damped_write_gap_allowance(forcing, duration_lower);
+  for (int i = 0; i < 9; ++i) {
+    require_gap_inside_allowance(
+        target[i] - s[8 + i], allowance, "entry construction");
+  }
+}
+
+void audit_exit_damped_write(const Vector& s, const Ival& forcing,
+                             const Ival& duration_lower) {
+  const Ival w2 = s[8] * s[8] + s[9] * s[9];
+  const Ival gx = s[8] * s[8] - s[9] * s[9];
+  const Ival gy = 2 * s[8] * s[9];
+  const Ival gdx = 2 * (s[8] * s[10] - s[9] * s[11]) / w2;
+  const Ival gdy = 2 * (s[8] * s[11] + s[9] * s[10]) / w2;
+  Vector target(8);
+  target[0] = s[13] + 5 * gx / 9;
+  target[1] = s[14] + 5 * gy / 9;
+  target[2] = 16 * gx / 21 - 3 * s[13] / 7;
+  target[3] = 16 * gy / 21 - 3 * s[14] / 7;
+  target[4] = s[15] + 5 * gdx / 9;
+  target[5] = s[16] + 5 * gdy / 9;
+  target[6] = 16 * gdx / 21 - 3 * s[15] / 7;
+  target[7] = 16 * gdy / 21 - 3 * s[16] / 7;
+  const Ival allowance =
+      damped_write_gap_allowance(forcing, duration_lower);
+  for (int i = 0; i < 8; ++i) {
+    require_gap_inside_allowance(
+        target[i] - s[i], allowance, "exit construction");
+  }
+}
+
 struct PhaseRunner {
   Solver solver;
   std::unique_ptr<TimeMap> tm;
@@ -555,9 +645,20 @@ int main(int argc, char** argv) {
             entry_field.setParameter("f" + std::to_string(i), eps_entry);
           }
           PhaseRunner entry(entry_field, 70, 1e-112);
-          const Ival target = set.getCurrentTime() + Ival(1);
+          const Vector construction_initial(set);
+          const Ival construction_start = set.getCurrentTime();
+          const Ival target = construction_start + Ival(1);
           while (entry.step(target, set)) {
           }
+          // ITimeMap may declare completion when the current time interval
+          // merely overlaps the target.  Therefore the nominal target
+          // difference is not a proved lower duration.  Audit against the
+          // actual post-flow lower endpoint instead.
+          const Ival duration_lower(
+              set.getCurrentTime().leftBound() -
+              construction_start.rightBound());
+          audit_entry_damped_write(
+              construction_initial, form_a, eps_entry, duration_lower);
           // Guard: the chart block must now be genuinely written.
           const Vector post_entry(set);
           const Ival w2chk = post_entry[8] * post_entry[8] +
@@ -657,9 +758,16 @@ int main(int argc, char** argv) {
           // so it must sit below the main tolerance.  At order 70 the
           // stiff flow still takes ~1e-3 steps: ~1000 steps total.
           PhaseRunner exitr(exit_field, 70, 1e-112);
-          const Ival target = set.getCurrentTime() + Ival(1);
+          const Vector construction_initial(set);
+          const Ival construction_start = set.getCurrentTime();
+          const Ival target = construction_start + Ival(1);
           while (exitr.step(target, set)) {
           }
+          const Ival duration_lower(
+              set.getCurrentTime().leftBound() -
+              construction_start.rightBound());
+          audit_exit_damped_write(
+              construction_initial, eps_exit, duration_lower);
           const Vector post(set);
           std::cout << "exit construction done tp=" << to_double(post[17])
                     << " hull_width=" << hull_width(post, 8) << "\n"

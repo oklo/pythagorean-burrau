@@ -65,4 +65,7 @@ real intersection with the tied curve.  Conversely, these finite and mostly
 numerical sources do not prove nonintersection.  The strongest catalog warning
 is the close $F_{30}$ near miss recorded in `COUNTEREXAMPLE_AUDIT.md`.  A local
 ordinary-numerical continuation of that periodic family reduces its shape gap
-but finds no tied-curve crossing; validated continuation remains open.
+but finds no Pythagorean tied-curve crossing. Allowing both mass ratios to vary
+locates an ordinary-numerical general mass--side-tied periodic candidate, but
+its Pythagorean defect is about $-0.003356$ and its shooting Jacobian appears
+nonsingular. Validated continuation and local nonintersection remain open.

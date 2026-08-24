@@ -55,3 +55,15 @@ correlation-preserving section graph.
 native CAPD tile carried through the exact $\alpha=2\pi$ and $\beta=-1$
 sections and the terminal bridge. It is an individual validated tile, not a
 finite continuum cover.
+
+The `fable/` subdirectory contains the imported point-certificate logs for
+five named primitive triples. `fable/burrau_lc_damped_write_smoke.log`
+records only a deliberately truncated finite-segment audit of the repaired
+$u=1/3$ multipassage LC chart; it has no terminal PASS marker and is not a
+$3{:}4{:}5$ theorem record.
+
+`f30_mass_side_periodic_candidate.txt` records an ordinary five-equation
+shooting solution on the nearby Li--Liao $F_{30}$ family. Its masses match
+the three opposite side lengths numerically, but its Pythagorean defect is
+about $-3.356\times10^{-3}$. It is a counterexample-audit diagnostic, not a
+validated periodic orbit or a Pythagorean counterexample.
