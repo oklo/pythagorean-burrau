@@ -125,3 +125,15 @@ All entries are ORDINARY NUMERICAL EVIDENCE unless marked otherwise.
     overriding setMaxStep; time-interval width compounding from target
     arithmetic — fixed by driving the zone with direct capped solver
     moves.  The 1e-120/order-90 production run carries the theorem.
+
+16. **Burrau budget model (measured).**  The 512-bit/1e-120/order-90 LC
+    production run calibrated the full digit budget: ~47 digits to reach
+    the deep encounter (t=3.166), ~2 through the LC passage, then a
+    post-encounter burn of ~10/unit through t~8.4 that collapses to
+    ~0.2/unit as the system separates (t=8.4-9.3), with violent local
+    spikes (4 digits in 0.009 units at t=9.95).  Total requirement
+    ~127 digits; the 1e-120 run died at t~9.95 as this model predicts.
+    In flight: 512/1e-130/order-130 (racer3, marginal, ~1.4 units/hour)
+    and 768/1e-160/order-110 (insurance, comfortable, ~0.65 units/hour).
+    Pre-encounter burn is nearly config-independent (~47-48 digits at
+    orders 90-130), so step size does not dominate the wrapping there.
