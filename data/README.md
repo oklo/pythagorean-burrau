@@ -45,3 +45,13 @@ terminal escape.
 `validated_planar_fourth_common_clock_anchor_mp_capd.txt` records the
 MPFR-200 fixed-rational common-clock anchor used to diagnose the remaining
 lower-band focus wrapping.
+
+`validated_planar_fourth_common_clock_anchor_39_mp_capd.txt` and
+`validated_planar_fourth_common_clock_anchor_near_root_mp_capd.txt` record
+two additional MPFR-200 rational fixed-clock anchors used by the
+correlation-preserving section graph.
+
+`validated_planar_fourth_common_clock_correlated_tile_capd.txt` records one
+native CAPD tile carried through the exact $\alpha=2\pi$ and $\beta=-1$
+sections and the terminal bridge. It is an individual validated tile, not a
+finite continuum cover.

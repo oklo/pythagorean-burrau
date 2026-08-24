@@ -401,10 +401,13 @@ limiting parameter in
 \]
 as prior collision or terminal regularized escape.  Its 131 overlapping
 tiles close an explicit adjacent continuum except for the thin lower band
-between the existential
-fourth-root neighborhood and the displayed left endpoint.  An effective
-positive-mass/tied-family entry estimate, that lower band, and continuation
-beyond the displayed right endpoint remain open. Exclusion or location of
+between the existential fourth-root neighborhood and the displayed left
+endpoint. A correlation-preserving exact-section graph now validates at least
+one tile in that band and reaches with microtiles to about
+$2.2\times10^{-14}$ above the certified root box, but no finite overlapping
+atlas or effective overlap with the root-local theorem has been proved. An
+effective positive-mass/tied-family entry estimate, completion of that atlas,
+and continuation beyond the displayed right endpoint remain open. Exclusion or location of
 further collision boundaries also remains open. In particular the cover only
 overlaps the current broad projection for the third root and does not certify
 which side contains its exact parameter.

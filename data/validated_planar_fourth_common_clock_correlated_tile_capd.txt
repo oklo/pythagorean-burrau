@@ -1,0 +1,9 @@
+CAPD_COMMIT=731079217a9254ea2948d742df2b170895effe7f
+CAPD_INTERVAL_BACKEND=NATIVE
+COMMAND=bash scripts/run_capd_planar_light_collision_newton.sh /private/tmp/pythagorean-capd /private/tmp/pythagorean-capd/build-native --fourth-common-clock-beta-atto-tile 44000000 100000 1
+KAPPA=[1.264009098938900,1.264009098939100]
+SECTION_CHAIN=alpha=2*pi,beta=-1
+MINIMUM_PRIMARY_SQUARED=[0x1.3d6bbd67dcbafp-5,0x1.01ae55f1e9fa6p-4]
+ESCAPE_MARGIN=[0x1.3eb5b0e36f346p+2,0x1.273d60cdf6bep+4]
+FINITE_MASS_MARGIN=[0x1.474158b8aadc5p+2,0x1.296c19f4f85c3p+4]
+PASS_COMMON_CLOCK_FOCUS method=CAPD-6.1.0-native stage=fourth-neighborhood-two-centre-focus

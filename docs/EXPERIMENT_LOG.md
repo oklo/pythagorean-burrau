@@ -1038,3 +1038,29 @@ it is not a remainder proof.
   interval.  Status: **VALIDATED NUMERICAL RESULT** for the fixed anchor and
   **FAILED** as a lower-band repair.  The pinned anchor is archived in
   `data/validated_planar_fourth_common_clock_anchor_mp_capd.txt`.
+- Replaced componentwise Poincare restarts by a one-generator common-clock
+  graph and exact artificial-time section flows. The $\alpha$ flow appends
+  $d=A-\alpha$ and scales the whole two-centre vector field by $d/(-p_r)$;
+  the $\beta$ flow analogously uses $d/(-p_i)$. Directed whole-step audits
+  prove that these are orientation-preserving reparametrizations of the same
+  orbit. Exact symbolic regressions cover the section identity and anchored
+  graph recentering. Status: **EXACT SYMBOLIC IDENTITY**.
+- Generated MPFR-200 common-clock anchors at the exact rational parameters
+  $1.264009098934$ and $1.264009098933320$. The latter is within
+  $1.9\times10^{-15}$ of the certified fourth-root box, but its point hull
+  still wraps in the terminal bridge. Status: **VALIDATED NUMERICAL RESULT**
+  for both point anchors and **FAILED** as an effective root-overlap proof.
+- Replayed the native tile
+  $[1.264009098938900,1.264009098939100]$ through
+  $\alpha=2\pi$, $\beta=-1$, a one-millisecond regularized leg, and the
+  heavy-binary bridge. The minimum light--primary squared distance is above
+  `0x1.3d6bbd67dcbafp-5`; the terminal restricted and finite-mass-form
+  margins are above `0x1.3eb5b0e36f346p+2` and
+  `0x1.474158b8aadc5p+2`. Status: **VALIDATED NUMERICAL RESULT** for this
+  individual tile, not a continuum theorem.
+- Independent audits caught and repaired three code defects: absolute versus
+  relative Poincare time diagnostics; omission of a fixed anchor from the
+  derivative hull for tiles below it; and an exactly 500-millisecond branch
+  that skipped propagation. The state enclosures of the first bug were
+  unaffected, no stored proof used the third branch, and all pre-repair
+  lower-anchor experiments affected by the second bug were discarded.

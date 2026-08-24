@@ -131,6 +131,22 @@ std::string optional_zero_prefix(int count) {
   return count > 0 ? frozen_zeros(count) + "," : "";
 }
 
+std::string suffix_variables(int count) {
+  std::string result;
+  for (int index = 0; index < count; ++index) {
+    result += ",d" + std::to_string(index);
+  }
+  return result;
+}
+
+std::string suffix_zeros(int count) {
+  std::string result;
+  for (int index = 0; index < count; ++index) {
+    result += ",0";
+  }
+  return result;
+}
+
 IMap make_combined_shape_field() {
   return IMap(
       "var:zs,x,y,vx,vy,ls,ur,ui,vr,vi,h,t,R;"
@@ -645,7 +661,9 @@ IMap make_prefixed_bridge_negative_entry_field(int frozen_count) {
 
 std::pair<std::string, std::string> two_centre_reversed_momentum(
     const std::string& sr, const std::string& si,
-    const std::string& cr, const std::string& ci) {
+    const std::string& cr, const std::string& ci,
+    const std::string& pr = "pr", const std::string& pi = "pi",
+    const std::string& energy = "ee") {
   const std::string metric =
       "((" + sr + "^2+" + si + "^2)*(" + cr + "^2+" + ci + "^2))";
   const std::string zr =
@@ -666,12 +684,13 @@ std::pair<std::string, std::string> two_centre_reversed_momentum(
   const std::string k0i =
       "(2*(" + azr + "*" + di + "+" + azi + "*" + dr + ")/9)";
   const std::string br =
-      "(-2*ee*((" + ar + ")*(" + zr + ")+(" + ai + ")*(" + zi + "))+" +
-      k0r + "-" + metric + "*pr/3)";
+      "(-2*(" + energy + ")*((" + ar + ")*(" + zr + ")+(" + ai +
+      ")*(" + zi + "))+" + k0r + "-" + metric + "*(" + pr + ")/3)";
   const std::string bi =
-      "(-2*ee*((" + ai + ")*(" + zr + ")-(" + ar + ")*(" + zi + "))+" +
+      "(-2*(" + energy + ")*((" + ai + ")*(" + zr + ")-(" + ar +
+      ")*(" + zi + "))+" +
       k0i + "+2*(" + si + "*" + cr + "-" + sr + "*" + ci + ")/9-" +
-      metric + "*pi/3)";
+      metric + "*(" + pi + ")/3)";
   return {"-(" + br + ")", "-(" + bi + ")"};
 }
 
@@ -824,6 +843,206 @@ IMap make_prefixed_two_centre_xi_field(int frozen_count) {
               "," + momentum.second + ",(pr^2+pi^2)/3,-" + metric + ";");
 }
 
+IMap make_prefixed_two_centre_xi_field_with_suffix(
+    int frozen_count, int suffix_count) {
+  const std::string exp_half = "exp(beta/2)";
+  const std::string exp_minus_half = "exp(-beta/2)";
+  const std::string cosh_half =
+      "((" + exp_half + "+" + exp_minus_half + ")/2)";
+  const std::string sinh_half =
+      "((" + exp_half + "-" + exp_minus_half + ")/2)";
+  const std::string sr = "(sin(alpha/2)*" + cosh_half + ")";
+  const std::string si = "(cos(alpha/2)*" + sinh_half + ")";
+  const std::string cr = "(cos(alpha/2)*" + cosh_half + ")";
+  const std::string ci = "(-sin(alpha/2)*" + sinh_half + ")";
+  const auto momentum =
+      two_centre_reversed_momentum(sr, si, cr, ci);
+  const std::string metric =
+      "((" + sr + "^2+" + si + "^2)*(" + cr + "^2+" + ci + "^2))";
+  return IMap("var:" + optional_variable_prefix(frozen_count) +
+              "alpha,beta,pr,pi,ee,zz" + suffix_variables(suffix_count) +
+              ";fun:" + optional_zero_prefix(frozen_count) +
+              "-pr,-pi," + momentum.first + "," + momentum.second +
+              ",(pr^2+pi^2)/3,-" + metric + suffix_zeros(suffix_count) +
+              ";");
+}
+
+IMap make_prefixed_two_centre_alpha_delta_field(
+    int frozen_count, int existing_suffix_count) {
+  return IMap(
+      "par:C;var:" + optional_variable_prefix(frozen_count) +
+      "alpha,beta,pr,pi,ee,zz" +
+      suffix_variables(existing_suffix_count + 1) + ";fun:" +
+      frozen_zeros(frozen_count + 6 + existing_suffix_count) +
+      ",C-alpha;");
+}
+
+IMap make_prefixed_two_centre_alpha_projection_field(
+    int frozen_count, int existing_suffix_count) {
+  const std::string exp_half = "exp(beta/2)";
+  const std::string exp_minus_half = "exp(-beta/2)";
+  const std::string cosh_half =
+      "((" + exp_half + "+" + exp_minus_half + ")/2)";
+  const std::string sinh_half =
+      "((" + exp_half + "-" + exp_minus_half + ")/2)";
+  const std::string sr = "(sin(alpha/2)*" + cosh_half + ")";
+  const std::string si = "(cos(alpha/2)*" + sinh_half + ")";
+  const std::string cr = "(cos(alpha/2)*" + cosh_half + ")";
+  const std::string ci = "(-sin(alpha/2)*" + sinh_half + ")";
+  const auto momentum =
+      two_centre_reversed_momentum(sr, si, cr, ci);
+  const std::string metric =
+      "((" + sr + "^2+" + si + "^2)*(" + cr + "^2+" + ci + "^2))";
+  const std::string delta =
+      "d" + std::to_string(existing_suffix_count);
+  const std::string factor = "(" + delta + "/(-pr))";
+  return IMap(
+      "var:" + optional_variable_prefix(frozen_count) +
+      "alpha,beta,pr,pi,ee,zz" +
+      suffix_variables(existing_suffix_count + 1) + ";fun:" +
+      optional_zero_prefix(frozen_count) + "(-pr)*" + factor +
+      ",(-pi)*" + factor + ",(" + momentum.first + ")*" + factor +
+      ",(" + momentum.second + ")*" + factor +
+      ",((pr^2+pi^2)/3)*" + factor + ",(-" + metric + ")*" +
+      factor + suffix_zeros(existing_suffix_count + 1) + ";");
+}
+
+IMap make_prefixed_two_centre_beta_delta_field(
+    int frozen_count, int existing_suffix_count) {
+  return IMap(
+      "par:C;var:" + optional_variable_prefix(frozen_count) +
+      "alpha,beta,pr,pi,ee,zz" +
+      suffix_variables(existing_suffix_count + 1) + ";fun:" +
+      frozen_zeros(frozen_count + 6 + existing_suffix_count) +
+      ",C-beta;");
+}
+
+IMap make_prefixed_two_centre_beta_projection_field(
+    int frozen_count, int existing_suffix_count) {
+  const std::string exp_half = "exp(beta/2)";
+  const std::string exp_minus_half = "exp(-beta/2)";
+  const std::string cosh_half =
+      "((" + exp_half + "+" + exp_minus_half + ")/2)";
+  const std::string sinh_half =
+      "((" + exp_half + "-" + exp_minus_half + ")/2)";
+  const std::string sr = "(sin(alpha/2)*" + cosh_half + ")";
+  const std::string si = "(cos(alpha/2)*" + sinh_half + ")";
+  const std::string cr = "(cos(alpha/2)*" + cosh_half + ")";
+  const std::string ci = "(-sin(alpha/2)*" + sinh_half + ")";
+  const auto momentum =
+      two_centre_reversed_momentum(sr, si, cr, ci);
+  const std::string metric =
+      "((" + sr + "^2+" + si + "^2)*(" + cr + "^2+" + ci + "^2))";
+  const std::string delta =
+      "d" + std::to_string(existing_suffix_count);
+  const std::string factor = "(" + delta + "/(-pi))";
+  return IMap(
+      "var:" + optional_variable_prefix(frozen_count) +
+      "alpha,beta,pr,pi,ee,zz" +
+      suffix_variables(existing_suffix_count + 1) + ";fun:" +
+      optional_zero_prefix(frozen_count) + "(-pr)*" + factor +
+      ",(-pi)*" + factor + ",(" + momentum.first + ")*" + factor +
+      ",(" + momentum.second + ")*" + factor +
+      ",((pr^2+pi^2)/3)*" + factor + ",(-" + metric + ")*" +
+      factor + suffix_zeros(existing_suffix_count + 1) + ";");
+}
+
+IMap make_prefixed_two_centre_xi_bridge_graph_field(
+    int frozen_count, int suffix_count = 0) {
+  const std::string exp_half = "exp(beta/2)";
+  const std::string exp_minus_half = "exp(-beta/2)";
+  const std::string cosh_half =
+      "((" + exp_half + "+" + exp_minus_half + ")/2)";
+  const std::string sinh_half =
+      "((" + exp_half + "-" + exp_minus_half + ")/2)";
+  const std::string sr = "(sin(alpha/2)*" + cosh_half + ")";
+  const std::string si = "(cos(alpha/2)*" + sinh_half + ")";
+  const std::string cr = "(cos(alpha/2)*" + cosh_half + ")";
+  const std::string ci = "(-sin(alpha/2)*" + sinh_half + ")";
+  const auto momentum =
+      two_centre_reversed_momentum(sr, si, cr, ci);
+  const std::string metric =
+      "((" + sr + "^2+" + si + "^2)*(" + cr + "^2+" + ci + "^2))";
+  const std::string scale = "exp(log(9)/3)";
+  const std::string half_binary = "(" + scale + "*l^2/2)";
+  const std::string plus_squared =
+      "((x+" + half_binary + ")^2+y^2)";
+  const std::string minus_squared =
+      "((x-" + half_binary + ")^2+y^2)";
+  const std::string plus_denominator =
+      "(" + plus_squared + "*sqrt(" + plus_squared + "))";
+  const std::string minus_denominator =
+      "(" + minus_squared + "*sqrt(" + minus_squared + "))";
+  const std::string force_x =
+      "((x+" + half_binary + ")/" + plus_denominator +
+      "+(x-" + half_binary + ")/" + minus_denominator + ")";
+  const std::string force_y =
+      "(y/" + plus_denominator + "+y/" + minus_denominator + ")";
+  const std::string physical_clock_factor = "(l^3*" + metric + ")";
+  return IMap(
+      "var:" + optional_variable_prefix(frozen_count) +
+      "alpha,beta,pr,pi,ee,zz" + suffix_variables(suffix_count) +
+      ",l,x,y,vx,vy;fun:" +
+      optional_zero_prefix(frozen_count) + "-pr,-pi," + momentum.first +
+      "," + momentum.second + ",(pr^2+pi^2)/3,-" + metric +
+      suffix_zeros(suffix_count) + ",-l*" + metric + "/3,-" +
+      physical_clock_factor + "*vx,-" +
+      physical_clock_factor + "*vy," + physical_clock_factor + "*" +
+      force_x + "," + physical_clock_factor + "*" + force_y + ";");
+}
+
+IMap make_prefixed_two_centre_positive_pi_projection(
+    int frozen_count, int suffix_count = 0) {
+  const std::string exp_half = "exp(beta/2)";
+  const std::string exp_minus_half = "exp(-beta/2)";
+  const std::string cosh_half =
+      "((" + exp_half + "+" + exp_minus_half + ")/2)";
+  const std::string sinh_half =
+      "((" + exp_half + "-" + exp_minus_half + ")/2)";
+  const std::string sr = "(sin(alpha/2)*" + cosh_half + ")";
+  const std::string si = "(cos(alpha/2)*" + sinh_half + ")";
+  const std::string cr = "(cos(alpha/2)*" + cosh_half + ")";
+  const std::string ci = "(-sin(alpha/2)*" + sinh_half + ")";
+  const std::string s_norm = "(" + sr + "^2+" + si + "^2)";
+  const std::string c_norm = "(" + cr + "^2+" + ci + "^2)";
+  const std::string metric = "(" + s_norm + "*" + c_norm + ")";
+  const std::string zr =
+      "((" + cr + "^2-" + ci + "^2-" + sr + "^2+" + si + "^2)/2)";
+  const std::string zi = "(" + cr + "*" + ci + "-" + sr + "*" + si + ")";
+  const std::string pi_squared =
+      "(2*" + metric + "*ee+2*(" + metric + "*(" + zr + "^2+" +
+      zi + "^2)+" + s_norm + "+" + c_norm + ")/9-pr^2)";
+  const std::string identity_prefix =
+      frozen_count > 0 ? frozen_identity(frozen_count) + "," : "";
+  return IMap("var:" + optional_variable_prefix(frozen_count) +
+              "alpha,beta,pr,pi,ee,zz" +
+              suffix_variables(suffix_count) + ";fun:" + identity_prefix +
+              "alpha,beta,pr,sqrt(" + pi_squared + "),ee,zz" +
+              suffix_variables(suffix_count) + ";");
+}
+
+IMap make_prefixed_two_centre_alpha_projection(
+    int frozen_count, int suffix_count = 0) {
+  const std::string identity_prefix =
+      frozen_count > 0 ? frozen_identity(frozen_count) + "," : "";
+  IMap map("par:A;var:" + optional_variable_prefix(frozen_count) +
+           "alpha,beta,pr,pi,ee,zz" + suffix_variables(suffix_count) +
+           ";fun:" + identity_prefix + "A,beta,pr,pi,ee,zz" +
+           suffix_variables(suffix_count) + ";");
+  return map;
+}
+
+IMap make_prefixed_two_centre_beta_projection(
+    int frozen_count, int suffix_count = 0) {
+  const std::string identity_prefix =
+      frozen_count > 0 ? frozen_identity(frozen_count) + "," : "";
+  IMap map("par:B;var:" + optional_variable_prefix(frozen_count) +
+           "alpha,beta,pr,pi,ee,zz" + suffix_variables(suffix_count) +
+           ";fun:" + identity_prefix + "alpha,B,pr,pi,ee,zz" +
+           suffix_variables(suffix_count) + ";");
+  return map;
+}
+
 IMap make_two_centre_xi_to_bridge_map() {
   const std::string exp_half = "exp(beta/2)";
   const std::string exp_minus_half = "exp(-beta/2)";
@@ -856,7 +1075,8 @@ IMap make_two_centre_xi_to_bridge_map() {
               velocity_scale + "*(" + zeta_i + "+2*(" + zi + ")/3);");
 }
 
-IMap make_two_centre_xi_bridge_entry_field() {
+IMap make_prefixed_two_centre_xi_bridge_entry_field(
+    int frozen_count, int suffix_count = 0) {
   const std::string exp_half = "exp(beta/2)";
   const std::string exp_minus_half = "exp(-beta/2)";
   const std::string cosh_half =
@@ -871,7 +1091,9 @@ IMap make_two_centre_xi_bridge_entry_field() {
       "(-(" + sr + "*" + cr + "-" + si + "*" + ci + "))";
   const std::string ai =
       "(-(" + sr + "*" + ci + "+" + si + "*" + cr + "))";
-  const std::string a_norm = "((" + ar + ")^2+(" + ai + ")^2)";
+  const std::string s_norm = "(" + sr + "^2+" + si + "^2)";
+  const std::string c_norm = "(" + cr + "^2+" + ci + "^2)";
+  const std::string a_norm = "(" + s_norm + "*" + c_norm + ")";
   const std::string zr =
       "((" + cr + "^2-" + ci + "^2-" + sr + "^2+" + si + "^2)/2)";
   const std::string zi =
@@ -885,11 +1107,19 @@ IMap make_two_centre_xi_bridge_entry_field() {
   const std::string radius =
       "(exp(log(9)/3)*(" + lambda + ")^2)";
   const std::string velocity_scale = "(" + radius + "/" + time + ")";
-  return IMap("var:alpha,beta,pr,pi,ee,zz,l,x,y,vx,vy;fun:0,0,0,0,0,0," +
-              lambda + "," + radius + "*(" + zr + ")," + radius + "*(" +
-              zi + ")," + velocity_scale + "*(" + zeta_r + "+2*(" + zr +
-              ")/3)," + velocity_scale + "*(" + zeta_i + "+2*(" + zi +
-              ")/3);");
+  return IMap("var:" + optional_variable_prefix(frozen_count) +
+              "alpha,beta,pr,pi,ee,zz" +
+              suffix_variables(suffix_count) +
+              ",l,x,y,vx,vy;fun:" +
+              frozen_zeros(frozen_count + 6) +
+              suffix_zeros(suffix_count) + "," + lambda + "," +
+              radius + "*(" + zr + ")," + radius + "*(" + zi + ")," +
+              velocity_scale + "*(" + zeta_r + "+2*(" + zr + ")/3)," +
+              velocity_scale + "*(" + zeta_i + "+2*(" + zi + ")/3);");
+}
+
+IMap make_two_centre_xi_bridge_entry_field() {
+  return make_prefixed_two_centre_xi_bridge_entry_field(0);
 }
 
 TailData stable_tail_data(const interval& kappa,
@@ -1174,6 +1404,49 @@ C0Rect2Set lift_with_zero_coordinates(const C0Rect2Set& source,
   }
   return C0Rect2Set(x, c, r0, b, r,
                     source.getCurrentTime());
+}
+
+C0Rect2Set append_coordinate_copies(
+    const C0Rect2Set& source,
+    const std::vector<int>& source_indices) {
+  const int source_dimension = source.get_x().dimension();
+  const int target_dimension =
+      source_dimension + static_cast<int>(source_indices.size());
+  IVector x(target_dimension);
+  IVector r(target_dimension);
+  IVector r0(target_dimension);
+  IMatrix c(target_dimension, target_dimension);
+  IMatrix b(target_dimension, target_dimension);
+  for (int row = 0; row < source_dimension; ++row) {
+    x[row] = source.get_x()[row];
+    r[row] = source.get_r()[row];
+    r0[row] = source.get_r0()[row];
+    for (int column = 0; column < source_dimension; ++column) {
+      c[row][column] = source.get_C()[row][column];
+      b[row][column] = source.get_B()[row][column];
+    }
+  }
+  for (int appended = 0;
+       appended < static_cast<int>(source_indices.size());
+       ++appended) {
+    const int source_row = source_indices[appended];
+    if (source_row < 0 || source_row >= source_dimension) {
+      throw std::invalid_argument(
+          "coordinate-copy source index is outside the set");
+    }
+    const int target_row = source_dimension + appended;
+    x[target_row] = source.get_x()[source_row];
+    r[target_row] = interval(0.0);
+    r0[target_row] = interval(0.0);
+    for (int column = 0; column < source_dimension; ++column) {
+      c[target_row][column] = source.get_C()[source_row][column];
+      b[target_row][column] = source.get_B()[source_row][column];
+    }
+    c[target_row][target_row] = interval(1.0);
+    b[target_row][target_row] = interval(1.0);
+  }
+  return C0Rect2Set(
+      x, c, r0, b, r, source.getCurrentTime());
 }
 
 C0Rect2Set append_coordinate_map(const C0Rect2Set& source,
@@ -1818,6 +2091,84 @@ IVector cached_multiprecision_fourth_collision_lc_state() {
   return collision;
 }
 
+IVector cached_multiprecision_common_clock_anchor_lc_state() {
+  // Exact rational center kappa=1.264009098940 at clock 0.37184019;
+  // outward MPFR-200 hull pinned in
+  // data/validated_planar_fourth_common_clock_anchor_mp_capd.txt.
+  IVector state(6);
+  state[0] = interval(
+      "-0.00000000692753601172027525263307751025052880942974559",
+      "-0.00000000250663492172297190935670433363483862923415800");
+  state[1] = interval(
+      "0.00000400242520042219331649207419624990558836787538",
+      "0.00000400413040759468074517400097681261555975125698");
+  state[2] = interval(
+      "0.707106771748836438867139652265338328643246510",
+      "0.707106790597257641841354978895611461147476069");
+  state[3] = interval(
+      "-0.0000163948704282976058933837935172579435620060",
+      "-0.0000163880084370197757819521236940899037621766");
+  state[4] = interval(
+      "31.1472280915808136446982152885117964174908275",
+      "31.1472281823594588083858525320828948454193957");
+  state[5] = interval(
+      "0.264422994251821496696318539598194550615641735",
+      "0.264422994447578562755955323306455897621996963");
+  return state;
+}
+
+IVector cached_multiprecision_lower_common_clock_anchor_lc_state() {
+  // Exact rational center kappa=1.264009098934 at clock 0.37184019;
+  // outward MPFR-200 hull independently replayed with
+  // --fourth-common-clock-anchor 39.
+  IVector state(6);
+  state[0] = interval(
+      "-0.00000000701342316950840931674678198353674845952208455",
+      "-0.00000000259252491502463756188820273708083575575352444");
+  state[1] = interval(
+      "0.000000408443681904159044984879764888526882001395806",
+      "0.000000410148878062612667958770233618757320075268415");
+  state[2] = interval(
+      "0.707106771761322278762200590587693945959040381",
+      "0.707106790609731304547463113346207697364976330");
+  state[3] = interval(
+      "-0.00000201659799644014715984718792546790494302710432",
+      "-0.00000200973606891276992754501859636572783846493314");
+  state[4] = interval(
+      "31.1472280918029447066411227739581413658977007",
+      "31.1472281825815340103112350560956342315955141");
+  state[5] = interval(
+      "0.264422994251030894403252803057227396978811706",
+      "0.264422994446786451472843304367944882649275970");
+  return state;
+}
+
+IVector cached_multiprecision_near_root_common_clock_anchor_lc_state() {
+  // Exact rational center kappa=1.264009098933320 at clock 0.37184019;
+  // outward MPFR-200 hull independently replayed with
+  // --fourth-common-clock-anchor-atto 38320000.
+  IVector state(6);
+  state[0] = interval(
+      "-0.00000000702299296000301973017323417075087253181246782",
+      "-0.00000000260209404818696495226638046803027521397770425");
+  state[1] = interval(
+      "0.00000000112577503793500759369249077010078124710039689",
+      "0.00000000283097241812844508869112053955243455313920165");
+  state[2] = interval(
+      "0.707106771762237850298501373040561908653385554",
+      "0.707106790610649666525240605204473834683815782");
+  state[3] = interval(
+      "-0.000000387060458903242440322590012272614347344853573",
+      "-0.000000380198527559751817658033920154382616886943781");
+  state[4] = interval(
+      "31.1472280918277401289206491089943754780834229",
+      "31.1472281826063422627569899255153674471236775");
+  state[5] = interval(
+      "0.264422994250736609997159273207871097240885122",
+      "0.264422994446492107148806105917724804003537261");
+  return state;
+}
+
 struct EscapeEvaluation {
   IVector lc_exit;
   IVector bridge_exit;
@@ -2413,9 +2764,78 @@ IVector mean_value_fourth_common_clock_state(const interval& kappa) {
   return state;
 }
 
+IVector fourth_common_clock_kappa_tangent_from_anchor(
+    const interval& kappa, const interval& anchor_kappa) {
+  const interval root_kappa(
+      "1.26400909893331527", "1.26400909893331813");
+  const interval common_clock =
+      exact_integer("37184019") / exact_integer("100000000");
+  const interval hull(
+      std::min(std::min(root_kappa.leftBound(), anchor_kappa.leftBound()),
+               kappa.leftBound()),
+      std::max(std::max(root_kappa.rightBound(), anchor_kappa.rightBound()),
+               kappa.rightBound()));
+  return evaluate_fourth_pair_collision(
+             hull, common_clock, kZetaStart, true, true)
+      .kappa_tangent;
+}
+
+C0Rect2Set fourth_common_clock_graph_set(const interval& kappa) {
+  const interval near_root_anchor_kappa =
+      (exact_integer("1264009098895000000") + exact_integer("38320000")) /
+      exact_integer("1000000000000000000");
+  const interval lower_anchor_kappa =
+      exact_integer("1264009098934") / exact_integer("1000000000000");
+  const interval upper_anchor_kappa =
+      exact_integer("1264009098940") / exact_integer("1000000000000");
+  const interval anchor_switch =
+      exact_integer("1264009098937") / exact_integer("1000000000000");
+  const interval near_root_switch =
+      exact_integer("126400909893466") / exact_integer("100000000000000");
+  const bool use_near_root_anchor =
+      kappa.mid().rightBound() <= near_root_switch.rightBound();
+  const bool use_lower_anchor = !use_near_root_anchor &&
+      kappa.mid().rightBound() <= anchor_switch.rightBound();
+  const interval anchor_kappa = use_near_root_anchor
+      ? near_root_anchor_kappa
+      : (use_lower_anchor ? lower_anchor_kappa : upper_anchor_kappa);
+  const IVector anchor = use_near_root_anchor
+      ? cached_multiprecision_near_root_common_clock_anchor_lc_state()
+      : (use_lower_anchor
+             ? cached_multiprecision_lower_common_clock_anchor_lc_state()
+             : cached_multiprecision_common_clock_anchor_lc_state());
+  const IVector tangent =
+      fourth_common_clock_kappa_tangent_from_anchor(kappa, anchor_kappa);
+  const interval kappa_center = kappa.mid();
+  const interval center_displacement = kappa_center - anchor_kappa;
+  IVector x(6);
+  IVector r(6);
+  IVector r0(6);
+  IMatrix c(6, 6);
+  IMatrix b(6, 6);
+  for (int row = 0; row < 6; ++row) {
+    const interval anchor_center = anchor[row].mid();
+    const interval tangent_center = tangent[row].mid();
+    x[row] =
+        anchor_center + tangent_center * center_displacement;
+    r[row] =
+        anchor[row] - anchor_center +
+        (tangent[row] - tangent_center) * center_displacement;
+    r0[row] = interval(0.0);
+    for (int column = 0; column < 6; ++column) {
+      c[row][column] = interval(row == column ? 1.0 : 0.0);
+      b[row][column] = interval(row == column ? 1.0 : 0.0);
+    }
+    c[row][0] = tangent[row];
+  }
+  r0[0] = kappa - kappa_center;
+  return C0Rect2Set(x, c, r0, b, r, interval(0.0));
+}
+
 void audit_common_clock_two_centre_leg(
     const C0Rect2Set& initial, IMap& field,
     const interval& return_time, bool require_decreasing_beta,
+    bool require_increasing_alpha = true,
     int coordinate_offset = 6) {
   C0Rect2Set audit_set = initial;
   IOdeSolver audit_solver(field, 30);
@@ -2429,7 +2849,11 @@ void audit_common_clock_two_centre_leg(
   do {
     audit_map(audit_end, audit_set);
     const IVector enclosure = audit_set.getLastEnclosure();
-    if (!(enclosure[coordinate_offset + 2].rightBound() < 0.0)) {
+    if (require_increasing_alpha &&
+        !(enclosure[coordinate_offset + 2].rightBound() < 0.0)) {
+      std::cerr << std::hexfloat
+                << "COMMON_CLOCK_ALPHA_AUDIT enclosure=" << enclosure
+                << " return_time=" << return_time << "\n";
       throw std::runtime_error(
           "common-clock two-centre leg lost increasing alpha");
     }
@@ -2441,11 +2865,143 @@ void audit_common_clock_two_centre_leg(
   } while (!audit_map.completed());
 }
 
-CommonClockFocusEvaluation evaluate_fourth_common_clock_focus(
+interval project_common_clock_alpha_section(
+    C0Rect2Set& active, const interval& target_alpha,
+    int existing_suffix_count) {
+  IMap field = make_prefixed_two_centre_xi_field_with_suffix(
+      6, existing_suffix_count);
+  C0Rect2Set probe = active;
+  const C0Rect2Set audit_initial = active;
+  IOdeSolver probe_solver(field, 30);
+  probe_solver.setAbsoluteTolerance(kSolverTolerance);
+  probe_solver.setRelativeTolerance(kSolverTolerance);
+  ICoordinateSection section(
+      12 + existing_suffix_count, 6, target_alpha);
+  IPoincareMap poincare(
+      probe_solver, section, capd::poincare::MinusPlus);
+  poincare.setMaxReturnTime(10.0);
+  interval return_time;
+  poincare(probe, return_time);
+  const interval relative_return_time =
+      return_time - active.getCurrentTime();
+  audit_common_clock_two_centre_leg(
+      audit_initial, field, relative_return_time, false, true, 6);
+
+  const interval projection_margin =
+      exact_integer(1) / exact_integer(256);
+  const interval fixed_leg =
+      return_time.left() - projection_margin - active.getCurrentTime();
+  if (!(fixed_leg.leftBound() > 0.0)) {
+    throw std::runtime_error(
+        "common-clock alpha projection has no positive fixed leg");
+  }
+  propagate_relative_time(active, field, fixed_leg);
+  const IVector before_projection = static_cast<IVector>(active);
+  if (!(before_projection[6].rightBound() < target_alpha.leftBound() &&
+        before_projection[8].rightBound() < 0.0)) {
+    std::cerr << std::hexfloat
+              << "COMMON_CLOCK_ALPHA_PROJECTION_ENTRY target="
+              << target_alpha << " state=" << before_projection << "\n";
+    throw std::runtime_error(
+        "common-clock alpha projection missed its monotone tube");
+  }
+
+  IMap delta_field = make_prefixed_two_centre_alpha_delta_field(
+      6, existing_suffix_count);
+  delta_field.setParameter("C", target_alpha);
+  active = append_coordinate_map(active, 1, delta_field);
+  IMap projection_field =
+      make_prefixed_two_centre_alpha_projection_field(
+          6, existing_suffix_count);
+  propagate_relative_time(
+      active, projection_field, interval(1.0), 0.02);
+  const IVector projected = static_cast<IVector>(active);
+  if (!(projected[6].contains(target_alpha) &&
+        projected[8].rightBound() < 0.0)) {
+    std::cerr << std::hexfloat
+              << "COMMON_CLOCK_ALPHA_PROJECTION_EXIT target="
+              << target_alpha << " state=" << projected << "\n";
+    throw std::runtime_error(
+        "common-clock alpha projection lost section or transversality");
+  }
+  return relative_return_time;
+}
+
+interval project_common_clock_beta_section(
+    C0Rect2Set& active, const interval& target_beta,
+    int existing_suffix_count) {
+  IMap field = make_prefixed_two_centre_xi_field_with_suffix(
+      6, existing_suffix_count);
+  C0Rect2Set probe = active;
+  const C0Rect2Set audit_initial = active;
+  IOdeSolver probe_solver(field, 30);
+  probe_solver.setAbsoluteTolerance(kSolverTolerance);
+  probe_solver.setRelativeTolerance(kSolverTolerance);
+  ICoordinateSection section(
+      12 + existing_suffix_count, 7, target_beta);
+  IPoincareMap poincare(
+      probe_solver, section, capd::poincare::PlusMinus);
+  poincare.setMaxReturnTime(10.0);
+  interval return_time;
+  poincare(probe, return_time);
+  const interval relative_return_time =
+      return_time - active.getCurrentTime();
+  audit_common_clock_two_centre_leg(
+      audit_initial, field, relative_return_time, true, true, 6);
+
+  const interval projection_margin =
+      exact_integer(1) / exact_integer(256);
+  const interval fixed_leg =
+      return_time.left() - projection_margin - active.getCurrentTime();
+  if (!(fixed_leg.leftBound() > 0.0)) {
+    throw std::runtime_error(
+        "common-clock beta projection has no positive fixed leg");
+  }
+  propagate_relative_time(active, field, fixed_leg);
+  const IVector before_projection = static_cast<IVector>(active);
+  if (!(before_projection[7].leftBound() > target_beta.rightBound() &&
+        before_projection[9].leftBound() > 0.0)) {
+    std::cerr << std::hexfloat
+              << "COMMON_CLOCK_BETA_PROJECTION_ENTRY target="
+              << target_beta << " state=" << before_projection << "\n";
+    throw std::runtime_error(
+        "common-clock beta projection missed its monotone tube");
+  }
+
+  IMap delta_field = make_prefixed_two_centre_beta_delta_field(
+      6, existing_suffix_count);
+  delta_field.setParameter("C", target_beta);
+  active = append_coordinate_map(active, 1, delta_field);
+  IMap projection_field =
+      make_prefixed_two_centre_beta_projection_field(
+          6, existing_suffix_count);
+  propagate_relative_time(
+      active, projection_field, interval(1.0), 0.02);
+  const IVector projected = static_cast<IVector>(active);
+  if (!(projected[7].contains(target_beta) &&
+        projected[9].leftBound() > 0.0)) {
+    std::cerr << std::hexfloat
+              << "COMMON_CLOCK_BETA_PROJECTION_EXIT target="
+              << target_beta << " state=" << projected << "\n";
+    throw std::runtime_error(
+        "common-clock beta projection lost section or transversality");
+  }
+  return relative_return_time;
+}
+
+struct CommonClockFocusGraph {
+  C0Rect2Set set;
+  IVector lc_state;
+  IVector entry;
+  IVector focus;
+  interval return_time;
+  int suffix_count;
+};
+
+CommonClockFocusGraph correlated_common_clock_focus_graph(
     const interval& kappa, int focus_count) {
-  const IVector common_state =
-      mean_value_fourth_common_clock_state(kappa);
-  C0Rect2Set active(common_state);
+  C0Rect2Set active = fourth_common_clock_graph_set(kappa);
+  const IVector lc_state = static_cast<IVector>(active);
   IMap entry_field = make_prefixed_negative_two_centre_entry_field(0);
   active = append_coordinate_map(active, 6, entry_field);
   IMap xi_map = make_prefixed_negative_two_centre_to_xi_map(6);
@@ -2456,31 +3012,334 @@ CommonClockFocusEvaluation evaluate_fourth_common_clock_focus(
     entry[index] = entry_full[index + 6];
   }
 
-  IMap field = make_prefixed_two_centre_xi_field(6);
+  interval total_return_time(0.0);
+  for (int focus_index = 0; focus_index < focus_count; ++focus_index) {
+    const interval target_alpha =
+        interval(static_cast<double>(focus_index + 2)) *
+        acos(interval(-1.0));
+    total_return_time += project_common_clock_alpha_section(
+        active, target_alpha, focus_index);
+    IMap alpha_projection =
+        make_prefixed_two_centre_alpha_projection(
+            6, focus_index + 1);
+    alpha_projection.setParameter("A", target_alpha);
+    apply_same_dimension_map(active, alpha_projection);
+    if (focus_index + 1 == focus_count) {
+      IMap energy_projection =
+          make_prefixed_two_centre_positive_pi_projection(
+              6, focus_index + 1);
+      apply_same_dimension_map(active, energy_projection);
+      const IVector projected = static_cast<IVector>(active);
+      if (!(projected[9].leftBound() > 0.0)) {
+        throw std::runtime_error(
+            "correlated alpha focus lost the positive energy sheet");
+      }
+    }
+  }
+  const IVector focus_full = static_cast<IVector>(active);
+  IVector focus(6);
+  for (int index = 0; index < 6; ++index) {
+    focus[index] = focus_full[index + 6];
+  }
+  return {active, lc_state, entry, focus, total_return_time,
+          focus_count};
+}
+
+CommonClockFocusGraph correlated_common_clock_beta_graph(
+    const interval& kappa) {
+  C0Rect2Set active = fourth_common_clock_graph_set(kappa);
+  const IVector lc_state = static_cast<IVector>(active);
+  IMap entry_field = make_prefixed_negative_two_centre_entry_field(0);
+  active = append_coordinate_map(active, 6, entry_field);
+  IMap xi_map = make_prefixed_negative_two_centre_to_xi_map(6);
+  apply_same_dimension_map(active, xi_map);
+  const IVector entry_full = static_cast<IVector>(active);
+  IVector entry(6);
+  for (int index = 0; index < 6; ++index) {
+    entry[index] = entry_full[index + 6];
+  }
+
+  interval total_return_time(0.0);
+  const interval first_alpha =
+      interval(2.0) * acos(interval(-1.0));
+  total_return_time += project_common_clock_alpha_section(
+      active, first_alpha, 0);
+  IMap alpha_projection =
+      make_prefixed_two_centre_alpha_projection(6, 1);
+  alpha_projection.setParameter("A", first_alpha);
+  apply_same_dimension_map(active, alpha_projection);
+
+  const interval target_beta(-1.0);
+  total_return_time += project_common_clock_beta_section(
+      active, target_beta, 1);
+  IMap beta_projection =
+      make_prefixed_two_centre_beta_projection(6, 2);
+  beta_projection.setParameter("B", target_beta);
+  apply_same_dimension_map(active, beta_projection);
+  IMap energy_projection =
+      make_prefixed_two_centre_positive_pi_projection(6, 2);
+  apply_same_dimension_map(active, energy_projection);
+  const IVector focus_full = static_cast<IVector>(active);
+  if (!(focus_full[9].leftBound() > 0.0)) {
+    throw std::runtime_error(
+        "correlated beta section lost the positive energy sheet");
+  }
+  IVector focus(6);
+  for (int index = 0; index < 6; ++index) {
+    focus[index] = focus_full[index + 6];
+  }
+  return {active, lc_state, entry, focus, total_return_time, 2};
+}
+
+void certify_common_clock_terminal_bridge(
+    C0Rect2Set bridge_set, int coordinate_offset,
+    const char* label) {
+  IMap bridge_field = make_prefixed_bridge_field(coordinate_offset);
+  IOdeSolver bridge_solver(bridge_field, 30);
+  bridge_solver.setAbsoluteTolerance(kSolverTolerance);
+  bridge_solver.setRelativeTolerance(kSolverTolerance);
+  ITimeMap bridge_time_map(bridge_solver);
+  const IVector bridge_entry_full =
+      static_cast<IVector>(bridge_set);
+  const interval lambda_center =
+      bridge_entry_full[coordinate_offset].mid();
+  const interval bridge_end =
+      bridge_set.getCurrentTime() + lambda_center + interval(2.0);
+  bridge_time_map.stopAfterStep(true);
+  interval minimum_primary_squared(1000000.0);
+  do {
+    bridge_time_map(bridge_end, bridge_set);
+    const IVector enclosure = bridge_set.getLastEnclosure();
+    const interval half_binary =
+        exp(log(interval(9.0)) / interval(3.0)) *
+        sqr(enclosure[coordinate_offset]) / interval(2.0);
+    const interval plus_squared =
+        sqr(enclosure[coordinate_offset + 1] + half_binary) +
+        sqr(enclosure[coordinate_offset + 2]);
+    const interval minus_squared =
+        sqr(enclosure[coordinate_offset + 1] - half_binary) +
+        sqr(enclosure[coordinate_offset + 2]);
+    const interval step_minimum(
+        std::min(plus_squared.leftBound(), minus_squared.leftBound()),
+        std::min(plus_squared.rightBound(), minus_squared.rightBound()));
+    minimum_primary_squared = interval(
+        std::min(minimum_primary_squared.leftBound(),
+                 step_minimum.leftBound()),
+        std::min(minimum_primary_squared.rightBound(),
+                 step_minimum.rightBound()));
+    if (!(plus_squared.leftBound() > 0.001 &&
+          minus_squared.leftBound() > 0.001)) {
+      throw std::runtime_error(
+          std::string(label) + " bridge approached a primary");
+    }
+  } while (!bridge_time_map.completed());
+
+  const IVector bridge_exit_full =
+      static_cast<IVector>(bridge_set);
+  IVector bridge_exit(5);
+  for (int index = 0; index < 5; ++index) {
+    bridge_exit[index] =
+        bridge_exit_full[index + coordinate_offset];
+  }
+  const interval outer_radius =
+      sqrt(sqr(bridge_exit[1]) + sqr(bridge_exit[2]));
+  const interval radial_clock_speed =
+      (bridge_exit[1] * bridge_exit[3] +
+       bridge_exit[2] * bridge_exit[4]) /
+      outer_radius;
+  const interval physical_outward_speed = -radial_clock_speed;
+  const interval binary_scale =
+      exp(log(interval(9.0)) / interval(3.0));
+  const interval inner_separation =
+      binary_scale * sqr(bridge_exit[0]);
+  const interval half_binary = inner_separation / interval(2.0);
+  const interval clearance = outer_radius - half_binary;
+  const interval binary_boundary_speed =
+      binary_scale / (interval(3.0) * (-bridge_exit[0]));
+  const interval escape_margin =
+      physical_outward_speed -
+      interval(2.0) / (interval(2.0) * clearance) -
+      interval(2.0) - binary_boundary_speed;
+  const interval outer_clearance =
+      outer_radius - inner_separation;
+  const interval binary_envelope_speed =
+      sqrt(interval(4.0) / inner_separation +
+           interval(2.0) / interval(100.0));
+  const interval finite_mass_margin =
+      physical_outward_speed -
+      interval(2.0) / (interval(1.5) * outer_clearance) -
+      binary_envelope_speed - interval(1.5);
+  std::cerr << std::hexfloat
+            << "FIXED_TIME_BRIDGE label=" << label
+            << " exit=" << bridge_exit
+            << " minimum_primary_squared=" << minimum_primary_squared
+            << " escape_margin=" << escape_margin
+            << " finite_mass_margin=" << finite_mass_margin << "\n";
+  if (!(bridge_exit[0].leftBound() > -2.1 &&
+        bridge_exit[0].rightBound() < -1.9 &&
+        clearance.leftBound() > 10.0 &&
+        outer_clearance.leftBound() > 10.0 &&
+        escape_margin.leftBound() > 0.0 &&
+        finite_mass_margin.leftBound() > 0.0)) {
+    throw std::runtime_error(
+        std::string(label) + " continuation failed its terminal cone");
+  }
+}
+
+CommonClockFocusEvaluation evaluate_fourth_common_clock_focus(
+    const interval& kappa, int focus_count,
+    int fixed_time_milli = 0, bool use_beta_graph = false) {
+  const bool use_correlated_graph = fixed_time_milli > 0;
+  IVector common_state =
+      use_correlated_graph
+          ? cached_multiprecision_common_clock_anchor_lc_state()
+          : mean_value_fourth_common_clock_state(kappa);
+  C0Rect2Set active(common_state);
+  IVector entry(6);
   interval total_return_time(0.0);
   IVector focus(6);
-  for (int focus_index = 0; focus_index < focus_count; ++focus_index) {
-    const C0Rect2Set monotonicity_initial = active;
-    IOdeSolver focus_solver(field, 30);
-    focus_solver.setAbsoluteTolerance(kSolverTolerance);
-    focus_solver.setRelativeTolerance(kSolverTolerance);
-    const interval target_alpha =
-        interval(static_cast<double>(2 + focus_index)) *
-        acos(interval(-1.0));
-    ICoordinateSection section(12, 6, target_alpha);
-    IPoincareMap poincare(
-        focus_solver, section, capd::poincare::MinusPlus);
-    poincare.setMaxReturnTime(10.0);
-    interval leg_return_time;
-    const IVector focus_full = poincare(active, leg_return_time);
-    total_return_time += leg_return_time;
+  int active_suffix_count = 0;
+  if (use_correlated_graph) {
+    CommonClockFocusGraph focus_graph =
+        use_beta_graph
+            ? correlated_common_clock_beta_graph(kappa)
+            : correlated_common_clock_focus_graph(kappa, focus_count);
+    active = focus_graph.set;
+    common_state = focus_graph.lc_state;
+    entry = focus_graph.entry;
     for (int index = 0; index < 6; ++index) {
-      focus[index] = focus_full[index + 6];
+      focus[index] = focus_graph.focus[index];
+    }
+    total_return_time = focus_graph.return_time;
+    active_suffix_count = focus_graph.suffix_count;
+    std::cerr << std::hexfloat
+              << "CORRELATED_SECTION_GRAPH route="
+              << (use_beta_graph ? "beta" : "alpha")
+              << " state="
+              << static_cast<IVector>(active) << "\n";
+  } else {
+    IMap entry_field =
+        make_prefixed_negative_two_centre_entry_field(0);
+    active = append_coordinate_map(active, 6, entry_field);
+    IMap xi_map = make_prefixed_negative_two_centre_to_xi_map(6);
+    apply_same_dimension_map(active, xi_map);
+    const IVector entry_full = static_cast<IVector>(active);
+    for (int index = 0; index < 6; ++index) {
+      entry[index] = entry_full[index + 6];
     }
 
-    audit_common_clock_two_centre_leg(
-        monotonicity_initial, field, leg_return_time, false);
-    active = C0Rect2Set(focus_full);
+    IMap field = make_prefixed_two_centre_xi_field(6);
+    for (int focus_index = 0; focus_index < focus_count;
+         ++focus_index) {
+      const C0Rect2Set monotonicity_initial = active;
+      IOdeSolver focus_solver(field, 30);
+      focus_solver.setAbsoluteTolerance(kSolverTolerance);
+      focus_solver.setRelativeTolerance(kSolverTolerance);
+      const interval target_alpha =
+          interval(static_cast<double>(2 + focus_index)) *
+          acos(interval(-1.0));
+      ICoordinateSection section(12, 6, target_alpha);
+      IPoincareMap poincare(
+          focus_solver, section, capd::poincare::MinusPlus);
+      poincare.setMaxReturnTime(10.0);
+      interval leg_return_time;
+      const IVector focus_full =
+          poincare(active, leg_return_time);
+      total_return_time += leg_return_time;
+      for (int index = 0; index < 6; ++index) {
+        focus[index] = focus_full[index + 6];
+      }
+
+      audit_common_clock_two_centre_leg(
+          monotonicity_initial, field, leg_return_time, false);
+      active = C0Rect2Set(focus_full);
+    }
+  }
+
+  if (fixed_time_milli > 0) {
+    const interval duration =
+        exact_integer(fixed_time_milli) / exact_integer(1000);
+    if (fixed_time_milli >= 500) {
+      const interval graph_entry_time(0.0);
+      IMap bridge_entry_field =
+          make_prefixed_two_centre_xi_bridge_entry_field(
+              6, active_suffix_count);
+      C0Rect2Set combined =
+          append_coordinate_map(active, 5, bridge_entry_field);
+      const int bridge_offset = 12 + active_suffix_count;
+      const interval remaining_time = duration - graph_entry_time;
+      if (remaining_time.leftBound() > 0.0) {
+        IMap graph_field =
+            make_prefixed_two_centre_xi_bridge_graph_field(
+                6, active_suffix_count);
+        IOdeSolver graph_solver(graph_field, 30);
+        graph_solver.setAbsoluteTolerance(kSolverTolerance);
+        graph_solver.setRelativeTolerance(kSolverTolerance);
+        ITimeMap graph_time_map(graph_solver);
+        const interval graph_end =
+            combined.getCurrentTime() + remaining_time;
+        graph_time_map.stopAfterStep(true);
+        do {
+          graph_time_map(graph_end, combined);
+          const IVector enclosure = combined.getLastEnclosure();
+          const interval half_binary =
+              exp(log(interval(9.0)) / interval(3.0)) *
+              sqr(enclosure[bridge_offset]) / interval(2.0);
+          const interval plus_squared =
+              sqr(enclosure[bridge_offset + 1] + half_binary) +
+              sqr(enclosure[bridge_offset + 2]);
+          const interval minus_squared =
+              sqr(enclosure[bridge_offset + 1] - half_binary) +
+              sqr(enclosure[bridge_offset + 2]);
+          if (!(enclosure[7].rightBound() < 0.0 &&
+                enclosure[9].leftBound() > 0.0 &&
+                plus_squared.leftBound() > 1e-8 &&
+                minus_squared.leftBound() > 1e-8)) {
+            std::cerr << std::hexfloat
+                      << "SAME_CLOCK_GRAPH_AUDIT enclosure=" << enclosure
+                      << " plus_squared=" << plus_squared
+                      << " minus_squared=" << minus_squared << "\n";
+            throw std::runtime_error(
+                "same-clock graph lost monotonicity or ordinary separation");
+          }
+        } while (!graph_time_map.completed());
+      }
+      const IVector fixed_time_full = static_cast<IVector>(combined);
+      for (int index = 0; index < 6; ++index) {
+        focus[index] = fixed_time_full[index + 6];
+      }
+      std::cerr << std::hexfloat
+                << "SAME_CLOCK_GRAPH_BRIDGE_ENTRY state="
+                << fixed_time_full << "\n";
+      certify_common_clock_terminal_bridge(
+          combined, bridge_offset, "same-clock graph fixed-time");
+    } else {
+      IMap suffix_field =
+          make_prefixed_two_centre_xi_field_with_suffix(
+              6, active_suffix_count);
+      const C0Rect2Set monotonicity_initial = active;
+      propagate_relative_time(active, suffix_field, duration);
+      audit_common_clock_two_centre_leg(
+          monotonicity_initial, suffix_field, duration, true, false);
+      const IVector fixed_time_full = static_cast<IVector>(active);
+      for (int index = 0; index < 6; ++index) {
+        focus[index] = fixed_time_full[index + 6];
+      }
+      IMap bridge_entry_field =
+          make_prefixed_two_centre_xi_bridge_entry_field(
+              6, active_suffix_count);
+      C0Rect2Set bridge_set =
+          append_coordinate_map(active, 5, bridge_entry_field);
+      std::cerr << std::hexfloat
+                << "FULL_FIXED_TIME_BRIDGE_ENTRY state="
+                << static_cast<IVector>(bridge_set) << "\n";
+      certify_common_clock_terminal_bridge(
+          bridge_set, 12 + active_suffix_count, "full fixed-time");
+    }
+    total_return_time += duration;
+    std::cerr << std::hexfloat
+              << "FIXED_TIME_STATE duration=" << duration
+              << " state=" << focus << "\n";
   }
 
   const interval beta = focus[1];
@@ -3707,6 +4566,7 @@ int main(int argc, char** argv) {
     bool fourth_root_only = false;
     bool fourth_root_octic_only = false;
     bool fourth_common_clock_anchor_only = false;
+    bool fourth_common_clock_anchor_atto = false;
     bool fourth_fifth_entry_only = false;
     bool fourth_fifth_outgoing_only = false;
     bool fourth_outgoing_probe = false;
@@ -3714,6 +4574,9 @@ int main(int argc, char** argv) {
     bool fourth_correlated_section_probe = false;
     bool fourth_correlated_section_tile = false;
     bool fourth_common_clock_focus_tile = false;
+    bool fourth_common_clock_fixed_time_tile = false;
+    bool fourth_common_clock_beta_fixed_time_tile = false;
+    bool fourth_common_clock_atto_tile = false;
     bool fourth_common_clock_escape_tile = false;
     bool fourth_common_clock_escape_cover = false;
     bool fourth_two_centre_probe = false;
@@ -3725,10 +4588,12 @@ int main(int argc, char** argv) {
     int second_fifth_duration_million = 0;
     int correlated_offset_pico = 0;
     int correlated_radius_pico = 395;
+    int correlated_center_offset_atto = 0;
     int two_centre_duration_million = 0;
     int two_centre_focus_count = 0;
     int collision_phase_scale = 1000000;
     int common_clock_anchor_offset_pico = 0;
+    int common_clock_anchor_offset_atto = 0;
     if (argc == 2 && std::string(argv[1]) == "--second-root") {
       second_root_only = true;
     } else if (argc == 2 && std::string(argv[1]) == "--second-escape") {
@@ -3746,6 +4611,12 @@ int main(int argc, char** argv) {
                    "--fourth-common-clock-anchor") {
       fourth_common_clock_anchor_only = true;
       common_clock_anchor_offset_pico = parse_integer(argv[2]);
+    } else if (argc == 3 &&
+               std::string(argv[1]) ==
+                   "--fourth-common-clock-anchor-atto") {
+      fourth_common_clock_anchor_only = true;
+      fourth_common_clock_anchor_atto = true;
+      common_clock_anchor_offset_atto = parse_integer(argv[2]);
     } else if (argc == 2 &&
                std::string(argv[1]) ==
                    "--fourth-common-clock-escape-cover") {
@@ -3802,6 +4673,41 @@ int main(int argc, char** argv) {
       correlated_offset_pico = parse_integer(argv[2]);
       correlated_radius_pico = parse_integer(argv[3]);
       two_centre_focus_count = parse_integer(argv[4]);
+    } else if (argc == 5 &&
+               std::string(argv[1]) ==
+                   "--fourth-common-clock-fixed-time-tile") {
+      fourth_common_clock_focus_tile = true;
+      fourth_common_clock_fixed_time_tile = true;
+      correlated_offset_pico = parse_integer(argv[2]);
+      correlated_radius_pico = parse_integer(argv[3]);
+      two_centre_focus_count = 2;
+      collision_phase_scale = parse_integer(argv[4]);
+    } else if (argc == 5 &&
+               std::string(argv[1]) ==
+                   "--fourth-common-clock-beta-fixed-time-tile") {
+      fourth_common_clock_focus_tile = true;
+      fourth_common_clock_fixed_time_tile = true;
+      fourth_common_clock_beta_fixed_time_tile = true;
+      correlated_offset_pico = parse_integer(argv[2]);
+      correlated_radius_pico = parse_integer(argv[3]);
+      two_centre_focus_count = 1;
+      collision_phase_scale = parse_integer(argv[4]);
+    } else if (argc == 5 &&
+               (std::string(argv[1]) ==
+                    "--fourth-common-clock-alpha-atto-tile" ||
+                std::string(argv[1]) ==
+                    "--fourth-common-clock-beta-atto-tile")) {
+      fourth_common_clock_focus_tile = true;
+      fourth_common_clock_fixed_time_tile = true;
+      fourth_common_clock_atto_tile = true;
+      fourth_common_clock_beta_fixed_time_tile =
+          std::string(argv[1]) ==
+          "--fourth-common-clock-beta-atto-tile";
+      correlated_center_offset_atto = parse_integer(argv[2]);
+      correlated_radius_pico = parse_integer(argv[3]);
+      two_centre_focus_count =
+          fourth_common_clock_beta_fixed_time_tile ? 1 : 2;
+      collision_phase_scale = parse_integer(argv[4]);
     } else if (argc == 4 &&
                std::string(argv[1]) == "--fourth-common-clock-escape-tile") {
       fourth_common_clock_escape_tile = true;
@@ -3870,6 +4776,7 @@ int main(int argc, char** argv) {
                 << " [--second-root | --third-root | --fourth-root | "
                    "--fourth-root-octic | "
                    "--fourth-common-clock-anchor OFFSET_PICO | "
+                   "--fourth-common-clock-anchor-atto OFFSET_ATTO | "
                    "--fourth-two-centre-terminal | "
                    "--fourth-fifth-entry | "
                    "--fourth-fifth-outgoing | "
@@ -3879,6 +4786,10 @@ int main(int argc, char** argv) {
                    "RADIUS_PICO CI_MILLION | "
                    "--fourth-common-clock-focus-tile OFFSET_PICO "
                    "RADIUS_PICO FOCUS_COUNT | "
+                   "--fourth-common-clock-alpha-atto-tile CENTER_OFFSET_ATTO "
+                   "RADIUS_ATTO DURATION_MILLI | "
+                   "--fourth-common-clock-beta-atto-tile CENTER_OFFSET_ATTO "
+                   "RADIUS_ATTO DURATION_MILLI | "
                    "--fourth-common-clock-escape-tile OFFSET_PICO "
                    "RADIUS_PICO | "
                    "--fourth-common-clock-escape-cover | "
@@ -3950,11 +4861,22 @@ int main(int argc, char** argv) {
           "correlated fifth section tile is outside its safe range");
     }
     if (fourth_common_clock_focus_tile &&
-        (correlated_offset_pico < -1000 || correlated_offset_pico > 1000 ||
-         correlated_radius_pico < 1 || correlated_radius_pico > 395 ||
+        ((!fourth_common_clock_atto_tile &&
+          (correlated_offset_pico < -1000 || correlated_offset_pico > 1000)) ||
+         (fourth_common_clock_atto_tile &&
+          (correlated_center_offset_atto < -1000000000 ||
+           correlated_center_offset_atto > 1000000000)) ||
+         correlated_radius_pico < 1 ||
+         correlated_radius_pico >
+             (fourth_common_clock_fixed_time_tile ? 1000000 : 395) ||
          two_centre_focus_count < 1 || two_centre_focus_count > 3)) {
       throw std::invalid_argument(
           "common-clock focus tile is outside its safe range");
+    }
+    if (fourth_common_clock_fixed_time_tile &&
+        (collision_phase_scale < 1 || collision_phase_scale > 2000)) {
+      throw std::invalid_argument(
+          "common-clock fixed time is outside [1,2000] milliseconds");
     }
     if (fourth_common_clock_escape_tile &&
         (correlated_offset_pico < -1000 || correlated_offset_pico > 1000 ||
@@ -3981,16 +4903,23 @@ int main(int argc, char** argv) {
           "third-root probe box is outside its safe range");
     }
     if (fourth_common_clock_anchor_only &&
-        (common_clock_anchor_offset_pico < -1000 ||
-         common_clock_anchor_offset_pico > 1000)) {
+        ((!fourth_common_clock_anchor_atto &&
+          (common_clock_anchor_offset_pico < -1000 ||
+           common_clock_anchor_offset_pico > 1000)) ||
+         (fourth_common_clock_anchor_atto &&
+          (common_clock_anchor_offset_atto < -1000000000 ||
+           common_clock_anchor_offset_atto > 1000000000)))) {
       throw std::invalid_argument(
           "common-clock anchor offset is outside its safe range");
     }
     if (fourth_common_clock_anchor_only) {
-      const long long numerator =
-          1264009098895LL + common_clock_anchor_offset_pico;
-      const interval kappa =
-          exact_integer(numerator) / exact_integer("1000000000000");
+      const interval kappa = fourth_common_clock_anchor_atto
+          ? (exact_integer("1264009098895000000") +
+             exact_integer(common_clock_anchor_offset_atto)) /
+                exact_integer("1000000000000000000")
+          : exact_integer(1264009098895LL +
+                          common_clock_anchor_offset_pico) /
+                exact_integer("1000000000000");
       const interval common_clock =
           exact_integer("37184019") / exact_integer("100000000");
       const Evaluation anchor = evaluate_fourth_pair_collision(
@@ -4003,7 +4932,12 @@ int main(int argc, char** argv) {
                    "-native"
 #endif
                 << " zeta_start=15"
-                << " offset_pico=" << common_clock_anchor_offset_pico
+                << (fourth_common_clock_anchor_atto
+                        ? " offset_atto="
+                        : " offset_pico=")
+                << (fourth_common_clock_anchor_atto
+                        ? common_clock_anchor_offset_atto
+                        : common_clock_anchor_offset_pico)
                 << " kappa=" << kappa
                 << " state=" << anchor.final_state
                 << " kappa_tangent=" << anchor.kappa_tangent << "\n";
@@ -4058,22 +4992,34 @@ int main(int argc, char** argv) {
       return 0;
     }
     if (fourth_common_clock_focus_tile) {
-      const interval kappa_center =
-          interval(1264009098895.0 +
-                   static_cast<double>(correlated_offset_pico)) /
-          interval(1000000000000.0);
+      const interval kappa_center = fourth_common_clock_atto_tile
+          ? (exact_integer("1264009098895000000") +
+             exact_integer(correlated_center_offset_atto)) /
+                exact_integer("1000000000000000000")
+          : exact_integer(1264009098895LL + correlated_offset_pico) /
+                exact_integer("1000000000000");
       const interval kappa_radius =
-          interval(static_cast<double>(correlated_radius_pico)) /
-          interval(1000000000000.0);
+          exact_integer(correlated_radius_pico) /
+          (fourth_common_clock_fixed_time_tile
+               ? exact_integer("1000000000000000000")
+               : exact_integer("1000000000000"));
       const interval kappa_box =
           kappa_center + symmetric(kappa_radius);
       const CommonClockFocusEvaluation result =
           evaluate_fourth_common_clock_focus(
-              kappa_box, two_centre_focus_count);
+              kappa_box, two_centre_focus_count,
+              fourth_common_clock_fixed_time_tile
+                  ? collision_phase_scale
+                  : 0,
+              fourth_common_clock_beta_fixed_time_tile);
       std::cout << std::hexfloat
                 << "COMMON_CLOCK_FOCUS method=CAPD-6.1.0-native"
                 << " kappa_box=" << kappa_box
                 << " focus_count=" << two_centre_focus_count
+                << " fixed_time_milli="
+                << (fourth_common_clock_fixed_time_tile
+                        ? collision_phase_scale
+                        : 0)
                 << " lc_state=" << result.lc_state
                 << " entry=" << result.two_centre_entry
                 << " focus=" << result.focus

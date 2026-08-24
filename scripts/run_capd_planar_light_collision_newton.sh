@@ -78,6 +78,10 @@ elif [ "$#" -eq 6 ]; then
   if [ "$3" = "--second-fourth-probe" ] || \
      [ "$3" = "--fourth-correlated-section-tile" ] || \
      [ "$3" = "--fourth-common-clock-focus-tile" ] || \
+     [ "$3" = "--fourth-common-clock-fixed-time-tile" ] || \
+     [ "$3" = "--fourth-common-clock-beta-fixed-time-tile" ] || \
+     [ "$3" = "--fourth-common-clock-alpha-atto-tile" ] || \
+     [ "$3" = "--fourth-common-clock-beta-atto-tile" ] || \
      [ "$3" = "--fourth-two-centre-tile" ] || \
      [ "$3" = "--fourth-two-centre-phase-nano" ]; then
     VERIFIER_ARGS=("$3" "$4" "$5" "$6")

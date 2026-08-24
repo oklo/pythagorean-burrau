@@ -4,6 +4,8 @@ from src.symbolic.restricted_scattering import (
     binary_tidal_transverse_first_variation,
     collision_kepler_transverse_transfer,
     collision_regularized_jacobi_system,
+    common_clock_graph_recenter_identity,
+    common_clock_section_projection_identities,
     finite_mass_opposite_collision_reduction,
     finite_mass_selected_collision_reduction,
     forced_planar_lc_angular_identity,
@@ -725,6 +727,15 @@ def test_binary_tidal_transverse_source_gains_exterior_skinny_factor() -> None:
 def test_negative_lc_two_centre_switch_is_regular_at_collision() -> None:
     residuals = negative_lc_two_centre_entry_identities()
     assert all(sp.simplify(residual) == 0 for residual in residuals)
+
+
+def test_common_clock_section_projection_is_an_orbit_reparametrization() -> None:
+    residuals = common_clock_section_projection_identities()
+    assert all(sp.cancel(residual) == 0 for residual in residuals)
+
+
+def test_common_clock_graph_recenter_is_exact_algebraically() -> None:
+    assert common_clock_graph_recenter_identity() == 0
 
 
 def test_parabolic_map_preserves_kepler_energy_through_degree_seven() -> None:

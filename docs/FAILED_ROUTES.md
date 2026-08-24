@@ -467,3 +467,28 @@ calculation instead proves
 \\(-3.83235\\times10^{-7}\\le v_i\\le-3.68194\\times10^{-7}\\). The ordinary seed
 was useful only for locating the broad root neighborhood. Its terminal phase
 must not be used in any proof or cached certificate.
+
+## Near-root correlation-preserving anchor
+
+**Status:** FAILED as an effective root-overlap certificate.
+
+The exact section-flow construction repairs the earlier componentwise
+Poincare reboxing and validates lower-band tiles. It does not by itself make
+the fixed-clock reference hull arbitrarily sharp. An independent MPFR-200
+anchor at the exact rational parameter
+$\kappa=1.264009098933320$, only about $1.9\times10^{-15}$ above the certified
+root box, was inserted into the one-generator graph. Even the point-hull
+replay then wrapped in the terminal bridge. The dominant width is the
+certified anchor state and its independent coordinate remainders, not the
+parameter radius. Hence subdivision around this anchor cannot prove overlap;
+a tighter point certificate or a graph initialized directly on the
+transverse collision section is required. No dynamical conclusion follows
+from this enclosure failure.
+
+Three adversarial implementation findings are also preserved: Poincare
+return times had been summed as absolute rather than relative diagnostic
+times; the tangent hull omitted an anchor lying above a lower tile; and the
+exact 500-millisecond branch skipped its evolution. All three are repaired.
+The first and third affected diagnostics or unused branches, while the
+second invalidated pre-repair lower-anchor experiments. Every result retained
+in the proof ledger was replayed after the relevant repair.

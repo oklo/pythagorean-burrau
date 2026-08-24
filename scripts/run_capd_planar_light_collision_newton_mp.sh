@@ -6,7 +6,7 @@ PINNED_MPFR_VERSION=4.2.2
 PINNED_GMP_VERSION=6.3.0
 
 if [ "$#" -lt 2 ] || [ "$#" -gt 4 ]; then
-  echo "usage: $0 CAPD_SOURCE_DIR CAPD_MP_BUILD_DIR [--fourth-root-octic | --fourth-common-clock-anchor OFFSET_PICO]" >&2
+  echo "usage: $0 CAPD_SOURCE_DIR CAPD_MP_BUILD_DIR [--fourth-root-octic | --fourth-common-clock-anchor OFFSET_PICO | --fourth-common-clock-anchor-atto OFFSET_ATTO]" >&2
   exit 2
 fi
 
@@ -14,7 +14,8 @@ CAPD_SOURCE_DIR=$1
 CAPD_BUILD_DIR=$2
 VERIFIER_MODE=${3:---fourth-root-octic}
 if { [ "$#" -le 3 ] && [ "$VERIFIER_MODE" != "--fourth-root-octic" ]; } || \
-   { [ "$#" -eq 4 ] && [ "$VERIFIER_MODE" != "--fourth-common-clock-anchor" ]; }; then
+   { [ "$#" -eq 4 ] && [ "$VERIFIER_MODE" != "--fourth-common-clock-anchor" ] && \
+     [ "$VERIFIER_MODE" != "--fourth-common-clock-anchor-atto" ]; }; then
   echo "unsupported multiprecision verifier mode or arity" >&2
   exit 2
 fi

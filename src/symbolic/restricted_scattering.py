@@ -1832,3 +1832,43 @@ def negative_lc_two_centre_entry_identities() -> tuple[sp.Expr, ...]:
         sp.simplify(sp.im(collision_momentum)),
         collision_energy,
     )
+
+
+def common_clock_section_projection_identities() -> tuple[sp.Expr, ...]:
+    """Algebraic checks for the correlation-preserving section flows.
+
+    The two-centre field has ``alpha'=-p_r`` and ``beta'=-p_i``.  A frozen
+    section defect is used to reparametrize the same orbit for one unit of
+    artificial time.  These residuals verify the affine section coordinate
+    and the common positive orientation factor used by the verifier.
+    """
+    alpha, beta, p_real, p_imag = sp.symbols(
+        "alpha beta p_r p_i", real=True
+    )
+    alpha_target, beta_target = sp.symbols("A B", real=True)
+    alpha_defect = alpha_target - alpha
+    beta_defect = beta_target - beta
+    alpha_factor = alpha_defect / (-p_real)
+    beta_factor = beta_defect / (-p_imag)
+    return (
+        sp.cancel((-p_real) * alpha_factor - alpha_defect),
+        sp.cancel((-p_imag) * beta_factor - beta_defect),
+        sp.cancel(alpha + (-p_real) * alpha_factor - alpha_target),
+        sp.cancel(beta + (-p_imag) * beta_factor - beta_target),
+    )
+
+
+def common_clock_graph_recenter_identity() -> sp.Expr:
+    """Return the scalar residual for the anchored doubleton recentering.
+
+    Coordinatewise MVT gives ``X(k) in A + T*(k-a)``.  The implemented
+    center, shared parameter generator, and independent remainder are merely
+    an algebraic regrouping of this enclosure.
+    """
+    anchor, tangent, tangent_center = sp.symbols("A T T_0", real=True)
+    parameter, center, anchor_parameter = sp.symbols("k m a", real=True)
+    represented_center = anchor + tangent_center * (center - anchor_parameter)
+    shared_generator = tangent * (parameter - center)
+    remainder = (tangent - tangent_center) * (center - anchor_parameter)
+    target = anchor + tangent * (parameter - anchor_parameter)
+    return sp.expand(represented_center + shared_generator + remainder - target)
