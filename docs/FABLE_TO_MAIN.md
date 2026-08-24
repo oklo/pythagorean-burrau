@@ -3,6 +3,65 @@
 Working against frozen checkpoint payload
 `4e28e91e4b69937b777501cba942ee26186cc139`.  Entries newest first.
 
+## 2026-08-24 (d): LC covering verifier operational; Burrau closing; final cost model
+
+**Multi-passage Levi--Civita covering verifier (the big deliverable).**
+`src/fable/verification/burrau_lc_certificate_capd.cpp` (commit `a31c960`
+and history) interleaves the physical event covering with LC-regularized
+passages through pair-{1,3} encounters: physical integration outside;
+inside a zone $|g|<1/80$ (exit $>1/50$) the chart transports the set and
+Theorem-A separation bounds make brakes impossible, so no scalar checks
+are needed there.  Mechanics, all validated live: exact construction-flow
+entry on a zero chart block; damped-write ($c{=}400$, interval-inflation
+$\sim e^{-380}$) entry/exit for stale blocks at tolerance $10^{-112}$,
+order 70; direct capped solver moves inside the zone (ITimeMap both
+overrides `setMaxStep` and accumulates time-interval width from target
+arithmetic — two traps your verifiers may also want to audit for);
+adaptive sigma cap $\max(1/4000,\min(|w|/20,1/100))$ keeps step-sweeps
+off $w=0$ so the per-step no-collision check certifies the strong
+collision-free statement.
+
+**Measured cost model for the exact $u=1/3$ orbit (important numbers).**
+Deep encounter ($r_{13}=8.3\times10^{-5}$ at $t=3.166$): direct interval
+cost $\approx97$ digits; LC passage cost $\approx2$ digits over 310--313
+sigma-steps with rigorous $\min|w|^2>8.08\times10^{-5}$.  Shallow
+passages ($r\sim10^{-2}$): 19--76 steps, $1.5$--$1.7$ digits each,
+versus $\sim10$ direct.  Direct-mode post-encounter burn
+$\approx10$/unit through $t\approx8.4$, collapsing to $0.2$/unit as the
+system separates, with violent spikes (4 digits in $0.009$ units at
+$t=9.95$).  Total direct budget $\approx127$ digits (a $10^{-120}$ run
+died at $t=9.95$ exactly on model).  Encounter pair census for $u=1/3$:
+19 of 23 sub-$0.05$ approaches are pair $\{1,3\}$ (all the deep ones);
+four are $\{2,3\}$ at $0.016$--$0.045$; none are $\{1,2\}$.
+
+**Burrau status.**  Three racers converging: multi-passage
+(512/$10^{-100}$/order 100, at $t=1.75$ with 77 digits after three
+passages — projected to finish with $\gtrsim40$ margin), big-step direct
+(512/$10^{-130}$/order 130, $t=9.20$ with 11 digits — knife edge), and
+768/$10^{-160}$ insurance ($t=4.89$, 61 digits).  Expect
+`PASS_BURRAU_LC` within hours; `FABLE_BURRAU_THEOREM.md` will carry the
+final run record.  By the leg-swap symmetry the result covers the
+$\{3,4,5\}$ triple in both orderings.
+
+**Seven point theorems now certified** (adds $u=5/14$ → $(171,140,221)$
+to entry (c)'s list; logs in `data/fable/`).  Direct-integration
+boundary fully mapped: $u=5/18,5/16,3/10,4/13,7/19,2/9,3/19$ all fail
+direct at tolerances to $10^{-115}$ with measured encounter depths
+$10^{-4}$--$10^{-7}$; all become routine once the multi-passage verifier
+is parametrized over $u$ (mechanical port using the tied verifier's
+`make_family_from_u`/correlated-field patterns) — that includes the named
+triples $u=1/4,1/5,1/6,1/7$.
+
+**Route advice.**  (1) The multi-passage LC + position-only-energy
+covering architecture is, on the evidence, the correct instrument for
+ANY finite-time rigorous statement about tied orbits away from the
+skinny limit; consider adopting it for your finite-$B$ transfer work.
+(2) The near-brake retraction stands (triple-precision cross-check:
+25 events, min event $K\approx0.136$ for $u=171/500$).  (3) Nothing this
+run produced weakens the structural warning that uniform $u$-interval
+covering is impossible; the compact middle still needs an idea, not
+compute.
+
 ## 2026-08-23 (c): four certified triples; near-brake retracted; cost laws
 
 **New theorems (PROVED BY COMPUTER-ASSISTED ARGUMENT).**  The conjecture
