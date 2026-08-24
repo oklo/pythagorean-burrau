@@ -907,3 +907,20 @@ it is not a remainder proof.
   the fifth primary does not separate the overlap.  Status: **FAILED** as a
   chart strategy; the proposed repair is a simultaneous two-centre
   regularization.
+- Derived that repair exactly.  The elliptic shape map
+  $z=(c^2-s^2)/2$, $s^2+c^2=1$, has metric
+  $g=|s|^2|c|^2=r_+r_-$.  With $p=g\xi_\zeta$ and
+  $d\zeta/d\sigma=\eta g$, both Newtonian singular forces cancel into the
+  polynomial term $(s\bar c-c\bar s)/9$.  The redundant half-angle field
+  preserves both shape constraints and the regularized energy constraint;
+  either collision has $|p|^2=2/9$.  Initialization from the existing fifth
+  LC state is algebraic: $s=iu/\sqrt R$, $c=\sqrt{1-s^2}$.  Status:
+  **EXACT SYMBOLIC IDENTITY**.
+- Implemented the algebraic fifth-LC initialization, analytic inverse to the
+  nonredundant \(\xi=\alpha+i\beta\) chart, and reversed two-centre field in
+  the CAPD verifier.  A one-picounit \(\kappa\) tile propagates rigorously for
+  \(0.7\) regularized-time units.  Longer propagation wraps in \(p,E\);
+  redundant \((s,c)\) evolution drifts off its constraint, and restarting
+  from a componentwise Poincare image fails sooner.  Status: **VALIDATED
+  NUMERICAL RESULT** for this finite probe only; no terminal classification
+  is claimed.

@@ -1029,6 +1029,131 @@ def planar_joint_shape_stable_quintic_correction() -> tuple[
     return tuple(coefficients), tuple(residuals)
 
 
+def planar_joint_shape_two_centre_regularization() -> tuple[
+    sp.Matrix,
+    tuple[sp.Symbol, ...],
+    tuple[sp.Expr, ...],
+]:
+    """Polynomial simultaneous regularization of both planar primaries.
+
+    The elliptic map is represented without inverse trigonometric functions
+    by complex half-angle variables ``s=sin(xi/2)``, ``c=cos(xi/2)`` with
+    ``s**2+c**2=1``.  Shape is ``z=(c**2-s**2)/2`` and regularized time obeys
+    ``d zeta / d sigma = |s*c|**2``.  The returned field uses the positive
+    zeta orientation; multiplying it by ``-1`` gives the physical outgoing
+    orientation toward the heavy-binary collision.
+    """
+    s_real, s_imag, c_real, c_imag = sp.symbols(
+        "s_r s_i c_r c_i", real=True
+    )
+    p_real, p_imag, energy, zeta = sp.symbols(
+        "p_r p_i energy zeta", real=True
+    )
+    s = s_real + sp.I * s_imag
+    c = c_real + sp.I * c_imag
+    p = p_real + sp.I * p_imag
+    s_bar = sp.conjugate(s)
+    c_bar = sp.conjugate(c)
+    p_bar = sp.conjugate(p)
+    shape = (c**2 - s**2) / 2
+    shape_bar = sp.conjugate(shape)
+    derivative = -s * c
+    derivative_bar = sp.conjugate(derivative)
+    metric = sp.expand(s * s_bar * c * c_bar)
+    quadratic_force = (
+        sp.Rational(2, 9)
+        * derivative
+        * shape
+        * (derivative_bar**2 - shape_bar**2)
+    )
+    primary_force = (s * c_bar - c * s_bar) / 9
+    momentum_field = (
+        -2 * derivative * shape_bar * energy
+        + quadratic_force
+        + primary_force
+        - metric * p / 3
+    )
+    s_field = c * p / 2
+    c_field = -s * p / 2
+    energy_field = -p * p_bar / 3
+
+    s_field_real, s_field_imag = sp.expand_complex(s_field).as_real_imag()
+    c_field_real, c_field_imag = sp.expand_complex(c_field).as_real_imag()
+    p_field_real, p_field_imag = sp.expand_complex(momentum_field).as_real_imag()
+    field = sp.Matrix(
+        [
+            sp.expand(s_field_real),
+            sp.expand(s_field_imag),
+            sp.expand(c_field_real),
+            sp.expand(c_field_imag),
+            sp.expand(p_field_real),
+            sp.expand(p_field_imag),
+            sp.expand(energy_field),
+            metric,
+        ]
+    )
+    variables = (
+        s_real,
+        s_imag,
+        c_real,
+        c_imag,
+        p_real,
+        p_imag,
+        energy,
+        zeta,
+    )
+    shape_real = sp.expand(sp.re(s**2 + c**2) - 1)
+    shape_imag = sp.expand(sp.im(s**2 + c**2))
+    regularized_energy = sp.expand(
+        p * p_bar
+        - 2 * metric * energy
+        - sp.Rational(2, 9)
+        * (
+            metric * shape * shape_bar
+            + s * s_bar
+            + c * c_bar
+        )
+    )
+
+    def lie_derivative(expression: sp.Expr) -> sp.Expr:
+        return sp.expand(
+            sum(
+                sp.diff(expression, variable) * component
+                for variable, component in zip(variables, field, strict=True)
+            )
+        )
+
+    shape_real_lie = sp.simplify(lie_derivative(shape_real))
+    shape_imag_lie = sp.simplify(lie_derivative(shape_imag))
+    energy_lie = lie_derivative(regularized_energy)
+    shape_ideal = sp.groebner(
+        [shape_real, shape_imag],
+        *variables[:-1],
+        order="grevlex",
+    )
+    energy_lie_remainder = sp.simplify(shape_ideal.reduce(energy_lie)[1])
+    positive_collision_gap = sp.simplify(
+        regularized_energy.subs(
+            {s_real: 0, s_imag: 0, c_real: 1, c_imag: 0}
+        )
+        - (p_real**2 + p_imag**2 - sp.Rational(2, 9))
+    )
+    negative_collision_gap = sp.simplify(
+        regularized_energy.subs(
+            {s_real: 1, s_imag: 0, c_real: 0, c_imag: 0}
+        )
+        - (p_real**2 + p_imag**2 - sp.Rational(2, 9))
+    )
+    identities = (
+        shape_real_lie,
+        shape_imag_lie,
+        energy_lie_remainder,
+        positive_collision_gap,
+        negative_collision_gap,
+    )
+    return field, variables, identities
+
+
 def forced_planar_light_collision_lc_constraint() -> tuple[
     sp.Matrix, sp.Expr, sp.Expr, sp.Expr
 ]:

@@ -329,3 +329,25 @@ chart obstruction, not evidence of collision.  The next repair should use a
 simultaneous two-centre regularization (or an equivalent correlated atlas)
 before attempting the terminal escape bridge.  Merely shrinking the time
 step or the parameter tile does not address the overlapping singular charts.
+
+## Redundant two-centre variables and componentwise Poincare restart
+
+**Status:** FAILED AS LONG-TIME ENCLOSURES; the exact two-centre field remains
+valid.
+
+The simultaneous elliptic regularization removes both physical force
+singularities exactly. Evolving redundant half-angle variables \((s,c)\)
+allows the doubleton hull to drift away from \(s^2+c^2=1\), after which the
+polynomial momentum field wraps rapidly. Evolving the nonredundant coordinate
+\(\xi=\alpha+i\beta\) avoids that defect and rigorously carries a
+one-picounit parameter tile for \(0.7\) regularized-time units, but the current
+set then wraps in momentum and shape energy. Replacing the correlated set by
+the componentwise Poincare image narrows position but widens the decisive
+momentum direction and fails sooner.
+
+None of these failures indicates a collision or invalidates the analytic
+chart. The next repair must preserve the implicit section-time correlation,
+for example by a section-adapted Poincare doubleton or an interval-Newton time
+correction onto the exact fifth section. Reboxing or adding redundant
+constraints without a constraint-preserving set representation does not
+solve that problem.

@@ -106,6 +106,9 @@ section; see
 `docs/COMPUTER_ASSISTED_PLANAR_FOURTH_TO_FIFTH_OUTGOING.md`.  The exact
 quintic tail sharpening used there is proved in
 `docs/PLANAR_STABLE_QUINTIC_ENCLOSURE.md`.
+The overlapping fifth--sixth passages now have one exact polynomial elliptic
+regularization, derived in `docs/PLANAR_TWO_CENTRE_REGULARIZATION.md`; its
+validated finite propagation is the current open step.
 The exact positive-light-mass reduction and the resulting persistence theorem
 for that collision boundary are in
 `docs/FINITE_MASS_PLANAR_COLLISION_PERSISTENCE.md`.  The differentiated

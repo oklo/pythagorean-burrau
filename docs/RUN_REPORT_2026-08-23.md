@@ -419,6 +419,12 @@ coordinates and either single-centre LC chart lose a denominator before the
 other chart becomes uniformly regular.  One-picounit parameter tiles and
 smaller solver steps do not repair this geometric overlap.  A simultaneous
 two-centre regularization is the current terminal-classification obligation.
+Its exact elliptic field has now been derived: with
+$z=(c^2-s^2)/2$ and $d\zeta/d\sigma=\eta|sc|^2$, both primary singularities
+cancel in one polynomial system.  The shape and regularized energy constraints
+are preserved and either collision has nonzero regularized speed $\sqrt2/3$.
+What remains is the validated correlated propagation, not the coordinate
+derivation.
 
 ### Positive-mass persistence of the collision boundary
 
@@ -753,7 +759,7 @@ At the end of this run:
 
 Results at this checkpoint:
 
-- 94 tests passed;
+- 95 tests passed;
 - lint passed;
 - the paper built successfully;
 - the only TeX diagnostic was the pre-existing 0.42 pt overfull box.
@@ -767,13 +773,16 @@ computer-assisted proof notes and repository README.
 
 ## Highest-leverage next action
 
-Construct a simultaneous two-centre regularization for the overlapping fifth
-positive-primary and sixth negative-primary passages after the new transverse
-outgoing section.  Preserve the existing 30-dimensional correlated doubleton
-until the family reaches a separated Jacobi state, then apply the already
-available hierarchical escape cone.  In parallel, locate every remaining
-collision zero before declaring adjacent intervals to be complete scattering
-components.
+Construct a section-adapted correlated Poincare set, or an interval-Newton
+time correction that maps the just-after-section doubleton back onto the exact
+fifth outgoing section without discarding its generators.  The simultaneous
+two-centre field and exact entry map are now available, and a one-picounit
+tile propagates for \(0.7\) regularized-time units; the present enclosure
+failure is specifically the loss of the implicit section-time correlation in
+\(p\) and \(E\).  Once that repair reaches a separated Jacobi state, apply the
+already available hierarchical escape cone.  In parallel, locate every
+remaining collision zero before declaring adjacent intervals to be complete
+scattering components.
 For the tied family, the parallel highest-leverage question remains a
 componentwise sign/zero theorem for \(\Delta_{\rm intr}(B)\), upgrading the
 cyclewise collision dichotomy to a classified root sequence.  This is a

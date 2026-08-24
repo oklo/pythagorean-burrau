@@ -97,9 +97,14 @@ tidal bootstrap now give a full local collision-or-escape theorem.  The next
 target is to extend this classification across the adjacent compact
 \(\kappa\)-components.  The nearest two additional collision zeros are now
 certified, and the fourth-root box reaches a transverse outgoing fifth-LC
-section.  The immediate target is a simultaneous two-centre regularization of
-the overlapping fifth--sixth passages, followed by the already available
-terminal cone.  More globally, every
+section.  An exact elliptic two-centre map has now converted the overlapping
+fifth--sixth passages to one polynomial regularized field with preserved
+shape and energy constraints.  A one-picounit tile already propagates for
+\(0.7\) regularized-time units in the nonredundant \(\xi\) chart.  The
+immediate target is a section-adapted doubleton or validated time correction
+that preserves the implicit fifth-section time correlation in \(p\) and
+\(E\), followed by CAPD propagation to the already available terminal cone.
+More globally, every
 remaining collision zero must be certified or excluded before the neighboring
 regions are called components. The simpler
 global Pythagorean-defect barrier was numerically falsified after the first

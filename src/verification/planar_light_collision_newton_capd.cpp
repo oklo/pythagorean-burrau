@@ -548,6 +548,119 @@ IMap make_prefixed_bridge_negative_entry_field(int frozen_count) {
               br + "," + bi + "," + energy + ",l^3;");
 }
 
+std::pair<std::string, std::string> two_centre_reversed_momentum(
+    const std::string& sr, const std::string& si,
+    const std::string& cr, const std::string& ci) {
+  const std::string metric =
+      "((" + sr + "^2+" + si + "^2)*(" + cr + "^2+" + ci + "^2))";
+  const std::string zr =
+      "((" + cr + "^2-" + ci + "^2-" + sr + "^2+" + si + "^2)/2)";
+  const std::string zi = "(" + cr + "*" + ci + "-" + sr + "*" + si + ")";
+  const std::string ar = "(-" + sr + "*" + cr + "+" + si + "*" + ci + ")";
+  const std::string ai = "(-" + sr + "*" + ci + "-" + si + "*" + cr + ")";
+  const std::string dr =
+      "((" + ar + ")^2-(" + ai + ")^2-(" + zr + ")^2+(" + zi + ")^2)";
+  const std::string di =
+      "(-2*(" + ar + ")*(" + ai + ")+2*(" + zr + ")*(" + zi + "))";
+  const std::string azr =
+      "((" + ar + ")*(" + zr + ")-(" + ai + ")*(" + zi + "))";
+  const std::string azi =
+      "((" + ar + ")*(" + zi + ")+(" + ai + ")*(" + zr + "))";
+  const std::string k0r =
+      "(2*(" + azr + "*" + dr + "-" + azi + "*" + di + ")/9)";
+  const std::string k0i =
+      "(2*(" + azr + "*" + di + "+" + azi + "*" + dr + ")/9)";
+  const std::string br =
+      "(-2*ee*((" + ar + ")*(" + zr + ")+(" + ai + ")*(" + zi + "))+" +
+      k0r + "-" + metric + "*pr/3)";
+  const std::string bi =
+      "(-2*ee*((" + ai + ")*(" + zr + ")-(" + ar + ")*(" + zi + "))+" +
+      k0i + "+2*(" + si + "*" + cr + "-" + sr + "*" + ci + ")/9-" +
+      metric + "*pi/3)";
+  return {"-(" + br + ")", "-(" + bi + ")"};
+}
+
+IMap make_prefixed_two_centre_s_entry_field(int frozen_count) {
+  const std::string scale = "exp(log(9)/3)";
+  const std::string separation =
+      "(" + scale + "*exp(2*log(t)/3))";
+  const std::string sqrt_separation = "sqrt(" + separation + ")";
+  const std::string selected_norm = "(ur^2+ui^2)";
+  const std::string qx = "(ur^2-ui^2)";
+  const std::string qy = "(2*ur*ui)";
+  const std::string qtx = "(2*(ur*vr-ui*vi)/" + selected_norm + ")";
+  const std::string qty = "(2*(ur*vi+ui*vr)/" + selected_norm + ")";
+  const std::string sr = "(-ui/" + sqrt_separation + ")";
+  const std::string si = "(ur/" + sqrt_separation + ")";
+  const std::string c_square_real = "(1-(" + sr + ")^2+(" + si + ")^2)";
+  const std::string c_square_imag = "(-2*(" + sr + ")*(" + si + "))";
+  const std::string c_square_norm =
+      "sqrt((" + c_square_real + ")^2+(" + c_square_imag + ")^2)";
+  const std::string cr =
+      "sqrt((" + c_square_norm + "+" + c_square_real + ")/2)";
+  const std::string ci = "((" + c_square_imag + ")/(2*(" + cr + ")))";
+  const std::string zvx =
+      "(t*(" + qtx + ")/" + separation + "-2*(" + qx + ")/(3*" +
+      separation + "))";
+  const std::string zvy =
+      "(t*(" + qty + ")/" + separation + "-2*(" + qy + ")/(3*" +
+      separation + "))";
+  const std::string ar = "(-(" + sr + ")*(" + cr + ")+(" + si + ")*(" + ci + "))";
+  const std::string ai = "(-(" + sr + ")*(" + ci + ")-(" + si + ")*(" + cr + "))";
+  const std::string pr = "((" + ar + ")*(" + zvx + ")+(" + ai + ")*(" + zvy + "))";
+  const std::string pi = "((" + ar + ")*(" + zvy + ")-(" + ai + ")*(" + zvx + "))";
+  const std::string zr = "(1/2+(" + qx + ")/" + separation + ")";
+  const std::string zi = "((" + qy + ")/" + separation + ")";
+  const std::string c_norm = "((" + cr + ")^2+(" + ci + ")^2)";
+  const std::string energy =
+      "(" + separation + "*h/9-2*t*((" + qx + ")*(" + qtx + ")+(" +
+      qy + ")*(" + qty + "))/(3*(" + separation + ")^2)+2*(" +
+      selected_norm + ")^2/(9*(" + separation + ")^2)-((" + zr +
+      ")^2+(" + zi + ")^2+1/(" + c_norm + "))/9)";
+  return IMap("var:" + frozen_variables(frozen_count) +
+              ",ur,ui,vr,vi,h,t,sr,si,pr,pi,ee,zz;fun:" +
+              frozen_zeros(frozen_count + 6) + "," + sr + "," + si + "," +
+              pr + "," + pi + "," + energy + ",log(t);");
+}
+
+IMap make_prefixed_two_centre_s_to_xi_map(int frozen_count) {
+  const std::string radius_plus =
+      "sqrt((sr+1)^2+si^2)";
+  const std::string radius_minus =
+      "sqrt((sr-1)^2+si^2)";
+  const std::string alpha_half =
+      "asin((" + radius_plus + "-" + radius_minus + ")/2)";
+  const std::string sinh_beta_half =
+      "(si/cos(" + alpha_half + "))";
+  const std::string beta_half =
+      "log(" + sinh_beta_half + "+sqrt(1+(" + sinh_beta_half + ")^2))";
+  return IMap("var:" + frozen_variables(frozen_count) +
+              ",sr,si,pr,pi,ee,zz;fun:" +
+              frozen_identity(frozen_count) + ",2*(" + alpha_half +
+              "),2*(" + beta_half + "),pr,pi,ee,zz;");
+}
+
+IMap make_prefixed_two_centre_xi_field(int frozen_count) {
+  const std::string exp_half = "exp(beta/2)";
+  const std::string exp_minus_half = "exp(-beta/2)";
+  const std::string cosh_half =
+      "((" + exp_half + "+" + exp_minus_half + ")/2)";
+  const std::string sinh_half =
+      "((" + exp_half + "-" + exp_minus_half + ")/2)";
+  const std::string sr = "(sin(alpha/2)*" + cosh_half + ")";
+  const std::string si = "(cos(alpha/2)*" + sinh_half + ")";
+  const std::string cr = "(cos(alpha/2)*" + cosh_half + ")";
+  const std::string ci = "(-sin(alpha/2)*" + sinh_half + ")";
+  const auto momentum =
+      two_centre_reversed_momentum(sr, si, cr, ci);
+  const std::string metric =
+      "((" + sr + "^2+" + si + "^2)*(" + cr + "^2+" + ci + "^2))";
+  return IMap("var:" + frozen_variables(frozen_count) +
+              ",alpha,beta,pr,pi,ee,zz;fun:" +
+              frozen_zeros(frozen_count) + ",-pr,-pi," + momentum.first +
+              "," + momentum.second + ",(pr^2+pi^2)/3,-" + metric + ";");
+}
+
 TailData stable_tail_data(const interval& kappa,
                           double zeta_start = kZetaStart,
                           bool use_quintic = false) {
@@ -1849,16 +1962,22 @@ struct FourthOutgoingEvaluation {
 struct CorrelatedFifthEvaluation {
   IVector fifth_entry;
   IVector fifth_exit;
+  IVector two_centre_entry;
+  IVector two_centre_exit;
   interval minimum_fourth_other_squared;
   interval minimum_fifth_other_squared;
   interval fifth_exit_selected_norm;
   interval fifth_exit_other_squared;
   interval fifth_section_derivative;
   interval fifth_return_time;
+  interval two_centre_shape_real_constraint;
+  interval two_centre_shape_imag_constraint;
+  interval two_centre_energy_constraint;
 };
 
 CorrelatedFifthEvaluation evaluate_fully_correlated_fifth_section_probe(
-    const interval& kappa, const interval& fifth_section_value) {
+    const interval& kappa, const interval& fifth_section_value,
+    const interval& two_centre_duration = interval(0.0)) {
   const TailData tail = stable_tail_data(kappa, kZetaStart, true);
   IVector initial(13);
   for (int index = 0; index < 5; ++index) {
@@ -1932,14 +2051,76 @@ CorrelatedFifthEvaluation evaluate_fully_correlated_fifth_section_probe(
   const interval fifth_exit_other_squared =
       sqr(fifth_qx + fifth_separation) + sqr(fifth_qy);
 
+  IVector two_centre_entry(6);
+  IVector two_centre_exit(6);
+  for (int index = 0; index < 6; ++index) {
+    two_centre_entry[index] = interval(0.0);
+  }
+  for (int index = 0; index < 6; ++index) {
+    two_centre_exit[index] = interval(0.0);
+  }
+  interval two_centre_shape_real_constraint(0.0);
+  interval two_centre_shape_imag_constraint(0.0);
+  interval two_centre_energy_constraint(0.0);
+  if (two_centre_duration.rightBound() > 0.0) {
+    IMap two_centre_entry_field =
+        make_prefixed_two_centre_s_entry_field(24);
+    active = append_coordinate_map(active, 6, two_centre_entry_field);
+    IMap s_to_xi_map = make_prefixed_two_centre_s_to_xi_map(30);
+    apply_same_dimension_map(active, s_to_xi_map);
+    const IVector two_centre_entry_full = static_cast<IVector>(active);
+    for (int index = 0; index < 6; ++index) {
+      two_centre_entry[index] = two_centre_entry_full[index + 30];
+    }
+    IMap two_centre_xi_field = make_prefixed_two_centre_xi_field(30);
+    propagate_relative_time(active, two_centre_xi_field,
+                            two_centre_duration);
+    const IVector two_centre_exit_full = static_cast<IVector>(active);
+    for (int index = 0; index < 6; ++index) {
+      two_centre_exit[index] = two_centre_exit_full[index + 30];
+    }
+    const interval alpha = two_centre_exit[0];
+    const interval beta = two_centre_exit[1];
+    const interval exp_half = exp(beta / interval(2.0));
+    const interval exp_minus_half = exp(-beta / interval(2.0));
+    const interval cosh_half =
+        (exp_half + exp_minus_half) / interval(2.0);
+    const interval sinh_half =
+        (exp_half - exp_minus_half) / interval(2.0);
+    const interval sr = sin(alpha / interval(2.0)) * cosh_half;
+    const interval si = cos(alpha / interval(2.0)) * sinh_half;
+    const interval cr = cos(alpha / interval(2.0)) * cosh_half;
+    const interval ci = -sin(alpha / interval(2.0)) * sinh_half;
+    const interval pr = two_centre_exit[2];
+    const interval pi = two_centre_exit[3];
+    const interval energy = two_centre_exit[4];
+    const interval s_norm = sqr(sr) + sqr(si);
+    const interval c_norm = sqr(cr) + sqr(ci);
+    const interval metric = s_norm * c_norm;
+    const interval zr =
+        (sqr(cr) - sqr(ci) - sqr(sr) + sqr(si)) / interval(2.0);
+    const interval zi = cr * ci - sr * si;
+    two_centre_shape_real_constraint = interval(0.0);
+    two_centre_shape_imag_constraint = interval(0.0);
+    two_centre_energy_constraint =
+        sqr(pr) + sqr(pi) - interval(2.0) * metric * energy -
+        interval(2.0) / interval(9.0) *
+            (metric * (sqr(zr) + sqr(zi)) + s_norm + c_norm);
+  }
+
   return {fifth_entry,
           fifth_exit,
+          two_centre_entry,
+          two_centre_exit,
           interval(0.0),
           interval(0.0),
           fifth_exit_selected_norm,
           fifth_exit_other_squared,
           -fifth_exit[3],
-          fifth_return_time};
+          fifth_return_time,
+          two_centre_shape_real_constraint,
+          two_centre_shape_imag_constraint,
+          two_centre_energy_constraint};
 }
 
 CorrelatedFifthEvaluation evaluate_correlated_fifth_probe(
@@ -2061,12 +2242,17 @@ CorrelatedFifthEvaluation evaluate_correlated_fifth_probe(
   const interval fifth_section_derivative = -fifth_exit[3];
   return {fifth_entry,
           fifth_exit,
+          IVector(1),
+          IVector(1),
           minimum_fourth_other_squared,
           minimum_fifth_other_squared,
           fifth_exit_selected_norm,
           fifth_exit_other_squared,
           fifth_section_derivative,
-          fifth_return_time};
+          fifth_return_time,
+          interval(0.0),
+          interval(0.0),
+          interval(0.0)};
 }
 
 FourthOutgoingEvaluation evaluate_fourth_outgoing(
@@ -2338,6 +2524,7 @@ int main(int argc, char** argv) {
     bool fourth_correlated_probe = false;
     bool fourth_correlated_section_probe = false;
     bool fourth_correlated_section_tile = false;
+    bool fourth_two_centre_probe = false;
     int second_probe_offset = 0;
     int second_probe_radius = 0;
     int second_fourth_duration_million = 0;
@@ -2345,6 +2532,7 @@ int main(int argc, char** argv) {
     int second_fifth_duration_million = 0;
     int correlated_offset_pico = 0;
     int correlated_radius_pico = 395;
+    int two_centre_duration_million = 0;
     if (argc == 2 && std::string(argv[1]) == "--second-root") {
       second_root_only = true;
     } else if (argc == 2 && std::string(argv[1]) == "--second-escape") {
@@ -2372,6 +2560,12 @@ int main(int argc, char** argv) {
                std::string(argv[1]) == "--fourth-correlated-section-probe") {
       fourth_correlated_section_probe = true;
       second_fifth_duration_million = parse_integer(argv[2]);
+    } else if (argc == 3 &&
+               std::string(argv[1]) == "--fourth-two-centre-probe") {
+      fourth_correlated_section_probe = true;
+      fourth_two_centre_probe = true;
+      second_fifth_duration_million = 50000;
+      two_centre_duration_million = parse_integer(argv[2]);
     } else if (argc == 5 &&
                std::string(argv[1]) == "--fourth-correlated-section-tile") {
       fourth_correlated_section_probe = true;
@@ -2379,6 +2573,15 @@ int main(int argc, char** argv) {
       correlated_offset_pico = parse_integer(argv[2]);
       correlated_radius_pico = parse_integer(argv[3]);
       second_fifth_duration_million = parse_integer(argv[4]);
+    } else if (argc == 5 &&
+               std::string(argv[1]) == "--fourth-two-centre-tile") {
+      fourth_correlated_section_probe = true;
+      fourth_correlated_section_tile = true;
+      fourth_two_centre_probe = true;
+      correlated_offset_pico = parse_integer(argv[2]);
+      correlated_radius_pico = parse_integer(argv[3]);
+      second_fifth_duration_million = 50000;
+      two_centre_duration_million = parse_integer(argv[4]);
     } else if (argc == 4 &&
                std::string(argv[1]) == "--second-escape-probe") {
       second_escape_probe = true;
@@ -2425,6 +2628,9 @@ int main(int argc, char** argv) {
                    "--fourth-correlated-section-probe CI_MILLION | "
                    "--fourth-correlated-section-tile OFFSET_PICO "
                    "RADIUS_PICO CI_MILLION | "
+                   "--fourth-two-centre-probe DURATION_MILLION | "
+                   "--fourth-two-centre-tile OFFSET_PICO RADIUS_PICO "
+                   "DURATION_MILLION | "
                    "--second-escape | "
                    "--second-escape-wide | --second-escape-probe "
                    "OFFSET_NANO RADIUS_NANO | --escape-tiles FIRST_OFFSET "
@@ -2473,6 +2679,12 @@ int main(int argc, char** argv) {
          second_fifth_duration_million > 500000)) {
       throw std::invalid_argument(
           "correlated fifth section is outside its safe range");
+    }
+    if (fourth_two_centre_probe &&
+        (two_centre_duration_million < 1 ||
+         two_centre_duration_million > 10000000)) {
+      throw std::invalid_argument(
+          "two-centre probe duration is outside its safe range");
     }
     if (fourth_correlated_section_tile &&
         (correlated_offset_pico < -1000 || correlated_offset_pico > 1000 ||
@@ -2899,21 +3111,26 @@ int main(int argc, char** argv) {
       const interval fifth_target =
           interval(static_cast<double>(second_fifth_duration_million)) /
           interval(1000000.0);
+      const interval two_centre_duration =
+          interval(static_cast<double>(two_centre_duration_million)) /
+          interval(1000000.0);
       const double correlated_zeta_start =
           kZetaStart;
       const CorrelatedFifthEvaluation result =
           fourth_correlated_section_probe
-              ? evaluate_fully_correlated_fifth_section_probe(kappa_box,
-                                                              fifth_target)
+              ? evaluate_fully_correlated_fifth_section_probe(
+                    kappa_box, fifth_target, two_centre_duration)
               : evaluate_correlated_fifth_probe(
                     kappa_box, fourth_start_duration, fourth_extra_duration,
                     fifth_target, false, correlated_zeta_start);
       std::cout << std::hexfloat
                 << (fourth_fifth_outgoing_only
                         ? "FOURTH_FIFTH_OUTGOING_DATA "
+                        : (fourth_two_centre_probe
+                               ? "TWO_CENTRE_PROBE "
                         : (fourth_correlated_section_probe
                                ? "CORRELATED_FIFTH_SECTION_PROBE "
-                               : "CORRELATED_FIFTH_PROBE "))
+                               : "CORRELATED_FIFTH_PROBE ")))
                 << "method=CAPD-6.1.0-native"
                 << " offset_pico=" << correlated_offset_pico
                 << " radius_pico=" << correlated_radius_pico
@@ -2937,6 +3154,18 @@ int main(int argc, char** argv) {
                 << result.fifth_section_derivative
                 << " fifth_return_time=" << result.fifth_return_time
                 << "\n";
+      if (fourth_two_centre_probe) {
+        std::cout << std::hexfloat
+                  << "TWO_CENTRE_DATA duration=" << two_centre_duration
+                  << " entry=" << result.two_centre_entry
+                  << " exit=" << result.two_centre_exit
+                  << " shape_real_constraint="
+                  << result.two_centre_shape_real_constraint
+                  << " shape_imag_constraint="
+                  << result.two_centre_shape_imag_constraint
+                  << " energy_constraint="
+                  << result.two_centre_energy_constraint << "\n";
+      }
       if (fourth_fifth_outgoing_only) {
         if (!(result.fifth_entry[1].rightBound() < 0.0 &&
               result.fifth_exit_selected_norm.leftBound() > 0.0 &&

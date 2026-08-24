@@ -375,9 +375,15 @@ passage to the transverse outgoing section $c_i=1/20$ in
 single correlated doubleton through every nonlinear chart map.  Immediately
 after that section the fifth and sixth close passages overlap, so neither
 ordinary coordinates nor either single-centre LC chart gives a uniform
-interval domain.  Constructing a simultaneous two-centre regularization,
-then reaching a terminal escape or non-brake section, remains open, as does
-exclusion or location of additional boundaries.
+interval domain.  The exact simultaneous polynomial two-centre field and its
+algebraic fifth-section initialization are now derived in
+`PLANAR_TWO_CENTRE_REGULARIZATION.md`.  The nonredundant \(\xi\) chart removes
+the constraint drift and validates a one-picounit tile for \(0.7\)
+regularized-time units, but the retained Poincare set then wraps in \(p\) and
+\(E\).  A section-adapted doubleton or validated time correction onto the
+exact fifth section is the localized open repair.  Propagation to a separated
+terminal escape or non-brake section remains open, as does exclusion or
+location of additional boundaries.
 
 The selected finite-mass relative coordinate now gives an exact perturbative
 bridge:

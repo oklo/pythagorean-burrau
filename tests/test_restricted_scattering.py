@@ -23,6 +23,7 @@ from src.symbolic.restricted_scattering import (
     planar_joint_shape_stable_cubic_jet,
     planar_joint_shape_stable_quartic_correction,
     planar_joint_shape_stable_quintic_correction,
+    planar_joint_shape_two_centre_regularization,
     restricted_equilateral_triple_collision,
     restricted_terminal_collision_r_chart,
     restricted_transverse_linearization,
@@ -582,6 +583,35 @@ def test_planar_joint_shape_stable_quintic_correction() -> None:
         True,
         False,
     )
+
+
+def test_planar_joint_shape_two_centre_regularization() -> None:
+    field, variables, identities = planar_joint_shape_two_centre_regularization()
+    s_real, s_imag, c_real, c_imag, p_real, p_imag, energy, zeta = variables
+    assert field.shape == (8, 1)
+    assert sp.simplify(
+        field[7] - (s_real**2 + s_imag**2) * (c_real**2 + c_imag**2)
+    ) == 0
+    assert identities == (0,) * 5
+    assert zeta not in set().union(*(component.free_symbols for component in field))
+    positive_collision = {
+        s_real: 0,
+        s_imag: 0,
+        c_real: 1,
+        c_imag: 0,
+    }
+    negative_collision = {
+        s_real: 1,
+        s_imag: 0,
+        c_real: 0,
+        c_imag: 0,
+    }
+    assert sp.simplify(field[4].subs(positive_collision)) == 0
+    assert sp.simplify(field[5].subs(positive_collision)) == 0
+    assert sp.simplify(field[4].subs(negative_collision)) == 0
+    assert sp.simplify(field[5].subs(negative_collision)) == 0
+    assert energy in field[4].free_symbols | field[5].free_symbols
+    assert p_real in field[6].free_symbols and p_imag in field[6].free_symbols
 
 
 def test_forced_planar_light_collision_lc_constraint() -> None:

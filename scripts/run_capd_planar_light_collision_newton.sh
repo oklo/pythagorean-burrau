@@ -11,7 +11,7 @@ if [ "$#" -lt 1 ] || [ "$#" -gt 7 ] || \
      [ "$3" != "--fourth-fifth-outgoing" ] && \
      [ "$3" != "--second-escape" ] && \
      [ "$3" != "--second-escape-wide" ]; }; then
-  echo "usage: $0 CAPD_SOURCE_DIR [CAPD_BUILD_DIR [--second-root | --third-root | --fourth-root | --fourth-fifth-entry | --fourth-fifth-outgoing | --fourth-correlated-probe FIFTH_DURATION_MILLION | --fourth-correlated-section-probe CI_MILLION | --fourth-correlated-section-tile OFFSET_PICO RADIUS_PICO CI_MILLION | --second-escape | --second-escape-wide | --second-escape-probe OFFSET_NANO RADIUS_NANO | --fourth-outgoing-probe FOURTH_EXTRA_MILLION FIFTH_DURATION_MILLION | --second-fourth-probe OFFSET_NANO RADIUS_NANO DURATION_MILLION | --second-fourth-root-probe OFFSET_NANO RADIUS_NANO DURATION_MILLION DURATION_RADIUS_MILLION | FIRST_OFFSET COUNT [RADIUS]]]" >&2
+  echo "usage: $0 CAPD_SOURCE_DIR [CAPD_BUILD_DIR [--second-root | --third-root | --fourth-root | --fourth-fifth-entry | --fourth-fifth-outgoing | --fourth-correlated-probe FIFTH_DURATION_MILLION | --fourth-correlated-section-probe CI_MILLION | --fourth-correlated-section-tile OFFSET_PICO RADIUS_PICO CI_MILLION | --fourth-two-centre-probe DURATION_MILLION | --fourth-two-centre-tile OFFSET_PICO RADIUS_PICO DURATION_MILLION | --second-escape | --second-escape-wide | --second-escape-probe OFFSET_NANO RADIUS_NANO | --fourth-outgoing-probe FOURTH_EXTRA_MILLION FIFTH_DURATION_MILLION | --second-fourth-probe OFFSET_NANO RADIUS_NANO DURATION_MILLION | --second-fourth-root-probe OFFSET_NANO RADIUS_NANO DURATION_MILLION DURATION_RADIUS_MILLION | FIRST_OFFSET COUNT [RADIUS]]]" >&2
   exit 2
 fi
 
@@ -56,7 +56,8 @@ if [ "$#" -eq 3 ]; then
   VERIFIER_ARGS=("$3")
 elif [ "$#" -eq 4 ]; then
   if [ "$3" = "--fourth-correlated-probe" ] || \
-     [ "$3" = "--fourth-correlated-section-probe" ]; then
+     [ "$3" = "--fourth-correlated-section-probe" ] || \
+     [ "$3" = "--fourth-two-centre-probe" ]; then
     VERIFIER_ARGS=("$3" "$4")
   else
     VERIFIER_ARGS=(--escape-tiles "$3" "$4")
@@ -70,10 +71,11 @@ elif [ "$#" -eq 5 ]; then
   fi
 elif [ "$#" -eq 6 ]; then
   if [ "$3" = "--second-fourth-probe" ] || \
-     [ "$3" = "--fourth-correlated-section-tile" ]; then
+     [ "$3" = "--fourth-correlated-section-tile" ] || \
+     [ "$3" = "--fourth-two-centre-tile" ]; then
     VERIFIER_ARGS=("$3" "$4" "$5" "$6")
   else
-    echo "six arguments require --second-fourth-probe or --fourth-correlated-section-tile" >&2
+    echo "six arguments require --second-fourth-probe, --fourth-correlated-section-tile, or --fourth-two-centre-tile" >&2
     exit 2
   fi
 elif [ "$#" -eq 7 ]; then
