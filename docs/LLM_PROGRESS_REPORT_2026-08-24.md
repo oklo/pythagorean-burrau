@@ -1,7 +1,7 @@
 # Pythagorean--Burrau research progress report
 
-Date: 2026-08-24  
-Repository: `/Users/greglaughlin/Projects/pythagorean-burrau`  
+Date: 2026-08-24
+Repository: `/Users/greglaughlin/Projects/pythagorean-burrau`
 Current outcome: **major partial theorem; full conjecture unresolved**
 
 This report is written as a standalone handoff for another LLM. It combines
