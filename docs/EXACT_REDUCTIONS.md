@@ -155,6 +155,131 @@ D(t)={\ddot D(0)\over2}t^2+{D^{(4)}(0)\over24}t^4+O(t^6),
 with uniform signs $+,-$.  The later numerical sign changes show that this
 finite jet still does not imply a global barrier.
 
+For twice oriented area
+$\Delta_2=(q_2-q_1)\times(q_3-q_1)$, the initial brake also has
+$\dot\Delta_2(0)=0$ and
+
+\[
+ \ddot\Delta_2(0)=
+ {Q_{10}(u)\over2u^2(u-1)^2(1+u^2)^3},
+\]
+
+where
+
+\[
+ Q_{10}=u^{10}-10u^9+19u^8-28u^7-14u^6+8u^5-2u^4
+ -4u^3-3u^2+2u-1.
+\]
+
+The exact Sturm sequence has length $11$.  Its signs at the two rational
+endpoints are
+
+\[
+(-,+,+,-,-,+,+,+,-,+,+),\qquad
+(-,-,+,-,-,+,+,+,-,-,+),
+\]
+
+respectively.  Both strings have five variations, so $Q_{10}$ has no root
+on $[0,83/200]$; moreover $Q_{10}(0)=-1$. Hence
+
+\[
+ \boxed{\ddot\Delta_2(0)<0\qquad(0<u\le\sqrt2-1).}
+\]
+
+This is a uniform local motion toward the first syzygy, not a proof that the
+area is globally concave or that the first-syzygy type cannot change.
+
+## Brake residual in a binary Levi--Civita chart
+
+Select any pair, put $g=q_j-q_i=w^2$, $dt=|w|^2d\sigma$, and
+$z=dw/d\sigma$. Let $G$ be the complementary Jacobi vector from the selected
+pair's center of mass to the third body and $P=\dot G$. If $\mu_g$ and
+$\mu_G$ are the two reduced masses, then
+
+\[
+ L=2\mu_g\operatorname{Im}(\overline w z)+\mu_G G\times P.
+\]
+
+Consequently, on every collision-free zero-angular-momentum segment with
+$G\ne0$,
+
+\[
+ (z_r,z_i,G\cdot P)=0
+ \quad\Longleftrightarrow\quad
+ \hbox{all labelled inertial velocities vanish}.
+\]
+
+The forward implication uses $z=0\Rightarrow\dot g=0$, followed by
+$L=0\Rightarrow G\times P=0$. The equations $G\times P=G\cdot P=0$ have
+coefficient determinant $|G|^2$, so $P=0$. The converse is immediate, and
+zero total momentum removes the common translational velocity. This is
+**PROVED ANALYTICALLY**; exact regressions check angular-momentum conservation
+in the pair/complement equations and the determinant. The chart remains
+regular through arbitrarily close selected-pair encounters. At $G=0$ use a
+different Jacobi tree or the global Hopf residual.
+
+## Pair-angular-momentum torque factorization
+
+Orient the cyclic relative vectors as
+
+\[
+ r_{12}=q_2-q_1,\qquad r_{23}=q_3-q_2,\qquad r_{31}=q_1-q_3,
+\]
+
+write $\Delta_2=(q_2-q_1)\times(q_3-q_1)$ for twice signed area, and put
+$\ell_{ij}=r_{ij}\times\dot r_{ij}$. Direct cancellation of each pair's
+central force gives
+
+\[
+\begin{aligned}
+ \dot\ell_{12}&=m_3\Delta_2(r_{23}^{-3}-r_{31}^{-3}),\\
+ \dot\ell_{23}&=m_1\Delta_2(r_{31}^{-3}-r_{12}^{-3}),\\
+ \dot\ell_{31}&=m_2\Delta_2(r_{12}^{-3}-r_{23}^{-3}).
+\end{aligned}
+\]
+
+This is an **EXACT SYMBOLIC IDENTITY** with a generic Cartesian regression.
+For the normalized Pythagorean launch on the strict fundamental interval
+$A>B$, $\Delta_2=AB>0$ and
+
+\[
+ (\dot\ell_{12}(0),\dot\ell_{23}(0),\dot\ell_{31}(0))
+ \quad\hbox{has signs}\quad(-,+,-).
+\]
+
+At the isosceles endpoint the first component is zero. A hypothetical second
+brake at $\tau$ must satisfy the three exact cancellation conditions obtained
+by integrating the displayed equations from $0$ to $\tau$. They are not yet
+a contradiction: syzygies reverse $\Delta_2$, and changes of distance order
+reverse the other factors. The identity turns a torque-based proof into a
+precise syzygy/order-transition problem.
+
+There is nevertheless an immediate strict consequence on every
+$0<u<\sqrt2-1$.  At both brakes all three $\ell_{ij}$ vanish.  Each torque
+integrand is continuous before collision and has a strict initial sign.
+Therefore an integral returning to zero must attain the opposite strict sign
+somewhere.  Thus a second brake forces all three products
+
+\[
+ \Delta_2(r_{23}^{-3}-r_{31}^{-3}),\quad
+ \Delta_2(r_{31}^{-3}-r_{12}^{-3}),\quad
+ \Delta_2(r_{12}^{-3}-r_{23}^{-3})
+\]
+
+to reverse their launch signs $(-,+,-)$ before the brake.  In particular, if
+$\Delta_2$ stays positive, then each pairwise side ordering must reverse at
+some time:
+
+\[
+ r_{23}<r_{31},\qquad r_{31}>r_{12},\qquad r_{12}<r_{23},
+\]
+
+respectively, whereas initially $r_{12}>r_{23}>r_{31}$.  Hence no second
+brake can precede the first syzygy unless all three pairwise-equality surfaces
+have been crossed.  This **PROVED ANALYTICALLY** torque-reversal lemma is a
+necessary event condition, not an assertion that the three reversals cannot
+occur at different times.
+
 ## Planar endpoint stable jet and collision normal form
 
 The massless planar joint endpoint has an autonomous logarithmic shape flow.

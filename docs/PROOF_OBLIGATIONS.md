@@ -78,6 +78,14 @@ unresolved universal obligations are:
 4. if real zeros remain, locate them rigorously before attempting rational
    exclusion.
 
+The exact torque-reversal lemma adds an independent event filter.  On every
+strict fundamental parameter, a second brake forces all three cyclic torque
+integrands to reverse their launch signs.  If it occurs before the first
+syzygy, every pair of mutual distances must therefore exchange order at least
+once.  A useful next lemma would show that one of these three order reversals
+is impossible on each maximum branch, or else classify the syzygy at which
+the common area factor changes sign.
+
 Exhaustive compact-middle covering is not an acceptable substitute: measured
 through-encounter parameter amplification is about $3\times10^8$ and grows
 further at late events. The event reduction is a smaller exact problem, but

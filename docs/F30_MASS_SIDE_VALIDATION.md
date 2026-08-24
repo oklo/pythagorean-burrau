@@ -104,28 +104,59 @@ The reconstructed physical half-period is about $6.2892338237914$ and the
 defect is about $-0.0033559972648$. This remains **ORDINARY NUMERICAL
 EVIDENCE**.
 
-The intended proof uses a point $C^0$ flow for $F(p_0)$, a $C^1$ flow over
-a parameter box for $DF$, and
+For interval shooting the three endpoint equations are evaluated more sharply
+as
+
+\[
+ z_r=0,\qquad z_i=0,\qquad G\cdot P=0.
+\]
+
+Every exact member starts with zero angular momentum. At $z=0$ this conserved
+identity gives $G\times P=0$; the displayed dot equation then gives $P=0$
+whenever $G\ne0$. The verifier separately proves an endpoint lower bound on
+$|G|^2$. Thus this chart-native residual is equivalent to the Hopf brake
+residual on the Newton box and avoids its reconstruction divisions.
+
+The intended proof uses a point $C^0$ flow for $F(p_0)$ and a $C^1$ flow over
+a parameter box for $DF$.  The verifier tests both interval Newton,
 
 \[
  N(p_0,P)=p_0-DF(P)^{-1}F(p_0).
 \]
 
 Strict inclusion $N(p_0,P)\subset\operatorname{int}P$ gives existence and
-uniqueness. Every swept step separately audits all three mutual distances.
+uniqueness, and the preconditioned Krawczyk image
+
+\[
+ K=p_0-CF(p_0)+(1-CDF(P))(P-p_0),
+ \qquad C=\operatorname{mid}(DF(P))^{-1}.
+\]
+
+Strict inclusion of either image gives existence and uniqueness. Every swept
+step separately audits all three mutual distances.
 
 ## Present obstruction
 
 A 192-bit, tolerance-$10^{-16}$, order-30 point-center run passes the deepest
-regularized encounter, with a swept squared-separation lower bound as small
-as $1.22\times10^{-7}$, but later wraps and reaches the minimum step at
-scaled time about $0.542$. This is substantially later than the direct-
-Jacobi failure and occurs without a singular selected-pair force. A 256-bit,
-order-50 replay is in progress.
+regularized encounter but later wraps and reaches the minimum step at scaled
+time about $0.542$.  At 256 bits, tolerance $10^{-30}$, order 50, and maximum
+scaled step $5\times10^{-4}$, the point-center enclosure instead traverses
+the complete half-orbit in 2351 steps.  Every swept squared separation is
+positive, with global lower bound $1.22160\times10^{-7}$.  The endpoint
+chart residual is enclosed by
 
-No interval Newton inclusion has yet been obtained. If higher precision still
-fails, the principled repair is a stronger Lohner representation or a
-sectioned recentering that preserves all five parameter tangents.
+\[
+ z_r\in[-6.18,6.20]10^{-11},\quad
+ z_i\in[-2.20,1.87]10^{-10},\quad
+ G\cdot P\in[-4.71,4.53]10^{-10}.
+\]
+
+This is a **VALIDATED NUMERICAL RESULT** for the fixed candidate center, not
+a periodic-orbit existence proof.  The corresponding $C^1$ box run is now in
+progress. No interval Newton or Krawczyk inclusion has yet been obtained. If
+the parameter box still wraps, the principled repair is a stronger Lohner
+representation, parameter subdivision for the Jacobian hull, or sectioned
+multiple shooting that preserves all five parameter tangents.
 
 ## Reproduction
 
@@ -142,7 +173,7 @@ Experimental interval verifier:
 ```bash
 bash scripts/run_capd_f30_mass_side_newton.sh \
   /private/tmp/fable-capd /private/tmp/fable-capd/build-mp \
-  256 1e-30 50 1e-9 0.0005
+  256 1e-30 50 1e-8 0.0005
 ```
 
 No `PASS_F30_MASS_SIDE_NONPYTHAGOREAN` marker has yet been obtained.

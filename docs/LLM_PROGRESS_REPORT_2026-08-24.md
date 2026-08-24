@@ -386,6 +386,23 @@ $\zeta$ can be sign-definite across all maxima. A viable theorem must be
 branch-dependent, nonlinear, or topological rather than a fixed quadrant
 rule.
 
+Subsequent validation sharpened both live computational routes.  The
+$u=1/3$ 512-bit multipassage run reached a certified LC exit near physical
+time $8.24317$, but its physical hull later widened to about $148$ by
+$t\simeq8.33807$ and was stopped without a terminal marker.  Separately, the
+global pair-$23$ F30 point center completed its entire regularized half-orbit
+in 2351 rigorous steps.  Its swept squared-separation lower bound is
+$1.22160\times10^{-7}$ and its three intrinsic endpoint residual intervals
+have widths below $9.3\times10^{-10}$.  This validates the fixed center
+segment only; a $C^1$ interval-Newton/Krawczyk inclusion is still required.
+
+The exact reduction has also gained a torque-reversal lemma.  On every strict
+fundamental parameter, a hypothetical second brake forces all three cyclic
+pair-torque integrands to reverse their initial signs $(-,+,-)$.  Before a
+syzygy this requires all three pairwise mutual-distance orderings to reverse
+at some (not necessarily common) times.  This is a new global necessary event
+condition, not yet an exclusion theorem.
+
 ## 9. Active routes and next actions
 
 Primary route:

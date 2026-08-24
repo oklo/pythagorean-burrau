@@ -3,8 +3,8 @@
 //
 // Unknowns are (wr0,wi0,S,m1,m2). Here g=q3-q2=w^2 is regularized
 // globally, dt/dsigma=|w|^2, and S is the regularized half-duration. The
-// five equations are the three Hopf-velocity brake residuals at sigma=S and
-// r23=m1, r31=m2 at the initial brake. The Pythagorean equation is not
+// five equations are the chart-native brake residual (zr,zi,G dot P) at
+// sigma=S and r23=m1, r31=m2 at the initial brake. The Pythagorean equation is not
 // imposed: its interval at the unique root is the decisive output.
 //
 // A global pair-{2,3} Levi--Civita chart avoids repeated graph overwrites and
@@ -88,40 +88,14 @@ IMap make_scaled_global_lc_field() {
       "S*" + r + ",0,0,0;");
 }
 
-IMap make_hopf_velocity_map() {
-  const std::string r = "(wr^2+wi^2)";
-  const std::string gx = "(wr^2-wi^2)";
-  const std::string gy = "(2*wr*wi)";
-  const std::string gdx = "(2*(wr*zr-wi*zi)/" + r + ")";
-  const std::string gdy = "(2*(wr*zi+wi*zr)/" + r + ")";
-  const std::string pair = "(b+1)";
-  const std::string m12 = "(a+b)";
-  const std::string total = "(a+b+1)";
-  const std::string coefficient =
-      "(b*" + total + "/(" + pair + "*" + m12 + "))";
-  const std::string fraction = "(a/" + m12 + ")";
-  const std::string Xx = "(-" + gx + "/" + pair + "-Gx)";
-  const std::string Xy = "(-" + gy + "/" + pair + "-Gy)";
-  const std::string Ux = "(-" + gdx + "/" + pair + "-Px)";
-  const std::string Uy = "(-" + gdy + "/" + pair + "-Py)";
-  const std::string Yx =
-      "(" + coefficient + "*" + gx + "-" + fraction + "*Gx)";
-  const std::string Yy =
-      "(" + coefficient + "*" + gy + "-" + fraction + "*Gy)";
-  const std::string Vx =
-      "(" + coefficient + "*" + gdx + "-" + fraction + "*Px)";
-  const std::string Vy =
-      "(" + coefficient + "*" + gdy + "-" + fraction + "*Py)";
-
+IMap make_lc_brake_map() {
+  // The exact flow has zero total angular momentum.  If z=0, the selected
+  // pair is instantaneously at rest and angular momentum gives G cross P=0.
+  // Thus G dot P=0 forces P=0 whenever G is nonzero.  The endpoint audit
+  // below proves that chart condition over the whole Newton box.
   return IMap(
       "var:wr,wi,zr,zi,h,Gx,Gy,Px,Py,tp,a,b,S;"
-      "fun:"
-      "(" + Xx + "*" + Ux + "+" + Xy + "*" + Uy + ")-(" + Yx +
-      "*" + Vx + "+" + Yy + "*" + Vy + "),"
-      "(" + Ux + "*" + Yx + "+" + Uy + "*" + Yy + ")+(" + Xx +
-      "*" + Vx + "+" + Xy + "*" + Vy + "),"
-      "(" + Ux + "*" + Yy + "-" + Uy + "*" + Yx + ")+(" + Xx +
-      "*" + Vy + "-" + Xy + "*" + Vx + ");");
+      "fun:zr,zi,Gx*Px+Gy*Py;");
 }
 
 IVector candidate_center() {
@@ -234,7 +208,7 @@ interval separation_lower_bound(const IVector& enclosure) {
 }
 
 IVector residual_at(const IVector& p, const IVector& final_state) {
-  IMap residual_map = make_hopf_velocity_map();
+  IMap residual_map = make_lc_brake_map();
   const IVector brake = residual_map(final_state);
   IVector residual(5);
   for (int row = 0; row < 3; ++row) residual[row] = brake[row];
@@ -320,7 +294,7 @@ Evaluation evaluate(const IVector& p, double tolerance, int order,
   const IMatrix flow_derivative = static_cast<IMatrix>(set);
   const IMatrix parameter_tangent =
       flow_derivative * initial_parameter_tangent(p);
-  IMap residual_map = make_hopf_velocity_map();
+  IMap residual_map = make_lc_brake_map();
   const IMatrix brake_parameter_derivative =
       residual_map.derivative(final_state) * parameter_tangent;
 
@@ -353,6 +327,19 @@ double maximum_width(const IVector& vector) {
   return result;
 }
 
+IVector krawczyk_image(const IVector& center, const IVector& box,
+                       const IVector& center_residual,
+                       const IMatrix& box_jacobian) {
+  // A point inverse of mid(DF(box)) is only a preconditioner; every operation
+  // in the displayed Krawczyk image remains interval arithmetic.
+  const IMatrix midpoint_jacobian = capd::vectalg::midMatrix(box_jacobian);
+  const IMatrix preconditioner =
+      capd::matrixAlgorithms::inverseMatrix(midpoint_jacobian);
+  const IMatrix identity = IMatrix::Identity(5);
+  return center - preconditioner * center_residual +
+         (identity - preconditioner * box_jacobian) * (box - center);
+}
+
 }  // namespace
 
 int main(int argc, char** argv) {
@@ -369,18 +356,35 @@ int main(int argc, char** argv) {
     const CenterEvaluation center_evaluation =
         evaluate_center(center, tolerance, order, maximum_step);
     std::cerr << "F30_CENTER residual=" << center_evaluation.residual
+              << " final_state=" << center_evaluation.final_state
               << " physical_half_time=" << center_evaluation.final_state[9]
               << " min_separation_squared="
               << center_evaluation.minimum_separation_squared
               << " steps=" << center_evaluation.steps << "\n";
+    if (std::getenv("F30_CENTER_ONLY") != nullptr) {
+      std::cout << "PASS_F30_CENTER_SEGMENT\n";
+      return 0;
+    }
     const Evaluation box_evaluation =
         evaluate(box, tolerance, order, maximum_step);
     const IVector newton =
         center - capd::matrixAlgorithms::gauss(
                      box_evaluation.jacobian, center_evaluation.residual);
-    const bool inclusion = capd::vectalg::subsetInterior(newton, box);
+    const IVector krawczyk =
+        krawczyk_image(center, box, center_evaluation.residual,
+                       box_evaluation.jacobian);
+    const bool newton_inclusion = capd::vectalg::subsetInterior(newton, box);
+    const bool krawczyk_inclusion =
+        capd::vectalg::subsetInterior(krawczyk, box);
+    const bool inclusion = newton_inclusion || krawczyk_inclusion;
+    const IVector& root_enclosure =
+        newton_inclusion ? newton : krawczyk;
+    const interval complement_squared =
+        square(box_evaluation.final_state[5]) +
+        square(box_evaluation.final_state[6]);
     const interval pythagorean_defect =
-        newton[3] * newton[3] + newton[4] * newton[4] - interval(1);
+        root_enclosure[3] * root_enclosure[3] +
+        root_enclosure[4] * root_enclosure[4] - interval(1);
 
     std::cout << "F30_MASS_SIDE_NEWTON"
               << " center=" << center
@@ -388,17 +392,23 @@ int main(int argc, char** argv) {
               << " center_residual=" << center_evaluation.residual
               << " jacobian=" << box_evaluation.jacobian
               << " newton=" << newton
-              << " inclusion=" << inclusion
+              << " krawczyk=" << krawczyk
+              << " newton_inclusion=" << newton_inclusion
+              << " krawczyk_inclusion=" << krawczyk_inclusion
+              << " root_enclosure=" << root_enclosure
               << " pythagorean_defect=" << pythagorean_defect
               << " min_separation_squared="
               << box_evaluation.minimum_separation_squared
               << " center_steps=" << center_evaluation.steps
               << " box_steps=" << box_evaluation.steps
               << " physical_half_time=" << box_evaluation.final_state[9]
+              << " endpoint_complement_squared=" << complement_squared
               << " final_hull_width="
               << maximum_width(box_evaluation.final_state) << "\n";
     if (!inclusion)
       throw std::runtime_error("interval Newton inclusion failed");
+    if (!(complement_squared.leftBound() > 0))
+      throw std::runtime_error("endpoint LC brake chart allowed G=0");
     if (!(pythagorean_defect.rightBound() < 0))
       throw std::runtime_error(
           "validated mass--side root was not separated from Pythagorean locus");

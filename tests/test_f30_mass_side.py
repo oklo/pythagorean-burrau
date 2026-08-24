@@ -76,6 +76,18 @@ def test_global_pair23_complement_equations_match_cartesian_forces() -> None:
     assert all(sp.simplify(value) == 0 for value in acc3 - acc2 - expected_gdd)
     assert all(sp.simplify(value) == 0 for value in acc1 - center_acc - expected_big_gdd)
 
+    def cross(left: sp.Matrix, right: sp.Matrix) -> sp.Expr:
+        return left[0] * right[1] - left[1] * right[0]
+
+    external = a * (d13 * inv13 - d12 * inv12)
+    pair_reduced_mass = b / (b + 1)
+    complement_reduced_mass = a * (b + 1) / (a + b + 1)
+    angular_derivative = (
+        pair_reduced_mass * cross(g, external)
+        + complement_reduced_mass * cross(big_g, expected_big_gdd)
+    )
+    assert sp.simplify(angular_derivative) == 0
+
 
 def test_global_lc_initial_map_tangent_is_exact() -> None:
     """Differentiate every nonconstant initial-state formula used by CAPD."""
@@ -174,3 +186,10 @@ def test_global_lc_field_reconstructs_selected_pair_acceleration() -> None:
         sp.factor(sp.together(value)) == 0
         for value in physical_acceleration - expected
     )
+
+
+def test_chart_native_lc_brake_residual_is_complete() -> None:
+    """At z=0 and L=0, (G dot P)=0 forces P=0 whenever G is nonzero."""
+    gx, gy = sp.symbols("G_x G_y", real=True)
+    coefficient_matrix = sp.Matrix([[gx, gy], [-gy, gx]])
+    assert coefficient_matrix.det() == gx**2 + gy**2

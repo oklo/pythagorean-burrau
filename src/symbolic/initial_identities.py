@@ -166,6 +166,49 @@ def tight_pair_initial_specific_torque() -> sp.Expr:
     return sp.factor(sp.simplify(cross))
 
 
+def signed_area_second_derivative() -> sp.Expr:
+    """Return the second derivative of twice oriented area at the brake."""
+    masses, positions = initial_data()
+    newton_accelerations = accelerations(masses, positions)
+    base = positions[1] - positions[0]
+    apex = positions[2] - positions[0]
+    base_acceleration = newton_accelerations[1] - newton_accelerations[0]
+    apex_acceleration = newton_accelerations[2] - newton_accelerations[0]
+
+    def cross(left: sp.Matrix, right: sp.Matrix) -> sp.Expr:
+        return left[0] * right[1] - left[1] * right[0]
+
+    # The mixed 2 R' cross S' term vanishes because all initial velocities do.
+    return sp.factor(
+        sp.cancel(
+            cross(base_acceleration, apex) + cross(base, apex_acceleration)
+        )
+    )
+
+
+def signed_area_second_numerator() -> sp.Expr:
+    u, _, _ = euclid_symbols()
+    return (
+        u**10
+        - 10 * u**9
+        + 19 * u**8
+        - 28 * u**7
+        - 14 * u**6
+        + 8 * u**5
+        - 2 * u**4
+        - 4 * u**3
+        - 3 * u**2
+        + 2 * u
+        - 1
+    )
+
+
+def expected_signed_area_second_derivative() -> sp.Expr:
+    u, _, _ = euclid_symbols()
+    denominator = 2 * u**2 * (u - 1) ** 2 * (1 + u**2) ** 3
+    return signed_area_second_numerator() / denominator
+
+
 def expected_identities() -> dict[str, sp.Expr]:
     _, a, b = euclid_symbols()
     p = a * b

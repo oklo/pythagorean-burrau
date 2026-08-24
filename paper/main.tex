@@ -201,6 +201,25 @@ inequality $K=U-U_0>0$.  Because this scalar is nonnegative and has an
 even-order zero at a transverse brake, this reformulation does not create a
 sign-change argument by itself.
 
+There is also a brake residual intrinsic to any binary Levi--Civita chart.
+For a selected pair write $g=q_j-q_i=w^2$, $dt=|w|^2d\sigma$, and
+$z=dw/d\sigma$. Let $G$ be the third body relative to the selected pair's
+center of mass and $P=\dot G$. With reduced masses $\mu_g,\mu_G$, angular
+momentum is
+\[
+ L=2\mu_g\operatorname{Im}(\overline w z)+\mu_G G\times P.
+\]
+Thus, on a collision-free zero-angular-momentum trajectory and wherever
+$G\ne0$,
+\[
+ \boxed{\quad (z_r,z_i,G\cdot P)=0
+ \quad\Longleftrightarrow\quad\hbox{a labelled brake}.\quad}
+\]
+Indeed $z=0$ gives $\dot g=0$; then $L=0$ gives $G\times P=0$, while
+$G\cdot P=0$ forces $P=0$. Total momentum removes the common translation.
+This residual stays regular through arbitrarily close selected-pair
+passages; at $G=0$ one changes Jacobi tree or uses $\Bcal$.
+
 \begin{theorem}[Brake-event identities]
 Along a collision-free free-fall solution with initial potential $U_0$, every
 brake satisfies
@@ -328,6 +347,21 @@ u^4(u-1)^4(u+1)^2(1+u^2)^4}.
 Exact Sturm arithmetic shows that $P_{20}$ has no zero on
 $(0,83/200)$ and $P_{20}(0)=-1$.  Hence $D^{(4)}(0)<0$ throughout the
 fundamental interval.  This uniform local sign still supplies no global cone.
+
+The same calculation for twice oriented area
+$\Delta_2=(q_2-q_1)\times(q_3-q_1)$ gives
+\[
+ \ddot\Delta_2(0)={Q_{10}(u)\over2u^2(u-1)^2(1+u^2)^3},
+\]
+where
+\[
+Q_{10}=u^{10}-10u^9+19u^8-28u^7-14u^6+8u^5-2u^4
+-4u^3-3u^2+2u-1.
+\]
+The length-$11$ Sturm sequence has five sign variations at both rational
+endpoints $0$ and $83/200$, so it has no root there. Since $Q_{10}(0)=-1$,
+$\ddot\Delta_2(0)<0$ on the full fundamental interval. This proves
+uniform initial motion toward syzygy, not global area concavity.
 
 \section{The real isosceles-right endpoint}
 
@@ -2453,6 +2487,32 @@ additional scalar condition
 \]
 Its integrand is initially positive, but no global projection inequality has
 been proved through close encounters.
+
+There is a complementary exact torque condition. Orient
+$r_{12}=q_2-q_1$, $r_{23}=q_3-q_2$, $r_{31}=q_1-q_3$, let
+$\Delta_2=(q_2-q_1)\times(q_3-q_1)$, and set
+$\ell_{ij}=r_{ij}\times\dot r_{ij}$. Then
+\[
+\begin{aligned}
+ \dot\ell_{12}&=m_3\Delta_2(r_{23}^{-3}-r_{31}^{-3}),\\
+ \dot\ell_{23}&=m_1\Delta_2(r_{31}^{-3}-r_{12}^{-3}),\\
+ \dot\ell_{31}&=m_2\Delta_2(r_{12}^{-3}-r_{23}^{-3}).
+\end{aligned}
+\]
+At the Pythagorean launch in the strict fundamental interval their signs are
+$(-,+,-)$. A second brake forces the integral of every right-hand side over
+$[0,\tau]$ to vanish. This reduces a torque obstruction to controlling
+syzygy orientation and distance-order changes; neither cancellation has yet
+been excluded globally.
+
+More precisely, continuity and the strict initial signs imply that every one
+of the three torque integrands must attain the opposite strict sign before a
+second brake.  As long as $\Delta_2>0$, this requires, respectively,
+$r_{23}<r_{31}$, $r_{31}>r_{12}$, and $r_{12}<r_{23}$ at possibly different
+times.  Since initially $r_{12}>r_{23}>r_{31}$, a second brake before the
+first syzygy requires all three pairwise side-order reversals.  This necessary
+condition does not prevent those crossings or the common sign reversal at a
+syzygy.
 
 At energy $-U_0$, the Jacobi--Maupertuis metric is
 $2(U-U_0)ds_m^2$.  A second-brake segment is a degenerate-boundary geodesic

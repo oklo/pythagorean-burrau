@@ -21,13 +21,17 @@ zeros are even-order, so this is not a sign-change proof. Five committed
 point certificates, including an
 independently replayed $u=2/5$ case, prove the conjecture for named primitive
 triples in the compact middle. The exact $3{:}4{:}5$ certificate remains
-pending: its repaired multipassage LC verifier now passes four construction
-cycles through the deep $t\simeq3.166$ encounter, but no terminal PASS record
-has been obtained. A two-mass continuation of the nearby $F_{30}$ periodic
+pending: its repaired 512-bit multipassage LC verifier reached a certified
+chart exit near $t\simeq8.243$, but the physical hull then widened rapidly
+and the run was stopped without a terminal PASS record. A two-mass
+continuation of the nearby $F_{30}$ periodic
 family locates an ordinary-numerical general mass--side-tied candidate, but its
 Pythagorean defect is $-0.00335599728$ and its shooting Jacobian appears
-nonsingular; this is a useful threat localization, not a validated
-nonintersection. Infinitely many open real skinny parameter intervals are now
+nonsingular.  Its fixed global-LC center has now been propagated through the
+complete half-orbit with validated positive swept separations and sub-$10^{-9}$
+endpoint-residual widths, but the $C^1$ root enclosure is still pending; this
+is a useful threat localization, not a validated nonintersection. Infinitely
+many open real skinny parameter intervals are now
 proved nonperiodic; consequently infinitely many distinct primitive
 Pythagorean triples satisfy the conjecture. The exact foundations,
 coordinate-valid brake residual, universal reduced system, uniform fourth-jet

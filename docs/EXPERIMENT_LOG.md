@@ -1138,3 +1138,15 @@ it is not a remainder proof.
   keep $K$ within $1.6\times10^{-10}$. Thus this branch has an ordinary
   positive local gap rather than an apparent zero. It is a candidate for a
   localized interval branch-gap theorem, not a global exclusion.
+- The 512-bit multipassage $u=1/3$ verifier subsequently passed additional
+  close passages through the LC exit at physical time about $8.24317$.
+  Its physical enclosure then lost usefulness rapidly: the reported hull
+  width grew to about $148$ by $t\simeq8.33807$.  The run was stopped without
+  a terminal escape marker.  The earlier finite collision-free/brake-excluded
+  cover remains valid, but there is still no theorem for $(3,4,5)$.
+- Re-evaluated the global-LC $F_{30}$ center with the intrinsic residual
+  $(z_r,z_i,G\cdot P)$.  At 256 bits/order 50/max step $5\times10^{-4}$ it
+  traversed the full half-orbit in 2351 validated steps, proved
+  $r_{\min}^2>1.22160\times10^{-7}$ over every swept enclosure, and enclosed
+  the three endpoint residuals inside widths below $9.3\times10^{-10}$.
+  The full $C^1$ Newton/Krawczyk box remains pending.
