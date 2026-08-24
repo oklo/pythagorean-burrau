@@ -137,3 +137,12 @@ All entries are ORDINARY NUMERICAL EVIDENCE unless marked otherwise.
     and 768/1e-160/order-110 (insurance, comfortable, ~0.65 units/hour).
     Pre-encounter burn is nearly config-independent (~47-48 digits at
     orders 90-130), so step size does not dominate the wrapping there.
+
+17. **Knife-edge finishers.**  Racer3 (512/1e-130/order-130) exited its
+    LC passage with 81 digits; insurance (768/1e-160/order-110) entered
+    the zone with 82 (its smaller steps burned 78 pre-encounter).  The
+    measured post-encounter requirement is ~78 digits, so both runs have
+    margins of only +2 to +3.  If both fail, the documented remedy is
+    multi-passage LC (damped-write entries into stale chart blocks) to
+    remove the ~47-digit pre-encounter tax from the four shallower
+    encounters, after which even a 1e-110 budget finishes comfortably.
