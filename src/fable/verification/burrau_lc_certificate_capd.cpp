@@ -121,12 +121,21 @@ Map make_entry_field(bool form_a) {
   const std::string zi_t = "((" + wr_t + "*" + gdy + "-" + wi_t + "*" + gdx + ")/2)";
   const std::string h_t =
       "((" + gdx + "^2+" + gdy + "^2)/2-(9/5)/" + absg + ")";
-  // G = (16/21) X - (5/9) Y ; P likewise on velocities.
-  return Map(std::string(kVars) +
-      "fun:0,0,0,0,0,0,0,0," +
-      wr_t + "," + wi_t + "," + zr_t + "," + zi_t + "," + h_t + ","
-      "(16*x1/21-5*y1/9),(16*x2/21-5*y2/9),"
-      "(16*p1/21-5*q1/9),(16*p2/21-5*q2/9),0;");
+  // Damped writes (c = 400) with inflation parameters so re-entry into a
+  // stale chart block is exact up to a rigorously enclosed e^{-400}
+  // residual; on a zero block the same flow is equally valid.
+  return Map(
+      "par:f1,f2,f3,f4,f5,f6,f7,f8,f9;" + std::string(kVars) +
+      "fun:0,0,0,0,0,0,0,0,"
+      "400*(" + wr_t + "-wr)+f1,"
+      "400*(" + wi_t + "-wi)+f2,"
+      "400*(" + zr_t + "-zr)+f3,"
+      "400*(" + zi_t + "-zi)+f4,"
+      "400*(" + h_t + "-hh)+f5,"
+      "400*((16*x1/21-5*y1/9)-cgx)+f6,"
+      "400*((16*x2/21-5*y2/9)-cgy)+f7,"
+      "400*((16*p1/21-5*q1/9)-cpx)+f8,"
+      "400*((16*p2/21-5*q2/9)-cpy)+f9,0;");
 }
 
 // LC-zone field in sigma.
@@ -438,15 +447,15 @@ int main(int argc, char** argv) {
     // r13 ~ 8.3e-5, goes that deep; the t=0.376 encounter bottoms at
     // 2.8e-3), exit above 1/500; brake-free zone bound
     // |g| < 1/4 < m1 m3 / U0 = 240/769.
-    const Ival rho_in_sq = Ival(1) / Ival(1000000);
-    const Ival rho_out = Ival(1) / Ival(500);
+    const Ival rho_in_sq = Ival(1) / Ival(6400);   // enter below 1/80
+    const Ival rho_out = Ival(1) / Ival(50);       // exit above 1/50
     const Ival zone_bound = Ival(1) / Ival(4);
 
     long steps = 0;
     long event_steps = 0;
     double min_event_kinetic = 1e300;
     bool initial_phase = true;
-    bool lc_used = false;
+    long lc_passages = 0;
     bool certified = false;
     Ival final_margin;
 
@@ -512,8 +521,12 @@ int main(int argc, char** argv) {
 
       // Zone entry test on the post-step snapshot.
       const Ival gsq = pair_g_sq(snapshot);
-      if (!lc_used && gsq.rightBound() < rho_in_sq.leftBound()) {
-        lc_used = true;
+      if (gsq.rightBound() < rho_in_sq.leftBound()) {
+        ++lc_passages;
+        if (lc_passages > 60) {
+          std::cerr << "FAIL too many LC passages\n";
+          return 1;
+        }
         std::cout << "LC entry at tp=" << to_double(tp)
                   << " |g|^2<" << bound_double(gsq.rightBound())
                   << " hull_width=" << hull_width(snapshot, 8) << "\n"
@@ -536,9 +549,12 @@ int main(int argc, char** argv) {
         }
         {
           Map entry_field = make_entry_field(form_a);
-          // Entry rates are constant in construction time (frozen sources),
-          // so Taylor is exact at any order; tolerance is immaterial.
-          PhaseRunner entry(entry_field, 20, 1e-30);
+          const Ival eps_entry =
+              Ival(-1, 1) * (Ival(1) / Ival(10)) / exp(Ival(380));
+          for (int i = 1; i <= 9; ++i) {
+            entry_field.setParameter("f" + std::to_string(i), eps_entry);
+          }
+          PhaseRunner entry(entry_field, 70, 1e-112);
           const Ival target = set.getCurrentTime() + Ival(1);
           while (entry.step(target, set)) {
           }
@@ -568,9 +584,17 @@ int main(int argc, char** argv) {
           // approach, |dw/dsigma| ~ 1), so the per-step no-collision check
           // certifies the strong collision-free statement.  Direct solver
           // moves make the cap actually bind.
-          const double lc_cap = 1.0 / 4000.0;
           long lc_steps = 0;
           for (;;) {
+            // Adaptive sigma cap: sweep stays well inside a disc excluding
+            // w = 0 (sweep ~ cap * |z| with |z| <~ 1, guard factor ~20).
+            const Vector pre_snap(set);
+            const double w_abs = std::sqrt(std::max(
+                1e-12,
+                bound_double((pre_snap[8] * pre_snap[8] +
+                              pre_snap[9] * pre_snap[9]).leftBound())));
+            const double lc_cap =
+                std::max(1.0 / 4000.0, std::min(w_abs / 20.0, 1.0 / 100.0));
             lc.direct_move(set, lc_cap);
             const bool lc_more = lc_steps < 20000;
             ++lc_steps;
