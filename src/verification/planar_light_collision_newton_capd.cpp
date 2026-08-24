@@ -718,6 +718,69 @@ IMap make_prefixed_two_centre_s_to_xi_map(int frozen_count) {
               "),2*(" + beta_half + "),pr,pi,ee,zz;");
 }
 
+IMap make_prefixed_negative_two_centre_entry_field(int frozen_count) {
+  const std::string scale = "exp(log(9)/3)";
+  const std::string separation =
+      "(" + scale + "*exp(2*log(t)/3))";
+  const std::string sqrt_separation = "sqrt(" + separation + ")";
+  const std::string norm = "(ur^2+ui^2)";
+  const std::string wr = "(-ur/" + sqrt_separation + ")";
+  const std::string wi = "(-ui/" + sqrt_separation + ")";
+  const std::string s_square_real = "(1-(" + wr + ")^2+(" + wi + ")^2)";
+  const std::string s_square_imag = "(-2*(" + wr + ")*(" + wi + "))";
+  const std::string s_square_norm =
+      "sqrt((" + s_square_real + ")^2+(" + s_square_imag + ")^2)";
+  const std::string sr =
+      "sqrt((" + s_square_norm + "+" + s_square_real + ")/2)";
+  const std::string si = "((" + s_square_imag + ")/(2*(" + sr + ")))";
+  const std::string conjugate_s_v_real =
+      "((" + sr + ")*vr+(" + si + ")*vi)";
+  const std::string conjugate_s_v_imag =
+      "((" + sr + ")*vi-(" + si + ")*vr)";
+  const std::string conjugate_s_u_real =
+      "((" + sr + ")*ur+(" + si + ")*ui)";
+  const std::string conjugate_s_u_imag =
+      "((" + sr + ")*ui-(" + si + ")*ur)";
+  const std::string pr =
+      "(-2*(" + conjugate_s_v_real + ")/3+2*" + norm + "*(" +
+      conjugate_s_u_real + ")/(9*t))";
+  const std::string pi =
+      "(-2*(" + conjugate_s_v_imag + ")/3+2*" + norm + "*(" +
+      conjugate_s_u_imag + ")/(9*t))";
+  const std::string qx = "(ur^2-ui^2)";
+  const std::string qy = "(2*ur*ui)";
+  const std::string zr = "((" + qx + ")/" + separation + "-1/2)";
+  const std::string zi = "((" + qy + ")/" + separation + ")";
+  const std::string s_norm = "((" + sr + ")^2+(" + si + ")^2)";
+  const std::string energy =
+      "(" + separation + "*h/9-4*t*(ur*vr+ui*vi)/(3*(" + separation +
+      ")^2)+2*(" + norm + ")^2/(9*(" + separation + ")^2)-((" + zr +
+      ")^2+(" + zi + ")^2+1/(" + s_norm + "))/9)";
+  return IMap(
+      "var:" + optional_variable_prefix(frozen_count) +
+      "ur,ui,vr,vi,h,t,wr,wi,pr,pi,ee,zz;fun:" +
+      frozen_zeros(frozen_count + 6) + "," + wr + "," + wi + "," + pr +
+      "," + pi + "," + energy + ",log(t);");
+}
+
+IMap make_prefixed_negative_two_centre_to_xi_map(int frozen_count) {
+  const std::string radius_plus = "sqrt((wr+1)^2+wi^2)";
+  const std::string radius_minus = "sqrt((wr-1)^2+wi^2)";
+  const std::string delta_half =
+      "asin((" + radius_plus + "-" + radius_minus + ")/2)";
+  const std::string sinh_beta_half =
+      "(wi/cos(" + delta_half + "))";
+  const std::string beta_half =
+      "log(" + sinh_beta_half + "+sqrt(1+(" + sinh_beta_half + ")^2))";
+  IMap map(
+      "par:P;var:" + frozen_variables(frozen_count) +
+      ",wr,wi,pr,pi,ee,zz;fun:" + frozen_identity(frozen_count) +
+      ",P+2*(" + delta_half + "),2*(" + beta_half +
+      "),pr,pi,ee,zz;");
+  map.setParameter("P", acos(interval(-1.0)));
+  return map;
+}
+
 IMap make_prefixed_two_centre_xi_field(int frozen_count) {
   const std::string exp_half = "exp(beta/2)";
   const std::string exp_minus_half = "exp(-beta/2)";
@@ -2279,6 +2342,369 @@ struct CorrelatedFifthEvaluation {
   interval two_centre_energy_constraint;
 };
 
+struct CommonClockFocusEvaluation {
+  IVector lc_state;
+  IVector two_centre_entry;
+  IVector focus;
+  interval selected_norm;
+  interval return_time;
+  interval energy_constraint;
+};
+
+struct CommonClockEscapeEvaluation {
+  IVector first_focus;
+  IVector separated_section;
+  IVector bridge_exit;
+  interval first_focus_selected_norm;
+  interval minimum_primary_squared;
+  interval escape_margin;
+  interval finite_mass_margin;
+};
+
+IVector mean_value_fourth_common_clock_state(const interval& kappa) {
+  const interval root_kappa(
+      "1.26400909893331527", "1.26400909893331813");
+  const interval root_clock(
+      "0.371840180067887265", "0.371840186320052546");
+  const interval common_clock =
+      exact_integer("37184019") / exact_integer("100000000");
+
+  C0Rect2Set reference_set(
+      cached_multiprecision_fourth_collision_lc_state());
+  IMap fourth_field = make_other_pair_lc_field();
+  propagate_relative_time(
+      reference_set, fourth_field, common_clock - root_clock);
+  const IVector reference_state = static_cast<IVector>(reference_set);
+
+  const interval hull(
+      std::min(root_kappa.leftBound(), kappa.leftBound()),
+      std::max(root_kappa.rightBound(), kappa.rightBound()));
+  const Evaluation derivative_enclosure = evaluate_fourth_pair_collision(
+      hull, common_clock, kZetaStart, true, true);
+  const interval displacement = kappa - root_kappa;
+  IVector state(6);
+  for (int index = 0; index < 6; ++index) {
+    state[index] =
+        reference_state[index] +
+        derivative_enclosure.kappa_tangent[index] * displacement;
+  }
+  return state;
+}
+
+void audit_common_clock_two_centre_leg(
+    const C0Rect2Set& initial, IMap& field,
+    const interval& return_time, bool require_decreasing_beta,
+    int coordinate_offset = 6) {
+  C0Rect2Set audit_set = initial;
+  IOdeSolver audit_solver(field, 30);
+  audit_solver.setAbsoluteTolerance(kSolverTolerance);
+  audit_solver.setRelativeTolerance(kSolverTolerance);
+  ITimeMap audit_map(audit_solver);
+  const interval audit_end =
+      audit_set.getCurrentTime() +
+      interval(return_time.rightBound());
+  audit_map.stopAfterStep(true);
+  do {
+    audit_map(audit_end, audit_set);
+    const IVector enclosure = audit_set.getLastEnclosure();
+    if (!(enclosure[coordinate_offset + 2].rightBound() < 0.0)) {
+      throw std::runtime_error(
+          "common-clock two-centre leg lost increasing alpha");
+    }
+    if (require_decreasing_beta &&
+        !(enclosure[coordinate_offset + 3].leftBound() > 0.0)) {
+      throw std::runtime_error(
+          "common-clock two-centre leg lost decreasing beta");
+    }
+  } while (!audit_map.completed());
+}
+
+CommonClockFocusEvaluation evaluate_fourth_common_clock_focus(
+    const interval& kappa, int focus_count) {
+  const IVector common_state =
+      mean_value_fourth_common_clock_state(kappa);
+  C0Rect2Set active(common_state);
+  IMap entry_field = make_prefixed_negative_two_centre_entry_field(0);
+  active = append_coordinate_map(active, 6, entry_field);
+  IMap xi_map = make_prefixed_negative_two_centre_to_xi_map(6);
+  apply_same_dimension_map(active, xi_map);
+  const IVector entry_full = static_cast<IVector>(active);
+  IVector entry(6);
+  for (int index = 0; index < 6; ++index) {
+    entry[index] = entry_full[index + 6];
+  }
+
+  IMap field = make_prefixed_two_centre_xi_field(6);
+  interval total_return_time(0.0);
+  IVector focus(6);
+  for (int focus_index = 0; focus_index < focus_count; ++focus_index) {
+    const C0Rect2Set monotonicity_initial = active;
+    IOdeSolver focus_solver(field, 30);
+    focus_solver.setAbsoluteTolerance(kSolverTolerance);
+    focus_solver.setRelativeTolerance(kSolverTolerance);
+    const interval target_alpha =
+        interval(static_cast<double>(2 + focus_index)) *
+        acos(interval(-1.0));
+    ICoordinateSection section(12, 6, target_alpha);
+    IPoincareMap poincare(
+        focus_solver, section, capd::poincare::MinusPlus);
+    poincare.setMaxReturnTime(10.0);
+    interval leg_return_time;
+    const IVector focus_full = poincare(active, leg_return_time);
+    total_return_time += leg_return_time;
+    for (int index = 0; index < 6; ++index) {
+      focus[index] = focus_full[index + 6];
+    }
+
+    audit_common_clock_two_centre_leg(
+        monotonicity_initial, field, leg_return_time, false);
+    active = C0Rect2Set(focus_full);
+  }
+
+  const interval beta = focus[1];
+  const interval sinh_half =
+      (exp(beta / interval(2.0)) -
+       exp(-beta / interval(2.0))) /
+      interval(2.0);
+  const interval selected_norm = sqr(sinh_half);
+  const interval alpha = focus[0];
+  const interval cosh_half =
+      (exp(beta / interval(2.0)) +
+       exp(-beta / interval(2.0))) /
+      interval(2.0);
+  const interval sr = sin(alpha / interval(2.0)) * cosh_half;
+  const interval si = cos(alpha / interval(2.0)) * sinh_half;
+  const interval cr = cos(alpha / interval(2.0)) * cosh_half;
+  const interval ci = -sin(alpha / interval(2.0)) * sinh_half;
+  const interval s_norm = sqr(sr) + sqr(si);
+  const interval c_norm = sqr(cr) + sqr(ci);
+  const interval metric = s_norm * c_norm;
+  const interval zr =
+      (sqr(cr) - sqr(ci) - sqr(sr) + sqr(si)) / interval(2.0);
+  const interval zi = cr * ci - sr * si;
+  const interval energy_constraint =
+      sqr(focus[2]) + sqr(focus[3]) -
+      interval(2.0) * metric * focus[4] -
+      interval(2.0) / interval(9.0) *
+          (metric * (sqr(zr) + sqr(zi)) + s_norm + c_norm);
+  return {common_state, entry, focus, selected_norm,
+          total_return_time, energy_constraint};
+}
+
+CommonClockEscapeEvaluation evaluate_fourth_common_clock_escape(
+    const interval& kappa) {
+  const IVector common_state =
+      mean_value_fourth_common_clock_state(kappa);
+  C0Rect2Set active(common_state);
+  IMap entry_field = make_prefixed_negative_two_centre_entry_field(0);
+  active = append_coordinate_map(active, 6, entry_field);
+  IMap xi_map = make_prefixed_negative_two_centre_to_xi_map(6);
+  apply_same_dimension_map(active, xi_map);
+  IMap field = make_prefixed_two_centre_xi_field(6);
+  const C0Rect2Set focus_initial = active;
+
+  IOdeSolver focus_solver(field, 30);
+  focus_solver.setAbsoluteTolerance(kSolverTolerance);
+  focus_solver.setRelativeTolerance(kSolverTolerance);
+  const interval first_focus_alpha =
+      interval(2.0) * acos(interval(-1.0));
+  ICoordinateSection focus_section(12, 6, first_focus_alpha);
+  IPoincareMap focus_poincare(
+      focus_solver, focus_section, capd::poincare::MinusPlus);
+  focus_poincare.setMaxReturnTime(10.0);
+  interval focus_return_time;
+  const IVector first_focus_full =
+      focus_poincare(active, focus_return_time);
+  audit_common_clock_two_centre_leg(
+      focus_initial, field, focus_return_time, false);
+  IVector first_focus(6);
+  for (int index = 0; index < 6; ++index) {
+    first_focus[index] = first_focus_full[index + 6];
+  }
+  const interval first_sinh =
+      (exp(first_focus[1] / interval(2.0)) -
+       exp(-first_focus[1] / interval(2.0))) /
+      interval(2.0);
+  const interval first_focus_selected_norm = sqr(first_sinh);
+  if (!(first_focus[1].rightBound() < 0.0 &&
+        first_focus[2].rightBound() < 0.0 &&
+        first_focus_selected_norm.leftBound() > 0.0)) {
+    throw std::runtime_error(
+        "common-clock escape tile did not clear its first focus");
+  }
+
+  active = C0Rect2Set(first_focus_full);
+  const C0Rect2Set separated_initial = active;
+  IOdeSolver separated_solver(field, 30);
+  separated_solver.setAbsoluteTolerance(kSolverTolerance);
+  separated_solver.setRelativeTolerance(kSolverTolerance);
+  const interval separated_beta(-1.0);
+  ICoordinateSection separated_section_function(12, 7, separated_beta);
+  IPoincareMap separated_poincare(
+      separated_solver, separated_section_function,
+      capd::poincare::PlusMinus);
+  separated_poincare.setMaxReturnTime(10.0);
+  interval separated_return_time;
+  const IVector separated_full =
+      separated_poincare(active, separated_return_time);
+  audit_common_clock_two_centre_leg(
+      separated_initial, field, separated_return_time, true);
+  IVector separated_section(6);
+  for (int index = 0; index < 6; ++index) {
+    separated_section[index] = separated_full[index + 6];
+  }
+  const interval third_focus_alpha =
+      interval(3.0) * acos(interval(-1.0));
+  if (!(separated_section[0].rightBound() <
+            third_focus_alpha.leftBound() &&
+        separated_section[2].rightBound() < 0.0 &&
+        separated_section[3].leftBound() > 0.0)) {
+    throw std::runtime_error(
+        "common-clock escape tile lost its separated outgoing sheet");
+  }
+
+  C0Rect2Set bridge_set(separated_section);
+  IMap bridge_entry_field = make_two_centre_xi_bridge_entry_field();
+  bridge_set =
+      append_coordinate_map(bridge_set, 5, bridge_entry_field);
+  IMap bridge_field = make_prefixed_bridge_field(6);
+  IOdeSolver bridge_solver(bridge_field, 30);
+  bridge_solver.setAbsoluteTolerance(kSolverTolerance);
+  bridge_solver.setRelativeTolerance(kSolverTolerance);
+  ITimeMap bridge_time_map(bridge_solver);
+  const IVector bridge_entry_full = static_cast<IVector>(bridge_set);
+  const interval lambda_center = bridge_entry_full[6].mid();
+  const interval bridge_end =
+      bridge_set.getCurrentTime() + lambda_center + interval(2.0);
+  bridge_time_map.stopAfterStep(true);
+  interval minimum_primary_squared(1000000.0);
+  do {
+    bridge_time_map(bridge_end, bridge_set);
+    const IVector enclosure = bridge_set.getLastEnclosure();
+    const interval half_binary =
+        exp(log(interval(9.0)) / interval(3.0)) * sqr(enclosure[6]) /
+        interval(2.0);
+    const interval plus_squared =
+        sqr(enclosure[7] + half_binary) + sqr(enclosure[8]);
+    const interval minus_squared =
+        sqr(enclosure[7] - half_binary) + sqr(enclosure[8]);
+    const interval step_minimum(
+        std::min(plus_squared.leftBound(), minus_squared.leftBound()),
+        std::min(plus_squared.rightBound(), minus_squared.rightBound()));
+    minimum_primary_squared = interval(
+        std::min(minimum_primary_squared.leftBound(),
+                 step_minimum.leftBound()),
+        std::min(minimum_primary_squared.rightBound(),
+                 step_minimum.rightBound()));
+    if (!(plus_squared.leftBound() > 0.001 &&
+          minus_squared.leftBound() > 0.001)) {
+      throw std::runtime_error(
+          "common-clock escape bridge approached a primary");
+    }
+  } while (!bridge_time_map.completed());
+  const IVector bridge_exit_full = static_cast<IVector>(bridge_set);
+  IVector bridge_exit(5);
+  for (int index = 0; index < 5; ++index) {
+    bridge_exit[index] = bridge_exit_full[index + 6];
+  }
+  const interval outer_radius =
+      sqrt(sqr(bridge_exit[1]) + sqr(bridge_exit[2]));
+  const interval radial_clock_speed =
+      (bridge_exit[1] * bridge_exit[3] +
+       bridge_exit[2] * bridge_exit[4]) /
+      outer_radius;
+  const interval physical_outward_speed = -radial_clock_speed;
+  const interval binary_scale =
+      exp(log(interval(9.0)) / interval(3.0));
+  const interval inner_separation =
+      binary_scale * sqr(bridge_exit[0]);
+  const interval half_binary = inner_separation / interval(2.0);
+  const interval clearance = outer_radius - half_binary;
+  const interval binary_boundary_speed =
+      binary_scale / (interval(3.0) * (-bridge_exit[0]));
+  const interval escape_margin =
+      physical_outward_speed -
+      interval(2.0) / (interval(2.0) * clearance) -
+      interval(2.0) - binary_boundary_speed;
+  const interval outer_clearance =
+      outer_radius - inner_separation;
+  const interval binary_envelope_speed =
+      sqrt(interval(4.0) / inner_separation +
+           interval(2.0) / interval(100.0));
+  const interval finite_mass_margin =
+      physical_outward_speed -
+      interval(2.0) / (interval(1.5) * outer_clearance) -
+      binary_envelope_speed - interval(1.5);
+  if (!(bridge_exit[0].leftBound() > -2.1 &&
+        bridge_exit[0].rightBound() < -1.9 &&
+        clearance.leftBound() > 10.0 &&
+        outer_clearance.leftBound() > 10.0 &&
+        escape_margin.leftBound() > 0.0 &&
+        finite_mass_margin.leftBound() > 0.0)) {
+    throw std::runtime_error(
+        "common-clock escape tile failed its terminal cone");
+  }
+  return {first_focus, separated_section, bridge_exit,
+          first_focus_selected_norm, minimum_primary_squared,
+          escape_margin, finite_mass_margin};
+}
+
+struct CommonClockCoverSummary {
+  int tile_count;
+  double maximum_first_focus_beta;
+  double minimum_first_focus_selected_norm;
+  double minimum_third_focus_alpha_gap;
+  double minimum_primary_squared;
+  double minimum_escape_margin;
+  double minimum_finite_mass_margin;
+};
+
+CommonClockCoverSummary evaluate_fourth_common_clock_escape_cover() {
+  CommonClockCoverSummary summary{
+      0, -1000000.0, 1000000.0, 1000000.0,
+      1000000.0, 1000000.0, 1000000.0};
+  const interval third_focus_alpha =
+      interval(3.0) * acos(interval(-1.0));
+  const auto evaluate_tile = [&](int offset_pico, int radius_pico) {
+    const interval center =
+        interval(1264009098895.0 +
+                 static_cast<double>(offset_pico)) /
+        interval(1000000000000.0);
+    const interval radius =
+        interval(static_cast<double>(radius_pico)) /
+        interval(1000000000000.0);
+    const CommonClockEscapeEvaluation result =
+        evaluate_fourth_common_clock_escape(center + symmetric(radius));
+    ++summary.tile_count;
+    summary.maximum_first_focus_beta =
+        std::max(summary.maximum_first_focus_beta,
+                 result.first_focus[1].rightBound());
+    summary.minimum_first_focus_selected_norm =
+        std::min(summary.minimum_first_focus_selected_norm,
+                 result.first_focus_selected_norm.leftBound());
+    summary.minimum_third_focus_alpha_gap =
+        std::min(summary.minimum_third_focus_alpha_gap,
+                 third_focus_alpha.leftBound() -
+                     result.separated_section[0].rightBound());
+    summary.minimum_primary_squared =
+        std::min(summary.minimum_primary_squared,
+                 result.minimum_primary_squared.leftBound());
+    summary.minimum_escape_margin =
+        std::min(summary.minimum_escape_margin,
+                 result.escape_margin.leftBound());
+    summary.minimum_finite_mass_margin =
+        std::min(summary.minimum_finite_mass_margin,
+                 result.finite_mass_margin.leftBound());
+  };
+  for (int offset = 120; offset <= 198; offset += 2) {
+    evaluate_tile(offset, 1);
+  }
+  for (int offset = 200; offset <= 560; offset += 4) {
+    evaluate_tile(offset, 2);
+  }
+  return summary;
+}
+
 CorrelatedFifthEvaluation evaluate_direct_fourth_collision_two_centre_probe(
     const interval& two_centre_duration, bool restrict_collision_phase,
     int phase_offset_micro, int phase_radius_micro,
@@ -3262,6 +3688,9 @@ int main(int argc, char** argv) {
     bool fourth_correlated_probe = false;
     bool fourth_correlated_section_probe = false;
     bool fourth_correlated_section_tile = false;
+    bool fourth_common_clock_focus_tile = false;
+    bool fourth_common_clock_escape_tile = false;
+    bool fourth_common_clock_escape_cover = false;
     bool fourth_two_centre_probe = false;
     bool fourth_two_centre_cached_probe = false;
     int second_probe_offset = 0;
@@ -3272,6 +3701,7 @@ int main(int argc, char** argv) {
     int correlated_offset_pico = 0;
     int correlated_radius_pico = 395;
     int two_centre_duration_million = 0;
+    int two_centre_focus_count = 0;
     int collision_phase_scale = 1000000;
     if (argc == 2 && std::string(argv[1]) == "--second-root") {
       second_root_only = true;
@@ -3285,6 +3715,10 @@ int main(int argc, char** argv) {
     } else if (argc == 2 &&
                std::string(argv[1]) == "--fourth-root-octic") {
       fourth_root_octic_only = true;
+    } else if (argc == 2 &&
+               std::string(argv[1]) ==
+                   "--fourth-common-clock-escape-cover") {
+      fourth_common_clock_escape_cover = true;
     } else if (argc == 2 &&
                std::string(argv[1]) == "--fourth-two-centre-terminal") {
       fourth_correlated_section_probe = true;
@@ -3331,6 +3765,17 @@ int main(int argc, char** argv) {
       correlated_offset_pico = parse_integer(argv[2]);
       correlated_radius_pico = parse_integer(argv[3]);
       second_fifth_duration_million = parse_integer(argv[4]);
+    } else if (argc == 5 &&
+               std::string(argv[1]) == "--fourth-common-clock-focus-tile") {
+      fourth_common_clock_focus_tile = true;
+      correlated_offset_pico = parse_integer(argv[2]);
+      correlated_radius_pico = parse_integer(argv[3]);
+      two_centre_focus_count = parse_integer(argv[4]);
+    } else if (argc == 4 &&
+               std::string(argv[1]) == "--fourth-common-clock-escape-tile") {
+      fourth_common_clock_escape_tile = true;
+      correlated_offset_pico = parse_integer(argv[2]);
+      correlated_radius_pico = parse_integer(argv[3]);
     } else if (argc == 5 &&
                std::string(argv[1]) == "--fourth-two-centre-tile") {
       fourth_correlated_section_probe = true;
@@ -3400,6 +3845,11 @@ int main(int argc, char** argv) {
                    "--fourth-correlated-section-probe CI_MILLION | "
                    "--fourth-correlated-section-tile OFFSET_PICO "
                    "RADIUS_PICO CI_MILLION | "
+                   "--fourth-common-clock-focus-tile OFFSET_PICO "
+                   "RADIUS_PICO FOCUS_COUNT | "
+                   "--fourth-common-clock-escape-tile OFFSET_PICO "
+                   "RADIUS_PICO | "
+                   "--fourth-common-clock-escape-cover | "
                    "--fourth-two-centre-probe DURATION_MILLION | "
                    "--fourth-two-centre-cached-probe DURATION_MILLION | "
                    "--fourth-two-centre-tile OFFSET_PICO RADIUS_PICO "
@@ -3467,6 +3917,19 @@ int main(int argc, char** argv) {
       throw std::invalid_argument(
           "correlated fifth section tile is outside its safe range");
     }
+    if (fourth_common_clock_focus_tile &&
+        (correlated_offset_pico < -1000 || correlated_offset_pico > 1000 ||
+         correlated_radius_pico < 1 || correlated_radius_pico > 395 ||
+         two_centre_focus_count < 1 || two_centre_focus_count > 3)) {
+      throw std::invalid_argument(
+          "common-clock focus tile is outside its safe range");
+    }
+    if (fourth_common_clock_escape_tile &&
+        (correlated_offset_pico < -1000 || correlated_offset_pico > 1000 ||
+         correlated_radius_pico < 1 || correlated_radius_pico > 395)) {
+      throw std::invalid_argument(
+          "common-clock escape tile is outside its safe range");
+    }
     if (second_fourth_root_probe &&
         (second_probe_radius < 1 || second_probe_radius > 1000000 ||
          second_fourth_duration_million < 1 ||
@@ -3495,6 +3958,103 @@ int main(int argc, char** argv) {
                    "-native"
 #endif
                 << " collision_state=" << collision << "\n";
+      return 0;
+    }
+    if (fourth_common_clock_escape_cover) {
+      const CommonClockCoverSummary summary =
+          evaluate_fourth_common_clock_escape_cover();
+      if (summary.tile_count != 131 ||
+          !(summary.maximum_first_focus_beta < 0.0 &&
+            summary.minimum_first_focus_selected_norm > 0.0 &&
+            summary.minimum_third_focus_alpha_gap > 0.0 &&
+            summary.minimum_primary_squared > 0.001 &&
+            summary.minimum_escape_margin > 0.0 &&
+            summary.minimum_finite_mass_margin > 0.0)) {
+        throw std::runtime_error(
+            "common-clock escape cover lost a strict global margin");
+      }
+      std::cout << std::hexfloat
+                << "COMMON_CLOCK_ESCAPE_COVER method=CAPD-6.1.0-native"
+                << " kappa_box=[1.264009099014,1.264009099457]"
+                << " tile_count=" << summary.tile_count
+                << " maximum_first_focus_beta="
+                << summary.maximum_first_focus_beta
+                << " minimum_first_focus_selected_norm="
+                << summary.minimum_first_focus_selected_norm
+                << " minimum_third_focus_alpha_gap="
+                << summary.minimum_third_focus_alpha_gap
+                << " minimum_primary_squared="
+                << summary.minimum_primary_squared
+                << " minimum_escape_margin="
+                << summary.minimum_escape_margin
+                << " minimum_finite_mass_margin="
+                << summary.minimum_finite_mass_margin << "\n";
+      std::cout << "PASS_COMMON_CLOCK_ESCAPE_COVER "
+                   "method=CAPD-6.1.0-native "
+                   "stage=fourth-adjacent-continuum-cover\n";
+      return 0;
+    }
+    if (fourth_common_clock_focus_tile) {
+      const interval kappa_center =
+          interval(1264009098895.0 +
+                   static_cast<double>(correlated_offset_pico)) /
+          interval(1000000000000.0);
+      const interval kappa_radius =
+          interval(static_cast<double>(correlated_radius_pico)) /
+          interval(1000000000000.0);
+      const interval kappa_box =
+          kappa_center + symmetric(kappa_radius);
+      const CommonClockFocusEvaluation result =
+          evaluate_fourth_common_clock_focus(
+              kappa_box, two_centre_focus_count);
+      std::cout << std::hexfloat
+                << "COMMON_CLOCK_FOCUS method=CAPD-6.1.0-native"
+                << " kappa_box=" << kappa_box
+                << " focus_count=" << two_centre_focus_count
+                << " lc_state=" << result.lc_state
+                << " entry=" << result.two_centre_entry
+                << " focus=" << result.focus
+                << " selected_norm=" << result.selected_norm
+                << " return_time=" << result.return_time
+                << " energy_constraint=" << result.energy_constraint
+                << "\n";
+      if (!(result.focus[2].rightBound() < 0.0 &&
+            result.selected_norm.leftBound() > 0.0 &&
+            result.energy_constraint.contains(0.0))) {
+        throw std::runtime_error(
+            "common-clock focus failed monotonicity, separation, or constraint");
+      }
+      std::cout << "PASS_COMMON_CLOCK_FOCUS method=CAPD-6.1.0-native "
+                   "stage=fourth-neighborhood-two-centre-focus\n";
+      return 0;
+    }
+    if (fourth_common_clock_escape_tile) {
+      const interval kappa_center =
+          interval(1264009098895.0 +
+                   static_cast<double>(correlated_offset_pico)) /
+          interval(1000000000000.0);
+      const interval kappa_radius =
+          interval(static_cast<double>(correlated_radius_pico)) /
+          interval(1000000000000.0);
+      const interval kappa_box =
+          kappa_center + symmetric(kappa_radius);
+      const CommonClockEscapeEvaluation result =
+          evaluate_fourth_common_clock_escape(kappa_box);
+      std::cout << std::hexfloat
+                << "COMMON_CLOCK_ESCAPE method=CAPD-6.1.0-native"
+                << " kappa_box=" << kappa_box
+                << " first_focus=" << result.first_focus
+                << " first_focus_selected_norm="
+                << result.first_focus_selected_norm
+                << " separated_section=" << result.separated_section
+                << " bridge_exit=" << result.bridge_exit
+                << " minimum_primary_squared="
+                << result.minimum_primary_squared
+                << " escape_margin=" << result.escape_margin
+                << " finite_mass_margin=" << result.finite_mass_margin
+                << "\n";
+      std::cout << "PASS_COMMON_CLOCK_ESCAPE method=CAPD-6.1.0-native "
+                   "stage=fourth-component-interior-terminal-escape\n";
       return 0;
     }
     if (second_root_only) {

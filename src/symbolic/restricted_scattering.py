@@ -1747,3 +1747,88 @@ def binary_tidal_transverse_first_variation() -> tuple[sp.Expr, sp.Expr]:
         3 * r * z * outer_tilt + (2 * z**2 - r**2 / 4) * binary_tilt
     ) / radius_squared ** sp.Rational(5, 2)
     return coefficient, expected
+
+
+def negative_lc_two_centre_entry_identities() -> tuple[sp.Expr, ...]:
+    """Exact identities behind the fourth-chart common-clock switch.
+
+    ``U`` and ``V`` are the negative-primary Levi--Civita position and
+    momentum, ``R**(3/2)=3*t`` is the heavy-binary parabolic scale, and
+    ``S**2=1-U**2/R`` is the complementary two-centre square root.  The
+    returned residuals verify the scaled shape, reversed momentum, energy,
+    and their regular limits at ``U=0``.
+    """
+    ur, ui, vr, vi, sr, si, energy_lc = sp.symbols(
+        "u_r u_i v_r v_i s_r s_i h", real=True
+    )
+    radius = sp.symbols("R", positive=True)
+    time = radius ** sp.Rational(3, 2) / 3
+    u = ur + sp.I * ui
+    velocity = vr + sp.I * vi
+    complementary = sr + sp.I * si
+    norm = sp.expand(ur**2 + ui**2)
+
+    c = u / sp.sqrt(radius)
+    complementary_square = 1 - c**2
+    shape_direct = u**2 / radius - sp.Rational(1, 2)
+    shape_elliptic = (c**2 - complementary_square) / 2
+
+    shape_velocity = (
+        2 * time * velocity / (radius * sp.conjugate(u))
+        - 2 * u**2 / (3 * radius)
+    )
+    geometric_momentum = sp.cancel(
+        -sp.conjugate(c * complementary) * shape_velocity
+    )
+    regular_momentum = (
+        -sp.Rational(2, 3) * sp.conjugate(complementary) * velocity
+        + 2
+        * norm
+        * sp.conjugate(complementary)
+        * u
+        / (9 * time)
+    )
+    momentum_gap = sp.simplify(sp.cancel(geometric_momentum - regular_momentum))
+
+    physical_q = u**2
+    physical_q_velocity = 2 * u * velocity / norm
+    radial_product = sp.simplify(
+        sp.re(sp.conjugate(physical_q) * physical_q_velocity)
+    )
+    radial_product_expected = 2 * sp.re(sp.conjugate(u) * velocity)
+    shape = shape_direct
+    complementary_norm = sr**2 + si**2
+    energy_from_shape = (
+        radius * energy_lc / 9
+        - 2 * time * radial_product / (3 * radius**2)
+        + 2 * norm**2 / (9 * radius**2)
+        - (sp.expand_complex(shape * sp.conjugate(shape)) + 1 / complementary_norm)
+        / 9
+    )
+    regular_energy = (
+        radius * energy_lc / 9
+        - 4 * time * sp.re(sp.conjugate(u) * velocity) / (3 * radius**2)
+        + 2 * norm**2 / (9 * radius**2)
+        - (sp.expand_complex(shape * sp.conjugate(shape)) + 1 / complementary_norm)
+        / 9
+    )
+
+    collision_substitution = {ur: 0, ui: 0, sr: 1, si: 0}
+    collision_momentum = sp.simplify(
+        regular_momentum.subs(collision_substitution)
+        + sp.Rational(2, 3) * velocity
+    )
+    collision_energy = sp.simplify(
+        regular_energy.subs(collision_substitution)
+        - (radius * energy_lc / 9 - sp.Rational(5, 36))
+    )
+    return (
+        sp.simplify(shape_direct - shape_elliptic),
+        sp.simplify(radial_product - radial_product_expected),
+        sp.simplify(sp.re(momentum_gap)),
+        sp.simplify(sp.im(momentum_gap)),
+        sp.simplify(energy_from_shape - regular_energy),
+        sp.simplify(sp.re(collision_momentum)),
+        sp.simplify(sp.im(collision_momentum)),
+        collision_energy,
+    )

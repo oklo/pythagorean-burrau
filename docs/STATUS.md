@@ -111,6 +111,24 @@ fourth boundary either has a terminating classical collision or escapes.
 This neighborhood and its mass threshold remain non-effective, and no claim
 that the exact tied Pythagorean curve enters it is made.
 
+The formerly open upper side of this boundary now has an explicit continuum
+certificate. At the rational fourth-LC clock $37184019/10^8$, a rigorous
+mean-value enclosure anchored at the MPFR root retains the full
+$\kappa$-dependence without projecting the wrapped fifth Poincare section.
+An exact negative-primary LC-to-two-centre map, directed focus maps,
+whole-step monotonicity audits, and the terminal bridge validate all 131
+overlapping tiles whose union is
+\[
+ 1.264009099014\le\kappa\le1.264009099457.
+\]
+Every limiting member in this interval either collided earlier or its
+regularized continuation reaches both strict terminal escape cones. The
+cover overlaps, but does not contain, the current broad certified projection
+for the third collision root; therefore no side-of-root statement is made.
+This is still a massless endpoint-family theorem: the lower band back
+to the fourth root, an effective positive-mass transfer, and entry of the
+exact tied Pythagorean curve remain open.
+
 The closest catalog threat, the Li--Liao $F_{30}$ family on the
 $3{:}4{:}5$ mass slice, was locally continued.  Its periodic branch comes
 within about $0.00369$ of the tied shape but its two exact matching equations
@@ -141,9 +159,11 @@ two focus replays, and a correlation-preserving bridge embedding now carry
 the full regularized collision--ejection boundary to the strict terminal
 escape cone. The opposite-primary LC block and hierarchical-energy argument
 now transfer this local classification to sufficiently small compatible
-positive mass. The immediate target is continuation across the adjacent
-compact parameter components and an effective bridge from the exact tied
-curve into the new cusp.
+positive mass. The explicit common-clock cover now closes a substantial
+adjacent continuum above the fourth collision root. The immediate target is
+the uncovered lower band between the fourth-root local theorem and that
+cover, followed by an effective bridge from the exact tied curve into the
+enlarged cusp.
 More globally, every
 remaining collision zero must be certified or excluded before the neighboring
 regions are called components. The simpler

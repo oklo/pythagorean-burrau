@@ -14,6 +14,7 @@ from src.symbolic.restricted_scattering import (
     incoming_returned_jost_wronskian_compactification,
     incoming_tilt_forcing_identity,
     maximum_softened_vertical_force,
+    negative_lc_two_centre_entry_identities,
     outer_energy_exchange_identity,
     parabolic_infinity_compactification,
     parabolic_stroboscopic_leading_map,
@@ -719,6 +720,11 @@ def test_incoming_tilt_has_integrable_quadrupole_source() -> None:
 def test_binary_tidal_transverse_source_gains_exterior_skinny_factor() -> None:
     coefficient, expected = binary_tidal_transverse_first_variation()
     assert sp.simplify(coefficient - expected) == 0
+
+
+def test_negative_lc_two_centre_switch_is_regular_at_collision() -> None:
+    residuals = negative_lc_two_centre_entry_identities()
+    assert all(sp.simplify(residual) == 0 for residual in residuals)
 
 
 def test_parabolic_map_preserves_kepler_energy_through_degree_seven() -> None:

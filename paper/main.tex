@@ -1836,6 +1836,84 @@ The former case terminates the classical orbit, while the latter excludes a
 second brake and every bounded periodic orbit.
 \end{proof}
 
+\begin{theorem}[Explicit common-clock continuum]
+Every member of the limiting planar family with
+\[
+ 1.264009099014\leq\kappa\leq1.264009099457              \tag{40}
+\]
+either has a terminating classical collision before the certified terminal
+section, or its collision-regularized continuation reaches the strict
+restricted and finite-mass-form escape cones.  Hence no collision-free member
+of \((40)\) is periodic.  This is an explicit continuum adjacent to the
+fourth collision boundary, not merely a certificate for one boundary member.
+\end{theorem}
+
+\begin{proof}
+Let \([\kappa_4]\) and \([\tau_4]\) be the two MPFR enclosures in the
+fourth-boundary theorem and set
+\(\bar\tau=37184019/10^8>\sup[\tau_4]\).  Propagate the rational hull of the
+certified collision state for \(\bar\tau-[\tau_4]\), obtaining a reference
+state \(X_*\) at a fixed fourth-LC clock.  For each parameter tile $K$, a
+persistent $C^1$ propagation on the hull
+$H=\operatorname{hull}(K,[\kappa_4])$ gives the rigorous mean-value enclosure
+\[
+ X(K,\bar\tau)\subset
+ X_*+\partial_\kappa X(H,\bar\tau)(K-[\kappa_4]).        \tag{41}
+\]
+Thus no componentwise projection of an implicitly timed fifth-section image
+is used.
+
+For the negative-primary LC variables $q=U^2,V,h,t$, put
+
+\[
+ R=9^{1/3}t^{2/3},\quad C=U/\sqrt R,\quad S=\sqrt{1-C^2}.
+\]
+The exact entry to the simultaneous two-centre chart is regular at $U=0$:
+\[
+\begin{split}
+ p={}&-{2\over3}\overline S V
+      +{2\over9t}\overline S|U|^2U,\\
+ E={}&{Rh\over9}-{4t\operatorname{Re}(U\overline V)\over3R^2}
+      +{2|U|^4\over9R^2}
+      -{1\over9}\left(\left|{U^2\over R}-{1\over2}\right|^2
+                       +{1\over|S|^2}\right).
+\end{split}
+                                                               \tag{42}
+\]
+At collision these reduce to $p=-2V/3$ and $E=Rh/9-5/36$.
+Direct symbolic substitution using $R^{3/2}=3t$ verifies (42).
+
+From (41)--(42), a directed Poincare map reaches the first section
+\(\alpha=2\pi\) with \(\beta<0\).  Whole-step enclosures prove $p_r<0$,
+so \(\alpha_\sigma=-p_r>0\).  After reboxing this six-dimensional image, a
+second directed map reaches \(\beta=-1\) with
+\(p_r<0<p_i\) throughout and \(\alpha<3\pi\).  Hence no intervening focus is
+missed.  The exact bridge map keeps both light--primary squared distances
+above $10^{-3}$ while the signed heavy coordinate crosses zero, and its
+regularized continuation satisfies both terminal escape inequalities.
+
+Finally use the tiles
+\[
+ \kappa(p,r)={1264009098895+p\over10^{12}}+[-r,r]10^{-12}
+\]
+with $p=120,122,\ldots,198$, $r=1$, and
+$p=200,204,\ldots,560$, $r=2$.  The 40 and 91 tiles overlap, and their union
+is exactly (40).  Every tile passes the directed-section, whole-step, bridge,
+and terminal strict inequalities.  An earlier zero is a classical collision;
+conditional on no such zero, uniqueness identifies the regularized and
+classical arcs up to the isolated heavy collision.  This proves the stated
+dichotomy without any sampling inference.
+
+The aggregate certificate gives, conservatively, first-focus
+$\beta<-0.0132$, selected squared distance $>4.4\times10^{-5}$, remaining
+$3\pi$-focus gap $>0.285$, bridge primary-distance square $>0.019$, restricted
+escape margin $>0.804$, and finite-mass-form margin $>0.935$.
+
+The current interval-Newton projection for the third collision root overlaps
+(40) but extends beyond its upper endpoint.  Consequently this theorem makes
+no claim that (40) crosses that exact root.
+\end{proof}
+
 \begin{theorem}[Positive-mass fourth-boundary cusp]
 There are a constrained incoming-section neighborhood of the fourth limiting
 root and $B_0>0$ such that every compatible member with $0<B<B_0$ either

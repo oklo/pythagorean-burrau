@@ -11,9 +11,10 @@ if [ "$#" -lt 1 ] || [ "$#" -gt 7 ] || \
      [ "$3" != "--third-root" ] && \
      [ "$3" != "--fourth-fifth-entry" ] && \
      [ "$3" != "--fourth-fifth-outgoing" ] && \
+     [ "$3" != "--fourth-common-clock-escape-cover" ] && \
      [ "$3" != "--second-escape" ] && \
      [ "$3" != "--second-escape-wide" ]; }; then
-  echo "usage: $0 CAPD_SOURCE_DIR [CAPD_BUILD_DIR [--second-root | --third-root | --fourth-root | --fourth-fifth-entry | --fourth-fifth-outgoing | --fourth-correlated-probe FIFTH_DURATION_MILLION | --fourth-correlated-section-probe CI_MILLION | --fourth-correlated-section-tile OFFSET_PICO RADIUS_PICO CI_MILLION | --fourth-two-centre-probe DURATION_MILLION | --fourth-two-centre-tile OFFSET_PICO RADIUS_PICO DURATION_MILLION | --second-escape | --second-escape-wide | --second-escape-probe OFFSET_NANO RADIUS_NANO | --fourth-outgoing-probe FOURTH_EXTRA_MILLION FIFTH_DURATION_MILLION | --second-fourth-probe OFFSET_NANO RADIUS_NANO DURATION_MILLION | --second-fourth-root-probe OFFSET_NANO RADIUS_NANO DURATION_MILLION DURATION_RADIUS_MILLION | FIRST_OFFSET COUNT [RADIUS]]]" >&2
+  echo "usage: $0 CAPD_SOURCE_DIR [CAPD_BUILD_DIR [--second-root | --third-root | --fourth-root | --fourth-root-octic | --fourth-fifth-entry | --fourth-fifth-outgoing | --fourth-common-clock-escape-cover | --fourth-common-clock-escape-tile OFFSET_PICO RADIUS_PICO | --fourth-common-clock-focus-tile OFFSET_PICO RADIUS_PICO FOCUS_COUNT | --fourth-correlated-probe FIFTH_DURATION_MILLION | --fourth-correlated-section-probe CI_MILLION | --fourth-correlated-section-tile OFFSET_PICO RADIUS_PICO CI_MILLION | --fourth-two-centre-probe DURATION_MILLION | --fourth-two-centre-tile OFFSET_PICO RADIUS_PICO DURATION_MILLION | --second-escape | --second-escape-wide | --second-escape-probe OFFSET_NANO RADIUS_NANO | --fourth-outgoing-probe FOURTH_EXTRA_MILLION FIFTH_DURATION_MILLION | --second-fourth-probe OFFSET_NANO RADIUS_NANO DURATION_MILLION | --second-fourth-root-probe OFFSET_NANO RADIUS_NANO DURATION_MILLION DURATION_RADIUS_MILLION | FIRST_OFFSET COUNT [RADIUS]]]" >&2
   exit 2
 fi
 
@@ -67,6 +68,7 @@ elif [ "$#" -eq 4 ]; then
   fi
 elif [ "$#" -eq 5 ]; then
   if [ "$3" = "--second-escape-probe" ] || \
+     [ "$3" = "--fourth-common-clock-escape-tile" ] || \
      [ "$3" = "--fourth-outgoing-probe" ]; then
     VERIFIER_ARGS=("$3" "$4" "$5")
   else
@@ -75,6 +77,7 @@ elif [ "$#" -eq 5 ]; then
 elif [ "$#" -eq 6 ]; then
   if [ "$3" = "--second-fourth-probe" ] || \
      [ "$3" = "--fourth-correlated-section-tile" ] || \
+     [ "$3" = "--fourth-common-clock-focus-tile" ] || \
      [ "$3" = "--fourth-two-centre-tile" ] || \
      [ "$3" = "--fourth-two-centre-phase-nano" ]; then
     VERIFIER_ARGS=("$3" "$4" "$5" "$6")

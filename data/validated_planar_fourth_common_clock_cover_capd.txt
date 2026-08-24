@@ -1,0 +1,12 @@
+CAPD_COMMIT=731079217a9254ea2948d742df2b170895effe7f
+CAPD_INTERVAL_BACKEND=NATIVE
+COMMAND=bash scripts/run_capd_planar_light_collision_newton.sh /private/tmp/pythagorean-capd /private/tmp/pythagorean-capd/build-native --fourth-common-clock-escape-cover
+KAPPA_BOX=[1.264009099014,1.264009099457]
+TILE_COUNT=131
+MAXIMUM_FIRST_FOCUS_BETA=-0x1.b39eb216954ecp-7
+MINIMUM_FIRST_FOCUS_SELECTED_NORM=0x1.72a3bf88dde21p-15
+MINIMUM_THIRD_FOCUS_ALPHA_GAP=0x1.24b0f6504812p-2
+MINIMUM_PRIMARY_SQUARED=0x1.41d5cd78ce94ap-6
+MINIMUM_ESCAPE_MARGIN=0x1.9c0a8a654238cp-1
+MINIMUM_FINITE_MASS_MARGIN=0x1.def99fc9b6edp-1
+PASS_COMMON_CLOCK_ESCAPE_COVER method=CAPD-6.1.0-native stage=fourth-adjacent-continuum-cover

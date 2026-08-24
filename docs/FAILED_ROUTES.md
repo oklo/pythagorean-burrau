@@ -361,6 +361,89 @@ representation still does not solve the original restart problem. The later
 two-centre-to-ordinary conversion succeeds only after it is embedded as a
 correlation-preserving graph map.
 
+## Correlated fifth-section projection into the two-centre focus map
+
+**Status:** FAILED AS AN INTERVAL FORMULATION; repaired by a fixed-clock
+mean-value enclosure.
+
+Carrying the full stable-tail doubleton to the fifth outgoing Poincare section
+is sufficient to prove that section is reached, but projecting its implicit
+return-time image into the two-centre chart magnifies the decisive momentum
+direction.  Moving the stable-tail start from \(\zeta=15\) to \(18\), adding
+the exact octic graph, and shrinking to one-picounit parameter tiles did not
+repair the focus propagation: the projected momentum hull still crossed the
+singular denominator or lost Poincare transversality.  This is set wrapping,
+not evidence of collision.
+
+The successful replacement chooses the rational fourth-LC clock
+\(\bar\tau=37184019/10^8\), propagates the independently certified collision
+state to that clock, and encloses the parameter dependence with the rigorous
+one-variable mean-value formula (3) of
+`COMPUTER_ASSISTED_PLANAR_FOURTH_COMMON_CLOCK_COVER.md`.  It removes the
+implicit section-time uncertainty before the chart change.  The resulting
+131-tile cover reaches the terminal escape cone on an explicit continuum.
+Encoding the common-clock mean-value term as a single affine doubleton
+generator was also tested for the still-open lower multi-focus band.  It did
+not improve the second-focus enclosure: the longer Poincare leg wrapped the
+momentum set and even lost the independent whole-leg $p_r<0$ audit near
+offset 90 pico.  The missing repair must preserve correlation through the
+first Poincare return itself, not merely at the common-clock entrance.
+
+The lower band also cannot be closed by naively inserting one additional
+componentwise focus restart.  Radius-one tiles at offsets 45, 60, 75, and 90
+pico rigorously reach the second focus with negative $\beta$ and pass the
+whole-leg $p_r<0$ audit.  From that componentwise image, however, the third
+focus map wraps by several orders of magnitude.  Switching instead to the
+separated section $\beta=-1$ fails near the transition where that section and
+the second focus exchange order.  This localizes the remaining chart problem:
+a correlation-preserving first-to-second-focus Poincare graph, or two
+overlapping section atlases, is required.
+
+A scalar $C^1$ mean-value restart was tested as a more targeted repair.  It
+propagated the entrance tangent through the CAPD Poincare derivative and then
+rebuilt each next-focus box from a center orbit plus that tangent times the
+one-dimensional parameter displacement.  A radius-one tile at offset 45
+pico reached two focuses, but its tangent widths had already grown to roughly
+$2^{30}$--$2^{35}$.  At the third focus the state enclosure expanded to
+momenta of order $3\times10^4$, and the directed section derivative enclosed
+zero.  This is not a dynamical failure: the restart represented the current
+state box and its tangent independently, so it still discarded the nonlinear
+graph correlation it was meant to preserve.  The experimental command and
+duplicate direct chart map were removed.  A successful repair must evolve an
+actual one-generator state graph (or an equivalent augmented graph transform)
+through the Poincare return, rather than reattaching an interval tangent to an
+independent state hull.
+
+CAPD's mutable set argument to `PoincareMap` was also continued directly,
+without the componentwise restart.  The API explicitly leaves that object
+just *after* the section, whereas the returned vector is the tight enclosure
+of the Poincare image itself.  On the offset-45 radius-one tile, the retained
+post-section set reached the attempted $\beta=-1$ leg with
+$p_r\in[-2.60,0.032]$ and $p_i\in[-0.20,5.43]$; the section derivative then
+enclosed zero.  Thus the mutable flow set is not a correlation-preserving
+representation of the tight section image needed here.  The experimental
+mode was removed.  A repair must construct a rigorous graph *on the section*,
+not merely reuse the broader set after the crossing step.
+
+Parameter subdivision alone does not repair the third-focus restart.  The
+offset-45 experiment was repeated with radii $10^{-16}$ and $10^{-18}$ in
+$\kappa$, respectively one tenth and one thousandth of the original
+picounit radius.  Both third-focus maps still failed with momentum widths of
+order $10^5$.  The irreducible componentwise width comes from the certified
+reference-state and chart enclosures, then is amplified by the focus restart;
+it is not dominated by the tile diameter.  Consequently an enormous finer
+cover would not turn this formulation into a proof.
+
+Replacing the MPFR collision-root reference by a direct rational tile-center
+reference also fails.  Although it removes the root-box displacement, that
+reference must traverse the entire stable-tail-to-fourth-chart chain as a
+native-precision interval set.  At offset 45 its enclosure was already too
+wide to prove $p_r<0$ over even the first focus leg.  The MPFR root anchor is
+therefore not an incidental source of width: it is the sharpening that makes
+the first two lower-band focuses certifiable.  A useful local anchor would
+need its own multiprecision point certificate, not a repeated native long
+propagation.
+
 ## Double-precision fourth-root phase seed
 
 **Status:** DISPROVED as a quantitative phase estimate.

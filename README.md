@@ -71,6 +71,9 @@ bash scripts/run_capd_planar_light_collision_newton.sh \
   /path/to/CAPD /path/to/CAPD/build-native --fourth-fifth-entry
 bash scripts/run_capd_planar_light_collision_newton.sh \
   /path/to/CAPD /path/to/CAPD/build-native --fourth-fifth-outgoing
+bash scripts/run_capd_planar_light_collision_newton.sh \
+  /path/to/CAPD /path/to/CAPD/build-native \
+  --fourth-common-clock-escape-cover
 ```
 
 Full derivation and trusted-computing-base details are in
@@ -107,8 +110,12 @@ section; see
 quintic tail sharpening used there is proved in
 `docs/PLANAR_STABLE_QUINTIC_ENCLOSURE.md`.
 The overlapping fifth--sixth passages now have one exact polynomial elliptic
-regularization, derived in `docs/PLANAR_TWO_CENTRE_REGULARIZATION.md`; its
-validated finite propagation is the current open step.
+regularization, derived in `docs/PLANAR_TWO_CENTRE_REGULARIZATION.md`.
+The fourth boundary is carried through that chart to the escape cone in
+`docs/COMPUTER_ASSISTED_PLANAR_FOURTH_COLLISION_PHASE.md`.  A fixed-clock
+mean-value construction then validates the adjacent 131-tile continuum
+`[1.264009099014, 1.264009099457]`; see
+`docs/COMPUTER_ASSISTED_PLANAR_FOURTH_COMMON_CLOCK_COVER.md`.
 The exact positive-light-mass reduction and the resulting persistence theorem
 for that collision boundary are in
 `docs/FINITE_MASS_PLANAR_COLLISION_PERSISTENCE.md`.  The differentiated

@@ -973,3 +973,60 @@ it is not a remainder proof.
   sufficiently small compatible positive-mass member in a local fourth-root
   cusp either collides classically or escapes. The cusp size is non-effective
   and tied-family entry is not claimed.
+- The direct correlated fifth-section-to-focus experiment failed even after
+  moving the tail to $\zeta=18$ and using the octic stable graph: its
+  componentwise section projection wrapped the two-centre momenta.  Replaced
+  it by the rational common clock $37184019/10^8$ and a rigorous
+  one-variable mean-value enclosure anchored at the MPFR fourth root.  The
+  exact negative-LC chart map is regular at collision and now has symbolic
+  regression coverage.  Forty radius-one and 91 radius-two overlapping
+  pico-tiles all passed, proving a continuum collision-or-terminal-escape
+  classification on
+  $1.264009099014\le\kappa\le1.264009099457$.  Status: **PROVED BY
+  COMPUTER-ASSISTED ARGUMENT** for the massless planar family; no tied or
+  rational parameter is inferred.  An adversarial comparison with the third
+  root certificate found that the two parameter enclosures overlap but the
+  cover does not contain the root enclosure.  An ordinary DOP853 seed places
+  that root near $1.264009099616$, above the cover, but this is only
+  **ORDINARY NUMERICAL EVIDENCE**.  All claims that the cover crosses the
+  exact third root were removed.
+- Probed the residual lower band with validated directed focus maps.  At
+  radius-one tiles centered 45, 60, 75, and 90 pico above the common base,
+  the second focus is noncollisional and $p_r<0$ on every whole-step
+  enclosure.  A third-focus continuation from the componentwise second-focus
+  image wraps catastrophically, while the alternative $\beta=-1$ route loses
+  its section atlas near the focus/section-order transition.  Status:
+  **VALIDATED NUMERICAL RESULT** for the two-focus finite segments and
+  **FAILED** for both terminal formulations.  This identifies the next chart
+  repair; it is not a dynamical counterexample.
+- Tested a scalar $C^1$ Poincare mean-value restart on the radius-one tile
+  centered 45 pico above the common base.  It rigorously reached the second
+  focus, but its parameter tangent widened to $2^{30}$--$2^{35}$; the
+  third return then lost transversality with momentum widths of order
+  $3\times10^4$.  The state doubleton and tangent doubleton were independent,
+  so this formulation did not retain the nonlinear one-parameter graph.
+  Status: **FAILED** as a lower-band repair; removed from the production
+  verifier and retained here as an implementation obstruction.
+- A DOP853 common-clock focus scout inherited the already documented
+  floating fourth-chart phase error: at offset 120 pico its first-focus
+  coordinate differed materially from the validated enclosure.  The scout
+  was removed rather than retained as a quantitatively misleading predictor.
+  Status: **DISPROVED** as a reliable focus locator; no certificate depended
+  on it.
+- Tested direct continuation of CAPD's mutable set after the first Poincare
+  crossing.  The API preserves a set just after the section, but the tight
+  section enclosure is returned separately.  At the offset-45 radius-one
+  tile the post-section set already had $p_r\in[-2.60,0.032]$ and the next
+  $\beta=-1$ crossing lost transversality.  Status: **FAILED** as a graph
+  representation; this does not contradict the tight validated two-focus
+  enclosure.
+- Reduced the offset-45 tile radius from one pico to $10^{-16}$ and then
+  $10^{-18}$ in $\kappa$.  The componentwise third-focus restart still
+  expanded the momenta to order $10^5$ and failed.  Status: **VALIDATED
+  NUMERICAL RESULT** that simple parameter subdivision does not address the
+  dominant reference-state/restart width in this formulation.
+- Re-anchored the exact scalar mean-value formula at the rational tile center
+  instead of the MPFR collision root.  The required native long-chain point
+  propagation was wider, not narrower, and lost the whole-leg $p_r<0$ audit
+  before the first focus at offset 45.  Status: **FAILED**; a tile-centered
+  repair would require an independent multiprecision point enclosure.

@@ -37,3 +37,7 @@ prove classical reachability.
 outgoing propagation of the whole fourth-root box to a uniformly analytic
 fifth positive-primary LC chart.  Its scope is collision-or-fifth-entry, not
 terminal escape.
+
+`validated_planar_fourth_common_clock_cover_capd.txt` records the integrated
+131-tile common-clock replay and its global worst-case margins on
+`[1.264009099014, 1.264009099457]`.
