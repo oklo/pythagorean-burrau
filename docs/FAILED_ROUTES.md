@@ -886,3 +886,33 @@ critical scale is about $0.733$, well above $R_*$.  Thus the scale-only
 argument remains unavailable.  The repair is the independent exact bound
 $Z_J^{\rm syz}>1$ together with the validated endpoint amplitude $Z_*<1$;
 the order of limits must never be interchanged.
+
+## Using the fixed endpoint escape section to bridge the middle interval
+
+**Status:** DISPROVED as a broad continuation shortcut by ordinary numerical
+evidence; the local theorem remains valid.
+
+The punctured near-isosceles theorem reaches the strict binary--escaper cone
+at the fixed comparison section (\sigma=7) with (\eta=4).  One might hope
+that the same section and certificate persist far enough down the tied curve
+to overlap the compact middle regime.  A deterministic DOP853 scout shows
+that this mechanism loses its margin very rapidly:
+
+| (v) | selected crossings before (\sigma=7) | radial margin | result |
+|---:|---:|---:|---|
+| (0.9999) | 4 | (0.0904\ldots) | fixed certificate passes |
+| (0.999) | 4 | (-1.155\ldots) | fixed certificate fails |
+| (0.99) | 2 | (-19.037\ldots) | different close-encounter regime |
+
+At (v=0.999), all sampled finite-arc brake residuals remain positive; the
+failure is specifically the terminal radial-energy inequality, not evidence
+for a brake.  At (v=0.99), an unselected squared distance reaches about
+(1.9\times10^{-6}), so the orbit has already reorganized before the fixed
+section.  These are **ORDINARY NUMERICAL EVIDENCE**, not validated parameter
+boundaries.
+
+Thus an effective CAPD interval near (v=1) may quantify the existential
+theorem, but it is unlikely to bridge the middle interval.  Beyond the local
+window one must adapt the terminal section and encounter itinerary, or use a
+global brake obstruction.  Failure of this particular fixed section does not
+imply periodicity or failure of some later escape certificate.

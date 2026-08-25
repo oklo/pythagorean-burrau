@@ -1430,3 +1430,11 @@ it is not a remainder proof.
   comparison remains regularized only; every member to which the theorem is
   applied is an ordinary collision-free classical trajectory through the
   terminal section.
+- Tested whether that same fixed $\sigma=7$, $\eta=4$ mechanism could bridge
+  toward the middle interval.  Ordinary DOP853 probes pass at $v=0.9999$
+  (radial margin $0.0904\ldots$) but fail at $v=0.999$
+  (radial margin $-1.155\ldots$); by $v=0.99$ only two selected crossings
+  occur before the section and an unselected squared distance falls near
+  $1.9\times10^{-6}$.  This is a useful itinerary obstruction, not a theorem
+  about nonperiodicity.  It shows that quantifying the endpoint neighborhood
+  will not by itself bridge the compact middle range.
