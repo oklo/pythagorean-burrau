@@ -42,9 +42,10 @@ The primary agent currently has uncommitted changes in exactly these files:
 Do **not** edit, format, stage, or commit either file.  Do not run a broad
 formatter over the repository.  If sharing the same worktree, add only new
 files and do not run `git add` or `git commit`; return a handoff report instead.
-The cleanest arrangement is a separate git worktree and branch based on
-commit `cade821` (which contains this handoff), for example an
-`agent2-middle-escape` branch.  The primary agent will manually port useful
+The cleanest arrangement is a separate git worktree and branch based on the
+current `master` after this handoff was added, for example an
+`agent2-middle-escape` branch.  Pin the baseline with `git rev-parse HEAD`
+when creating the worktree.  The primary agent will manually port useful
 results.
 
 ## Highest-leverage task: exact terminal escape map
