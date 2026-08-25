@@ -38,6 +38,13 @@
 // enclosure produced by the rigorous propagation of the same box; they are
 // simply not used.
 //
+// Mirrored labelling (--binary13): checks the same theorem for binary {1,3}
+// with escaper body 2 (M = A + 1 = 2/(1+u^2), escaper mass B), with the box
+// given in the pair-{1,3} chart of kDirectLcVars (g = q3 - q1,
+// G = q2 - C13, P = dG/dt).  Ordinary numerics show this is the labelling
+// that fires on the lower-adjacent parameter range near u = 0.2895, where
+// the endgame hierarchy flips and body 2 is ejected instead of body 1.
+//
 // Input (stdin, whitespace separated): first eta, then lower/upper bound
 // pairs for u, wr, wi, zr, zi, Gx, Gy, Px, Py, then optionally a pair for
 // the transported pair energy h.  Every token must be an integer, an exact
@@ -110,6 +117,11 @@ struct Box {
   Ival eta, u, wr, wi, zr, zi, gx, gy, px, py, h;
   bool has_h = false;
   bool phase_robust = false;
+  // false: binary {2,3}, escaper 1 (pair-{2,3} chart).  true: binary {1,3},
+  // escaper 2 (pair-{1,3} chart of kDirectLcVars): M = A + 1 = 2/(1+u^2),
+  // escaper mass B; the theorem and all inequalities are otherwise
+  // identical, with the box in the pair-{1,3} chart coordinates.
+  bool binary13 = false;
 };
 
 bool read_box(std::istream& in, Box& box) {
@@ -161,10 +173,15 @@ int check(const Box& box) {
   }
 
   const Ival one(1);
-  const Ival q = one + box.u * box.u;             // 1 + u^2 > 0
-  const Ival mass_a = (one - box.u * box.u) / q;  // A
-  const Ival pair_m = (one + box.u) * (one + box.u) / q;  // M = B + 1
-  const Ival total_m = Ival(2) * (one + box.u) / q;       // Mtot
+  const Ival q = one + box.u * box.u;  // 1 + u^2 > 0
+  const Ival total_m = Ival(2) * (one + box.u) / q;  // Mtot
+  // Escaper mass and pair mass for the selected labelling.
+  const Ival escaper_m = box.binary13
+                             ? Ival(2) * box.u / q         // B
+                             : (one - box.u * box.u) / q;  // A
+  const Ival pair_m = box.binary13
+                          ? Ival(2) / q                          // A + 1
+                          : (one + box.u) * (one + box.u) / q;   // B + 1
 
   Ival e23;
   if (box.phase_robust) {
@@ -208,7 +225,7 @@ int check(const Box& box) {
   const Ival v_inf = sqrt(Ival(2) * e_rho);
   const Ival root_arg = Ival(2) * pair_m * radius;  // 2M^2/eta > 0 always
   if (!(root_arg.leftBound() > 0)) return fail("tidal_root_not_positive");
-  const Ival delta = mass_a * sqrt(root_arg) / (v_inf * d * d);
+  const Ival delta = escaper_m * sqrt(root_arg) / (v_inf * d * d);
   std::cout << "sup_Delta=" << delta.rightBound() << "\n";
 
   const Ival margin = -box.eta - e23 - delta;
@@ -217,9 +234,11 @@ int check(const Box& box) {
   if (!(margin.leftBound() > 0)) return fail("inner_energy_margin_not_positive");
 
   std::cout << "PASS_MIDDLE_ESCAPE_TERMINAL"
-            << (box.phase_robust ? "_PHASE_ROBUST" : "") << " eta=["
-            << box.eta.leftBound() << "," << box.eta.rightBound() << "] u=["
-            << box.u.leftBound() << "," << box.u.rightBound() << "]\n";
+            << (box.phase_robust ? "_PHASE_ROBUST" : "")
+            << (box.binary13 ? " binary={1,3} escaper=2" : " binary={2,3} escaper=1")
+            << " eta=[" << box.eta.leftBound() << ","
+            << box.eta.rightBound() << "] u=[" << box.u.leftBound() << ","
+            << box.u.rightBound() << "]\n";
   return 0;
 }
 
@@ -230,6 +249,7 @@ int main(int argc, char** argv) {
     Box box;
     for (int i = 1; i < argc; ++i) {
       if (std::string(argv[i]) == "--phase-robust") box.phase_robust = true;
+      if (std::string(argv[i]) == "--binary13") box.binary13 = true;
     }
     if (argc > 1 && std::string(argv[1]) == "--demo") {
       // Synthetic certifying box mirroring
