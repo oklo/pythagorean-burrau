@@ -1114,15 +1114,51 @@ int run_endgame_c0(const Ival& u_param, long p, long q, long p2, long q2,
           1e-12,
           bound_double((before[0] * before[0] + before[1] * before[1])
                            .leftBound())));
-      const double cap =
-          std::max(1.0 / 8000.0, std::min(w_abs / 24.0, 1.0 / 100.0));
-      flow.direct_move(set, cap);
+      // The sigma-step must resolve the UNSELECTED pair separations too:
+      // near an unselected close approach (e.g. the {2,3} conjunction at
+      // t ~ 3.4515 inside the pair-{1,3} chart) a selected-pair-sized step
+      // sweeps a large fraction of the unselected distance and the rough
+      // enclosure of its 1/r^3 field explodes in width without throwing.
+      // Physical-time budget r^{3/2}/40 (~ 1/20 of the free-fall time),
+      // converted to sigma by dt = |w|^2 dsigma.
+      const DirectLcScalars pre_scalars =
+          phase.pair23 ? evaluate_pair23_lc(before, family)
+                       : evaluate_direct_lc(before, family);
+      const double unselected = std::sqrt(std::max(
+          1e-12,
+          std::min(bound_double(pre_scalars.r12_squared.leftBound()),
+                   bound_double(pre_scalars.r23_squared.leftBound()))));
+      const double w2_lower = std::max(1e-12, w_abs * w_abs);
+      const double unselected_cap =
+          unselected * std::sqrt(unselected) / (40.0 * w2_lower);
+      const double cap = std::max(
+          1.0 / 20000.0,
+          std::min(std::min(w_abs / 24.0, unselected_cap), 1.0 / 100.0));
+      try {
+        flow.direct_move(set, cap);
+      } catch (const std::exception& error) {
+        std::cerr << "FAIL integrator exception in " << phase.label
+                  << " at tp=[" << bound_double(before[9].leftBound())
+                  << "," << bound_double(before[9].rightBound())
+                  << "] hull=" << hull_width(before, 12) << ": "
+                  << error.what() << "\n";
+        return 1;
+      }
       ++steps;
       const Vector enclosure = set.getLastEnclosure();
       const Vector snapshot(set);
-      const DirectLcScalars sc =
-          phase.pair23 ? evaluate_pair23_lc(enclosure, family)
-                       : evaluate_direct_lc(enclosure, family);
+      DirectLcScalars sc;
+      try {
+        sc = phase.pair23 ? evaluate_pair23_lc(enclosure, family)
+                          : evaluate_direct_lc(enclosure, family);
+      } catch (const std::exception& error) {
+        std::cerr << "FAIL audit-evaluation exception in " << phase.label
+                  << " at tp=[" << bound_double(snapshot[9].leftBound())
+                  << "," << bound_double(snapshot[9].rightBound())
+                  << "] hull=" << hull_width(snapshot, 12) << ": "
+                  << error.what() << "\n";
+        return 1;
+      }
       if (!(sc.selected_radius.leftBound() > 0) ||
           !(sc.r12_squared.leftBound() > 0) ||
           !(sc.r23_squared.leftBound() > 0)) {
@@ -1146,6 +1182,11 @@ int run_endgame_c0(const Ival& u_param, long p, long q, long p2, long q2,
         return 1;
       }
       largest_hull = std::max(largest_hull, hull_width(snapshot, 12));
+      if (hull_width(snapshot, 12) > 10.0) {
+        std::cerr << "FAIL set hull exploded in " << phase.label
+                  << " tp=" << to_double(snapshot[9]) << "\n";
+        return 1;
+      }
       if (steps % 2000 == 0) {
         std::cout << "c0 " << phase.label << " tp="
                   << to_double(snapshot[9]) << " steps=" << steps
