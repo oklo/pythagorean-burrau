@@ -5,10 +5,12 @@ import sympy as sp
 from src.dynamics.cartesian import right_hand_side
 from src.symbolic.mutual_distances import (
     _generic_ordered_syzygy_first_gap_energy_margin,
+    _radial_gravity_gaps,
     first_gap_static_energy_obstruction,
     initial_log_torque_threshold_gap,
     log_torque_shape_rate_identity,
     log_torque_shape_threshold,
+    log_torque_threshold_contact_terms,
     ordered_history_centrifugal_reduction,
     ordered_history_shape_time_rhs,
     ordered_obtuse_gravity_first_bernstein_coefficients,
@@ -19,6 +21,8 @@ from src.symbolic.mutual_distances import (
     ordered_shape_gravity_gap,
     ordered_shape_log_torque_kernel,
     ordered_shape_log_torque_kernel_bernstein_coefficients,
+    ordered_shape_log_torque_threshold_gap_bernstein_coefficients,
+    ordered_shape_log_torque_threshold_gap_core,
     ordered_syzygy_first_gap_energy_bernstein_coefficients,
     ordered_syzygy_first_gap_energy_numerator,
     ordered_syzygy_second_gap_static_obstruction,
@@ -129,6 +133,91 @@ def test_log_torque_rate_has_an_exact_algebraic_history_threshold() -> None:
     assert sp.factor(initial_gap - expected_gap) == 0
     assert sp.sign(initial_gap.subs(tied_parameter, sp.Rational(1, 3))) == 1
 
+    gap_core, gap_variables = ordered_shape_log_torque_threshold_gap_core()
+    gap_numerator, gap_denominator = sp.fraction(gap_core)
+    gap_polynomial = sp.Poly(gap_numerator, *gap_variables)
+    assert tuple(
+        gap_polynomial.degree(variable) for variable in gap_variables
+    ) == (11, 11, 2)
+    gap_coefficients = (
+        ordered_shape_log_torque_threshold_gap_bernstein_coefficients()
+    )
+    gap_signs = tuple(sp.sign(value) for value in gap_coefficients)
+    assert len(gap_coefficients) == 432
+    assert gap_signs.count(-1) == 317
+    assert gap_signs.count(0) == 115
+    assert set(gap_signs) == {-1, 0}
+    _, _, gap_parameter = gap_variables
+    expected_gap_denominator = 512 * (
+        -1 - (3 - 2 * sp.sqrt(2)) * gap_parameter**2
+    )
+    assert sp.factor(gap_denominator - expected_gap_denominator) == 0
+
+    history_source, shape_source, contact_threshold, contact_variables = (
+        log_torque_threshold_contact_terms()
+    )
+    cm, cn, cx, cy = contact_variables
+    contact_values = {
+        cm: sp.Rational(21, 29),
+        cn: sp.Rational(20, 29),
+        cx: sp.Rational(39, 40),
+        cy: sp.Rational(1, 30),
+    }
+    assert sp.factor(
+        contact_threshold.subs(contact_values) - witness_eta
+    ) == 0
+    contact_history = sp.factor(history_source.subs(contact_values))
+    contact_shape = sp.factor(shape_source.subs(contact_values))
+    assert sp.sign(contact_history) == -1
+    assert sp.sign(contact_shape) == -1
+    critical_amplitude = sp.factor(contact_history / contact_shape)
+    witness_parameter = sp.Rational(2, 5)
+    witness_mass_1 = (1 - witness_parameter**2) / (
+        1 + witness_parameter**2
+    )
+    witness_mass_2 = 2 * witness_parameter / (
+        1 + witness_parameter**2
+    )
+    witness_potential = (
+        witness_mass_1 * witness_mass_2
+        + witness_mass_2 / witness_values[x]
+        + witness_mass_1 / witness_values[y]
+    )
+    witness_initial_potential = (
+        witness_mass_1 * witness_mass_2
+        + 1 / (witness_mass_1 * witness_mass_2)
+    )
+    witness_scale = sp.Rational(1, 2)
+    witness_velocity_amplitude_squared = sp.factor(
+        (
+            witness_potential
+            - witness_scale * witness_initial_potential
+        )
+        / witness["kinetic"]
+    )
+    witness_z = sp.factor(
+        witness["ell_23"] ** 2 * witness_velocity_amplitude_squared
+    )
+    assert sp.sign(critical_amplitude) == 1
+    assert sp.sign(witness_z - critical_amplitude) == 1
+    assert float(witness_z / critical_amplitude) == pytest.approx(
+        1.05745644351720, rel=2e-14
+    )
+    positive_s_parameter = sp.Rational(1, 100)
+    positive_s_values = {
+        cm: (1 - positive_s_parameter**2)
+        / (1 + positive_s_parameter**2),
+        cn: 2 * positive_s_parameter
+        / (1 + positive_s_parameter**2),
+        cx: sp.Rational(199, 200),
+        cy: sp.Rational(3, 200),
+    }
+    positive_s_threshold = sp.factor(
+        contact_threshold.subs(positive_s_values)
+    )
+    assert 0 < positive_s_threshold < 1
+    assert sp.sign(shape_source.subs(positive_s_values)) == 1
+
 
 def test_ordered_history_reduces_both_centrifugal_gaps_to_two_scalars() -> None:
     gaps, variables = ordered_history_centrifugal_reduction()
@@ -151,6 +240,60 @@ def test_ordered_history_reduces_both_centrifugal_gaps_to_two_scalars() -> None:
     assert sp.factor(
         eta_derivative - source * (current - eta_rhs) / amplitude
     ) == 0
+
+
+def test_torque_contact_and_second_gap_thresholds_have_no_global_order() -> None:
+    history_source, shape_source, threshold, variables = (
+        log_torque_threshold_contact_terms()
+    )
+    m, n, x, y = variables
+    _, gravity_second, gravity_variables = _radial_gravity_gaps()
+    gx, gy, gscale, gu = gravity_variables
+    examples = (
+        (
+            sp.Rational(1, 3),
+            sp.Rational(3, 5),
+            sp.Rational(41, 100),
+            -1,
+        ),
+        (
+            sp.Rational(1, 10),
+            sp.Rational(19, 20),
+            sp.Rational(1, 10),
+            1,
+        ),
+    )
+    for parameter, side_23, side_31, expected_order in examples:
+        mass_1 = (1 - parameter**2) / (1 + parameter**2)
+        mass_2 = 2 * parameter / (1 + parameter**2)
+        values = {m: mass_1, n: mass_2, x: side_23, y: side_31}
+        contact_eta = sp.factor(threshold.subs(values))
+        assert 0 < contact_eta < 1
+        contact_p = sp.factor(history_source.subs(values))
+        contact_s = sp.factor(shape_source.subs(values))
+        assert sp.sign(contact_p) == -1
+        assert sp.sign(contact_s) == -1
+        torque_threshold = sp.factor(contact_p / contact_s)
+        gravity_gap = sp.factor(
+            gravity_second.subs(
+                {
+                    gx: side_23,
+                    gy: side_31,
+                    gscale: 1,
+                    gu: parameter,
+                }
+            )
+        )
+        second_coefficient = sp.factor(
+            side_23**-3
+            - mass_2**2
+            * contact_eta**2
+            / (mass_1**2 * side_31**3)
+        )
+        assert sp.sign(gravity_gap) == 1
+        assert sp.sign(second_coefficient) == -1
+        second_threshold = sp.factor(gravity_gap / (-second_coefficient))
+        assert sp.sign(torque_threshold - second_threshold) == expected_order
 
 
 def test_gravity_widens_second_gap_on_ordered_shape_cube() -> None:

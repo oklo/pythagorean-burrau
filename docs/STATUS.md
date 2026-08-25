@@ -26,7 +26,15 @@ stronger first-order identity
 $(\log k)_s=(W/\delta)\mathcal A(u,x,y)[\eta-h(u,x,y)]$, with
 $\mathcal A>0$ on the full strict ordered cone by a new 168-coefficient exact
 Bernstein certificate.  Since $h-k(0)>0$ factors analytically, monotonicity of
-$k$ is precisely the scalar brake-history noncontact problem $\eta<h$.
+$k$ is precisely the scalar brake-history noncontact problem $\eta<h$.  A
+second 432-coefficient exact certificate proves $h>k$ globally.  At a contact
+one has $W\delta(\eta-h)_s=P-ZS$ with $P<0$; contacts with $S\ge0$ are
+automatically safe, and the only dangerous set $S<0$ requires the explicit
+amplitude bound $Z<Z_J=P/S$.  The $u=2/5$ ambient first-return witness exceeds
+$Z_J$ by $5.7456\%$, so the new reduction exactly localizes the missing
+reachable-history estimate.  Exact rational examples show that $Z_J$ and the
+second-gap threshold $Z_2$ have no global ordering, so neither amplitude
+condition subsumes the other.
 Exact tensor-Bernstein arithmetic also proves
 the gravitational contribution to $(\log k)''$ is strictly negative on the
 entire ordered right/obtuse cone, and the full launch curvature is negative

@@ -278,6 +278,111 @@ def initial_log_torque_threshold_gap() -> tuple[sp.Expr, sp.Symbol]:
 
 
 @lru_cache(maxsize=1)
+def ordered_shape_log_torque_threshold_gap_core() -> tuple[
+    sp.Expr, tuple[sp.Symbol, ...]
+]:
+    """Return a positive-denominator-equivalent core for ``h-k``."""
+    _, threshold, physical_variables = log_torque_shape_threshold()
+    mass_1, mass_2, side_23, side_31 = physical_variables
+    current_ratio = (
+        side_31**3 * (1 - side_23**3)
+        / (side_23**3 * (1 - side_31**3))
+    )
+    gap_numerator, _ = sp.fraction(
+        sp.factor(sp.together(threshold - current_ratio))
+    )
+    triangle_scale, order_split, parameter = sp.symbols(
+        "t w v", nonnegative=True
+    )
+    tied_parameter = (sp.sqrt(2) - 1) * parameter
+    substitution = {
+        mass_1: (1 - tied_parameter**2) / (1 + tied_parameter**2),
+        mass_2: 2 * tied_parameter / (1 + tied_parameter**2),
+        side_23: 1 - triangle_scale * order_split / 2,
+        side_31: 1 - triangle_scale + triangle_scale * order_split / 2,
+    }
+    return (
+        sp.factor(sp.together(gap_numerator.subs(substitution))),
+        (triangle_scale, order_split, parameter),
+    )
+
+
+@lru_cache(maxsize=1)
+def ordered_shape_log_torque_threshold_gap_bernstein_coefficients() -> tuple[
+    sp.Expr, ...
+]:
+    """Exact Bernstein certificate for ``h>k`` on the ordered cube."""
+    core, variables = ordered_shape_log_torque_threshold_gap_core()
+    numerator, _ = sp.fraction(core)
+    return _tensor_bernstein_coefficients(numerator, variables)
+
+
+@lru_cache(maxsize=1)
+def log_torque_threshold_contact_terms() -> tuple[
+    sp.Expr, sp.Expr, sp.Expr, tuple[sp.Symbol, ...]
+]:
+    """Return ``P,S,h`` in ``W*delta*(eta-h)_s=P-Z*S`` at contact."""
+    _, threshold, variables = log_torque_shape_threshold()
+    mass_1, mass_2, side_23, side_31 = variables
+    history_ratio = sp.symbols("eta", positive=True)
+    area_squared = sp.factor(
+        side_31**2
+        - ((side_31**2 + 1 - side_23**2) / 2) ** 2
+    )
+    scaled_23_rate = sp.factor(
+        (
+            -2 * history_ratio * mass_2 * side_23**2
+            + history_ratio * side_23**4
+            - history_ratio * side_23**2 * side_31**2
+            - history_ratio * side_23**2
+            - mass_1 * side_23**2
+            - mass_1 * side_31**2
+            + mass_1
+            - side_23**4
+            + side_23**2 * side_31**2
+            + side_23**2
+        )
+        / (2 * mass_1 * side_23)
+    )
+    scaled_31_rate = sp.factor(
+        (
+            -history_ratio * mass_2 * side_23**2
+            - history_ratio * mass_2 * side_31**2
+            + history_ratio * mass_2
+            + history_ratio * side_23**2 * side_31**2
+            - history_ratio * side_31**4
+            + history_ratio * side_31**2
+            - 2 * mass_1 * side_31**2
+            - side_23**2 * side_31**2
+            + side_31**4
+            - side_31**2
+        )
+        / (2 * mass_1 * side_31)
+    )
+    threshold_shape_rate = sp.factor(
+        (
+            sp.diff(threshold, side_23) * scaled_23_rate
+            + sp.diff(threshold, side_31) * scaled_31_rate
+        ).subs(history_ratio, threshold)
+    )
+    current_ratio = (
+        side_23**-3 - 1
+    ) / (side_31**-3 - 1)
+    history_source = sp.factor(
+        mass_1
+        * area_squared
+        * (side_31**-3 - 1)
+        * (current_ratio - threshold)
+    )
+    return (
+        history_source,
+        threshold_shape_rate,
+        threshold,
+        variables,
+    )
+
+
+@lru_cache(maxsize=1)
 def _radial_gravity_terms() -> tuple[tuple[sp.Expr, ...], tuple[sp.Symbol, ...]]:
     """Return unscaled radial gravity terms for tied masses."""
     expressions = squared_distance_accelerations()

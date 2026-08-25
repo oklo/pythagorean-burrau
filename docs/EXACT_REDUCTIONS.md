@@ -655,6 +655,27 @@ COMPUTER-ASSISTED ARGUMENT** using exact arithmetic.  Consequently
  \boxed{J_s<0\quad\Longleftrightarrow\quad\eta<h(u,x,y)}.
 \]
 
+The threshold also lies strictly above the instantaneous ratio everywhere:
+
+\[
+ \boxed{h(u,x,y)>k(x,y)}.
+\]
+
+To prove this, take the numerator of $h-k$ before the ordered-cube
+substitution above.  After substitution it has tensor degree $(11,11,2)$.
+The numerator and its mass denominator have opposite strict signs: all 432
+exact Bernstein coefficients of the former are nonpositive (317 negative,
+115 zero), while the latter is
+
+\[
+ -512\{1+(3-2\sqrt2)v^2\}<0.
+\]
+
+The original common denominator of $h-k$ is positive because it contains
+the product $(y-1)B>0$ and otherwise positive factors.  Hence $h-k>0$ in
+the open cube.  This is a second **PROVED BY COMPUTER-ASSISTED ARGUMENT**
+exact certificate.
+
 At the initial tied shape, $eta(0+)=k(0)$ and direct factorization gives
 
 \[
@@ -673,6 +694,81 @@ $\eta=h$, not merely a three-component velocity condition.  The exact
 $u=2/5$ ambient first-return obstruction below satisfies this equality,
 showing that the remaining task is to prove that the *brake-generated*
 history never reaches the explicit graph $\eta=h$.
+
+The derivative at a hypothetical contact has one further exact reduction.
+Let $X=\delta x_s/W$ and $Y=\delta y_s/W$.  Direct elimination gives
+
+\[
+ X={-2\eta nx^2+\eta x^4-\eta x^2y^2-\eta x^2
+       -mx^2-my^2+m-x^4+x^2y^2+x^2\over2mx},
+\]
+
+\[
+ Y={-\eta nx^2-\eta ny^2+\eta n+\eta x^2y^2-\eta y^4+\eta y^2
+       -2my^2-x^2y^2+y^4-y^2\over2my}.
+\]
+
+At $\eta=h$ define
+
+\[
+ S=h_xX(h)+h_yY(h),\qquad
+ P=m\delta^2(y^{-3}-1)(k-h)<0.
+\]
+
+Combining the exact equations for $\eta_s,x_s,y_s$ yields
+
+\[
+ \boxed{W\delta(\eta-h)_s=P-ZS},\qquad Z=W^2.
+\]
+
+Thus a first contact is automatically inward when $S\ge0$.  On the only
+dangerous region $S<0$, it is inward exactly when
+
+\[
+ \boxed{Z<Z_J:={P\over S}}.
+\]
+
+Both sign regions occur with a physically admissible contact value
+$0<h<1$.  Exact rational evaluation gives $S>0$ at
+$(u,x,y)=(1/100,199/200,3/200)$ and $S<0$ at
+$(1/3,3/5,41/100)$.  Hence the partition is genuine rather than an artifact
+of an unnecessarily broad domain.
+
+This is an **EXACT SYMBOLIC IDENTITY** and a new Level-E reduction: global
+monotonicity of $k$ follows from a single amplitude estimate only on the
+explicit semialgebraic region $S<0$.  At the exact $u=2/5$ first-return
+witness below, $P<0$, $S<0$, and the energy-normalized amplitude satisfies
+
+\[
+ {Z\over Z_J}=1.05745644351720\ldots>1.
+\]
+
+This exactly accounts for its outward contact and positive $J''$.  The
+remaining trajectory theorem must keep $Z$ below $Z_J$ on reachable
+dangerous contacts; total energy does not do so.
+
+The torque-contact threshold $Z_J$ and the second-gap threshold
+$Z_2=(\mathfrak g_{23}-\mathfrak g_{31})/(-C_2)$ have no global ordering,
+even when both are relevant and $0<h<1$.  Exact rational evaluations give
+
+\[
+ {Z_J\over Z_2}=0.851103582895812\ldots<1
+ \quad\hbox{at}\quad
+ (u,x,y)=\left({1\over3},{3\over5},{41\over100}\right),
+\]
+
+but
+
+\[
+ {Z_J\over Z_2}=5.95447971227083\ldots>1
+ \quad\hbox{at}\quad
+ (u,x,y)=\left({1\over10},{19\over20},{1\over10}\right).
+\]
+
+The inequalities are checked by exact rational cross-multiplication.  Thus
+neither amplitude condition subsumes the other; a common reachable theorem
+must establish $Z<\min(Z_J,Z_2)$ on their respective dangerous regions, or
+use a different invariant that implies both.
 
 There is a new global sign in its second derivative.  Let
 $J=\log k$.  The part of $\ddot J$ obtained by setting the instantaneous

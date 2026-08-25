@@ -97,6 +97,29 @@ preventing the weighted average $\eta$ from reaching the explicit graph
 $h$.  The earlier $u=2/5$ ambient $J'=0$ witness exactly satisfies
 $\eta=h$, confirming the reduction independently.
 
+A second global exact certificate proves $h>k$ on the complete strict
+ordered cone.  Its degree-$(11,11,2)$ numerator has 432 signed Bernstein
+coefficients (317 strict, 115 zero) with the denominator sign handled
+exactly.  At a contact $\eta=h$, define explicit rational functions $P,S$.
+Then
+
+\[
+ W\delta(\eta-h)_s=P-ZS,qquad P<0.
+\]
+
+Contacts with $S\ge0$ are automatically safe.  The dangerous region is
+exactly $S<0$, where the sharp condition is $Z<Z_J=P/S$.  The energy-normalized
+$u=2/5$ ambient first-return witness has
+$Z/Z_J=1.05745644351720\ldots$, explaining its positive curvature and proving
+that total energy is about $5.75\%$ too weak there.  This reduces the compact
+monotonicity route to a reachable amplitude theorem on one explicit contact
+surface.
+
+This does not collapse to the second-gap amplitude threshold: exact rational
+examples show both $Z_J<Z_2$ and $Z_J>Z_2$.  Any unified history estimate
+must control the appropriate minimum of the two, or replace them with a
+stronger invariant.
+
 A direct barrier for the second gap still fails even in first-contact form.
 An exact $u=1/3$ strict ordered-obtuse state at
 $(x,y,\eta)=(499/500,1/20,3/20)$ lies on $Z=Z_*$, has Burrau energy,

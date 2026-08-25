@@ -1295,7 +1295,21 @@ it is not a remainder proof.
   $h-k(0)>0$ factors analytically.  Hence global decrease of $k$ is exactly
   the scalar history noncontact problem $\eta<h$.  The earlier $u=2/5$
   static $J'=0$ obstruction was independently recovered as the exact equality
-  $eta=h$.
+  $\eta=h$.
+- Proved the global ordering $h>k$ with a second complete exact certificate:
+  the degree-$(11,11,2)$ cube numerator has 432 signed Bernstein
+  coefficients, 317 strict and 115 zero.  Differentiating the contact gap
+  then gives $W\delta(\eta-h)_s=P-ZS$ with explicit rational $P<0$ and $S$.
+  Hence only $S<0$ is dangerous, and there the exact missing bound is
+  $Z<Z_J=P/S$.  The energy-normalized $u=2/5$ ambient contact has
+  $Z/Z_J=1.05745644351720\ldots$, recovering its outward curvature and
+  measuring the failure of total energy.
+- Compared $Z_J$ with the second-gap critical amplitude $Z_2$ exactly.  They
+  have no global order: the rational points
+  $(u,x,y)=(1/3,3/5,41/100)$ and $(1/10,19/20,1/10)$ give respectively
+  $Z_J/Z_2=0.8511035828\ldots<1$ and
+  $5.9544797122\ldots>1$.  Both signs are exact rational comparisons, not
+  sampled-roundoff claims.
 - Tested the natural first-contact barrier for the remaining second gap.
   The exact strict ordered-obtuse state
   $u=1/3$, $(x,y,\eta)=(499/500,1/20,3/20)$ satisfies

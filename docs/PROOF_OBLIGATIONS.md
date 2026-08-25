@@ -216,6 +216,35 @@ $k<\eta<k(0)$ do not prove the inequality.  A successful argument must
 compare the weighted history defining $\eta$ with the evolution of the
 explicit threshold $h$.
 
+A second exact cube certificate proves $h>k$ everywhere in the strict
+ordered cone.  Consequently, at a contact $\eta=h$ the instantaneous
+history rate satisfies $\eta_s<0$; loss of monotonicity can occur only if the
+threshold $h$ falls still faster.  This comparison is now quantified
+exactly.  With explicit rational functions $P<0$ and $S$,
+
+\[
+ W\delta(\eta-h)_s=P-ZS.
+\]
+
+Every contact with $S\ge0$ is automatically safe.  On $S<0$ the sharp
+remaining condition is
+
+\[
+ Z<Z_J={P\over S}.
+\]
+
+The exact $u=2/5$ ambient contact has $Z/Z_J=1.05745644351720\ldots$, so
+energy does not imply this bound.  The primary compact-shape obligation is
+therefore a brake-reachable amplitude theorem on the explicit set
+$\{\eta=h,S<0\}$, rather than unrestricted domination of the full curvature
+throughout the cone.
+
+This amplitude theorem cannot be reduced to only one of the two thresholds:
+exact rational examples realize both $Z_J<Z_2$ and $Z_J>Z_2$.  A common
+history estimate must therefore imply the appropriate bound against
+$\min(Z_J,Z_2)$ where both contact mechanisms are dangerous, unless a new
+quantity bypasses both barriers.
+
 One terminal face of this reachability problem is now closed.  At a
 collision-free syzygy with body 3 between bodies 1 and 2, the collinear
 momentum constraints determine the torque ratio and transverse kinetic
