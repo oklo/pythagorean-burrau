@@ -69,6 +69,17 @@ or force a zero.
 Five individual rational parameters have complete validated covers, but the
 unresolved universal obligations are:
 
+A first parameter-family certificate now covers the complete real interval
+
+\[
+ {29\over100}\le u\le {14501\over50000}.
+\]
+
+It proves collision-free propagation through the first positive $I$-maximum
+and excludes a brake there by two strict regularized residual components.
+This advances point certification to an open family, but it does not close
+any later maximum branch.  See `MIDDLE_FIRST_MAXIMUM_INTERVAL.md`.
+
 1. bound or classify the number of maximum branches before the terminal
    collision/escape alternative, uniformly on a parameter component;
 2. prove a sign, winding, Wronskian, or ordering invariant that keeps every

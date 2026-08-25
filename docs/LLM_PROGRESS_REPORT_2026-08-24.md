@@ -31,6 +31,26 @@ rough uncertainty of plus or minus 15 percentage points. This measures
 progress toward the universal theorem, not the amount of code or manuscript
 already written.
 
+### 2026-08-25 update: first validated middle-parameter interval
+
+A pinned MPFR/CAPD $C^1$ mean-value graph now proves uniformly for every real
+
+\[
+ {29\over100}\le u\le{14501\over50000}
+\]
+
+that the tied trajectory is collision-free through its first positive
+$I$-maximum and that this maximum is not a labelled brake.  The proof changes
+from a pair--13 to a pair--23 Levi--Civita chart at $t=1$ and audits all three
+separations on every accepted interval step.  At the maximum,
+$\operatorname{Im}z<-0.0113$ and $P_x<-0.00917$, providing two strict
+residual margins.  Two abutting interval tiles pass, with an independent
+replay of the left tile.  Later maxima remain
+uncontrolled, so this is not yet a full nonperiodicity theorem on the
+interval.  The difficulty-weighted estimate is now **57%**, still with rough
+uncertainty of plus or minus 15 percentage points.  See
+`docs/MIDDLE_FIRST_MAXIMUM_INTERVAL.md`.
+
 ### Newest exact update: near-isosceles terminal threshold
 
 The terminal torque threshold has been strengthened on the complete tied

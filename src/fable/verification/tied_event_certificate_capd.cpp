@@ -16,8 +16,12 @@
 //   tied_event_certificate_capd MODE P Q TEND [PREC TOL ORDER \
 //       BIN_A BIN_B ESCAPER ETA_NUM ETA_DEN CHECK_START [T1_NUM T1_DEN]]
 //   tied_event_certificate_capd icert P Q P2 Q2 TEND [same tail...]
-// where MODE is "certify", "atlas", or "icert" (u ranging over the whole
-// interval [P/Q, P2/Q2]); u = P/Q; bodies are 1-indexed.
+//   tied_event_certificate_capd iprefix P Q P2 Q2 TEND [same tail...]
+// where MODE is "certify", "atlas", "icert", or "iprefix" (the two
+// interval modes range over [P/Q, P2/Q2]); u = P/Q; bodies are 1-indexed.
+// `iprefix` proves only that the complete collision-free prefix through TEND
+// contains no labelled brake; unlike `icert`, it does not demand a terminal
+// escape certificate.
 // The initial phase proves U < 2 U0 on [0, t1] (t1 = T1_NUM/T1_DEN,
 // default 1/4).
 //
@@ -169,6 +173,27 @@ Map make_field_correlated() {
       "-(" + ca + "*(y2+" + al + "*x2)/" + inv_d13 +
       "+" + cb + "*(y2-" + be + "*x2)/" + inv_d23 + "),"
       "0;");
+}
+
+// Dimension-preserving construction flow for the exact tied initial graph.
+// Starting from X=(1,0), Y=(0,0), velocities zero, and interval-valued frozen
+// w, its time-one map writes
+//
+//   Y=(A B (B-A)/(A+B), A B)
+//
+// as an actual function of w.  Initializing those two coordinates merely by
+// their interval ranges would be a sound Cartesian over-enclosure, but it
+// would discard the state--parameter correlation before physical propagation
+// even begins.
+Map make_initial_graph_field() {
+  const std::string p = "(1+2*w-w^2)";
+  const std::string q = "(1+w^2)";
+  const std::string y1 =
+      "(2*w*(1-w^2)*(w^2+2*w-1)/(" + q + "^2*" + p + "))";
+  const std::string y2 = "(2*w*(1-w^2)/" + q + "^2)";
+  return Map(
+      "var:x1,x2,y1,y2,u1,u2,v1,v2,w;"
+      "fun:0,0," + y1 + "," + y2 + ",0,0,0,0,0;");
 }
 
 Ival dot(const Ival& a1, const Ival& a2, const Ival& b1, const Ival& b2) {
@@ -340,10 +365,11 @@ int main(int argc, char** argv) {
       return 2;
     }
     const std::string mode = argv[1];
-    const bool interval_mode = mode == "icert";
+    const bool prefix_mode = mode == "iprefix";
+    const bool interval_mode = mode == "icert" || prefix_mode;
     const bool certify = mode == "certify" || interval_mode;
     if (!certify && mode != "atlas") {
-      std::cerr << "MODE must be certify, icert, or atlas\n";
+      std::cerr << "MODE must be certify, icert, iprefix, or atlas\n";
       return 2;
     }
     const long p = std::atol(argv[2]);
@@ -352,7 +378,7 @@ int main(int argc, char** argv) {
     int base = 4;
     if (interval_mode) {
       if (argc < 7) {
-        std::cerr << "icert needs P Q P2 Q2 TEND\n";
+        std::cerr << mode << " needs P Q P2 Q2 TEND\n";
         return 2;
       }
       p2 = std::atol(argv[4]);
@@ -394,19 +420,45 @@ int main(int argc, char** argv) {
     solver.setRelativeTolerance(tolerance);
     std::unique_ptr<TimeMap> time_map(new TimeMap(solver));
 
-    // Exact tied initial state: X = (1,0), Y = (AB(B-A)/(A+B), AB); in
-    // interval mode the frozen parameter w carries the u-interval.
+    // Exact tied initial state: X = (1,0), Y = (AB(B-A)/(A+B), AB).
+    // In interval mode a unit construction flow embeds this nonlinear graph
+    // over the frozen parameter w before the physical flow starts.
     Vector initial(interval_mode ? 9 : 8);
     initial[0] = Ival(1);
     initial[1] = Ival(0);
-    initial[2] = f.a * f.b * (f.b - f.a) / f.m12;
-    initial[3] = f.a * f.b;
+    initial[2] = interval_mode ? Ival(0)
+                               : f.a * f.b * (f.b - f.a) / f.m12;
+    initial[3] = interval_mode ? Ival(0) : f.a * f.b;
     for (int i = 4; i < 8; ++i) initial[i] = Ival(0);
     if (interval_mode) initial[8] = u_param;
     Set set(initial);
+    Ival construction_time(0);
+
+    if (interval_mode) {
+      Map graph_field = make_initial_graph_field();
+      Solver graph_solver(graph_field, std::max(20, order));
+      graph_solver.setAbsoluteTolerance(tolerance);
+      graph_solver.setRelativeTolerance(tolerance);
+      TimeMap graph_map(graph_solver);
+      graph_map(Ival(1), set);
+      construction_time = set.getCurrentTime();
+      const Vector graph_state(set);
+      if (std::getenv("FABLE_DEBUG_GRAPH") != nullptr) {
+        std::cout << "initial_graph";
+        for (int i = 0; i < 9; ++i) {
+          print_interval((" s" + std::to_string(i)).c_str(), graph_state[i]);
+        }
+        std::cout << "\n" << std::flush;
+      }
+      if (!(graph_state[8].leftBound() <= u_param.leftBound()) ||
+          !(graph_state[8].rightBound() >= u_param.rightBound())) {
+        std::cerr << "FAIL initial graph lost parameter interval\n";
+        return 1;
+      }
+    }
 
     const Ival t1 = rational(t1_num, t1_den);
-    const Ival final_time = Ival(tend);
+    const Ival final_time = construction_time + Ival(tend);
     const Ival eta = rational(eta_num, eta_den);
 
     time_map->stopAfterStep(true);
@@ -458,15 +510,16 @@ int main(int argc, char** argv) {
       ++steps;
       const Vector enclosure = set.getLastEnclosure();
       const Ival current_time = time_map->getCurrentTime();
+      const Ival physical_time = current_time - construction_time;
       const Scalars sc = evaluate_scalars(enclosure, f, initial_phase);
 
       if (initial_phase) {
         if (!(sc.potential.rightBound() < (2 * f.u0).leftBound())) {
           std::cerr << "FAIL initial-window potential bound at t="
-                    << to_double(current_time) << "\n";
+                    << to_double(physical_time) << "\n";
           return 1;
         }
-        if (current_time.leftBound() > t1.rightBound()) {
+        if (physical_time.leftBound() > t1.rightBound()) {
           initial_phase = false;
         }
       } else if (contains_zero(sc.i_dot) &&
@@ -475,8 +528,8 @@ int main(int argc, char** argv) {
         min_event_kinetic = std::min(min_event_kinetic,
                                      bound_double(sc.kinetic.leftBound()));
         if (!certify) {
-          std::cout << "EVENT t=[" << bound_double(current_time.leftBound())
-                    << "," << bound_double(current_time.rightBound()) << "]";
+          std::cout << "EVENT t=[" << bound_double(physical_time.leftBound())
+                    << "," << bound_double(physical_time.rightBound()) << "]";
           print_interval("K", sc.kinetic);
           print_interval("B1", sc.b1);
           print_interval("B2", sc.b2);
@@ -486,20 +539,20 @@ int main(int argc, char** argv) {
           print_interval("UoverU0", sc.potential / f.u0);
           std::cout << "\n" << std::flush;
         } else if (!step_excludes_brake(sc)) {
-          std::cerr << "FAIL uncovered step at t=" << to_double(current_time)
+          std::cerr << "FAIL uncovered step at t=" << to_double(physical_time)
                     << "\n";
           return 1;
         }
       } else if (certify && !step_excludes_brake(sc) &&
                  !positions_exclude_brake(enclosure, f)) {
-        std::cerr << "FAIL uncovered step at t=" << to_double(current_time)
+        std::cerr << "FAIL uncovered step at t=" << to_double(physical_time)
                   << "\n";
         return 1;
       }
 
       if (steps % 500 == 0) {
         const Vector snapshot(set);
-        std::cout << "progress t=" << to_double(current_time)
+        std::cout << "progress t=" << to_double(physical_time)
                   << " steps=" << steps
                   << " hull_width=" << hull_width(snapshot)
                   << " capped_retries=" << capped_retries
@@ -507,14 +560,14 @@ int main(int argc, char** argv) {
                   << std::flush;
       }
 
-      if (certify &&
-          bound_double(current_time.rightBound()) > check_start) {
+      if (certify && !prefix_mode &&
+          bound_double(physical_time.rightBound()) > check_start) {
         const Vector current(set);
         if (std::getenv("FABLE_DEBUG_ESCAPE") != nullptr) {
           Ival dbg(0);
           const bool ok = escape_certificate_fires(current, f, body_a, body_b,
                                                    body_c, eta, &dbg);
-          std::cout << "escape_check t=" << to_double(current_time)
+          std::cout << "escape_check t=" << to_double(physical_time)
                     << " fired=" << ok << " margin=["
                     << bound_double(dbg.leftBound()) << ","
                     << bound_double(dbg.rightBound()) << "]\n" << std::flush;
@@ -523,7 +576,7 @@ int main(int argc, char** argv) {
                                      eta, &final_margin)) {
           certified = true;
           std::cout << "escape certificate fired at t="
-                    << to_double(current_time) << " margin="
+                    << to_double(physical_time) << " margin="
                     << bound_double(final_margin.leftBound()) << "\n";
           break;
         }
@@ -540,14 +593,15 @@ int main(int argc, char** argv) {
     } while (!finished);
 
     const Vector final_state(set);
-    std::cout << "end_time=" << to_double(time_map->getCurrentTime())
+    std::cout << "end_time="
+              << to_double(time_map->getCurrentTime() - construction_time)
               << "\n";
     std::cout << "steps=" << steps << " event_steps=" << event_steps
               << " min_event_kinetic=" << min_event_kinetic
               << " final_hull_width=" << hull_width(final_state) << "\n";
 
     if (certify) {
-      if (!certified) {
+      if (!prefix_mode && !certified) {
         std::cerr << "FAIL terminal escape certificate did not fire\n";
         return 1;
       }
@@ -557,7 +611,10 @@ int main(int argc, char** argv) {
                   << ", " << bound_double(final_state[i].rightBound())
                   << "]\n";
       }
-      if (interval_mode) {
+      if (prefix_mode) {
+        std::cout << "PASS_TIED_EVENT_INTERVAL_PREFIX u=[" << p << "/" << q
+                  << "," << p2 << "/" << q2 << "] t_end=" << tend << "\n";
+      } else if (interval_mode) {
         std::cout << "PASS_TIED_EVENT_INTERVAL u=[" << p << "/" << q
                   << "," << p2 << "/" << q2 << "]\n";
       } else {

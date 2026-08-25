@@ -29,7 +29,10 @@ The Lagrange--Jacobi identity further reduces every possible second brake to
 an explicitly collision-separated strict maximum of the moment of inertia and
 gives a finite validated-cover criterion.  This criterion has certified five
 named primitive triples, but it does not yet control all maximum-event
-branches over the parameter curve.  We
+branches over the parameter curve.  A correlation-preserving MPFR interval
+map also excludes the first positive brake uniformly for
+$29/100\le u\le14501/50000$, through two binary close passages; later
+maximum branches remain open.  We
 also prove that the real isosceles-right endpoint has no second brake and ends
 in finite collision.  Exact Bernstein inequalities and a validated $C^1$
 first-syzygy calculation additionally prove both pre-syzygy torque
@@ -197,7 +200,7 @@ $J_X=\mu_1|X|^2$, $J_Y=\mu_2|Y|^2$, $s=J_X/I$, and
 $\phi=\arg Y-\arg X$.  At every zero of $\dot I$ with $X,Y\ne0$ and $L=0$,
 \[
  \boxed{\quad
- \zeta=I\left(\dot s-2i,s(1-s)\dot\phi\right),\qquad
+ \zeta=I\left(\dot s-2is(1-s)\dot\phi\right),\qquad
  |\zeta|^2={8KJ_XJ_Y\over I}=8KI\,s(1-s).
  \quad}
 \]
@@ -271,6 +274,47 @@ for
 \]
 in both leg orderings.  These are five point theorems, not a parameter-cover
 argument.
+
+\begin{theorem}[Validated middle first-maximum interval]
+For every real
+\[
+ {29\over100}\le u\le {14501\over50000},
+\]
+the tied classical trajectory is collision-free through its first positive
+local maximum of $I$, and this maximum is not a labelled brake.  The unique
+intervening minimum and the first subsequent maximum obey
+\[
+ t_{\min}\in[0.758038,0.758045],\qquad
+ t_{\max}\in[1.32908,1.33943].
+\]
+\end{theorem}
+\begin{proof}
+The exact tied launch is embedded as a one-dimensional mean-value graph with
+$u$ retained as a frozen state coordinate.  A pinned MPFR/CAPD $C^1$
+Poincare calculation propagates this graph first in a pair--13
+Levi--Civita chart and, after an exact Jacobi-tree transformation at $t=1$,
+in a pair--23 chart.  On every accepted-step enclosure, all three mutual
+separations are strictly positive.  Whole-leg audits give $\dot I<0$ from
+launch to the first minus-to-plus zero and $\dot I>0$ from that zero to the
+first later plus-to-minus zero.  At the minimum,
+$U/U_0\in[5.17942,5.18335]$; at the maximum,
+$U/U_0\in[0.983016,1.01907]\subset(0,2)$, proving both events strict by
+Lagrange--Jacobi.  In the final selected-pair chart the validated residual
+has
+\[
+ \operatorname{Im}z\in[-0.0500738,-0.0113187],\qquad
+ P_x\in[-0.0561842,-0.00917817].
+\]
+A labelled brake forces $z=P=0$, so either strict component excludes it.
+The exact chart identities are symbolically regressed.  Two abutting tiles
+cover the stated interval and an independent replay reproduces the left-tile
+terminal PASS enclosure.  The source,
+complete replay, and pinned dependency hash are archived with the paper.
+\end{proof}
+
+This theorem excludes only the first positive maximum.  It does not rule out
+a brake on a later maximum branch and therefore is not, by itself, a
+nonperiodicity theorem on the displayed interval.
 
 For each fixed $u$ the separation bound is positive, and it is uniform on
 every compact parameter interval bounded away from $u=0$.  It degenerates in

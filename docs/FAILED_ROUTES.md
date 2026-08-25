@@ -916,3 +916,23 @@ theorem, but it is unlikely to bridge the middle interval.  Beyond the local
 window one must adapt the terminal section and encounter itinerary, or use a
 global brake obstruction.  Failure of this particular fixed section does not
 imply periodicity or failure of some later escape certificate.
+
+## One physical-coordinate interval tube across the middle close encounters
+
+**Status:** DISPROVED as a scalable validation architecture; the dynamical
+claim itself is not disproved.
+
+Direct Cartesian interval propagation of the tied family near $u=0.29$
+retains acceptable widths early, but dependency growth becomes prohibitive at
+the successive close encounters. A single direct pair--13 Levi--Civita box
+improves the first passage, yet boxes of widths $10^{-4}$ and larger still
+wrap during the close pair--23 passage near $t=1.05$. Reducing the parameter
+width without retaining its correlation only postpones the same failure.
+
+The successful repair is structural: represent the family by a $C^1$
+mean-value graph, propagate its parameter tangent through oriented Poincare
+maps, and switch exactly from the pair--13 to the pair--23 Levi--Civita tree
+at $t=1$. This certifies the first maximum on a width-$10^{-5}$ interval.
+It does not show that arbitrarily wide tiles will pass, nor does it control
+later maxima. Future continuation should tile graph enclosures and adapt the
+selected binary chart rather than return to one large physical box.

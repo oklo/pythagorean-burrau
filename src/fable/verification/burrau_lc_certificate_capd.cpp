@@ -1,6 +1,6 @@
 // Rigorous second-brake exclusion certificate for the 3:4:5 Pythagorean
-// Burrau free-fall problem (u = 1/3) with a Levi--Civita chart through the
-// deep pair-{1,3} encounter near t = 3.166.
+// Burrau free-fall problem (u = 1/3), plus a parameter-interval prefix mode,
+// with a Levi--Civita chart through every selected pair-{1,3} close encounter.
 //
 // Mathematical basis: docs/FABLE_EVENT_REDUCTION.md and
 // docs/FABLE_LC_COVERING_DESIGN.md.  Outside the encounter zone the
@@ -31,6 +31,13 @@
 // Dependency pin: CAPD 6.1.0, commit
 // 731079217a9254ea2948d742df2b170895effe7f, MP build.  Compile with
 // -DFABLE_MP via scripts/fable_run_capd_burrau_lc.sh.
+//
+// Additional usage:
+//   burrau_lc_certificate_capd iprefix P Q P2 Q2 TEND [PREC TOL ORDER]
+// proves absence of a labelled brake on the complete collision-free prefix
+// 0 < t <= TEND for every u in [P/Q,P2/Q2].  It makes no terminal escape
+// claim.  The legacy invocation `[PREC TOL ORDER]` remains the full u=1/3
+// collision-free/escape certificate.
 
 #include <algorithm>
 #include <cmath>
@@ -50,12 +57,17 @@ typedef capd::MpIMap Map;
 typedef capd::MpIOdeSolver Solver;
 typedef capd::MpITimeMap TimeMap;
 typedef capd::MpIVector Vector;
+typedef capd::MpIMatrix Matrix;
 typedef capd::MpC0TripletonSet Set;
+typedef capd::MpC1Rect2Set C1Set;
+typedef capd::MpINonlinearSection NonlinearSection;
+typedef capd::MpICoordinateSection CoordinateSection;
+typedef capd::MpIPoincareMap PoincareMap;
 
 double bound_double(const capd::MpFloat& x) { return toDouble(x); }
 double to_double(const Ival& x) { return bound_double(x.rightBound()); }
 
-// Masses for u = 1/3.
+// Masses for the legacy u = 1/3 terminal certificate.
 Ival kM1() { return Ival(4) / Ival(5); }
 Ival kM2() { return Ival(3) / Ival(5); }
 Ival kM3() { return Ival(1); }
@@ -71,31 +83,92 @@ Ival kMu2() { return Ival(7) / Ival(12); }
 // So X = -( b g - G ) = G - b g,  Y = -( -a g + alpha G ) = a g - alpha G.
 // (With D = -1 the inverse is exact and simple.)
 
+struct Family {
+  Ival a;
+  Ival b;
+  Ival m12;
+  Ival total;
+  Ival mu1;
+  Ival mu2;
+  Ival u0;
+  Ival alpha;
+  Ival beta;
+  Ival m13;
+  Ival inv_m13;
+  Ival ag;
+  Ival bg;
+};
+
+Family make_family(const Ival& w) {
+  Family f;
+  const Ival w2 = w * w;
+  const Ival q = 1 + w2;
+  f.a = (1 - w2) / q;
+  f.b = 2 * w / q;
+  f.m12 = f.a + f.b;
+  f.total = f.m12 + 1;
+  f.mu1 = f.a * f.b / f.m12;
+  f.mu2 = f.m12 / f.total;
+  f.u0 = f.a * f.b + 1 / (f.a * f.b);
+  f.alpha = f.b / f.m12;
+  f.beta = f.a / f.m12;
+  f.m13 = f.a + 1;
+  f.inv_m13 = 1 / f.m13;
+  f.ag = 1 - f.alpha / f.m13;
+  f.bg = -f.inv_m13;
+  return f;
+}
+
 const char* kVars =
-    "var:x1,x2,y1,y2,p1,p2,q1,q2,wr,wi,zr,zi,hh,cgx,cgy,cpx,cpy,tp;";
+    "var:x1,x2,y1,y2,p1,p2,q1,q2,wr,wi,zr,zi,hh,cgx,cgy,cpx,cpy,tp,ww;";
 
 // State layout: physical X=(x1,x2), Y=(y1,y2), VX=(p1,p2), VY=(q1,q2);
 // chart w=(wr,wi), z=(zr,zi), pair energy hh, complement G=(cgx,cgy),
-// P=(cpx,cpy); physical time tp.
+// P=(cpx,cpy); physical time tp; frozen Euclid parameter ww.
 
 Map make_physical_field() {
-  const std::string d1sq = "((y1+3*x1/7)^2+(y2+3*x2/7)^2)";
-  const std::string d2sq = "((y1-4*x1/7)^2+(y2-4*x2/7)^2)";
+  const std::string mass_den = "(1+ww^2)";
+  const std::string pair_den = "(1+2*ww-ww^2)";
+  const std::string ma = "((1-ww^2)/" + mass_den + ")";
+  const std::string mb = "(2*ww/" + mass_den + ")";
+  const std::string m12 = "(" + pair_den + "/" + mass_den + ")";
+  const std::string total = "(2*(1+ww)/" + mass_den + ")";
+  const std::string alpha = "(2*ww/" + pair_den + ")";
+  const std::string beta = "((1-ww^2)/" + pair_den + ")";
+  const std::string d1sq =
+      "((y1+" + alpha + "*x1)^2+(y2+" + alpha + "*x2)^2)";
+  const std::string d2sq =
+      "((y1-" + beta + "*x1)^2+(y2-" + beta + "*x2)^2)";
   const std::string rsq = "(x1^2+x2^2)";
   const std::string inv_r3 = "(" + rsq + "*sqrt(" + rsq + "))";
   const std::string inv_d13 = "(" + d1sq + "*sqrt(" + d1sq + "))";
   const std::string inv_d23 = "(" + d2sq + "*sqrt(" + d2sq + "))";
   return Map(std::string(kVars) +
       "fun:p1,p2,q1,q2,"
-      "-7*x1/(5*" + inv_r3 + ")"
-      "+(y1-4*x1/7)/" + inv_d23 + "-(y1+3*x1/7)/" + inv_d13 + ","
-      "-7*x2/(5*" + inv_r3 + ")"
-      "+(y2-4*x2/7)/" + inv_d23 + "-(y2+3*x2/7)/" + inv_d13 + ","
-      "-(12/7)*((4/5)*(y1+3*x1/7)/" + inv_d13 +
-      "+(3/5)*(y1-4*x1/7)/" + inv_d23 + "),"
-      "-(12/7)*((4/5)*(y2+3*x2/7)/" + inv_d13 +
-      "+(3/5)*(y2-4*x2/7)/" + inv_d23 + "),"
-      "0,0,0,0,0,0,0,0,0,1;");
+      "-" + m12 + "*x1/" + inv_r3 +
+      "+(y1-" + beta + "*x1)/" + inv_d23 +
+      "-(y1+" + alpha + "*x1)/" + inv_d13 + ","
+      "-" + m12 + "*x2/" + inv_r3 +
+      "+(y2-" + beta + "*x2)/" + inv_d23 +
+      "-(y2+" + alpha + "*x2)/" + inv_d13 + ","
+      "-(" + total + "/" + m12 + ")*(" + ma +
+      "*(y1+" + alpha + "*x1)/" + inv_d13 + "+" + mb +
+      "*(y1-" + beta + "*x1)/" + inv_d23 + "),"
+      "-(" + total + "/" + m12 + ")*(" + ma +
+      "*(y2+" + alpha + "*x2)/" + inv_d13 + "+" + mb +
+      "*(y2-" + beta + "*x2)/" + inv_d23 + "),"
+      "0,0,0,0,0,0,0,0,0,1,0;");
+}
+
+// Time-one graph embedding of the exact tied initial configuration over ww.
+Map make_initial_graph_field() {
+  const std::string p = "(1+2*ww-ww^2)";
+  const std::string q = "(1+ww^2)";
+  const std::string y1 =
+      "(2*ww*(1-ww^2)*(ww^2+2*ww-1)/(" + q + "^2*" + p + "))";
+  const std::string y2 = "(2*ww*(1-ww^2)/" + q + "^2)";
+  return Map(std::string(kVars) + "fun:0,0," + y1 + "," + y2 +
+             ",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0;");
 }
 
 // Entry construction: chart block is zero; each rate is the exact target,
@@ -103,11 +176,18 @@ Map make_physical_field() {
 // Form A (gx > 0):  wr = sqrt((|g|+gx)/2), wi = gy/(2 wr).
 // Form B (gx < 0):  wi = sqrt((|g|-gx)/2), wr = gy/(2 wi).
 // g = Y + (3/7) X, gdot = VY + (3/7) VX.
-Map make_entry_field(bool form_a) {
-  const std::string gx = "(y1+3*x1/7)";
-  const std::string gy = "(y2+3*x2/7)";
-  const std::string gdx = "(q1+3*p1/7)";
-  const std::string gdy = "(q2+3*p2/7)";
+Map make_entry_field(bool form_a, int damping_rate) {
+  const std::string pden = "(1+2*ww-ww^2)";
+  const std::string qden = "(1+ww^2)";
+  const std::string alpha = "(2*ww/" + pden + ")";
+  const std::string inv_m13 = "(" + qden + "/2)";
+  const std::string ag = "(1-ww*" + qden + "/" + pden + ")";
+  const std::string bg = "(-" + inv_m13 + ")";
+  const std::string m13 = "(2/" + qden + ")";
+  const std::string gx = "(y1+" + alpha + "*x1)";
+  const std::string gy = "(y2+" + alpha + "*x2)";
+  const std::string gdx = "(q1+" + alpha + "*p1)";
+  const std::string gdy = "(q2+" + alpha + "*p2)";
   const std::string absg = "sqrt(" + gx + "^2+" + gy + "^2)";
   std::string wr_t, wi_t;
   if (form_a) {
@@ -120,47 +200,54 @@ Map make_entry_field(bool form_a) {
   const std::string zr_t = "((" + wr_t + "*" + gdx + "+" + wi_t + "*" + gdy + ")/2)";
   const std::string zi_t = "((" + wr_t + "*" + gdy + "-" + wi_t + "*" + gdx + ")/2)";
   const std::string h_t =
-      "((" + gdx + "^2+" + gdy + "^2)/2-(9/5)/" + absg + ")";
+      "((" + gdx + "^2+" + gdy + "^2)/2-" + m13 + "/" + absg + ")";
+  const std::string rate = std::to_string(damping_rate);
   // Damped writes (c = 400) with inflation parameters so re-entry into a
   // stale chart block is exact up to a rigorously enclosed e^{-400}
   // residual; on a zero block the same flow is equally valid.
   return Map(
       "par:f1,f2,f3,f4,f5,f6,f7,f8,f9;" + std::string(kVars) +
       "fun:0,0,0,0,0,0,0,0,"
-      "400*(" + wr_t + "-wr)+f1,"
-      "400*(" + wi_t + "-wi)+f2,"
-      "400*(" + zr_t + "-zr)+f3,"
-      "400*(" + zi_t + "-zi)+f4,"
-      "400*(" + h_t + "-hh)+f5,"
-      "400*((16*x1/21-5*y1/9)-cgx)+f6,"
-      "400*((16*x2/21-5*y2/9)-cgy)+f7,"
-      "400*((16*p1/21-5*q1/9)-cpx)+f8,"
-      "400*((16*p2/21-5*q2/9)-cpy)+f9,0;");
+      + rate + "*(" + wr_t + "-wr)+f1,"
+      + rate + "*(" + wi_t + "-wi)+f2,"
+      + rate + "*(" + zr_t + "-zr)+f3,"
+      + rate + "*(" + zi_t + "-zi)+f4,"
+      + rate + "*(" + h_t + "-hh)+f5,"
+      + rate + "*(" + ag + "*x1+" + bg + "*y1-cgx)+f6,"
+      + rate + "*(" + ag + "*x2+" + bg + "*y2-cgy)+f7,"
+      + rate + "*(" + ag + "*p1+" + bg + "*q1-cpx)+f8,"
+      + rate + "*(" + ag + "*p2+" + bg + "*q2-cpy)+f9,0,0;");
 }
 
 // LC-zone field in sigma.
 Map make_lc_field() {
+  const std::string qden = "(1+ww^2)";
+  const std::string ma = "((1-ww^2)/" + qden + ")";
+  const std::string mb = "(2*ww/" + qden + ")";
+  const std::string inv_m13 = "(" + qden + "/2)";
+  const std::string total_over_m13 = "(1+ww)";
   const std::string w2 = "(wr^2+wi^2)";
   const std::string gx = "(wr^2-wi^2)";
   const std::string gy = "(2*wr*wi)";
-  // d21 = q2 - q1 = G + (m3/M13) g = G + (5/9) g
-  // d23 = q2 - q3 = G - (m1/M13) g = G - (4/9) g
-  const std::string d21x = "(cgx+5*" + gx + "/9)";
-  const std::string d21y = "(cgy+5*" + gy + "/9)";
-  const std::string d23x = "(cgx-4*" + gx + "/9)";
-  const std::string d23y = "(cgy-4*" + gy + "/9)";
+  // d21 = q2-q1 = G + g/M13; d23 = q2-q3 = d21-g.
+  const std::string d21x = "(cgx+" + inv_m13 + "*" + gx + ")";
+  const std::string d21y = "(cgy+" + inv_m13 + "*" + gy + ")";
+  const std::string d23x =
+      "(cgx+(" + inv_m13 + "-1)*" + gx + ")";
+  const std::string d23y =
+      "(cgy+(" + inv_m13 + "-1)*" + gy + ")";
   const std::string r12sq = "(" + d21x + "^2+" + d21y + "^2)";
   const std::string r23sq = "(" + d23x + "^2+" + d23y + "^2)";
   const std::string ir12 = "(" + r12sq + "*sqrt(" + r12sq + "))";
   const std::string ir23 = "(" + r23sq + "*sqrt(" + r23sq + "))";
-  // F_ext on g: m2 (d23/r23^3 - d21/r12^3), m2 = 3/5.
-  const std::string fx = "((3/5)*(" + d23x + "/" + ir23 + "-" + d21x + "/" + ir12 + "))";
-  const std::string fy = "((3/5)*(" + d23y + "/" + ir23 + "-" + d21y + "/" + ir12 + "))";
-  // G'' = -(M/M13)(m1 d21/r12^3 + m3 d23/r23^3), M/M13 = (12/5)/(9/5) = 4/3.
+  // F_ext on g: m2 (d23/r23^3 - d21/r12^3).
+  const std::string fx = "(" + mb + "*(" + d23x + "/" + ir23 + "-" + d21x + "/" + ir12 + "))";
+  const std::string fy = "(" + mb + "*(" + d23y + "/" + ir23 + "-" + d21y + "/" + ir12 + "))";
+  // G'' = -(M/M13)(m1 d21/r12^3 + m3 d23/r23^3).
   const std::string gddx =
-      "(-(4/3)*((4/5)*" + d21x + "/" + ir12 + "+" + d23x + "/" + ir23 + "))";
+      "(-" + total_over_m13 + "*(" + ma + "*" + d21x + "/" + ir12 + "+" + d23x + "/" + ir23 + "))";
   const std::string gddy =
-      "(-(4/3)*((4/5)*" + d21y + "/" + ir12 + "+" + d23y + "/" + ir23 + "))";
+      "(-" + total_over_m13 + "*(" + ma + "*" + d21y + "/" + ir12 + "+" + d23y + "/" + ir23 + "))";
   return Map(std::string(kVars) +
       "fun:0,0,0,0,0,0,0,0,"
       "zr,zi,"
@@ -169,7 +256,188 @@ Map make_lc_field() {
       "2*((wr*zr-wi*zi)*" + fx + "+(wr*zi+wi*zr)*" + fy + "),"
       + w2 + "*cpx," + w2 + "*cpy,"
       + w2 + "*" + gddx + "," + w2 + "*" + gddy + ","
-      + w2 + ";");
+      + w2 + ",0;");
+}
+
+const char* kDirectLcVars =
+    "var:wr,wi,zr,zi,hh,cgx,cgy,cpx,cpy,tp,ww,jd;";
+
+// The same selected-pair regularization without the frozen physical/chart
+// blocks.  This chart is nonsingular from the tied launch through the early
+// maximum-event branch and avoids both entry and exit time-shift wrapping.
+Map make_direct_lc_field() {
+  const std::string qden = "(1+ww^2)";
+  const std::string ma = "((1-ww^2)/" + qden + ")";
+  const std::string mb = "(2*ww/" + qden + ")";
+  const std::string inv_m13 = "(" + qden + "/2)";
+  const std::string total_over_m13 = "(1+ww)";
+  const std::string w2 = "(wr^2+wi^2)";
+  const std::string gx = "(wr^2-wi^2)";
+  const std::string gy = "(2*wr*wi)";
+  const std::string d21x = "(cgx+" + inv_m13 + "*" + gx + ")";
+  const std::string d21y = "(cgy+" + inv_m13 + "*" + gy + ")";
+  const std::string d23x =
+      "(cgx+(" + inv_m13 + "-1)*" + gx + ")";
+  const std::string d23y =
+      "(cgy+(" + inv_m13 + "-1)*" + gy + ")";
+  const std::string r12sq = "(" + d21x + "^2+" + d21y + "^2)";
+  const std::string r23sq = "(" + d23x + "^2+" + d23y + "^2)";
+  const std::string ir12 = "(" + r12sq + "*sqrt(" + r12sq + "))";
+  const std::string ir23 = "(" + r23sq + "*sqrt(" + r23sq + "))";
+  const std::string fx =
+      "(" + mb + "*(" + d23x + "/" + ir23 + "-" + d21x +
+      "/" + ir12 + "))";
+  const std::string fy =
+      "(" + mb + "*(" + d23y + "/" + ir23 + "-" + d21y +
+      "/" + ir12 + "))";
+  const std::string gddx =
+      "(-" + total_over_m13 + "*(" + ma + "*" + d21x + "/" +
+      ir12 + "+" + d23x + "/" + ir23 + "))";
+  const std::string gddy =
+      "(-" + total_over_m13 + "*(" + ma + "*" + d21y + "/" +
+      ir12 + "+" + d23y + "/" + ir23 + "))";
+  const std::string ab = "(" + ma + "*" + mb + ")";
+  const std::string u0 = "(" + ab + "+1/" + ab + ")";
+  // jd = dI/dt.  Multiplication by dt/dsigma=|w|^2 cancels the selected
+  // A/|g| potential term, leaving a field regular at w=0.
+  const std::string jd_sigma =
+      "(2*(" + ab + "*" + w2 + "/sqrt(" + r12sq + ")+" + ma +
+      "+" + mb + "*" + w2 + "/sqrt(" + r23sq + "))-4*" + u0 +
+      "*" + w2 + ")";
+  return Map(std::string(kDirectLcVars) +
+             "fun:zr,zi,"
+             "(hh/2)*wr+(" + w2 + "/2)*(wr*" + fx + "+wi*" + fy + "),"
+             "(hh/2)*wi+(" + w2 + "/2)*(wr*" + fy + "-wi*" + fx + "),"
+             "2*((wr*zr-wi*zi)*" + fx + "+(wr*zi+wi*zr)*" + fy + "),"
+             + w2 + "*cpx," + w2 + "*cpy," + w2 + "*" + gddx + "," +
+             w2 + "*" + gddy + "," + w2 + ",0," + jd_sigma + ";");
+}
+
+// Direct Levi--Civita field for selected pair {2,3}, with
+// g=q3-q2 and complement G=q1-C23.  The state layout is unchanged.
+Map make_pair23_lc_field() {
+  const std::string qden = "(1+ww^2)";
+  const std::string ma = "((1-ww^2)/" + qden + ")";
+  const std::string mb = "(2*ww/" + qden + ")";
+  const std::string m23 = "((1+ww)^2/" + qden + ")";
+  const std::string inv_m23 = "(" + qden + "/(1+ww)^2)";
+  const std::string total_over_m23 = "(2/(1+ww))";
+  const std::string w2 = "(wr^2+wi^2)";
+  const std::string gx = "(wr^2-wi^2)";
+  const std::string gy = "(2*wr*wi)";
+  const std::string d12x = "(cgx+" + inv_m23 + "*" + gx + ")";
+  const std::string d12y = "(cgy+" + inv_m23 + "*" + gy + ")";
+  const std::string d13x =
+      "(cgx+(" + inv_m23 + "-1)*" + gx + ")";
+  const std::string d13y =
+      "(cgy+(" + inv_m23 + "-1)*" + gy + ")";
+  const std::string r12sq = "(" + d12x + "^2+" + d12y + "^2)";
+  const std::string r13sq = "(" + d13x + "^2+" + d13y + "^2)";
+  const std::string ir12 = "(" + r12sq + "*sqrt(" + r12sq + "))";
+  const std::string ir13 = "(" + r13sq + "*sqrt(" + r13sq + "))";
+  const std::string fx =
+      "(" + ma + "*(" + d13x + "/" + ir13 + "-" + d12x +
+      "/" + ir12 + "))";
+  const std::string fy =
+      "(" + ma + "*(" + d13y + "/" + ir13 + "-" + d12y +
+      "/" + ir12 + "))";
+  const std::string gddx =
+      "(-" + total_over_m23 + "*(" + mb + "*" + d12x + "/" +
+      ir12 + "+" + d13x + "/" + ir13 + "))";
+  const std::string gddy =
+      "(-" + total_over_m23 + "*(" + mb + "*" + d12y + "/" +
+      ir12 + "+" + d13y + "/" + ir13 + "))";
+  const std::string ab = "(" + ma + "*" + mb + ")";
+  const std::string u0 = "(" + ab + "+1/" + ab + ")";
+  const std::string jd_sigma =
+      "(2*(" + ab + "*" + w2 + "/sqrt(" + r12sq + ")+" + mb +
+      "+" + ma + "*" + w2 + "/sqrt(" + r13sq + "))-4*" + u0 +
+      "*" + w2 + ")";
+  return Map(std::string(kDirectLcVars) +
+             "fun:zr,zi,"
+             "(hh/2)*wr+(" + w2 + "/2)*(wr*" + fx + "+wi*" + fy + "),"
+             "(hh/2)*wi+(" + w2 + "/2)*(wr*" + fy + "-wi*" + fx + "),"
+             "2*((wr*zr-wi*zi)*" + fx + "+(wr*zi+wi*zr)*" + fy + "),"
+             + w2 + "*cpx," + w2 + "*cpy," + w2 + "*" + gddx + "," +
+             w2 + "*" + gddy + "," + w2 + ",0," + jd_sigma + ";");
+}
+
+Map make_pair13_to_pair23_map() {
+  const std::string qden = "(1+ww^2)";
+  const std::string inv_m13 = "(" + qden + "/2)";
+  const std::string inv_m23 = "(" + qden + "/(1+ww)^2)";
+  const std::string m23 = "((1+ww)^2/" + qden + ")";
+  const std::string old_w2 = "(wr^2+wi^2)";
+  const std::string old_gx = "(wr^2-wi^2)";
+  const std::string old_gy = "(2*wr*wi)";
+  const std::string old_gdx =
+      "(2*(wr*zr-wi*zi)/" + old_w2 + ")";
+  const std::string old_gdy =
+      "(2*(wr*zi+wi*zr)/" + old_w2 + ")";
+  const std::string old_xx =
+      "(cgx+" + inv_m13 + "*" + old_gx + ")";
+  const std::string old_xy =
+      "(cgy+" + inv_m13 + "*" + old_gy + ")";
+  const std::string old_xdx =
+      "(cpx+" + inv_m13 + "*" + old_gdx + ")";
+  const std::string old_xdy =
+      "(cpy+" + inv_m13 + "*" + old_gdy + ")";
+  // g23=q3-q2=g13-X13.
+  const std::string gx = "(" + old_gx + "-" + old_xx + ")";
+  const std::string gy = "(" + old_gy + "-" + old_xy + ")";
+  const std::string gdx = "(" + old_gdx + "-" + old_xdx + ")";
+  const std::string gdy = "(" + old_gdy + "-" + old_xdy + ")";
+  const std::string abs_g = "sqrt(" + gx + "^2+" + gy + "^2)";
+  const std::string new_wr = "sqrt((" + abs_g + "+" + gx + ")/2)";
+  const std::string new_wi = "(" + gy + "/(2*" + new_wr + "))";
+  const std::string new_zr =
+      "((" + new_wr + "*" + gdx + "+" + new_wi + "*" + gdy + ")/2)";
+  const std::string new_zi =
+      "((" + new_wr + "*" + gdy + "-" + new_wi + "*" + gdx + ")/2)";
+  const std::string new_h =
+      "((" + gdx + "^2+" + gdy + "^2)/2-" + m23 + "/" + abs_g + ")";
+  // d12=q1-q2=-X13=G23+g23/M23.
+  const std::string new_gx =
+      "(-" + old_xx + "-" + inv_m23 + "*" + gx + ")";
+  const std::string new_gy =
+      "(-" + old_xy + "-" + inv_m23 + "*" + gy + ")";
+  const std::string new_px =
+      "(-" + old_xdx + "-" + inv_m23 + "*" + gdx + ")";
+  const std::string new_py =
+      "(-" + old_xdy + "-" + inv_m23 + "*" + gdy + ")";
+  return Map(std::string(kDirectLcVars) + "fun:" + new_wr + "," +
+             new_wi + "," + new_zr + "," + new_zi + "," + new_h +
+             "," + new_gx + "," + new_gy + "," + new_px + "," +
+             new_py + ",tp,ww,jd;");
+}
+
+// Exact tied launch in the direct selected-pair chart.  Since
+// g=q3-q1=(B^2,AB) and |g|=B, the positive square-root branch is explicit.
+Map make_direct_lc_initial_graph_field() {
+  const std::string qden = "(1+ww^2)";
+  const std::string pden = "(1+2*ww-ww^2)";
+  const std::string ma = "((1-ww^2)/" + qden + ")";
+  const std::string mb = "(2*ww/" + qden + ")";
+  const std::string alpha = "(2*ww/" + pden + ")";
+  const std::string inv_m13 = "(" + qden + "/2)";
+  const std::string m13 = "(2/" + qden + ")";
+  const std::string ag = "(1-ww*" + qden + "/" + pden + ")";
+  const std::string bg = "(-" + inv_m13 + ")";
+  const std::string tied_yx =
+      "(2*ww*(1-ww^2)*(ww^2+2*ww-1)/(" + qden + "^2*" +
+      pden + "))";
+  const std::string tied_yy =
+      "(2*ww*(1-ww^2)/" + qden + "^2)";
+  const std::string gx = "(" + mb + "^2)";
+  const std::string gy = "(" + ma + "*" + mb + ")";
+  const std::string wr = "sqrt((" + mb + "+" + gx + ")/2)";
+  const std::string wi = "(" + gy + "/(2*" + wr + "))";
+  const std::string hh = "(-" + m13 + "/" + mb + ")";
+  const std::string cgx = "(" + ag + "+" + bg + "*" + tied_yx + ")";
+  const std::string cgy = "(" + bg + "*" + tied_yy + ")";
+  return Map(std::string(kDirectLcVars) +
+             "fun:" + wr + "," + wi + ",0,0," + hh + "," + cgx +
+             "," + cgy + ",0,0,0,0,0;");
 }
 
 // Exit construction: physical variables receive damped writes toward the
@@ -179,32 +447,38 @@ Map make_lc_field() {
 // Wait: X = G - b g with b = -5/9 gives X = G + (5/9) g.
 //       Y = a g - alpha G = (16/21) g - (3/7) G.
 // Velocities identically with gdot = 2 w z / |w|^2 and P.
-Map make_exit_field() {
+Map make_exit_field(int damping_rate) {
+  const std::string pden = "(1+2*ww-ww^2)";
+  const std::string qden = "(1+ww^2)";
+  const std::string alpha = "(2*ww/" + pden + ")";
+  const std::string inv_m13 = "(" + qden + "/2)";
+  const std::string ag = "(1-ww*" + qden + "/" + pden + ")";
   const std::string w2 = "(wr^2+wi^2)";
   const std::string gx = "(wr^2-wi^2)";
   const std::string gy = "(2*wr*wi)";
   const std::string gdx = "(2*(wr*zr-wi*zi)/" + w2 + ")";
   const std::string gdy = "(2*(wr*zi+wi*zr)/" + w2 + ")";
-  const std::string xt1 = "(cgx+5*" + gx + "/9)";
-  const std::string xt2 = "(cgy+5*" + gy + "/9)";
-  const std::string yt1 = "(16*" + gx + "/21-3*cgx/7)";
-  const std::string yt2 = "(16*" + gy + "/21-3*cgy/7)";
-  const std::string vx1 = "(cpx+5*" + gdx + "/9)";
-  const std::string vx2 = "(cpy+5*" + gdy + "/9)";
-  const std::string vy1 = "(16*" + gdx + "/21-3*cpx/7)";
-  const std::string vy2 = "(16*" + gdy + "/21-3*cpy/7)";
+  const std::string xt1 = "(cgx+" + inv_m13 + "*" + gx + ")";
+  const std::string xt2 = "(cgy+" + inv_m13 + "*" + gy + ")";
+  const std::string yt1 = "(" + ag + "*" + gx + "-" + alpha + "*cgx)";
+  const std::string yt2 = "(" + ag + "*" + gy + "-" + alpha + "*cgy)";
+  const std::string vx1 = "(cpx+" + inv_m13 + "*" + gdx + ")";
+  const std::string vx2 = "(cpy+" + inv_m13 + "*" + gdy + ")";
+  const std::string vy1 = "(" + ag + "*" + gdx + "-" + alpha + "*cpx)";
+  const std::string vy2 = "(" + ag + "*" + gdy + "-" + alpha + "*cpy)";
+  const std::string rate = std::to_string(damping_rate);
   return Map(
       "par:e1,e2,e3,e4,e5,e6,e7,e8;" + std::string(kVars).substr(0) +
       "fun:"
-      "400*(" + xt1 + "-x1)+e1,"
-      "400*(" + xt2 + "-x2)+e2,"
-      "400*(" + yt1 + "-y1)+e3,"
-      "400*(" + yt2 + "-y2)+e4,"
-      "400*(" + vx1 + "-p1)+e5,"
-      "400*(" + vx2 + "-p2)+e6,"
-      "400*(" + vy1 + "-q1)+e7,"
-      "400*(" + vy2 + "-q2)+e8,"
-      "0,0,0,0,0,0,0,0,0,0;");
+      + rate + "*(" + xt1 + "-x1)+e1,"
+      + rate + "*(" + xt2 + "-x2)+e2,"
+      + rate + "*(" + yt1 + "-y1)+e3,"
+      + rate + "*(" + yt2 + "-y2)+e4,"
+      + rate + "*(" + vx1 + "-p1)+e5,"
+      + rate + "*(" + vx2 + "-p2)+e6,"
+      + rate + "*(" + vy1 + "-q1)+e7,"
+      + rate + "*(" + vy2 + "-q2)+e8,"
+      "0,0,0,0,0,0,0,0,0,0,0;");
 }
 
 Ival dot(const Ival& a1, const Ival& a2, const Ival& b1, const Ival& b2) {
@@ -226,28 +500,28 @@ struct Scalars {
   Ival potential;
 };
 
-Scalars evaluate_scalars(const Vector& s, bool want_potential) {
+Scalars evaluate_scalars(const Vector& s, const Family& f,
+                         bool want_potential) {
   const Ival &x1 = s[0], &x2 = s[1], &y1 = s[2], &y2 = s[3];
   const Ival &u1 = s[4], &u2 = s[5], &v1 = s[6], &v2 = s[7];
   Scalars out;
   out.i_dot =
-      2 * (kMu1() * dot(x1, x2, u1, u2) + kMu2() * dot(y1, y2, v1, v2));
+      2 * (f.mu1 * dot(x1, x2, u1, u2) + f.mu2 * dot(y1, y2, v1, v2));
   out.kinetic =
-      (kMu1() * dot(u1, u2, u1, u2) + kMu2() * dot(v1, v2, v1, v2)) / 2;
+      (f.mu1 * dot(u1, u2, u1, u2) + f.mu2 * dot(v1, v2, v1, v2)) / 2;
   out.b1 = dot(x1, x2, u1, u2) - dot(y1, y2, v1, v2);
   out.b2 = dot(u1, u2, y1, y2) + dot(x1, x2, v1, v2);
   out.b3 = cross(u1, u2, y1, y2) + cross(x1, x2, v1, v2);
   out.potential = Ival(0);
   if (want_potential) {
-    const Ival d11 = y1 + 3 * x1 / 7;
-    const Ival d12 = y2 + 3 * x2 / 7;
-    const Ival d21 = y1 - 4 * x1 / 7;
-    const Ival d22 = y2 - 4 * x2 / 7;
+    const Ival d11 = y1 + f.alpha * x1;
+    const Ival d12 = y2 + f.alpha * x2;
+    const Ival d21 = y1 - f.beta * x1;
+    const Ival d22 = y2 - f.beta * x2;
     const Ival r12 = sqrt(dot(x1, x2, x1, x2));
     const Ival r13 = sqrt(dot(d11, d12, d11, d12));
     const Ival r23 = sqrt(dot(d21, d22, d21, d22));
-    out.potential =
-        kM1() * kM2() / r12 + kM1() * kM3() / r13 + kM2() * kM3() / r23;
+    out.potential = f.a * f.b / r12 + f.a / r13 + f.b / r23;
   }
   return out;
 }
@@ -259,12 +533,12 @@ bool step_excludes_brake(const Scalars& sc) {
          !contains_zero(sc.b3);
 }
 
-bool positions_exclude_brake(const Vector& s) {
+bool positions_exclude_brake(const Vector& s, const Family& f) {
   const Ival &x1 = s[0], &x2 = s[1], &y1 = s[2], &y2 = s[3];
-  const Ival d11 = y1 + 3 * x1 / 7;
-  const Ival d12 = y2 + 3 * x2 / 7;
-  const Ival d21 = y1 - 4 * x1 / 7;
-  const Ival d22 = y2 - 4 * x2 / 7;
+  const Ival d11 = y1 + f.alpha * x1;
+  const Ival d12 = y2 + f.alpha * x2;
+  const Ival d21 = y1 - f.beta * x1;
+  const Ival d22 = y2 - f.beta * x2;
   const Ival s12 = dot(x1, x2, x1, x2);
   const Ival s13 = dot(d11, d12, d11, d12);
   const Ival s23 = dot(d21, d22, d21, d22);
@@ -272,9 +546,9 @@ bool positions_exclude_brake(const Vector& s) {
       !(s23.leftBound() > 0)) {
     return false;
   }
-  const Ival u_val = kM1() * kM2() / sqrt(s12) + kM1() * kM3() / sqrt(s13) +
-                     kM2() * kM3() / sqrt(s23);
-  return u_val.leftBound() > kU0().rightBound();
+  const Ival u_val =
+      f.a * f.b / sqrt(s12) + f.a / sqrt(s13) + f.b / sqrt(s23);
+  return u_val.leftBound() > f.u0.rightBound();
 }
 
 // Terminal binary--escaper certificate: binary {3,1}, escaper body 2,
@@ -344,13 +618,13 @@ double hull_width(const Vector& s, int n) {
   return w;
 }
 
-Ival pair_g_sq(const Vector& s) {
-  const Ival g1 = s[2] + 3 * s[0] / 7;
-  const Ival g2 = s[3] + 3 * s[1] / 7;
+Ival pair_g_sq(const Vector& s, const Family& f) {
+  const Ival g1 = s[2] + f.alpha * s[0];
+  const Ival g2 = s[3] + f.alpha * s[1];
   return g1 * g1 + g2 * g2;
 }
 
-Ival damped_write_gap_allowance(const Ival& forcing,
+Ival damped_write_gap_allowance(const Ival& forcing, int damping_rate,
                                 const Ival& duration_lower) {
   // For y' = c(T-y)+f with frozen T and duration tau,
   // y(tau)=T exactly when
@@ -362,7 +636,7 @@ Ival damped_write_gap_allowance(const Ival& forcing,
     throw std::runtime_error(
         "damped construction has no positive duration lower bound");
   }
-  const Ival rate(400);
+  const Ival rate(damping_rate);
   const Ival decay = exp(-rate * duration_lower);
   const Ival forcing_magnitude(forcing.rightBound());
   return forcing_magnitude * (Ival(1) - decay) / (rate * decay);
@@ -383,12 +657,14 @@ void require_gap_inside_allowance(const Ival& gap,
 }
 
 void audit_entry_damped_write(const Vector& s, bool form_a,
+                              const Family& f,
+                              int damping_rate,
                               const Ival& forcing,
                               const Ival& duration_lower) {
-  const Ival gx = s[2] + 3 * s[0] / 7;
-  const Ival gy = s[3] + 3 * s[1] / 7;
-  const Ival gdx = s[6] + 3 * s[4] / 7;
-  const Ival gdy = s[7] + 3 * s[5] / 7;
+  const Ival gx = s[2] + f.alpha * s[0];
+  const Ival gy = s[3] + f.alpha * s[1];
+  const Ival gdx = s[6] + f.alpha * s[4];
+  const Ival gdy = s[7] + f.alpha * s[5];
   const Ival abs_g = sqrt(gx * gx + gy * gy);
   Ival wr, wi;
   if (form_a) {
@@ -403,20 +679,22 @@ void audit_entry_damped_write(const Vector& s, bool form_a,
   target[1] = wi;
   target[2] = (wr * gdx + wi * gdy) / 2;
   target[3] = (wr * gdy - wi * gdx) / 2;
-  target[4] = (gdx * gdx + gdy * gdy) / 2 - Ival(9) / (5 * abs_g);
-  target[5] = 16 * s[0] / 21 - 5 * s[2] / 9;
-  target[6] = 16 * s[1] / 21 - 5 * s[3] / 9;
-  target[7] = 16 * s[4] / 21 - 5 * s[6] / 9;
-  target[8] = 16 * s[5] / 21 - 5 * s[7] / 9;
+  target[4] = (gdx * gdx + gdy * gdy) / 2 - f.m13 / abs_g;
+  target[5] = f.ag * s[0] + f.bg * s[2];
+  target[6] = f.ag * s[1] + f.bg * s[3];
+  target[7] = f.ag * s[4] + f.bg * s[6];
+  target[8] = f.ag * s[5] + f.bg * s[7];
   const Ival allowance =
-      damped_write_gap_allowance(forcing, duration_lower);
+      damped_write_gap_allowance(forcing, damping_rate, duration_lower);
   for (int i = 0; i < 9; ++i) {
     require_gap_inside_allowance(
         target[i] - s[8 + i], allowance, "entry construction");
   }
 }
 
-void audit_exit_damped_write(const Vector& s, const Ival& forcing,
+void audit_exit_damped_write(const Vector& s, const Family& f,
+                             int damping_rate,
+                             const Ival& forcing,
                              const Ival& duration_lower) {
   const Ival w2 = s[8] * s[8] + s[9] * s[9];
   const Ival gx = s[8] * s[8] - s[9] * s[9];
@@ -424,16 +702,16 @@ void audit_exit_damped_write(const Vector& s, const Ival& forcing,
   const Ival gdx = 2 * (s[8] * s[10] - s[9] * s[11]) / w2;
   const Ival gdy = 2 * (s[8] * s[11] + s[9] * s[10]) / w2;
   Vector target(8);
-  target[0] = s[13] + 5 * gx / 9;
-  target[1] = s[14] + 5 * gy / 9;
-  target[2] = 16 * gx / 21 - 3 * s[13] / 7;
-  target[3] = 16 * gy / 21 - 3 * s[14] / 7;
-  target[4] = s[15] + 5 * gdx / 9;
-  target[5] = s[16] + 5 * gdy / 9;
-  target[6] = 16 * gdx / 21 - 3 * s[15] / 7;
-  target[7] = 16 * gdy / 21 - 3 * s[16] / 7;
+  target[0] = s[13] + f.inv_m13 * gx;
+  target[1] = s[14] + f.inv_m13 * gy;
+  target[2] = f.ag * gx - f.alpha * s[13];
+  target[3] = f.ag * gy - f.alpha * s[14];
+  target[4] = s[15] + f.inv_m13 * gdx;
+  target[5] = s[16] + f.inv_m13 * gdy;
+  target[6] = f.ag * gdx - f.alpha * s[15];
+  target[7] = f.ag * gdy - f.alpha * s[16];
   const Ival allowance =
-      damped_write_gap_allowance(forcing, duration_lower);
+      damped_write_gap_allowance(forcing, damping_rate, duration_lower);
   for (int i = 0; i < 8; ++i) {
     require_gap_inside_allowance(
         target[i] - s[i], allowance, "exit construction");
@@ -507,29 +785,654 @@ struct PhaseRunner {
   }
 };
 
+struct DirectLcScalars {
+  Ival selected_radius;
+  Ival r12_squared;
+  Ival r23_squared;
+  Ival potential;
+  Ival i_dot;
+  Ival kinetic;
+};
+
+DirectLcScalars evaluate_direct_lc(const Vector& s, const Family& f) {
+  DirectLcScalars out;
+  const Ival &wr = s[0], &wi = s[1];
+  const Ival gx = wr * wr - wi * wi;
+  const Ival gy = 2 * wr * wi;
+  out.selected_radius = wr * wr + wi * wi;
+  const Ival gdx =
+      2 * (wr * s[2] - wi * s[3]) / out.selected_radius;
+  const Ival gdy =
+      2 * (wr * s[3] + wi * s[2]) / out.selected_radius;
+  const Ival d21x = s[5] + f.inv_m13 * gx;
+  const Ival d21y = s[6] + f.inv_m13 * gy;
+  const Ival d23x = s[5] + (f.inv_m13 - 1) * gx;
+  const Ival d23y = s[6] + (f.inv_m13 - 1) * gy;
+  out.r12_squared = d21x * d21x + d21y * d21y;
+  out.r23_squared = d23x * d23x + d23y * d23y;
+  const Ival yx = f.ag * gx - f.alpha * s[5];
+  const Ival yy = f.ag * gy - f.alpha * s[6];
+  const Ival xd_x = s[7] + f.inv_m13 * gdx;
+  const Ival xd_y = s[8] + f.inv_m13 * gdy;
+  const Ival yd_x = f.ag * gdx - f.alpha * s[7];
+  const Ival yd_y = f.ag * gdy - f.alpha * s[8];
+  out.i_dot = s.dimension() > 11
+                  ? s[11]
+                  : 2 * (f.mu1 * (d21x * xd_x + d21y * xd_y) +
+                         f.mu2 * (yx * yd_x + yy * yd_y));
+  out.kinetic =
+      (f.mu1 * (xd_x * xd_x + xd_y * xd_y) +
+       f.mu2 * (yd_x * yd_x + yd_y * yd_y)) /
+      2;
+  out.potential = Ival(0);
+  if (out.selected_radius.leftBound() > 0 &&
+      out.r12_squared.leftBound() > 0 &&
+      out.r23_squared.leftBound() > 0) {
+    out.potential =
+        f.a * f.b / sqrt(out.r12_squared) +
+        f.a / out.selected_radius + f.b / sqrt(out.r23_squared);
+  }
+  return out;
+}
+
+DirectLcScalars evaluate_pair23_lc(const Vector& s, const Family& f) {
+  DirectLcScalars out;
+  const Ival &wr = s[0], &wi = s[1];
+  const Ival gx = wr * wr - wi * wi;
+  const Ival gy = 2 * wr * wi;
+  out.selected_radius = wr * wr + wi * wi;
+  const Ival m23 = f.b + 1;
+  const Ival inv_m23 = 1 / m23;
+  const Ival gdx =
+      2 * (wr * s[2] - wi * s[3]) / out.selected_radius;
+  const Ival gdy =
+      2 * (wr * s[3] + wi * s[2]) / out.selected_radius;
+  const Ival d12x = s[5] + inv_m23 * gx;
+  const Ival d12y = s[6] + inv_m23 * gy;
+  const Ival d13x = s[5] + (inv_m23 - 1) * gx;
+  const Ival d13y = s[6] + (inv_m23 - 1) * gy;
+  out.r12_squared = d12x * d12x + d12y * d12y;
+  out.r23_squared = d13x * d13x + d13y * d13y;
+  const Ival pair_mu = f.b / m23;
+  const Ival complement_mu = f.a * m23 / f.total;
+  out.i_dot = s.dimension() > 11 ? s[11] : Ival(0);
+  out.kinetic =
+      (pair_mu * (gdx * gdx + gdy * gdy) +
+       complement_mu * (s[7] * s[7] + s[8] * s[8])) /
+      2;
+  out.potential = Ival(0);
+  if (out.selected_radius.leftBound() > 0 &&
+      out.r12_squared.leftBound() > 0 &&
+      out.r23_squared.leftBound() > 0) {
+    out.potential =
+        f.a * f.b / sqrt(out.r12_squared) +
+        f.b / out.selected_radius + f.a / sqrt(out.r23_squared);
+  }
+  return out;
+}
+
+bool direct_lc_residual_excludes_brake(const Vector& enclosure) {
+  // At a collision-free selected-pair state, physical pair velocity is
+  // 2*w*z/|w|^2 and complementary velocity is P.  Hence a labelled brake
+  // forces zr=zi=Px=Py=0.  Only this necessary direction is used.
+  return !contains_zero(enclosure[2]) || !contains_zero(enclosure[3]) ||
+         !contains_zero(enclosure[7]) || !contains_zero(enclosure[8]);
+}
+
+struct DirectCorrelatedGraph {
+  Vector anchor;
+  Vector tangent;
+  Ival u_range;
+  Ival u_center;
+
+  Set c0_set() const {
+    const int dimension = anchor.dimension();
+    Vector x(dimension), r0(dimension), r(dimension);
+    Matrix c(dimension, dimension), b(dimension, dimension);
+    for (int row = 0; row < dimension; ++row) {
+      const Ival center =
+          (Ival(anchor[row].leftBound()) + Ival(anchor[row].rightBound())) /
+          2;
+      x[row] = center;
+      r[row] = anchor[row] - center;
+      r0[row] = Ival(0);
+      for (int column = 0; column < dimension; ++column) {
+        c[row][column] = Ival(row == column ? 1 : 0);
+        b[row][column] = Ival(row == column ? 1 : 0);
+      }
+      c[row][0] = tangent[row];
+    }
+    r0[0] = u_range - u_center;
+    return Set(x, c, r0, b, r, Ival(0));
+  }
+
+  C1Set c1_set() const {
+    const int dimension = anchor.dimension();
+    Vector x(dimension), r0(dimension), r(dimension);
+    Matrix c(dimension, dimension), b(dimension, dimension);
+    for (int row = 0; row < dimension; ++row) {
+      const Ival center =
+          (Ival(anchor[row].leftBound()) + Ival(anchor[row].rightBound())) /
+          2;
+      x[row] = center;
+      r[row] = anchor[row] - center;
+      r0[row] = Ival(0);
+      for (int column = 0; column < dimension; ++column) {
+        c[row][column] = Ival(row == column ? 1 : 0);
+        b[row][column] = Ival(row == column ? 1 : 0);
+      }
+      c[row][0] = tangent[row];
+    }
+    r0[0] = u_range - u_center;
+    return C1Set(x, c, r0, b, r, Ival(0));
+  }
+};
+
+DirectCorrelatedGraph make_direct_launch_graph(const Ival& u_range) {
+  const Ival u_center =
+      (Ival(u_range.leftBound()) + Ival(u_range.rightBound())) / 2;
+  Vector center_input(12), range_input(12);
+  for (int i = 0; i < 12; ++i) {
+    center_input[i] = Ival(0);
+    range_input[i] = Ival(0);
+  }
+  center_input[10] = u_center;
+  range_input[10] = u_range;
+  Map launch_map = make_direct_lc_initial_graph_field();
+  Vector anchor = launch_map(center_input);
+  const Matrix launch_derivative = launch_map.derivative(range_input);
+  Vector tangent(12);
+  for (int row = 0; row < 12; ++row) {
+    tangent[row] = launch_derivative[row][10];
+  }
+  // The construction field freezes ww; the actual launch graph retains it.
+  anchor[10] = u_center;
+  tangent[10] = Ival(1);
+  return {anchor, tangent, u_range, u_center};
+}
+
+DirectCorrelatedGraph project_direct_graph(
+    const DirectCorrelatedGraph& input, int section_coordinate,
+    const Ival& section_value,
+    capd::poincare::CrossingDirection direction, int order,
+    double tolerance, bool pair23_chart = false,
+    int expected_j_sign = 0) {
+  Map field = pair23_chart ? make_pair23_lc_field()
+                           : make_direct_lc_field();
+  CoordinateSection section(12, section_coordinate, section_value);
+  Solver interval_solver(field, order);
+  interval_solver.setAbsoluteTolerance(tolerance);
+  interval_solver.setRelativeTolerance(tolerance);
+  PoincareMap interval_map(interval_solver, section, direction);
+  interval_map.setMaxReturnTime(50.0);
+  C1Set interval_set = input.c1_set();
+  Matrix flow_derivative(12, 12);
+  Ival interval_return;
+  const Vector interval_image =
+      interval_map(interval_set, flow_derivative, interval_return);
+  const Matrix section_derivative =
+      interval_map.computeDP(
+          interval_image, flow_derivative, interval_return);
+  Vector output_tangent = section_derivative * input.tangent;
+
+  // Poincare-map existence alone does not prove that the selected LC lift
+  // stays away from w=0.  Replay the complete common-clock tube past the
+  // latest return time and inspect every accepted-step enclosure.  On
+  // physical-time checkpoint legs the same audit also proves the required
+  // strict sign of J=dI/dt throughout the leg.
+  {
+    Set audit_set = input.c0_set();
+    Map audit_field = pair23_chart ? make_pair23_lc_field()
+                                   : make_direct_lc_field();
+    PhaseRunner audit(audit_field, order, tolerance);
+    const Family audit_family = make_family(input.u_range);
+    bool launch_window = expected_j_sign == -2;
+    bool positive_launch_window = expected_j_sign == 2;
+    const Ival audit_target = Ival(interval_return.rightBound());
+    for (int audit_steps = 0;; ++audit_steps) {
+      if (audit_steps > 200000) {
+        throw std::runtime_error(
+            "direct correlated graph leg audit step limit");
+      }
+      const Vector before(audit_set);
+      const double w_abs = std::sqrt(std::max(
+          1e-12,
+          bound_double((before[0] * before[0] + before[1] * before[1])
+                           .leftBound())));
+      const double cap =
+          std::max(1.0 / 8000.0,
+                   std::min(w_abs / 24.0, 1.0 / 100.0));
+      audit.direct_move(audit_set, cap);
+      const Vector enclosure = audit_set.getLastEnclosure();
+      const DirectLcScalars sc =
+          pair23_chart ? evaluate_pair23_lc(enclosure, audit_family)
+                       : evaluate_direct_lc(enclosure, audit_family);
+      if (!(sc.selected_radius.leftBound() > 0) ||
+          !(sc.r12_squared.leftBound() > 0) ||
+          !(sc.r23_squared.leftBound() > 0)) {
+        throw std::runtime_error(
+            "direct correlated graph leg lost collision separation");
+      }
+      if (launch_window) {
+        if (!(sc.potential.rightBound() <
+              (2 * audit_family.u0).leftBound())) {
+          if (!(sc.i_dot.rightBound() < 0)) {
+            throw std::runtime_error(
+                "direct correlated launch leg lost initial concavity/J sign");
+          }
+          launch_window = false;
+        }
+      } else if (positive_launch_window) {
+        if (!(sc.potential.leftBound() >
+              (2 * audit_family.u0).rightBound())) {
+          if (!(sc.i_dot.leftBound() > 0)) {
+            throw std::runtime_error(
+                "direct correlated minimum launch lost concavity/J sign");
+          }
+          positive_launch_window = false;
+        }
+      } else if (((expected_j_sign == -1 || expected_j_sign == -2) &&
+                  !(sc.i_dot.rightBound() < 0)) ||
+          (expected_j_sign > 0 && !(sc.i_dot.leftBound() > 0))) {
+        throw std::runtime_error(
+            "direct correlated graph leg lost its prescribed J sign");
+      }
+      if (audit_set.getCurrentTime().leftBound() >=
+          audit_target.rightBound()) {
+        break;
+      }
+    }
+  }
+
+  CoordinateSection anchor_section(12, section_coordinate, section_value);
+  Solver anchor_solver(field, order);
+  anchor_solver.setAbsoluteTolerance(tolerance);
+  anchor_solver.setRelativeTolerance(tolerance);
+  PoincareMap anchor_map(anchor_solver, anchor_section, direction);
+  anchor_map.setMaxReturnTime(50.0);
+  Set anchor_set(input.anchor);
+  Ival anchor_return;
+  Vector output_anchor = anchor_map(anchor_set, anchor_return);
+  if (!interval_image[section_coordinate].contains(section_value) ||
+      !output_anchor[section_coordinate].contains(section_value)) {
+    throw std::runtime_error(
+        "direct correlated graph missed its Poincare section");
+  }
+  output_anchor[section_coordinate] = section_value;
+  output_tangent[section_coordinate] = Ival(0);
+  return {output_anchor, output_tangent, input.u_range, input.u_center};
+}
+
+DirectCorrelatedGraph transform_pair13_to_pair23(
+    const DirectCorrelatedGraph& input) {
+  Map transformation = make_pair13_to_pair23_map();
+  const Vector domain(input.c0_set());
+  Vector output_anchor = transformation(input.anchor);
+  const Matrix derivative = transformation.derivative(domain);
+  Vector output_tangent = derivative * input.tangent;
+  return {output_anchor, output_tangent, input.u_range, input.u_center};
+}
+
+int run_direct_lc_prefix(const Ival& u_param, long p, long q,
+                         long p2, long q2, double prefix_end,
+                         int order, double tolerance,
+                         bool certify_first_maximum = false) {
+  const Family family = make_family(u_param);
+  Map graph_field = make_direct_lc_initial_graph_field();
+  Vector initial(12);
+  for (int i = 0; i < 12; ++i) initial[i] = Ival(0);
+  initial[10] = u_param;
+  Set set(initial);
+  {
+    PhaseRunner graph(graph_field, std::max(order, 30), tolerance);
+    const Ival start = set.getCurrentTime();
+    const Ival target = start + Ival(1);
+    while (graph.step(target, set)) {
+    }
+    const Ival duration = set.getCurrentTime() - start;
+    if (!(duration.leftBound() <= 1 && duration.rightBound() >= 1)) {
+      std::cerr << "FAIL direct-LC initial graph duration\n";
+      return 1;
+    }
+  }
+
+
+  if (certify_first_maximum ||
+      std::getenv("FABLE_PROBE_DIRECT_EVENTS") != nullptr) {
+    DirectCorrelatedGraph event_graph = make_direct_launch_graph(u_param);
+    const Ival checkpoint_times[8] = {
+        Ival(2) / Ival(5), Ival(11) / Ival(20), Ival(3) / Ival(5),
+        Ival(31) / Ival(50), Ival(16) / Ival(25), Ival(33) / Ival(50),
+        Ival(17) / Ival(25), Ival(7) / Ival(10)};
+    bool first_incoming_checkpoint = true;
+    for (const Ival& checkpoint_time : checkpoint_times) {
+      event_graph = project_direct_graph(
+          event_graph, 9, checkpoint_time,
+          capd::poincare::MinusPlus, order, tolerance, false,
+          first_incoming_checkpoint ? -2 : -1);
+      first_incoming_checkpoint = false;
+      const Vector time_image(event_graph.c0_set());
+      const DirectLcScalars checkpoint_sc =
+          evaluate_direct_lc(time_image, family);
+      if (!(checkpoint_sc.selected_radius.leftBound() > 0) ||
+          !(checkpoint_sc.r12_squared.leftBound() > 0) ||
+          !(checkpoint_sc.r23_squared.leftBound() > 0)) {
+        throw std::runtime_error(
+            "direct-LC physical-time checkpoint lost separation");
+      }
+      std::cout << "DIRECT_LC_EVENT_PROBE kind=checkpoint tp=["
+                << bound_double(time_image[9].leftBound()) << ","
+                << bound_double(time_image[9].rightBound()) << "]"
+                << " jd=[" << bound_double(time_image[11].leftBound())
+                << "," << bound_double(time_image[11].rightBound())
+                << "] hull=" << hull_width(time_image, 12) << "\n"
+                << std::flush;
+    }
+    const Vector time_image(event_graph.c0_set());
+    const DirectLcScalars approach_sc =
+        evaluate_direct_lc(time_image, family);
+    if (!(approach_sc.i_dot.rightBound() < 0) ||
+        !(approach_sc.selected_radius.leftBound() > 0) ||
+        !(approach_sc.r12_squared.leftBound() > 0) ||
+        !(approach_sc.r23_squared.leftBound() > 0)) {
+      throw std::runtime_error(
+          "direct-LC physical-time approach did not reach the pre-minimum tube");
+    }
+    event_graph = project_direct_graph(
+        event_graph, 11, Ival(0), capd::poincare::MinusPlus,
+        order, tolerance);
+    const Vector minimum_image(event_graph.c0_set());
+    const DirectLcScalars minimum_sc =
+        evaluate_direct_lc(minimum_image, family);
+    if (!(minimum_sc.potential.leftBound() >
+          (2 * family.u0).rightBound())) {
+      throw std::runtime_error(
+          "direct-LC first minimum is not uniformly strict");
+    }
+    std::cout << "DIRECT_LC_EVENT_PROBE kind=minimum tp=["
+              << bound_double(minimum_image[9].leftBound()) << ","
+              << bound_double(minimum_image[9].rightBound()) << "]"
+              << " UoverU0=["
+              << bound_double((minimum_sc.potential / family.u0).leftBound())
+              << ","
+              << bound_double((minimum_sc.potential / family.u0).rightBound())
+              << "] hull=" << hull_width(minimum_image, 12) << "\n"
+              << std::flush;
+
+    const Ival pair13_outgoing_times[4] = {
+        Ival(17) / Ival(20), Ival(9) / Ival(10),
+        Ival(19) / Ival(20), Ival(1)};
+    bool first_outgoing_checkpoint = true;
+    for (const Ival& checkpoint_time : pair13_outgoing_times) {
+      event_graph = project_direct_graph(
+          event_graph, 9, checkpoint_time,
+          capd::poincare::MinusPlus, order, tolerance, false,
+          first_outgoing_checkpoint ? 2 : 1);
+      first_outgoing_checkpoint = false;
+      const Vector checkpoint_image(event_graph.c0_set());
+      const DirectLcScalars checkpoint_sc =
+          evaluate_direct_lc(checkpoint_image, family);
+      if (!(checkpoint_sc.i_dot.leftBound() > 0) ||
+          !(checkpoint_sc.selected_radius.leftBound() > 0) ||
+          !(checkpoint_sc.r12_squared.leftBound() > 0) ||
+          !(checkpoint_sc.r23_squared.leftBound() > 0)) {
+        throw std::runtime_error(
+            "direct-LC outgoing checkpoint lost its positive-J tube");
+      }
+      std::cout << "DIRECT_LC_EVENT_PROBE kind=outgoing_checkpoint tp=["
+                << bound_double(checkpoint_image[9].leftBound()) << ","
+                << bound_double(checkpoint_image[9].rightBound()) << "]"
+                << " jd=[" << bound_double(checkpoint_image[11].leftBound())
+                << "," << bound_double(checkpoint_image[11].rightBound())
+                << "] hull=" << hull_width(checkpoint_image, 12) << "\n"
+                << std::flush;
+    }
+
+    event_graph = transform_pair13_to_pair23(event_graph);
+    {
+      const Vector switched(event_graph.c0_set());
+      const DirectLcScalars switch_sc = evaluate_pair23_lc(switched, family);
+      if (!(switch_sc.selected_radius.leftBound() > 0) ||
+          !(switch_sc.r12_squared.leftBound() > 0) ||
+          !(switch_sc.r23_squared.leftBound() > 0) ||
+          !(switch_sc.i_dot.leftBound() > 0)) {
+        throw std::runtime_error(
+            "direct-LC pair-23 switch lost its collision-free positive-J tube");
+      }
+      std::cout << "DIRECT_LC_EVENT_PROBE kind=pair23_switch tp=["
+                << bound_double(switched[9].leftBound()) << ","
+                << bound_double(switched[9].rightBound()) << "]"
+                << " jd=[" << bound_double(switched[11].leftBound())
+                << "," << bound_double(switched[11].rightBound())
+                << "] hull=" << hull_width(switched, 12) << "\n"
+                << std::flush;
+    }
+    const Ival pair23_outgoing_times[6] = {
+        Ival(21) / Ival(20), Ival(11) / Ival(10),
+        Ival(23) / Ival(20), Ival(6) / Ival(5),
+        Ival(5) / Ival(4), Ival(13) / Ival(10)};
+    for (const Ival& checkpoint_time : pair23_outgoing_times) {
+      event_graph = project_direct_graph(
+          event_graph, 9, checkpoint_time,
+          capd::poincare::MinusPlus, order, tolerance, true, 1);
+      const Vector checkpoint_image(event_graph.c0_set());
+      const DirectLcScalars checkpoint_sc =
+          evaluate_pair23_lc(checkpoint_image, family);
+      if (!(checkpoint_sc.i_dot.leftBound() > 0) ||
+          !(checkpoint_sc.selected_radius.leftBound() > 0) ||
+          !(checkpoint_sc.r12_squared.leftBound() > 0) ||
+          !(checkpoint_sc.r23_squared.leftBound() > 0)) {
+        throw std::runtime_error(
+            "pair-23 outgoing checkpoint lost its positive-J tube");
+      }
+      std::cout << "DIRECT_LC_EVENT_PROBE kind=pair23_checkpoint tp=["
+                << bound_double(checkpoint_image[9].leftBound()) << ","
+                << bound_double(checkpoint_image[9].rightBound()) << "]"
+                << " jd=[" << bound_double(checkpoint_image[11].leftBound())
+                << "," << bound_double(checkpoint_image[11].rightBound())
+                << "] hull=" << hull_width(checkpoint_image, 12) << "\n"
+                << std::flush;
+    }
+
+    event_graph = project_direct_graph(
+        event_graph, 11, Ival(0), capd::poincare::PlusMinus,
+        order, tolerance, true);
+    const Vector maximum_image(event_graph.c0_set());
+    const DirectLcScalars maximum_sc =
+        evaluate_pair23_lc(maximum_image, family);
+    if (!(maximum_sc.potential.rightBound() <
+          (2 * family.u0).leftBound()) ||
+        !direct_lc_residual_excludes_brake(maximum_image)) {
+      throw std::runtime_error(
+          "direct-LC first maximum lacks strictness or brake separation");
+    }
+    std::cout << "DIRECT_LC_EVENT_PROBE kind=maximum tp=["
+              << bound_double(maximum_image[9].leftBound()) << ","
+              << bound_double(maximum_image[9].rightBound()) << "]"
+              << " UoverU0=["
+              << bound_double((maximum_sc.potential / family.u0).leftBound())
+              << ","
+              << bound_double((maximum_sc.potential / family.u0).rightBound())
+              << "] z=[" << bound_double(maximum_image[2].leftBound())
+              << "," << bound_double(maximum_image[2].rightBound())
+              << "]+[" << bound_double(maximum_image[3].leftBound())
+              << "," << bound_double(maximum_image[3].rightBound())
+              << "]i P=[" << bound_double(maximum_image[7].leftBound())
+              << "," << bound_double(maximum_image[7].rightBound())
+              << "]x[" << bound_double(maximum_image[8].leftBound())
+              << "," << bound_double(maximum_image[8].rightBound())
+              << "] hull=" << hull_width(maximum_image, 12) << "\n"
+              << std::flush;
+    if (certify_first_maximum) {
+      std::cout << "PASS_TIED_FIRST_MAXIMUM_INTERVAL u=["
+                << p << "/" << q << "," << p2 << "/" << q2 << "]"
+                << " method=CAPD-6.1.0-MPFR"
+                << " capd_commit=731079217a9254ea2948d742df2b170895effe7f"
+                << "\n";
+      return 0;
+    }
+  }
+
+  Map field = make_direct_lc_field();
+  PhaseRunner flow(field, order, tolerance);
+  const Ival t1 = Ival(1) / Ival(5);
+  bool initial_phase = true;
+  long steps = 0;
+  double largest_hull = 0;
+  for (;;) {
+    const Vector before(set);
+    const double w_abs = std::sqrt(std::max(
+        1e-12,
+        bound_double((before[0] * before[0] + before[1] * before[1])
+                         .leftBound())));
+    const double cap =
+        std::max(1.0 / 8000.0, std::min(w_abs / 24.0, 1.0 / 100.0));
+    flow.direct_move(set, cap);
+    ++steps;
+    const Vector enclosure = set.getLastEnclosure();
+    const Vector snapshot(set);
+    const DirectLcScalars sc = evaluate_direct_lc(enclosure, family);
+    if (!(sc.selected_radius.leftBound() > 0)) {
+      std::cerr << "FAIL possible selected collision in direct-LC prefix"
+                << " tp=" << to_double(snapshot[9]) << "\n";
+      return 1;
+    }
+    if (!(sc.r12_squared.leftBound() > 0) ||
+        !(sc.r23_squared.leftBound() > 0)) {
+      std::cerr << "FAIL possible unselected collision in direct-LC prefix"
+                << " tp=" << to_double(snapshot[9]) << "\n";
+      return 1;
+    }
+    if (initial_phase) {
+      if (!(sc.potential.rightBound() < (2 * family.u0).leftBound())) {
+        std::cerr << "FAIL direct-LC initial potential bound"
+                  << " tp=" << to_double(snapshot[9]) << "\n";
+        return 1;
+      }
+      if (snapshot[9].leftBound() > t1.rightBound()) {
+        initial_phase = false;
+      }
+    } else if (contains_zero(sc.i_dot) &&
+               !(sc.potential.leftBound() > family.u0.rightBound()) &&
+               !(sc.kinetic.leftBound() > 0) &&
+               !direct_lc_residual_excludes_brake(enclosure)) {
+      std::cerr << "FAIL uncovered direct-LC brake residual step"
+                << " tp=" << to_double(snapshot[9]) << "\n";
+      return 1;
+    }
+    largest_hull = std::max(largest_hull, hull_width(snapshot, 12));
+    if (steps % 500 == 0) {
+      std::cout << "direct_lc tp=" << to_double(snapshot[9])
+                << " steps=" << steps
+                << " hull_width=" << hull_width(snapshot, 12)
+                << " retries=" << flow.capped_retries << "\n"
+                << std::flush;
+    }
+    if (snapshot[9].leftBound() >= prefix_end) {
+      std::cout << "PASS_TIED_DIRECT_LC_INTERVAL_PREFIX u=["
+                << p << "/" << q << "," << p2 << "/" << q2
+                << "] t_end=" << prefix_end << " reached_tp="
+                << to_double(snapshot[9]) << " steps=" << steps
+                << " max_hull_width=" << largest_hull << "\n";
+      return 0;
+    }
+    if (steps > 200000) {
+      std::cerr << "FAIL direct-LC prefix step limit\n";
+      return 1;
+    }
+  }
+}
+
 }  // namespace
 
 int main(int argc, char** argv) {
-  const int precision = argc > 1 ? std::atoi(argv[1]) : 512;
-  const double tolerance = argc > 2 ? std::atof(argv[2]) : 1e-110;
-  const int order = argc > 3 ? std::atoi(argv[3]) : 80;
+  const bool first_maximum_mode =
+      argc > 1 && std::string(argv[1]) == "ilcmax";
+  const bool direct_lc_mode =
+      argc > 1 &&
+      (std::string(argv[1]) == "ilcprefix" || first_maximum_mode);
+  const bool prefix_mode =
+      argc > 1 && (std::string(argv[1]) == "iprefix" || direct_lc_mode);
+  if (prefix_mode && argc < 7) {
+    std::cerr << "usage: burrau_lc_certificate_capd"
+                 " {iprefix|ilcprefix|ilcmax} P Q P2 Q2 TEND"
+                 " [PREC TOL ORDER]\n";
+    return 2;
+  }
+  const int precision = prefix_mode
+                            ? (argc > 7 ? std::atoi(argv[7]) : 512)
+                            : (argc > 1 ? std::atoi(argv[1]) : 512);
+  const double tolerance = prefix_mode
+                               ? (argc > 8 ? std::atof(argv[8]) : 1e-110)
+                               : (argc > 2 ? std::atof(argv[2]) : 1e-110);
+  const int order = prefix_mode
+                        ? (argc > 9 ? std::atoi(argv[9]) : 80)
+                        : (argc > 3 ? std::atoi(argv[3]) : 80);
+  const double prefix_end = prefix_mode ? std::atof(argv[6]) : 0.0;
   capd::MpFloat::setDefaultPrecision(precision);
   try {
+    Ival u_param = Ival(1) / Ival(3);
+    long p = 1, q = 3, p2 = 1, q2 = 3;
+    if (prefix_mode) {
+      p = std::atol(argv[2]);
+      q = std::atol(argv[3]);
+      p2 = std::atol(argv[4]);
+      q2 = std::atol(argv[5]);
+      const Ival lower = Ival(p) / Ival(q);
+      const Ival upper = Ival(p2) / Ival(q2);
+      u_param = Ival(lower.leftBound(), upper.rightBound());
+      if (!(u_param.leftBound() < u_param.rightBound()) ||
+          !(u_param.leftBound() > 0) ||
+          !(u_param.rightBound() < 1)) {
+        std::cerr << "FAIL invalid Euclid-parameter interval\n";
+        return 2;
+      }
+    }
+    const Family family = make_family(u_param);
+    if (direct_lc_mode) {
+      return run_direct_lc_prefix(
+          u_param, p, q, p2, q2, prefix_end, order, tolerance,
+          first_maximum_mode);
+    }
+    const int construction_rate = prefix_mode ? 20 : 400;
+    const int construction_exponent = prefix_mode ? 10 : 380;
+    const double construction_tolerance =
+        prefix_mode ? std::min(tolerance, 1e-14) : 1e-112;
+    const int construction_order = prefix_mode ? std::max(order, 30) : 70;
     Map physical_field = make_physical_field();
     Map lc_field = make_lc_field();
-    Map exit_field = make_exit_field();
+    Map exit_field = make_exit_field(construction_rate);
     const Ival eps_exit =
-        Ival(-1, 1) * (Ival(1) / Ival(10)) / exp(Ival(380));
+        Ival(-1, 1) * (Ival(1) / Ival(10)) /
+        exp(Ival(construction_exponent));
     for (int i = 1; i <= 8; ++i) {
       exit_field.setParameter("e" + std::to_string(i), eps_exit);
     }
 
-    Vector initial(18);
-    for (int i = 0; i < 18; ++i) initial[i] = Ival(0);
+    Vector initial(19);
+    for (int i = 0; i < 19; ++i) initial[i] = Ival(0);
     initial[0] = Ival(1);
-    initial[2] = Ival(-12) / Ival(175);
-    initial[3] = Ival(12) / Ival(25);
+    initial[18] = u_param;
     Set set(initial);
+    {
+      Map graph_field = make_initial_graph_field();
+      PhaseRunner graph(graph_field, std::max(order, 40), tolerance);
+      const Ival graph_start = set.getCurrentTime();
+      const Ival graph_target = graph_start + Ival(1);
+      while (graph.step(graph_target, set)) {
+      }
+      const Ival duration = set.getCurrentTime() - graph_start;
+      if (!(duration.leftBound() <= 1 && duration.rightBound() >= 1)) {
+        std::cerr << "FAIL initial graph construction duration\n";
+        return 1;
+      }
+      const Vector post_graph(set);
+      if (!(post_graph[18].leftBound() <= u_param.leftBound()) ||
+          !(post_graph[18].rightBound() >= u_param.rightBound())) {
+        std::cerr << "FAIL initial graph lost Euclid parameter\n";
+        return 1;
+      }
+    }
 
     const Ival t1 = Ival(1) / Ival(4);
     const double escape_check_start = 11.5;
@@ -540,6 +1443,11 @@ int main(int argc, char** argv) {
     const Ival rho_in_sq = Ival(1) / Ival(6400);   // enter below 1/80
     const Ival rho_out = Ival(1) / Ival(50);       // exit above 1/50
     const Ival zone_bound = Ival(1) / Ival(4);
+    if (!(zone_bound.rightBound() <
+          (family.a / family.u0).leftBound())) {
+      std::cerr << "FAIL LC zone is not uniformly brake-free\n";
+      return 1;
+    }
 
     long steps = 0;
     long event_steps = 0;
@@ -555,6 +1463,7 @@ int main(int argc, char** argv) {
     std::unique_ptr<PhaseRunner> phys(
         new PhaseRunner(physical_field, order, tolerance));
     Ival phys_target = set.getCurrentTime() + Ival(25);
+    std::unique_ptr<Set> last_inbound_outside;
 
     for (;;) {
       const bool more = phys->step(phys_target, set);
@@ -562,17 +1471,18 @@ int main(int argc, char** argv) {
       const Vector enclosure = set.getLastEnclosure();
       const Vector snapshot(set);
       const Ival tp = snapshot[17];
-      const Scalars sc = evaluate_scalars(enclosure, initial_phase);
+      const Scalars sc = evaluate_scalars(enclosure, family, initial_phase);
 
       if (initial_phase) {
-        if (!(sc.potential.rightBound() < (2 * kU0()).leftBound())) {
+        if (!(sc.potential.rightBound() < (2 * family.u0).leftBound())) {
           std::cerr << "FAIL initial-window potential bound at tp="
                     << to_double(tp) << "\n";
           return 1;
         }
         if (tp.leftBound() > t1.rightBound()) initial_phase = false;
       } else {
-        if (!step_excludes_brake(sc) && !positions_exclude_brake(enclosure)) {
+        if (!step_excludes_brake(sc) &&
+            !positions_exclude_brake(enclosure, family)) {
           std::cerr << "FAIL uncovered physical step at tp=" << to_double(tp)
                     << "\n";
           return 1;
@@ -591,7 +1501,14 @@ int main(int argc, char** argv) {
                   << std::flush;
       }
 
-      if (bound_double(tp.rightBound()) > escape_check_start) {
+      if (prefix_mode && tp.leftBound() >= prefix_end) {
+        certified = true;
+        std::cout << "prefix endpoint reached at tp=" << to_double(tp)
+                  << "\n";
+        break;
+      }
+
+      if (!prefix_mode && bound_double(tp.rightBound()) > escape_check_start) {
         if (escape_certificate_fires(snapshot, &final_margin)) {
           certified = true;
           std::cout << "escape certificate fired at tp=" << to_double(tp)
@@ -600,7 +1517,7 @@ int main(int argc, char** argv) {
           break;
         }
       }
-      if (bound_double(tp.leftBound()) > 14.5) {
+      if (!prefix_mode && bound_double(tp.leftBound()) > 14.5) {
         std::cerr << "FAIL tp exceeded 14.5 without escape certificate\n";
         return 1;
       }
@@ -610,23 +1527,81 @@ int main(int argc, char** argv) {
       }
 
       // Zone entry test on the post-step snapshot.
-      const Ival gsq = pair_g_sq(snapshot);
+      const Ival gsq = pair_g_sq(snapshot, family);
+      const Ival gx_now = snapshot[2] + family.alpha * snapshot[0];
+      const Ival gy_now = snapshot[3] + family.alpha * snapshot[1];
+      const Ival gdx_now = snapshot[6] + family.alpha * snapshot[4];
+      const Ival gdy_now = snapshot[7] + family.alpha * snapshot[5];
+      const Ival g_radial_now =
+          2 * (gx_now * gdx_now + gy_now * gdy_now);
+      if (gsq.leftBound() > rho_in_sq.rightBound() &&
+          g_radial_now.rightBound() < 0) {
+        last_inbound_outside.reset(new Set(set));
+      }
       if (gsq.rightBound() < rho_in_sq.leftBound()) {
+        if (!last_inbound_outside) {
+          std::cerr << "FAIL no certified outside state for LC entry map\n";
+          return 1;
+        }
+        const Ival audited_entry_end = set.getCurrentTime();
+        Set aligned_entry(*last_inbound_outside);
+        Solver entry_section_solver(physical_field, order);
+        entry_section_solver.setAbsoluteTolerance(tolerance);
+        entry_section_solver.setRelativeTolerance(tolerance);
+        const std::string pden = "(1+2*ww-ww^2)";
+        const std::string alpha = "(2*ww/" + pden + ")";
+        NonlinearSection entry_section(
+            std::string(kVars) + "fun:(y1+" + alpha +
+            "*x1)^2+(y2+" + alpha + "*x2)^2-1/6400;");
+        PoincareMap entry_map(
+            entry_section_solver, entry_section,
+            capd::poincare::PlusMinus);
+        entry_map.setMaxReturnTime(10.0);
+        Ival entry_return_time;
+        const Vector entry_image =
+            entry_map(aligned_entry, entry_return_time);
+        if (!(entry_return_time.rightBound() <
+              audited_entry_end.leftBound())) {
+          std::cerr << "FAIL physical audit does not cover LC entry time\n";
+          return 1;
+        }
+        set = Set(entry_image);
+        const Vector entry_snapshot(set);
+        const Ival entry_gsq = pair_g_sq(entry_snapshot, family);
+        const Ival entry_gx =
+            entry_snapshot[2] + family.alpha * entry_snapshot[0];
+        const Ival entry_gy =
+            entry_snapshot[3] + family.alpha * entry_snapshot[1];
+        const Ival entry_gdx =
+            entry_snapshot[6] + family.alpha * entry_snapshot[4];
+        const Ival entry_gdy =
+            entry_snapshot[7] + family.alpha * entry_snapshot[5];
+        const Ival entry_radial =
+            2 * (entry_gx * entry_gdx + entry_gy * entry_gdy);
+        const Ival entry_target = Ival(1) / Ival(6400);
+        if (!(entry_gsq.leftBound() <= entry_target.leftBound() &&
+              entry_gsq.rightBound() >= entry_target.rightBound()) ||
+            !(entry_radial.rightBound() < 0)) {
+          std::cerr << "FAIL LC Poincare entry section or orientation\n";
+          return 1;
+        }
+        last_inbound_outside.reset();
         ++lc_passages;
         if (lc_passages > 60) {
           std::cerr << "FAIL too many LC passages\n";
           return 1;
         }
-        std::cout << "LC entry at tp=" << to_double(tp)
-                  << " |g|^2<" << bound_double(gsq.rightBound())
-                  << " hull_width=" << hull_width(snapshot, 8) << "\n"
+        std::cout << "LC Poincare entry at tp="
+                  << to_double(entry_snapshot[17])
+                  << " |g|^2=" << bound_double(entry_gsq.rightBound())
+                  << " hull_width=" << hull_width(entry_snapshot, 19) << "\n"
                   << std::flush;
 
         // Entry-branch selection by the sign of gx (form B is valid for
         // any g off the positive real axis, i.e. whenever gy != 0 or
         // gx < 0; form A off the negative axis).
-        const Ival gx = snapshot[2] + 3 * snapshot[0] / 7;
-        const Ival gy = snapshot[3] + 3 * snapshot[1] / 7;
+        const Ival gx = entry_snapshot[2] + family.alpha * entry_snapshot[0];
+        const Ival gy = entry_snapshot[3] + family.alpha * entry_snapshot[1];
         bool form_a;
         if (gx.leftBound() > 0) {
           form_a = true;
@@ -638,13 +1613,15 @@ int main(int argc, char** argv) {
           return 1;
         }
         {
-          Map entry_field = make_entry_field(form_a);
+          Map entry_field = make_entry_field(form_a, construction_rate);
           const Ival eps_entry =
-              Ival(-1, 1) * (Ival(1) / Ival(10)) / exp(Ival(380));
+              Ival(-1, 1) * (Ival(1) / Ival(10)) /
+              exp(Ival(construction_exponent));
           for (int i = 1; i <= 9; ++i) {
             entry_field.setParameter("f" + std::to_string(i), eps_entry);
           }
-          PhaseRunner entry(entry_field, 70, 1e-112);
+          PhaseRunner entry(entry_field, construction_order,
+                            construction_tolerance);
           const Vector construction_initial(set);
           const Ival construction_start = set.getCurrentTime();
           const Ival target = construction_start + Ival(1);
@@ -658,7 +1635,9 @@ int main(int argc, char** argv) {
               set.getCurrentTime().leftBound() -
               construction_start.rightBound());
           audit_entry_damped_write(
-              construction_initial, form_a, eps_entry, duration_lower);
+              construction_initial, form_a, family, construction_rate,
+              eps_entry,
+              duration_lower);
           // Guard: the chart block must now be genuinely written.
           const Vector post_entry(set);
           const Ival w2chk = post_entry[8] * post_entry[8] +
@@ -669,7 +1648,7 @@ int main(int argc, char** argv) {
           }
           if (std::getenv("FABLE_DEBUG") != nullptr) {
             std::cout << "entry form_a=" << form_a;
-            for (int i = 8; i < 18; ++i) {
+            for (int i = 8; i < 19; ++i) {
               std::cout << " v" << i << "="
                         << bound_double(post_entry[i].leftBound());
             }
@@ -679,6 +1658,7 @@ int main(int argc, char** argv) {
 
         // LC passage.
         {
+          const Set section_initial(set);
           PhaseRunner lc(lc_field, order, tolerance);
           // Small sigma-steps keep each step's swept enclosure of w well
           // inside a disc that excludes w = 0 (|w| ~ 9e-3 at closest
@@ -732,7 +1712,7 @@ int main(int argc, char** argv) {
               std::cout << "LC exit after " << lc_steps
                         << " sigma-steps at tp=" << to_double(lc_snap[17])
                         << " |g|>" << bound_double(w2.leftBound())
-                        << " hull_width=" << hull_width(lc_snap, 18)
+                        << " hull_width=" << hull_width(lc_snap, 19)
                         << " retries=" << lc.capped_retries << "\n"
                         << std::flush;
               break;
@@ -742,12 +1722,66 @@ int main(int argc, char** argv) {
               return 1;
             }
           }
+
+          // The fixed-sigma audit above proves that every trajectory stays
+          // collision-free until it has crossed |g|=rho_out outward.  It is
+          // deliberately not used as the propagated state: parameter values
+          // cross that section at different sigma times, and retaining a
+          // common clock injects the nearly-flow time-shift direction into
+          // the interval hull.  Recompute the same exit as an oriented
+          // Poincare map from the saved entry set.
+          const Ival audited_end = set.getCurrentTime();
+          set = section_initial;
+          Solver section_solver(lc_field, order);
+          section_solver.setAbsoluteTolerance(tolerance);
+          section_solver.setRelativeTolerance(tolerance);
+          NonlinearSection exit_section(
+              std::string(kVars) +
+              "fun:(wr^2+wi^2)-1/50;");
+          PoincareMap exit_map(
+              section_solver, exit_section, capd::poincare::MinusPlus);
+          exit_map.setMaxReturnTime(10.0);
+          Ival return_time;
+          const Vector section_image = exit_map(set, return_time);
+          if (!(return_time.rightBound() < audited_end.leftBound())) {
+            std::cerr << "FAIL LC collision audit does not cover section time\n";
+            return 1;
+          }
+          set = Set(section_image);
+          const Vector section_state(set);
+          const Ival section_radius =
+              section_state[8] * section_state[8] +
+              section_state[9] * section_state[9];
+          const Ival section_radial =
+              2 * (section_state[8] * section_state[10] +
+                   section_state[9] * section_state[11]);
+          if (!section_radius.contains(Ival(1) / Ival(50)) ||
+              !(section_radial.leftBound() > 0)) {
+            std::cerr << "FAIL LC Poincare exit section or orientation"
+                      << " radius=["
+                      << bound_double(section_radius.leftBound()) << ","
+                      << bound_double(section_radius.rightBound()) << "]"
+                      << " radial=["
+                      << bound_double(section_radial.leftBound()) << ","
+                      << bound_double(section_radial.rightBound()) << "]"
+                      << " return=["
+                      << bound_double(return_time.leftBound()) << ","
+                      << bound_double(return_time.rightBound()) << "]\n";
+            return 1;
+          }
+          std::cout << "LC Poincare exit at tp="
+                    << to_double(section_state[17])
+                    << " hull_width=" << hull_width(section_state, 19)
+                    << " return_time_width="
+                    << bound_double(return_time.rightBound() -
+                                    return_time.leftBound())
+                    << "\n" << std::flush;
         }
 
         // Exit construction after a boundedness check.
         {
           const Vector pre(set);
-          for (int i = 0; i < 18; ++i) {
+          for (int i = 0; i < 19; ++i) {
             if (!(pre[i].rightBound() < 100 && pre[i].leftBound() > -100)) {
               std::cerr << "FAIL exit boundedness check\n";
               return 1;
@@ -757,7 +1791,8 @@ int main(int argc, char** argv) {
           // tolerance caps the precision of the written physical state,
           // so it must sit below the main tolerance.  At order 70 the
           // stiff flow still takes ~1e-3 steps: ~1000 steps total.
-          PhaseRunner exitr(exit_field, 70, 1e-112);
+          PhaseRunner exitr(exit_field, construction_order,
+                            construction_tolerance);
           const Vector construction_initial(set);
           const Ival construction_start = set.getCurrentTime();
           const Ival target = construction_start + Ival(1);
@@ -767,7 +1802,8 @@ int main(int argc, char** argv) {
               set.getCurrentTime().leftBound() -
               construction_start.rightBound());
           audit_exit_damped_write(
-              construction_initial, eps_exit, duration_lower);
+              construction_initial, family, construction_rate, eps_exit,
+              duration_lower);
           const Vector post(set);
           std::cout << "exit construction done tp=" << to_double(post[17])
                     << " hull_width=" << hull_width(post, 8) << "\n"
@@ -788,7 +1824,13 @@ int main(int argc, char** argv) {
     std::cout << "steps=" << steps << " event_steps=" << event_steps
               << " min_event_kinetic=" << min_event_kinetic
               << " final_hull_width=" << hull_width(final_state, 8) << "\n";
-    std::cout << "PASS_BURRAU_LC\n";
+    if (prefix_mode) {
+      std::cout << "PASS_TIED_LC_INTERVAL_PREFIX u=[" << p << "/" << q
+                << "," << p2 << "/" << q2 << "] t_end=" << prefix_end
+                << "\n";
+    } else {
+      std::cout << "PASS_BURRAU_LC\n";
+    }
     return 0;
   } catch (const std::exception& error) {
     std::cerr << "FAIL exception: " << error.what() << "\n";

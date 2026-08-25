@@ -1438,3 +1438,32 @@ it is not a remainder proof.
   $1.9\times10^{-6}$.  This is a useful itinerary obstruction, not a theorem
   about nonperiodicity.  It shows that quantifying the endpoint neighborhood
   will not by itself bridge the compact middle range.
+
+## 2026-08-25: tied first-maximum interval certificate
+
+- Replaced the wrapping physical-coordinate family tube by a
+  correlation-preserving $C^1$ mean-value graph with the Euclid parameter as
+  a frozen state variable.
+- Derived direct pair--13 and pair--23 Levi--Civita fields for arbitrary tied
+  $u$, augmented by $J=\dot I$ through the exactly regularized equation
+  $J_\sigma=|w|^2(2U-4U_0)$.
+- Added the exact pair--13 to pair--23 Jacobi-tree transformation at physical
+  time $t=1$, before the close pair--23 passage.
+- Added whole-step audits on every graph leg for the three pair separations
+  and the prescribed $J$ sign. The initial and post-minimum launch layers use
+  strict Lagrange--Jacobi concavity/convexity until $J$ itself separates from
+  zero.
+- Twice ran the left pinned MPFR/CAPD tile on
+  $[29/100,29001/100000]$, then certified the abutting right tile through
+  $14501/50000$. All runs ended with
+  `PASS_TIED_FIRST_MAXIMUM_INTERVAL`. On the union, the first minimum is
+  enclosed in $[0.758038,0.758045]$ and the first later maximum in
+  $[1.32908,1.33943]$. At the maximum,
+  $\operatorname{Im}z\in[-0.0500738,-0.0113187]$ and
+  $P_x\in[-0.0561842,-0.00917817]$.
+- Seven exact SymPy chart regressions pass, including tied launch
+  reconstruction, both regularized Lagrange--Jacobi fields, the chart switch,
+  and physical velocity reconstruction. Ruff and `git diff --check` pass.
+- Evidence status: **PROVED BY COMPUTER-ASSISTED ARGUMENT** for absence of a
+  brake through the first positive maximum on this real interval. Later
+  maximum branches remain open.

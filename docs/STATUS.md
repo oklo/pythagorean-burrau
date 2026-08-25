@@ -7,7 +7,17 @@ The complete run summary is `RUN_REPORT_2026-08-23.md`.
 Outcome so far: **major partial theorem (Levels D and E), but unresolved full
 conjecture**. The main rational conjecture and strong real conjecture remain
 CONJECTURAL. No rational or real exact second-brake intersection has been
-established.  The newest endpoint advance strengthens the terminal syzygy
+established.  A new pinned MPFR/CAPD $C^1$ graph certificate proves uniformly
+for every real $29/100\le u\le14501/50000$ that the tied trajectory is
+collision-free through its first positive $I$-maximum and that this maximum
+is not a labelled brake.  It retains parameter correlation through pair--13
+and pair--23 Levi--Civita charts; at the maximum both
+$\operatorname{Im}z<-0.0113$ and $P_x<-0.00917$.  This is the first validated
+middle-parameter interval theorem, but later maxima remain uncontrolled, so
+it is not yet a nonperiodicity theorem on that interval.  See
+`MIDDLE_FIRST_MAXIMUM_INTERVAL.md`.
+
+The newest endpoint advance strengthens the terminal syzygy
 threshold to
 $1<Z_J^{\rm syz}<Z_2$ on the complete tied torque-compatible face, by a new
 bidegree-$(27,10)$ exact Bernstein certificate.  The energy critical scale is
