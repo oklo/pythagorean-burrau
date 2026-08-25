@@ -1561,6 +1561,15 @@ it is not a remainder proof.
   Together with the reviewed base tile, this proves the gap-free widened
   theorem $0.29\le u\le0.2900000101$.  The synchronized width-$10^{-9}$
   one-set theorem independently overlaps the first nine campaign tiles.
+- Corrected an economics inconsistency in the accompanying narrative.  At
+  the handoff's quoted rate of seven CPU-minutes per width-$10^{-10}$ tile,
+  covering the width-$2\times10^{-5}$ committed middle tile requires
+  200,000 runs, or 1.4 million CPU-minutes: about 972 CPU-days (2.66
+  CPU-years), not 23 CPU-days.  Eight-way parallelism would reduce wall time
+  to about 122 days but not CPU cost.  The claimed 23 CPU-days would require
+  roughly ten seconds per tile.  This arithmetic does not affect any
+  certificate; it strengthens the case for scalable reconditioning rather
+  than brute-force tiling.
 - Tested a one-set width-$10^{-8}$ repair that projected the sixth exchange
   image onto physical time $t=3.5$, switched to the pair--23 Form-B chart,
   and then projected to $t=3.6$.  All Poincare legs and independent tube
