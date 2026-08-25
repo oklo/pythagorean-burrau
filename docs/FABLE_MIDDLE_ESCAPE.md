@@ -269,10 +269,77 @@ return PASS with margins (inf d, inf rdot, inf Erho, inf margin)
 Any REQUIRE failure returns FAIL (fail closed); PASS proves theorem (T)
 for **every** real $(u,\text{state})$ in the box.
 
-## 7. Reproduction
+## 7. Reusable terminal edge contract
+
+The endgame is packaged as a graph edge, not a bespoke proof.  All
+statements in this section other than the theorem citations are design
+guidance; the numerical values are `ORDINARY NUMERICAL EVIDENCE`.
+
+**Edge definition.**  A terminal edge is the triple
+(terminal physical time $T$, labelling, $\eta$) applied to the correlated
+interval box that the graph holds at the time section $t=T$.  The time
+section is the coordinate section $t_p=T$ on chart coordinate 9 of
+`kDirectLcVars`; it is parameter-independent and unconditionally
+transversal because $dt_p/d\sigma=|w|^2>0$ on collision-free legs.  The
+edge PASSes when `middle_escape_terminal_capd` certifies the box; by
+Theorem C of `docs/FABLE_EVENT_REDUCTION.md` a PASS terminates the
+nonperiodicity proof for every real parameter in the tile.
+
+**Consumption contract.**  The propagated `kDirectLcVars` state
+$(w_r,w_i,z_r,z_i,h,G_x,G_y,P_x,P_y,t_p,u,J)$ maps onto the checker's
+stdin as: eta; pairs for indices 10 (u), 0, 1, 2, 3 (w, z), 5, 6, 7, 8
+(G, P); optional pair for index 4 (h) — required with `--phase-robust`,
+which is the recommended mode.
+
+**Recommended endgame design for the tile $[0.29,0.29002]$:**
+
+1. propagate the pair-{1,3} leg through the fourth minimum
+   ($t\approx3.469$, the deepest passage, $r_{13}\approx0.017$ at
+   $u=0.29$);
+2. switch charts near $t\approx3.55$.  Caution: in the whole window
+   $t\in[3.5,3.7]$ the vector $g_{23}$ lies near the **negative real
+   axis** (family angles $-112^\circ$ to $-175^\circ$, crossing the cut),
+   exactly where the committed Form-A switch map
+   (`make_pair13_to_pair23_map`, $w_r=\sqrt{(|g|+g_x)/2}$) degenerates.
+   The endgame switch needs the Form-B branch
+   $w_i=\sqrt{(|g|-g_x)/2}$, $w_r=g_y/(2w_i)$, valid on $g_x<0$, which
+   holds uniformly across the tile at $t=3.55$--$3.60$;
+3. propagate the pair-{2,3} leg to the terminal time.  The covering on
+   this leg is itself phase-robust: $K$ contains the outer kinetic term
+   $\tfrac12\mu_{\text{out}}|P|^2$ whose interval stays positive under
+   inner-phase wrapping (the inner contribution to the $K$ hull is a sum
+   of squares, never negative), and ordinary numerics show $J=\dot I>0$
+   throughout $t\in[3.5,6]$ dominated by the tight outer variables;
+4. fire the phase-robust edge at $T=9/2$ or $T=5$ with $\eta=4$.
+   Observed uniform wrapping budgets beyond the family hull:
+   $0.019$ at $T=4$, $0.102$ at $T=9/2$, $0.169$ at $T=5$ — later
+   sections are more tolerant because $d$ grows faster than the spreads.
+
+**Adjacent tiles.**  The identical edge (same $T$, same inequalities)
+works on nearby tiles inside $u\in(0.2897,0.2902)$, where the same
+7-event itinerary and pair-{2,3}/escaper-1 hierarchy persist (firing
+times drift $3.56\to4.34$).  Below $\approx0.2896$ the hierarchy flips:
+body 2 is ejected with binary {1,3} (violently at $u=0.2895$: margin
+$+14.5$, $\dot\rho\approx5.4$), served by the mirrored edge
+(`--binary13`).  Near $u\approx0.2896$ sits a deep $\{1,2\}$ close
+passage (separation $\sim10^{-3}$), and above $\approx0.2903$ body 1
+falls back ($\dot\rho<0$ by $t=7.5$ at $u=0.2904$) and the endgame needs
+at least one more cycle — those tiles need longer graphs, not different
+mathematics.
+
+## 8. Reproduction
 
 ```sh
 python -m pytest tests/test_middle_escape_symbolic.py -q   # 17 exact tests
+
+# Interval checker (CAPD NATIVE build), demo box over u in [0.29, 0.29002]:
+sh scripts/fable_run_capd_middle_escape.sh /private/tmp/fable-capd \
+  /private/tmp/fable-capd/build-native --demo
+
+# Ordinary endgame reconnaissance and terminal wrapping budgets:
+PYTHONPATH=. python scripts/probe_middle_escape_endgame.py
+PYTHONPATH=. python scripts/probe_middle_escape_box_tolerance.py \
+  "$TMPDIR"/fable_middle_escape_terminal_capd
 ```
 
 Key tests: `test_lc_field_encodes_newton` (chart = Newton),
