@@ -13,12 +13,14 @@ real parameter
 
 \[
  \boxed{\;\frac{29000000000}{100000000000}\;\le\;u\;\le\;
- \frac{29000000100}{100000000000}\;}
- \qquad\left(\,0.29\le u\le 0.29+10^{-9}\,\right),
+ \frac{29000001010}{100000000000}\;}
+ \qquad\left(\,0.29\le u\le 0.29+1.01\times10^{-8}\,\right),
 \]
 
 the maximal classical solution admits **no second labelled brake at any
-collision-free time**: the tied solution is nonperiodic.  Concretely, the
+collision-free time**: the tied solution is nonperiodic.  The theorem is the
+gap-free union of independently certified closed parameter tiles.  On the
+initial width-$10^{-9}$ subinterval, one synchronized correlated-set
 certificate proves that the solution is collision-free through a terminal
 parameter-dependent time $t_\ast(u)\in[4.30030,4.30033]$, that every
 collision-free time in $[0,t_\ast(u)]$ lies in a verified brake-exclusion
@@ -252,6 +254,38 @@ reviewed base log remains
 CAPD 6.1.0, commit
 `731079217a9254ea2948d742df2b170895effe7f`, MPFR build.
 
+## Widened statement (tiling campaign)
+
+A campaign of 100 adjacent tiles of width $10^{-10}$, each certified by
+an independent run of the same driver at the same parameters
+(100/100 PASS, no failures, no subdivisions), extends the boxed theorem
+contiguously:
+
+\[
+ \textbf{every real}\quad
+ \frac{29}{100}\;\le\;u\;\le\;\frac{2900000101}{10^{10}}
+ \qquad\left(\,0.29\le u\le 0.29+1.01\times10^{-8}\,\right)
+\]
+
+is nonperiodic.  The base tile and the campaign tiles share exact
+rational endpoints, so the union is a closed interval with no gaps.
+Per-tile PASS lines (with their exact rational intervals) are collected
+in `data/fable/middle_escape_endgame_campaign_1e8.log`; the complete
+per-tile logs are archived in
+`data/fable/middle_escape_endgame_campaign_1e8_logs.tar.gz`.  Terminal
+margins vary slightly per tile; each tile's log records its own
+certified bounds.  (The campaign tiles ran the pre-hardening driver
+build.  The subsequent hull-extension and copy-restore changes are
+conservative-only hardening.  Their absence leaves two CAPD-internal
+assumptions, both subsequently checked directly against the pinned CAPD
+source; the hardened base tile was also replayed bit-identically.)
+
+The synchronized one-set theorem independently covers
+$[0.29,0.29+10^{-9}]$ and therefore overlaps the first nine campaign tiles.
+The exact endpoint audit gives 100 requested/PASS interval matches, 100
+width-$10^{-10}$ tiles, and 99 exact internal endpoint matches.  The campaign
+artifact commit is `6a169f24289973a89274d5b51cc82844cd044a12`.
+
 ## Independent review and repairs
 
 An independent adversarial review found no invalidating dynamical or
@@ -281,9 +315,10 @@ $0.0004635487135$ and $5.06905197647$, respectively.
 ## Scope
 
 This theorem does not resolve the conjecture on the full middle tile
-$[0.29,0.29002]$; it closes a nonempty real subinterval and supplies a
+$[0.29,0.29002]$; it closes a width-$1.01\times10^{-8}$ real subinterval and
+supplies a
 reusable, measured pipeline (architecture, step caps, switch maps,
 terminal edge) for widening.  The exchange bottleneck is now crossed by a
 rigorous correlated return map; the next localized engineering target is a
-post-exchange section or a sharper Form-B image that prevents the final
-escape-chart hull growth on wider tiles.
+sharper pre-switch/Form-B image that prevents the final escape-chart hull
+growth on wider single-set tiles.
