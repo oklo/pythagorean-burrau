@@ -139,6 +139,65 @@ checker consuming a *propagated* box should intersect the two enclosures
 (both are rigorous; the intersection is sharper and detects transport
 bugs as an empty intersection).
 
+## 3a. Phase-robust corollary (inner phase not required)
+
+At a fixed terminal physical time the inner-binary phase decorrelates
+across a parameter tile much faster than the outer variables: ordinary
+numerics at $t=4$ over $u\in[0.29,0.29002]$ show $(w,z)$ family spreads of
+order $0.1$--$0.4$ (comparable to $|w|$ itself, so the correlated hull can
+even contain $w=0$) while the $(G,P)$ spreads are $10^{-2}$ and the
+transported $h$ spread is $\sim0.28$.  The following corollary removes
+every $w,z$ condition from the terminal check.
+
+**Corollary (phase-robust terminal box).**  Let a correlated interval box
+at physical time $t_0$, produced by rigorous propagation of the pair-{2,3}
+chart with the transported energy $h$ and with the outer separations
+$r_{12},r_{13}$ verified positive throughout the propagation (the standard
+guard of every graph leg, so the only collision a real solution can have
+suffered is the regularized inner $\{2,3\}$ one), satisfy the strict
+outward-rounded inequalities
+
+\[
+\rho>0,\qquad d=\rho-M/\eta>0,\qquad \dot\rho>0,\qquad E_\rho>0,\qquad
+-\eta-h-\Delta>0,
+\]
+
+using $h$ in place of $E_{23}$ and no condition on $w,z$.  Then for every
+real parameter $u$ in the tile: either the classical solution ended in an
+inner $\{2,3\}$ collision at some time $\le t_0$, or the full conclusion
+of the theorem in §2 holds at $t_0$.  In both alternatives no labelled
+brake exists at any collision-free time $\ge$ the covered prefix.
+
+*Proof.*  Fix a real $u$ in the tile.  If the classical solution ended in
+a $\{2,3\}$ collision at or before $t_0$, the maximal interval $J_u$ is
+contained in the covered prefix and there is nothing more to prove (the
+regularized chart continues through $w=0$ in $\sigma$, so the box may
+contain such post-collision states; they certify nothing and need not).
+Otherwise the solution is collision-free at $t_0$ with $r=|w|^2>0$
+pointwise, and its chart values lie in the box.  The transport identity
+$h\equiv E_{23}$ (an exact identity of the flow, §1) gives
+$e_0=h_0\le\sup h<-\eta-\Delta<-\eta$.  From
+$e_0=\tfrac12|\dot g|^2-M/r$ and $\tfrac12|\dot g|^2\ge0$,
+
+\[
+r_0=\frac{M}{\tfrac12|\dot g|^2-e_0}\le\frac{M}{-e_0}<\frac M\eta=R,
+\]
+
+so $r_0<R$ holds unconditionally — this is the only place the theorem's
+hypotheses touch the inner variables at $t_0$, and it needs no lower bound
+on $r_0$.  All remaining hypotheses ($d>0$, $\dot\rho>0$, $E_\rho>0$, the
+margin (E)) involve only $\rho_0,\dot\rho_0,e_0$ and are certified by the
+box.  The theorem in §2 applies verbatim.  $\blacksquare$
+
+Consequences for the interval program: the terminal leg does **not**
+require resolving the binary phase.  Only $h$, $G$, $P$ (all slowly
+varying) need tight enclosures at the terminal section, so the terminal
+box tolerates the phase wrapping that accumulates after the fourth
+minimum, and parameter subdivision driven by inner-phase decorrelation is
+unnecessary for the terminal check itself.  The checker implements this as
+`--phase-robust` (h required, no algebraic intersection, w/z guards
+skipped, PASS line marked `PHASE_ROBUST`).
+
 ## 4. Collisions and close passages
 
 * The theorem's dichotomy allows one exception: a future **inner**

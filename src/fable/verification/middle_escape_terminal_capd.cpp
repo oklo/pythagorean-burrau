@@ -23,6 +23,21 @@
 // later labelled brake exists (ESCAPE_CRITERIA.md; FABLE_EVENT_REDUCTION.md
 // Theorem C terminal alternative).  Every guard fails closed.
 //
+// Phase-robust mode (--phase-robust): the inner-binary phase decorrelates
+// across a parameter tile long before the terminal time, so the (w, z) hull
+// of a correlated interval box can be wide or even contain w = 0 while the
+// transported pair energy h and the outer variables (G, P) stay tight.  The
+// corollary proved in docs/FABLE_MIDDLE_ESCAPE.md shows the certificate
+// needs only (h, G, P): from h < -eta every surviving solution has
+// r = M/(|gdot|^2/2 - h) <= M/(-h) < M/eta = R unconditionally, and a
+// parameter whose solution actually reaches w = 0 at or before the section
+// ended in an inner {2,3} collision, which is the theorem's tolerated
+// alternative.  In this mode the h pair is REQUIRED, E23 is taken from h
+// alone (no algebraic intersection), the w/z guards are skipped, and the
+// PASS line is marked PHASE_ROBUST.  The (w, z) bounds must still be the
+// enclosure produced by the rigorous propagation of the same box; they are
+// simply not used.
+//
 // Input (stdin, whitespace separated): first eta, then lower/upper bound
 // pairs for u, wr, wi, zr, zi, Gx, Gy, Px, Py, then optionally a pair for
 // the transported pair energy h.  Every token must be an integer, an exact
@@ -94,6 +109,7 @@ Ival parse_exact(const std::string& token) {
 struct Box {
   Ival eta, u, wr, wi, zr, zi, gx, gy, px, py, h;
   bool has_h = false;
+  bool phase_robust = false;
 };
 
 bool read_box(std::istream& in, Box& box) {
@@ -150,18 +166,26 @@ int check(const Box& box) {
   const Ival pair_m = (one + box.u) * (one + box.u) / q;  // M = B + 1
   const Ival total_m = Ival(2) * (one + box.u) / q;       // Mtot
 
-  const Ival r = box.wr * box.wr + box.wi * box.wi;
-  if (!(r.leftBound() > 0)) return fail("pair_distance_may_vanish");
-
-  Ival e23 = (Ival(2) * (box.zr * box.zr + box.zi * box.zi) - pair_m) / r;
-  if (box.has_h) {
-    // Transported h equals E23 along the flow; intersect for sharpness and
-    // as a transport-consistency check.
-    Ival intersection;
-    if (!capd::intervals::intersection(e23, box.h, intersection)) {
-      return fail("h_inconsistent_with_algebraic_E23");
+  Ival e23;
+  if (box.phase_robust) {
+    // Corollary (docs/FABLE_MIDDLE_ESCAPE.md): with h < -eta certified, the
+    // w/z guards are unnecessary; parameters reaching w = 0 ended in the
+    // tolerated inner-collision alternative.
+    if (!box.has_h) return fail("phase_robust_requires_h");
+    e23 = box.h;
+  } else {
+    const Ival r = box.wr * box.wr + box.wi * box.wi;
+    if (!(r.leftBound() > 0)) return fail("pair_distance_may_vanish");
+    e23 = (Ival(2) * (box.zr * box.zr + box.zi * box.zi) - pair_m) / r;
+    if (box.has_h) {
+      // Transported h equals E23 along the flow; intersect for sharpness
+      // and as a transport-consistency check.
+      Ival intersection;
+      if (!capd::intervals::intersection(e23, box.h, intersection)) {
+        return fail("h_inconsistent_with_algebraic_E23");
+      }
+      e23 = intersection;
     }
-    e23 = intersection;
   }
 
   const Ival rho_sq = box.gx * box.gx + box.gy * box.gy;
@@ -192,9 +216,10 @@ int check(const Box& box) {
   std::cout << "inf_inner_margin=" << margin.leftBound() << "\n";
   if (!(margin.leftBound() > 0)) return fail("inner_energy_margin_not_positive");
 
-  std::cout << "PASS_MIDDLE_ESCAPE_TERMINAL eta=[" << box.eta.leftBound()
-            << "," << box.eta.rightBound() << "] u=[" << box.u.leftBound()
-            << "," << box.u.rightBound() << "]\n";
+  std::cout << "PASS_MIDDLE_ESCAPE_TERMINAL"
+            << (box.phase_robust ? "_PHASE_ROBUST" : "") << " eta=["
+            << box.eta.leftBound() << "," << box.eta.rightBound() << "] u=["
+            << box.u.leftBound() << "," << box.u.rightBound() << "]\n";
   return 0;
 }
 
@@ -203,6 +228,9 @@ int check(const Box& box) {
 int main(int argc, char** argv) {
   try {
     Box box;
+    for (int i = 1; i < argc; ++i) {
+      if (std::string(argv[i]) == "--phase-robust") box.phase_robust = true;
+    }
     if (argc > 1 && std::string(argv[1]) == "--demo") {
       // Synthetic certifying box mirroring
       // tests/test_middle_escape_symbolic.py::_certifying_state at
