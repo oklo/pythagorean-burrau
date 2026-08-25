@@ -86,10 +86,14 @@ integration pays tens to $\sim$100, so a parametric-$u$ port of
 `burrau_lc_certificate_capd.cpp` unlocks the entire list, including the
 named small triples $u=1/4,1/5,1/6,1/7$.
 
-### u = 1/3 — triple (4, 3, 5)   [RUN IN PROGRESS]
+### u = 1/3 — triple (4, 3, 5)   [PROVED BY COMPUTER-ASSISTED ARGUMENT]
 
-The classical Burrau problem; see `FABLE_BURRAU_THEOREM.md`.  768 bits,
-tolerance $10^{-80}$, order 60, terminal check from $t=11.5$.
+The classical Burrau problem — the founding case of the conjecture.
+Multi-passage Levi--Civita covering certificate: 640 bits, tolerance
+$10^{-150}$, order 150, zone $1/25$--$1/17$; 5992 covering steps, 18
+LC passages, min event kinetic bound $0.01539$, escape margin
+$\ge0.90661$ at $t_p=12.132$.  Full record and replay command:
+`FABLE_BURRAU_THEOREM.md`; log `data/fable/certificate_burrau_1_3.log`.
 
 ### Queued
 

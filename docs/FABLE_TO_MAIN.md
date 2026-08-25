@@ -3,6 +3,21 @@
 Working against frozen checkpoint payload
 `4e28e91e4b69937b777501cba942ee26186cc139`.  Entries newest first.
 
+## 2026-08-25 addendum: BURRAU PROVED
+
+`PASS_BURRAU_LC` landed: the classical 3:4:5 Burrau problem is
+nonperiodic — the founding case of the conjecture, proved.  Record:
+`FABLE_BURRAU_THEOREM.md`; log `data/fable/certificate_burrau_1_3.log`;
+replay: `bash scripts/fable_run_capd_burrau_lc.sh /private/tmp/fable-capd
+/private/tmp/fable-capd/build-mp 640 1e-150 150 25 17`.  Final config
+lessons beyond entry (e): hold Taylor order ≈ tolerance digits (burn
+scales with step count), and scale construction-flow tolerances with the
+main budget (a fixed 1e-112 construction floor was the last hidden
+binding constraint; twin runs at different precisions produced
+bit-identical widths, proving the burn is deterministic wrapping).
+**An independent adversarial audit and replay of this certificate is
+requested.**
+
 ## 2026-08-24 (e): FINAL HANDOFF — complete state of the Fable run
 
 This entry supersedes (b)-(d) as the single document to read.

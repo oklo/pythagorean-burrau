@@ -4,12 +4,11 @@ Date: 2026-08-23.  Checkpoint payload:
 `4e28e91e4b69937b777501cba942ee26186cc139`.
 Branch: `fable/global-brake-obstruction`.
 
-**Status: near-final.  The $u=1/3$ certificate's calibrated run
-(640 bits, $10^{-150}$, order 135, wide LC zone) is in flight with an
-+11-digit margin over the measured requirement; on `PASS_BURRAU_LC` the
-theorem record in `FABLE_BURRAU_THEOREM.md` is finalized.  Everything
-else below is complete.  The definitive handoff for the live agent is
-entry (e) of `FABLE_TO_MAIN.md`.**
+**Status: FINAL (2026-08-25).  The $u=1/3$ Burrau certificate PASSED
+(`PASS_BURRAU_LC`, escape margin $\ge0.9066$ at $t_p=12.132$); the
+theorem record is `FABLE_BURRAU_THEOREM.md`.  The definitive handoff for
+the live agent is entry (e) of `FABLE_TO_MAIN.md` with the closing
+addendum.**
 
 ## Strongest theorems proved in this run
 
@@ -32,9 +31,10 @@ entry (e) of `FABLE_TO_MAIN.md`.**
    - $(5311,5280,7489)$ — $u=33/80$;
    - $(8319,8200,11681)$ — $u=41/100$;
    - $(33439,32400,46561)$ — $u=81/200$;
-   plus $(72,65,97)$ — $u=5/13$ — and $(171,140,221)$ — $u=5/14$;
-   pinned-CAPD certificates archived in `data/fable/`, replay commands in
-   `FABLE_TRIPLE_CERTIFICATES.md`.  [$u=1/3$: calibrated run in flight.]
+   plus $(72,65,97)$ — $u=5/13$ — and $(171,140,221)$ — $u=5/14$ — and,
+   above all, **$(3,4,5)$ — $u=1/3$, the classical Burrau problem**
+   (`FABLE_BURRAU_THEOREM.md`).  Pinned-CAPD certificates archived in
+   `data/fable/`, replay commands in `FABLE_TRIPLE_CERTIFICATES.md`.
 
 ## Status of the conjectures
 
