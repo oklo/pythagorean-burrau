@@ -561,7 +561,8 @@ int main(int argc, char** argv) {
           for (int i = 1; i <= 9; ++i) {
             entry_field.setParameter("f" + std::to_string(i), eps_entry);
           }
-          PhaseRunner entry(entry_field, 70, 1e-112);
+          PhaseRunner entry(entry_field, order + 20,
+                            tolerance * 1e-15);
           const Ival target = set.getCurrentTime() + Ival(1);
           while (entry.step(target, set)) {
           }
@@ -663,7 +664,7 @@ int main(int argc, char** argv) {
           // tolerance caps the precision of the written physical state,
           // so it must sit below the main tolerance.  At order 70 the
           // stiff flow still takes ~1e-3 steps: ~1000 steps total.
-          PhaseRunner exitr(exit_field, 70, 1e-112);
+          PhaseRunner exitr(exit_field, order + 20, tolerance * 1e-15);
           const Ival target = set.getCurrentTime() + Ival(1);
           while (exitr.step(target, set)) {
           }
