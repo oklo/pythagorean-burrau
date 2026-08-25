@@ -268,10 +268,12 @@ amplitude bound $Z<Z_J^{\rm syz}$ remains at this terminal face, even though
 both thresholds are needed in the interior.  This does **not** supply that
 bound globally: total energy permits syzygy states above $Z_J^{\rm syz}$.
 The new endpoint certificate supplies it only for the continued first
-syzygy in a one-sided near-isosceles neighborhood.  The
-unresolved lemma is a one-sided brake-history estimate preventing an
-interior contact and controlling the limiting amplitude as equality
-$\eta=h$ is approached.
+syzygy in a one-sided near-isosceles neighborhood.  A separate odd-variation
+certificate now proves $\eta<h$ on the complete preceding arc in that same
+existential neighborhood, with forced equality at the event.  The unresolved
+lemma is therefore a brake-history estimate over the remaining parameter
+range, followed by control of the endpoint neighborhood after its first
+syzygy and close base-pair encounter.
 
 The terminal inequality now has an exact coercive formulation.  With
 $D=mn+mq^2+n(1-q)^2$, shape-time variables $\sigma=R_s/R$, $Q=q_s$, and
@@ -294,7 +296,8 @@ syzygy threshold now has the stronger uniform gap $Z_J^{\rm syz}>1$, and a
 pinned endpoint/C1 certificate proves that the continued first syzygy has
 $z<1$ and $Z<1<Z_J^{\rm syz}$ throughout an existential one-sided
 near-isosceles neighborhood.  Thus this terminal obligation is closed there,
-but remains open over the rest of the parameter interval.  Neither side-gap rate
+and the preceding noncontact obligation is closed there as well.  Both remain
+open over the rest of the parameter interval.  Neither side-gap rate
 signs nor $\dot I<0$ can prove it: an explicit velocity ray makes all three
 signs strict while $\mathcal L=O(\varepsilon^2)$.  A successful lemma must
 give a *quantitative* lower bound inherited from the brake history (or prove
@@ -391,9 +394,11 @@ collision.  Its first syzygy is now also rigorously enclosed: $Z_*<1$, while
 the tied symmetry-breaking Poincare derivative satisfies $z_v(1)>18$.  Exact
 corner blow-up and $Z_J^{\rm syz}>1$ therefore close the terminal
 first-syzygy amplitude inequality on a one-sided near-isosceles neighborhood.
-The remaining obligations are the earlier interior no-contact estimate and a
-regularized transverse analysis of how the subsequent base collision unfolds
-when $A\ne B$, including whether any later second-brake branch can emerge.
+The odd endpoint-variation certificate also closes the earlier interior
+no-contact estimate throughout the complete first arc in that neighborhood.
+The remaining endpoint obligation is a regularized transverse analysis of
+how the subsequent base collision unfolds when $A\ne B$, including whether
+any later second-brake branch can emerge.
 
 The full skinny matching obligation through a fixed incoming restricted
 section is now closed. PREPLUNGE_MATCHING.md controls the

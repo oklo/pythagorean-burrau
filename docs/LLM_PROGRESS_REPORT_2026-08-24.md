@@ -1,6 +1,6 @@
 # Pythagorean--Burrau research progress report
 
-Date: 2026-08-24
+Date: 2026-08-24; updated 2026-08-25
 Repository: `/Users/greglaughlin/Projects/pythagorean-burrau`
 Current outcome: **major partial theorem; full conjecture unresolved**
 
@@ -26,7 +26,7 @@ The full rational conjecture is **not proved**. The stronger assertion for
 every real tied parameter is also **not proved**. No rational counterexample
 and no real second-brake intersection have been found.
 
-A difficulty-weighted completion estimate is currently about **47%**, with
+A difficulty-weighted completion estimate is currently about **48%**, with
 rough uncertainty of plus or minus 15 percentage points. This measures
 progress toward the universal theorem, not the amount of code or manuscript
 already written.
@@ -61,11 +61,43 @@ exact tied mass--geometry tangent and proves
 
 Consequently there is an existential one-sided near-isosceles neighborhood
 in which the continued first syzygy is torque-compatible and satisfies
-$Z<1<Z_J^{\rm syz}$.  This is a genuine local structural theorem, but it
-closes only the terminal first-syzygy amplitude obligation.  An earlier
-interior torque contact and all post-encounter recurrence remain open.  See
+$Z<1<Z_J^{\rm syz}$.  This is a genuine local structural theorem.  See
 `docs/ISOSCELES_SYZYGY_THRESHOLD.md` and
 `data/isosceles_syzygy_capd.log`.
+
+### 2026-08-25 update: complete near-isosceles pre-syzygy arc
+
+The earlier interior torque-contact obligation is now also closed in an
+existential one-sided near-isosceles neighborhood.  Reflection and leg-swap
+symmetry reduce the tied endpoint tangent to an eight-dimensional linear
+system.  An independent symbolic derivation from the full Cartesian force
+Jacobian verifies that system and gives
+
+\[
+ g(t):=\partial_v(\eta-h)(1,t)
+ =-\sqrt2-2{a_v\over a}-A(d)Y-B(d),
+ \qquad g(0)={32+8\sqrt2\over7}>0,
+\]
+
+with explicit rational (A,B).  A third pinned native-CAPD full-step cover
+proves (g>0) over the complete open endpoint arc and (g_t<0) near the
+terminal event.  The exact syzygy identity supplies (g(\tau)=0).  The same
+cover proves (d<1) and the symmetry-breaking side coefficient (Y>0).
+
+Analytic extension through launch, division by the symmetry factor (v-1),
+and division by the transverse event factor (t-\tau(v)) therefore prove
+that every sufficiently near-isosceles member satisfies
+
+\[
+ r_{12}>r_{23}>r_{31},\qquad \eta<h,\qquad (\log k)_s<0
+\]
+
+throughout its complete pre-syzygy arc, with forced equality (eta=h) at
+the syzygy.  In particular no second brake occurs on or before that first
+syzygy.  Together with the terminal amplitude theorem, this closes the
+whole first arc locally.  It still does **not** prove nonperiodicity in a
+punctured endpoint neighborhood: the close base-pair encounter and every
+later post-syzygy return remain uncontrolled.
 
 ### Later exact update: the ordered-syzygy face
 
@@ -181,8 +213,10 @@ positive-area interior, followed by forced equality at terminal syzygy.
 Only the sharper $Z_J$ amplitude obligation survives on that face.  The
 actual brake-history inequality $Z<Z_J^{\rm syz}$ is still open globally;
 the newest endpoint certificate closes it only at the continued first
-syzygy in a one-sided near-isosceles neighborhood.  This remains a structural
-boundary theorem rather than a proof of cone persistence.
+syzygy in a one-sided near-isosceles neighborhood.  The 2026-08-25 odd-
+variation certificate additionally proves cone persistence and noncontact
+on the complete preceding arc in that neighborhood; neither result is
+global in the parameter or extends past the first syzygy.
 
 The missing terminal amplitude inequality now has an exact kinetic form.
 Writing $R=r_{12}$, $q=r_{31}/R$,

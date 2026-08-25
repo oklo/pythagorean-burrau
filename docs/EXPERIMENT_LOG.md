@@ -1381,5 +1381,20 @@ it is not a remainder proof.
   and the exact unit gap, this proves $z<1$ and
   $Z<1<Z_J^{\rm syz}$ at the continued first syzygy throughout an
   existential one-sided near-isosceles neighborhood.  The hexadecimal replay
-  is `data/isosceles_syzygy_capd.log`; no claim is made about earlier
-  interior contact or post-encounter recurrence.
+  is `data/isosceles_syzygy_capd.log`.  This first two-part replay alone made
+  no claim about earlier interior contact or post-encounter recurrence; the
+  next calculation resolves the former locally.
+- Derived the reflection-odd endpoint variation in the relative coordinates
+  $(c,b)$ and independently regressed it against the full Cartesian Newton
+  force Jacobian.  Exact differentiation of the rational torque threshold
+  gives
+  $g=\partial_v(\eta-h)=-\sqrt2-2a_v/a-A(d)Y-B(d)$ and the analytic launch
+  value $g(0)=(32+8\sqrt2)/7>0$.  A third pinned CAPD step cover proves
+  $g>6$ on the launch layer, $g>4$ on the compact middle, and $g_t<-6$ on
+  the terminal tail.  It also proves $d<1$ and $Y>0$ throughout.  The exact
+  syzygy identity supplies $g(\tau)=0$; analytic division by $v-1$ and the
+  event graph $t-\tau(v)$ then proves $\eta<h$ and strict side ordering on
+  the complete pre-syzygy arc for every sufficiently near-isosceles member.
+  Thus no second brake occurs on or before that first syzygy.  The result
+  closes the previously open interior contact locally, but all post-syzygy
+  recurrence remains open.

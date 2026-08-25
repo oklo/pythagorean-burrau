@@ -3,10 +3,10 @@
 ## Scope
 
 This note resolves the singular torque-threshold geometry at the
-isosceles-right corner and proves a one-sided local theorem for the continued
-first syzygy.  It does **not** prove nonperiodicity in a punctured endpoint
-neighborhood: the interior torque-contact barrier and the post-encounter
-dynamics remain open.
+isosceles-right corner and proves one-sided local theorems for the complete
+pre-syzygy arc and its terminal syzygy.  It does **not** prove nonperiodicity
+in a punctured endpoint neighborhood: the close base-pair encounter and all
+later post-syzygy dynamics remain open.
 
 Write
 
@@ -177,6 +177,159 @@ The stored hexadecimal enclosure is approximately centered at
 \(18.1537597565\).  The signed-area derivative is also strictly negative, so
 the event is transverse.
 
+## Odd endpoint variation and the interior gap
+
+The same symmetry reduction gives a stronger statement before the event.
+Write the symmetric positions, up to translation, as
+
+\[
+ q_1=(-x,0),\qquad q_2=(x,0),\qquad q_3=(0,H),
+ \qquad r=(x^2+H^2)^{1/2}.
+\]
+
+The odd tied-family tangent has the form
+
+\[
+ q_{1,v}=(\alpha,b),\qquad q_{2,v}=(\alpha,-b),\qquad
+ q_{3,v}=(\gamma,0),\qquad c=\gamma-\alpha.
+\]
+
+At launch
+
+\[
+ (x,H,\dot x,\dot H,c,b,\dot c,\dot b)
+ =\left({1\over2},{1\over2},0,0,{1\over\sqrt2},0,0,0\right).
+\]
+
+Direct variation of the Cartesian Newton equations gives
+
+\[
+ \ddot c={x\over r^3}-{1\over8x^2}
+ +(1+\sqrt2){(2x^2-H^2)c-3Hx b\over r^5},
+\]
+
+\[
+ \ddot b=-{3Hxc\over r^5}
+ +\left({2H^2-x^2\over r^5}-{\sqrt2\over8x^3}\right)b.
+\tag{8}
+\]
+
+These equations were derived independently from the full Cartesian force
+Jacobian in the symbolic regression test.  Put
+
+\[
+ a=H\dot x-x\dot H=\ell_{23},\qquad
+ a_v=c\dot H+b\dot x-x\dot b-H\dot c,
+\]
+
+and define the diagonal normalized side and its odd splitting by
+
+\[
+ d={r\over2x},\qquad Y={xc-Hb\over2xr}.
+\]
+
+Thus, if \(p=r_{23}/r_{12}\) and \(q=r_{31}/r_{12}\), then at the
+endpoint
+
+\[
+ p_v=-Y,\qquad q_v=Y.
+\tag{9}
+\]
+
+Let \(F(v,t)=\eta(v,t)-h(v,t)\), with the torque ratio analytically
+extended through launch.  Since \(m_v=-1/2\), \(n_v=1/2\), differentiation
+of the exact rational threshold gives
+
+\[
+ h_v=A(d)Y+B(d),
+\]
+
+where
+
+\[
+ A(d)=
+ -{4(2\sqrt2d^2+1)(16d^5-5d^3-4d^2+2)
+ \over d(d-1)(4d^2+\sqrt2)^2(d^2+d+1)},
+ \qquad
+ B(d)=-{2\over4d^2+\sqrt2}.
+\tag{10}
+\]
+
+Reflection symmetry gives \(-\ell_{31}=\ell_{23}=a\) on the base orbit,
+while both odd angular-momentum derivatives equal \(a_v\).  Hence
+
+\[
+ g(t):=F_v(1,t)
+ =-\sqrt2-2{a_v\over a}-A(d)Y-B(d).
+\tag{11}
+\]
+
+Although (11) is \(0/0\) at launch, \(a/t\) and \(a_v/t\) extend
+analytically.  Their exact initial rates give
+
+\[
+ \boxed{g(0)={32+8\sqrt2\over7}>0.}
+\tag{12}
+\]
+
+The third pinned CAPD verifier covers the entire endpoint arc in three
+pieces.  On \(0<t\le10^{-3}\), it encloses the integral averages of
+\(a_t\) and \(a_{v,t}\), avoiding division by an interval containing zero,
+and proves \(g>6\).  From \(10^{-3}\) to \(0.43\), direct full-step tubes
+prove \(g>4\).  From \(0.43\) through the unique first-syzygy step they prove
+
+\[
+ g_t<-6.
+\tag{13}
+\]
+
+Every tube also proves \(d<1\) and \(Y>0\); on the compact portion it has
+the rational margins \(d<3/4\) and \(Y>1/2\).
+
+At the continued torque-compatible syzygy, the exact boundary identity is
+\(F(v,\tau(v))=0\).  Also \(F(1,t)=0\) identically by reflection symmetry.
+Differentiating the event identity therefore gives \(g(\tau(1))=0\).
+Together with (13), the interval cover proves
+
+\[
+ \boxed{g(t)>0\quad(0\le t<\tau(1)),\qquad
+ g(\tau(1))=0,\quad g_t(\tau(1))<0.}
+\tag{14}
+\]
+
+The launch quotient is analytic because both relevant pair angular momenta
+are \(t\) times analytic even functions with nonzero leading coefficients.
+Consequently \(F\) is jointly analytic after its launch extension.  Since
+\(F(1,t)=0\), write \(F=(v-1)F_1\), with \(F_1(1,t)=g(t)\).  Equation
+(14) and compactness give \(F_1>0\) away from the terminal event.  Near the
+event, analytic division by its transverse graph gives
+
+\[
+ F(v,t)=(v-1)(t-\tau(v))F_2(v,t),\qquad
+ F_2(1,\tau(1))=g_t(\tau(1))<0.
+\tag{15}
+\]
+
+Both factors \(v-1\) and \(t-\tau(v)\) are negative on the one-sided
+pre-syzygy domain.  Equations (14)--(15) thus prove the following result.
+
+**Near-isosceles pre-syzygy theorem.** There is \(v_0<1\) such that, for
+every \(v_0<v<1\), the tied solution is collision-free and satisfies
+
+\[
+ r_{12}>r_{23}>r_{31},\qquad \eta<h,\qquad (\log k)_s<0
+\]
+
+at every positive time before its continued first syzygy.  At that syzygy
+\(\eta=h\), and the crossing is transverse.  In particular there is no
+second brake on or before this first-syzygy arc.
+
+Indeed, (9), \(Y>0\), and \(d<1\) give the strict side ordering for
+\(v<1\) sufficiently close to one.  Positive area and this ordering keep
+the pair torque signs strict, so a brake is impossible; independently,
+the exact threshold identity makes \(\eta<h\) equivalent to
+\((\log k)_s<0\).  This theorem is **PROVED BY COMPUTER-ASSISTED ARGUMENT**.
+
 ## One-sided local consequence
 
 Smooth dependence and the implicit-function theorem continue this first
@@ -197,16 +350,16 @@ and (1) yields
 
 through an existential one-sided neighborhood of the isosceles endpoint.
 This is **PROVED BY COMPUTER-ASSISTED ARGUMENT** together with exact symbolic
-inequalities.  It closes the *terminal first-syzygy amplitude obligation* in
-that neighborhood.  It does not exclude an earlier interior contact, a later
-second brake, or the close base-pair encounter that unfolds the endpoint
-collision.
+inequalities.  Combined with the pre-syzygy theorem, it closes both the
+interior torque-contact and terminal first-syzygy amplitude obligations in
+that neighborhood.  It does not exclude a later second brake after the close
+base-pair encounter that unfolds the endpoint collision.
 
 ## Reproduction
 
 ```bash
 uv run pytest -q tests/test_mutual_distances.py \
-  -k 'torque_contact_amplitude or critical_scale or endpoint_corner'
+  -k 'torque_contact_amplitude or critical_scale or endpoint_corner or isosceles_pre_syzygy_gap'
 bash scripts/run_capd_isosceles_syzygy.sh \
   /private/tmp/pythagorean-capd \
   /private/tmp/pythagorean-capd/build-native

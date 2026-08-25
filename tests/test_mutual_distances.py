@@ -9,6 +9,7 @@ from src.symbolic.mutual_distances import (
     _radial_gravity_gaps,
     first_gap_static_energy_obstruction,
     initial_log_torque_threshold_gap,
+    isosceles_pre_syzygy_gap_identities,
     log_torque_shape_rate_identity,
     log_torque_shape_threshold,
     log_torque_threshold_contact_terms,
@@ -70,6 +71,245 @@ def test_squared_distance_equations_at_345_launch() -> None:
 
 def test_torque_history_ratio_scalar_ode() -> None:
     assert torque_history_ratio_identity() == 0
+
+
+def test_isosceles_pre_syzygy_gap_reduction_from_cartesian_variation() -> None:
+    data, variables = isosceles_pre_syzygy_gap_identities()
+    (
+        x,
+        height,
+        velocity_x,
+        velocity_height,
+        c,
+        b,
+        velocity_c,
+        velocity_b,
+        d,
+        side_variation,
+    ) = variables
+    root_two = sp.sqrt(2)
+    radius = sp.sqrt(x**2 + height**2)
+
+    tied_parameter = sp.symbols("v", real=True)
+    euclid_parameter = (root_two - 1) * tied_parameter
+    tied_mass_1 = (1 - euclid_parameter**2) / (1 + euclid_parameter**2)
+    tied_mass_2 = 2 * euclid_parameter / (1 + euclid_parameter**2)
+    tied_apex_x = (tied_mass_2**2 - tied_mass_1**2) / 2
+    tied_apex_y = tied_mass_1 * tied_mass_2
+    endpoint_substitution = {tied_parameter: 1}
+    assert sp.simplify(tied_mass_1.subs(endpoint_substitution) - 1 / root_two) == 0
+    assert sp.simplify(tied_mass_2.subs(endpoint_substitution) - 1 / root_two) == 0
+    assert sp.simplify(
+        sp.diff(tied_mass_1, tied_parameter).subs(endpoint_substitution)
+        + sp.Rational(1, 2)
+    ) == 0
+    assert sp.simplify(
+        sp.diff(tied_mass_2, tied_parameter).subs(endpoint_substitution)
+        - sp.Rational(1, 2)
+    ) == 0
+    assert sp.simplify(
+        sp.diff(tied_apex_x, tied_parameter).subs(endpoint_substitution)
+        - 1 / root_two
+    ) == 0
+    assert sp.simplify(
+        sp.diff(tied_apex_y, tied_parameter).subs(endpoint_substitution)
+    ) == 0
+    swapped_parameter = (
+        (1 - euclid_parameter)
+        / (1 + euclid_parameter)
+        / (root_two - 1)
+    )
+    assert sp.simplify(swapped_parameter.subs(endpoint_substitution) - 1) == 0
+    assert sp.simplify(
+        sp.diff(swapped_parameter, tied_parameter).subs(endpoint_substitution)
+        + 1
+    ) == 0
+
+    positions = (
+        sp.Matrix([-x, 0]),
+        sp.Matrix([x, 0]),
+        sp.Matrix([0, height]),
+    )
+    position_variations = (
+        sp.Matrix([0, b]),
+        sp.Matrix([0, -b]),
+        sp.Matrix([c, 0]),
+    )
+    masses = (1 / root_two, 1 / root_two, sp.Integer(1))
+    mass_variations = (sp.Rational(-1, 2), sp.Rational(1, 2), sp.Integer(0))
+
+    def acceleration(body: int) -> sp.Matrix:
+        result = sp.zeros(2, 1)
+        for other in range(3):
+            if body == other:
+                continue
+            displacement = positions[other] - positions[body]
+            distance = sp.sqrt(displacement.dot(displacement))
+            result += masses[other] * displacement / distance**3
+        return sp.simplify(result)
+
+    def acceleration_variation(body: int) -> sp.Matrix:
+        result = sp.zeros(2, 1)
+        for other in range(3):
+            if body == other:
+                continue
+            displacement = positions[other] - positions[body]
+            displacement_variation = (
+                position_variations[other] - position_variations[body]
+            )
+            distance = sp.sqrt(displacement.dot(displacement))
+            gravity_jacobian = (
+                sp.eye(2) / distance**3
+                - 3 * displacement * displacement.T / distance**5
+            )
+            result += (
+                mass_variations[other] * displacement / distance**3
+                + masses[other] * gravity_jacobian * displacement_variation
+            )
+        return sp.simplify(result)
+
+    accelerations = tuple(acceleration(body) for body in range(3))
+    variations = tuple(acceleration_variation(body) for body in range(3))
+    assert sp.simplify(
+        (accelerations[1][0] - accelerations[0][0]) / 2
+        - data["acceleration_x"]
+    ) == 0
+    assert sp.simplify(
+        accelerations[2][1] - accelerations[0][1]
+        - data["acceleration_height"]
+    ) == 0
+    assert sp.simplify(
+        variations[2][0] - variations[0][0] - data["acceleration_c"]
+    ) == 0
+    assert sp.simplify(variations[0][1] - data["acceleration_b"]) == 0
+    assert sp.simplify(variations[2][1]) == 0
+
+    base_velocities = (
+        sp.Matrix([-velocity_x, 0]),
+        sp.Matrix([velocity_x, 0]),
+        sp.Matrix([0, velocity_height]),
+    )
+    velocity_variations = (
+        sp.Matrix([0, velocity_b]),
+        sp.Matrix([0, -velocity_b]),
+        sp.Matrix([velocity_c, 0]),
+    )
+
+    def cross(left: sp.Matrix, right: sp.Matrix) -> sp.Expr:
+        return left[0] * right[1] - left[1] * right[0]
+
+    def pair_angular_momentum(first: int, second: int) -> sp.Expr:
+        return cross(
+            positions[second] - positions[first],
+            base_velocities[second] - base_velocities[first],
+        )
+
+    def pair_angular_variation(first: int, second: int) -> sp.Expr:
+        return cross(
+            position_variations[second] - position_variations[first],
+            base_velocities[second] - base_velocities[first],
+        ) + cross(
+            positions[second] - positions[first],
+            velocity_variations[second] - velocity_variations[first],
+        )
+
+    ell_23 = pair_angular_momentum(1, 2)
+    ell_31 = pair_angular_momentum(2, 0)
+    ell_23_variation = pair_angular_variation(1, 2)
+    ell_31_variation = pair_angular_variation(2, 0)
+    assert sp.factor(ell_23 - data["angular_momentum"]) == 0
+    assert sp.factor(ell_31 + data["angular_momentum"]) == 0
+    assert sp.factor(ell_23_variation - data["angular_variation"]) == 0
+    assert sp.factor(ell_31_variation - data["angular_variation"]) == 0
+
+    epsilon = sp.symbols("epsilon", real=True)
+    endpoint_mass = 1 / root_two
+    history_ratio = (
+        (endpoint_mass - epsilon / 2)
+        / (endpoint_mass + epsilon / 2)
+        * -(
+            -data["angular_momentum"]
+            + epsilon * data["angular_variation"]
+        )
+        / (
+            data["angular_momentum"]
+            + epsilon * data["angular_variation"]
+        )
+    )
+    assert sp.factor(
+        sp.diff(history_ratio, epsilon).subs(epsilon, 0)
+        - data["history_variation"]
+    ) == 0
+
+    expected_side_coefficient = sp.factor(
+        -4
+        * (2 * root_two * d**2 + 1)
+        * (16 * d**5 - 5 * d**3 - 4 * d**2 + 2)
+        / (d * (d - 1) * (4 * d**2 + root_two) ** 2 * (d**2 + d + 1))
+    )
+    expected_mass_term = -2 / (4 * d**2 + root_two)
+    expected_side_derivative = sp.factor(
+        4
+        * (
+            128 * root_two * d**12
+            - 120 * root_two * d**10
+            + 128 * root_two * d**9
+            - 80 * d**8
+            - 16 * root_two * d**8
+            + 96 * root_two * d**7
+            + 288 * d**7
+            + 27 * root_two * d**6
+            + 40 * d**5
+            + 56 * root_two * d**5
+            - 48 * root_two * d**4
+            - 2 * root_two * d**3
+            - 32 * d**2
+            - 4 * root_two * d**2
+            - 2 * root_two
+        )
+        / (
+            d**2
+            * (d - 1) ** 2
+            * (4 * d**2 + root_two) ** 3
+            * (d**2 + d + 1) ** 2
+        )
+    )
+    expected_mass_derivative = 16 * d / (4 * d**2 + root_two) ** 2
+    _, threshold, threshold_variables = log_torque_shape_threshold()
+    mass_1, mass_2, side_23, side_31 = threshold_variables
+    assert sp.factor(
+        threshold.subs(
+            {
+                mass_1: endpoint_mass,
+                mass_2: endpoint_mass,
+                side_23: d,
+                side_31: d,
+            }
+        )
+        - 1
+    ) == 0
+    assert sp.factor(
+        data["threshold_side_coefficient"] - expected_side_coefficient
+    ) == 0
+    assert sp.factor(data["threshold_mass_term"] - expected_mass_term) == 0
+    assert sp.factor(
+        data["threshold_side_derivative"] - expected_side_derivative
+    ) == 0
+    assert sp.factor(
+        data["threshold_mass_derivative"] - expected_mass_derivative
+    ) == 0
+    assert sp.simplify(
+        data["launch_gap"] - sp.Rational(32, 7) - 8 * root_two / 7
+    ) == 0
+
+    geometric_side_variation = (x * c - height * b) / (2 * x * radius)
+    assert sp.factor(
+        data["threshold_variation"].subs(
+            side_variation, geometric_side_variation
+        )
+        - expected_side_coefficient * geometric_side_variation
+        - expected_mass_term
+    ) == 0
 
 
 def test_log_torque_rate_has_an_exact_algebraic_history_threshold() -> None:

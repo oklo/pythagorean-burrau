@@ -929,8 +929,51 @@ slope $\lambda_*=z_v(1)>18>0$.  Smooth event continuation therefore yields
 
 at the continued first syzygy for all $v<1$ in some one-sided neighborhood
 of the isosceles endpoint.  This closes the terminal first-syzygy amplitude
-obligation locally, but not an earlier interior contact or post-encounter
-recurrence.  The complete certificate is in
+obligation locally.
+
+A third pinned interval calculation closes the preceding interior contact
+in the same one-sided neighborhood.  For the odd tied tangent write
+
+\[
+ a=H\dot x-x\dot H,\qquad
+ a_v=c\dot H+b\dot x-x\dot b-H\dot c,
+\]
+
+\[
+ d={\sqrt{x^2+H^2}\over2x},\qquad
+ Y={xc-Hb\over2x\sqrt{x^2+H^2}}.
+\]
+
+Exact differentiation of the torque threshold gives
+
+\[
+ g(t):=\partial_v(\eta-h)(1,t)
+ =-\sqrt2-2{a_v\over a}-A(d)Y-B(d),
+\]
+
+where the explicit rational functions $A,B$ are recorded in
+`ISOSCELES_SYZYGY_THRESHOLD.md`.  Full Cartesian variational regression
+independently verifies the reduced eight-dimensional system and every
+threshold coefficient.  The launch quotient extends analytically and
+
+\[
+ g(0)={32+8\sqrt2\over7}>0.
+\]
+
+CAPD step tubes prove $g>0$ on the complete open endpoint arc and
+$g_t<0$ on a terminal neighborhood; the exact syzygy identity gives
+$g(\tau(1))=0$.  The same cover proves $d<1$ and $Y>0$.  Analytic division
+first by $v-1$ and then by the transverse event factor $t-\tau(v)$ yields
+
+\[
+ \boxed{\eta<h\quad(0<t<\tau(v))}
+\]
+
+for every $v<1$ sufficiently close to one.  It also gives the strict side
+ordering $r_{12}>r_{23}>r_{31}$ and hence excludes every second brake on or
+before this first-syzygy arc.  Thus both the pre-syzygy noncontact and the
+terminal amplitude obligations are locally closed.  Post-encounter
+recurrence remains open.  The complete certificate is in
 `ISOSCELES_SYZYGY_THRESHOLD.md`.
 
 The exact kinetic-energy decomposition identifies that history theorem more

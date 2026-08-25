@@ -164,6 +164,158 @@ def log_torque_shape_threshold() -> tuple[
 
 
 @lru_cache(maxsize=1)
+def isosceles_pre_syzygy_gap_identities() -> tuple[
+    dict[str, sp.Expr], tuple[sp.Symbol, ...]
+]:
+    """Return the exact endpoint odd variation and torque-contact gap.
+
+    The symmetric orbit is represented by the half-base ``x`` and relative
+    height ``H``.  Its odd tied-family variation is
+
+    ``dq1=(alpha,b), dq2=(alpha,-b), dq3=(gamma,0)``, ``c=gamma-alpha``.
+
+    At equal masses put ``a=ell23=H*x_dot-x*H_dot`` and let ``a_v`` be its
+    tied-parameter derivative.  The returned ``gap`` is
+    ``d(eta-h_threshold)/dv`` at the isosceles endpoint.  The threshold
+    coefficients are obtained by differentiating the generic exact
+    threshold, rather than by inserting the closed formulas used by the
+    interval verifier.
+    """
+    x, height = sp.symbols("x H", positive=True)
+    velocity_x, velocity_height = sp.symbols("vx vH", real=True)
+    c, b, velocity_c, velocity_b = sp.symbols("c b vc vb", real=True)
+    d, side_variation = sp.symbols("d Y", positive=True)
+    root_two = sp.sqrt(2)
+    endpoint_mass = 1 / root_two
+    radius = sp.sqrt(x**2 + height**2)
+    radius_cubed = radius**3
+    radius_fifth = radius**5
+
+    acceleration_x = -1 / (4 * root_two * x**2) - x / radius_cubed
+    acceleration_height = -(1 + root_two) * height / radius_cubed
+    acceleration_c = (
+        x / radius_cubed
+        - 1 / (8 * x**2)
+        + (1 + root_two)
+        * (2 * x**2 - height**2)
+        * c
+        / radius_fifth
+        - 3
+        * (1 + root_two)
+        * height
+        * x
+        * b
+        / radius_fifth
+    )
+    acceleration_b = (
+        -3 * height * x * c / radius_fifth
+        + ((2 * height**2 - x**2) / radius_fifth - root_two / (8 * x**3))
+        * b
+    )
+
+    angular_momentum = height * velocity_x - x * velocity_height
+    angular_variation = (
+        c * velocity_height
+        + b * velocity_x
+        - x * velocity_b
+        - height * velocity_c
+    )
+    angular_momentum_rate = sp.factor(
+        height * acceleration_x - x * acceleration_height
+    )
+    angular_variation_rate = sp.factor(
+        c * acceleration_height
+        + b * acceleration_x
+        - x * acceleration_b
+        - height * acceleration_c
+    )
+
+    _, threshold, threshold_variables = log_torque_shape_threshold()
+    mass_1, mass_2, side_23, side_31 = threshold_variables
+    diagonal = {
+        mass_1: endpoint_mass,
+        mass_2: endpoint_mass,
+        side_23: d,
+        side_31: d,
+    }
+    threshold_side_coefficient = sp.factor(
+        (-sp.diff(threshold, side_23) + sp.diff(threshold, side_31)).subs(
+            diagonal
+        )
+    )
+    threshold_mass_term = sp.factor(
+        (
+            -sp.diff(threshold, mass_1) / 2
+            + sp.diff(threshold, mass_2) / 2
+        ).subs(diagonal)
+    )
+    threshold_variation = sp.factor(
+        threshold_side_coefficient * side_variation + threshold_mass_term
+    )
+    threshold_side_derivative = sp.factor(
+        sp.diff(threshold_side_coefficient, d)
+    )
+    threshold_mass_derivative = sp.factor(sp.diff(threshold_mass_term, d))
+    history_variation = sp.factor(
+        -root_two - 2 * angular_variation / angular_momentum
+    )
+    gap = sp.factor(history_variation - threshold_variation)
+
+    initial_values = {
+        x: sp.Rational(1, 2),
+        height: sp.Rational(1, 2),
+        velocity_x: 0,
+        velocity_height: 0,
+        c: endpoint_mass,
+        b: 0,
+        velocity_c: 0,
+        velocity_b: 0,
+        d: endpoint_mass,
+        side_variation: sp.Rational(1, 2),
+    }
+    launch_gap = sp.factor(
+        -root_two
+        - 2
+        * angular_variation_rate.subs(initial_values)
+        / angular_momentum_rate.subs(initial_values)
+        - threshold_variation.subs(initial_values)
+    )
+
+    return (
+        {
+            "acceleration_x": acceleration_x,
+            "acceleration_height": acceleration_height,
+            "acceleration_c": acceleration_c,
+            "acceleration_b": acceleration_b,
+            "angular_momentum": angular_momentum,
+            "angular_variation": angular_variation,
+            "angular_momentum_rate": angular_momentum_rate,
+            "angular_variation_rate": angular_variation_rate,
+            "threshold_side_coefficient": threshold_side_coefficient,
+            "threshold_mass_term": threshold_mass_term,
+            "threshold_variation": threshold_variation,
+            "threshold_side_derivative": threshold_side_derivative,
+            "threshold_mass_derivative": threshold_mass_derivative,
+            "history_variation": history_variation,
+            "gap": gap,
+            "launch_gap": launch_gap,
+        },
+        (
+            x,
+            height,
+            velocity_x,
+            velocity_height,
+            c,
+            b,
+            velocity_c,
+            velocity_b,
+            d,
+            side_variation,
+        ),
+    )
+
+
+@lru_cache(maxsize=1)
 def log_torque_shape_rate_identity() -> sp.Expr:
     """Residual in the exact algebraic first-derivative threshold identity."""
     coefficient, threshold, variables = log_torque_shape_threshold()

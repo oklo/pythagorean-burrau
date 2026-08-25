@@ -1,6 +1,6 @@
 # Status
 
-Date: 2026-08-24
+Date: 2026-08-25
 
 The complete run summary is `RUN_REPORT_2026-08-23.md`.
 
@@ -21,7 +21,14 @@ syzygy is unique, transverse, collision-free, and has $Z_*<1$.  A separate
 $z_v(1)>18$, hence the continued first syzygy lies on the torque-compatible
 side and satisfies $Z<1<Z_J^{\rm syz}$ throughout some one-sided
 near-isosceles neighborhood.  This closes the terminal amplitude obligation
-locally, not the earlier interior contact or later post-encounter dynamics.
+locally.  A third pinned endpoint-tangent cover now proves
+$\partial_v(\eta-h)(1,t)>0$ on the complete open pre-syzygy arc, with a
+simple terminal zero, while also proving the side-splitting and ordered-cone
+signs.  Analytic launch and event factorization therefore give $\eta<h$ and
+exclude a second brake throughout the complete first arc for every
+sufficiently near-isosceles member.  The remaining endpoint problem begins
+only after the first syzygy, at the close base-pair encounter and later
+post-encounter dynamics.
 Details and the replay are in `ISOSCELES_SYZYGY_THRESHOLD.md`.
 
 A new exact shape-cone calculation now proves that gravity points
