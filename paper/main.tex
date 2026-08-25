@@ -31,7 +31,10 @@ gives a finite validated-cover criterion.  This criterion has certified five
 named primitive triples, but it does not yet control all maximum-event
 branches over the parameter curve.  We
 also prove that the real isosceles-right endpoint has no second brake and ends
-in finite collision. At the opposite singular endpoint, a Levi--Civita
+in finite collision.  Exact Bernstein inequalities and a validated $C^1$
+first-syzygy calculation additionally prove the terminal torque-amplitude
+condition throughout a one-sided near-isosceles neighborhood, though not the
+earlier interior contact or post-encounter dynamics. At the opposite singular endpoint, a Levi--Civita
 argument proves that every sufficiently skinny member avoids the limiting
 heavy-pair collision on its first encounter, with explicit miss-distance and
 angular-momentum asymptotics. We derive the later rectilinear restricted
@@ -2751,7 +2754,7 @@ satisfy
 The quotient $Z_J=P/S$ has a path-independent rational extension
 $Z_J^{\rm syz}$ to this face, and
 \[
- \boxed{0<Z_J^{\rm syz}<Z_2}.
+ \boxed{1<Z_J^{\rm syz}<Z_2}.
 \]
 \end{theorem}
 
@@ -2774,22 +2777,23 @@ where $N_J,D_J$ are explicit polynomials of $q$ of degree five.  Moreover
 Set
 \[
  u=(\sqrt2-1)v,qquad q={nz\over m+n},qquad
- 0<v\le1,quad0<z<1.
+ 0<v\le1,\quad 0<z<1.
 \]
 After clearing positive mass and mass-sum denominators, the cores
-$N_J,D_J,E_2,Q$ have bidegrees
+$N_J,D_J,E_2,Q$ and the numerator of $Z_J^{\rm syz}-1$ have bidegrees
 \[
- (11,5),\quad(12,5),\quad(11,3),\quad(26,10).
+ (11,5),\quad(12,5),\quad(11,3),\quad(26,10),\quad(27,10).
 \]
 Their exact $\mathbb Q(\sqrt2)$ tensor-Bernstein coefficients consist,
 respectively, of
 \[
- 71-/1\,0,qquad71+/7\,0,qquad39-/9\,0,qquad274+/23\,0.
+ 71-/1\,0,\quad71+/7\,0,\quad39-/9\,0,\quad274+/23\,0,
+ \quad285+/23\,0.
 \]
 Thus $N_J<0$, $D_J>0$, $E_2<0$, and $Q>0$ in the open square.  On $v=1$
 the edge coefficients have the same strict sign except only at $z=1$, so
 the conclusion includes the equal-mass edge.  Since $q<1/2$, the remaining
-factors have manifest signs.  Hence $Z_J^{\rm syz}>0$, $C_2<0$, and
+factors have manifest signs.  Hence $Z_J^{\rm syz}>1$, $C_2<0$, and
 $Z_2-Z_J^{\rm syz}>0$; the gravitational factor in $Z_2$ is positive by the
 ordered-cone gravity theorem.
 \end{proof}
@@ -2800,6 +2804,59 @@ syzygy.  Although the interior needs the appropriate minimum of two
 thresholds, only $Z<Z_J^{\rm syz}$ remains as the terminal amplitude
 obligation.  This theorem orders the barriers but does not prove that
 brake-generated histories obey that inequality.
+
+The threshold geometry at the equal-mass corner can be resolved exactly.
+For fixed tied masses, $\partial_qR_J<0$ on the torque-compatible syzygy
+face.  Its derivative denominator is
+$q^2(1-q)^2(m^2n^2+1)D_J^2>0$; the cleared bidegree-$(30,12)$ numerator has
+374 negative and 29 zero exact Bernstein coefficients.  At the singular
+corner put $v=1-\epsilon$, $z=1-\lambda\epsilon$, and
+$\kappa=(28-3\sqrt2)/11$.  Then
+\[
+ \lim Z_J^{\rm syz}
+ ={Z_0+\kappa\lambda Z_\infty\over1+\kappa\lambda},\qquad
+ \lim R_J
+ ={R_0+\kappa\lambda R_\infty\over1+\kappa\lambda},
+\]
+where
+\[
+\begin{aligned}
+Z_0&={21(1+\sqrt2)\over22},&
+Z_\infty&={3836+2709\sqrt2\over6128},\\
+R_0&={11+2\sqrt2\over55},&
+R_\infty&={-361+2273\sqrt2\over3830}.
+\end{aligned}
+\]
+Thus $Z_0>Z_\infty>1$ and $R_0<R_\infty$; the two iterated corner limits
+do not commute.
+
+\begin{theorem}[Near-isosceles terminal amplitude]
+There exists $v_0<1$ such that the continued first syzygy of every tied
+member with $v_0<v<1$ lies on the torque-compatible ordered face and
+satisfies
+\[
+ Z<1<Z_J^{\rm syz}.
+\]
+\end{theorem}
+\begin{proof}
+In the symmetric endpoint reduction, a pinned interval Taylor cover proves
+that the first crossing $h=0$ is unique, transverse and collision-free, and
+that $Z_*=x\dot h^2/2<1$.  A separate $C^1$ Poincare-map enclosure propagates
+the exact tied launch tangent
+$(m_{1,v},m_{2,v},q_{3x,v})=(-1/2,1/2,1/\sqrt2)$ and proves, for
+$z(v)=q(v)(m(v)+n(v))/n(v)$,
+\[
+ z_v(1)>18>0.
+\]
+The implicit-function theorem therefore gives
+$z(v)=1-z_v(1)(1-v)+O((1-v)^2)<1$ and $Z(v)<1$ for $v<1$ sufficiently
+close to one.  The uniform exact bound $Z_J^{\rm syz}>1$ completes the
+claim.
+\end{proof}
+
+This theorem closes the terminal first-syzygy amplitude condition in a
+one-sided endpoint neighborhood.  It does not exclude an earlier interior
+contact or a later brake after the unfolded base-pair encounter.
 
 The remaining terminal inequality admits a useful exact coercive form.
 Restore $R=r_{12}$ and set
@@ -2828,7 +2885,7 @@ If
 \]
 then
 \[
- Z<Z_J^{\rm syz}quad\Longleftrightarrow\quad
+ Z<Z_J^{\rm syz}\quad\Longleftrightarrow\quad
  2K_\parallel R>2U_0(R_J-R).
 \]
 

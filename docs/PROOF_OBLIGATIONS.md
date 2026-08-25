@@ -255,18 +255,20 @@ body 3 in the middle, the collinear $P=L=0$ constraints force
 Thus the desired noncontact theorem must be stated as $\eta<h$ on the
 positive-area interior, with forced equality allowed at terminal syzygy.
 Both $P$ and $S$ contain the same area-squared factor, so $Z_J=P/S$ has a
-path-independent rational extension there.  Four exact bivariate Bernstein
+path-independent rational extension there.  Five exact bivariate Bernstein
 certificates prove
 
 \[
- 0<Z_J^{\rm syz}<Z_2
+ 1<Z_J^{\rm syz}<Z_2
 \]
 
 for the complete tied torque-compatible face, including the equal-mass edge
 away from its $z=1$ endpoint.  Therefore only the sharper torque-contact
 amplitude bound $Z<Z_J^{\rm syz}$ remains at this terminal face, even though
 both thresholds are needed in the interior.  This does **not** supply that
-bound: total energy permits syzygy states above $Z_J^{\rm syz}$.  The
+bound globally: total energy permits syzygy states above $Z_J^{\rm syz}$.
+The new endpoint certificate supplies it only for the continued first
+syzygy in a one-sided near-isosceles neighborhood.  The
 unresolved lemma is a one-sided brake-history estimate preventing an
 interior contact and controlling the limiting amplitude as equality
 $\eta=h$ is approached.
@@ -287,7 +289,12 @@ energy gives $FZ+\mathcal L=2(U-U_0R)$.  Therefore
  R_J={U-FZ_J^{\rm syz}/2\over U_0}.
 \]
 
-This is the smallest current terminal obligation.  Neither side-gap rate
+Globally, this is the smallest current terminal obligation.  The exact
+syzygy threshold now has the stronger uniform gap $Z_J^{\rm syz}>1$, and a
+pinned endpoint/C1 certificate proves that the continued first syzygy has
+$z<1$ and $Z<1<Z_J^{\rm syz}$ throughout an existential one-sided
+near-isosceles neighborhood.  Thus this terminal obligation is closed there,
+but remains open over the rest of the parameter interval.  Neither side-gap rate
 signs nor $\dot I<0$ can prove it: an explicit velocity ray makes all three
 signs strict while $\mathcal L=O(\varepsilon^2)$.  A successful lemma must
 give a *quantitative* lower bound inherited from the brake history (or prove
@@ -380,9 +387,13 @@ accumulating resonance layer. The remaining skinny obligation is to control
 later turns and classify the exact finite-$B$ separatrix phase. At
 $u=\sqrt2-1$, the exact
 trajectory is now proved to have monotone shrinking half-base and finite
-collision.  The remaining obligation is a regularized transverse analysis of
-how that collision unfolds when $A\ne B$ and whether any second-brake branch
-can emerge.
+collision.  Its first syzygy is now also rigorously enclosed: $Z_*<1$, while
+the tied symmetry-breaking Poincare derivative satisfies $z_v(1)>18$.  Exact
+corner blow-up and $Z_J^{\rm syz}>1$ therefore close the terminal
+first-syzygy amplitude inequality on a one-sided near-isosceles neighborhood.
+The remaining obligations are the earlier interior no-contact estimate and a
+regularized transverse analysis of how the subsequent base collision unfolds
+when $A\ne B$, including whether any later second-brake branch can emerge.
 
 The full skinny matching obligation through a fixed incoming restricted
 section is now closed. PREPLUNGE_MATCHING.md controls the

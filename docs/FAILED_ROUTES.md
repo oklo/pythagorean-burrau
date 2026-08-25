@@ -858,3 +858,31 @@ small enough $\varepsilon$.  These are ambient states, not brake-reachable
 ones.  The smallest viable repair must transport a quantitative velocity or
 action bound from the initial brake; qualitative cone monotonicity cannot
 close the terminal amplitude estimate.
+
+## Sequential evaluation of the equal-mass syzygy threshold
+
+**Status:** DISPROVED as an endpoint-continuity shortcut.
+
+The corner $(v,z)=(1,1)$ of the tied syzygy square is a genuine $0/0$
+singularity.  Taking $z\uparrow1$ at fixed $v<1$ and then
+$v\uparrow1$ gives
+
+\[
+ R_J\longrightarrow {11+2\sqrt2\over55}=0.2514259\ldots,
+\]
+
+which lies below the endpoint first-syzygy scale
+$R_*=0.3059891\ldots$.  It is tempting to infer that $R>R_J$ closes the
+amplitude estimate near the endpoint.  This inference is false.  Along
+$v=1-\varepsilon$, $z=1-\lambda\varepsilon$ the exact limit is
+
+\[
+ {R_0+\kappa\lambda R_\infty\over1+\kappa\lambda},
+ \qquad \kappa={28-3\sqrt2\over11},
+\]
+
+and the validated dynamical tangent has $\lambda_*>18$.  Its limiting
+critical scale is about $0.733$, well above $R_*$.  Thus the scale-only
+argument remains unavailable.  The repair is the independent exact bound
+$Z_J^{\rm syz}>1$ together with the validated endpoint amplitude $Z_*<1$;
+the order of limits must never be interchanged.

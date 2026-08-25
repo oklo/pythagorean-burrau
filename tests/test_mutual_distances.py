@@ -24,6 +24,9 @@ from src.symbolic.mutual_distances import (
     ordered_shape_log_torque_kernel_bernstein_coefficients,
     ordered_shape_log_torque_threshold_gap_bernstein_coefficients,
     ordered_shape_log_torque_threshold_gap_core,
+    ordered_syzygy_critical_scale_monotonicity_bernstein_coefficients,
+    ordered_syzygy_critical_scale_monotonicity_core,
+    ordered_syzygy_endpoint_corner_blowup,
     ordered_syzygy_first_gap_energy_bernstein_coefficients,
     ordered_syzygy_first_gap_energy_numerator,
     ordered_syzygy_longitudinal_kinetic_decomposition,
@@ -568,6 +571,26 @@ def test_syzygy_torque_amplitude_energy_deficit_is_exact() -> None:
     ) == 0
 
 
+def test_syzygy_critical_scale_strictly_decreases_with_collinear_fraction() -> None:
+    core, variables = ordered_syzygy_critical_scale_monotonicity_core()
+    polynomial = sp.Poly(core, *variables)
+    assert tuple(polynomial.degree(variable) for variable in variables) == (30, 12)
+    coefficients = (
+        ordered_syzygy_critical_scale_monotonicity_bernstein_coefficients()
+    )
+    signs = tuple(sp.sign(coefficient) for coefficient in coefficients)
+    assert signs.count(-1) == 374
+    assert signs.count(0) == 29
+    assert set(signs) == {-1, 0}
+
+    # At v=1, ten strictly negative edge coefficients remain for 0<z<1;
+    # the last three vanish only at the singular z=1 corner.
+    v_degree, z_degree = polynomial.degree_list()
+    edge = signs[v_degree * (z_degree + 1) :]
+    assert edge[:10] == (-1,) * 10
+    assert edge[10:] == (0,) * 3
+
+
 def test_syzygy_strict_rate_signs_do_not_coerce_longitudinal_energy() -> None:
     witness, variables = ordered_syzygy_small_longitudinal_sign_witness()
     m, n, q, scale, epsilon = variables
@@ -684,6 +707,7 @@ def test_torque_contact_amplitude_is_stronger_on_ordered_syzygy_face() -> None:
         "contact_denominator": ((12, 5), 1, 71, 7),
         "second_coefficient": ((11, 3), -1, 39, 9),
         "difference": ((26, 10), 1, 274, 23),
+        "unit_margin": ((27, 10), 1, 285, 23),
     }
     certificates = ordered_syzygy_torque_amplitude_bernstein_coefficients()
     for name, (degrees, strict_sign, strict_count, zero_count) in expected.items():
@@ -696,11 +720,13 @@ def test_torque_contact_amplitude_is_stronger_on_ordered_syzygy_face() -> None:
         assert signs.count(0) == zero_count
         assert set(signs) == {strict_sign, 0}
 
-        # The equal-mass edge v=1 is strict for every 0<z<1: all its
-        # Bernstein coefficients have the claimed sign except the z=1 end.
+        # The equal-mass edge v=1 is strict for every 0<z<1.  Some cores
+        # have more than one vanishing coefficient at the singular z=1
+        # corner, but at least one strictly signed Bernstein basis function
+        # remains on every interior edge point.
         edge = signs[degrees[0] * (degrees[1] + 1) :]
-        assert edge[:-1] == (strict_sign,) * degrees[1]
-        assert edge[-1] == 0
+        assert set(edge).issubset({strict_sign, 0})
+        assert strict_sign in edge
 
     # Regress every cleared core against its independently extracted physical
     # factor at an exact interior tied point.
@@ -717,6 +743,7 @@ def test_torque_contact_amplitude_is_stronger_on_ordered_syzygy_face() -> None:
         "contact_denominator": contact_denominator_core,
         "second_coefficient": second_coefficient_core,
         "difference": difference_core,
+        "unit_margin": sp.fraction(sp.factor(data["ZJ"] - 1))[0],
     }
     for name, physical_core in physical_cores.items():
         physical_polynomial = sp.Poly(physical_core, m, n, y)
@@ -733,6 +760,55 @@ def test_torque_contact_amplitude_is_stronger_on_ordered_syzygy_face() -> None:
             cores[name].subs(cube_values)
             - physical_core.subs(physical_values) * clearing_factor
         ) == 0
+
+
+def test_syzygy_endpoint_corner_blowup_is_exact_and_ordered() -> None:
+    data, variables = ordered_syzygy_endpoint_corner_blowup()
+    _, _, slope = variables
+    assert data["ZJ_corner_numerator"] == 0
+    assert data["ZJ_corner_denominator"] == 0
+    assert data["critical_scale_corner_numerator"] == 0
+    assert data["critical_scale_corner_denominator"] == 0
+    assert data["ZJ_directional_residual"] == 0
+    assert data["critical_scale_directional_residual"] == 0
+    assert sp.sign(data["kappa"]) == 1
+
+    assert sp.sign(
+        data["ZJ_zero_slope"] - data["ZJ_infinite_slope"]
+    ) == 1
+    assert sp.sign(data["ZJ_infinite_slope"] - 1) == 1
+    assert sp.sign(
+        data["critical_scale_infinite_slope"]
+        - data["critical_scale_zero_slope"]
+    ) == 1
+    assert sp.factor(data["ZJ_limit"].subs(slope, 0) - data["ZJ_zero_slope"]) == 0
+    assert sp.factor(
+        sp.limit(data["ZJ_limit"], slope, sp.oo)
+        - data["ZJ_infinite_slope"]
+    ) == 0
+    assert sp.factor(
+        data["critical_scale_limit"].subs(slope, 0)
+        - data["critical_scale_zero_slope"]
+    ) == 0
+    assert sp.factor(
+        sp.limit(data["critical_scale_limit"], slope, sp.oo)
+        - data["critical_scale_infinite_slope"]
+    ) == 0
+    assert sp.factor(
+        sp.diff(data["ZJ_limit"], slope)
+        - data["kappa"]
+        * (data["ZJ_infinite_slope"] - data["ZJ_zero_slope"])
+        / (1 + data["kappa"] * slope) ** 2
+    ) == 0
+    assert sp.factor(
+        sp.diff(data["critical_scale_limit"], slope)
+        - data["kappa"]
+        * (
+            data["critical_scale_infinite_slope"]
+            - data["critical_scale_zero_slope"]
+        )
+        / (1 + data["kappa"] * slope) ** 2
+    ) == 0
 
 
 def test_second_gap_static_sign_fails_even_on_ordered_syzygy_face() -> None:

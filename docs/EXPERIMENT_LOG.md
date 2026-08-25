@@ -1360,3 +1360,26 @@ it is not a remainder proof.
   $r_{23}-r_{31}$ increase, and $\dot I<0$, but the longitudinal energy is
   only $O(\varepsilon^2)$.  Hence the missing amplitude estimate must be
   quantitatively history-dependent.
+- Strengthened the terminal torque threshold from positivity to the uniform
+  exact gap $Z_J^{\rm syz}>1$.  The numerator of $Z_J^{\rm syz}-1$ pulls
+  back to a bidegree-$(27,10)$ polynomial with 285 positive and 23 zero
+  exact $\mathbb Q(\sqrt2)$ Bernstein coefficients.  The same calculation
+  proved $\partial_qR_J<0$: its bidegree-$(30,12)$ numerator has 374
+  negative and 29 zero coefficients.
+- Resolved the singular equal-mass/torque-edge corner by first directional
+  jets.  Both $Z_J$ and $R_J$ are exact Möbius functions of
+  $\lambda=(1-z)/(1-v)$; the two sequential limits do not commute.  An
+  ordinary augmented-variational probe found
+  $\lambda_*=18.15375975649026$ and $Z_*=0.6364615228391086$ at the
+  symmetric first syzygy.  These decimals were used only to design rational
+  certificate margins.
+- Ran the pinned native CAPD endpoint certificate.  A 4715-step full-curve
+  cover proves positive separations and positive height before one unique
+  transverse first syzygy, with $Z<1$.  A separate 14-dimensional $C^1$
+  nonlinear-Poincare calculation propagates the exact tied mass/geometry
+  tangent and proves $z_v(1)>18$.  Together with smooth event continuation
+  and the exact unit gap, this proves $z<1$ and
+  $Z<1<Z_J^{\rm syz}$ at the continued first syzygy throughout an
+  existential one-sided near-isosceles neighborhood.  The hexadecimal replay
+  is `data/isosceles_syzygy_capd.log`; no claim is made about earlier
+  interior contact or post-encounter recurrence.

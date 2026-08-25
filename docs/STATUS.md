@@ -7,7 +7,24 @@ The complete run summary is `RUN_REPORT_2026-08-23.md`.
 Outcome so far: **major partial theorem (Levels D and E), but unresolved full
 conjecture**. The main rational conjecture and strong real conjecture remain
 CONJECTURAL. No rational or real exact second-brake intersection has been
-established. A new exact shape-cone calculation now proves that gravity points
+established.  The newest endpoint advance strengthens the terminal syzygy
+threshold to
+$1<Z_J^{\rm syz}<Z_2$ on the complete tied torque-compatible face, by a new
+bidegree-$(27,10)$ exact Bernstein certificate.  The energy critical scale is
+strictly decreasing in the collinear fraction $q$, by an independent
+bidegree-$(30,12)$ certificate.  At the singular equal-mass/torque-edge
+corner, both $Z_J$ and $R_J$ now have explicit direction-dependent Möbius
+blow-up formulas; this exposes and repairs the noncommuting-limit trap.  A
+fresh pinned CAPD enclosure proves that the symmetric endpoint's first
+syzygy is unique, transverse, collision-free, and has $Z_*<1$.  A separate
+14-dimensional $C^1$ Poincare certificate proves the tied corner slope
+$z_v(1)>18$, hence the continued first syzygy lies on the torque-compatible
+side and satisfies $Z<1<Z_J^{\rm syz}$ throughout some one-sided
+near-isosceles neighborhood.  This closes the terminal amplitude obligation
+locally, not the earlier interior contact or later post-encounter dynamics.
+Details and the replay are in `ISOSCELES_SYZYGY_THRESHOLD.md`.
+
+A new exact shape-cone calculation now proves that gravity points
 strictly into both side-order faces relevant to the observed first-syzygy
 cone: throughout every strict ordered shape
 $r_{12}>r_{23}>r_{31}$ one has
@@ -38,10 +55,11 @@ condition subsumes the other in the interior.  On the terminal ordered-
 syzygy face, however, a new exact theorem gives the forced identity
 $h=\eta=q(m+1-q)/[(1-q)(n+q)]$.  The apparent $0/0$ in $Z_J=P/S$ cancels by
 a common area-squared factor, and four bivariate exact Bernstein certificates
-prove $0<Z_J^{\rm syz}<Z_2$ on the full tied torque-compatible face.  Hence
+prove $1<Z_J^{\rm syz}<Z_2$ on the full tied torque-compatible face.  Hence
 the interior no-contact statement must end in forced equality $\eta=h$ at
 syzygy, and only the sharper $Z_J$ amplitude obligation survives there.  The
-brake-history bound $Z<Z_J^{\rm syz}$ itself remains unproved.  Exact
+brake-history bound $Z<Z_J^{\rm syz}$ itself remains unproved outside the
+new one-sided terminal neighborhood.  Exact
 longitudinal/transverse kinetic diagonalization now makes it equivalent to
 $\mathcal L>2U_0(R_J-R)$, where
 $\mathcal L=R\dot I^2/(4I)+mnq_s^2/[mn+mq^2+n(1-q)^2]$.  An explicit
@@ -293,8 +311,10 @@ states accumulating at the separatrix, so a uniform limiting no-brake
 classification is impossible. Fixed resonances and the full accumulating
 first-turn layer are now split at finite $B$. The remaining endpoint target is
 separatrix persistence and control after later turns.
-Perturbation away from the solved isosceles-right collision endpoint remains
-secondary.
+At the opposite isosceles endpoint, the first-syzygy symmetry-breaking
+tangent and terminal amplitude are now controlled.  The remaining endpoint
+work begins with the interior no-contact inequality and the regularized
+unfolding of the subsequent base collision.
 
 The collapsed-pair reference clock is now exact through a nonsingular overlap
 section. Its phase sweeps monotonically at rate

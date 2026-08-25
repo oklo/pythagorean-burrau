@@ -854,6 +854,7 @@ have the following exact tensor-Bernstein certificates:
 | $D_J$ | $(12,5)$ | 71 | 7 | positive |
 | $E_2$ | $(11,3)$ | 39 | 9 | negative |
 | $Q$ | $(26,10)$ | 274 | 23 | positive |
+| numerator of $Z_J^{\rm syz}-1$ | $(27,10)$ | 285 | 23 | positive |
 
 Every Bernstein basis function is positive in the open square.  On the
 equal-mass edge $v=1$, all edge coefficients have the displayed strict sign
@@ -863,7 +864,7 @@ formulas are manifest.  The already proved gravitational ordering gives
 $G_2=\mathfrak g_{23}-\mathfrak g_{31}>0$.  Consequently
 
 \[
- \boxed{0<Z_J^{\rm syz}<Z_2}
+ \boxed{1<Z_J^{\rm syz}<Z_2}
 \]
 
 throughout the torque-compatible ordered-syzygy face.  This is **PROVED BY
@@ -872,6 +873,65 @@ Although the two thresholds cross in the interior shape cone, the torque
 threshold is the unique stronger terminal amplitude obligation.  The result
 does not prove that a brake-generated orbit satisfies $Z<Z_J^{\rm syz}$;
 that remains a history/reachability theorem.
+
+The critical scale is strictly ordered along every fixed-mass syzygy face:
+
+\[
+ \boxed{\partial_qR_J<0\qquad(0<q<n/(m+n)).}
+\]
+
+The derivative denominator is
+$q^2(1-q)^2(m^2n^2+1)D_J^2>0$.  After removing the positive factor $mn$
+and applying the tied-square substitution, its numerator has bidegree
+$(30,12)$.  Its 403 exact $\mathbb Q(\sqrt2)$ Bernstein coefficients are
+374 negative and 29 zero; ten negative edge coefficients remain at $v=1$,
+$0<z<1$.  This exact monotonicity organizes the scale deficit but does not
+close it: reachable first syzygies can still have $R<R_J$.
+
+The equal-mass torque edge is a singular corner.  Put
+
+\[
+ v=1-\varepsilon,
+ \qquad z=1-\lambda\varepsilon,
+ \qquad \kappa={28-3\sqrt2\over11}.
+\]
+
+First directional jets of the exact rational functions give
+
+\[
+ \lim Z_J^{\rm syz}
+ ={Z_0+\kappa\lambda Z_\infty\over1+\kappa\lambda},
+ \qquad
+ \lim R_J
+ ={R_0+\kappa\lambda R_\infty\over1+\kappa\lambda},
+\]
+
+where
+
+\[
+\begin{aligned}
+ Z_0&={21(1+\sqrt2)\over22},&
+ Z_\infty&={3836+2709\sqrt2\over6128},\\
+ R_0&={11+2\sqrt2\over55},&
+ R_\infty&={-361+2273\sqrt2\over3830}.
+\end{aligned}
+\]
+
+Thus $Z_0>Z_\infty>1$ and $R_0<R_\infty$: taking equal masses first and
+taking the torque edge first give different limits.  At the actual symmetric
+first syzygy, a pinned CAPD enclosure proves $Z_*<1$.  A separate $C^1$
+Poincare calculation for the tied launch tangent proves the dynamical corner
+slope $\lambda_*=z_v(1)>18>0$.  Smooth event continuation therefore yields
+
+\[
+ \boxed{Z<1<Z_J^{\rm syz}}
+\]
+
+at the continued first syzygy for all $v<1$ in some one-sided neighborhood
+of the isosceles endpoint.  This closes the terminal first-syzygy amplitude
+obligation locally, but not an earlier interior contact or post-encounter
+recurrence.  The complete certificate is in
+`ISOSCELES_SYZYGY_THRESHOLD.md`.
 
 The exact kinetic-energy decomposition identifies that history theorem more
 sharply.  Restore the syzygy scale $R=r_{12}$ and put
@@ -917,7 +977,7 @@ Define the critical physical scale
 Then the remaining terminal amplitude condition is *exactly*
 
 \[
- \boxed{Z<Z_J^{\rm syz}quad\Longleftrightarrow\quad
+ \boxed{Z<Z_J^{\rm syz}\quad\Longleftrightarrow\quad
  \mathcal L>2U_0(R_J-R)}.
 \]
 

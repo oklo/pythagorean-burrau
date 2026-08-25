@@ -1,0 +1,6 @@
+COMMAND=bash scripts/run_capd_isosceles_syzygy.sh /private/tmp/pythagorean-capd /private/tmp/pythagorean-capd/build-native
+DATE=2026-08-24
+CAPD_COMMIT=731079217a9254ea2948d742df2b170895effe7f
+NOTE=Native outward-rounded CAPD replay. The first line encloses every pre-syzygy Taylor step in the reflection-reduced endpoint problem. The second line is a C1 Poincare-map certificate for the tied symmetry-breaking tangent.
+PASS_ISOSCELES_SYZYGY method=CAPD-6.1.0-native capd_commit=731079217a9254ea2948d742df2b170895effe7f steps=4715 crossing_time_hex=[0x1.e29c779a6b1c6p-2,0x1.e2b6ae7d56f72p-2] x_tube_hex=[0x1.3948d8d3bd149p-3,0x1.39e0b3ee127acp-3] vh_tube_hex=[-0x1.7135fbc112988p+1,-0x1.713566b12e5ffp+1] Z_tube_hex=[0x1.45d0f29299f61p-1,0x1.466fe84c0e81dp-1] rational_upper=1
+PASS_ISOSCELES_SYZYGY_VARIATION method=CAPD-6.1.0-native capd_commit=731079217a9254ea2948d742df2b170895effe7f return_time_hex=[0x1.e2b48c498582dp-2,0x1.e2b48c4985abap-2] q_hex=[0x1.fffffffffd674p-2,0x1.00000000014c2p-1] q_v_hex=[0x1.2dc61bfd7b236p+3,0x1.2dc61bfdb6371p+3] lambda_hex=[0x1.2275ccca3b76ap+4,0x1.2275ccca76a8p+4] rational_lambda_lower=18 area_velocity_hex=[-0x1.c3e58525b1092p-1,-0x1.c3e58525aa8cp-1]

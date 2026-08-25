@@ -802,6 +802,37 @@ def ordered_syzygy_torque_energy_threshold() -> tuple[
 
 
 @lru_cache(maxsize=1)
+def ordered_syzygy_critical_scale_monotonicity_core() -> tuple[
+    sp.Expr, tuple[sp.Symbol, ...]
+]:
+    """Cleared numerator proving that ``RJ`` decreases with syzygy ``q``.
+
+    Only the positive factors ``m*n`` are removed from the numerator of
+    ``dRJ/dq`` before pulling it back by
+    ``u=(sqrt(2)-1)*v`` and ``q=n*z/(m+n)``.  The derivative denominator is
+    a product of positive factors and the square of the already certified
+    contact-denominator core.
+    """
+    threshold, variables = ordered_syzygy_torque_energy_threshold()
+    mass_1, mass_2, side_31, _ = variables
+    derivative = sp.factor(sp.diff(threshold["critical_scale"], side_31))
+    numerator, _ = sp.fraction(derivative)
+    numerator_core = sp.factor(numerator / (mass_1 * mass_2))
+    return _clear_tied_syzygy_polynomial(
+        numerator_core, (mass_1, mass_2, side_31)
+    )
+
+
+@lru_cache(maxsize=1)
+def ordered_syzygy_critical_scale_monotonicity_bernstein_coefficients() -> tuple[
+    sp.Expr, ...
+]:
+    """Exact tensor-Bernstein certificate for ``dRJ/dq<0``."""
+    core, variables = ordered_syzygy_critical_scale_monotonicity_core()
+    return _tensor_bernstein_coefficients(core, variables)
+
+
+@lru_cache(maxsize=1)
 def ordered_syzygy_small_longitudinal_sign_witness() -> tuple[
     dict[str, sp.Expr], tuple[sp.Symbol, ...]
 ]:
@@ -980,11 +1011,12 @@ def _generic_ordered_syzygy_torque_thresholds() -> tuple[
 def ordered_syzygy_torque_amplitude_sign_cores() -> tuple[
     dict[str, sp.Expr], tuple[sp.Symbol, ...]
 ]:
-    """Return four cleared sign cores proving ``0<ZJ<Z2``.
+    """Return five cleared sign cores proving ``1<ZJ<Z2``.
 
     On the tied syzygy square the signs are respectively
-    ``N_J<0``, ``D_J>0``, ``E_2<0``, and ``Q>0``.  Manifest factors then
-    give ``ZJ>0``, ``C2<0``, and ``Z2-ZJ>0``.
+    ``N_J<0``, ``D_J>0``, ``E_2<0``, ``Q>0``, and the numerator of
+    ``ZJ-1`` is positive.  Manifest factors then give ``ZJ>1``, ``C2<0``,
+    and ``Z2-ZJ>0``.
     """
     data, variables = _generic_ordered_syzygy_torque_thresholds()
     mass_1, mass_2, side_31 = variables
@@ -1024,11 +1056,13 @@ def ordered_syzygy_torque_amplitude_sign_cores() -> tuple[
             * (2 * side_31 - 1)
         )
     )
+    unit_margin_numerator, _ = sp.fraction(sp.factor(data["ZJ"] - 1))
     physical_cores = {
         "contact_numerator": contact_numerator_core,
         "contact_denominator": contact_denominator_core,
         "second_coefficient": second_coefficient_core,
         "difference": difference_core,
+        "unit_margin": unit_margin_numerator,
     }
     cleared: dict[str, sp.Expr] = {}
     cube_variables: tuple[sp.Symbol, ...] | None = None
@@ -1049,12 +1083,113 @@ def ordered_syzygy_torque_amplitude_sign_cores() -> tuple[
 def ordered_syzygy_torque_amplitude_bernstein_coefficients() -> dict[
     str, tuple[sp.Expr, ...]
 ]:
-    """Exact tensor-Bernstein certificates for the four amplitude cores."""
+    """Exact tensor-Bernstein certificates for the five amplitude cores."""
     cores, variables = ordered_syzygy_torque_amplitude_sign_cores()
     return {
         name: _tensor_bernstein_coefficients(core, variables)
         for name, core in cores.items()
     }
+
+
+@lru_cache(maxsize=1)
+def ordered_syzygy_endpoint_corner_blowup() -> tuple[
+    dict[str, sp.Expr], tuple[sp.Symbol, ...]
+]:
+    """Resolve the singular equal-mass/torque-edge corner of ``ZJ`` and ``RJ``.
+
+    Put ``u=(sqrt(2)-1)v`` and ``q=n*z/(m+n)``.  Along
+    ``v=1-epsilon`` and ``z=1-lambda*epsilon``, the two thresholds have
+    finite direction-dependent limits.  The returned derivative residuals
+    independently recover the limits from the first directional jets of the
+    exact rational functions at ``(v,z)=(1,1)``.
+    """
+    threshold, physical_variables = ordered_syzygy_torque_energy_threshold()
+    mass_1, mass_2, side_31, _ = physical_variables
+    parameter, syzygy_fraction, slope = sp.symbols(
+        "v z lambda", nonnegative=True
+    )
+    tied_parameter = (sp.sqrt(2) - 1) * parameter
+    tied_mass_1 = (1 - tied_parameter**2) / (1 + tied_parameter**2)
+    tied_mass_2 = 2 * tied_parameter / (1 + tied_parameter**2)
+    tied_side_31 = (
+        tied_mass_2 * syzygy_fraction / (tied_mass_1 + tied_mass_2)
+    )
+    substitution = {
+        mass_1: tied_mass_1,
+        mass_2: tied_mass_2,
+        side_31: tied_side_31,
+    }
+
+    corner_limits: dict[str, sp.Expr] = {}
+    directional_residuals: dict[str, sp.Expr] = {}
+    corner_numerators: dict[str, sp.Expr] = {}
+    corner_denominators: dict[str, sp.Expr] = {}
+    kappa = (28 - 3 * sp.sqrt(2)) / 11
+    endpoint_values = {
+        "ZJ": (
+            21 * (1 + sp.sqrt(2)) / 22,
+            (3836 + 2709 * sp.sqrt(2)) / 6128,
+        ),
+        "critical_scale": (
+            (11 + 2 * sp.sqrt(2)) / 55,
+            (-361 + 2273 * sp.sqrt(2)) / 3830,
+        ),
+    }
+    for name, (zero_slope, infinite_slope) in endpoint_values.items():
+        corner_limit = sp.factor(
+            (zero_slope + kappa * slope * infinite_slope)
+            / (1 + kappa * slope)
+        )
+        corner_limits[name] = corner_limit
+
+        tied_expression = sp.together(threshold[name].subs(substitution))
+        numerator, denominator = sp.fraction(tied_expression)
+        corner_numerators[name] = sp.factor(
+            numerator.subs({parameter: 1, syzygy_fraction: 1})
+        )
+        corner_denominators[name] = sp.factor(
+            denominator.subs({parameter: 1, syzygy_fraction: 1})
+        )
+        numerator_jet = (
+            sp.diff(numerator, parameter)
+            + slope * sp.diff(numerator, syzygy_fraction)
+        ).subs({parameter: 1, syzygy_fraction: 1})
+        denominator_jet = (
+            sp.diff(denominator, parameter)
+            + slope * sp.diff(denominator, syzygy_fraction)
+        ).subs({parameter: 1, syzygy_fraction: 1})
+        directional_residuals[name] = sp.factor(
+            numerator_jet - corner_limit * denominator_jet
+        )
+
+    return (
+        {
+            "kappa": kappa,
+            "ZJ_zero_slope": endpoint_values["ZJ"][0],
+            "ZJ_infinite_slope": endpoint_values["ZJ"][1],
+            "ZJ_limit": corner_limits["ZJ"],
+            "critical_scale_zero_slope": endpoint_values[
+                "critical_scale"
+            ][0],
+            "critical_scale_infinite_slope": endpoint_values[
+                "critical_scale"
+            ][1],
+            "critical_scale_limit": corner_limits["critical_scale"],
+            "ZJ_directional_residual": directional_residuals["ZJ"],
+            "ZJ_corner_numerator": corner_numerators["ZJ"],
+            "ZJ_corner_denominator": corner_denominators["ZJ"],
+            "critical_scale_directional_residual": directional_residuals[
+                "critical_scale"
+            ],
+            "critical_scale_corner_numerator": corner_numerators[
+                "critical_scale"
+            ],
+            "critical_scale_corner_denominator": corner_denominators[
+                "critical_scale"
+            ],
+        },
+        (parameter, syzygy_fraction, slope),
+    )
 
 
 @lru_cache(maxsize=1)

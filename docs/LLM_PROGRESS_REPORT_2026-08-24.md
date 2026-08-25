@@ -26,10 +26,46 @@ The full rational conjecture is **not proved**. The stronger assertion for
 every real tied parameter is also **not proved**. No rational counterexample
 and no real second-brake intersection have been found.
 
-A difficulty-weighted completion estimate is currently about **46%**, with
+A difficulty-weighted completion estimate is currently about **47%**, with
 rough uncertainty of plus or minus 15 percentage points. This measures
 progress toward the universal theorem, not the amount of code or manuscript
 already written.
+
+### Newest exact update: near-isosceles terminal threshold
+
+The terminal torque threshold has been strengthened on the complete tied
+torque-compatible syzygy face:
+
+\[
+ \boxed{1<Z_J^{\rm syz}<Z_2}.
+\]
+
+The new unit gap is an exact bidegree-$(27,10)$
+$\mathbb Q(\sqrt2)$ tensor-Bernstein certificate with 285 positive and 23
+zero coefficients.  Independently, the critical scale satisfies
+$\partial_qR_J<0$; its bidegree-$(30,12)$ derivative numerator has 374
+negative and 29 zero exact coefficients.
+
+The equal-mass/torque-edge corner is singular: the limits of $Z_J$ and $R_J$
+depend on the blow-up slope
+$\lambda=(1-z)/(1-v)$.  Exact first directional jets reduce both limits to
+explicit Möbius functions of $\lambda$, so the two sequential limits do not
+commute.  A fresh pinned CAPD step cover proves that the symmetric endpoint's
+first syzygy is unique, transverse, collision-free, and has $Z_*<1$.  A
+separate 14-dimensional $C^1$ nonlinear-Poincare certificate propagates the
+exact tied mass--geometry tangent and proves
+
+\[
+ z_v(1)>18>0.
+\]
+
+Consequently there is an existential one-sided near-isosceles neighborhood
+in which the continued first syzygy is torque-compatible and satisfies
+$Z<1<Z_J^{\rm syz}$.  This is a genuine local structural theorem, but it
+closes only the terminal first-syzygy amplitude obligation.  An earlier
+interior torque contact and all post-encounter recurrence remain open.  See
+`docs/ISOSCELES_SYZYGY_THRESHOLD.md` and
+`data/isosceles_syzygy_capd.log`.
 
 ### Later exact update: the ordered-syzygy face
 
@@ -130,12 +166,12 @@ explicit torque threshold obey the exact identity
 
 Both $P$ and $S$ vanish there, but each contains the same exact
 area-squared factor, so $Z_J=P/S$ has a path-independent rational syzygy
-extension.  Four complete bivariate tensor-Bernstein certificates, with
-coefficient counts $71/1$, $71/7$, $39/9$, and $274/23$ for strict/zero
+extension.  Five complete bivariate tensor-Bernstein certificates, with
+coefficient counts $71/1$, $71/7$, $39/9$, $274/23$, and $285/23$ for strict/zero
 coefficients, prove
 
 \[
- 0<Z_J^{\rm syz}<Z_2
+ 1<Z_J^{\rm syz}<Z_2
 \]
 
 on the entire tied torque-compatible ordered-syzygy face.  The certificates
@@ -143,8 +179,10 @@ also cover the equal-mass edge away from its torque-boundary endpoint.  This
 changes the correct noncontact statement: one seeks $\eta<h$ throughout the
 positive-area interior, followed by forced equality at terminal syzygy.
 Only the sharper $Z_J$ amplitude obligation survives on that face.  The
-actual brake-history inequality $Z<Z_J^{\rm syz}$ is still open, so this is
-a structural boundary theorem rather than a proof of cone persistence.
+actual brake-history inequality $Z<Z_J^{\rm syz}$ is still open globally;
+the newest endpoint certificate closes it only at the continued first
+syzygy in a one-sided near-isosceles neighborhood.  This remains a structural
+boundary theorem rather than a proof of cone persistence.
 
 The missing terminal amplitude inequality now has an exact kinetic form.
 Writing $R=r_{12}$, $q=r_{31}/R$,

@@ -66,10 +66,26 @@ neighborhood is singular: after symmetry breaking, the endpoint collision can
 unfold into a close collision-free encounter.  A regularized perturbation map
 with uniform error bounds remains required.
 
+There is now a rigorous result before that singular encounter.  A pinned
+CAPD full-step cover proves that the symmetric trajectory's first syzygy is
+unique, transverse, collision-free, and has terminal torque amplitude
+$Z_*<1$.  Exact Bernstein arithmetic proves $Z_J^{\rm syz}>1$ on the full
+torque-compatible tied syzygy face, while a $C^1$ Poincare certificate proves
+that the continued event enters that face with normalized derivative
+$z_v(1)>18$.  Consequently the continued first syzygy satisfies
+
+\[
+ Z<1<Z_J^{\rm syz}
+\]
+
+for every tied member in some one-sided near-isosceles neighborhood.  This
+closes the terminal first-syzygy amplitude obligation only; an earlier
+interior torque contact and the later collision unfolding remain open.  See
+`ISOSCELES_SYZYGY_THRESHOLD.md`.
+
 ## Skinny endpoint
 
 As $u\to0$, $B\to0$, the 1--3 separation and mass $m_2$ degenerate in the
 tied normalization.  The limiting initial condition is already collisional
 and includes a vanishing mass, so ordinary continuous dependence across
 $u=0$ is unavailable.  No uniform positive-$u$ theorem has yet been proved.
-
