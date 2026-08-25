@@ -12,6 +12,78 @@ Working against frozen checkpoint payload
 > source has since passed a finite four-entry/exit smoke replay after a
 > damped-write soundness repair, but that truncated replay is not a theorem.
 
+## 2026-08-25: middle-interval terminal escape edge complete (branch `fable/middle-terminal-escape`)
+
+Independent second-agent run for the middle-interval endgame.  Baseline
+`da6c087`; all work in new files, protected files untouched.
+
+**1. Handoff terminal formulas verified exactly correct** (`EXACT SYMBOLIC
+IDENTITY`, commit `128a459`).  With binary $\{2,3\}$, escaper 1, i.e.
+$(a,b,c)=(2,3,1)$ in `docs/ESCAPE_CRITERIA.md`: $M=B+1$,
+$\mathcal M=A+B+1$, escaper mass $A$, $e=E_{23}=(2|z|^2-M)/|w|^2$
+specific (no reduced-mass weight), $P=\dot G$ exactly, $R=M/\eta$,
+$d=\rho-R$, $E_\rho=\tfrac12\dot\rho^2-\mathcal M/d$,
+$\Delta=A\sqrt{2MR}/(v_\infty d^2)$, condition $-\eta-E_{23}-\Delta>0$.
+No corrections needed.  The tests additionally prove the pair-{2,3} CAPD
+LC field encodes Newton exactly, the $h'$ equation transports
+$h\equiv E_{23}$, the $\ddot G$ mass factor is $\mathcal M/M=2/(1+u)$,
+and the $jd'$ field matches Lagrange--Jacobi.  Files:
+`src/symbolic/middle_escape.py`, `tests/test_middle_escape_symbolic.py`
+(17 exact tests; `python -m pytest tests/test_middle_escape_symbolic.py`).
+
+**2. Chart-form theorem and phase-robust corollary**
+(`docs/FABLE_MIDDLE_ESCAPE.md`, commits `7b13c27`, `5d48655`).  The key
+new mathematics: with the transported $h$ certified $<-\eta-\Delta$, all
+$w,z$ conditions can be dropped ($r\le M/(-h)<M/\eta$ unconditionally;
+$w=0$ inside the box is the tolerated inner-collision alternative).  This
+matters because the inner-binary phase decorrelates across the tile long
+before the terminal time — at $t=4$ the family $(w,z)$ hull over
+$[0.29,0.29002]$ already contains $w=0$ and the strict check FAILS, while
+the phase-robust check PASSES at $t=4,\ 9/2,\ 5$ with uniform wrapping
+budgets $0.019,\ 0.102,\ 0.169$.  **Do not resolve the binary phase at
+the terminal leg; keep $h,G,P$ tight.**
+
+**3. Interval terminal checker, ready to consume your box** (commits
+`5b6e695`, `f759cc1`).  `src/fable/verification/middle_escape_terminal_capd.cpp`
++ `scripts/fable_run_capd_middle_escape.sh` (NATIVE CAPD, pinned commit;
+outward-rounded pure arithmetic, exact rational stdin tokens, fails
+closed on every guard).  Consumption: eta, then bound pairs for
+`kDirectLcVars` indices 10, 0, 1, 2, 3, 5, 6, 7, 8, optional 4 ($h$).
+Modes: `--phase-robust` (recommended), `--binary13` (mirrored labelling,
+binary $\{1,3\}$/escaper 2).  Demo: `--demo` passes over
+$u\in[0.29,0.29002]$ with margin 11.3.
+
+**4. Endgame reconnaissance** (`ORDINARY NUMERICAL EVIDENCE`, commit
+`5827291`; scripts `probe_middle_escape_endgame.py`,
+`probe_middle_escape_box_tolerance.py`).  At $u=0.29$: handoff itinerary
+confirmed to 8 digits; $\eta=4$ pair-{2,3} certificate first fires at
+$t=3.813$; margins at $t=4$: $d=1.22$, $\dot\rho=2.24$, $E_\rho=0.575$,
+inner margin $4.70$ (growing with $T$).  Itinerary stable on
+$[0.2895,0.2903]$ except a deep $\{1,2\}$ passage (sep $\sim10^{-3}$)
+near $u=0.2896$.  Terminal outcome stable only on
+$\approx(0.2897,0.2902)$: below, the hierarchy FLIPS (body 2 ejected,
+binary $\{1,3\}$, margin $+14.5$ at $u=0.2895$ — use `--binary13`);
+above $\approx0.2903$, body 1 falls back ($\dot\rho<0$ by $t=7.5$ at
+$u=0.2904$) and the endgame needs more cycles.
+
+**5. Conditioning trap for the chart switch.**  In $t\in[3.5,3.7]$ the
+family $g_{23}$ hugs the negative real axis (angles $-112^\circ$ to
+$-175^\circ$, crossing the cut).  The committed
+`make_pair13_to_pair23_map` implements only Form A
+($w_r=\sqrt{(|g|+g_x)/2}$), which degenerates there.  The endgame switch
+needs a Form-B variant ($w_i=\sqrt{(|g|-g_x)/2}$, $w_r=g_y/(2w_i)$),
+valid on $g_x<0$, which holds uniformly across the tile at
+$t=3.55$--$3.60$.
+
+**Cherry-pick list** (atomic, in order): `128a459` (symbolic + tests),
+`7b13c27` (theorem doc), `5b6e695` (checker), `5d48655` (phase-robust
+corollary + mode), `5827291` (recon scripts), `f759cc1` (binary13 mode),
+plus the later doc/report commits on the branch.
+
+**Dependency on primary:** only the correlated pair-{2,3} box at a
+$t_p=T$ section (recommended $T=9/2$ or $5$, phase-robust mode, $h$
+supplied).  Nothing here blocks on it; the checker is ready today.
+
 ## 2026-08-24 (d): LC covering verifier operational; Burrau closing; final cost model
 
 **Multi-passage Levi--Civita covering verifier (the big deliverable).**
