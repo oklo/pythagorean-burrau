@@ -951,6 +951,234 @@ bool terminal_phase_robust_check(const DirectCorrelatedGraph& graph) {
   return true;
 }
 
+// Rigorous mean-value image of a tripleton set under an algebraic map:
+// for p = x + C r0 + (B r cap ...) in the convex interval hull H,
+//   map(p) in map(x) + [D map](H) (C r0 + B r),
+// realized as a new tripleton with C' = D C (u-correlation preserved),
+// r0' = r0, and remainder r' = D B r + (map(x) - mid(map(x))).
+Set mean_value_switch(const Set& set, Map& transformation) {
+  const Vector hull(set);
+  const Vector x = set.get_x();
+  const Matrix c_matrix = set.get_C();
+  const Vector r0 = set.get_r0();
+  const int dimension = hull.dimension();
+  // The stored remainder is intersection(B r, Q q); B can be severely
+  // ill-conditioned after many steps, so the intersection is essential.
+  const Vector b_part = set.get_B() * set.get_r();
+  const Vector q_part = set.m_Q * set.m_q;
+  Vector remainder(dimension);
+  for (int i = 0; i < dimension; ++i) {
+    if (!capd::intervals::intersection(b_part[i], q_part[i],
+                                       remainder[i])) {
+      throw std::runtime_error("empty tripleton remainder intersection");
+    }
+  }
+  const Vector image_x = transformation(x);
+  const Matrix derivative = transformation.derivative(hull);
+  const Matrix dc = derivative * c_matrix;
+  const Vector d_remainder = derivative * remainder;
+  // The tripleton representation requires POINT matrices: split D*C into
+  // its midpoint and spill the discarded widths (times r0) into the
+  // remainder.
+  Matrix dc_mid(dimension, dimension);
+  Vector spill(dimension);
+  for (int i = 0; i < dimension; ++i) {
+    spill[i] = Ival(0);
+    for (int j = 0; j < dimension; ++j) {
+      const Ival mid = (Ival(dc[i][j].leftBound()) +
+                        Ival(dc[i][j].rightBound())) / 2;
+      dc_mid[i][j] = mid;
+      spill[i] += (dc[i][j] - mid) * r0[j];
+    }
+  }
+  Vector new_x(dimension), new_r(dimension);
+  for (int i = 0; i < dimension; ++i) {
+    const Ival mid = (Ival(image_x[i].leftBound()) +
+                      Ival(image_x[i].rightBound())) / 2;
+    new_x[i] = mid;
+    new_r[i] = d_remainder[i] + (image_x[i] - mid) + spill[i];
+  }
+  return Set(new_x, dc_mid, r0, new_r, set.getCurrentTime());
+}
+
+// Phase-robust terminal margins evaluated on a state enclosure (hull of the
+// current set): binary {2,3}, escaper 1, eta = 4.  Quiet unless verbose.
+bool terminal_margins_pass(const Vector& hull, bool verbose) {
+  const Ival eta = Ival(4);
+  const Ival u = hull[10];
+  const Ival one(1);
+  const Ival qden = one + u * u;
+  const Ival mass_a = (one - u * u) / qden;
+  const Ival pair_m = (one + u) * (one + u) / qden;
+  const Ival total_m = Ival(2) * (one + u) / qden;
+  const Ival h = hull[4];
+  const Ival gx = hull[5], gy = hull[6], px = hull[7], py = hull[8];
+  const Ival rho_sq = gx * gx + gy * gy;
+  if (!(rho_sq.leftBound() > 0)) return false;
+  const Ival rho = sqrt(rho_sq);
+  const Ival radius = pair_m / eta;
+  const Ival d = rho - radius;
+  if (!(d.leftBound() > 0)) return false;
+  const Ival rhodot = (gx * px + gy * py) / rho;
+  if (!(rhodot.leftBound() > 0)) return false;
+  const Ival e_rho = rhodot * rhodot / Ival(2) - total_m / d;
+  if (!(e_rho.leftBound() > 0)) return false;
+  const Ival v_inf = sqrt(Ival(2) * e_rho);
+  const Ival delta =
+      mass_a * sqrt(Ival(2) * pair_m * radius) / (v_inf * d * d);
+  const Ival margin = -eta - h - delta;
+  if (verbose) {
+    std::cout << "TERMINAL tp=[" << bound_double(hull[9].leftBound())
+              << "," << bound_double(hull[9].rightBound())
+              << "] inf_d=" << bound_double(d.leftBound())
+              << " inf_rhodot=" << bound_double(rhodot.leftBound())
+              << " inf_Erho=" << bound_double(e_rho.leftBound())
+              << " sup_h=" << bound_double(h.rightBound())
+              << " sup_Delta=" << bound_double(delta.rightBound())
+              << " inf_margin=" << bound_double(margin.leftBound())
+              << "\n" << std::flush;
+    std::cout << std::setprecision(17) << "TERMINAL_BOX 4 "
+              << bound_double(u.leftBound()) << " "
+              << bound_double(u.rightBound());
+    for (int i : {0, 1, 2, 3, 5, 6, 7, 8, 4}) {
+      std::cout << " " << bound_double(hull[i].leftBound()) << " "
+                << bound_double(hull[i].rightBound());
+    }
+    std::cout << "\n" << std::flush;
+  }
+  return margin.leftBound() > 0;
+}
+
+// Single correlated C0 tripleton propagation of the whole endgame with
+// per-step Theorem C covering audits and three mean-value chart switches.
+// No Poincare sections: every accepted step is audited, and the terminal
+// certificate is evaluated on step enclosures (each real parameter needs
+// only SOME collision-free certificate time, which any passing enclosure
+// provides fiberwise).
+int run_endgame_c0(const Ival& u_param, long p, long q, long p2, long q2,
+                   int order, double tolerance) {
+  const Family family = make_family(u_param);
+  std::cout << std::setprecision(17);
+  Set set = make_direct_launch_graph(u_param).c0_set();
+
+  struct Phase {
+    double end_time;      // physical time at which the phase ends
+    bool pair23;
+    const char* label;
+  };
+  const Phase phases[] = {
+      {1.0, false, "pair13_launch"},
+      {1.75, true, "pair23_first"},
+      {3.5, false, "pair13_middle"},
+      {4.6, true, "pair23_escape"},
+  };
+  Map fields[2] = {make_direct_lc_field(), make_pair23_lc_field()};
+  Map switch_to_23 = make_pair13_to_pair23_map();
+  Map switch_to_13 = make_pair23_to_pair13_map();
+  Map switch_to_23_form_b = make_pair13_to_pair23_map_form_b();
+
+  const Ival t1 = Ival(1) / Ival(5);
+  bool initial_phase = true;
+  long steps = 0;
+  double largest_hull = 0;
+
+  for (int phase_index = 0; phase_index < 4; ++phase_index) {
+    const Phase& phase = phases[phase_index];
+    if (phase_index > 0) {
+      Map& transformation =
+          phase_index == 1 ? switch_to_23
+                           : (phase_index == 2 ? switch_to_13
+                                               : switch_to_23_form_b);
+      set = mean_value_switch(set, transformation);
+      const Vector switched(set);
+      const DirectLcScalars sc =
+          phase.pair23 ? evaluate_pair23_lc(switched, family)
+                       : evaluate_direct_lc(switched, family);
+      if (!(sc.selected_radius.leftBound() > 0) ||
+          !(sc.r12_squared.leftBound() > 0) ||
+          !(sc.r23_squared.leftBound() > 0)) {
+        std::cerr << "FAIL switch into " << phase.label
+                  << " lost separation\n";
+        return 1;
+      }
+      std::cout << "C0_SWITCH " << phase.label << " tp=["
+                << bound_double(switched[9].leftBound()) << ","
+                << bound_double(switched[9].rightBound()) << "] hull="
+                << hull_width(switched, 12) << "\n" << std::flush;
+    }
+    PhaseRunner flow(fields[phase.pair23 ? 1 : 0], order, tolerance);
+    for (;;) {
+      const Vector before(set);
+      if (before[9].leftBound() >= phase.end_time) break;
+      const double w_abs = std::sqrt(std::max(
+          1e-12,
+          bound_double((before[0] * before[0] + before[1] * before[1])
+                           .leftBound())));
+      const double cap =
+          std::max(1.0 / 8000.0, std::min(w_abs / 24.0, 1.0 / 100.0));
+      flow.direct_move(set, cap);
+      ++steps;
+      const Vector enclosure = set.getLastEnclosure();
+      const Vector snapshot(set);
+      const DirectLcScalars sc =
+          phase.pair23 ? evaluate_pair23_lc(enclosure, family)
+                       : evaluate_direct_lc(enclosure, family);
+      if (!(sc.selected_radius.leftBound() > 0) ||
+          !(sc.r12_squared.leftBound() > 0) ||
+          !(sc.r23_squared.leftBound() > 0)) {
+        std::cerr << "FAIL possible collision in " << phase.label
+                  << " tp=" << to_double(snapshot[9]) << "\n";
+        return 1;
+      }
+      if (initial_phase) {
+        if (!(sc.potential.rightBound() < (2 * family.u0).leftBound())) {
+          std::cerr << "FAIL initial potential bound tp="
+                    << to_double(snapshot[9]) << "\n";
+          return 1;
+        }
+        if (snapshot[9].leftBound() > t1.rightBound()) initial_phase = false;
+      } else if (contains_zero(sc.i_dot) &&
+                 !(sc.potential.leftBound() > family.u0.rightBound()) &&
+                 !(sc.kinetic.leftBound() > 0) &&
+                 !direct_lc_residual_excludes_brake(enclosure)) {
+        std::cerr << "FAIL uncovered brake-exclusion step in " << phase.label
+                  << " tp=" << to_double(snapshot[9]) << "\n";
+        return 1;
+      }
+      largest_hull = std::max(largest_hull, hull_width(snapshot, 12));
+      if (steps % 2000 == 0) {
+        std::cout << "c0 " << phase.label << " tp="
+                  << to_double(snapshot[9]) << " steps=" << steps
+                  << " hull=" << hull_width(snapshot, 12) << "\n"
+                  << std::flush;
+      }
+      if (phase_index == 3 && snapshot[9].leftBound() > 4.3 &&
+          terminal_margins_pass(snapshot, false)) {
+        terminal_margins_pass(snapshot, true);
+        std::cout << "PASS_MIDDLE_ESCAPE_ENDGAME u=[" << p << "/" << q
+                  << "," << p2 << "/" << q2 << "] terminal_tp=["
+                  << bound_double(snapshot[9].leftBound()) << ","
+                  << bound_double(snapshot[9].rightBound())
+                  << "] eta=4 steps=" << steps
+                  << " max_hull=" << largest_hull
+                  << " method=CAPD-6.1.0-MPFR"
+                  << " capd_commit=731079217a9254ea2948d742df2b170895effe7f"
+                  << "\n";
+        return 0;
+      }
+      if (steps > 400000) {
+        std::cerr << "FAIL step limit\n";
+        return 1;
+      }
+    }
+    std::cout << "C0_PHASE_DONE " << phase.label << " steps=" << steps
+              << " hull=" << hull_width(Vector(set), 12) << "\n"
+              << std::flush;
+  }
+  std::cerr << "FAIL terminal certificate did not fire by tp=4.6\n";
+  return 1;
+}
+
 int run_endgame(const Ival& u_param, long p, long q, long p2, long q2,
                 int order, double tolerance) {
   const Family family = make_family(u_param);
@@ -1005,6 +1233,15 @@ int run_endgame(const Ival& u_param, long p, long q, long p2, long q2,
       {17, 20, false, LegMode::kPostMin}, {9, 10, false, LegMode::kPositive},
       {19, 20, false, LegMode::kPositive},{1, 1, false, LegMode::kPositive}};
   for (const TimeLeg& leg : out1) run_time_leg(leg);
+  // Chart schedule, dictated by the deep-encounter inventory at u = 0.29
+  // ({1,3}@0.315, 0.767; {2,3}@1.047, 1.596; {1,3}@1.92, 2.329, 2.92;
+  // the double {2,3}@3.4515 + {1,3}@3.4695; then {2,3} binary pericenters
+  // from 3.5165 on): each deep encounter must lie in the window of the
+  // chart that regularizes its pair.
+  //   pair-13 : [0, 1]        -> switch A at tp = 1
+  //   pair-23 : [1, 7/4]      -> switch back (Form A on g13) at tp = 7/4
+  //   pair-13 : [7/4, 7/2]    -> Form-B switch at tp = 7/2
+  //   pair-23 : [7/2, 9/2]    -> terminal
   graph = transform_graph(graph, make_pair13_to_pair23_map());
   check_switch_state(graph, family, true, true, "switch13to23_formA");
   const TimeLeg pair23_1[] = {
@@ -1015,16 +1252,18 @@ int run_endgame(const Ival& u_param, long p, long q, long p2, long q2,
   run_event_leg(true, true, "max1");
 
   // --- New endgame extension. ---
+  // Stay in pair-23 through the deep {2,3} encounter near tp = 1.596.
   const TimeLeg post_max1[] = {
-      {27, 20, true, LegMode::kPostMax}, {7, 5, true, LegMode::kNegative}};
+      {27, 20, true, LegMode::kPostMax}, {7, 5, true, LegMode::kNegative},
+      {29, 20, true, LegMode::kNegative},{3, 2, true, LegMode::kNegative},
+      {31, 20, true, LegMode::kNegative},{8, 5, true, LegMode::kNegative},
+      {33, 20, true, LegMode::kNegative},{17, 10, true, LegMode::kNegative},
+      {7, 4, true, LegMode::kNegative}};
   for (const TimeLeg& leg : post_max1) run_time_leg(leg);
   graph = transform_graph(graph, make_pair23_to_pair13_map());
   check_switch_state(graph, family, false, false, "switch23to13_formA");
   const TimeLeg approach2[] = {
-      {29, 20, false, LegMode::kNegative},{3, 2, false, LegMode::kNegative},
-      {31, 20, false, LegMode::kNegative},{8, 5, false, LegMode::kNegative},
-      {33, 20, false, LegMode::kNegative},{17, 10, false, LegMode::kNegative},
-      {7, 4, false, LegMode::kNegative},  {9, 5, false, LegMode::kNegative},
+      {9, 5, false, LegMode::kNegative},
       {37, 20, false, LegMode::kNegative},{19, 10, false, LegMode::kNegative}};
   for (const TimeLeg& leg : approach2) run_time_leg(leg);
   run_event_leg(false, false, "min2");
@@ -1051,8 +1290,10 @@ int run_endgame(const Ival& u_param, long p, long q, long p2, long q2,
       {17, 5, false, LegMode::kNegative}, {69, 20, false, LegMode::kNegative}};
   for (const TimeLeg& leg : approach4) run_time_leg(leg);
   run_event_leg(false, false, "min4");
-  const TimeLeg out4[] = {
-      {7, 2, false, LegMode::kPostMin}, {71, 20, false, LegMode::kPositive}};
+  // The {2,3} binary's first pericenter is near tp = 3.5165, so the Form-B
+  // switch must happen at tp = 7/2, between the selected {1,3} pericenter
+  // at 3.4695 and that first binary pericenter.
+  const TimeLeg out4[] = {{7, 2, false, LegMode::kPostMin}};
   for (const TimeLeg& leg : out4) run_time_leg(leg);
   graph = transform_graph(graph, make_pair13_to_pair23_map_form_b());
   check_switch_state(graph, family, true, true, "switch13to23_formB");
@@ -1101,7 +1342,11 @@ int main(int argc, char** argv) {
       std::cerr << "FAIL invalid Euclid-parameter interval\n";
       return 2;
     }
-    return run_endgame(u_param, p, q, p2, q2, order, tolerance);
+    const bool graph_mode =
+        std::getenv("FABLE_ENDGAME_GRAPH") != nullptr;
+    return graph_mode
+               ? run_endgame(u_param, p, q, p2, q2, order, tolerance)
+               : run_endgame_c0(u_param, p, q, p2, q2, order, tolerance);
   } catch (const std::exception& error) {
     std::cout << "FAIL_MIDDLE_ESCAPE_ENDGAME(exception:" << error.what()
               << ")\n";
