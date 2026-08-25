@@ -36,7 +36,10 @@ first-syzygy calculation additionally prove both pre-syzygy torque
 noncontact and the terminal amplitude condition throughout a one-sided
 near-isosceles neighborhood.  A pair--12 Levi--Civita calculation then proves
 that the endpoint binary unfolds transversely into a quadratically small
-collision-free near miss, though not the later outgoing dynamics. At the
+collision-free near miss.  Oriented variational maps isolate all subsequent
+comparison collisions before a fixed section, a complete interval cover
+excludes intervening brakes, and strict binary--escaper inequalities prove
+nonperiodicity on an existential punctured near-isosceles real interval. At the
 opposite singular endpoint, a Levi--Civita
 argument proves that every sufficiently skinny member avoids the limiting
 heavy-pair collision on its first encounter, with explicit miss-distance and
@@ -3017,8 +3020,75 @@ Thus $v-1<0$ implies $\ell_{12}>0$ at the section.
 
 This theorem concerns the nearby classical trajectories.  The endpoint
 $v=1$ still terminates at its binary collision; its LC continuation is used
-only as an analytic comparison orbit.  The next open endpoint problem starts
-on the outgoing section beyond this near miss.
+only as an analytic comparison orbit.
+
+\begin{theorem}[Punctured near-isosceles nonperiodicity]
+There exists $v_*<1$ such that every real tied member with
+$v_*<v<1$ is nonperiodic.  It is collision-free and has no labelled brake
+through a fixed LC section; thereafter it either ends in a classical binary
+collision or has body 3 escape.  Consequently the same conclusion holds for
+infinitely many primitive Pythagorean triples.
+\end{theorem}
+
+\begin{proof}
+The exact LC energy constraint is
+\[
+ 2|z|^2-(m+n)-e|w|^2=0.
+\]
+On the symmetric endpoint orbit it gives $2|z|^2=\sqrt2$ whenever $w=0$,
+so every selected collision is transverse.  Pinned oriented $C^1$ Poincare
+maps enclose four such zeros before $\sigma=7$ and put the fifth strictly
+after $7$.  At each of the first four zeros, the tied normal derivative
+$(w_i)_v$ is bounded away from zero.  Thus every Jacobian
+\[
+ {\partial(w_r,w_i)\over\partial(\sigma,v)}
+\]
+is nonsingular.  The inverse-function theorem isolates all four zeros, while
+a 7000-step $C^0$ cover proves
+\[
+ r_{31}^2,r_{23}^2>{1\over500}
+ \qquad(0\leq\sigma\leq7).
+\]
+Compactness outside the four collision boxes now gives a punctured
+neighborhood in which every nearby tied orbit is collision-free through
+$\sigma=7$.
+
+At an ordinary point of this LC chart,
+\[
+ \dot g={2z\over\bar w},\qquad \dot G=P.
+\]
+Hence, after center-of-mass reduction, a labelled brake is equivalent to
+$z=P=0$.  The polynomial residual
+$\mathcal R_{\rm LC}=|z|^2+|P|^2$ remains regular at comparison collisions.
+At the $\sigma=1/2$ interface the cover gives $G_y>1/10$, so the unique first
+syzygy lies later.  Every complete interval tube from that overlapping
+pre-syzygy interface to
+$\sigma=7$ satisfies $\mathcal R_{\rm LC}>2$.  Compact continuity transfers
+this inequality to the nearby classical orbits; the preceding pre-syzygy
+theorem covers the initial segment.
+
+At $\sigma=7$, take $\eta=4$ in the terminal binary--escaper theorem.  The
+same interval cover proves, with $M=m+n=\sqrt2$, $R=M/4$ and
+$s=|G|-R$,
+\[
+ s>1,\qquad \dot\rho>2,\qquad
+ \delta={\dot\rho^2\over2}-{M+1\over s}>{1\over20},
+\]
+and
+\[
+ -4-e-{\sqrt{2MR}\over\sqrt{2\delta}\,s^2}>2.
+\]
+All inequalities are strict and therefore persist in a tied neighborhood.
+The terminal theorem says that each future trajectory either suffers an
+inner classical collision or escapes with uniformly positive outward radial
+speed.  Neither possibility permits a later brake.  Rational Euclid
+parameters are dense in the resulting open $u$ interval, giving infinitely
+many primitive triples.
+\end{proof}
+
+The cutoff $v_*$ is existential; making it effective would quantify a Pell
+subfamily but is not required for the interval theorem.  The full conjecture
+still requires control of the middle parameter range.
 
 The remaining terminal inequality admits a useful exact coercive form.
 Restore $R=r_{12}$ and set

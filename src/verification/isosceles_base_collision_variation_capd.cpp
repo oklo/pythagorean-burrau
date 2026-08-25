@@ -69,6 +69,7 @@ int main() {
     INonlinearSection section(
         "var:wr,wi,zr,zi,h,Gx,Gy,Px,Py,tp,m,n;fun:wr;");
     IPoincareMap poincare_map(solver, section, poincare::PlusMinus);
+    IPoincareMap reverse_poincare_map(solver, section, poincare::MinusPlus);
 
     const interval endpoint_mass = interval(1.0) / sqrt(interval(2.0));
     IVector initial(12);
@@ -103,6 +104,9 @@ int main() {
 
     if (!(image[2].rightBound() < -0.8)) {
       throw std::runtime_error("base collision is not transverse");
+    }
+    if (!(return_time.rightBound() < 7.0)) {
+      throw std::runtime_error("first collision is not before sigma=7");
     }
     if (!(event_tangent[1].rightBound() < -30.0)) {
       throw std::runtime_error("normal collision-unfolding coefficient failed");
@@ -153,6 +157,72 @@ int main() {
               << " rational_normal_upper=-30"
               << " rational_transverse_upper=-4/5"
               << " rational_other_squared_lower=1/500\n";
+
+    // The symmetric regularized comparison orbit crosses the same binary
+    // collision section three more times before the fixed outgoing escape
+    // section used below.  The next return is enclosed strictly after that
+    // section. CAPD's oriented maps enumerate the odd and even crossings
+    // separately. At each crossing the determinant of
+    // (sigma,v) -> (wr,wi) is zr*wi_v.  Proving both factors nonzero makes
+    // every collision zero isolated under tied symmetry breaking.
+    auto certify_later_collision = [&initial, &launch_tangent](
+        IPoincareMap& oriented_map, int oriented_return,
+        int actual_crossing) {
+      C1Rect2Set later_set(initial);
+      IMatrix later_flow_derivative(12, 12);
+      interval later_return_time;
+      const IVector later_image = oriented_map(
+          later_set, later_flow_derivative, later_return_time,
+          oriented_return);
+      const IMatrix later_section_derivative = oriented_map.computeDP(
+          later_image, later_flow_derivative, later_return_time);
+      const IVector later_event_tangent =
+          later_section_derivative * launch_tangent;
+
+      if (!((later_image[2].rightBound() < -0.8)
+            || (later_image[2].leftBound() > 0.8))) {
+        throw std::runtime_error("later collision is not transverse");
+      }
+      if (!(later_event_tangent[1].rightBound() < 0.0)
+          && !(later_event_tangent[1].leftBound() > 0.0)) {
+        throw std::runtime_error(
+            "later normal collision-unfolding coefficient contains zero");
+      }
+      const interval later_other_squared =
+          sqr(later_image[5]) + sqr(later_image[6]);
+      if (!(later_other_squared.leftBound() > 0.002)) {
+        throw std::runtime_error(
+            "later unselected separation at collision is too small");
+      }
+      if (actual_crossing == 5
+          && !(later_return_time.leftBound() > 7.0)) {
+        throw std::runtime_error("fifth collision is not after sigma=7");
+      }
+      if (actual_crossing <= 4
+          && !(later_return_time.rightBound() < 7.0)) {
+        throw std::runtime_error(
+            "one of the first four collisions is not before sigma=7");
+      }
+
+      std::cout << std::hexfloat
+                << "PASS_ISOSCELES_REPEATED_COLLISION_VARIATION"
+                << " crossing=" << actual_crossing
+                << " return_time_hex=[" << later_return_time.leftBound()
+                << "," << later_return_time.rightBound() << "]"
+                << " physical_time_hex=[" << later_image[9].leftBound()
+                << "," << later_image[9].rightBound() << "]"
+                << " zr_hex=[" << later_image[2].leftBound() << ","
+                << later_image[2].rightBound() << "]"
+                << " wi_v_hex=[" << later_event_tangent[1].leftBound()
+                << "," << later_event_tangent[1].rightBound() << "]"
+                << " other_squared_hex=["
+                << later_other_squared.leftBound() << ","
+                << later_other_squared.rightBound() << "]\n";
+    };
+    certify_later_collision(reverse_poincare_map, 1, 2);
+    certify_later_collision(poincare_map, 2, 3);
+    certify_later_collision(reverse_poincare_map, 2, 4);
+    certify_later_collision(poincare_map, 3, 5);
     return 0;
   } catch (const std::exception& error) {
     std::cerr << "ERROR " << error.what() << "\n";

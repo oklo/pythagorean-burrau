@@ -26,14 +26,22 @@ $\partial_v(\eta-h)(1,t)>0$ on the complete open pre-syzygy arc, with a
 simple terminal zero, while also proving the side-splitting and ordered-cone
 signs.  Analytic launch and event factorization therefore give $\eta<h$ and
 exclude a second brake throughout the complete first arc for every
-sufficiently near-isosceles member.  The remaining endpoint problem begins
-after the first syzygy.  A new pair--12 Levi--Civita $C^1$ certificate now
-proves that the endpoint binary collision unfolds transversely into a
+sufficiently near-isosceles member.  A pair--12 Levi--Civita $C^1$
+certificate proves that the endpoint binary collision unfolds transversely into a
 collision-free near miss for every sufficiently near one-sided member, with
 $\min_{\rm enc}r_{12}=\chi^2(1-v)^2+o((1-v)^2)$ and $\chi^2>900$.  It also proves
-that $\ell_{12}$ has reversed its launch sign at the encounter.  The first
-unresolved endpoint object is therefore the outgoing post-encounter map and
-all later recurrence.
+that $\ell_{12}$ has reversed its launch sign at the encounter.  Four
+oriented $C^1$ maps now isolate every comparison collision before
+$\sigma=7$, with the fifth strictly later.  A 7000-step $C^0$ cover proves
+both unselected squared separations $>1/500$ and regularized brake residual
+$|z|^2+|P|^2>2$.  At $\sigma=7$, the fixed $\eta=4$ terminal escape
+certificate has rational margins $s>1$, $\dot\rho>2$, radial energy
+$>1/20$, and post-tidal inner-energy margin $>2$.  IFT and compact
+continuity therefore prove a punctured near-isosceles real interval in which
+every tied member is collision-free and brake-free to that section and then
+either collides classically or escapes.  This closes the endpoint locally
+and gives a new infinite primitive Pythagorean subfamily; the interval cutoff
+is existential.
 Details and the replay are in `ISOSCELES_SYZYGY_THRESHOLD.md`.
 
 A new exact shape-cone calculation now proves that gravity points
@@ -325,8 +333,10 @@ first-turn layer are now split at finite $B$. The remaining endpoint target is
 separatrix persistence and control after later turns.
 At the opposite isosceles endpoint, the first-syzygy symmetry-breaking
 tangent, terminal amplitude, complete pre-syzygy noncontact, and transverse
-binary unfolding are now controlled.  The remaining endpoint work begins on
-the outgoing section after that collision-free near miss.
+binary unfolding are now controlled.  Repeated-collision unfolding, a
+complete finite-arc brake-residual cover, and a terminal binary--escaper
+certificate now close a punctured one-sided real neighborhood.  The remaining
+global work lies in the middle parameter range, not at this endpoint.
 
 The collapsed-pair reference clock is now exact through a nonsingular overlap
 section. Its phase sweeps monotonically at rate

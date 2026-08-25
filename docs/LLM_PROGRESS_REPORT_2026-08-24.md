@@ -26,7 +26,7 @@ The full rational conjecture is **not proved**. The stronger assertion for
 every real tied parameter is also **not proved**. No rational counterexample
 and no real second-brake intersection have been found.
 
-A difficulty-weighted completion estimate is currently about **50%**, with
+A difficulty-weighted completion estimate is currently about **55%**, with
 rough uncertainty of plus or minus 15 percentage points. This measures
 progress toward the universal theorem, not the amount of code or manuscript
 already written.
@@ -95,9 +95,7 @@ that every sufficiently near-isosceles member satisfies
 throughout its complete pre-syzygy arc, with forced equality (eta=h) at
 the syzygy.  In particular no second brake occurs on or before that first
 syzygy.  Together with the terminal amplitude theorem, this closes the
-whole first arc locally.  It still does **not** prove nonperiodicity in a
-punctured endpoint neighborhood because later post-encounter returns remain
-uncontrolled.
+whole first arc locally.
 
 The immediately following base-pair encounter is now locally classified as
 well.  In pair--12 Levi--Civita coordinates (q_2-q_1=w^2), a pinned
@@ -121,8 +119,55 @@ The exact identity
 (\ell_{12}=2(w_rz_i-w_iz_r)) shows that (ell_{12}>0) there for
 (v<1), so this encounter has reversed its negative launch sign.  This is a
 rigorous local scattering theorem, not a continuation of the collisional
-endpoint.  The unresolved endpoint problem now starts on the outgoing LC
-section and concerns all later brakes or escape.
+endpoint.
+
+### 2026-08-25 update: punctured near-isosceles theorem
+
+The later endpoint problem is now closed.  The exact LC energy constraint
+forces every selected collision of the symmetric comparison orbit to be
+transverse.  Pinned oriented (C^1) Poincare maps isolate the only four
+selected collision zeros before (\sigma=7), put the fifth strictly after
+that section, and prove a nonzero tied normal derivative at each of the first
+four.  The inverse-function theorem therefore unfolds all four comparison
+collisions simultaneously for every sufficiently close (v<1).
+
+A separate 7000-step native-CAPD cover proves on the entire comparison arc
+
+\[
+ r_{31}^2,r_{23}^2>{1\over500}.
+\]
+
+It also closes an important logical gap between the first syzygy and the
+terminal state.  In the LC chart, a labelled brake is equivalent to (z=P=0)
+away from collision.  The regular polynomial residual satisfies
+
+\[
+ |z|^2+|P|^2>2
+\]
+
+on every complete tube from an overlapping pre-syzygy interface through
+(\sigma=7).  Thus compact continuity excludes every intervening brake for
+the nearby classical trajectories.
+
+At the fixed terminal section, the theorem-compatible choice (\eta=4) has
+validated rational margins
+
+\[
+ s>1,\qquad \dot\rho>2,\qquad
+ {\dot\rho^2\over2}-{m+n+1\over s}>{1\over20},
+\]
+
+and future-tidal inner-energy margin greater than (2).  The analytic
+binary--escaper theorem then implies collision or escape and excludes every
+future brake.  Consequently there is an existential (v_*<1) such that every
+real tied parameter in (v_*<v<1) is nonperiodic.  This interval contains
+infinitely many rational Euclid parameters and hence infinitely many
+primitive Pythagorean triples.
+
+This is a genuine new Level-D endpoint interval theorem.  Its cutoff is not
+effective, and the universal middle parameter range remains open.  The
+difficulty-weighted estimate rises from 50% to about 55% because an entire
+singular endpoint regime is now closed, not merely sampled.
 
 ### Later exact update: the ordered-syzygy face
 

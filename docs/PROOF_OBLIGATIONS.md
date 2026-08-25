@@ -272,9 +272,11 @@ syzygy in a one-sided near-isosceles neighborhood.  A separate odd-variation
 certificate now proves $\eta<h$ on the complete preceding arc in that same
 existential neighborhood, with forced equality at the event.  The unresolved
 lemma is therefore a brake-history estimate over the remaining parameter
-range.  At the endpoint, the base-pair collision unfolding is now transverse
-and collision-free for nearby members; the remaining local obligation is
-control from its outgoing LC section through every later return.
+range.  At the endpoint, all four comparison collisions before the terminal
+escape section now unfold transversely, the intervening regularized brake
+residual is uniformly positive, and strict escape inequalities close the
+future motion.  Thus no local endpoint obligation remains except making the
+existential neighborhood effective if an explicit cutoff is desired.
 
 The terminal inequality now has an exact coercive formulation.  With
 $D=mn+mq^2+n(1-q)^2$, shape-time variables $\sigma=R_s/R$, $Q=q_s$, and
@@ -400,9 +402,18 @@ no-contact estimate throughout the complete first arc in that neighborhood.
 A pair--12 $C^1$ LC certificate now proves that the subsequent binary
 collision unfolds transversely, with
 $\min_{\rm enc}r_{12}=\chi^2(1-v)^2+o((1-v)^2)$ and $\chi^2>900$, so every nearby
-one-sided member traverses that encounter collision-free.  The remaining
-endpoint obligation starts on the outgoing LC section: exclude every later
-second-brake branch or prove a terminal escape/collision alternative.
+one-sided member traverses that encounter collision-free.  Four oriented
+$C^1$ collision maps, a fifth-return delimiter, and a 7000-step $C^0$ cover
+now close the complete comparison arc through $\sigma=7$: every selected
+collision unfolds, the unselected squared separations stay above $1/500$,
+and the regularized brake residual stays above $2$.  At the terminal section,
+the fixed $\eta=4$ binary--escaper inequalities have strict rational margins.
+Compact continuity therefore proves an existential punctured
+near-isosceles real interval on which every tied orbit is collision-free and
+brake-free to that section, then either collides classically or escapes.
+The endpoint obligation is closed; making the interval effective is optional
+for the universal theorem.  The remaining global obligation is the middle
+parameter range.
 
 The full skinny matching obligation through a fixed incoming restricted
 section is now closed. PREPLUNGE_MATCHING.md controls the

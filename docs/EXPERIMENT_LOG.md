@@ -1413,4 +1413,20 @@ it is not a remainder proof.
   $\min_{\rm enc}r_{12}=\chi^2(1-v)^2+o((1-v)^2)$ and $\chi^2>900$.  It also gives
   $\partial_v\ell_{12}(1)=-2\chi z_r<0$, so $\ell_{12}>0$ for $v<1$ at the
   section, opposite its launch sign.  This closes the local collision
-  unfolding but not the outgoing return dynamics.
+  unfolding.
+- Continued the exact symmetric LC comparison orbit to $\sigma=7$.  Oriented
+  $C^1$ Poincare maps isolate all four selected collision zeros before that
+  section, place the fifth strictly after it, and prove $(w_i)_v\ne0$ at each
+  of the first four.  A separate 7000-step $C^0$ full-tube cover proves
+  $r_{31}^2,r_{23}^2>1/500$ throughout and
+  $|z|^2+|P|^2>2$ from an overlapping pre-syzygy interface onward.  This
+  closes both collision safety and the finite-arc brake gap after compact
+  transfer to $v<1$.
+- At $\sigma=7$, the fixed nonoptimized choice $\eta=4$ passes the terminal
+  binary--escaper theorem with rational margins: separation $>1$, outward
+  speed $>2$, radial energy $>1/20$, and post-tidal inner-energy margin $>2$.
+  IFT plus compact continuity therefore proves a punctured one-sided
+  near-isosceles real interval of nonperiodic tied members.  The endpoint
+  comparison remains regularized only; every member to which the theorem is
+  applied is an ordinary collision-free classical trajectory through the
+  terminal section.

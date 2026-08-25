@@ -972,8 +972,7 @@ first by $v-1$ and then by the transverse event factor $t-\tau(v)$ yields
 for every $v<1$ sufficiently close to one.  It also gives the strict side
 ordering $r_{12}>r_{23}>r_{31}$ and hence excludes every second brake on or
 before this first-syzygy arc.  Thus both the pre-syzygy noncontact and the
-terminal amplitude obligations are locally closed.  Post-encounter
-recurrence remains open.  The complete certificate is in
+terminal amplitude obligations are locally closed.  The complete certificate is in
 `ISOSCELES_SYZYGY_THRESHOLD.md`.
 
 The singular encounter immediately after that first syzygy also has a
@@ -1005,7 +1004,54 @@ The exact identity $\ell_{12}=2(w_rz_i-w_iz_r)$ also gives
 $\partial_v\ell_{12}(1)=-2\chi z_r<0$, hence $\ell_{12}>0$ for $v<1$:
 the encounter reverses its negative launch sign.  This is a local classical
 near-miss theorem for positive asymmetry, not a continuation of the
-collisional endpoint.  Later outgoing dynamics remain open.
+collisional endpoint.
+
+The endpoint comparison arc is now closed globally through a fixed terminal
+section.  The regularized energy constraint gives
+
+\[
+ 2|z|^2=m+n=\sqrt2
+\]
+
+at every symmetric selected collision, so all such zeros are transverse.
+Oriented pinned (C^1) Poincare maps enclose exactly four zeros before
+(\sigma=7) and the next zero strictly after (7).  At each of the first four,
+((w_i)_v\ne0); hence every collision zero is isolated in the
+((\sigma,v))-plane.  A 7000-step (C^0) tube cover proves
+
+\[
+ r_{31}^2,r_{23}^2>{1\over500}
+\]
+
+throughout the comparison arc.  Compactness and the inverse-function theorem
+therefore imply that every sufficiently near member with (v<1) is a genuine
+collision-free classical orbit through (\sigma=7).
+
+On the ordinary LC domain a labelled brake is equivalent to (z=P=0), since
+(\dot g=2z/\bar w) and (\dot G=P).  The regular polynomial residual
+
+\[
+ \mathcal R_{\rm LC}=|z|^2+|P|^2
+\]
+
+satisfies (\mathcal R_{\rm LC}>2) on every complete comparison tube from an
+overlapping pre-syzygy interface through (\sigma=7).  This strict compact
+bound transfers to the nearby classical family and, combined with the
+pre-syzygy theorem, excludes every brake before the terminal section.
+
+At (\sigma=7), the fixed choice (\eta=4) satisfies the terminal binary--
+escaper inequalities with rational margins
+
+\[
+ s>1,\qquad \dot\rho>2,\qquad
+ {\dot\rho^2\over2}-{m+n+1\over s}>{1\over20},
+\]
+
+and future-tidal inner-energy margin greater than (2).  Strict continuity and
+the analytic escape-or-collision theorem prove that every sufficiently
+near-isosceles tied member is nonperiodic.  This is an existential Level-D
+real interval theorem and contains infinitely many rational Euclid
+parameters; it does not make the neighborhood endpoint effective.
 
 The exact kinetic-energy decomposition identifies that history theorem more
 sharply.  Restore the syzygy scale $R=r_{12}$ and put

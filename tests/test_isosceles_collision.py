@@ -121,3 +121,56 @@ def test_lc_pair_angular_momentum_and_collision_normal() -> None:
     assert sp.diff(section_momentum, parameter).subs(parameter, 0) == (
         -2 * normal_variation * radial_speed
     )
+
+
+def test_forced_lc_energy_constraint_and_brake_residual() -> None:
+    wr, wi, zr, zi, energy = sp.symbols(
+        "w_r w_i z_r z_i e", real=True
+    )
+    force_x, force_y = sp.symbols("F_x F_y", real=True)
+    pair_mass = sp.symbols("M", positive=True)
+    px, py = sp.symbols("P_x P_y", real=True)
+    radius = wr**2 + wi**2
+    wr_prime = zr
+    wi_prime = zi
+    zr_prime = (
+        energy * wr / 2
+        + radius * (wr * force_x + wi * force_y) / 2
+    )
+    zi_prime = (
+        energy * wi / 2
+        + radius * (wr * force_y - wi * force_x) / 2
+    )
+    energy_prime = 2 * (
+        (wr * zr - wi * zi) * force_x
+        + (wr * zi + wi * zr) * force_y
+    )
+    constraint = 2 * (zr**2 + zi**2) - pair_mass - energy * radius
+    constraint_prime = sp.diff(constraint, wr) * wr_prime
+    constraint_prime += sp.diff(constraint, wi) * wi_prime
+    constraint_prime += sp.diff(constraint, zr) * zr_prime
+    constraint_prime += sp.diff(constraint, zi) * zi_prime
+    constraint_prime += sp.diff(constraint, energy) * energy_prime
+    assert sp.expand(constraint_prime) == 0
+
+    pair_velocity = sp.Matrix(
+        [
+            2 * (wr * zr - wi * zi) / radius,
+            2 * (wr * zi + wi * zr) / radius,
+        ]
+    )
+    pair_speed_squared = sp.factor(pair_velocity.dot(pair_velocity))
+    assert sp.simplify(
+        pair_speed_squared - 4 * (zr**2 + zi**2) / radius
+    ) == 0
+    # On the collision-free real domain, the nonnegative polynomial below
+    # vanishes exactly when both the selected and complementary velocities do.
+    brake_residual_squared = zr**2 + zi**2 + px**2 + py**2
+    assert sp.Poly(
+        brake_residual_squared, zr, zi, px, py
+    ).terms() == [
+        ((2, 0, 0, 0), 1),
+        ((0, 2, 0, 0), 1),
+        ((0, 0, 2, 0), 1),
+        ((0, 0, 0, 2), 1),
+    ]

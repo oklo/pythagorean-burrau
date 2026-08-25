@@ -3,11 +3,12 @@
 ## Scope
 
 This note resolves the singular torque-threshold geometry at the
-isosceles-right corner and proves one-sided local theorems for the complete
-pre-syzygy arc and its terminal syzygy.  It does **not** prove nonperiodicity
-in a punctured endpoint neighborhood: although the close base-pair encounter
-is now proved collision-free for nearby members, its outgoing dynamics and
-all later returns remain open.
+isosceles-right corner and proves a one-sided punctured-neighborhood
+nonperiodicity theorem.  The complete pre-syzygy arc, every binary encounter
+before a fixed outgoing section, the intervening brake residual, and a
+terminal escape-or-collision alternative are all controlled.  The
+neighborhood is existential, so this result does not yet provide an explicit
+rational cutoff.
 
 Write
 
@@ -472,14 +473,138 @@ For the physical one-sided family (v<1), equation (20) gives
 encounter executes one of the torque reversals required by any later brake.
 The theorem is **PROVED BY COMPUTER-ASSISTED ARGUMENT**.  It regularizes the
 analysis, not the physical endpoint orbit: the (v=1) classical solution
-still terminates at collision.  The unresolved task begins on the outgoing
-collision-free section for (v<1).
+still terminates at collision.
+
+## Complete punctured-endpoint theorem
+
+The same LC comparison orbit can be followed far enough to reach the strict
+binary--escaper cone.  Direct differentiation of the LC energy constraint
+shows that at every symmetric selected collision
+
+\[
+ 2|z|^2=m+n=\sqrt2,
+\]
+
+so every zero of (w) is transverse.  Pinned oriented (C^1) Poincare maps
+prove that the only selected collision zeros before (\sigma=7) are
+
+\[
+ 0<\sigma_1<\sigma_2<\sigma_3<\sigma_4<7<\sigma_5.
+\tag{21}
+\]
+
+At each of the first four zeros the normal parameter derivative
+((w_i)_v) is bounded away from zero.  Its certified signs are negative,
+negative, positive, and negative, respectively.  Thus every Jacobian
+
+\[
+ {\partial(w_r,w_i)\over\partial(\sigma,v)}
+\]
+
+is nonsingular there.  The inverse-function theorem isolates all four
+collision zeros in the ((\sigma,v))-plane.  Outside small disjoint
+neighborhoods of them, (|w|) has a positive minimum on the compact base arc.
+A separate 7000-step (C^0) CAPD cover proves throughout
+(0\le\sigma\le7) that
+
+\[
+ r_{31}^2,r_{23}^2>{1\over500}.
+\tag{22}
+\]
+
+Consequently there is a punctured neighborhood of (v=1) in which every tied
+trajectory is an ordinary classical collision-free solution through the
+fixed section (\sigma=7).  No post-collision endpoint continuation has been
+substituted for these nearby physical trajectories.
+
+It remains necessary to exclude a brake before the escape section.  In this
+pair LC chart, at every ordinary point,
+
+\[
+ \dot g={2z\over\bar w},\qquad \dot G=P.
+\]
+
+After center-of-mass reduction a labelled brake is therefore equivalent to
+(z=P=0).  The polynomial regularized residual
+
+\[
+ \mathcal R_{\rm LC}=|z|^2+|P|^2
+\]
+
+also remains regular at the comparison collisions.  At the
+(\sigma=1/2) interface the cover proves (G_y>1/10), so it lies strictly
+before the unique first syzygy.  Every complete Taylor tube from that
+interface onward satisfies
+
+\[
+ \boxed{\mathcal R_{\rm LC}>2.}
+\tag{23}
+\]
+
+The pre-syzygy theorem excludes earlier brakes.  Compact continuity transfers
+(23) to all sufficiently near tied trajectories and excludes every brake up
+to (\sigma=7).
+
+At that terminal section choose (\eta=4).  With
+
+\[
+ M=m+n=\sqrt2,
+ \quad \mathcal M=M+1,
+ \quad R={M\over4},
+ \quad s=|G|-R,
+\]
+
+the same pinned cover proves the rational strict margins
+
+\[
+ |w_r|>{1\over200},\qquad s>1,qquad \dot\rho>2,
+\]
+
+\[
+ \delta={\dot\rho^2\over2}-{\mathcal M\over s}>{1\over20},
+\tag{24}
+\]
+
+and, writing (e) for the inner specific energy,
+
+\[
+ -4-e-
+ {\sqrt{2MR}\over\sqrt{2\delta}\,s^2}>2.
+\tag{25}
+\]
+
+These are exactly the hypotheses, with substantial slack, of the proved
+terminal binary--escaper theorem in `ESCAPE_CRITERIA.md`.  Strict continuity
+again transfers them to a tied neighborhood.  Every such future classical
+solution therefore either ends in a selected binary collision or has body 3
+escape with (\dot\rho) bounded strictly positive; neither alternative permits
+a later second brake.
+
+**Punctured near-isosceles nonperiodicity theorem.** There exists
+(v_*<1) such that every real tied member with
+
+\[
+ v_*<v<1
+\]
+
+is nonperiodic.  More precisely, it is collision-free and has no labelled
+brake through (\sigma=7); thereafter it either ends in a classical binary
+collision or escapes.  Hence the original Pythagorean--Burrau conjecture
+holds for every rational (u=(\sqrt2-1)v) in this interval, and therefore for
+infinitely many primitive Pythagorean triples.
+
+This theorem is **PROVED BY COMPUTER-ASSISTED ARGUMENT**.  It is existential
+because the compact-continuity neighborhood has not been made effective.
+The next endpoint task is to quantify (v_*) if an explicit Pell-family cutoff
+is desired; the universal conjecture still requires the middle parameter
+range.
 
 ## Reproduction
 
 ```bash
 uv run pytest -q tests/test_mutual_distances.py \
   -k 'torque_contact_amplitude or critical_scale or endpoint_corner or isosceles_pre_syzygy_gap'
+uv run pytest -q tests/test_isosceles_collision.py tests/test_escape_certificate.py
 bash scripts/run_capd_isosceles_syzygy.sh \
   /private/tmp/pythagorean-capd \
   /private/tmp/pythagorean-capd/build-native

@@ -129,13 +129,27 @@ Hence $\ell_{12}>0$ at the collision section for $v<1$ close to one: the
 close encounter has already reversed its negative launch sign.  This is a
 **PROVED BY COMPUTER-ASSISTED ARGUMENT** local scattering theorem, not a
 post-collision continuation of the endpoint's terminated classical orbit.
-It supplies a genuine classical continuation for nearby noncolliding
-members, but it does not yet control their later brakes or escape.  See
-`ISOSCELES_SYZYGY_THRESHOLD.md`.
+
+The full punctured endpoint neighborhood is now closed.  The symmetric LC
+comparison has exactly four selected collision zeros before $\sigma=7$ and
+its fifth after that section.  Pinned $C^1$ maps prove a nonzero tied normal
+derivative at every one of the first four; a 7000-step $C^0$ cover proves
+the other squared separations exceed $1/500$ and the regularized brake
+residual exceeds $2$.  At $\sigma=7$, fixed $\eta=4$ satisfies the terminal
+binary--escaper criterion with radial margin $>1/20$ and future-tidal inner
+margin $>2$.  IFT, compactness, and strict continuity therefore give an
+existential $v_*<1$ for which every $v_*<v<1$ is a collision-free,
+brake-free classical orbit to the terminal section and thereafter either
+collides or escapes.  Thus all such tied members are nonperiodic.  No
+effective value of $v_*$ is presently claimed.
+See `ISOSCELES_SYZYGY_THRESHOLD.md` for the complete analytic transfer and
+the hexadecimal interval replay.
 
 ## Skinny endpoint
 
 As $u\to0$, $B\to0$, the 1--3 separation and mass $m_2$ degenerate in the
 tied normalization.  The limiting initial condition is already collisional
 and includes a vanishing mass, so ordinary continuous dependence across
-$u=0$ is unavailable.  No uniform positive-$u$ theorem has yet been proved.
+$u=0$ is unavailable.  Infinitely many open collision-or-escape windows and
+a positive-density explicit rational subfamily are proved, but no theorem
+yet covers the complete interval $0<u<u_0$.
