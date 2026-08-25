@@ -284,6 +284,33 @@ Archived log: `data/fable/middle_escape_endgame_first_interval.log`
 (commit `52d0f93`).  Dependency pin: CAPD 6.1.0, commit
 `731079217a9254ea2948d742df2b170895effe7f`, MPFR build.
 
+## Widened statement (tiling campaign)
+
+A campaign of 100 adjacent tiles of width $10^{-10}$, each certified by
+an independent run of the same driver at the same parameters
+(100/100 PASS, no failures, no subdivisions), extends the boxed theorem
+contiguously:
+
+\[
+ \textbf{every real}\quad
+ \frac{29}{100}\;\le\;u\;\le\;\frac{2900000101}{10^{10}}
+ \qquad\left(\,0.29\le u\le 0.29+1.01\times10^{-8}\,\right)
+\]
+
+is nonperiodic.  The base tile and the campaign tiles share exact
+rational endpoints, so the union is a closed interval with no gaps.
+Per-tile PASS lines (with their exact rational intervals) are collected
+in `data/fable/middle_escape_endgame_campaign_1e8.log`; the complete
+per-tile logs are archived in
+`data/fable/middle_escape_endgame_campaign_1e8_logs.tar.gz`.  Terminal
+margins vary slightly per tile; each tile's log records its own
+certified bounds.  (The campaign tiles ran the pre-hardening driver
+build; the hardening changes — hull-extension and copy-restore — are
+conservative-only repairs whose absence does not weaken those
+certificates beyond the two CAPD-internals assumptions discussed under
+"Review and repairs", both of which were subsequently verified against
+the pinned CAPD source.)
+
 ## Review and repairs
 
 An independent adversarial review (fresh agent, no involvement in the
