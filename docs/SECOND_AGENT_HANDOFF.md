@@ -43,8 +43,9 @@ Do **not** edit, format, stage, or commit either file.  Do not run a broad
 formatter over the repository.  If sharing the same worktree, add only new
 files and do not run `git add` or `git commit`; return a handoff report instead.
 The cleanest arrangement is a separate git worktree and branch based on
-commit `162a52d`, for example an `agent2-middle-escape` branch.  The primary
-agent will manually port useful results.
+commit `cade821` (which contains this handoff), for example an
+`agent2-middle-escape` branch.  The primary agent will manually port useful
+results.
 
 ## Highest-leverage task: exact terminal escape map
 
