@@ -1,3 +1,4 @@
+ENDGAME_PARAMS precision_bits=80 tolerance=1e-14 order=24 driver=middle_escape_endgame_capd/v5-hardened-2026-08-25
 C0_PHASE_DONE pair13_launch steps=612 hull=1.7758939824578214e-08
 C0_SWITCH pair23_first tp=[1.0004257039183408,1.0004257039842126] hull=1.7292738852932066e-09
 C0_PHASE_DONE pair23_first steps=1197 hull=3.610666340958669e-09

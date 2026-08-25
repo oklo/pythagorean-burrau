@@ -1494,6 +1494,13 @@ it is not a remainder proof.
 - All 32 selected exact symbolic regressions pass, including both LC fields,
   all chart transformations, the terminal map, and the independent
   total-energy-leaf identities developed in the main route.
+- A fresh adversarial review accepted the theorem chain but required two
+  implementation hardenings and a formal interface repair: the switch hull
+  now explicitly includes its stored center, failed CAPD moves restore a
+  complete set copy before retry, and Corollary C1 states the fiberwise,
+  launch-window, and LC-residual cover actually checked.  The hardened driver
+  independently replayed all 3537 steps with exactly unchanged enclosures and
+  terminal margins.
 - Evidence status: **PROVED BY COMPUTER-ASSISTED ARGUMENT** for every real
   parameter in the displayed interval.  It includes infinitely many
   rational Euclid parameters and hence infinitely many primitive triples;

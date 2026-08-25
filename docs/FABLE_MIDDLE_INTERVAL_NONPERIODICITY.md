@@ -1,6 +1,6 @@
 # A nonperiodic real interval in the middle parameter range
 
-Date: 2026-08-25
+Date: 2026-08-25 (revised after independent adversarial review)
 
 Evidence status: **PROVED BY COMPUTER-ASSISTED ARGUMENT**
 
@@ -20,15 +20,20 @@ real parameter
 the maximal classical solution admits **no second labelled brake at any
 collision-free time**: the tied solution is nonperiodic.  Concretely, the
 certificate proves that the solution is collision-free through a terminal
-time $t_\ast(u)\in[4.30147,4.30160]$, that every collision-free time in
-$[0,t_\ast]$ lies in a verified brake-exclusion window, and that at
-$t_\ast$ bodies $\{2,3\}$ form a bound binary while body 1 escapes
-permanently, with certified margins
+parameter-dependent time $t_\ast(u)\in[4.30147,4.30160]$, that every
+collision-free time in $[0,t_\ast(u)]$ lies in a verified brake-exclusion
+window, and that at $t_\ast(u)$ the terminal escape theorem applies with
+certified margins
 
 \[
  \inf d=1.8679,\quad \inf\dot\rho=2.0477,\quad \inf E_\rho=0.8225,\quad
  \sup h=-9.2745,\quad \inf(-\eta-h-\Delta)=5.0696\quad(\eta=4).
 \]
+
+The terminal conclusion is a dichotomy: either a later inner $\{2,3\}$
+collision ends the classical solution, or that pair remains a bound binary
+while body 1 escapes permanently.  Both branches exclude every later
+classical labelled brake.
 
 This is a uniform statement for a closed nonempty interval of real
 parameters (a continuum), not a finite collection of point theorems.  It
@@ -105,9 +110,17 @@ certificate itself never uses them):
   complete orbit segment from launch through that fiber's time at the
   final step, so Corollary C1's fiberwise covering hypothesis holds.
 
+* **Launch containment.**  The initial tripleton is the mean-value form of
+  the exact algebraic launch map $L(u)$.  Its center is $L(u_c)$, its
+  correlation column encloses $DL$ on the complete parameter interval, and
+  its distinguished deviation is $u-u_c$.  Hence the ordinary mean-value
+  theorem puts every exact tied launch state in the propagated set.  The
+  launch-map reconstruction is regression-tested independently.
+
 * **Mean-value set switch.**  For an algebraic chart map $F$ and the
-  tripleton $S=x+Cr_0+(Br\cap Qq)\subseteq H$ (its interval hull, a
-  convex box containing $x$), every $p\in S$ satisfies
+  tripleton $S=x+Cr_0+(Br\cap Qq)$, the implementation takes $H$ to be the
+  interval hull of $S$ explicitly extended by the stored center $x$.  Thus
+  every $p\in S$ satisfies
   $F(p)\in F(x)+[DF](H)\,(p-x)$ componentwise by the mean value theorem
   on the segment $[x,p]\subset H$.  Since
   $p-x\in Cr_0+(Br\cap Qq)$, the image is contained in the new tripleton
@@ -118,9 +131,17 @@ certificate itself never uses them):
   Square-root domain violations in $F$ raise interval exceptions, so an
   invalid branch choice fails closed.
 
+* **Interval correlation matrices and retries.**  CAPD's tripleton move
+  multiplies an interval correlation matrix by the validated flow Jacobian,
+  then splits it to a midpoint matrix and spills the discarded widths into
+  the remainder; the manual switch map mirrors this operation.  Before each
+  attempted solver move the hardened driver copies the complete set and
+  restores it after any exception, so a smaller-step retry never starts from
+  a possibly partially mutated representation.
+
 * **Fiberwise terminal time.**  The terminal certificate is evaluated on
   an accepted-step enclosure whose physical-time coordinate spans
-  $[4.30022,4.30024]$.  Each real $u$ needs only *some* collision-free
+  $[4.30147756370,4.30159216688]$.  Each real $u$ needs only *some* collision-free
   certificate time: its own state at its own time inside that step lies
   in the checked enclosure, and its covering extends through that step.
   No common terminal section is needed.
@@ -168,7 +189,8 @@ campaign extends the interval by contiguous tiles.
 sh scripts/fable_run_capd_middle_endgame.sh /private/tmp/fable-capd \
   /private/tmp/fable-capd/build-mp \
   29000000000 100000000000 29000000010 100000000000 80 1e-14 24
-# expect: PASS_MIDDLE_ESCAPE_ENDGAME ... inf_margin=5.069...
+# expect: ENDGAME_PARAMS ... driver=middle_escape_endgame_capd/v5-hardened-2026-08-25
+#         PASS_MIDDLE_ESCAPE_ENDGAME ... inf_margin=5.069...
 ```
 
 Cross-check of the printed `TERMINAL_BOX` with the independent checker
@@ -190,6 +212,25 @@ python -m pytest tests/test_middle_escape_symbolic.py \
 Archived log: `data/fable/middle_escape_endgame_1e10_interval.log`
 (source-branch commit `bd3207a`).  Dependency pin: CAPD 6.1.0, commit
 `731079217a9254ea2948d742df2b170895effe7f`, MPFR build.
+
+## Independent review and repairs
+
+An independent adversarial review found no invalidating dynamical or
+analytic error, but identified four proof-interface points that required an
+explicit statement or implementation hardening:
+
+1. the driver uses fiber-dependent solver windows, the special concave
+   launch window, and an LC velocity residual; Corollary C1 now states and
+   proves exactly those criteria;
+2. the switch derivative box is explicitly extended by the stored center,
+   rather than assuming CAPD's ordinary enclosure already contains it;
+3. every failed solver move now restores a pre-move copy before retrying;
+4. the terminal claim is the proved escape-or-inner-collision dichotomy, not
+   unconditional collision-free escape.
+
+The complete $10^{-10}$ interval was replayed after these repairs.  All 3537
+validated steps, phase enclosures, terminal bounds, and the final margin
+$5.06969485075\ldots$ were unchanged.
 
 ## Scope
 

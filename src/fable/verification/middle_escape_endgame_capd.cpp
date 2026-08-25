@@ -953,14 +953,38 @@ bool terminal_phase_robust_check(const DirectCorrelatedGraph& graph) {
   return true;
 }
 
+// Exception-safe step: restore the complete set representation before a
+// retry.  This does not rely on a thrown CAPD move leaving its input
+// untouched (in particular, an empty-intersection path may have written
+// representation members before throwing).
+void guarded_direct_move(PhaseRunner& runner, Set& set, double cap) {
+  for (;;) {
+    Set backup(set);
+    try {
+      runner.solver.setMaxStep(Ival(cap));
+      set.move(runner.solver);
+      return;
+    } catch (const std::exception&) {
+      set = backup;
+      ++runner.capped_retries;
+      if (runner.capped_retries > 200000 || cap < 1e-14) throw;
+      cap /= 2;
+    }
+  }
+}
+
 // Rigorous mean-value image of a tripleton set under an algebraic map:
-// for p = x + C r0 + (B r cap ...) in the convex interval hull H,
+// for p = x + C r0 + (B r cap ...) in a convex interval box H containing
+// both p and the stored center x,
 //   map(p) in map(x) + [D map](H) (C r0 + B r),
 // realized as a new tripleton with C' = D C (u-correlation preserved),
 // r0' = r0, and remainder r' = D B r + (map(x) - mid(map(x))).
 Set mean_value_switch(const Set& set, Map& transformation) {
-  const Vector hull(set);
   const Vector x = set.get_x();
+  // Include the stored center explicitly so every segment [x,p] lies in H;
+  // do not rely on an undocumented promise that Vector(set) contains x.
+  Vector hull(set);
+  hull = capd::vectalg::intervalHull(hull, x);
   const Matrix c_matrix = set.get_C();
   const Vector r0 = set.get_r0();
   const int dimension = hull.dimension();
@@ -1137,7 +1161,7 @@ int run_endgame_c0(const Ival& u_param, long p, long q, long p2, long q2,
           1.0 / 20000.0,
           std::min(std::min(w_abs / 24.0, unselected_cap), 1.0 / 100.0));
       try {
-        flow.direct_move(set, cap);
+        guarded_direct_move(flow, set, cap);
       } catch (const std::exception& error) {
         std::cerr << "FAIL integrator exception in " << phase.label
                   << " at tp=[" << bound_double(before[9].leftBound())
@@ -1385,6 +1409,10 @@ int main(int argc, char** argv) {
       std::cerr << "FAIL invalid Euclid-parameter interval\n";
       return 2;
     }
+    std::cout << "ENDGAME_PARAMS precision_bits=" << precision
+              << " tolerance=" << tolerance << " order=" << order
+              << " driver=middle_escape_endgame_capd/v5-hardened-2026-08-25"
+              << "\n" << std::flush;
     const bool graph_mode =
         std::getenv("FABLE_ENDGAME_GRAPH") != nullptr;
     return graph_mode

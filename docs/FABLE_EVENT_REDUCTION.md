@@ -232,7 +232,7 @@ dichotomy branches) excludes any later classical brake.  $\blacksquare$
 Soundness uses only the trivial direction of the splitting, so no chart
 hypothesis ($Y\ne0$) is needed anywhere in Theorem C.
 
-### Corollary C1 (fiberwise finite covers)
+### Corollary C1 (fiberwise LC covers, including the launch window)
 
 The conclusion of Theorem C is unchanged if the common partition is replaced
 by a rigorously verified finite fiberwise cover: for every
@@ -244,13 +244,31 @@ $u\in\mathcal U$ there are consecutive times
 
 such that the complete classical arc over every
 $[s_{j-1}(u),s_j(u)]\cap J_u$ is contained in a verified enclosure on which
-one of (i)--(iii) holds, and the state at its own terminal time $t_*(u)$
-satisfies the same terminal alternative.  The enclosures and the terminal
-times need not lie on common physical-time sections.
+at least one of the following holds:
+
+1. $\dot I\ne0$ throughout;
+2. $K>0$ throughout;
+3. $U>U_0$ throughout;
+4. in a selected-pair Levi--Civita chart with $|w|^2>0$ and both
+   unselected separations positive, at least one component of $(z,P)$
+   excludes zero throughout;
+5. for an initial window beginning at the exact tied brake $t=0$,
+   $U<2U_0$ throughout.
+
+The state at its own terminal time $t_*(u)$ must satisfy the same terminal
+alternative as Theorem C.  The enclosures and terminal times need not lie on
+common physical-time sections.
 
 **Proof.**  Fix $u$ and a hypothetical second brake time $\tau$.  If
 $\tau\le t_*(u)$, consecutiveness of the fiberwise arcs puts $\tau$ in at
-least one verified enclosure, contradicting its brake-exclusion disjunct.
+least one verified enclosure.  A brake forces $\dot I=K=0$ and, on the
+tied energy shell, $U=U_0$, contradicting alternatives 1--3.  In the LC
+chart $\dot g=2wz/|w|^2$ and the complementary physical velocity is $P$;
+positive selected radius makes the coordinate reconstruction regular, so a
+brake forces $z=P=0$, contradicting alternative 4.  On alternative 5 the
+Lagrange--Jacobi identity gives $\ddot I=2U-4U_0<0$.  Since
+$\dot I(0)=0$ exactly, $\dot I$ is strictly negative on the open launch
+window, excluding every second brake there.
 If $\tau>t_*(u)$, the terminal alternative gives the same contradiction as
 Theorem C.  This pointwise argument is uniform because every containment and
 strict inequality was verified simultaneously over $\mathcal U$.
