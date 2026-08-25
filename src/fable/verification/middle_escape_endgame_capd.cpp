@@ -1309,6 +1309,8 @@ int run_endgame_c0(const Ival& u_param, long p, long q, long p2, long q2,
 
   for (int phase_index = 0; phase_index < 4; ++phase_index) {
     const Phase& phase = phases[phase_index];
+    const double phase_end_time =
+        synchronize_preswitch && phase_index == 2 ? 3.48 : phase.end_time;
     if (phase_index > 0) {
       Map& transformation =
           phase_index == 1 ? switch_to_23
@@ -1367,13 +1369,12 @@ int run_endgame_c0(const Ival& u_param, long p, long q, long p2, long q2,
         }
         if (synchronize_preswitch) {
           // The sixth exchange section lands immediately after the sharp
-          // double encounter.  Recondition on three short physical-time
-          // sections before applying the ill-conditioned Form-B chart map;
-          // a single section only at t=7/2 left a width 4.49e-2 hull, while
-          // synchronizing after the switch enlarged the first escape image.
+          // double encounter.  Recondition at t=3.48 and switch there, while
+          // the new selected pair is farther from its next pericenter.  A
+          // later section at t=3.50 left a width 4.49e-2 hull, while a
+          // post-switch t=3.60 section enlarged the hull again.
           const Ival preswitch_time_sections[] = {
-              Ival(87) / Ival(25), Ival(349) / Ival(100),
-              Ival(7) / Ival(2)};
+              Ival(87) / Ival(25)};
           int time_ordinal = 0;
           for (const Ival& time_section : preswitch_time_sections) {
             const Vector image = project_c0_section_with_audit(
@@ -1390,7 +1391,7 @@ int run_endgame_c0(const Ival& u_param, long p, long q, long p2, long q2,
         exchange_synchronized = true;
         continue;
       }
-      if (before[9].leftBound() >= phase.end_time) break;
+      if (before[9].leftBound() >= phase_end_time) break;
       const double w_abs = std::sqrt(std::max(
           1e-12,
           bound_double((before[0] * before[0] + before[1] * before[1])
@@ -1672,7 +1673,7 @@ int main(int argc, char** argv) {
               << " tolerance=" << tolerance << " order=" << order
               << " sync_exchange=" << (synchronize_exchange ? 1 : 0)
               << " sync_preswitch=" << (synchronize_preswitch ? 1 : 0)
-              << " driver=middle_escape_endgame_capd/v7-preswitch-sync-2026-08-25"
+              << " driver=middle_escape_endgame_capd/v8-early-switch-2026-08-25"
               << "\n" << std::flush;
     const bool graph_mode =
         std::getenv("FABLE_ENDGAME_GRAPH") != nullptr;

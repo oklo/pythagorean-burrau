@@ -1,5 +1,25 @@
 # Failed or blocked routes
 
+## Fixed-time synchronization after the middle exchange
+
+**Status:** DISPROVED as an enclosure-reconditioning route; no dynamical
+claim is made.
+
+On one correlated width-$10^{-8}$ tile, all six exchange Poincare maps and
+their independent collision/brake tube audits pass.  Projecting the resulting
+pair--13 set to the physical-time section $t=3.5$ gives hull width
+$0.0449181$; the exact Form-B chart image has width $0.295749$; and a further
+validated pair--23 Poincare image at $t=3.6$ widens it to $0.554197$.  Moving
+the physical-time projection before the switch does not cure this: the first
+$t=3.48$ image enlarges the sixth exchange-section hull from $0.0176403$ to
+$0.0266531$.
+
+These are rigorous containment widths and tube audits, but the stopped runs
+do not supply terminal certificates.  They disprove only the proposed
+reconditioning mechanism.  The useful salvage is timing: switch charts at
+the earlier synchronized $t=3.48$ state rather than carrying that state to an
+even later fixed-time section.
+
 ## Physical transverse-velocity quotient through every LC collision block
 
 An attempted first-order incoming-tail proof tried to infer

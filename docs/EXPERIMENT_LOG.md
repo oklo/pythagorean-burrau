@@ -1569,6 +1569,13 @@ it is not a remainder proof.
   the first post-switch image because the reconditioning made the enclosure
   worse and was computationally uneconomic.  This is an enclosure-route
   failure, not evidence for a physical brake or collision.
-- The active repair moves three physical-time sections to
-  $t=3.48,3.49,3.50$ before the Form-B map, so transient curvature is removed
-  while the pair--13 chart remains well conditioned.
+- A second test planned physical-time sections at $t=3.48,3.49,3.50$ before
+  the Form-B map.  The first rigorous image already enlarged the sixth
+  exchange-section hull from $0.0176403$ to $0.0266531$, so the run was
+  stopped without paying for the later two sections.  Fixed-time projection
+  itself is not the missing reconditioning.
+- The active repair uses that certified $t=3.48$ image as the actual Form-B
+  switch state, $0.02$ earlier than the old switch.  Ordinary reconnaissance
+  puts the new selected pair farther from its next pericenter there; the
+  interval chart image, not that ordinary observation, will decide whether
+  the change is useful.
