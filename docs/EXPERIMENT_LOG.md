@@ -1611,3 +1611,11 @@ it is not a remainder proof.
   $3.5276,3.5620,3.5987,3.6368,3.6472,3.6828,3.7205,3.7573,3.7677,3.8036$.
   These decimals choose sections only; the active CAPD mode must prove each
   common transverse return and independently cover every intervening tube.
+- The first rigorous pair--23 return was computationally uneconomic under
+  the exchange-era Poincare maximum step $1/2000$ and was interrupted after
+  five minutes without a result.  That cap protected a simultaneously close
+  unselected pair during the earlier exchange.  In the post-switch chart the
+  two unselected pairs are separated, so the Poincare and center solvers now
+  use $1/500$.  CAPD still validates every proposed step, while the independent
+  C0 tube audit retains its stricter dynamic cap based on every pair
+  separation.  This changes cost, not the covering argument.

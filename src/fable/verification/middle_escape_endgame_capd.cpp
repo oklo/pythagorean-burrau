@@ -1010,10 +1010,14 @@ Vector project_c0_section_with_audit(
   Solver section_solver(field, order);
   section_solver.setAbsoluteTolerance(tolerance);
   section_solver.setRelativeTolerance(tolerance);
-  // Resolve the unselected pair throughout the short exchange legs.  This
-  // upper bound is stricter than the measured free-fall cap on the chosen
-  // sections and PoincareMap respects Solver::setMaxStep directly.
-  section_solver.setMaxStep(Ival(1) / Ival(2000));
+  // Exchange legs have a simultaneously close unselected pair and retain
+  // the strict 1/2000 cap.  After the Form-B switch the unselected pairs are
+  // separated; 1/500 still resolves the selected LC binary very finely.
+  // Both are merely maximum proposed steps: CAPD validates every step, and
+  // the independent tube audit below keeps its dynamic separation cap.
+  const Ival section_step_cap =
+      pair23_chart ? Ival(1) / Ival(500) : Ival(1) / Ival(2000);
+  section_solver.setMaxStep(section_step_cap);
   PoincareMap section_map(section_solver, section, direction);
   section_map.setMaxReturnTime(50.0);
   Ival return_time;
@@ -1035,7 +1039,7 @@ Vector project_c0_section_with_audit(
   Solver anchor_solver(anchor_field, order);
   anchor_solver.setAbsoluteTolerance(tolerance);
   anchor_solver.setRelativeTolerance(tolerance);
-  anchor_solver.setMaxStep(Ival(1) / Ival(2000));
+  anchor_solver.setMaxStep(section_step_cap);
   PoincareMap anchor_map(anchor_solver, section, direction);
   anchor_map.setMaxReturnTime(50.0);
   Set anchor_set(x, set.getCurrentTime());
@@ -1740,7 +1744,7 @@ int main(int argc, char** argv) {
               << " sync_preswitch=" << (synchronize_preswitch ? 1 : 0)
               << " structured_form_b=" << (structured_form_b ? 1 : 0)
               << " sync_pair23=" << (synchronize_pair23 ? 1 : 0)
-              << " driver=middle_escape_endgame_capd/v10-pair23-sync-2026-08-25"
+              << " driver=middle_escape_endgame_capd/v11-pair23-sync-2026-08-25"
               << "\n" << std::flush;
     const bool graph_mode =
         std::getenv("FABLE_ENDGAME_GRAPH") != nullptr;
