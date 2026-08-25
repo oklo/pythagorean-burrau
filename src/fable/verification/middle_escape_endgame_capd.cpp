@@ -1301,6 +1301,8 @@ int run_endgame_c0(const Ival& u_param, long p, long q, long p2, long q2,
   bool initial_phase = true;
   const bool synchronize_exchange =
       std::getenv("FABLE_ENDGAME_SYNC") != nullptr;
+  const bool synchronize_preswitch =
+      std::getenv("FABLE_ENDGAME_PRESWITCH") != nullptr;
   bool exchange_synchronized = false;
   long steps = 0;
   double largest_hull = 0;
@@ -1362,6 +1364,28 @@ int run_endgame_c0(const Ival& u_param, long p, long q, long p2, long q2,
                     << "," << bound_double(image[2].rightBound())
                     << "] hull=" << hull_width(image, 12) << "\n"
                     << std::flush;
+        }
+        if (synchronize_preswitch) {
+          // The sixth exchange section lands immediately after the sharp
+          // double encounter.  Recondition on three short physical-time
+          // sections before applying the ill-conditioned Form-B chart map;
+          // a single section only at t=7/2 left a width 4.49e-2 hull, while
+          // synchronizing after the switch enlarged the first escape image.
+          const Ival preswitch_time_sections[] = {
+              Ival(87) / Ival(25), Ival(349) / Ival(100),
+              Ival(7) / Ival(2)};
+          int time_ordinal = 0;
+          for (const Ival& time_section : preswitch_time_sections) {
+            const Vector image = project_c0_section_with_audit(
+                set, 9, time_section, capd::poincare::MinusPlus,
+                false, u_param, order, tolerance);
+            ++time_ordinal;
+            std::cout << "C0_SYNC_PRE_SWITCH ordinal=" << time_ordinal
+                      << " tp=[" << bound_double(image[9].leftBound())
+                      << "," << bound_double(image[9].rightBound())
+                      << "] hull=" << hull_width(image, 12) << "\n"
+                      << std::flush;
+          }
         }
         exchange_synchronized = true;
         continue;
@@ -1642,10 +1666,13 @@ int main(int argc, char** argv) {
     }
     const bool synchronize_exchange =
         std::getenv("FABLE_ENDGAME_SYNC") != nullptr;
+    const bool synchronize_preswitch =
+        std::getenv("FABLE_ENDGAME_PRESWITCH") != nullptr;
     std::cout << "ENDGAME_PARAMS precision_bits=" << precision
               << " tolerance=" << tolerance << " order=" << order
               << " sync_exchange=" << (synchronize_exchange ? 1 : 0)
-              << " driver=middle_escape_endgame_capd/v6-sync-2026-08-25"
+              << " sync_preswitch=" << (synchronize_preswitch ? 1 : 0)
+              << " driver=middle_escape_endgame_capd/v7-preswitch-sync-2026-08-25"
               << "\n" << std::flush;
     const bool graph_mode =
         std::getenv("FABLE_ENDGAME_GRAPH") != nullptr;
