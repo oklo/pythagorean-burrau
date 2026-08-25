@@ -80,21 +80,25 @@ and excludes a brake there by two strict regularized residual components.
 This advances point certification to an open family, but it does not close
 any later maximum branch.  See `MIDDLE_FIRST_MAXIMUM_INTERVAL.md`.
 
-A second correlated certificate closes every later branch on the smaller
-real interval
+A correlated certificate and an exact gap-free tiling campaign close every
+later branch on the smaller real interval
 
 \[
- 0.29\le u\le0.290000001.
+ 0.29\le u\le0.2900000101.
 \]
 
 Six validated $C^1$ Poincare images synchronize the exchange; independent
 C0 tube covers verify collision separation and brake exclusion between
 sections; a terminal analytic collision-or-escape alternative excludes all
-future brakes.  Thus this smaller interval is a full nonperiodicity theorem.
+future brakes on the initial width-$10^{-9}$ subinterval.  One hundred
+adjacent width-$10^{-10}$ certificates extend the same theorem, with exact
+shared endpoints, to the displayed upper endpoint.  Thus this smaller
+interval is a full nonperiodicity theorem.
 It does not reduce the global obligations below.  For the immediate widening
 program, a width-$10^{-8}$ tile already crosses all six exchange sections;
-the localized remaining obligation is a sharp Form-B chart image or a
-post-switch pair--23 section that controls the terminal escape chart.
+the localized remaining obligation is a sharper pre-switch/Form-B image that
+controls the terminal escape chart.  A post-switch fixed-time section has
+already enlarged the hull and is not the active repair.
 
 1. bound or classify the number of maximum branches before the terminal
    collision/escape alternative, uniformly on a parameter component;

@@ -17,9 +17,10 @@ middle-parameter interval theorem, but later maxima remain uncontrolled, so
 it is not yet a nonperiodicity theorem on that full interval.  See
 `MIDDLE_FIRST_MAXIMUM_INTERVAL.md`.
 
-A new end-to-end pinned MPFR/CAPD certificate now closes every later brake
-window on the nonempty subinterval
-$u\in[0.29,0.290000001]$.  A correlation-preserving C0 tripleton crosses
+A gap-free union of pinned MPFR/CAPD certificates now closes every later
+brake window on the nonempty real interval
+$u\in[0.29,0.2900000101]$.  On the initial width-$10^{-9}$ subinterval, a
+correlation-preserving C0 tripleton crosses
 the early deep passages with exact mean-value chart switches.  Six rigorous
 $C^1$ Poincare images then synchronize the exchange while independent C0
 tube integrations audit every inter-section state for collision separation
@@ -29,10 +30,13 @@ phase-robust binary--escaper certificate with final margin $>5.06905$ after
 An outward-widened terminal box independently passed the standalone checker.
 An independent 96-bit, tolerance-$10^{-16}$, order-26 replay reproduced all
 six section audits, 3344 main steps, and the terminal margin.
-Thus every real parameter in this interval is nonperiodic.  Since it contains
+The remainder is covered by 100 adjacent width-$10^{-10}$ certificates with
+exact shared rational endpoints (100/100 PASS, no gaps or subdivisions), and
+the full per-tile logs have been imported and independently endpoint-audited.
+Thus every real parameter in the wider interval is nonperiodic.  Since it contains
 infinitely many rational Euclid parameters, this is an infinite primitive
 Pythagorean subfamily theorem; the endpoint $u=29/100$ corresponds to
-$(9159,5800,10841)$.  A width-$10^{-8}$ stress test rigorously crossed all
+$(9159,5800,10841)$.  A one-set width-$10^{-8}$ stress test rigorously crossed all
 six exchange sections but failed from wrapping in the final escape chart,
 localizing the next improvement.  The full compact-middle interval and the
 universal conjecture remain open.  See

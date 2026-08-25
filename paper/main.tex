@@ -36,7 +36,8 @@ maximum branches remain open on that full interval.  A second correlated
 MPFR/CAPD certificate, using rigorous Poincare synchronization through the
 exchange and a terminal collision-or-escape theorem, proves full
 nonperiodicity for every real
-$u\in[0.29,0.290000001]$.  We
+$u\in[0.29,0.2900000101]$, by a synchronized one-set certificate followed
+by an exact gap-free certificate tiling.  We
 also prove that the real isosceles-right endpoint has no second brake and ends
 in finite collision.  Exact Bernstein inequalities and a validated $C^1$
 first-syzygy calculation additionally prove both pre-syzygy torque
@@ -323,7 +324,7 @@ nonperiodicity theorem on the displayed interval.
 \begin{theorem}[Validated middle real interval]
 For every real
 \[
- {29\over100}\le u\le {290000001\over1000000000},
+ {29\over100}\le u\le {2900000101\over10000000000},
 \]
 the tied maximal classical solution has no second labelled brake at any
 collision-free time and hence is not a classical periodic solution.
@@ -332,8 +333,9 @@ primitive triples in this interval, including
 $(9159,5800,10841)$ at $u=29/100$.
 \end{theorem}
 \begin{proof}
-A pinned MPFR/CAPD propagation embeds the exact launch curve in one
-correlated tripleton with $u$ frozen as a state coordinate.  Before the
+A pinned MPFR/CAPD propagation embeds the exact launch curve on
+$[0.29,0.290000001]$ in one correlated tripleton with $u$ frozen as a state
+coordinate.  Before the
 exchange, every accepted full-step enclosure is checked for three positive
 mutual separations and for the brake-exclusion disjunction of the preceding
 corollary.  Three algebraic changes of Levi--Civita chart use rigorous
@@ -370,6 +372,15 @@ per-section tube audits, and replay log accompany the proof.
 A second end-to-end run at 96-bit MPFR precision, tolerance $10^{-16}$, and
 Taylor order 26 reproduces all six section audits, 3344 main-flow steps, and
 the terminal margin.
+
+The remaining extension is the union of 100 independently certified,
+adjacent closed tiles of exact width $10^{-10}$, beginning at
+$0.2900000001$ and ending at $0.2900000101$.  Every requested interval is
+identical to its PASS interval, every consecutive pair shares its exact
+rational endpoint, and all 100 full logs are archived.  The hardened base
+tile and the synchronized one-set theorem overlap this campaign, so their
+union is the complete closed interval stated above, with no topological or
+rounding gap.
 \end{proof}
 
 This interval theorem is a continuum result, not a finite scan.  It remains

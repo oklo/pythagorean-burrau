@@ -1547,3 +1547,28 @@ it is not a remainder proof.
 - Evidence status: **PROVED BY COMPUTER-ASSISTED ARGUMENT** for the complete
   displayed real interval.  The synchronized log and standalone terminal
   check are archived under data/fable/.
+
+## 2026-08-25: Fable tiling import and post-switch synchronization test
+
+- Independently audited Fable commit
+  `6a169f24289973a89274d5b51cc82844cd044a12`.  Its campaign summary has 100
+  requested tiles and 100 PASS intervals, each of exact width $10^{-10}$,
+  running contiguously from $0.2900000001$ to $0.2900000101$.  Every requested
+  interval equals the interval printed in its PASS line; all 99 internal
+  endpoints match exactly.  The tar archive contains 100 unique complete
+  logs, with one PASS and one terminal record per tile and no FAIL marker.
+- Imported the campaign summary and full-log archive into the main history.
+  Together with the reviewed base tile, this proves the gap-free widened
+  theorem $0.29\le u\le0.2900000101$.  The synchronized width-$10^{-9}$
+  one-set theorem independently overlaps the first nine campaign tiles.
+- Tested a one-set width-$10^{-8}$ repair that projected the sixth exchange
+  image onto physical time $t=3.5$, switched to the pair--23 Form-B chart,
+  and then projected to $t=3.6$.  All Poincare legs and independent tube
+  audits completed rigorously, but the hull widths were respectively
+  $0.0449181$, $0.295749$, and $0.554197$.  The computation was stopped after
+  the first post-switch image because the reconditioning made the enclosure
+  worse and was computationally uneconomic.  This is an enclosure-route
+  failure, not evidence for a physical brake or collision.
+- The active repair moves three physical-time sections to
+  $t=3.48,3.49,3.50$ before the Form-B map, so transient curvature is removed
+  while the pair--13 chart remains well conditioned.
