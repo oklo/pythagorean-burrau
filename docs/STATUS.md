@@ -14,8 +14,22 @@ is not a labelled brake.  It retains parameter correlation through pair--13
 and pair--23 Levi--Civita charts; at the maximum both
 $\operatorname{Im}z<-0.0113$ and $P_x<-0.00917$.  This is the first validated
 middle-parameter interval theorem, but later maxima remain uncontrolled, so
-it is not yet a nonperiodicity theorem on that interval.  See
+it is not yet a nonperiodicity theorem on that full interval.  See
 `MIDDLE_FIRST_MAXIMUM_INTERVAL.md`.
+
+A new end-to-end pinned MPFR/CAPD certificate now closes every later brake
+window on the nonempty subinterval
+$u\in[0.29,0.2900000001]$.  A single correlation-preserving C0 tripleton
+crosses all deep passages and the exchange scattering, with exact
+mean-value chart switches and a fail-closed audit on every accepted step,
+then reaches a phase-robust binary--escaper certificate with final margin
+$>5.06969$.  The main worktree independently replayed all 3537 steps and an
+outward-widened terminal box passed the standalone checker.  Thus every real
+parameter in this interval is nonperiodic.  Since it contains infinitely many
+rational Euclid parameters, this is an infinite primitive Pythagorean
+subfamily theorem; the endpoint $u=29/100$ corresponds to
+$(9159,5800,10841)$.  The full compact-middle interval and the universal
+conjecture remain open.  See `FABLE_MIDDLE_INTERVAL_NONPERIODICITY.md`.
 
 The newest endpoint advance strengthens the terminal syzygy
 threshold to

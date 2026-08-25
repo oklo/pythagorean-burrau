@@ -1,6 +1,8 @@
 // Rigorous middle-interval endgame certificate: from the tied launch through
-// the terminal binary--escaper certificate at physical time 9/2, for a real
-// parameter interval near u = 0.29.
+// a terminal binary--escaper certificate after physical time 4.3, for a real
+// parameter interval near u = 0.29.  The default C0 pipeline evaluates the
+// terminal certificate fiberwise on the first passing step; the retained
+// experimental C1 pipeline uses a fixed physical-time section at 9/2.
 //
 // Mathematical basis:
 //   docs/FABLE_EVENT_REDUCTION.md   (Theorem C covering certificate)
@@ -17,7 +19,7 @@
 //
 //   * make_pair23_to_pair13_map(): exact chart switch back to the
 //     pair-{1,3} chart (Form A lift, valid where g13_x > 0, as holds at the
-//     tp = 7/5 switch);
+//     default tp >= 7/4 switch);
 //   * make_pair13_to_pair23_map_form_b(): the Form-B variant of the
 //     committed switch (w_i = sqrt((|g|-g_x)/2)), required near tp = 71/20
 //     where g23 lies near the negative real axis and Form A degenerates;
@@ -31,7 +33,7 @@
 //     the window.  Collision separations must be positive on every step.
 //     A leg that cannot be covered aborts the whole run (fail closed).
 //   * an itinerary that continues past the committed first maximum:
-//     switch back to pair-{1,3} at tp = 7/5, traverse the second minimum
+//     switch back to pair-{1,3} after tp = 7/4, traverse the second minimum
 //     (deep {1,3} passage near t = 1.92), second maximum, third minimum
 //     (t = 2.925), third maximum, fourth minimum (the exchange scattering
 //     near t = 3.469 where r23 also dips to ~0.03), switch to pair-{2,3}
@@ -42,14 +44,14 @@
 //     dump of the box in the stdin format of middle_escape_terminal_capd
 //     for independent re-verification.
 //
-// A full PASS therefore proves, for EVERY real u in the input interval:
-// the classical solution is collision-free on [0, 9/2] (except possibly a
-// regularized inner collision of the selected pair, which ends the
-// classical solution), every collision-free time in [0, 9/2] is covered by
-// a verified brake-exclusion window, and the state at t = 9/2 satisfies
-// the terminal escape certificate.  By Theorem C no second labelled brake
-// exists at any collision-free time, i.e. the tied solution is nonperiodic
-// for every real parameter in the interval.
+// A default C0 PASS therefore proves, for EVERY real u in the input interval:
+// the classical solution is collision-free from launch through that fiber's
+// terminal certificate state, every intervening collision-free time is
+// covered by a verified brake-exclusion enclosure, and the terminal state
+// satisfies the escape-or-inner-collision theorem.  By Theorem C and its
+// fiberwise-cover corollary no second labelled brake exists at any
+// collision-free time, i.e. the tied solution is nonperiodic for every real
+// parameter in the interval.
 //
 // Usage:
 //   middle_escape_endgame_capd P Q P2 Q2 [PREC TOL ORDER]

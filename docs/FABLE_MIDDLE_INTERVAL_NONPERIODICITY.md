@@ -13,21 +13,21 @@ real parameter
 
 \[
  \boxed{\;\frac{29000000000}{100000000000}\;\le\;u\;\le\;
- \frac{29000000001}{100000000000}\;}
- \qquad\left(\,0.29\le u\le 0.29+10^{-11}\,\right),
+ \frac{29000000010}{100000000000}\;}
+ \qquad\left(\,0.29\le u\le 0.29+10^{-10}\,\right),
 \]
 
 the maximal classical solution admits **no second labelled brake at any
 collision-free time**: the tied solution is nonperiodic.  Concretely, the
 certificate proves that the solution is collision-free through a terminal
-time $t_\ast(u)\in[4.30022,4.30024]$, that every collision-free time in
+time $t_\ast(u)\in[4.30147,4.30160]$, that every collision-free time in
 $[0,t_\ast]$ lies in a verified brake-exclusion window, and that at
 $t_\ast$ bodies $\{2,3\}$ form a bound binary while body 1 escapes
 permanently, with certified margins
 
 \[
- \inf d=1.8655,\quad \inf\dot\rho=2.0488,\quad \inf E_\rho=0.8230,\quad
- \sup h=-9.2747,\quad \inf(-\eta-h-\Delta)=5.0693\quad(\eta=4).
+ \inf d=1.8679,\quad \inf\dot\rho=2.0477,\quad \inf E_\rho=0.8225,\quad
+ \sup h=-9.2745,\quad \inf(-\eta-h-\Delta)=5.0696\quad(\eta=4).
 \]
 
 This is a uniform statement for a closed nonempty interval of real
@@ -37,12 +37,18 @@ committed interval theorem (`MIDDLE_FIRST_MAXIMUM_INTERVAL.md`) is a
 finite-prefix statement, and the prior full nonperiodicity results are
 single rational points.
 
+In particular, the interval contains infinitely many rational Euclid
+parameters and therefore proves the conjecture for infinitely many distinct
+primitive Pythagorean triples.  Its left endpoint $u=29/100$ gives the
+explicit primitive triple $(9159,5800,10841)$ in the displayed leg order.
+
 ## Proof structure
 
 The certificate is `src/fable/verification/middle_escape_endgame_capd.cpp`
 (mode `run_endgame_c0`), which combines four proved components:
 
-1. **Event reduction** (`docs/FABLE_EVENT_REDUCTION.md`, Theorem C,
+1. **Event reduction** (`docs/FABLE_EVENT_REDUCTION.md`, Theorem C and its
+   fiberwise-cover Corollary C1,
    `PROVED ANALYTICALLY`): a labelled brake at a collision-free time
    forces $\dot I=0$, $K=0$, and vanishing of the chart brake residual
    simultaneously, so per-window verification of
@@ -97,7 +103,7 @@ certificate itself never uses them):
   that cannot be covered aborts the run (fail closed).  The union of the
   accepted-step enclosures contains, for each real $u$ in the tile, the
   complete orbit segment from launch through that fiber's time at the
-  final step, so Theorem C's per-parameter covering hypothesis holds.
+  final step, so Corollary C1's fiberwise covering hypothesis holds.
 
 * **Mean-value set switch.**  For an algebraic chart map $F$ and the
   tripleton $S=x+Cr_0+(Br\cap Qq)\subseteq H$ (its interval hull, a
@@ -142,8 +148,8 @@ failed wider runs, archived in the run report):
   second-order (curvature) wrapping requires the incoming hull to be
   below $\sim10^{-6}$; the tile widths that survive it end-to-end are
   $\lesssim10^{-10}$ in $u$ (a $3\times10^{-10}$ tile passed the
-  exchange but died at the Form-B switch; $10^{-11}$ passed everything
-  with two orders to spare);
+  exchange but died at the Form-B switch; both $10^{-11}$ and $10^{-10}$
+  tiles passed end to end);
 * the ordinary post-escape sensitivity is only $\sim2\times10^{4}$: the
   transient spike re-contracts dynamically, but monotone interval
   enclosures cannot re-contract, so the spike sets the tile width.
@@ -161,7 +167,7 @@ campaign extends the interval by contiguous tiles.
 ```sh
 sh scripts/fable_run_capd_middle_endgame.sh /private/tmp/fable-capd \
   /private/tmp/fable-capd/build-mp \
-  29000000000 100000000000 29000000001 100000000000 80 1e-14 24
+  29000000000 100000000000 29000000010 100000000000 80 1e-14 24
 # expect: PASS_MIDDLE_ESCAPE_ENDGAME ... inf_margin=5.069...
 ```
 
@@ -181,8 +187,8 @@ python -m pytest tests/test_middle_escape_symbolic.py \
   tests/test_middle_escape_endgame_maps.py -q      # 22 exact tests
 ```
 
-Archived log: `data/fable/middle_escape_endgame_first_interval.log`
-(commit `52d0f93`).  Dependency pin: CAPD 6.1.0, commit
+Archived log: `data/fable/middle_escape_endgame_1e10_interval.log`
+(source-branch commit `bd3207a`).  Dependency pin: CAPD 6.1.0, commit
 `731079217a9254ea2948d742df2b170895effe7f`, MPFR build.
 
 ## Scope

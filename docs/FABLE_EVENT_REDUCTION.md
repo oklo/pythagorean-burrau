@@ -232,6 +232,37 @@ dichotomy branches) excludes any later classical brake.  $\blacksquare$
 Soundness uses only the trivial direction of the splitting, so no chart
 hypothesis ($Y\ne0$) is needed anywhere in Theorem C.
 
+### Corollary C1 (fiberwise finite covers)
+
+The conclusion of Theorem C is unchanged if the common partition is replaced
+by a rigorously verified finite fiberwise cover: for every
+$u\in\mathcal U$ there are consecutive times
+
+\[
+ 0=s_0(u)\le s_1(u)\le\cdots\le s_N(u)=t_*(u)
+\]
+
+such that the complete classical arc over every
+$[s_{j-1}(u),s_j(u)]\cap J_u$ is contained in a verified enclosure on which
+one of (i)--(iii) holds, and the state at its own terminal time $t_*(u)$
+satisfies the same terminal alternative.  The enclosures and the terminal
+times need not lie on common physical-time sections.
+
+**Proof.**  Fix $u$ and a hypothetical second brake time $\tau$.  If
+$\tau\le t_*(u)$, consecutiveness of the fiberwise arcs puts $\tau$ in at
+least one verified enclosure, contradicting its brake-exclusion disjunct.
+If $\tau>t_*(u)$, the terminal alternative gives the same contradiction as
+Theorem C.  This pointwise argument is uniform because every containment and
+strict inequality was verified simultaneously over $\mathcal U$.
+$\blacksquare$
+
+This is the form used when a regularized integrator advances all parameters
+by a common fictitious-time step.  The physical-time coordinate can then
+have parameter-dependent endpoints.  Positivity of the selected radius on
+the complete step enclosure makes physical time strictly increasing on every
+surviving classical fiber, and the union of consecutive accepted-step
+enclosures supplies exactly the cover above.
+
 ## Remarks on scope
 
 * Theorems A--C hold for every real parameter in the fundamental interval;
@@ -251,7 +282,8 @@ hypothesis ($Y\ne0$) is needed anywhere in Theorem C.
   computational fact to be established case by case (first target:
   $u=1/3$).
 
-Status: Lemmas 1--2 and Theorems A--C are **PROVED ANALYTICALLY** (with the
+Status: Lemmas 1--2, Theorems A--C, and Corollary C1 are **PROVED
+ANALYTICALLY** (with the
 two symbolic identities regression-tested); the checkpoint interface lemmas
 used are the Hopf-residual equivalence, the second-brake lemma, and the
 terminal escape certificate, each cited with hypotheses verified.

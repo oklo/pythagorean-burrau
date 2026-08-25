@@ -1467,3 +1467,41 @@ it is not a remainder proof.
 - Evidence status: **PROVED BY COMPUTER-ASSISTED ARGUMENT** for absence of a
   brake through the first positive maximum on this real interval. Later
   maximum branches remain open.
+
+## 2026-08-25: end-to-end middle real-interval certificate
+
+- Imported and audited the independent endgame driver
+  `middle_escape_endgame_capd.cpp`.  It propagates one C0 tripleton with the
+  Euclid parameter frozen in the state, uses no Poincare projection, audits
+  every accepted solver-step enclosure, and applies three exact chart maps
+  by a rigorous mean-value set image.
+- Replayed the widened tile
+  $u\in[29000000000/10^{11},29000000010/10^{11}]
+  =[0.29,0.2900000001]$ against pinned CAPD commit
+  `731079217a9254ea2948d742df2b170895effe7f`, at 80-bit MPFR precision,
+  tolerance $10^{-14}$, and Taylor order 24.  The main-worktree run exactly
+  reproduced all archived phase endpoints and returned
+  `PASS_MIDDLE_ESCAPE_ENDGAME` after 3537 accepted steps with maximum state
+  hull width $0.00137340$.
+- The terminal enclosure has
+  $t_*\in[4.30147756370,4.30159216688]$, $d>1.86797758708$,
+  $\dot\rho>2.04773008151$, $E_\rho>0.82257204218$,
+  $h<-9.27458850157$, and the post-tidal inner-energy margin
+  $>5.06969485075$.  A second native-interval checker run on deliberately
+  outward-widened printed bounds independently returned
+  `PASS_MIDDLE_ESCAPE_TERMINAL_PHASE_ROBUST` with margin
+  $>5.06969485073$.
+- All 32 selected exact symbolic regressions pass, including both LC fields,
+  all chart transformations, the terminal map, and the independent
+  total-energy-leaf identities developed in the main route.
+- Evidence status: **PROVED BY COMPUTER-ASSISTED ARGUMENT** for every real
+  parameter in the displayed interval.  It includes infinitely many
+  rational Euclid parameters and hence infinitely many primitive triples;
+  $u=29/100$ gives $(9159,5800,10841)$.
+- A superseded experimental route, which repeatedly projected onto LC
+  sections and then attempted a common-$\sigma$ pair--23 leg, independently
+  confirmed the wrapping diagnosis: after an exact chart switch its hull
+  grew from $0.214655$ to $728.258$ by
+  $t\in[1.99372,2.01752]$ and failed when an unselected-distance denominator
+  enclosed zero.  The validated endgame driver avoids this representation
+  failure; it is not a physical collision result.
