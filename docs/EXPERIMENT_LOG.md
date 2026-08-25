@@ -1588,3 +1588,16 @@ it is not a remainder proof.
   puts the new selected pair farther from its next pericenter there; the
   interval chart image, not that ordinary observation, will decide whether
   the change is useful.
+- The complete early-switch stress test reduced the Form-B image from the old
+  $0.295749$ hull to $0.0537352$, a factor $5.50$.  This is a real enclosure
+  improvement, but not enough: pair--23 propagation wrapped to hull $2.91259$
+  on $t\in[3.6156,3.65514]$ and an interval denominator enclosed zero.  The
+  run therefore returned no terminal certificate and makes no dynamical
+  claim.
+- Inspection of pinned CAPD source identified a stronger chart-map image.
+  `DynSysMap` applies the algebraic map while retaining both tripleton
+  remainder representations $Br$ and $Qq$, intersects them with the direct
+  interval image, and reorganizes with point correlation matrices.  The
+  reviewed manual image retained the distinguished $u$ generator but
+  conservatively collapsed the remainder to one box.  An opt-in native-map
+  width-$10^{-8}$ replay is the active test.

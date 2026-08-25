@@ -21,7 +21,7 @@
 //     pair-{1,3} chart (Form A lift, valid where g13_x > 0, as holds at the
 //     default tp >= 7/4 switch);
 //   * make_pair13_to_pair23_map_form_b(): the Form-B variant of the
-//     committed switch (w_i = sqrt((|g|-g_x)/2)), required near tp = 71/20
+//     committed switch (w_i = sqrt((|g|-g_x)/2)), required near tp = 7/2
 //     where g23 lies near the negative real axis and Form A degenerates;
 //   * project_graph(): the committed C1 Poincare projection with a
 //     STRENGTHENED per-step audit.  Every accepted-step enclosure must
@@ -37,7 +37,7 @@
 //     (deep {1,3} passage near t = 1.92), second maximum, third minimum
 //     (t = 2.925), third maximum, fourth minimum (the exchange scattering
 //     near t = 3.469 where r23 also dips to ~0.03), switch to pair-{2,3}
-//     with Form B at tp = 71/20, and project to the time section tp = 9/2;
+//     with Form B near tp = 7/2, and project to the time section tp = 9/2;
 //   * the phase-robust terminal check evaluated on the graph hull at
 //     tp = 9/2 (eta = 4, binary {2,3}, escaper 1), using only the
 //     transported h and the outer variables G, P per the corollary, plus a
@@ -72,6 +72,7 @@
 #include <stdexcept>
 #include <string>
 
+#include "capd/dynsys/DynSysMap.h"
 #include "capd/mpcapdlib.h"
 
 namespace {
@@ -1221,6 +1222,21 @@ Set mean_value_switch(const Set& set, Map& transformation) {
   return Set(new_x, dc_mid, r0, new_r, set.getCurrentTime());
 }
 
+// Apply an algebraic chart map through CAPD's native discrete-dynamical-
+// system adapter.  Unlike the conservative manual image above, this retains
+// both tripleton remainder representations B*r and Q*q and intersects them
+// with the direct interval image before reorganization.  DynSysMap advances
+// its abstract discrete clock by one; restore the incoming solver clock
+// because every LC field here is autonomous and physical time is state[9].
+Set structured_switch(const Set& set, Map& transformation) {
+  Set image(set);
+  const Ival solver_clock = set.getCurrentTime();
+  capd::dynsys::DynSysMap<Map> discrete_map(transformation);
+  image.move(discrete_map);
+  image.setCurrentTime(solver_clock);
+  return image;
+}
+
 // Phase-robust terminal margins evaluated on a state enclosure (hull of the
 // current set): binary {2,3}, escaper 1, eta = 4.  Quiet unless verbose.
 bool terminal_margins_pass(const Vector& hull, bool verbose) {
@@ -1303,6 +1319,12 @@ int run_endgame_c0(const Ival& u_param, long p, long q, long p2, long q2,
       std::getenv("FABLE_ENDGAME_SYNC") != nullptr;
   const bool synchronize_preswitch =
       std::getenv("FABLE_ENDGAME_PRESWITCH") != nullptr;
+  const bool structured_form_b =
+      std::getenv("FABLE_ENDGAME_STRUCTURED_SWITCH") != nullptr;
+  if (synchronize_preswitch && !synchronize_exchange) {
+    throw std::runtime_error(
+        "FABLE_ENDGAME_PRESWITCH requires FABLE_ENDGAME_SYNC");
+  }
   bool exchange_synchronized = false;
   long steps = 0;
   double largest_hull = 0;
@@ -1316,7 +1338,9 @@ int run_endgame_c0(const Ival& u_param, long p, long q, long p2, long q2,
           phase_index == 1 ? switch_to_23
                            : (phase_index == 2 ? switch_to_13
                                                : switch_to_23_form_b);
-      set = mean_value_switch(set, transformation);
+      set = structured_form_b && phase_index == 3
+                ? structured_switch(set, transformation)
+                : mean_value_switch(set, transformation);
       const Vector switched(set);
       const DirectLcScalars sc =
           phase.pair23 ? evaluate_pair23_lc(switched, family)
@@ -1669,11 +1693,14 @@ int main(int argc, char** argv) {
         std::getenv("FABLE_ENDGAME_SYNC") != nullptr;
     const bool synchronize_preswitch =
         std::getenv("FABLE_ENDGAME_PRESWITCH") != nullptr;
+    const bool structured_form_b =
+        std::getenv("FABLE_ENDGAME_STRUCTURED_SWITCH") != nullptr;
     std::cout << "ENDGAME_PARAMS precision_bits=" << precision
               << " tolerance=" << tolerance << " order=" << order
               << " sync_exchange=" << (synchronize_exchange ? 1 : 0)
               << " sync_preswitch=" << (synchronize_preswitch ? 1 : 0)
-              << " driver=middle_escape_endgame_capd/v8-early-switch-2026-08-25"
+              << " structured_form_b=" << (structured_form_b ? 1 : 0)
+              << " driver=middle_escape_endgame_capd/v9-structured-switch-2026-08-25"
               << "\n" << std::flush;
     const bool graph_mode =
         std::getenv("FABLE_ENDGAME_GRAPH") != nullptr;

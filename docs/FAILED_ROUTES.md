@@ -16,9 +16,12 @@ $0.0266531$.
 
 These are rigorous containment widths and tube audits, but the stopped runs
 do not supply terminal certificates.  They disprove only the proposed
-reconditioning mechanism.  The useful salvage is timing: switch charts at
-the earlier synchronized $t=3.48$ state rather than carrying that state to an
-even later fixed-time section.
+reconditioning mechanism.  Switching charts at the earlier synchronized
+$t=3.48$ state does lower the Form-B hull to $0.0537352$, versus $0.295749$
+at $t=3.50$, but the escape leg still wraps to $2.91259$ near $t=3.63$ and
+fails on a denominator containing zero.  The timing improvement is retained;
+the active repair preserves the tripleton's two remainder correlations
+through the nonlinear map instead of collapsing them to one box.
 
 ## Physical transverse-velocity quotient through every LC collision block
 
