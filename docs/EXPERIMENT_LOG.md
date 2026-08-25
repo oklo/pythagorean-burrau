@@ -1512,3 +1512,38 @@ it is not a remainder proof.
   $t\in[1.99372,2.01752]$ and failed when an unselected-distance denominator
   enclosed zero.  The validated endgame driver avoids this representation
   failure; it is not a physical collision result.
+
+## 2026-08-25: correlated exchange synchronization
+
+- Added an opt-in FABLE_ENDGAME_SYNC=1 mode to the end-to-end driver.  At
+  six pair--13 sections
+  $w_r=-3/5,-1/2,-2/5,-3/10,-1/5,0$, CAPD encloses a common transverse
+  Poincare image and its full derivative over a convex superset of the
+  incoming tripleton.  A mean-value split preserves the distinguished
+  Euclid-parameter generator.  A separate C0 copy covers every intervening
+  trajectory tube through the latest return and checks separation and the
+  complete brake-exclusion disjunction.
+- On the already-proved width-$10^{-10}$ tile, the synchronized mode passed
+  end to end with maximum hull $3.00087\times10^{-5}$, versus
+  $1.37340\times10^{-3}$ for the common-clock representation: a rigorous
+  sharpening by a factor about 46.
+- A width-$10^{-8}$ stress test passed all six synchronized sections.  The
+  section hulls were respectively
+  $8.76\times10^{-5}$, $2.77\times10^{-4}$, $8.63\times10^{-3}$,
+  $1.54\times10^{-2}$, $1.68\times10^{-2}$, and $1.76\times10^{-2}$.
+  The Form-B switch then widened the hull to $0.315$ and the escape phase
+  failed its hull guard at $t\approx3.65237$.  This is a localized
+  representation failure, not dynamical evidence.
+- The intermediate width-$10^{-9}$ tile
+  $[0.29,0.290000001]$ passed all 3344 main-flow steps and every independent
+  section audit.  Its maximum hull was $4.63549\times10^{-4}$.  The terminal
+  phase-robust inequalities retained margin $5.06905197647$; a separately
+  compiled interval checker passed an outward-widened terminal box with
+  margin $5.06905197641$.
+- A second full run at 96-bit MPFR precision, tolerance $10^{-16}$, and
+  Taylor order 26 independently passed the same interval, all 3344 main-flow
+  steps, and all six audits.  It returned maximum hull
+  $4.63548711399\times10^{-4}$ and terminal margin $5.06905197647539$.
+- Evidence status: **PROVED BY COMPUTER-ASSISTED ARGUMENT** for the complete
+  displayed real interval.  The synchronized log and standalone terminal
+  check are archived under data/fable/.

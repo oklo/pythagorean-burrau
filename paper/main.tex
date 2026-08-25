@@ -32,7 +32,11 @@ named primitive triples, but it does not yet control all maximum-event
 branches over the parameter curve.  A correlation-preserving MPFR interval
 map also excludes the first positive brake uniformly for
 $29/100\le u\le14501/50000$, through two binary close passages; later
-maximum branches remain open.  We
+maximum branches remain open on that full interval.  A second correlated
+MPFR/CAPD certificate, using rigorous Poincare synchronization through the
+exchange and a terminal collision-or-escape theorem, proves full
+nonperiodicity for every real
+$u\in[0.29,0.290000001]$.  We
 also prove that the real isosceles-right endpoint has no second brake and ends
 in finite collision.  Exact Bernstein inequalities and a validated $C^1$
 first-syzygy calculation additionally prove both pre-syzygy torque
@@ -315,6 +319,64 @@ complete replay, and pinned dependency hash are archived with the paper.
 This theorem excludes only the first positive maximum.  It does not rule out
 a brake on a later maximum branch and therefore is not, by itself, a
 nonperiodicity theorem on the displayed interval.
+
+\begin{theorem}[Validated middle real interval]
+For every real
+\[
+ {29\over100}\le u\le {290000001\over1000000000},
+\]
+the tied maximal classical solution has no second labelled brake at any
+collision-free time and hence is not a classical periodic solution.
+Consequently the Pythagorean--Burrau conjecture holds for infinitely many
+primitive triples in this interval, including
+$(9159,5800,10841)$ at $u=29/100$.
+\end{theorem}
+\begin{proof}
+A pinned MPFR/CAPD propagation embeds the exact launch curve in one
+correlated tripleton with $u$ frozen as a state coordinate.  Before the
+exchange, every accepted full-step enclosure is checked for three positive
+mutual separations and for the brake-exclusion disjunction of the preceding
+corollary.  Three algebraic changes of Levi--Civita chart use rigorous
+mean-value images.
+
+Across the exchange, six $C^1$ Poincare maps project onto the transverse
+pair--13 sections
+\[
+ w_r=-{3\over5},-{1\over2},-{2\over5},-{3\over10},-{1\over5},0.
+\]
+For each map a convex mean-value domain contains the propagated family and
+its stored center, the validated section derivative transports the
+distinguished parameter generator, and an independent $C^0$ integration
+covers the complete incoming tube through the latest possible return.
+Thus section reconditioning does not omit any inter-section time.  Every
+tube enclosure retains positive separation and excludes a brake.
+
+The resulting terminal enclosure has
+\[
+\begin{split}
+t_*&\in[4.30030837364,4.30032429905],\\
+d&>1.8655,\qquad \dot\rho>2.0484,\qquad E_\rho>0.8223,\\
+h&<-9.2745,\qquad -4-h-\Delta>5.0690 .
+\end{split}
+\]
+These are the strict hypotheses of the phase-robust binary--escaper theorem
+with binary $\{2,3\}$, escaper body 1, and $\eta=4$.  Hence after $t_*$ the
+inner pair either collides classically, ending the maximal classical
+solution, or body 1 escapes permanently; neither alternative permits a later
+brake.  The second-brake lemma proves nonperiodicity.  A separately compiled
+interval checker verifies the terminal inequalities on an outward-widened
+copy of the printed box.  The complete source, pinned dependency hash,
+per-section tube audits, and replay log accompany the proof.
+A second end-to-end run at 96-bit MPFR precision, tolerance $10^{-16}$, and
+Taylor order 26 reproduces all six section audits, 3344 main-flow steps, and
+the terminal margin.
+\end{proof}
+
+This interval theorem is a continuum result, not a finite scan.  It remains
+far smaller than the compact middle range: a width-$10^{-8}$ stress test
+rigorously crosses all six exchange sections but suffers wrapping after the
+final chart switch.  Controlling that post-exchange representation is the
+next local computer-assisted obligation.
 
 For each fixed $u$ the separation bound is positive, and it is uniform on
 every compact parameter interval bounded away from $u=0$.  It degenerates in

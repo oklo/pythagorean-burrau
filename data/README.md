@@ -61,6 +61,12 @@ five named primitive triples. `fable/burrau_lc_damped_write_smoke.log`
 records only a deliberately truncated finite-segment audit of the repaired
 $u=1/3$ multipassage LC chart; it has no terminal PASS marker and is not a
 $3{:}4{:}5$ theorem record.
+`fable/middle_escape_endgame_1e9_sync_interval.log` records the correlated
+exchange-section proof for every real $u\in[0.29,0.290000001]$.
+`fable/middle_escape_endgame_1e9_sync_interval_96bit.log` is the independent
+higher-precision and higher-order end-to-end replay.
+`fable/middle_escape_terminal_1e9_sync_independent.log` is the separately
+compiled phase-robust check of an outward-widened copy of its terminal box.
 
 `f30_mass_side_periodic_candidate.txt` records an ordinary five-equation
 shooting solution on the nearby Li--Liao $F_{30}$ family. Its masses match

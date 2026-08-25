@@ -973,6 +973,200 @@ void guarded_direct_move(PhaseRunner& runner, Set& set, double cap) {
   }
 }
 
+// Project one correlated C0 tripleton onto a transverse coordinate section
+// while independently auditing the complete common-sigma tube through the
+// latest validated return.  The Poincare image synchronizes the family; the
+// audit is what proves collision and brake exclusion between sections.
+Vector project_c0_section_with_audit(
+    Set& set, int section_coordinate, const Ival& section_value,
+    capd::poincare::CrossingDirection direction, bool pair23_chart,
+    const Ival& u_range, int order, double tolerance) {
+  Set audit_set(set);
+  Map field = pair23_chart ? make_pair23_lc_field() : make_direct_lc_field();
+  CoordinateSection section(12, section_coordinate, section_value);
+
+  // Replace the tripleton's intersected remainder by its coordinatewise
+  // intersection box.  The resulting doubleton is convex, contains the
+  // original set and its stored center, and is therefore a valid domain for
+  // a mean-value enclosure of the Poincare map.
+  const Vector x = set.get_x();
+  const Matrix c_matrix = set.get_C();
+  const Vector r0 = set.get_r0();
+  const int dimension = x.dimension();
+  const Vector b_part = set.get_B() * set.get_r();
+  const Vector q_part = set.m_Q * set.m_q;
+  Vector remainder(dimension);
+  for (int i = 0; i < dimension; ++i) {
+    if (!capd::intervals::intersection(b_part[i], q_part[i],
+                                       remainder[i])) {
+      throw std::runtime_error(
+          "empty remainder before synchronized section");
+    }
+    remainder[i] = capd::intervals::intervalHull(remainder[i], Ival(0));
+  }
+  C1Set derivative_set(
+      x, c_matrix, r0, remainder, set.getCurrentTime());
+  Solver section_solver(field, order);
+  section_solver.setAbsoluteTolerance(tolerance);
+  section_solver.setRelativeTolerance(tolerance);
+  // Resolve the unselected pair throughout the short exchange legs.  This
+  // upper bound is stricter than the measured free-fall cap on the chosen
+  // sections and PoincareMap respects Solver::setMaxStep directly.
+  section_solver.setMaxStep(Ival(1) / Ival(2000));
+  PoincareMap section_map(section_solver, section, direction);
+  section_map.setMaxReturnTime(50.0);
+  Ival return_time;
+  Matrix flow_derivative(dimension, dimension);
+  const Vector section_image =
+      section_map(derivative_set, flow_derivative, return_time);
+  if (!section_image[section_coordinate].contains(section_value)) {
+    throw std::runtime_error("synchronized C0 map missed its section");
+  }
+  const Matrix section_derivative = section_map.computeDP(
+      section_image, flow_derivative, return_time);
+
+  // Independently propagate the stored center to the same section.  The
+  // mean-value theorem on the convex derivative_set then encloses the image
+  // of the complete original tripleton while retaining its distinguished
+  // parameter generator.
+  Map anchor_field =
+      pair23_chart ? make_pair23_lc_field() : make_direct_lc_field();
+  Solver anchor_solver(anchor_field, order);
+  anchor_solver.setAbsoluteTolerance(tolerance);
+  anchor_solver.setRelativeTolerance(tolerance);
+  anchor_solver.setMaxStep(Ival(1) / Ival(2000));
+  PoincareMap anchor_map(anchor_solver, section, direction);
+  anchor_map.setMaxReturnTime(50.0);
+  Set anchor_set(x, set.getCurrentTime());
+  Ival anchor_return;
+  const Vector anchor_image = anchor_map(anchor_set, anchor_return);
+  if (!anchor_image[section_coordinate].contains(section_value)) {
+    throw std::runtime_error("synchronized center missed its section");
+  }
+
+  const Matrix dc = section_derivative * c_matrix;
+  const Vector d_remainder = section_derivative * remainder;
+  Matrix dc_mid(dimension, dimension);
+  Vector spill(dimension), new_x(dimension), new_r(dimension);
+  for (int i = 0; i < dimension; ++i) {
+    spill[i] = Ival(0);
+    const Ival anchor_mid =
+        (Ival(anchor_image[i].leftBound()) +
+         Ival(anchor_image[i].rightBound())) /
+        2;
+    new_x[i] = anchor_mid;
+    for (int j = 0; j < dimension; ++j) {
+      const Ival matrix_mid =
+          (Ival(dc[i][j].leftBound()) + Ival(dc[i][j].rightBound())) /
+          2;
+      dc_mid[i][j] = matrix_mid;
+      spill[i] += (dc[i][j] - matrix_mid) * r0[j];
+    }
+    new_r[i] = d_remainder[i] + (anchor_image[i] - anchor_mid) + spill[i];
+  }
+  // Every image lies exactly on the coordinate section.  Enforce that exact
+  // algebraic fact after the mean-value construction.
+  new_x[section_coordinate] = section_value;
+  new_r[section_coordinate] = Ival(0);
+  for (int j = 0; j < dimension; ++j) {
+    dc_mid[section_coordinate][j] = Ival(0);
+  }
+  // Intersect the mean-value remainder with the independently returned
+  // coordinate enclosure of the complete Poincare image.
+  const Vector image_remainder =
+      section_image - new_x - dc_mid * r0;
+  for (int i = 0; i < dimension; ++i) {
+    Ival sharpened;
+    if (!capd::intervals::intersection(new_r[i], image_remainder[i],
+                                       sharpened)) {
+      throw std::runtime_error(
+          "empty mean-value/section-image remainder intersection");
+    }
+    new_r[i] = sharpened;
+  }
+  Set synchronized_set(new_x, dc_mid, r0, new_r, Ival(0));
+
+  const Ival audit_target = Ival(return_time.rightBound());
+  Map audit_field =
+      pair23_chart ? make_pair23_lc_field() : make_direct_lc_field();
+  PhaseRunner audit(audit_field, order, tolerance);
+  const Family family = make_family(u_range);
+  long audit_steps = 0;
+  for (;; ++audit_steps) {
+    if (audit_steps > 300000) {
+      throw std::runtime_error("synchronized section audit step limit");
+    }
+    const Vector before(audit_set);
+    if (audit_set.getCurrentTime().leftBound() >=
+        audit_target.rightBound()) {
+      break;
+    }
+    const DirectLcScalars pre =
+        pair23_chart ? evaluate_pair23_lc(before, family)
+                     : evaluate_direct_lc(before, family);
+    if (!(pre.selected_radius.leftBound() > 0) ||
+        !(pre.r12_squared.leftBound() > 0) ||
+        !(pre.r23_squared.leftBound() > 0)) {
+      throw std::runtime_error(
+          "synchronized section audit lost pre-step separation");
+    }
+    const double w_abs = std::sqrt(std::max(
+        1e-12, bound_double(pre.selected_radius.leftBound())));
+    const double unselected = std::sqrt(std::max(
+        1e-12,
+        std::min(bound_double(pre.r12_squared.leftBound()),
+                 bound_double(pre.r23_squared.leftBound()))));
+    const double w2_lower = std::max(1e-12, w_abs * w_abs);
+    const double unselected_cap =
+        unselected * std::sqrt(unselected) / (40.0 * w2_lower);
+    const double cap = std::max(
+        1.0 / 20000.0,
+        std::min(std::min(w_abs / 24.0, unselected_cap), 1.0 / 100.0));
+    guarded_direct_move(audit, audit_set, cap);
+    const Vector enclosure = audit_set.getLastEnclosure();
+    const DirectLcScalars sc =
+        pair23_chart ? evaluate_pair23_lc(enclosure, family)
+                     : evaluate_direct_lc(enclosure, family);
+    if (!(sc.selected_radius.leftBound() > 0) ||
+        !(sc.r12_squared.leftBound() > 0) ||
+        !(sc.r23_squared.leftBound() > 0)) {
+      throw std::runtime_error(
+          "synchronized section audit lost collision separation");
+    }
+    if (contains_zero(sc.i_dot) &&
+        !(sc.potential.leftBound() > family.u0.rightBound()) &&
+        !(sc.kinetic.leftBound() > 0) &&
+        !direct_lc_residual_excludes_brake(enclosure)) {
+      throw std::runtime_error(
+          "synchronized section audit lost every brake obstruction");
+    }
+  }
+
+  std::cout << "C0_SYNC_AUDIT section=["
+            << bound_double(section_value.leftBound()) << ","
+            << bound_double(section_value.rightBound()) << "] sigma_return=["
+            << bound_double(return_time.leftBound()) << ","
+            << bound_double(return_time.rightBound()) << "] steps="
+            << audit_steps << "\n" << std::flush;
+
+  set = synchronized_set;
+  const Vector synchronized(set);
+  if (!synchronized[section_coordinate].contains(section_value)) {
+    throw std::runtime_error(
+        "synchronized C0 set does not contain its section value");
+  }
+  const DirectLcScalars sync_sc =
+      pair23_chart ? evaluate_pair23_lc(synchronized, family)
+                   : evaluate_direct_lc(synchronized, family);
+  if (!(sync_sc.selected_radius.leftBound() > 0) ||
+      !(sync_sc.r12_squared.leftBound() > 0) ||
+      !(sync_sc.r23_squared.leftBound() > 0)) {
+    throw std::runtime_error(
+        "synchronized section image lost collision separation");
+  }
+  return synchronized;
+}
+
 // Rigorous mean-value image of a tripleton set under an algebraic map:
 // for p = x + C r0 + (B r cap ...) in a convex interval box H containing
 // both p and the stored center x,
@@ -1105,6 +1299,9 @@ int run_endgame_c0(const Ival& u_param, long p, long q, long p2, long q2,
 
   const Ival t1 = Ival(1) / Ival(5);
   bool initial_phase = true;
+  const bool synchronize_exchange =
+      std::getenv("FABLE_ENDGAME_SYNC") != nullptr;
+  bool exchange_synchronized = false;
   long steps = 0;
   double largest_hull = 0;
 
@@ -1135,6 +1332,40 @@ int run_endgame_c0(const Ival& u_param, long p, long q, long p2, long q2,
     PhaseRunner flow(fields[phase.pair23 ? 1 : 0], order, tolerance);
     for (;;) {
       const Vector before(set);
+      if (synchronize_exchange && phase_index == 2 &&
+          !exchange_synchronized &&
+          before[9].leftBound() >= (Ival(13) / Ival(4)).rightBound()) {
+        const Ival exchange_wr_sections[] = {
+            -Ival(3) / Ival(5), -Ival(1) / Ival(2),
+            -Ival(2) / Ival(5), -Ival(3) / Ival(10),
+            -Ival(1) / Ival(5), Ival(0)};
+        int ordinal = 0;
+        for (const Ival& wr_section : exchange_wr_sections) {
+          const Vector image = project_c0_section_with_audit(
+              set, 0, wr_section, capd::poincare::MinusPlus,
+              false, u_param, order, tolerance);
+          const DirectLcScalars image_sc = evaluate_direct_lc(image, family);
+          if (!(image[2].leftBound() > 0) ||
+              !(image_sc.selected_radius.leftBound() > 0) ||
+              !(image_sc.r12_squared.leftBound() > 0) ||
+              !(image_sc.r23_squared.leftBound() > 0)) {
+            throw std::runtime_error(
+                "exchange section lost orientation or separation");
+          }
+          ++ordinal;
+          std::cout << "C0_SYNC_EXCHANGE ordinal=" << ordinal
+                    << " wr=[" << bound_double(image[0].leftBound())
+                    << "," << bound_double(image[0].rightBound())
+                    << "] tp=[" << bound_double(image[9].leftBound())
+                    << "," << bound_double(image[9].rightBound())
+                    << "] zr=[" << bound_double(image[2].leftBound())
+                    << "," << bound_double(image[2].rightBound())
+                    << "] hull=" << hull_width(image, 12) << "\n"
+                    << std::flush;
+        }
+        exchange_synchronized = true;
+        continue;
+      }
       if (before[9].leftBound() >= phase.end_time) break;
       const double w_abs = std::sqrt(std::max(
           1e-12,
@@ -1409,9 +1640,12 @@ int main(int argc, char** argv) {
       std::cerr << "FAIL invalid Euclid-parameter interval\n";
       return 2;
     }
+    const bool synchronize_exchange =
+        std::getenv("FABLE_ENDGAME_SYNC") != nullptr;
     std::cout << "ENDGAME_PARAMS precision_bits=" << precision
               << " tolerance=" << tolerance << " order=" << order
-              << " driver=middle_escape_endgame_capd/v5-hardened-2026-08-25"
+              << " sync_exchange=" << (synchronize_exchange ? 1 : 0)
+              << " driver=middle_escape_endgame_capd/v6-sync-2026-08-25"
               << "\n" << std::flush;
     const bool graph_mode =
         std::getenv("FABLE_ENDGAME_GRAPH") != nullptr;

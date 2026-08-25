@@ -19,17 +19,24 @@ it is not yet a nonperiodicity theorem on that full interval.  See
 
 A new end-to-end pinned MPFR/CAPD certificate now closes every later brake
 window on the nonempty subinterval
-$u\in[0.29,0.2900000001]$.  A single correlation-preserving C0 tripleton
-crosses all deep passages and the exchange scattering, with exact
-mean-value chart switches and a fail-closed audit on every accepted step,
-then reaches a phase-robust binary--escaper certificate with final margin
-$>5.06969$.  The main worktree independently replayed all 3537 steps and an
-outward-widened terminal box passed the standalone checker.  Thus every real
-parameter in this interval is nonperiodic.  Since it contains infinitely many
-rational Euclid parameters, this is an infinite primitive Pythagorean
-subfamily theorem; the endpoint $u=29/100$ corresponds to
-$(9159,5800,10841)$.  The full compact-middle interval and the universal
-conjecture remain open.  See `FABLE_MIDDLE_INTERVAL_NONPERIODICITY.md`.
+$u\in[0.29,0.290000001]$.  A correlation-preserving C0 tripleton crosses
+the early deep passages with exact mean-value chart switches.  Six rigorous
+$C^1$ Poincare images then synchronize the exchange while independent C0
+tube integrations audit every inter-section state for collision separation
+and brake exclusion.  The resulting width-$10^{-9}$ tile reaches a
+phase-robust binary--escaper certificate with final margin $>5.06905$ after
+3344 accepted main-flow steps; its maximum hull is $4.64\times10^{-4}$.
+An outward-widened terminal box independently passed the standalone checker.
+An independent 96-bit, tolerance-$10^{-16}$, order-26 replay reproduced all
+six section audits, 3344 main steps, and the terminal margin.
+Thus every real parameter in this interval is nonperiodic.  Since it contains
+infinitely many rational Euclid parameters, this is an infinite primitive
+Pythagorean subfamily theorem; the endpoint $u=29/100$ corresponds to
+$(9159,5800,10841)$.  A width-$10^{-8}$ stress test rigorously crossed all
+six exchange sections but failed from wrapping in the final escape chart,
+localizing the next improvement.  The full compact-middle interval and the
+universal conjecture remain open.  See
+`FABLE_MIDDLE_INTERVAL_NONPERIODICITY.md`.
 
 The newest endpoint advance strengthens the terminal syzygy
 threshold to

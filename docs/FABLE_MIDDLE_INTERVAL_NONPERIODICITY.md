@@ -13,21 +13,21 @@ real parameter
 
 \[
  \boxed{\;\frac{29000000000}{100000000000}\;\le\;u\;\le\;
- \frac{29000000010}{100000000000}\;}
- \qquad\left(\,0.29\le u\le 0.29+10^{-10}\,\right),
+ \frac{29000000100}{100000000000}\;}
+ \qquad\left(\,0.29\le u\le 0.29+10^{-9}\,\right),
 \]
 
 the maximal classical solution admits **no second labelled brake at any
 collision-free time**: the tied solution is nonperiodic.  Concretely, the
 certificate proves that the solution is collision-free through a terminal
-parameter-dependent time $t_\ast(u)\in[4.30147,4.30160]$, that every
+parameter-dependent time $t_\ast(u)\in[4.30030,4.30033]$, that every
 collision-free time in $[0,t_\ast(u)]$ lies in a verified brake-exclusion
 window, and that at $t_\ast(u)$ the terminal escape theorem applies with
 certified margins
 
 \[
- \inf d=1.8679,\quad \inf\dot\rho=2.0477,\quad \inf E_\rho=0.8225,\quad
- \sup h=-9.2745,\quad \inf(-\eta-h-\Delta)=5.0696\quad(\eta=4).
+ \inf d=1.8655,\quad \inf\dot\rho=2.0484,\quad \inf E_\rho=0.8223,\quad
+ \sup h=-9.2745,\quad \inf(-\eta-h-\Delta)=5.0690\quad(\eta=4).
 \]
 
 The terminal conclusion is a dichotomy: either a later inner $\{2,3\}$
@@ -77,7 +77,14 @@ The certificate is `src/fable/verification/middle_escape_endgame_capd.cpp`
    variable inside a single `MpC0TripletonSet`, whose Lohner
    representation carries the parameter–state correlation step by step.
 
-4. **Exact chart switches** at $t\approx1$, $7/4$, $7/2$
+4. **Correlated Poincare synchronization** across the exchange, on the six
+   pair-{1,3} sections
+   $w_r=-3/5,-1/2,-2/5,-3/10,-1/5,0$.  Each return map carries the
+   distinguished parameter generator through a rigorous $C^1$ mean-value
+   image, while a separate $C^0$ integration covers the complete tube up to
+   the latest return and verifies separation and brake exclusion there.
+
+5. **Exact chart switches** at $t\approx1$, $7/4$, $7/2$
    (pair-13 → pair-23 Form A, back Form A, pair-13 → pair-23 Form B;
    maps regression-tested exactly in
    `tests/test_middle_escape_endgame_maps.py`), applied to the set by a
@@ -131,6 +138,29 @@ certificate itself never uses them):
   Square-root domain violations in $F$ raise interval exceptions, so an
   invalid branch choice fails closed.
 
+* **Mean-value Poincare image.**  Before each exchange section, the
+  tripleton remainder is enclosed by its coordinatewise intersection box
+  and extended to contain zero, producing a convex set that contains both
+  the propagated family and its stored center.  CAPD proves a common
+  transverse return branch and encloses its flow derivative; the standard
+  section correction gives $[DP]$ on that complete convex set.  The ordinary
+  mean-value theorem then encloses
+  $P(x+Cr_0+e)$ by
+  $P(x)+[DP]Cr_0+[DP]e$.  Midpoint splitting retains $r_0$ as the exact
+  distinguished parameter coordinate, and the remainder is intersected
+  with CAPD's independent enclosure of the complete section image.  The
+  section-normal coordinate is set to its exact section value.  Resetting
+  CAPD's solver-clock coordinate to zero after a section is harmless because
+  the regularized vector fields are autonomous; physical time is a separate
+  state coordinate and is not reset.
+
+* **Inter-section tube covering.**  A section image alone does not cover the
+  trajectory before it.  For every Poincare leg, a separate copy of the
+  incoming C0 set is integrated beyond the upper endpoint of the validated
+  return-time interval.  Every accepted full-step enclosure is checked for
+  all collision separations and the Corollary C1 brake disjunction.  Only
+  after this audit succeeds is the synchronized section image accepted.
+
 * **Interval correlation matrices and retries.**  CAPD's tripleton move
   multiplies an interval correlation matrix by the validated flow Jacobian,
   then splits it to a midpoint matrix and spills the discarded widths into
@@ -141,7 +171,7 @@ certificate itself never uses them):
 
 * **Fiberwise terminal time.**  The terminal certificate is evaluated on
   an accepted-step enclosure whose physical-time coordinate spans
-  $[4.30147756370,4.30159216688]$.  Each real $u$ needs only *some* collision-free
+  $[4.30030837364,4.30032429905]$.  Each real $u$ needs only *some* collision-free
   certificate time: its own state at its own time inside that step lies
   in the checked enclosure, and its covering extends through that step.
   No common terminal section is needed.
@@ -155,41 +185,44 @@ certificate itself never uses them):
   $10^{12}$).  A hull sanity guard ($>10$) additionally converts any
   such poisoning into a clean failure.
 
-## Why the interval is narrow, quantitatively
+## Quantitative effect of synchronization
 
-Measured on this itinerary (all `ORDINARY NUMERICAL EVIDENCE` from the
-failed wider runs, archived in the run report):
+The sensitivity estimates below are `ORDINARY NUMERICAL EVIDENCE`; the
+reported interval pass/fail points are validated CAPD outcomes:
 
 * selected-pair deep passages are cheap: the Levi–Civita $\sigma$-clock
   synchronizes the pericenter, and the $4.4\times10^{-4}$ passage costs
   only a factor $\sim3$ in hull width;
 * the exchange scattering at $t\in[3.44,3.48]$ (both pairs
   simultaneously close) has a transient parameter sensitivity
-  $\sim10^{6}$–$10^{8}$ at any fixed integration clock, and its
-  second-order (curvature) wrapping requires the incoming hull to be
-  below $\sim10^{-6}$; the tile widths that survive it end-to-end are
-  $\lesssim10^{-10}$ in $u$ (a $3\times10^{-10}$ tile passed the
-  exchange but died at the Form-B switch; both $10^{-11}$ and $10^{-10}$
-  tiles passed end to end);
+  $\sim10^{6}$–$10^{8}$ at any fixed integration clock.  The old
+  common-clock driver passed end to end at width $10^{-10}$ but was already
+  near its wrapping limit;
 * the ordinary post-escape sensitivity is only $\sim2\times10^{4}$: the
   transient spike re-contracts dynamically, but monotone interval
-  enclosures cannot re-contract, so the spike sets the tile width.
-  Wider tiles per run therefore need the exchange leg to be crossed in a
-  synchronized frame (the primary worker's reconditioning program):
-  measured section-synchronized sensitivities stay $\sim10^{3}$ across
-  all passages.
+  enclosures cannot re-contract, so the spike sets the tile width;
+* the six validated Poincare synchronizations reduce the maximum hull on the
+  proved $10^{-10}$ tile by a factor about 46, and permit the present
+  $10^{-9}$ tile to pass with maximum hull $4.64\times10^{-4}$;
+* a width-$10^{-8}$ stress test passed all six sections but reached hull
+  $0.315$ at the Form-B chart switch and then failed the driver's hull guard
+  at $t\approx3.65237$.  This is a representation failure, not evidence of
+  a physical collision or brake.  It localizes the next improvement to the
+  post-exchange chart-switch/escape representation.
 
-Scaling the certified width up by uniform tiling costs one run
-($\sim$7 minutes at 80-bit precision) per $10^{-11}$; the archived
-campaign extends the interval by contiguous tiles.
+The proved width is therefore ten times the independently reviewed base
+tile, while the same synchronized mechanism has rigorously crossed the
+exchange on a tile one hundred times wider.
 
 ## Reproduction
 
 ```sh
-sh scripts/fable_run_capd_middle_endgame.sh /private/tmp/fable-capd \
+FABLE_ENDGAME_SYNC=1 \
+  sh scripts/fable_run_capd_middle_endgame.sh /private/tmp/fable-capd \
   /private/tmp/fable-capd/build-mp \
-  29000000000 100000000000 29000000010 100000000000 80 1e-14 24
-# expect: ENDGAME_PARAMS ... driver=middle_escape_endgame_capd/v5-hardened-2026-08-25
+  29000000000 100000000000 29000000100 100000000000 80 1e-14 24
+# expect:
+# ENDGAME_PARAMS ... sync_exchange=1 driver=middle_escape_endgame_capd/v6-sync-2026-08-25
 #         PASS_MIDDLE_ESCAPE_ENDGAME ... inf_margin=5.069...
 ```
 
@@ -199,18 +232,24 @@ Cross-check of the printed `TERMINAL_BOX` with the independent checker
 ```sh
 sh scripts/fable_run_capd_middle_escape.sh /private/tmp/fable-capd \
   /private/tmp/fable-capd/build-native --phase-robust < box.txt
-# PASS_MIDDLE_ESCAPE_TERMINAL_PHASE_ROBUST ... (margin 5.0693)
+# PASS_MIDDLE_ESCAPE_TERMINAL_PHASE_ROBUST ... (margin 5.06905)
 ```
 
 Exact-map and exact-formula regressions:
 
 ```sh
 python -m pytest tests/test_middle_escape_symbolic.py \
-  tests/test_middle_escape_endgame_maps.py -q      # 22 exact tests
+  tests/test_middle_escape_endgame_maps.py \
+  tests/test_escape_certificate.py -q              # 25 tests
 ```
 
-Archived log: `data/fable/middle_escape_endgame_1e10_interval.log`
-(source-branch commit `bd3207a`).  Dependency pin: CAPD 6.1.0, commit
+Archived synchronized log:
+`data/fable/middle_escape_endgame_1e9_sync_interval.log`; the independent
+96-bit, tolerance-$10^{-16}$, order-26 refinement is archived as
+`data/fable/middle_escape_endgame_1e9_sync_interval_96bit.log`.  The
+reviewed base log remains
+`data/fable/middle_escape_endgame_1e10_interval.log`.  Dependency pin:
+CAPD 6.1.0, commit
 `731079217a9254ea2948d742df2b170895effe7f`, MPFR build.
 
 ## Independent review and repairs
@@ -231,12 +270,20 @@ explicit statement or implementation hardening:
 The complete $10^{-10}$ interval was replayed after these repairs.  All 3537
 validated steps, phase enclosures, terminal bounds, and the final margin
 $5.06969485075\ldots$ were unchanged.
+The synchronized extension preserves those repairs and adds the explicit
+convex-domain and full-tube checks above.
+The complete width-$10^{-9}$ interval was then replayed with 96-bit MPFR
+precision, tolerance $10^{-16}$, and Taylor order 26.  It again passed all
+3344 main-flow steps and six tube audits, with maximum hull
+$0.0004635487114$ and terminal margin $5.06905197648$; the 80-bit run gives
+$0.0004635487135$ and $5.06905197647$, respectively.
 
 ## Scope
 
 This theorem does not resolve the conjecture on the full middle tile
 $[0.29,0.29002]$; it closes a nonempty real subinterval and supplies a
 reusable, measured pipeline (architecture, step caps, switch maps,
-terminal edge) for widening.  The quantified exchange obstruction and
-the section-synchronization data identify exactly what the primary
-worker's reconditioning must supply for the full tile.
+terminal edge) for widening.  The exchange bottleneck is now crossed by a
+rigorous correlated return map; the next localized engineering target is a
+post-exchange section or a sharper Form-B image that prevents the final
+escape-chart hull growth on wider tiles.

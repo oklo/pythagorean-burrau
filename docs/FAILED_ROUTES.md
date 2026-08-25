@@ -991,3 +991,24 @@ image without repeated event projection, caps steps using unselected-pair
 free-fall scales, and certifies the narrower real interval
 $[0.29,0.2900000001]$ end to end.  The failed experiment remains useful as
 an independent localization of the fixed-clock sensitivity bottleneck.
+
+## Six exchange sections without post-switch reconditioning at width $10^{-8}$
+
+**Status:** DISPROVED as a sufficient single-tile representation at this
+width; the same architecture proves the width-$10^{-9}$ theorem.
+
+The repaired correlated Poincare construction rigorously crosses all six
+pair--13 exchange sections on $u\in[0.29,0.29000001]$, including independent
+full-tube collision and brake audits.  Its successive section hulls remain
+below $0.018$.  Direct continuation to physical time $3.5$ grows the hull to
+$0.0668$, however, and the exact Form-B pair--13 to pair--23 chart image has
+hull $0.315$.  The subsequent escape-chart propagation trips the fail-closed
+hull guard near $t=3.65237$.
+
+This does not invalidate any covered trajectory segment and is not evidence
+of collision or recurrence.  It shows specifically that exchange
+synchronization alone cannot carry this 100-times-wider tile through the
+current terminal representation.  The smallest repair is a transverse
+pair--23 section after the Form-B switch, or a sharper correlated image of
+that switch; returning to the old fixed-clock exchange would discard the
+proved 46-fold sharpening and the successful width-$10^{-9}$ theorem.
