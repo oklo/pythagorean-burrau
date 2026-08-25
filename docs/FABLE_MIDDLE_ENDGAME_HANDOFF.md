@@ -17,23 +17,37 @@ no protected file was touched.  Cherry-pick list at the end.
 of the normalized tied family is **nonperiodic**: the classical solution
 from the tied brake admits no second labelled brake at any collision-free
 time.  The certificate is a single validated propagation carrying the
-Theorem C brake-exclusion covering from the exact tied launch through
-$t_\ast\in[4.3015,4.3016]$ — through all four deep binary passages
-(selected-pair pericenters down to $4.4\times10^{-4}$) and through the
-exchange scattering at $t\in[3.44,3.48]$ — terminating in the
-phase-robust binary–escaper certificate with margins
+fiberwise brake-exclusion covering (Theorem C$'$ in the record) from the
+exact tied launch through $t_\ast(u)\in[4.3014,4.3016]$ — through all
+four deep binary passages (selected-pair pericenters down to
+$4.4\times10^{-4}$) and through the exchange scattering at
+$t\in[3.44,3.48]$ — terminating in the phase-robust binary–escaper
+certificate with outward-rounded margins
 
 \[
- \inf d=1.868,\quad \inf\dot\rho=2.048,\quad \inf E_\rho=0.823,\quad
- \sup h=-9.275,\quad \inf(-\eta-h-\Delta)=5.0697\quad(\eta=4).
+ \inf d\ge1.8679,\quad \inf\dot\rho\ge2.0477,\quad
+ \inf E_\rho\ge0.8225,\quad \sup h\le-9.2745,\quad
+ \inf(-\eta-h-\Delta)\ge5.0696\quad(\eta=4).
 \]
 
-Cross-verified by the standalone interval checker
-(`middle_escape_terminal_capd --phase-robust`) on the outward-rounded
-terminal box.  This is the program's first real-interval nonperiodicity
-statement; a tiling campaign of adjacent $10^{-10}$ tiles is extending it
-toward $[0.29,\,0.29+10^{-8}]$ (each tile is one 7-minute run; per-tile
-logs archive as they land).
+The terminal conclusion is the escape theorem's dichotomy (later inner
+$\{2,3\}$ collision ending the classical solution, or permanent escape
+of body 1); both branches exclude every later brake.  Cross-verified by
+the standalone interval checker (`middle_escape_terminal_capd
+--phase-robust`) on the outward-rounded terminal box; the cross-check
+output is archived beside the certificate log.  This is the program's
+first real-interval nonperiodicity statement.  A tiling campaign of
+adjacent $10^{-10}$ tiles toward $[0.29,\,0.29+10^{-8}]$ is in progress
+in the second agent's scratch area (each tile one 7-minute run); tiles
+will be archived into `data/fable/` once complete — at the time of
+writing, only the nested widenings starting at $0.29$ are archived.
+
+An independent adversarial review of the proof chain found no
+invalidating error; its findings (a previously unstated Theorem C
+variant, now stated and proved in the record; two CAPD-internals
+assumptions, now resolved against the pinned source and hardened in the
+driver; and the claim-hygiene items in this section) are documented with
+their repairs in the record's "Review and repairs" section.
 
 Full statement, proof structure, and soundness notes:
 `docs/FABLE_MIDDLE_INTERVAL_NONPERIODICITY.md`.

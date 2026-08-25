@@ -43,13 +43,17 @@
 //     for independent re-verification.
 //
 // A full PASS therefore proves, for EVERY real u in the input interval:
-// the classical solution is collision-free on [0, 9/2] (except possibly a
-// regularized inner collision of the selected pair, which ends the
-// classical solution), every collision-free time in [0, 9/2] is covered by
-// a verified brake-exclusion window, and the state at t = 9/2 satisfies
-// the terminal escape certificate.  By Theorem C no second labelled brake
-// exists at any collision-free time, i.e. the tied solution is nonperiodic
-// for every real parameter in the interval.
+// the classical solution is collision-free on [0, t_N(u)] (the fiber's
+// physical time at the passing terminal step; the run prints its
+// enclosure), every collision-free time in [0, t_N(u)] is covered by a
+// verified brake-exclusion window, and the state at t_N(u) satisfies the
+// terminal escape certificate.  Its conclusion is the dichotomy of
+// ESCAPE_CRITERIA.md: either a later inner {2,3} collision ends the
+// classical solution, or body 1 escapes permanently; both branches
+// exclude every later labelled brake.  By the (fiberwise) covering
+// certificate no second labelled brake exists at any collision-free time,
+// i.e. the tied solution is nonperiodic for every real parameter in the
+// interval.
 //
 // Usage:
 //   middle_escape_endgame_capd P Q P2 Q2 [PREC TOL ORDER]
@@ -951,14 +955,46 @@ bool terminal_phase_robust_check(const DirectCorrelatedGraph& graph) {
   return true;
 }
 
+// Exception-safe step: copy the set before each attempted move and restore
+// it on failure, so retries never act on a possibly part-written
+// representation.  (CAPD computes the enclosure before mutating the set, so
+// the common High-Order-Enclosure/division throws leave it intact; the
+// copy-restore additionally covers the internal empty-intersection
+// logic_error path, which writes representation members before throwing.)
+void guarded_direct_move(PhaseRunner& runner, Set& set, double cap) {
+  for (;;) {
+    Set backup(set);
+    try {
+      runner.solver.setMaxStep(Ival(cap));
+      set.move(runner.solver);
+      return;
+    } catch (const std::exception&) {
+      set = backup;
+      ++runner.capped_retries;
+      if (runner.capped_retries > 200000 || cap < 1e-14) throw;
+      cap /= 2;
+    }
+  }
+}
+
 // Rigorous mean-value image of a tripleton set under an algebraic map:
-// for p = x + C r0 + (B r cap ...) in the convex interval hull H,
+// for p = x + C r0 + (B r cap ...) and a convex interval box H containing
+// both p and the center x,
 //   map(p) in map(x) + [D map](H) (C r0 + B r),
 // realized as a new tripleton with C' = D C (u-correlation preserved),
 // r0' = r0, and remainder r' = D B r + (map(x) - mid(map(x))).
+// Point vs interval matrices: CAPD's own tripleton move accepts an interval
+// C soundly (C0TripletonSet.hpp: jacPhi*C is an interval product, then
+// split() renormalizes C to its midpoint and spills the widths times r0
+// into the remainder).  The midpoint-plus-spill below mirrors CAPD's
+// internal convention; it is not needed to avoid corruption.
 Set mean_value_switch(const Set& set, Map& transformation) {
-  const Vector hull(set);
   const Vector x = set.get_x();
+  // H must contain the segment [x, p] for every p in the set: take the
+  // hull of the set's enclosure and the stored center explicitly instead
+  // of assuming the center lies inside the enclosure.
+  Vector hull(set);
+  hull = capd::vectalg::intervalHull(hull, x);
   const Matrix c_matrix = set.get_C();
   const Vector r0 = set.get_r0();
   const int dimension = hull.dimension();
@@ -1135,7 +1171,7 @@ int run_endgame_c0(const Ival& u_param, long p, long q, long p2, long q2,
           1.0 / 20000.0,
           std::min(std::min(w_abs / 24.0, unselected_cap), 1.0 / 100.0));
       try {
-        flow.direct_move(set, cap);
+        guarded_direct_move(flow, set, cap);
       } catch (const std::exception& error) {
         std::cerr << "FAIL integrator exception in " << phase.label
                   << " at tp=[" << bound_double(before[9].leftBound())
@@ -1383,6 +1419,10 @@ int main(int argc, char** argv) {
       std::cerr << "FAIL invalid Euclid-parameter interval\n";
       return 2;
     }
+    std::cout << "ENDGAME_PARAMS precision_bits=" << precision
+              << " tolerance=" << tolerance << " order=" << order
+              << " driver=middle_escape_endgame_capd/v5-hardened-2026-08-25"
+              << "\n" << std::flush;
     const bool graph_mode =
         std::getenv("FABLE_ENDGAME_GRAPH") != nullptr;
     return graph_mode
