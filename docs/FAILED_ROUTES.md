@@ -516,7 +516,13 @@ times; the tangent hull omitted an anchor lying above a lower tile; and the
 exact 500-millisecond branch skipped its evolution. All three are repaired.
 The first and third affected diagnostics or unused branches, while the
 second invalidated pre-repair lower-anchor experiments. Every result retained
-in the proof ledger was replayed after the relevant repair.
+in the proof ledger was replayed after the relevant repair.  A fresh
+post-repair replay of the formerly skipped 500-millisecond branch confirms
+that it now advances the state, but the wide test tile then reaches CAPD's
+minimal-step failure near scaled time $18.3643$; it is not a certificate and
+no retained theorem cites it.  The archived 1-millisecond lower tile, whose
+anchor-to-tile hull exercises the other repair, replays successfully with
+the stored hexadecimal margins.
 
 ## Brute-force compact-middle parameter covering
 

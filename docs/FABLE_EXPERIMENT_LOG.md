@@ -161,3 +161,13 @@ All entries are ORDINARY NUMERICAL EVIDENCE unless marked otherwise.
     reconstructed physical hull width $4.9715\times10^{-5}$. The run was
     stopped there by design. Status: **VALIDATED NUMERICAL RESULT** for the
     repaired finite chart chain; no terminal Burrau certificate is claimed.
+
+19. **Independent post-repair replay.** Repeating the archived
+    256-bit/tolerance-$10^{-40}$/order-50 command reproduced all four LC
+    entry and exit times, step counts, and the deep reconstructed hull width
+    exactly through the printed digits.  The run was again interrupted just
+    after $t=3.1670113440018755$.  The common-clock lower atto tile also
+    replayed with its stored strict margins.  A diagnostic 500-millisecond
+    run, which the old branch had silently skipped, now propagates and then
+    fails from interval wrapping near scaled time $18.3643$.  No proof-ledger
+    theorem depends on that diagnostic branch.

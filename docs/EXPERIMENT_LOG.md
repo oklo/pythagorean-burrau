@@ -1332,3 +1332,20 @@ it is not a remainder proof.
   The thresholds still cross in the interior cone.  The remaining theorem
   is therefore $\eta<h$ before syzygy with terminal equality, plus the single
   reachable limiting-amplitude bound $Z<Z_J^{\rm syz}$.
+- Replayed the three previously localized Fable implementation repairs
+  against the authoritative tree.  The exact lower atto tile
+  `--fourth-common-clock-beta-atto-tile 44000000 100000 1` passed with the
+  stored minimum-primary, escape, and finite-mass hexadecimal margins; its
+  derivative hull includes the upper anchor.  Changing only the final
+  duration to 500 milliseconds now genuinely advances the graph instead of
+  leaving $\beta=-1$, but the propagated wide tile wraps and reaches CAPD's
+  minimal-step failure near scaled time $18.3643$.  Thus the fixed-time repair
+  is active, but 500 milliseconds is a failed enclosure rather than a
+  certificate.  Independently reran the 256-bit damped-write smoke chain:
+  all four entry/exit gates passed using
+  $t_{\rm end,left}-t_{\rm start,right}$, all swept LC enclosures had
+  $|w|^2>0$, and the deep passage reproduced exactly
+  $t_{\rm exit}=3.1670113440018755$, 140 LC steps, and reconstructed physical
+  hull width $4.971428028073183\times10^{-5}$.  The replay was deliberately
+  interrupted at that finite horizon; it remains a validated chart-chain
+  result, not a terminal $3{:}4{:}5$ theorem.
