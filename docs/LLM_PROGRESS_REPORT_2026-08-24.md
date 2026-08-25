@@ -26,7 +26,7 @@ The full rational conjecture is **not proved**. The stronger assertion for
 every real tied parameter is also **not proved**. No rational counterexample
 and no real second-brake intersection have been found.
 
-A difficulty-weighted completion estimate is currently about **44%**, with
+A difficulty-weighted completion estimate is currently about **46%**, with
 rough uncertainty of plus or minus 15 percentage points. This measures
 progress toward the universal theorem, not the amount of code or manuscript
 already written.
@@ -119,6 +119,32 @@ This does not collapse to the second-gap amplitude threshold: exact rational
 examples show both $Z_J<Z_2$ and $Z_J>Z_2$.  Any unified history estimate
 must control the appropriate minimum of the two, or replace them with a
 stronger invariant.
+
+There is now a sharp terminal exception to that interior nonordering.  On
+the ordered syzygy $x+y=1$, the collinear momentum constraints and the
+explicit torque threshold obey the exact identity
+
+\[
+ h=\eta={y(m+1-y)\over(1-y)(n+y)}.
+\]
+
+Both $P$ and $S$ vanish there, but each contains the same exact
+area-squared factor, so $Z_J=P/S$ has a path-independent rational syzygy
+extension.  Four complete bivariate tensor-Bernstein certificates, with
+coefficient counts $71/1$, $71/7$, $39/9$, and $274/23$ for strict/zero
+coefficients, prove
+
+\[
+ 0<Z_J^{\rm syz}<Z_2
+\]
+
+on the entire tied torque-compatible ordered-syzygy face.  The certificates
+also cover the equal-mass edge away from its torque-boundary endpoint.  This
+changes the correct noncontact statement: one seeks $\eta<h$ throughout the
+positive-area interior, followed by forced equality at terminal syzygy.
+Only the sharper $Z_J$ amplitude obligation survives on that face.  The
+actual brake-history inequality $Z<Z_J^{\rm syz}$ is still open, so this is
+a structural boundary theorem rather than a proof of cone persistence.
 
 A direct barrier for the second gap still fails even in first-contact form.
 An exact $u=1/3$ strict ordered-obtuse state at

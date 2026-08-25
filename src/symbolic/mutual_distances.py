@@ -474,6 +474,46 @@ def _tensor_bernstein_coefficients(
     )
 
 
+def _clear_tied_syzygy_polynomial(
+    expression: sp.Expr,
+    physical_variables: tuple[sp.Symbol, sp.Symbol, sp.Symbol],
+) -> tuple[sp.Expr, tuple[sp.Symbol, sp.Symbol]]:
+    """Pull a polynomial in ``(m,n,y)`` back to the tied syzygy square.
+
+    The square coordinates are
+
+    ``u=(sqrt(2)-1)*v`` and ``y=n*z/(m+n)``.
+
+    All omitted factors are positive on ``0<v<=1, 0<z<1``.  This is the
+    torque-compatible ordered-syzygy domain because the collinear torque
+    ratio is less than one exactly when ``y<n/(m+n)``.
+    """
+    mass_1, mass_2, side_31 = physical_variables
+    polynomial = sp.Poly(sp.expand(expression), mass_1, mass_2, side_31)
+    parameter, syzygy_fraction = sp.symbols("v z", nonnegative=True)
+    tied_parameter = (sp.sqrt(2) - 1) * parameter
+    mass_denominator = 1 + tied_parameter**2
+    mass_1_numerator = 1 - tied_parameter**2
+    mass_2_numerator = 2 * tied_parameter
+    mass_sum_numerator = mass_1_numerator + mass_2_numerator
+    maximum_mass_degree = max(
+        exponent[0] + exponent[1] for exponent, _ in polynomial.terms()
+    )
+    maximum_side_degree = polynomial.degree(side_31)
+    cleared = sum(
+        coefficient
+        * mass_1_numerator ** exponent[0]
+        * mass_2_numerator ** (exponent[1] + exponent[2])
+        * syzygy_fraction ** exponent[2]
+        * mass_denominator
+        ** (maximum_mass_degree - exponent[0] - exponent[1])
+        * mass_sum_numerator
+        ** (maximum_side_degree - exponent[2])
+        for exponent, coefficient in polynomial.terms()
+    )
+    return sp.expand(cleared), (parameter, syzygy_fraction)
+
+
 @lru_cache(maxsize=1)
 def ordered_shape_gravity_bernstein_coefficients() -> tuple[sp.Expr, ...]:
     """Exact tensor Bernstein certificate for ``ordered_shape_gravity_gap``."""
@@ -671,6 +711,164 @@ def ordered_syzygy_first_gap_energy_bernstein_coefficients() -> tuple[
     """Exact Bernstein certificate for the ordered-syzygy first gap."""
     numerator, variables = ordered_syzygy_first_gap_energy_numerator()
     return _tensor_bernstein_coefficients(numerator, variables)
+
+
+@lru_cache(maxsize=1)
+def _generic_ordered_syzygy_torque_thresholds() -> tuple[
+    dict[str, sp.Expr], tuple[sp.Symbol, ...]
+]:
+    """Exact torque-contact data on the ordered syzygy ``x+y=1``.
+
+    The variables are masses ``m,n`` and ``y=r31/r12``.  The strict
+    pre-syzygy torque signs give ``0<eta<1``, which on this face is
+    equivalent to ``0<y<n/(m+n)``.
+    """
+    history_source, shape_source, threshold, variables = (
+        log_torque_threshold_contact_terms()
+    )
+    mass_1, mass_2, side_23, side_31 = variables
+    syzygy_side_23 = 1 - side_31
+    torque_ratio = sp.factor(
+        side_31
+        * (mass_1 + syzygy_side_23)
+        / (syzygy_side_23 * (mass_2 + side_31))
+    )
+    threshold_residual = sp.factor(
+        threshold.subs(side_23, syzygy_side_23) - torque_ratio
+    )
+    syzygy_history_source = sp.factor(
+        history_source.subs(side_23, syzygy_side_23)
+    )
+    syzygy_shape_source = sp.factor(
+        shape_source.subs(side_23, syzygy_side_23)
+    )
+    apex_x = (side_31**2 + 1 - side_23**2) / 2
+    area_squared = sp.factor(side_31**2 - apex_x**2)
+    reduced_history_source = sp.factor(sp.cancel(history_source / area_squared))
+    reduced_shape_source = sp.factor(sp.cancel(shape_source / area_squared))
+    # Both contact terms contain the same exact area-squared factor.  Removing
+    # it gives a path-independent rational extension to the syzygy face.
+    contact_limit = sp.factor(
+        (reduced_history_source / reduced_shape_source).subs(
+            side_23, syzygy_side_23
+        )
+    )
+    centrifugal_coefficient = sp.factor(
+        syzygy_side_23**-3
+        - mass_2**2
+        * torque_ratio**2
+        / (mass_1**2 * side_31**3)
+    )
+    gravity_gap = sp.factor(
+        mass_2
+        - mass_1
+        + (2 * mass_1 + 1) / side_31**2
+        - (2 * mass_2 + 1) / syzygy_side_23**2
+    )
+    second_gap_threshold = sp.factor(
+        gravity_gap / (-centrifugal_coefficient)
+    )
+    threshold_difference = sp.factor(
+        sp.together(second_gap_threshold - contact_limit)
+    )
+    return (
+        {
+            "eta": torque_ratio,
+            "h_minus_eta": threshold_residual,
+            "P": syzygy_history_source,
+            "S": syzygy_shape_source,
+            "P_reduced": reduced_history_source,
+            "S_reduced": reduced_shape_source,
+            "area_squared": area_squared,
+            "ZJ": contact_limit,
+            "C2": centrifugal_coefficient,
+            "G2": gravity_gap,
+            "Z2": second_gap_threshold,
+            "Z2_minus_ZJ": threshold_difference,
+        },
+        (mass_1, mass_2, side_31),
+    )
+
+
+@lru_cache(maxsize=1)
+def ordered_syzygy_torque_amplitude_sign_cores() -> tuple[
+    dict[str, sp.Expr], tuple[sp.Symbol, ...]
+]:
+    """Return four cleared sign cores proving ``0<ZJ<Z2``.
+
+    On the tied syzygy square the signs are respectively
+    ``N_J<0``, ``D_J>0``, ``E_2<0``, and ``Q>0``.  Manifest factors then
+    give ``ZJ>0``, ``C2<0``, and ``Z2-ZJ>0``.
+    """
+    data, variables = _generic_ordered_syzygy_torque_thresholds()
+    mass_1, mass_2, side_31 = variables
+    contact_numerator, contact_denominator = sp.fraction(data["ZJ"])
+    contact_numerator_core = sp.factor(
+        contact_numerator
+        / (
+            2
+            * mass_1**2
+            * (mass_2 + side_31) ** 2
+            * (side_31 - 1)
+            * (side_31**2 - side_31 + 2)
+        )
+    )
+    contact_denominator_core = sp.factor(
+        contact_denominator
+        / (
+            side_31
+            * (
+                mass_1 * mass_2
+                + mass_1 * side_31**2
+                + mass_2 * side_31**2
+                - 2 * mass_2 * side_31
+                + mass_2
+            )
+        )
+    )
+    second_numerator, _ = sp.fraction(data["C2"])
+    second_coefficient_core = sp.factor(-second_numerator)
+    difference_numerator, _ = sp.fraction(data["Z2_minus_ZJ"])
+    difference_core = sp.factor(
+        difference_numerator
+        / (
+            -mass_1**2
+            * (mass_2 + side_31) ** 2
+            * (side_31 - 1)
+            * (2 * side_31 - 1)
+        )
+    )
+    physical_cores = {
+        "contact_numerator": contact_numerator_core,
+        "contact_denominator": contact_denominator_core,
+        "second_coefficient": second_coefficient_core,
+        "difference": difference_core,
+    }
+    cleared: dict[str, sp.Expr] = {}
+    cube_variables: tuple[sp.Symbol, ...] | None = None
+    for name, expression in physical_cores.items():
+        cleared_expression, current_variables = _clear_tied_syzygy_polynomial(
+            expression, variables
+        )
+        cleared[name] = cleared_expression
+        if cube_variables is None:
+            cube_variables = current_variables
+        else:
+            assert current_variables == cube_variables
+    assert cube_variables is not None
+    return cleared, cube_variables
+
+
+@lru_cache(maxsize=1)
+def ordered_syzygy_torque_amplitude_bernstein_coefficients() -> dict[
+    str, tuple[sp.Expr, ...]
+]:
+    """Exact tensor-Bernstein certificates for the four amplitude cores."""
+    cores, variables = ordered_syzygy_torque_amplitude_sign_cores()
+    return {
+        name: _tensor_bernstein_coefficients(core, variables)
+        for name, core in cores.items()
+    }
 
 
 @lru_cache(maxsize=1)

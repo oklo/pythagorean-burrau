@@ -5,6 +5,7 @@ import sympy as sp
 from src.dynamics.cartesian import right_hand_side
 from src.symbolic.mutual_distances import (
     _generic_ordered_syzygy_first_gap_energy_margin,
+    _generic_ordered_syzygy_torque_thresholds,
     _radial_gravity_gaps,
     first_gap_static_energy_obstruction,
     initial_log_torque_threshold_gap,
@@ -26,6 +27,8 @@ from src.symbolic.mutual_distances import (
     ordered_syzygy_first_gap_energy_bernstein_coefficients,
     ordered_syzygy_first_gap_energy_numerator,
     ordered_syzygy_second_gap_static_obstruction,
+    ordered_syzygy_torque_amplitude_bernstein_coefficients,
+    ordered_syzygy_torque_amplitude_sign_cores,
     pair_torque_kinetic_coefficient,
     second_gap_barrier_outward_contact_obstruction,
     squared_distance_accelerations,
@@ -487,6 +490,136 @@ def test_ordered_syzygy_kinetic_coefficient_matches_transverse_minimum() -> None
         values[y] * (values[m] + x) / (x * (values[n] + values[y]))
     )
     assert sp.factor(torque_ratio.subs(values) - expected_ratio) == 0
+
+
+def test_torque_threshold_has_exact_ordered_syzygy_boundary_value() -> None:
+    data, variables = _generic_ordered_syzygy_torque_thresholds()
+    m, n, y = variables
+    assert data["h_minus_eta"] == 0
+    assert data["P"] == 0
+    assert data["S"] == 0
+    history_source, shape_source, _, physical_variables = (
+        log_torque_threshold_contact_terms()
+    )
+    assert physical_variables == (m, n, sp.Symbol("x", positive=True), y)
+    assert sp.factor(
+        history_source - data["area_squared"] * data["P_reduced"]
+    ) == 0
+    assert sp.factor(
+        shape_source - data["area_squared"] * data["S_reduced"]
+    ) == 0
+    assert sp.factor(
+        (1 - data["eta"]) * (1 - y) * (n + y)
+        - (n - (m + n) * y)
+    ) == 0
+
+    values = {
+        m: sp.Rational(4, 5),
+        n: sp.Rational(3, 5),
+        y: sp.Rational(1, 5),
+    }
+    assert 0 < data["eta"].subs(values) < 1
+    assert sp.sign(data["ZJ"].subs(values)) == 1
+    assert sp.sign(data["C2"].subs(values)) == -1
+    assert sp.sign(data["G2"].subs(values)) == 1
+    assert sp.sign(data["Z2_minus_ZJ"].subs(values)) == 1
+
+
+def test_torque_contact_amplitude_is_stronger_on_ordered_syzygy_face() -> None:
+    data, physical_variables = _generic_ordered_syzygy_torque_thresholds()
+    m, n, y = physical_variables
+    contact_numerator, contact_denominator = sp.fraction(data["ZJ"])
+    contact_numerator_core = sp.factor(
+        contact_numerator
+        / (
+            2
+            * m**2
+            * (n + y) ** 2
+            * (y - 1)
+            * (y**2 - y + 2)
+        )
+    )
+    positive_contact_denominator_factor = (
+        y * (m * n + m * y**2 + n * (1 - y) ** 2)
+    )
+    contact_denominator_core = sp.factor(
+        contact_denominator / positive_contact_denominator_factor
+    )
+    second_numerator, second_denominator = sp.fraction(data["C2"])
+    second_coefficient_core = sp.factor(-second_numerator)
+    assert sp.factor(
+        second_denominator
+        - m**2 * y * (n + y) ** 2 * (y - 1) ** 3
+    ) == 0
+    difference_numerator, difference_denominator = sp.fraction(
+        data["Z2_minus_ZJ"]
+    )
+    difference_core = sp.factor(
+        difference_numerator
+        / (-m**2 * (n + y) ** 2 * (y - 1) * (2 * y - 1))
+    )
+    assert sp.factor(
+        difference_denominator
+        - positive_contact_denominator_factor
+        * second_coefficient_core
+        * contact_denominator_core
+    ) == 0
+
+    cores, variables = ordered_syzygy_torque_amplitude_sign_cores()
+    expected = {
+        "contact_numerator": ((11, 5), -1, 71, 1),
+        "contact_denominator": ((12, 5), 1, 71, 7),
+        "second_coefficient": ((11, 3), -1, 39, 9),
+        "difference": ((26, 10), 1, 274, 23),
+    }
+    certificates = ordered_syzygy_torque_amplitude_bernstein_coefficients()
+    for name, (degrees, strict_sign, strict_count, zero_count) in expected.items():
+        polynomial = sp.Poly(cores[name], *variables)
+        assert tuple(polynomial.degree(variable) for variable in variables) == degrees
+        coefficients = certificates[name]
+        signs = tuple(sp.sign(coefficient) for coefficient in coefficients)
+        assert len(coefficients) == (degrees[0] + 1) * (degrees[1] + 1)
+        assert signs.count(strict_sign) == strict_count
+        assert signs.count(0) == zero_count
+        assert set(signs) == {strict_sign, 0}
+
+        # The equal-mass edge v=1 is strict for every 0<z<1: all its
+        # Bernstein coefficients have the claimed sign except the z=1 end.
+        edge = signs[degrees[0] * (degrees[1] + 1) :]
+        assert edge[:-1] == (strict_sign,) * degrees[1]
+        assert edge[-1] == 0
+
+    # Regress every cleared core against its independently extracted physical
+    # factor at an exact interior tied point.
+    v, z = variables
+    cube_values = {v: sp.Rational(2, 3), z: sp.Rational(3, 7)}
+    u = (sp.sqrt(2) - 1) * cube_values[v]
+    mass_denominator = 1 + u**2
+    mass_1 = (1 - u**2) / mass_denominator
+    mass_2 = 2 * u / mass_denominator
+    side_31 = mass_2 * cube_values[z] / (mass_1 + mass_2)
+    physical_values = {m: mass_1, n: mass_2, y: side_31}
+    physical_cores = {
+        "contact_numerator": contact_numerator_core,
+        "contact_denominator": contact_denominator_core,
+        "second_coefficient": second_coefficient_core,
+        "difference": difference_core,
+    }
+    for name, physical_core in physical_cores.items():
+        physical_polynomial = sp.Poly(physical_core, m, n, y)
+        maximum_mass_degree = max(
+            exponent[0] + exponent[1]
+            for exponent, _ in physical_polynomial.terms()
+        )
+        maximum_side_degree = physical_polynomial.degree(y)
+        clearing_factor = (
+            mass_denominator**maximum_mass_degree
+            * (1 - u**2 + 2 * u) ** maximum_side_degree
+        )
+        assert sp.factor(
+            cores[name].subs(cube_values)
+            - physical_core.subs(physical_values) * clearing_factor
+        ) == 0
 
 
 def test_second_gap_static_sign_fails_even_on_ordered_syzygy_face() -> None:

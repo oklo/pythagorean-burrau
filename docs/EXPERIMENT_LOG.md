@@ -1318,3 +1318,17 @@ it is not a remainder proof.
   $d\log(Z/Z_*)/ds=50.8829734688\ldots>0$.  This disproves a pointwise
   inward-vector-field proof even after imposing the elementary
   weighted-history envelope.
+- Resolved the relation between the two amplitude thresholds on the terminal
+  ordered-syzygy face.  Exact substitution gives
+  $h=\eta=q(m+1-q)/[(1-q)(n+q)]$.  Both contact terms $P,S$ contain the same
+  twice-area-squared factor; cancelling it produces a path-independent
+  rational extension $Z_J^{\rm syz}$.  After
+  $u=(\sqrt2-1)v$, $q=nz/(m+n)$, the four sign cores needed for positivity of
+  $Z_J$, negativity of $C_2$, and positivity of $Z_2-Z_J$ have degrees
+  $(11,5),(12,5),(11,3),(26,10)$.  Their exact Bernstein signs are
+  71 negative/1 zero, 71 positive/7 zero, 39 negative/9 zero, and
+  274 positive/23 zero.  This proves $0<Z_J^{\rm syz}<Z_2$ on the complete
+  torque-compatible tied face, including the equal-mass edge for $z<1$.
+  The thresholds still cross in the interior cone.  The remaining theorem
+  is therefore $\eta<h$ before syzygy with terminal equality, plus the single
+  reachable limiting-amplitude bound $Z<Z_J^{\rm syz}$.

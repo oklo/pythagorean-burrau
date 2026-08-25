@@ -245,6 +245,32 @@ history estimate must therefore imply the appropriate bound against
 $\min(Z_J,Z_2)$ where both contact mechanisms are dangerous, unless a new
 quantity bypasses both barriers.
 
+There is now an exact terminal simplification.  On an ordered syzygy with
+body 3 in the middle, the collinear $P=L=0$ constraints force
+
+\[
+ \eta={q(m+1-q)\over(1-q)(n+q)}=h.
+\]
+
+Thus the desired noncontact theorem must be stated as $\eta<h$ on the
+positive-area interior, with forced equality allowed at terminal syzygy.
+Both $P$ and $S$ contain the same area-squared factor, so $Z_J=P/S$ has a
+path-independent rational extension there.  Four exact bivariate Bernstein
+certificates prove
+
+\[
+ 0<Z_J^{\rm syz}<Z_2
+\]
+
+for the complete tied torque-compatible face, including the equal-mass edge
+away from its $z=1$ endpoint.  Therefore only the sharper torque-contact
+amplitude bound $Z<Z_J^{\rm syz}$ remains at this terminal face, even though
+both thresholds are needed in the interior.  This does **not** supply that
+bound: total energy permits syzygy states above $Z_J^{\rm syz}$.  The
+unresolved lemma is a one-sided brake-history estimate preventing an
+interior contact and controlling the limiting amplitude as equality
+$\eta=h$ is approached.
+
 One terminal face of this reachability problem is now closed.  At a
 collision-free syzygy with body 3 between bodies 1 and 2, the collinear
 momentum constraints determine the torque ratio and transverse kinetic

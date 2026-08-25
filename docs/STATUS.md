@@ -34,7 +34,14 @@ amplitude bound $Z<Z_J=P/S$.  The $u=2/5$ ambient first-return witness exceeds
 $Z_J$ by $5.7456\%$, so the new reduction exactly localizes the missing
 reachable-history estimate.  Exact rational examples show that $Z_J$ and the
 second-gap threshold $Z_2$ have no global ordering, so neither amplitude
-condition subsumes the other.
+condition subsumes the other in the interior.  On the terminal ordered-
+syzygy face, however, a new exact theorem gives the forced identity
+$h=\eta=q(m+1-q)/[(1-q)(n+q)]$.  The apparent $0/0$ in $Z_J=P/S$ cancels by
+a common area-squared factor, and four bivariate exact Bernstein certificates
+prove $0<Z_J^{\rm syz}<Z_2$ on the full tied torque-compatible face.  Hence
+the interior no-contact statement must end in forced equality $\eta=h$ at
+syzygy, and only the sharper $Z_J$ amplitude obligation survives there.  The
+brake-history bound $Z<Z_J^{\rm syz}$ itself remains unproved.
 Exact tensor-Bernstein arithmetic also proves
 the gravitational contribution to $(\log k)''$ is strictly negative on the
 entire ordered right/obtuse cone, and the full launch curvature is negative
