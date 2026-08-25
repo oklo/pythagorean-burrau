@@ -3,16 +3,24 @@
 The output is ordinary numerical evidence.  It is designed to locate a real
 second-brake intersection, or to identify a branch separation suitable for a
 later interval/analytic proof; it is not a finite-scan nonperiodicity claim.
+Maxima are grouped by their time ordinal.  That ordinal is not a continued
+branch label and can change when an event pair is created, so the broad scan
+is only a scout.  The two refinements use brackets where the selected ordinal
+was separately checked to persist.
 """
 
 from __future__ import annotations
 
+import sys
 from dataclasses import dataclass
+from pathlib import Path
 
 import numpy as np
 from scipy.optimize import minimize_scalar
 
-from src.fable.atlas import run_atlas
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
+from src.fable.atlas import run_atlas  # noqa: E402
 
 
 @dataclass(frozen=True)
@@ -86,8 +94,8 @@ def main() -> None:
         distance, left, right, parameter = closest_segment
         interpolated_u = left.u + parameter * (right.u - left.u)
         print(
-            "branch_summary=ORDINARY_NUMERICAL_EVIDENCE "
-            f"branch={index + 1} samples={len(points)} "
+            "event_ordinal_summary=ORDINARY_NUMERICAL_EVIDENCE "
+            f"event_ordinal={index + 1} samples={len(points)} "
             f"closest_sample_u={closest_point.u:.12g} "
             f"closest_sample_t={closest_point.time:.9g} "
             f"closest_sample_abs_zeta={abs(closest_point.zeta):.8g} "
@@ -128,7 +136,7 @@ def main() -> None:
         cache[key] = point
         return point
 
-    for index, bracket in ((0, (0.285, 0.300)), (1, (0.290, 0.305))):
+    for index, bracket in ((0, (0.285, 0.300)), (1, (0.2915, 0.2938))):
         refinement = minimize_scalar(
             lambda u, branch=index: abs(
                 evaluate_branch(branch, float(u)).zeta
@@ -140,8 +148,8 @@ def main() -> None:
         )
         point = evaluate_branch(index, float(refinement.x))
         print(
-            "branch_refinement=ORDINARY_NUMERICAL_EVIDENCE "
-            f"branch={index + 1} success={refinement.success} "
+            "event_ordinal_refinement=ORDINARY_NUMERICAL_EVIDENCE "
+            f"event_ordinal={index + 1} success={refinement.success} "
             f"u={point.u:.12g} t={point.time:.12g} "
             f"zeta=({point.zeta.real:.10g},{point.zeta.imag:.10g}) "
             f"abs_zeta={abs(point.zeta):.10g} "
