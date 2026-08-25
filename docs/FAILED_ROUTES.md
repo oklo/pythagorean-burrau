@@ -830,3 +830,31 @@ positive integer, not a floating-point inference.  Thus even the critical
 surface points outward at a state satisfying the elementary weighted-history
 envelope.  A valid invariant must use more of the brake-generated path than
 the current values and inequalities for $(x,y,Z,\eta)$.
+
+## Terminal side-rate signs imply the syzygy amplitude bound
+
+**Status:** DISPROVED ANALYTICALLY as a current-state coercive argument.
+
+At an ordered syzygy put
+$D=mn+mq^2+n(1-q)^2$ and $H=n-(m+n)q>0$.  The exact energy decomposition
+shows that $Z<Z_J^{\rm syz}$ requires a positive lower bound on
+
+\[
+ \mathcal L={R\dot I^2\over4I}+{mnq_s^2\over D}.
+\]
+
+One might hope that decreasing $r_{31}$, increasing $r_{23}-r_{31}$, and
+$\dot I<0$ provide it.  They do not.  Since
+
+\[
+ 2D-H(1-2q)=2mn+(m-n)q+n>0,
+\]
+
+choose $(1-2q)/2<c<D/H$ and set
+$\sigma=-\varepsilon$, $q_s=-c\varepsilon$.  All three desired derivatives
+then have strict sign, but $\mathcal L=O(\varepsilon^2)\to0$.  If $R<R_J$,
+the energy-determined transverse amplitude consequently exceeds $Z_J$ for
+small enough $\varepsilon$.  These are ambient states, not brake-reachable
+ones.  The smallest viable repair must transport a quantitative velocity or
+action bound from the initial brake; qualitative cone monotonicity cannot
+close the terminal amplitude estimate.

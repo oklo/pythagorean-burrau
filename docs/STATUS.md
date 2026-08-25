@@ -41,7 +41,14 @@ a common area-squared factor, and four bivariate exact Bernstein certificates
 prove $0<Z_J^{\rm syz}<Z_2$ on the full tied torque-compatible face.  Hence
 the interior no-contact statement must end in forced equality $\eta=h$ at
 syzygy, and only the sharper $Z_J$ amplitude obligation survives there.  The
-brake-history bound $Z<Z_J^{\rm syz}$ itself remains unproved.
+brake-history bound $Z<Z_J^{\rm syz}$ itself remains unproved.  Exact
+longitudinal/transverse kinetic diagonalization now makes it equivalent to
+$\mathcal L>2U_0(R_J-R)$, where
+$\mathcal L=R\dot I^2/(4I)+mnq_s^2/[mn+mq^2+n(1-q)^2]$.  An explicit
+$\varepsilon$-velocity ray has decreasing $r_{31}$, increasing
+$r_{23}-r_{31}$, and $\dot I<0$ while $\mathcal L=O(\varepsilon^2)$.  Thus
+even all natural strict terminal signs do not supply the bound; quantitative
+brake-history coercivity is required.
 Exact tensor-Bernstein arithmetic also proves
 the gravitational contribution to $(\log k)''$ is strictly negative on the
 entire ordered right/obtuse cone, and the full launch curvature is negative

@@ -1349,3 +1349,14 @@ it is not a remainder proof.
   hull width $4.971428028073183\times10^{-5}$.  The replay was deliberately
   interrupted at that finite horizon; it remains a validated chart-chain
   result, not a terminal $3{:}4{:}5$ theorem.
+- Diagonalized the ordered-syzygy kinetic energy in scale and collinear shape
+  speed.  With $D=mn+mq^2+n(1-q)^2$, the exact identity is
+  $2K_\parallel R=R\dot I^2/(4I)+mnq_s^2/D$, while the transverse part is
+  $FZ$.  Energy therefore makes $Z<Z_J^{\rm syz}$ equivalent to the explicit
+  coercive bound $2K_\parallel R>2U_0(R_J-R)$.  Tested the natural terminal
+  sign repair and disproved it analytically: choosing
+  $\sigma=-\varepsilon$, $q_s=-c\varepsilon$ with
+  $(1-2q)/2<c<D/[n-(m+n)q]$ makes $r_{31}$ decrease,
+  $r_{23}-r_{31}$ increase, and $\dot I<0$, but the longitudinal energy is
+  only $O(\varepsilon^2)$.  Hence the missing amplitude estimate must be
+  quantitatively history-dependent.

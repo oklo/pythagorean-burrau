@@ -146,6 +146,31 @@ Only the sharper $Z_J$ amplitude obligation survives on that face.  The
 actual brake-history inequality $Z<Z_J^{\rm syz}$ is still open, so this is
 a structural boundary theorem rather than a proof of cone persistence.
 
+The missing terminal amplitude inequality now has an exact kinetic form.
+Writing $R=r_{12}$, $q=r_{31}/R$,
+$D=mn+mq^2+n(1-q)^2$, and using shape time, one obtains
+
+\[
+ 2K_\parallel R={R\dot I^2\over4I}+{mnq_s^2\over D},
+ \qquad
+ FZ+2K_\parallel R=2(U-U_0R).
+\]
+
+Consequently $Z<Z_J^{\rm syz}$ is equivalent to
+
+\[
+ 2K_\parallel R>2U_0(R_J-R),qquad
+ R_J={U-FZ_J^{\rm syz}/2\over U_0}.
+\]
+
+This is a materially smaller quantitative obligation, but it cannot be
+replaced by velocity signs.  There is an explicit $\varepsilon$-scaled
+longitudinal velocity ray for which $r_{31}$ decreases,
+$r_{23}-r_{31}$ increases, and $\dot I<0$, all strictly, while
+$2K_\parallel R=O(\varepsilon^2)\to0$.  Thus a proof must transport a
+positive amount of radial/shape kinetic energy from the initial brake, or
+prove the scale bound $R\ge R_J$; terminal monotonicity alone is inadequate.
+
 A direct barrier for the second gap still fails even in first-contact form.
 An exact $u=1/3$ strict ordered-obtuse state at
 $(x,y,\eta)=(499/500,1/20,3/20)$ lies on $Z=Z_*$, has Burrau energy,

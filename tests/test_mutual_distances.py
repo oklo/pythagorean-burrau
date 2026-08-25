@@ -26,9 +26,12 @@ from src.symbolic.mutual_distances import (
     ordered_shape_log_torque_threshold_gap_core,
     ordered_syzygy_first_gap_energy_bernstein_coefficients,
     ordered_syzygy_first_gap_energy_numerator,
+    ordered_syzygy_longitudinal_kinetic_decomposition,
     ordered_syzygy_second_gap_static_obstruction,
+    ordered_syzygy_small_longitudinal_sign_witness,
     ordered_syzygy_torque_amplitude_bernstein_coefficients,
     ordered_syzygy_torque_amplitude_sign_cores,
+    ordered_syzygy_torque_energy_threshold,
     pair_torque_kinetic_coefficient,
     second_gap_barrier_outward_contact_obstruction,
     squared_distance_accelerations,
@@ -490,6 +493,116 @@ def test_ordered_syzygy_kinetic_coefficient_matches_transverse_minimum() -> None
         values[y] * (values[m] + x) / (x * (values[n] + values[y]))
     )
     assert sp.factor(torque_ratio.subs(values) - expected_ratio) == 0
+
+
+def test_ordered_syzygy_longitudinal_energy_diagonalization() -> None:
+    data, variables = ordered_syzygy_longitudinal_kinetic_decomposition()
+    m, n, q, scale, sigma, shape_rate = variables
+    assert data["diagonal_residual"] == 0
+    assert data["dilational_residual"] == 0
+    assert sp.factor(
+        m * data["velocity_1"]
+        + n * data["velocity_2"]
+        + data["velocity_3"]
+    ) == 0
+    assert sp.factor(
+        data["velocity_2"]
+        - data["velocity_1"]
+        - sigma / sp.sqrt(scale)
+    ) == 0
+    assert sp.factor(
+        data["velocity_3"]
+        - data["velocity_1"]
+        - q * sigma / sp.sqrt(scale)
+        - shape_rate / sp.sqrt(scale)
+    ) == 0
+    total_mass = m + n + 1
+    expected_inertia_core = m * n + m * q**2 + n * (1 - q) ** 2
+    assert sp.factor(data["inertia_core"] - expected_inertia_core) == 0
+    assert sp.factor(
+        data["inertia"] - scale**2 * expected_inertia_core / total_mass
+    ) == 0
+
+    values = {
+        m: sp.Rational(4, 5),
+        n: sp.Rational(3, 5),
+        q: sp.Rational(1, 5),
+        scale: sp.Rational(3, 4),
+        sigma: sp.Rational(-2, 7),
+        shape_rate: sp.Rational(5, 11),
+    }
+    assert sp.sign(data["scaled_longitudinal"].subs(values)) == 1
+    assert sp.sign(data["inertia"].subs(values)) == 1
+
+
+def test_syzygy_torque_amplitude_energy_deficit_is_exact() -> None:
+    threshold, variables = ordered_syzygy_torque_energy_threshold()
+    m, n, q, scale = variables
+    assert threshold["deficit_residual"] == 0
+    longitudinal = sp.symbols("L", nonnegative=True)
+    energy_amplitude = sp.factor(
+        (
+            2 * (threshold["U"] - threshold["U0"] * scale)
+            - longitudinal
+        )
+        / threshold["F"]
+    )
+    assert sp.factor(
+        threshold["ZJ"]
+        - energy_amplitude
+        - (longitudinal - threshold["longitudinal_deficit"])
+        / threshold["F"]
+    ) == 0
+
+    values = {
+        m: sp.Rational(4, 5),
+        n: sp.Rational(3, 5),
+        q: sp.Rational(1, 5),
+    }
+    assert sp.sign(threshold["F"].subs(values)) == 1
+    assert sp.sign(threshold["critical_scale"].subs(values)) == 1
+    assert sp.factor(
+        threshold["longitudinal_deficit"].subs(
+            {**values, scale: threshold["critical_scale"].subs(values)}
+        )
+    ) == 0
+
+
+def test_syzygy_strict_rate_signs_do_not_coerce_longitudinal_energy() -> None:
+    witness, variables = ordered_syzygy_small_longitudinal_sign_witness()
+    m, n, q, scale, epsilon = variables
+    assert sp.factor(
+        witness["slope_interval_numerator"]
+        - (2 * m * n + m * q - n * q + n)
+    ) == 0
+    assert sp.factor(
+        witness["second_gap_rate"]
+        - 2 * epsilon * (witness["slope"] - witness["lower_slope"])
+    ) == 0
+    assert sp.factor(
+        witness["dilation_core"]
+        + epsilon
+        * witness["torque_margin"]
+        * (witness["upper_slope"] - witness["slope"])
+    ) == 0
+    assert sp.limit(witness["scaled_longitudinal"], epsilon, 0) == 0
+    assert sp.factor(
+        sp.diff(witness["scaled_longitudinal"], epsilon).subs(epsilon, 0)
+    ) == 0
+
+    values = {
+        m: sp.Rational(4, 5),
+        n: sp.Rational(3, 5),
+        q: sp.Rational(1, 5),
+        scale: sp.Rational(3, 4),
+        epsilon: sp.Rational(1, 1000),
+    }
+    assert sp.sign(witness["torque_margin"].subs(values)) == 1
+    assert sp.sign(witness["slope_interval_numerator"].subs(values)) == 1
+    assert sp.sign(witness["side_31_rate"].subs(values)) == -1
+    assert sp.sign(witness["second_gap_rate"].subs(values)) == 1
+    assert sp.sign(witness["dilation_core"].subs(values)) == -1
+    assert sp.sign(witness["scaled_longitudinal"].subs(values)) == 1
 
 
 def test_torque_threshold_has_exact_ordered_syzygy_boundary_value() -> None:

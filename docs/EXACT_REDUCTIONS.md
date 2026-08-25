@@ -873,6 +873,96 @@ threshold is the unique stronger terminal amplitude obligation.  The result
 does not prove that a brake-generated orbit satisfies $Z<Z_J^{\rm syz}$;
 that remains a history/reachability theorem.
 
+The exact kinetic-energy decomposition identifies that history theorem more
+sharply.  Restore the syzygy scale $R=r_{12}$ and put
+
+\[
+ D=mn+mq^2+n(1-q)^2,qquad E=(m+n)q-n,qquad M=m+n+1.
+\]
+
+In Newtonian shape time $ds=dt/R^{3/2}$, let
+$\sigma=R_s/R$ and $Q=q_s$.  Longitudinal momentum reduction and completion
+of squares give
+
+\[
+\begin{aligned}
+ 2K_\parallel R
+ &= {D\over M}\left(\sigma+{E\over D}Q\right)^2
+    +{mn\over D}Q^2\\
+ &= {R\dot I^2\over4I}+{mn\over D}Q^2,
+ \qquad I={R^2D\over M}.
+\end{aligned}
+\]
+
+The transverse part is exactly $2K_\perp R=FZ$, with
+
+\[
+ F={nD\over m(1-q)^2(n+q)^2}>0.
+\]
+
+Hence the Burrau energy equation is
+
+\[
+ FZ+\mathcal L=2(U-U_0R),\qquad
+ \mathcal L:={R\dot I^2\over4I}+{mn\over D}Q^2,
+ \qquad U=mn+{n\over1-q}+{m\over q}.
+\]
+
+Define the critical physical scale
+
+\[
+ R_J={U-FZ_J^{\rm syz}/2\over U_0}.
+\]
+
+Then the remaining terminal amplitude condition is *exactly*
+
+\[
+ \boxed{Z<Z_J^{\rm syz}quad\Longleftrightarrow\quad
+ \mathcal L>2U_0(R_J-R)}.
+\]
+
+This is an **EXACT SYMBOLIC IDENTITY**.  It separates the missing theorem
+into a scale deficit and a positive longitudinal kinetic form.  If
+$R\ge R_J$, energy proves the amplitude bound automatically.  When
+$R<R_J$, a quantitative lower bound on dilational or collinear shape speed
+is indispensable.
+
+Strict terminal signs do not provide such coercivity.  Put
+$H=n-(m+n)q>0$ and
+
+\[
+ c_-={1-2q\over2},\qquad c_+={D\over H}.
+\]
+
+For tied fundamental masses $m\ge n$,
+
+\[
+ 2D-H(1-2q)=2mn+(m-n)q+n>0,
+\]
+
+so $c_-<c_+$.  With $c=(c_-+c_+)/2$ and any $\varepsilon>0$, choose
+
+\[
+ \sigma=-\varepsilon,qquad Q=-c\varepsilon.
+\]
+
+Then, in scale-normalized form,
+
+\[
+ q\sigma+Q<0,qquad
+ (1-2q)\sigma-2Q>0,qquad
+ D\sigma+EQ<0.
+\]
+
+Thus $r_{31}$ decreases, $r_{23}-r_{31}$ increases, and $\dot I<0$, all
+strictly, while $\mathcal L=O(\varepsilon^2)\to0$.  For every fixed
+$R<R_J$, sufficiently small $\varepsilon$ and the energy-determined
+transverse amplitude therefore give an ambient state with all these signs
+but $Z>Z_J^{\rm syz}$.  This is **PROVED ANALYTICALLY** and disproves a
+terminal-current-sign repair.  The state is not asserted brake-reachable;
+the necessary lower bound must retain quantitative information accumulated
+from the initial brake.
+
 There is a new global sign in its second derivative.  Let
 $J=\log k$.  The part of $\ddot J$ obtained by setting the instantaneous
 velocity to zero while retaining Newton's acceleration satisfies

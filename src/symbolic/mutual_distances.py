@@ -670,6 +670,192 @@ def _generic_ordered_syzygy_first_gap_energy_margin() -> tuple[
 
 
 @lru_cache(maxsize=1)
+def ordered_syzygy_longitudinal_kinetic_decomposition() -> tuple[
+    dict[str, sp.Expr], tuple[sp.Symbol, ...]
+]:
+    """Diagonalize longitudinal kinetic energy on an ordered syzygy.
+
+    Here ``R=r12``, ``q=r31/R``, ``sigma=R_s/R`` and ``Q=q_s`` in
+    Newtonian shape time ``ds=dt/R**(3/2)``.  The returned quantity
+    ``scaled_longitudinal`` is ``2*K_parallel*R``.
+    """
+    mass_1, mass_2, side_31, scale = sp.symbols(
+        "m n q R", positive=True
+    )
+    scale_rate, shape_rate = sp.symbols("sigma Q", real=True)
+    total_mass = mass_1 + mass_2 + 1
+    side_23 = 1 - side_31
+    inertia_core = sp.factor(
+        mass_1 * mass_2
+        + mass_1 * side_31**2
+        + mass_2 * side_23**2
+    )
+    cross_core = (mass_1 + mass_2) * side_31 - mass_2
+
+    physical_scale_rate = scale_rate / sp.sqrt(scale)
+    physical_shape_rate = shape_rate / scale ** sp.Rational(3, 2)
+    relative_12 = physical_scale_rate
+    relative_13 = (
+        side_31 * physical_scale_rate + scale * physical_shape_rate
+    )
+    velocity_1 = sp.factor(
+        -(mass_2 * relative_12 + relative_13) / total_mass
+    )
+    velocity_2 = velocity_1 + relative_12
+    velocity_3 = velocity_1 + relative_13
+    twice_longitudinal = sp.factor(
+        mass_1 * velocity_1**2
+        + mass_2 * velocity_2**2
+        + velocity_3**2
+    )
+    scaled_longitudinal = sp.factor(scale * twice_longitudinal)
+    diagonal = sp.factor(
+        inertia_core
+        / total_mass
+        * (scale_rate + cross_core * shape_rate / inertia_core) ** 2
+        + mass_1 * mass_2 * shape_rate**2 / inertia_core
+    )
+    inertia = sp.factor(scale**2 * inertia_core / total_mass)
+    inertia_derivative = sp.factor(
+        2
+        * sp.sqrt(scale)
+        * (inertia_core * scale_rate + cross_core * shape_rate)
+        / total_mass
+    )
+    dilational_shape_form = sp.factor(
+        scale * inertia_derivative**2 / (4 * inertia)
+        + mass_1 * mass_2 * shape_rate**2 / inertia_core
+    )
+    return (
+        {
+            "inertia_core": inertia_core,
+            "cross_core": cross_core,
+            "velocity_1": velocity_1,
+            "velocity_2": velocity_2,
+            "velocity_3": velocity_3,
+            "scaled_longitudinal": scaled_longitudinal,
+            "diagonal": diagonal,
+            "inertia": inertia,
+            "inertia_derivative": inertia_derivative,
+            "dilational_shape_form": dilational_shape_form,
+            "diagonal_residual": sp.factor(scaled_longitudinal - diagonal),
+            "dilational_residual": sp.factor(
+                diagonal - dilational_shape_form
+            ),
+        },
+        (mass_1, mass_2, side_31, scale, scale_rate, shape_rate),
+    )
+
+
+@lru_cache(maxsize=1)
+def ordered_syzygy_torque_energy_threshold() -> tuple[
+    dict[str, sp.Expr], tuple[sp.Symbol, ...]
+]:
+    """Return the exact energy deficit equivalent to ``Z<ZJ`` at syzygy."""
+    torque_data, torque_variables = _generic_ordered_syzygy_torque_thresholds()
+    mass_1, mass_2, side_31 = torque_variables
+    _, kinetic_coefficient, _, kinetic_variables = (
+        _generic_ordered_syzygy_first_gap_energy_margin()
+    )
+    kinetic_mass_1, kinetic_mass_2, kinetic_side_31 = kinetic_variables
+    kinetic_coefficient = kinetic_coefficient.subs(
+        {
+            kinetic_mass_1: mass_1,
+            kinetic_mass_2: mass_2,
+            kinetic_side_31: side_31,
+        }
+    )
+    scale = sp.symbols("R", positive=True)
+    side_23 = 1 - side_31
+    shape_potential = sp.factor(
+        mass_1 * mass_2 + mass_2 / side_23 + mass_1 / side_31
+    )
+    initial_potential = sp.factor(
+        mass_1 * mass_2 + 1 / (mass_1 * mass_2)
+    )
+    critical_scale = sp.factor(
+        (
+            shape_potential
+            - kinetic_coefficient * torque_data["ZJ"] / 2
+        )
+        / initial_potential
+    )
+    longitudinal_deficit = sp.factor(
+        2 * (shape_potential - initial_potential * scale)
+        - kinetic_coefficient * torque_data["ZJ"]
+    )
+    return (
+        {
+            "F": sp.factor(kinetic_coefficient),
+            "U": shape_potential,
+            "U0": initial_potential,
+            "ZJ": torque_data["ZJ"],
+            "critical_scale": critical_scale,
+            "longitudinal_deficit": longitudinal_deficit,
+            "deficit_residual": sp.factor(
+                longitudinal_deficit
+                - 2 * initial_potential * (critical_scale - scale)
+            ),
+        },
+        (mass_1, mass_2, side_31, scale),
+    )
+
+
+@lru_cache(maxsize=1)
+def ordered_syzygy_small_longitudinal_sign_witness() -> tuple[
+    dict[str, sp.Expr], tuple[sp.Symbol, ...]
+]:
+    """Strict gap/dilation signs with arbitrarily small longitudinal energy.
+
+    The direction is multiplied by an arbitrary ``epsilon>0``.  It proves
+    that signs of both side-gap rates and ``I_dot`` cannot provide the
+    positive coercive lower bound required by ``Z<ZJ``.
+    """
+    kinetic, variables = ordered_syzygy_longitudinal_kinetic_decomposition()
+    mass_1, mass_2, side_31, scale, scale_rate, shape_rate = variables
+    epsilon = sp.symbols("epsilon", positive=True)
+    inertia_core = kinetic["inertia_core"]
+    torque_margin = mass_2 - (mass_1 + mass_2) * side_31
+    lower_slope = (1 - 2 * side_31) / 2
+    upper_slope = inertia_core / torque_margin
+    slope = sp.factor((lower_slope + upper_slope) / 2)
+    substitution = {
+        scale_rate: -epsilon,
+        shape_rate: -epsilon * slope,
+    }
+    side_31_rate = sp.factor(
+        side_31 * substitution[scale_rate] + substitution[shape_rate]
+    )
+    second_gap_rate = sp.factor(
+        (1 - 2 * side_31) * substitution[scale_rate]
+        - 2 * substitution[shape_rate]
+    )
+    dilation_core = sp.factor(
+        inertia_core * substitution[scale_rate]
+        + kinetic["cross_core"] * substitution[shape_rate]
+    )
+    return (
+        {
+            "torque_margin": torque_margin,
+            "lower_slope": lower_slope,
+            "upper_slope": upper_slope,
+            "slope": slope,
+            "slope_interval_numerator": sp.factor(
+                2 * inertia_core
+                - torque_margin * (1 - 2 * side_31)
+            ),
+            "side_31_rate": side_31_rate,
+            "second_gap_rate": second_gap_rate,
+            "dilation_core": dilation_core,
+            "scaled_longitudinal": sp.factor(
+                kinetic["scaled_longitudinal"].subs(substitution)
+            ),
+        },
+        (mass_1, mass_2, side_31, scale, epsilon),
+    )
+
+
+@lru_cache(maxsize=1)
 def ordered_syzygy_first_gap_energy_numerator() -> tuple[
     sp.Expr, tuple[sp.Symbol, ...]
 ]:

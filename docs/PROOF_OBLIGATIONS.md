@@ -271,6 +271,29 @@ unresolved lemma is a one-sided brake-history estimate preventing an
 interior contact and controlling the limiting amplitude as equality
 $\eta=h$ is approached.
 
+The terminal inequality now has an exact coercive formulation.  With
+$D=mn+mq^2+n(1-q)^2$, shape-time variables $\sigma=R_s/R$, $Q=q_s$, and
+
+\[
+ \mathcal L={D\over m+n+1}\left(\sigma+{((m+n)q-n)Q\over D}\right)^2
+             +{mnQ^2\over D},
+\]
+
+energy gives $FZ+\mathcal L=2(U-U_0R)$.  Therefore
+
+\[
+ Z<Z_J^{\rm syz}\quad\Longleftrightarrow\quad
+ \mathcal L>2U_0(R_J-R),\qquad
+ R_J={U-FZ_J^{\rm syz}/2\over U_0}.
+\]
+
+This is the smallest current terminal obligation.  Neither side-gap rate
+signs nor $\dot I<0$ can prove it: an explicit velocity ray makes all three
+signs strict while $\mathcal L=O(\varepsilon^2)$.  A successful lemma must
+give a *quantitative* lower bound inherited from the brake history (or prove
+$R\ge R_J$), uniformly through close encounters; qualitative monotonicity
+alone is insufficient.
+
 One terminal face of this reachability problem is now closed.  At a
 collision-free syzygy with body 3 between bodies 1 and 2, the collinear
 momentum constraints determine the torque ratio and transverse kinetic
