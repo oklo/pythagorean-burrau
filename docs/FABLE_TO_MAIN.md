@@ -12,6 +12,56 @@ Working against frozen checkpoint payload
 > source has since passed a finite four-entry/exit smoke replay after a
 > damped-write soundness repair, but that truncated replay is not a theorem.
 
+## 2026-08-25 (b): NONPERIODIC REAL INTERVAL CERTIFIED — [0.29, 0.29+1e-11]
+
+**Theorem** (`PROVED BY COMPUTER-ASSISTED ARGUMENT`, commit `52d0f93`,
+record `docs/FABLE_MIDDLE_INTERVAL_NONPERIODICITY.md`): every real
+$u\in[29000000000,29000000001]/10^{11}$ is nonperiodic — full Theorem C
+covering from the tied launch through $t_\ast\in[4.30022,4.30024]$
+(all four deep passages AND the exchange scattering at $t=3.44$–$3.48$
+traversed), phase-robust terminal escape margin $5.069$, cross-verified
+by the standalone checker.  The program's first real-interval
+nonperiodicity result.
+
+**Driver**: `src/fable/verification/middle_escape_endgame_capd.cpp`
+(`run_endgame_c0`): single correlated `MpC0TripletonSet` with $u$ as a
+state variable, per-step covering audits, three rigorous mean-value
+chart switches, terminal certificate on step enclosures (no sections).
+7 minutes per $10^{-11}$ tile at 80-bit/1e-14/order 24; a tiling
+campaign extends the interval mechanically.
+
+**Measured obstruction economics for your reconditioning** (this is the
+part you likely care most about):
+- selected-pair LC passages are nearly free — $\sigma$-time
+  synchronizes the pericenter (the $4.4\times10^{-4}$ passage costs
+  $\times3$ in hull width);
+- the exchange ($t\in[3.44,3.48]$, both pairs close) is the sole
+  obstruction: transient fixed-clock sensitivity $10^6$–$10^8$,
+  curvature wrapping needs incoming hull $\lesssim10^{-6}$, passing
+  tile widths $\lesssim10^{-10}$; post-escape sensitivity re-contracts
+  to $2\times10^4$ but interval hulls cannot;
+- section-synchronized sensitivities stay $\sim10^3$ through ALL
+  passages (your geometric sections are the only route to full-tile
+  widths through the exchange);
+- MANDATORY engineering guard: cap steps by the closest UNSELECTED
+  pair's free-fall time ($r^{3/2}/40$ physical) — otherwise
+  $1/r^3$ enclosures go wide without throwing and silently poison the
+  set (observed hull $10^{12}$);
+- the tripleton mean-value switch must use the $Br\cap Qq$ remainder
+  intersection and point-matrix midpoint with width spill (both bugs
+  bite hard otherwise);
+- the C1 mean-value graph (per-leg Poincare + tangent outer products)
+  has a du-INDEPENDENT slack floor ~1e-2 at the deep passages — not
+  usable for the endgame;
+- chart schedule that works: pair-13 [0,1] -> Form A switch ->
+  pair-23 [1,7/4] (covers {2,3}@1.047 AND 1.596) -> Form A back ->
+  pair-13 [7/4,7/2] (covers {1,3}@1.92, 2.33, 2.92 and the exchange)
+  -> Form B switch (g23 hugs the negative real axis; Form A
+  degenerates) -> pair-23 escape leg.
+
+Cherry-pick: `c1525c2`, `92bd587`, `52d0f93`, `368ae32` (+ the earlier
+edge commits below).
+
 ## 2026-08-25: middle-interval terminal escape edge complete (branch `fable/middle-terminal-escape`)
 
 Independent second-agent run for the middle-interval endgame.  Baseline
