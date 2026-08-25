@@ -1321,9 +1321,16 @@ int run_endgame_c0(const Ival& u_param, long p, long q, long p2, long q2,
       std::getenv("FABLE_ENDGAME_PRESWITCH") != nullptr;
   const bool structured_form_b =
       std::getenv("FABLE_ENDGAME_STRUCTURED_SWITCH") != nullptr;
+  const bool synchronize_pair23 =
+      std::getenv("FABLE_ENDGAME_PAIR23_SYNC") != nullptr;
   if (synchronize_preswitch && !synchronize_exchange) {
     throw std::runtime_error(
         "FABLE_ENDGAME_PRESWITCH requires FABLE_ENDGAME_SYNC");
+  }
+  if (synchronize_pair23 &&
+      (!synchronize_exchange || !synchronize_preswitch)) {
+    throw std::runtime_error(
+        "FABLE_ENDGAME_PAIR23_SYNC requires exchange and preswitch sync");
   }
   bool exchange_synchronized = false;
   long steps = 0;
@@ -1356,6 +1363,36 @@ int run_endgame_c0(const Ival& u_param, long p, long q, long p2, long q2,
                 << bound_double(switched[9].leftBound()) << ","
                 << bound_double(switched[9].rightBound()) << "] hull="
                 << hull_width(switched, 12) << "\n" << std::flush;
+      if (synchronize_pair23 && phase_index == 3) {
+        struct Pair23Section {
+          Ival value;
+          capd::poincare::CrossingDirection direction;
+        };
+        const Pair23Section pair23_sections[] = {
+            {Ival(0), capd::poincare::MinusPlus},
+            {Ival(1) / Ival(10), capd::poincare::MinusPlus},
+            {Ival(3) / Ival(20), capd::poincare::MinusPlus},
+            {Ival(1) / Ival(10), capd::poincare::PlusMinus},
+            {Ival(0), capd::poincare::PlusMinus},
+            {-Ival(1) / Ival(10), capd::poincare::PlusMinus},
+            {-Ival(3) / Ival(20), capd::poincare::PlusMinus},
+            {-Ival(1) / Ival(10), capd::poincare::MinusPlus},
+            {Ival(0), capd::poincare::MinusPlus},
+            {Ival(1) / Ival(10), capd::poincare::MinusPlus}};
+        int ordinal = 0;
+        for (const Pair23Section& section : pair23_sections) {
+          const Vector image = project_c0_section_with_audit(
+              set, 0, section.value, section.direction, true, u_param,
+              order, tolerance);
+          ++ordinal;
+          std::cout << "C0_SYNC_PAIR23 ordinal=" << ordinal << " wr=["
+                    << bound_double(image[0].leftBound()) << ","
+                    << bound_double(image[0].rightBound()) << "] tp=["
+                    << bound_double(image[9].leftBound()) << ","
+                    << bound_double(image[9].rightBound()) << "] hull="
+                    << hull_width(image, 12) << "\n" << std::flush;
+        }
+      }
     }
     PhaseRunner flow(fields[phase.pair23 ? 1 : 0], order, tolerance);
     for (;;) {
@@ -1695,12 +1732,15 @@ int main(int argc, char** argv) {
         std::getenv("FABLE_ENDGAME_PRESWITCH") != nullptr;
     const bool structured_form_b =
         std::getenv("FABLE_ENDGAME_STRUCTURED_SWITCH") != nullptr;
+    const bool synchronize_pair23 =
+        std::getenv("FABLE_ENDGAME_PAIR23_SYNC") != nullptr;
     std::cout << "ENDGAME_PARAMS precision_bits=" << precision
               << " tolerance=" << tolerance << " order=" << order
               << " sync_exchange=" << (synchronize_exchange ? 1 : 0)
               << " sync_preswitch=" << (synchronize_preswitch ? 1 : 0)
               << " structured_form_b=" << (structured_form_b ? 1 : 0)
-              << " driver=middle_escape_endgame_capd/v9-structured-switch-2026-08-25"
+              << " sync_pair23=" << (synchronize_pair23 ? 1 : 0)
+              << " driver=middle_escape_endgame_capd/v10-pair23-sync-2026-08-25"
               << "\n" << std::flush;
     const bool graph_mode =
         std::getenv("FABLE_ENDGAME_GRAPH") != nullptr;

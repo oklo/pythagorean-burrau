@@ -1600,4 +1600,14 @@ it is not a remainder proof.
   interval image, and reorganizes with point correlation matrices.  The
   reviewed manual image retained the distinguished $u$ generator but
   conservatively collapsed the remainder to one box.  An opt-in native-map
-  width-$10^{-8}$ replay is the active test.
+  width-$10^{-8}$ replay gave the same coordinate hull $0.0537352$ and then
+  failed on $t\in[3.61552,3.65520]$ at hull $2.94349$.  The hidden remainder
+  correlation did not survive the next binary phase strongly enough; this
+  route is inactive.
+- Dense ordinary Form-B reconnaissance identified a clean geometric-section
+  itinerary for the pair--23 binary.  Starting from $t=3.48$, the branch
+  crosses $w_r=0,1/10,3/20,1/10,0,-1/10,-3/20,-1/10,0,1/10$ with directions
+  $+,+,+,-,-,-,-,+,+,+$ at approximate times
+  $3.5276,3.5620,3.5987,3.6368,3.6472,3.6828,3.7205,3.7573,3.7677,3.8036$.
+  These decimals choose sections only; the active CAPD mode must prove each
+  common transverse return and independently cover every intervening tube.

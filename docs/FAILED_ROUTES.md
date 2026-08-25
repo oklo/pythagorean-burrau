@@ -23,6 +23,14 @@ fails on a denominator containing zero.  The timing improvement is retained;
 the active repair preserves the tripleton's two remainder correlations
 through the nonlinear map instead of collapsing them to one box.
 
+That structured-map repair was also tested and failed as a complete route.
+CAPD's native `DynSysMap` retained both $Br$ and $Qq$ representations, but its
+coordinate hull was still $0.0537352$ and propagation failed near $t=3.63$
+at hull $2.94349$.  The next repair is qualitatively different: synchronize
+on transverse pair--23 LC coordinates through the repeated post-exchange
+binary cycles, with independent full-tube audits, rather than expecting a
+single chart image to retain phase correlation for all later cycles.
+
 ## Physical transverse-velocity quotient through every LC collision block
 
 An attempted first-order incoming-tail proof tried to infer

@@ -231,6 +231,50 @@ def probe_one(u: float, rtol: float = 1e-12, atol: float = 1e-14) -> dict:
             )
         )
 
+    # 6. Form-B pair-{2,3} LC coordinates after the exchange.  This is
+    # ordinary reconnaissance for choosing transverse geometric sections;
+    # the validated driver must prove every crossing and cover its tube.
+    pair23_lc = []
+    previous_w: complex | None = None
+    for t in (3.48, 3.50, 3.51, 3.517, 3.52, 3.54, 3.56, 3.58,
+              3.60, 3.62, 3.64, 3.66, 3.68, 3.70, 3.75, 3.80):
+        g, gdot, _, _ = pair23_jacobi(solution.sol(t), masses)
+        gc = complex(g[0], g[1])
+        root = np.sqrt(gc)
+        if previous_w is None:
+            if root.imag < 0:
+                root = -root
+        elif abs(root - previous_w) > abs(root + previous_w):
+            root = -root
+        previous_w = root
+        z = np.conj(root) * complex(gdot[0], gdot[1]) / 2
+        radius_sigma = 2 * (np.conj(root) * z).real
+        pair23_lc.append((t, root, z, radius_sigma))
+
+    dense_pair23_t = np.arange(3.48, 3.821, 0.0002)
+    dense_pair23_w = np.empty(len(dense_pair23_t), dtype=complex)
+    previous_w = None
+    for index, t in enumerate(dense_pair23_t):
+        g, _, _, _ = pair23_jacobi(solution.sol(t), masses)
+        root = np.sqrt(complex(g[0], g[1]))
+        if previous_w is None:
+            if root.imag < 0:
+                root = -root
+        elif abs(root - previous_w) > abs(root + previous_w):
+            root = -root
+        dense_pair23_w[index] = root
+        previous_w = root
+    pair23_wr_crossings = []
+    for level in (-0.15, -0.10, -0.05, 0.0, 0.05, 0.10, 0.15):
+        shifted = dense_pair23_w.real - level
+        for index in range(1, len(shifted)):
+            if shifted[index - 1] * shifted[index] < 0:
+                fraction = shifted[index - 1] / (shifted[index - 1] - shifted[index])
+                crossing_time = dense_pair23_t[index - 1] + 0.0002 * fraction
+                direction = "+" if shifted[index] > shifted[index - 1] else "-"
+                pair23_wr_crossings.append((crossing_time, level, direction))
+    pair23_wr_crossings.sort()
+
     itinerary = tuple(
         ("max" if record.is_maximum else "min", closest)
         for record, closest in events
@@ -242,6 +286,8 @@ def probe_one(u: float, rtol: float = 1e-12, atol: float = 1e-14) -> dict:
         "margin_table": margin_table,
         "crossings": crossings,
         "switch": switch,
+        "pair23_lc": pair23_lc,
+        "pair23_wr_crossings": pair23_wr_crossings,
         "itinerary": itinerary,
         "max_energy_error": max_energy_error,
     }
@@ -289,6 +335,16 @@ def report(result: dict, verbose: bool) -> None:
                 f" r13={seps[2]:.4f} |g23|={gnorm:.4f} rho={rho:.4f}"
                 f" rhodot={rhodot:+.4f}"
             )
+        print("pair-{2,3} Form-B LC reconnaissance (t, w, z, d|w|^2/dsigma):")
+        for t, w, z, radius_sigma in result["pair23_lc"]:
+            print(
+                f"  t={t:.3f} w=({w.real:+.6f},{w.imag:+.6f})"
+                f" z=({z.real:+.6f},{z.imag:+.6f})"
+                f" r_sigma={radius_sigma:+.6f}"
+            )
+        print("pair-{2,3} candidate wr crossings (ordinary linear interpolation):")
+        for t, level, direction in result["pair23_wr_crossings"]:
+            print(f"  t={t:.6f} wr={level:+.2f} direction={direction}")
 
 
 def main() -> None:
