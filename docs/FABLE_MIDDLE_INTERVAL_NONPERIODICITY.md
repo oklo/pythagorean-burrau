@@ -285,6 +285,16 @@ $[0.29,0.29+10^{-9}]$ and therefore overlaps the first nine campaign tiles.
 The exact endpoint audit gives 100 requested/PASS interval matches, 100
 width-$10^{-10}$ tiles, and 99 exact internal endpoint matches.  The campaign
 artifact commit is `6a169f24289973a89274d5b51cc82844cd044a12`.
+Reproduce the exact chain/archive audit with
+
+```sh
+python scripts/audit_fable_middle_campaign.py
+# PASS_FABLE_MIDDLE_CAMPAIGN_AUDIT tiles=100 ...
+```
+
+The committed summary and archive SHA-256 digests are, respectively,
+`57a28304c505e1fd30cf3fb1afbcbe811b6df69974266d00a17a0d358672fb4d` and
+`61317af93e44ebe48825599f8cf6523dc13246190907b8b91fb1e2f22dee6b27`.
 
 ## Independent review and repairs
 
