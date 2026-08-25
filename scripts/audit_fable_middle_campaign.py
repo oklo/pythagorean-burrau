@@ -30,6 +30,11 @@ PASS_RE = re.compile(
     rf"max_hull=(?P<hull>[^ ]+).* capd_commit=(?P<capd>[0-9a-f]+)$",
     re.MULTILINE,
 )
+COMMAND_RE = re.compile(
+    r"^[^ ]+ (?P<p>[0-9]+) (?P<q>[0-9]+) (?P<p2>[0-9]+) (?P<q2>[0-9]+) "
+    r"(?P<precision>[0-9]+) (?P<tolerance>[^ ]+) (?P<order>[0-9]+)$",
+    re.MULTILINE,
+)
 
 
 @dataclass(frozen=True, order=True)
@@ -101,7 +106,13 @@ def audit_chain(tiles: list[Tile], label: str) -> None:
 
 def audit_summary(path: Path) -> list[Tile]:
     tiles: list[Tile] = []
-    for line_number, line in enumerate(path.read_text().splitlines(), start=1):
+    text = path.read_text()
+    require("FAIL" not in text, "summary: FAIL marker present")
+    require(
+        text.count("PASS_MIDDLE_ESCAPE_ENDGAME") == EXPECTED_TILES,
+        "summary: wrong number of PASS markers",
+    )
+    for line_number, line in enumerate(text.splitlines(), start=1):
         match = SUMMARY_RE.match(line)
         if match is None:
             continue
@@ -150,6 +161,13 @@ def audit_archive(path: Path) -> list[Tile]:
             len({member.name for member in members}) == EXPECTED_TILES,
             "archive: duplicate member name",
         )
+        expected_names = {
+            f"campaign2/slice_{index:05d}.log" for index in range(1, EXPECTED_TILES + 1)
+        }
+        require(
+            {member.name for member in members} == expected_names,
+            "archive: slice-number set is incomplete",
+        )
         for member in members:
             extracted = archive.extractfile(member)
             if extracted is None:
@@ -165,7 +183,27 @@ def audit_archive(path: Path) -> list[Tile]:
                 len(re.findall(r"^TERMINAL ", text, flags=re.MULTILINE)) == 1,
                 f"archive: expected one terminal record in {member.name}",
             )
-            tiles.append(tile_from_match(matches[0]))
+            command_matches = list(COMMAND_RE.finditer(text))
+            require(
+                len(command_matches) == 1,
+                f"archive: expected one exact command in {member.name}",
+            )
+            command = command_matches[0]
+            require(
+                (command.group("precision"), command.group("tolerance"), command.group("order"))
+                == ("80", "1e-14", "24"),
+                f"archive: solver-parameter mismatch in {member.name}",
+            )
+            tile = tile_from_match(matches[0])
+            requested = (
+                Fraction(int(command.group("p")), int(command.group("q"))),
+                Fraction(int(command.group("p2")), int(command.group("q2"))),
+            )
+            require(
+                requested == (tile.left, tile.right),
+                f"archive: command/PASS interval mismatch in {member.name}",
+            )
+            tiles.append(tile)
     audit_chain(tiles, "archive")
     return tiles
 
