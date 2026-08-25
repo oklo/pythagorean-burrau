@@ -168,6 +168,48 @@ def test_lc_algebraic_energy_elimination_is_exact() -> None:
     assert sp.factor(sp.together(physical_energy - constrained_energy)) == 0
 
 
+def test_total_energy_leaf_eliminations_are_exact() -> None:
+    """The regular h reconstructions impose exactly H=-U0 in both trees."""
+    a, b = sp.symbols("a b", positive=True)
+    p2, r12, r13, r23 = sp.symbols(
+        "p2 r12 r13 r23", positive=True
+    )
+    total = a + b + 1
+    u0 = a * b + 1 / (a * b)
+
+    mu13 = a / (a + 1)
+    mu_g13 = b * (a + 1) / total
+    h13 = (
+        -u0
+        - mu_g13 * p2 / 2
+        + a * b / r12
+        + b / r23
+    ) / mu13
+    total_energy13 = (
+        mu13 * h13
+        + mu_g13 * p2 / 2
+        - a * b / r12
+        - b / r23
+    )
+    assert sp.factor(sp.together(total_energy13 + u0)) == 0
+
+    mu23 = b / (b + 1)
+    mu_g23 = a * (b + 1) / total
+    h23 = (
+        -u0
+        - mu_g23 * p2 / 2
+        + a * b / r12
+        + a / r13
+    ) / mu23
+    total_energy23 = (
+        mu23 * h23
+        + mu_g23 * p2 / 2
+        - a * b / r12
+        - a / r13
+    )
+    assert sp.factor(sp.together(total_energy23 + u0)) == 0
+
+
 def test_regularized_lagrange_jacobi_fields_are_exact() -> None:
     """Both chart formulas equal |w|^2(2U-4U0) after cancellation."""
     a, b, radius, r12, r13 = sp.symbols(

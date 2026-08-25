@@ -960,6 +960,34 @@ a near-point parameter tile, so parameter subdivision alone is not the
 repair.
 
 The next architecture should rebuild a one-parameter mean-value graph at
-transverse sections, keeping the exact algebraic energy elimination from the
-moment of the chart switch.  A success must still audit every complete tube;
-the returned section image by itself is not enough.
+transverse sections.  The displayed local energy quotient is exact but loses
+the cancellation in $2|z|^2-M_{13}=O(|w|^2)$ under interval evaluation.  A
+better elimination reconstructs $h$ from the fixed total-energy leaf using
+the complementary momentum and the two unselected separations; it is regular
+at $w=0$ while those separations stay positive.  A success must still audit
+every complete tube; the returned section image by itself is not enough.
+
+## Repeated LC sections followed by one common-$\sigma$ middle leg
+
+**Status:** DISPROVED as a scalable enclosure architecture; the exact
+energy-leaf and chart-map identities remain valid.
+
+An exact total-energy-leaf reconstruction of the selected-pair energy and a
+direct tripleton chart image substantially improved the preceding route.  On
+$u\in[0.29,0.2900001]$ the certified pair--13 tube crossed the second minimum
+with hull $0.0839136$, reached the outgoing $w_r=-0.4$ section with hull
+$0.145072$, and switched into the pair--23 chart with hull $0.214655$.
+Replacing repeated pair--23 Poincare maps by one common-$\sigma$ propagation
+did not repair the remaining representation loss: by
+$t\in[1.99372,2.01752]$ the hull was $728.258$, and a validated solver step
+failed because an unselected-distance interval contained zero.  Ordinary
+finite-difference sensitivity over the same physical family is orders of
+magnitude smaller, so this is interval wrapping, not evidence of collision
+or a dynamical singularity.
+
+The successful endgame driver supersedes this route.  It carries one C0
+tripleton from the exact launch, switches its chart by a rigorous mean-value
+image without repeated event projection, caps steps using unselected-pair
+free-fall scales, and certifies the narrower real interval
+$[0.29,0.2900000001]$ end to end.  The failed experiment remains useful as
+an independent localization of the fixed-clock sensitivity bottleneck.

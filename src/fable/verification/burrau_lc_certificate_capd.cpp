@@ -51,6 +51,7 @@
 #include <string>
 
 #include "capd/mpcapdlib.h"
+#include "capd/dynsys/DynSysMap.h"
 
 namespace {
 
@@ -267,7 +268,7 @@ const char* kDirectLcVars =
 // The same selected-pair regularization without the frozen physical/chart
 // blocks.  This chart is nonsingular from the tied launch through the early
 // maximum-event branch and avoids both entry and exit time-shift wrapping.
-Map make_direct_lc_field(bool algebraic_h = false) {
+Map make_direct_lc_field(bool energy_leaf_h = false) {
   const std::string qden = "(1+ww^2)";
   const std::string ma = "((1-ww^2)/" + qden + ")";
   const std::string mb = "(2*ww/" + qden + ")";
@@ -300,13 +301,21 @@ Map make_direct_lc_field(bool algebraic_h = false) {
       ir12 + "+" + d23y + "/" + ir23 + "))";
   const std::string ab = "(" + ma + "*" + mb + ")";
   const std::string u0 = "(" + ab + "+1/" + ab + ")";
-  const std::string pair_mass = "(2/" + qden + ")";
+  const std::string pair_mu = "(" + ma + "/(1+" + ma + "))";
+  const std::string complement_mu =
+      "(" + mb + "*(1+" + ma + ")/(1+" + ma + "+" + mb + "))";
+  // Restrict the regularized flow to the exact total-energy leaf H=-U0.
+  // Since H=mu13*h+(muG/2)|P|^2-AB/r12-B/r23, this expression for h
+  // has no selected-pair 0/0 cancellation and stays regular at w=0 as
+  // long as the two unselected pairs remain separated.
+  const std::string h_from_energy =
+      "((-" + u0 + "-(" + complement_mu + "/2)*(cpx^2+cpy^2)+" +
+      ab + "/sqrt(" + r12sq + ")+" + mb + "/sqrt(" + r23sq + "))/" +
+      pair_mu + ")";
   const std::string h_used =
-      algebraic_h
-          ? "((2*(zr^2+zi^2)-" + pair_mass + ")/" + w2 + ")"
-          : "hh";
+      energy_leaf_h ? h_from_energy : "hh";
   const std::string h_sigma =
-      algebraic_h
+      energy_leaf_h
           ? "0"
           : "2*((wr*zr-wi*zi)*" + fx +
                 "+(wr*zi+wi*zr)*" + fy + ")";
@@ -327,7 +336,7 @@ Map make_direct_lc_field(bool algebraic_h = false) {
 
 // Direct Levi--Civita field for selected pair {2,3}, with
 // g=q3-q2 and complement G=q1-C23.  The state layout is unchanged.
-Map make_pair23_lc_field(bool algebraic_h = false) {
+Map make_pair23_lc_field(bool energy_leaf_h = false) {
   const std::string qden = "(1+ww^2)";
   const std::string ma = "((1-ww^2)/" + qden + ")";
   const std::string mb = "(2*ww/" + qden + ")";
@@ -361,12 +370,18 @@ Map make_pair23_lc_field(bool algebraic_h = false) {
       ir12 + "+" + d13y + "/" + ir13 + "))";
   const std::string ab = "(" + ma + "*" + mb + ")";
   const std::string u0 = "(" + ab + "+1/" + ab + ")";
+  const std::string pair_mu = "(" + mb + "/" + m23 + ")";
+  const std::string complement_mu =
+      "(" + ma + "*" + m23 + "/(1+" + ma + "+" + mb + "))";
+  // H=mu23*h+(muG/2)|P|^2-AB/r12-A/r13 on this Jacobi tree.
+  const std::string h_from_energy =
+      "((-" + u0 + "-(" + complement_mu + "/2)*(cpx^2+cpy^2)+" +
+      ab + "/sqrt(" + r12sq + ")+" + ma + "/sqrt(" + r13sq + "))/" +
+      pair_mu + ")";
   const std::string h_used =
-      algebraic_h
-          ? "((2*(zr^2+zi^2)-" + m23 + ")/" + w2 + ")"
-          : "hh";
+      energy_leaf_h ? h_from_energy : "hh";
   const std::string h_sigma =
-      algebraic_h
+      energy_leaf_h
           ? "0"
           : "2*((wr*zr-wi*zi)*" + fx +
                 "+(wr*zi+wi*zr)*" + fy + ")";
@@ -383,7 +398,7 @@ Map make_pair23_lc_field(bool algebraic_h = false) {
              w2 + "*" + gddy + "," + w2 + ",0," + jd_sigma + ";");
 }
 
-Map make_pair13_to_pair23_map() {
+Map make_pair13_to_pair23_map(bool dummy_h = false) {
   const std::string qden = "(1+ww^2)";
   const std::string inv_m13 = "(" + qden + "/2)";
   const std::string inv_m23 = "(" + qden + "/(1+ww)^2)";
@@ -426,13 +441,14 @@ Map make_pair13_to_pair23_map() {
       "(-" + old_xdx + "-" + inv_m23 + "*" + gdx + ")";
   const std::string new_py =
       "(-" + old_xdy + "-" + inv_m23 + "*" + gdy + ")";
+  const std::string h_output = dummy_h ? "0" : new_h;
   return Map(std::string(kDirectLcVars) + "fun:" + new_wr + "," +
-             new_wi + "," + new_zr + "," + new_zi + "," + new_h +
+             new_wi + "," + new_zr + "," + new_zi + "," + h_output +
              "," + new_gx + "," + new_gy + "," + new_px + "," +
              new_py + ",tp,ww,jd;");
 }
 
-Map make_pair23_to_pair13_map() {
+Map make_pair23_to_pair13_map(bool dummy_h = false) {
   const std::string qden = "(1+ww^2)";
   const std::string inv_m13 = "(" + qden + "/2)";
   const std::string inv_m23 = "(" + qden + "/(1+ww)^2)";
@@ -476,8 +492,9 @@ Map make_pair23_to_pair13_map() {
       "(-" + old_d12dx + "-" + inv_m13 + "*" + gdx + ")";
   const std::string new_py =
       "(-" + old_d12dy + "-" + inv_m13 + "*" + gdy + ")";
+  const std::string h_output = dummy_h ? "0" : new_h;
   return Map(std::string(kDirectLcVars) + "fun:" + new_wr + "," +
-             new_wi + "," + new_zr + "," + new_zi + "," + new_h +
+             new_wi + "," + new_zr + "," + new_zi + "," + h_output +
              "," + new_gx + "," + new_gy + "," + new_px + "," +
              new_py + ",tp,ww,jd;");
 }
@@ -1028,9 +1045,9 @@ DirectCorrelatedGraph project_direct_graph(
     const Ival& section_value,
     capd::poincare::CrossingDirection direction, int order,
     double tolerance, bool pair23_chart = false,
-    int expected_j_sign = 0, bool algebraic_h = false) {
-  Map field = pair23_chart ? make_pair23_lc_field(algebraic_h)
-                           : make_direct_lc_field(algebraic_h);
+    int expected_j_sign = 0, bool energy_leaf_h = false) {
+  Map field = pair23_chart ? make_pair23_lc_field(energy_leaf_h)
+                           : make_direct_lc_field(energy_leaf_h);
   CoordinateSection section(12, section_coordinate, section_value);
   Solver interval_solver(field, order);
   interval_solver.setAbsoluteTolerance(tolerance);
@@ -1054,8 +1071,8 @@ DirectCorrelatedGraph project_direct_graph(
   // strict sign of J=dI/dt throughout the leg.
   {
     Set audit_set = input.c0_set();
-    Map audit_field = pair23_chart ? make_pair23_lc_field(algebraic_h)
-                                   : make_direct_lc_field(algebraic_h);
+    Map audit_field = pair23_chart ? make_pair23_lc_field(energy_leaf_h)
+                                   : make_direct_lc_field(energy_leaf_h);
     PhaseRunner audit(audit_field, order, tolerance);
     const Family audit_family = make_family(input.u_range);
     bool launch_window = expected_j_sign == -2;
@@ -1143,19 +1160,189 @@ DirectCorrelatedGraph project_direct_graph(
           input.u_range, input.u_center};
 }
 
+void apply_exact_direct_map(Set& set, Map& map) {
+  capd::dynsys::DynSysMap<Map> discrete_map(map);
+  set.move(discrete_map);
+}
+
+Vector propagate_persistent_direct_to_physical_lower(
+    Set& set, const Ival& target_tp, int order, double tolerance,
+    const Ival& u_range, bool pair23_chart,
+    int expected_j_sign, bool energy_leaf_h) {
+  Map field = pair23_chart ? make_pair23_lc_field(energy_leaf_h)
+                           : make_direct_lc_field(energy_leaf_h);
+  PhaseRunner flow(field, order, tolerance);
+  const Family family = make_family(u_range);
+  for (int steps = 0; steps < 200000; ++steps) {
+    const Vector before(set);
+    if (before[9].leftBound() >= target_tp.rightBound()) {
+      return before;
+    }
+    const double w_abs = std::sqrt(std::max(
+        1e-12,
+        bound_double((before[0] * before[0] + before[1] * before[1])
+                         .leftBound())));
+    const double cap =
+        std::max(1.0 / 8000.0,
+                 std::min(w_abs / 32.0, 1.0 / 200.0));
+    try {
+      flow.direct_move(set, cap);
+    } catch (const std::exception& error) {
+      const Vector snapshot(set);
+      std::cout << "DIRECT_LC_EVENT_PROBE kind=common_sigma_flow_failure"
+                << " step=" << steps << " tp=["
+                << bound_double(snapshot[9].leftBound()) << ","
+                << bound_double(snapshot[9].rightBound()) << "] w2=["
+                << bound_double((snapshot[0] * snapshot[0] +
+                                 snapshot[1] * snapshot[1]).leftBound())
+                << ","
+                << bound_double((snapshot[0] * snapshot[0] +
+                                 snapshot[1] * snapshot[1]).rightBound())
+                << "] hull=" << hull_width(snapshot, 12)
+                << " what=" << error.what() << "\n" << std::flush;
+      throw;
+    }
+    const Vector enclosure = set.getLastEnclosure();
+    const DirectLcScalars sc =
+        pair23_chart ? evaluate_pair23_lc(enclosure, family)
+                     : evaluate_direct_lc(enclosure, family);
+    if (!(sc.selected_radius.leftBound() > 0) ||
+        !(sc.r12_squared.leftBound() > 0) ||
+        !(sc.r23_squared.leftBound() > 0)) {
+      throw std::runtime_error(
+          "persistent common-sigma leg lost collision separation");
+    }
+    const bool prescribed_j =
+        (expected_j_sign < 0 && sc.i_dot.rightBound() < 0) ||
+        (expected_j_sign > 0 && sc.i_dot.leftBound() > 0) ||
+        expected_j_sign == 0;
+    const bool potential_excludes_brake =
+        sc.potential.leftBound() > family.u0.rightBound();
+    if (!prescribed_j && !potential_excludes_brake &&
+        !direct_lc_residual_excludes_brake(enclosure)) {
+      const Vector snapshot(set);
+      std::cout << "DIRECT_LC_EVENT_PROBE kind=common_sigma_guard_failure"
+                << " tp=[" << bound_double(snapshot[9].leftBound()) << ","
+                << bound_double(snapshot[9].rightBound()) << "] jd=["
+                << bound_double(sc.i_dot.leftBound()) << ","
+                << bound_double(sc.i_dot.rightBound()) << "] hull="
+                << hull_width(snapshot, 12) << "\n" << std::flush;
+      throw std::runtime_error(
+          "persistent common-sigma leg lost every brake obstruction");
+    }
+  }
+  throw std::runtime_error(
+      "persistent common-sigma leg exceeded its step limit");
+}
+
+Vector project_persistent_direct_c0_set(
+    Set& interval_set, int section_coordinate,
+    const Ival& section_value,
+    capd::poincare::CrossingDirection direction, int order,
+    double tolerance, const Ival& u_range,
+    bool pair23_chart = false, int expected_j_sign = 0,
+    bool energy_leaf_h = false) {
+  // PoincareMap advances interval_set to just after the section while the
+  // C0 tripleton retains its correlation generators.  A separate copy
+  // audits every accepted-step enclosure up to the latest return time.
+  Set audit_set(interval_set);
+  Map field = pair23_chart ? make_pair23_lc_field(energy_leaf_h)
+                           : make_direct_lc_field(energy_leaf_h);
+  CoordinateSection section(12, section_coordinate, section_value);
+  Solver interval_solver(field, order);
+  interval_solver.setAbsoluteTolerance(tolerance);
+  interval_solver.setRelativeTolerance(tolerance);
+  PoincareMap interval_map(interval_solver, section, direction);
+  interval_map.setMaxReturnTime(50.0);
+  Ival interval_return;
+  const Vector interval_image = interval_map(interval_set, interval_return);
+  if (!interval_image[section_coordinate].contains(section_value)) {
+    throw std::runtime_error(
+        "persistent direct C0 set missed its Poincare section");
+  }
+
+  Map audit_field = pair23_chart ? make_pair23_lc_field(energy_leaf_h)
+                                 : make_direct_lc_field(energy_leaf_h);
+  PhaseRunner audit(audit_field, order, tolerance);
+  const Family audit_family = make_family(u_range);
+  bool launch_window = expected_j_sign == -2;
+  bool positive_launch_window = expected_j_sign == 2;
+  const Ival audit_target = interval_set.getCurrentTime();
+  for (int audit_steps = 0;; ++audit_steps) {
+    if (audit_steps > 200000) {
+      throw std::runtime_error(
+          "persistent direct C0 set leg audit step limit");
+    }
+    const Vector before(audit_set);
+    const double w_abs = std::sqrt(std::max(
+        1e-12,
+        bound_double((before[0] * before[0] + before[1] * before[1])
+                         .leftBound())));
+    const double cap =
+        std::max(1.0 / 8000.0,
+                 std::min(w_abs / 24.0, 1.0 / 100.0));
+    audit.direct_move(audit_set, cap);
+    const Vector enclosure = audit_set.getLastEnclosure();
+    const DirectLcScalars sc =
+        pair23_chart ? evaluate_pair23_lc(enclosure, audit_family)
+                     : evaluate_direct_lc(enclosure, audit_family);
+    if (!(sc.selected_radius.leftBound() > 0) ||
+        !(sc.r12_squared.leftBound() > 0) ||
+        !(sc.r23_squared.leftBound() > 0)) {
+      throw std::runtime_error(
+          "persistent direct C0 set leg lost collision separation");
+    }
+    if (launch_window) {
+      if (!(sc.potential.rightBound() <
+            (2 * audit_family.u0).leftBound())) {
+        if (!(sc.i_dot.rightBound() < 0)) {
+          throw std::runtime_error(
+              "persistent C0 launch leg lost initial concavity/J sign");
+        }
+        launch_window = false;
+      }
+    } else if (positive_launch_window) {
+      if (!(sc.potential.leftBound() >
+            (2 * audit_family.u0).rightBound())) {
+        if (!(sc.i_dot.leftBound() > 0)) {
+          throw std::runtime_error(
+              "persistent C0 minimum launch lost concavity/J sign");
+        }
+        positive_launch_window = false;
+      }
+    } else if (expected_j_sign == 3) {
+      if (!(sc.potential.leftBound() >
+            (2 * audit_family.u0).rightBound())) {
+        throw std::runtime_error(
+            "persistent direct C0 set left the convex-I corridor");
+      }
+    } else if (((expected_j_sign == -1 || expected_j_sign == -2) &&
+                !(sc.i_dot.rightBound() < 0)) ||
+               (expected_j_sign > 0 && !(sc.i_dot.leftBound() > 0))) {
+      throw std::runtime_error(
+          "persistent direct C0 set leg lost its prescribed J sign");
+    }
+    if (audit_set.getCurrentTime().leftBound() >=
+        audit_target.rightBound()) {
+      break;
+    }
+  }
+  return interval_image;
+}
+
 Vector project_persistent_direct_set(
     C1Set& interval_set, int section_coordinate,
     const Ival& section_value,
     capd::poincare::CrossingDirection direction, int order,
     double tolerance, const Ival& u_range,
     bool pair23_chart = false, int expected_j_sign = 0,
-    bool algebraic_h = false, bool restart_from_section = false) {
+    bool energy_leaf_h = false, bool restart_from_section = false) {
   // Preserve a copy for a stepwise tube audit.  PoincareMap intentionally
   // advances interval_set to just after the section, retaining its full
   // C1 doubleton correlations for the next leg.
   C1Set audit_set(interval_set);
-  Map field = pair23_chart ? make_pair23_lc_field(algebraic_h)
-                           : make_direct_lc_field(algebraic_h);
+  Map field = pair23_chart ? make_pair23_lc_field(energy_leaf_h)
+                           : make_direct_lc_field(energy_leaf_h);
   CoordinateSection section(12, section_coordinate, section_value);
   Solver interval_solver(field, order);
   interval_solver.setAbsoluteTolerance(tolerance);
@@ -1171,8 +1358,8 @@ Vector project_persistent_direct_set(
         "persistent direct set missed its Poincare section");
   }
 
-  Map audit_field = pair23_chart ? make_pair23_lc_field(algebraic_h)
-                                 : make_direct_lc_field(algebraic_h);
+  Map audit_field = pair23_chart ? make_pair23_lc_field(energy_leaf_h)
+                                 : make_direct_lc_field(energy_leaf_h);
   PhaseRunner audit(audit_field, order, tolerance);
   const Family audit_family = make_family(u_range);
   bool launch_window = expected_j_sign == -2;
@@ -1242,7 +1429,7 @@ Vector project_persistent_direct_set(
     // after the crossing; its returned section image is often much tighter.
     Vector restart_image(interval_image);
     restart_image[section_coordinate] = section_value;
-    if (algebraic_h) {
+    if (energy_leaf_h) {
       restart_image[4] = Ival(0);
     }
     interval_set = C1Set(restart_image);
@@ -1523,22 +1710,43 @@ int run_direct_lc_prefix(const Ival& u_param, long p, long q,
       }
 
       // The pair-13 vector field below reconstructs the selected-pair
-      // Kepler energy h exactly from (w,z).  Its stored h coordinate is
-      // therefore a dummy.  Zeroing that row before constructing the
-      // persistent doubleton prevents the interval-valued chart transform
-      // from injecting an unused but strongly wrapping coordinate into the
-      // pair-13 propagation.
+      // Kepler energy h exactly from the fixed total-energy leaf.  Its
+      // stored h coordinate is therefore a dummy.  Zeroing that row avoids
+      // injecting an unused, strongly wrapping chart coordinate into the
+      // pair-13 mean-value graph.
       event_graph.anchor[4] = Ival(0);
       event_graph.tangent[4] = Ival(0);
-      C1Set pair13_set(event_graph.c1_set());
+      Set middle_set(event_graph.c0_set());
+      auto project_middle_c0 =
+          [&](int section_coordinate, const Ival& section_value,
+              capd::poincare::CrossingDirection direction,
+              bool pair23_chart, int expected_j_sign) {
+            return project_persistent_direct_c0_set(
+                middle_set, section_coordinate, section_value, direction,
+                order, tolerance, u_param, pair23_chart,
+                expected_j_sign, true);
+          };
+      auto project_middle_mean_value =
+          [&](DirectCorrelatedGraph& graph, int section_coordinate,
+              const Ival& section_value,
+              capd::poincare::CrossingDirection direction,
+              bool pair23_chart, int expected_j_sign) {
+            graph = project_direct_graph(
+                graph, section_coordinate, section_value, direction,
+                order, tolerance, pair23_chart, expected_j_sign, true);
+            return Vector(graph.c0_set());
+          };
 
+      // Diagnostic physical-time checkpoints are useful for scouting but
+      // ill-conditioned Poincare sections near the encounter because
+      // tp_sigma=|w|^2.  The monotone wr chain below replaces them.
+#if 0
       const Ival pair13_second_incoming_times[3] = {
           Ival(9) / Ival(5), Ival(37) / Ival(20), Ival(19) / Ival(10)};
       for (const Ival& checkpoint_time : pair13_second_incoming_times) {
-        const Vector checkpoint_image = project_persistent_direct_set(
-            pair13_set, 9, checkpoint_time,
-            capd::poincare::MinusPlus, order, tolerance,
-            u_param, false, -1, true);
+        const Vector checkpoint_image = project_middle_mean_value(
+            event_graph, 9, checkpoint_time,
+            capd::poincare::MinusPlus, false, -1);
         const DirectLcScalars checkpoint_sc =
             evaluate_direct_lc(checkpoint_image, family);
         if (!(checkpoint_sc.i_dot.rightBound() < 0) ||
@@ -1558,18 +1766,20 @@ int run_direct_lc_prefix(const Ival& u_param, long p, long q,
                   << " hull=" << hull_width(checkpoint_image, 12) << "\n"
                   << std::flush;
       }
+#endif
 
       // Approach the square-root branch seam through short wr sections.
       // Every normal speed is wr_sigma=zr<0, whereas a physical-time
       // section loses transversality as tp_sigma=|w|^2 becomes small.
-      const Ival pair13_incoming_wr_sections[4] = {
+      const Ival pair13_incoming_wr_sections[8] = {
+          Ival(7) / Ival(10), Ival(3) / Ival(5),
+          Ival(1) / Ival(2), Ival(2) / Ival(5),
           Ival(3) / Ival(10), Ival(1) / Ival(5),
           Ival(1) / Ival(10), Ival(0)};
       int incoming_section_index = 0;
       for (const Ival& wr_section : pair13_incoming_wr_sections) {
-        const Vector seam_image = project_persistent_direct_set(
-            pair13_set, 0, wr_section, capd::poincare::PlusMinus,
-            order, tolerance, u_param, false, -1, true);
+        const Vector seam_image = project_middle_c0(
+            0, wr_section, capd::poincare::PlusMinus, false, -1);
         const DirectLcScalars seam_sc =
             evaluate_direct_lc(seam_image, family);
         if (!(seam_sc.i_dot.rightBound() < 0) ||
@@ -1598,10 +1808,12 @@ int run_direct_lc_prefix(const Ival& u_param, long p, long q,
       // checkpoint between the seam and the minimum is counterproductive:
       // it divides by tp_sigma=|w|^2 immediately after the close passage.
       // The J section itself is transverse because ddot(I)>0 there.
-      C1Set second_minimum_set(pair13_set);
-      const Vector second_minimum_image = project_persistent_direct_set(
-          second_minimum_set, 11, Ival(0), capd::poincare::MinusPlus,
-          order, tolerance, u_param, false, 0, true);
+      Set second_minimum_set(middle_set);
+      const Vector second_minimum_image =
+          project_persistent_direct_c0_set(
+              second_minimum_set, 11, Ival(0),
+              capd::poincare::MinusPlus, order, tolerance, u_param,
+              false, 0, true);
       const DirectLcScalars second_minimum_sc =
           evaluate_direct_lc(second_minimum_image, family);
       if (!(second_minimum_sc.potential.leftBound() >
@@ -1630,9 +1842,8 @@ int run_direct_lc_prefix(const Ival& u_param, long p, long q,
           Ival(-3) / Ival(10), Ival(-2) / Ival(5)};
       int outgoing_section_index = 0;
       for (const Ival& wr_section : pair13_outgoing_wr_sections) {
-        const Vector section_image = project_persistent_direct_set(
-            pair13_set, 0, wr_section, capd::poincare::PlusMinus,
-            order, tolerance, u_param, false, 3, true);
+        const Vector section_image = project_middle_c0(
+            0, wr_section, capd::poincare::PlusMinus, false, 3);
         const DirectLcScalars section_sc =
             evaluate_direct_lc(section_image, family);
         if (!(section_image[2].rightBound() < 0) ||
@@ -1660,13 +1871,13 @@ int run_direct_lc_prefix(const Ival& u_param, long p, long q,
                   << std::flush;
       }
 
-      const Ival pair13_far_outgoing_wr_sections[4] = {
-          Ival(-9) / Ival(20), Ival(-1) / Ival(2),
-          Ival(-11) / Ival(20), Ival(-3) / Ival(5)};
+      // Superseded by the pair-23 switch immediately after wr=-2/5.
+#if 0
+      const Ival pair13_far_outgoing_wr_sections[1] = {
+          Ival(-9) / Ival(20)};
       for (const Ival& wr_section : pair13_far_outgoing_wr_sections) {
-        const Vector section_image = project_persistent_direct_set(
-            pair13_set, 0, wr_section, capd::poincare::PlusMinus,
-            order, tolerance, u_param, false, 1, true);
+        const Vector section_image = project_middle_c0(
+            0, wr_section, capd::poincare::PlusMinus, false, 1);
         const DirectLcScalars section_sc =
             evaluate_direct_lc(section_image, family);
         if (!(section_sc.i_dot.leftBound() > 0) ||
@@ -1689,14 +1900,194 @@ int run_direct_lc_prefix(const Ival& u_param, long p, long q,
                   << "] hull=" << hull_width(section_image, 12) << "\n"
                   << std::flush;
       }
+#endif
+
+      // The next close passage belongs to pair {2,3}, not the currently
+      // selected pair {1,3}.  Switch Jacobi trees while both pairs are well
+      // separated, eliminate the new h from the same total-energy leaf,
+      // and cross the encounter on monotone wi sections (wi_sigma=zi>0).
+      Map pair13_to_pair23_energy_map = make_pair13_to_pair23_map(true);
+      apply_exact_direct_map(middle_set, pair13_to_pair23_energy_map);
+      {
+        const Vector switched(middle_set);
+        const DirectLcScalars switch_sc =
+            evaluate_pair23_lc(switched, family);
+        if (!(switched[0].leftBound() > 0) ||
+            !(switch_sc.i_dot.leftBound() > 0) ||
+            !(switch_sc.selected_radius.leftBound() > 0) ||
+            !(switch_sc.r12_squared.leftBound() > 0) ||
+            !(switch_sc.r23_squared.leftBound() > 0)) {
+          throw std::runtime_error(
+              "pair-23 middle switch lost its positive-J collision-free tube");
+        }
+        std::cout << "DIRECT_LC_EVENT_PROBE kind=pair23_middle_switch tp=["
+                  << bound_double(switched[9].leftBound()) << ","
+                  << bound_double(switched[9].rightBound()) << "] wi=["
+                  << bound_double(switched[1].leftBound()) << ","
+                  << bound_double(switched[1].rightBound()) << "] hull="
+                  << hull_width(switched, 12) << "\n" << std::flush;
+      }
+
+      // Repeated set-valued wi Poincare returns were rigorously correct but
+      // destroyed the tripleton representation.  The common-sigma leg below
+      // supersedes this diagnostic chain.
+#if 0
+      const Ival pair23_middle_wi_sections[21] = {
+          Ival(-7) / Ival(20), Ival(-13) / Ival(40),
+          Ival(-3) / Ival(10),
+          Ival(-1) / Ival(4), Ival(-1) / Ival(5),
+          Ival(-3) / Ival(20), Ival(-1) / Ival(10),
+          Ival(-1) / Ival(20), Ival(0), Ival(1) / Ival(20),
+          Ival(1) / Ival(10), Ival(3) / Ival(20),
+          Ival(1) / Ival(5), Ival(1) / Ival(4),
+          Ival(3) / Ival(10), Ival(7) / Ival(20),
+          Ival(2) / Ival(5), Ival(9) / Ival(20),
+          Ival(1) / Ival(2), Ival(11) / Ival(20),
+          Ival(3) / Ival(5)};
+      int pair23_middle_index = 0;
+      for (const Ival& wi_section : pair23_middle_wi_sections) {
+        const Vector section_image = project_middle_c0(
+            1, wi_section, capd::poincare::MinusPlus, true, 1);
+        const DirectLcScalars section_sc =
+            evaluate_pair23_lc(section_image, family);
+        if (!(section_image[3].leftBound() > 0) ||
+            !(section_sc.i_dot.leftBound() > 0) ||
+            !(section_sc.selected_radius.leftBound() > 0) ||
+            !(section_sc.r12_squared.leftBound() > 0) ||
+            !(section_sc.r23_squared.leftBound() > 0)) {
+          throw std::runtime_error(
+              "pair-23 middle LC section lost its positive-J tube");
+        }
+        ++pair23_middle_index;
+        std::cout << "DIRECT_LC_EVENT_PROBE kind=pair23_middle_section"
+                  << " ordinal=" << pair23_middle_index << " tp=["
+                  << bound_double(section_image[9].leftBound()) << ","
+                  << bound_double(section_image[9].rightBound())
+                  << "] wr=[" << bound_double(section_image[0].leftBound())
+                  << "," << bound_double(section_image[0].rightBound())
+                  << "] zi=[" << bound_double(section_image[3].leftBound())
+                  << "," << bound_double(section_image[3].rightBound())
+                  << "] hull=" << hull_width(section_image, 12) << "\n"
+                  << std::flush;
+      }
+#endif
+      const Vector pair23_middle_exit =
+          propagate_persistent_direct_to_physical_lower(
+              middle_set, Ival(43) / Ival(20), order, tolerance,
+              u_param, true, 1, true);
+      {
+        const DirectLcScalars exit_sc =
+            evaluate_pair23_lc(pair23_middle_exit, family);
+        if (!(pair23_middle_exit[9].leftBound() >=
+              (Ival(43) / Ival(20)).rightBound()) ||
+            (!(exit_sc.i_dot.leftBound() > 0) &&
+             !(exit_sc.potential.leftBound() > family.u0.rightBound()) &&
+             !direct_lc_residual_excludes_brake(pair23_middle_exit)) ||
+            !(exit_sc.selected_radius.leftBound() > 0) ||
+            !(exit_sc.r12_squared.leftBound() > 0) ||
+            !(exit_sc.r23_squared.leftBound() > 0)) {
+          throw std::runtime_error(
+              "pair-23 common-sigma middle exit lost its certified guards");
+        }
+        std::cout << "DIRECT_LC_EVENT_PROBE kind=pair23_middle_sigma_exit"
+                  << " tp=[" << bound_double(pair23_middle_exit[9].leftBound())
+                  << "," << bound_double(pair23_middle_exit[9].rightBound())
+                  << "] wi=[" << bound_double(pair23_middle_exit[1].leftBound())
+                  << "," << bound_double(pair23_middle_exit[1].rightBound())
+                  << "] hull=" << hull_width(pair23_middle_exit, 12) << "\n"
+                  << std::flush;
+      }
+
+      // Pair {1,3} is again the next close binary.  At the certified
+      // t>43/20 common-sigma exit its relative vector lies on the
+      // well-conditioned Form-A square-root sheet, so the exact inverse
+      // tree map has wr13>0 uniformly.
+      Map pair23_to_pair13_energy_map = make_pair23_to_pair13_map(true);
+      apply_exact_direct_map(middle_set, pair23_to_pair13_energy_map);
+      {
+        const Vector switched(middle_set);
+        const DirectLcScalars switch_sc = evaluate_direct_lc(switched, family);
+        if (!(switched[0].leftBound() > 0) ||
+            (!(switch_sc.i_dot.leftBound() > 0) &&
+             !(switch_sc.potential.leftBound() > family.u0.rightBound()) &&
+             !direct_lc_residual_excludes_brake(switched)) ||
+            !(switch_sc.selected_radius.leftBound() > 0) ||
+            !(switch_sc.r12_squared.leftBound() > 0) ||
+            !(switch_sc.r23_squared.leftBound() > 0)) {
+          throw std::runtime_error(
+              "pair-13 second-passage switch lost its positive-J tube");
+        }
+        std::cout << "DIRECT_LC_EVENT_PROBE kind=pair13_second_passage_switch tp=["
+                  << bound_double(switched[9].leftBound()) << ","
+                  << bound_double(switched[9].rightBound()) << "] wr=["
+                  << bound_double(switched[0].leftBound()) << ","
+                  << bound_double(switched[0].rightBound()) << "] hull="
+                  << hull_width(switched, 12) << "\n" << std::flush;
+      }
+
+      const Ival pair13_third_incoming_wr_sections[6] = {
+          Ival(1) / Ival(2), Ival(2) / Ival(5),
+          Ival(3) / Ival(10), Ival(1) / Ival(5),
+          Ival(1) / Ival(10), Ival(0)};
+      int third_passage_index = 0;
+      for (const Ival& wr_section : pair13_third_incoming_wr_sections) {
+        const Vector section_image = project_middle_c0(
+            0, wr_section, capd::poincare::PlusMinus, false, 1);
+        const DirectLcScalars section_sc =
+            evaluate_direct_lc(section_image, family);
+        if (!(section_image[2].rightBound() < 0) ||
+            !(section_sc.i_dot.leftBound() > 0) ||
+            !(section_sc.selected_radius.leftBound() > 0) ||
+            !(section_sc.r12_squared.leftBound() > 0) ||
+            !(section_sc.r23_squared.leftBound() > 0)) {
+          throw std::runtime_error(
+              "pair-13 third-incoming section lost its positive-J tube");
+        }
+        ++third_passage_index;
+        std::cout << "DIRECT_LC_EVENT_PROBE kind=pair13_third_passage_section"
+                  << " ordinal=" << third_passage_index << " tp=["
+                  << bound_double(section_image[9].leftBound()) << ","
+                  << bound_double(section_image[9].rightBound())
+                  << "] zr=[" << bound_double(section_image[2].leftBound())
+                  << "," << bound_double(section_image[2].rightBound())
+                  << "] hull=" << hull_width(section_image, 12) << "\n"
+                  << std::flush;
+      }
+
+      const Ival pair13_third_outgoing_wr_sections[6] = {
+          Ival(-1) / Ival(10), Ival(-1) / Ival(5),
+          Ival(-3) / Ival(10), Ival(-2) / Ival(5),
+          Ival(-1) / Ival(2), Ival(-3) / Ival(5)};
+      for (const Ival& wr_section : pair13_third_outgoing_wr_sections) {
+        const Vector section_image = project_middle_c0(
+            0, wr_section, capd::poincare::PlusMinus, false, 1);
+        const DirectLcScalars section_sc =
+            evaluate_direct_lc(section_image, family);
+        if (!(section_image[2].rightBound() < 0) ||
+            !(section_sc.i_dot.leftBound() > 0) ||
+            !(section_sc.selected_radius.leftBound() > 0) ||
+            !(section_sc.r12_squared.leftBound() > 0) ||
+            !(section_sc.r23_squared.leftBound() > 0)) {
+          throw std::runtime_error(
+              "pair-13 third-outgoing section lost its positive-J tube");
+        }
+        ++third_passage_index;
+        std::cout << "DIRECT_LC_EVENT_PROBE kind=pair13_third_passage_section"
+                  << " ordinal=" << third_passage_index << " tp=["
+                  << bound_double(section_image[9].leftBound()) << ","
+                  << bound_double(section_image[9].rightBound())
+                  << "] zr=[" << bound_double(section_image[2].leftBound())
+                  << "," << bound_double(section_image[2].rightBound())
+                  << "] hull=" << hull_width(section_image, 12) << "\n"
+                  << std::flush;
+      }
 
       // At the selected-pair outer turning point the radial LC component
       // zr crosses from negative to positive.  This is a fast geometric
       // section and leaves |w|^2 safely away from zero for the next
       // physical-time checkpoints.
-      const Vector outer_turn_image = project_persistent_direct_set(
-          pair13_set, 2, Ival(0), capd::poincare::MinusPlus,
-          order, tolerance, u_param, false, 1, true);
+      const Vector outer_turn_image = project_middle_c0(
+          2, Ival(0), capd::poincare::MinusPlus, false, 1);
       {
         const DirectLcScalars outer_turn_sc =
             evaluate_direct_lc(outer_turn_image, family);
@@ -1721,13 +2112,16 @@ int run_direct_lc_prefix(const Ival& u_param, long p, long q,
                   << std::flush;
       }
 
+      // Superseded by the adaptive pair-23 round trip above: those sections
+      // already crossed the t=2.329 pair-13 scattering before this outer
+      // turn.  Retain the former itinerary temporarily for comparison.
+#if 0
       const Ival pair13_pre_scatter_times[2] = {
           Ival(11) / Ival(5), Ival(23) / Ival(10)};
       for (const Ival& checkpoint_time : pair13_pre_scatter_times) {
-        const Vector checkpoint_image = project_persistent_direct_set(
-            pair13_set, 9, checkpoint_time,
-            capd::poincare::MinusPlus, order, tolerance,
-            u_param, false, 1, true);
+        const Vector checkpoint_image = project_pair13_mean_value(
+            event_graph, 9, checkpoint_time,
+            capd::poincare::MinusPlus, 1);
         const DirectLcScalars checkpoint_sc =
             evaluate_direct_lc(checkpoint_image, family);
         if (!(checkpoint_sc.i_dot.leftBound() > 0) ||
@@ -1752,15 +2146,14 @@ int run_direct_lc_prefix(const Ival& u_param, long p, long q,
       // negative.  Recenter on that transverse LC-coordinate section before
       // the physical clock again slows near the pair passage.
       {
-        const Vector before_scatter(pair13_set);
+        const Vector before_scatter(event_graph.c0_set());
         if (!(before_scatter[2].leftBound() > 0)) {
           throw std::runtime_error(
               "pair-13 pre-scatter graph did not have positive zr");
         }
       }
-      const Vector scatter_image = project_persistent_direct_set(
-          pair13_set, 2, Ival(0), capd::poincare::PlusMinus,
-          order, tolerance, u_param, false, 1, true);
+      const Vector scatter_image = project_pair13_mean_value(
+          event_graph, 2, Ival(0), capd::poincare::PlusMinus, 1);
       {
         const DirectLcScalars scatter_sc =
             evaluate_direct_lc(scatter_image, family);
@@ -1788,10 +2181,9 @@ int run_direct_lc_prefix(const Ival& u_param, long p, long q,
           Ival(12) / Ival(5), Ival(5) / Ival(2), Ival(13) / Ival(5),
           Ival(53) / Ival(20)};
       for (const Ival& checkpoint_time : pair13_post_scatter_times) {
-        const Vector checkpoint_image = project_persistent_direct_set(
-            pair13_set, 9, checkpoint_time,
-            capd::poincare::MinusPlus, order, tolerance,
-            u_param, false, 1, true);
+        const Vector checkpoint_image = project_pair13_mean_value(
+            event_graph, 9, checkpoint_time,
+            capd::poincare::MinusPlus, 1);
         const DirectLcScalars checkpoint_sc =
             evaluate_direct_lc(checkpoint_image, family);
         if (!(checkpoint_sc.i_dot.leftBound() > 0) ||
@@ -1812,9 +2204,9 @@ int run_direct_lc_prefix(const Ival& u_param, long p, long q,
                   << std::flush;
       }
 
-      const Vector second_maximum_image = project_persistent_direct_set(
-          pair13_set, 11, Ival(0), capd::poincare::PlusMinus,
-          order, tolerance, u_param, false, 0, true);
+#endif
+      const Vector second_maximum_image = project_middle_c0(
+          11, Ival(0), capd::poincare::PlusMinus, false, 0);
       const DirectLcScalars second_maximum_sc =
           evaluate_direct_lc(second_maximum_image, family);
       if (!(second_maximum_sc.potential.rightBound() <
