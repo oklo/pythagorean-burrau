@@ -95,6 +95,50 @@ def test_pair13_to_pair23_complement_map_is_exact() -> None:
         assert sp.simplify(component) == 0
 
 
+def test_pair23_to_pair13_complement_map_is_exact() -> None:
+    """The inverse tree switch reconstructs q3-q1 and q2-C13 exactly."""
+    a, b = sp.symbols("a b", positive=True)
+    q1x, q1y, q2x, q2y, q3x, q3y = sp.symbols(
+        "q1x q1y q2x q2y q3x q3y", real=True
+    )
+    v1x, v1y, v2x, v2y, v3x, v3y = sp.symbols(
+        "v1x v1y v2x v2y v3x v3y", real=True
+    )
+    q1, q2, q3 = (
+        sp.Matrix([q1x, q1y]),
+        sp.Matrix([q2x, q2y]),
+        sp.Matrix([q3x, q3y]),
+    )
+    v1, v2, v3 = (
+        sp.Matrix([v1x, v1y]),
+        sp.Matrix([v2x, v2y]),
+        sp.Matrix([v3x, v3y]),
+    )
+
+    g23 = q3 - q2
+    gd23 = v3 - v2
+    big23 = q1 - (b * q2 + q3) / (b + 1)
+    bigd23 = v1 - (b * v2 + v3) / (b + 1)
+    d12 = big23 + g23 / (b + 1)
+    d12d = bigd23 + gd23 / (b + 1)
+
+    implemented_g13 = g23 - d12
+    implemented_gd13 = gd23 - d12d
+    implemented_big13 = -d12 - implemented_g13 / (a + 1)
+    implemented_bigd13 = -d12d - implemented_gd13 / (a + 1)
+    expected_big13 = q2 - (a * q1 + q3) / (a + 1)
+    expected_bigd13 = v2 - (a * v1 + v3) / (a + 1)
+
+    for component in implemented_g13 - (q3 - q1):
+        assert sp.simplify(component) == 0
+    for component in implemented_gd13 - (v3 - v1):
+        assert sp.simplify(component) == 0
+    for component in implemented_big13 - expected_big13:
+        assert sp.simplify(component) == 0
+    for component in implemented_bigd13 - expected_bigd13:
+        assert sp.simplify(component) == 0
+
+
 def test_lc_momentum_reconstructs_the_selected_pair_velocity() -> None:
     wr, wi, gdx, gdy = sp.symbols("wr wi gdx gdy", real=True)
     radius = wr**2 + wi**2
@@ -109,6 +153,19 @@ def test_lc_momentum_reconstructs_the_selected_pair_velocity() -> None:
     )
     for component in reconstructed - sp.Matrix([gdx, gdy]):
         assert sp.factor(sp.together(component)) == 0
+
+
+def test_lc_algebraic_energy_elimination_is_exact() -> None:
+    """Eliminating the dependent LC energy preserves the physical field."""
+    wr, wi, zr, zi, pair_mass = sp.symbols(
+        "wr wi zr zi pair_mass", real=True
+    )
+    radius = wr**2 + wi**2
+    gdx = 2 * (wr * zr - wi * zi) / radius
+    gdy = 2 * (wr * zi + wi * zr) / radius
+    physical_energy = (gdx**2 + gdy**2) / 2 - pair_mass / radius
+    constrained_energy = (2 * (zr**2 + zi**2) - pair_mass) / radius
+    assert sp.factor(sp.together(physical_energy - constrained_energy)) == 0
 
 
 def test_regularized_lagrange_jacobi_fields_are_exact() -> None:

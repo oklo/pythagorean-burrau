@@ -936,3 +936,30 @@ at $t=1$. This certifies the first maximum on a width-$10^{-5}$ interval.
 It does not show that arbitrarily wide tiles will pass, nor does it control
 later maxima. Future continuation should tile graph enclosures and adapt the
 selected binary chart rather than return to one large physical box.
+
+## One persistent doubleton after the pair--23 to pair--13 return switch
+
+**Status:** DISPROVED as a complete middle-bridge architecture; the certified
+partial tube remains valid.
+
+On the real tile $u\in[0.29,0.2900001]$, retaining one CAPD $C^1$ doubleton
+through the return switch at $t=1.75$ rigorously crosses the second close
+passage and the second strict inertia minimum.  Eliminating the dependent
+selected-pair energy through the exact identity
+
+\[
+ h={2|z|^2-M_{13}\over |w|^2}
+\]
+
+reduces the incoming pair--13 hull from about $0.08$ to $0.04$.  The tube
+then crosses the outgoing sections $w_r=-0.1,-0.2,-0.3,-0.4$, with strict
+collision separation and the required $J$ or convexity signs.  At the next
+$w_r=-0.5$ leg, enclosure widths in $z$ and $P$ make the section speed
+contain zero; the Poincare map therefore fails closed.  This occurs even on
+a near-point parameter tile, so parameter subdivision alone is not the
+repair.
+
+The next architecture should rebuild a one-parameter mean-value graph at
+transverse sections, keeping the exact algebraic energy elimination from the
+moment of the chart switch.  A success must still audit every complete tube;
+the returned section image by itself is not enough.

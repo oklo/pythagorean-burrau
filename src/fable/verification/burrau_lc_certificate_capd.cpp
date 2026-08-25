@@ -1,6 +1,6 @@
 // Rigorous second-brake exclusion certificate for the 3:4:5 Pythagorean
-// Burrau free-fall problem (u = 1/3), plus a parameter-interval prefix mode,
-// with a Levi--Civita chart through every selected pair-{1,3} close encounter.
+// Burrau free-fall problem (u = 1/3), plus parameter-interval prefix and
+// maximum-event modes, with pair-{1,3} and pair-{2,3} Levi--Civita charts.
 //
 // Mathematical basis: docs/FABLE_EVENT_REDUCTION.md and
 // docs/FABLE_LC_COVERING_DESIGN.md.  Outside the encounter zone the
@@ -36,7 +36,9 @@
 //   burrau_lc_certificate_capd iprefix P Q P2 Q2 TEND [PREC TOL ORDER]
 // proves absence of a labelled brake on the complete collision-free prefix
 // 0 < t <= TEND for every u in [P/Q,P2/Q2].  It makes no terminal escape
-// claim.  The legacy invocation `[PREC TOL ORDER]` remains the full u=1/3
+// claim.  `ilcprefix` uses the direct parameterized LC graph, while `ilcmax`
+// and `ilcmax2` target the first and second positive inertia maxima.  The
+// legacy invocation `[PREC TOL ORDER]` remains the full u=1/3
 // collision-free/escape certificate.
 
 #include <algorithm>
@@ -265,7 +267,7 @@ const char* kDirectLcVars =
 // The same selected-pair regularization without the frozen physical/chart
 // blocks.  This chart is nonsingular from the tied launch through the early
 // maximum-event branch and avoids both entry and exit time-shift wrapping.
-Map make_direct_lc_field() {
+Map make_direct_lc_field(bool algebraic_h = false) {
   const std::string qden = "(1+ww^2)";
   const std::string ma = "((1-ww^2)/" + qden + ")";
   const std::string mb = "(2*ww/" + qden + ")";
@@ -298,24 +300,34 @@ Map make_direct_lc_field() {
       ir12 + "+" + d23y + "/" + ir23 + "))";
   const std::string ab = "(" + ma + "*" + mb + ")";
   const std::string u0 = "(" + ab + "+1/" + ab + ")";
+  const std::string pair_mass = "(2/" + qden + ")";
+  const std::string h_used =
+      algebraic_h
+          ? "((2*(zr^2+zi^2)-" + pair_mass + ")/" + w2 + ")"
+          : "hh";
+  const std::string h_sigma =
+      algebraic_h
+          ? "0"
+          : "2*((wr*zr-wi*zi)*" + fx +
+                "+(wr*zi+wi*zr)*" + fy + ")";
   // jd = dI/dt.  Multiplication by dt/dsigma=|w|^2 cancels the selected
   // A/|g| potential term, leaving a field regular at w=0.
   const std::string jd_sigma =
       "(2*(" + ab + "*" + w2 + "/sqrt(" + r12sq + ")+" + ma +
       "+" + mb + "*" + w2 + "/sqrt(" + r23sq + "))-4*" + u0 +
       "*" + w2 + ")";
-  return Map(std::string(kDirectLcVars) +
-             "fun:zr,zi,"
-             "(hh/2)*wr+(" + w2 + "/2)*(wr*" + fx + "+wi*" + fy + "),"
-             "(hh/2)*wi+(" + w2 + "/2)*(wr*" + fy + "-wi*" + fx + "),"
-             "2*((wr*zr-wi*zi)*" + fx + "+(wr*zi+wi*zr)*" + fy + "),"
-             + w2 + "*cpx," + w2 + "*cpy," + w2 + "*" + gddx + "," +
+  return Map(std::string(kDirectLcVars) + "fun:zr,zi," +
+             "(" + h_used + "/2)*wr+(" + w2 + "/2)*(wr*" + fx +
+             "+wi*" + fy + ")," +
+             "(" + h_used + "/2)*wi+(" + w2 + "/2)*(wr*" + fy +
+             "-wi*" + fx + ")," + h_sigma + "," +
+             w2 + "*cpx," + w2 + "*cpy," + w2 + "*" + gddx + "," +
              w2 + "*" + gddy + "," + w2 + ",0," + jd_sigma + ";");
 }
 
 // Direct Levi--Civita field for selected pair {2,3}, with
 // g=q3-q2 and complement G=q1-C23.  The state layout is unchanged.
-Map make_pair23_lc_field() {
+Map make_pair23_lc_field(bool algebraic_h = false) {
   const std::string qden = "(1+ww^2)";
   const std::string ma = "((1-ww^2)/" + qden + ")";
   const std::string mb = "(2*ww/" + qden + ")";
@@ -349,16 +361,25 @@ Map make_pair23_lc_field() {
       ir12 + "+" + d13y + "/" + ir13 + "))";
   const std::string ab = "(" + ma + "*" + mb + ")";
   const std::string u0 = "(" + ab + "+1/" + ab + ")";
+  const std::string h_used =
+      algebraic_h
+          ? "((2*(zr^2+zi^2)-" + m23 + ")/" + w2 + ")"
+          : "hh";
+  const std::string h_sigma =
+      algebraic_h
+          ? "0"
+          : "2*((wr*zr-wi*zi)*" + fx +
+                "+(wr*zi+wi*zr)*" + fy + ")";
   const std::string jd_sigma =
       "(2*(" + ab + "*" + w2 + "/sqrt(" + r12sq + ")+" + mb +
       "+" + ma + "*" + w2 + "/sqrt(" + r13sq + "))-4*" + u0 +
       "*" + w2 + ")";
-  return Map(std::string(kDirectLcVars) +
-             "fun:zr,zi,"
-             "(hh/2)*wr+(" + w2 + "/2)*(wr*" + fx + "+wi*" + fy + "),"
-             "(hh/2)*wi+(" + w2 + "/2)*(wr*" + fy + "-wi*" + fx + "),"
-             "2*((wr*zr-wi*zi)*" + fx + "+(wr*zi+wi*zr)*" + fy + "),"
-             + w2 + "*cpx," + w2 + "*cpy," + w2 + "*" + gddx + "," +
+  return Map(std::string(kDirectLcVars) + "fun:zr,zi," +
+             "(" + h_used + "/2)*wr+(" + w2 + "/2)*(wr*" + fx +
+             "+wi*" + fy + ")," +
+             "(" + h_used + "/2)*wi+(" + w2 + "/2)*(wr*" + fy +
+             "-wi*" + fx + ")," + h_sigma + "," +
+             w2 + "*cpx," + w2 + "*cpy," + w2 + "*" + gddx + "," +
              w2 + "*" + gddy + "," + w2 + ",0," + jd_sigma + ";");
 }
 
@@ -405,6 +426,56 @@ Map make_pair13_to_pair23_map() {
       "(-" + old_xdx + "-" + inv_m23 + "*" + gdx + ")";
   const std::string new_py =
       "(-" + old_xdy + "-" + inv_m23 + "*" + gdy + ")";
+  return Map(std::string(kDirectLcVars) + "fun:" + new_wr + "," +
+             new_wi + "," + new_zr + "," + new_zi + "," + new_h +
+             "," + new_gx + "," + new_gy + "," + new_px + "," +
+             new_py + ",tp,ww,jd;");
+}
+
+Map make_pair23_to_pair13_map() {
+  const std::string qden = "(1+ww^2)";
+  const std::string inv_m13 = "(" + qden + "/2)";
+  const std::string inv_m23 = "(" + qden + "/(1+ww)^2)";
+  const std::string m13 = "(2/" + qden + ")";
+  const std::string old_w2 = "(wr^2+wi^2)";
+  const std::string old_gx = "(wr^2-wi^2)";
+  const std::string old_gy = "(2*wr*wi)";
+  const std::string old_gdx =
+      "(2*(wr*zr-wi*zi)/" + old_w2 + ")";
+  const std::string old_gdy =
+      "(2*(wr*zi+wi*zr)/" + old_w2 + ")";
+  // d12=q1-q2=G23+g23/M23, while
+  // g13=q3-q1=g23-d12.
+  const std::string old_d12x =
+      "(cgx+" + inv_m23 + "*" + old_gx + ")";
+  const std::string old_d12y =
+      "(cgy+" + inv_m23 + "*" + old_gy + ")";
+  const std::string old_d12dx =
+      "(cpx+" + inv_m23 + "*" + old_gdx + ")";
+  const std::string old_d12dy =
+      "(cpy+" + inv_m23 + "*" + old_gdy + ")";
+  const std::string gx = "(" + old_gx + "-" + old_d12x + ")";
+  const std::string gy = "(" + old_gy + "-" + old_d12y + ")";
+  const std::string gdx = "(" + old_gdx + "-" + old_d12dx + ")";
+  const std::string gdy = "(" + old_gdy + "-" + old_d12dy + ")";
+  const std::string abs_g = "sqrt(" + gx + "^2+" + gy + "^2)";
+  const std::string new_wr = "sqrt((" + abs_g + "+" + gx + ")/2)";
+  const std::string new_wi = "(" + gy + "/(2*" + new_wr + "))";
+  const std::string new_zr =
+      "((" + new_wr + "*" + gdx + "+" + new_wi + "*" + gdy + ")/2)";
+  const std::string new_zi =
+      "((" + new_wr + "*" + gdy + "-" + new_wi + "*" + gdx + ")/2)";
+  const std::string new_h =
+      "((" + gdx + "^2+" + gdy + "^2)/2-" + m13 + "/" + abs_g + ")";
+  // X13=q2-q1=-d12=G13+g13/M13.
+  const std::string new_gx =
+      "(-" + old_d12x + "-" + inv_m13 + "*" + gx + ")";
+  const std::string new_gy =
+      "(-" + old_d12y + "-" + inv_m13 + "*" + gy + ")";
+  const std::string new_px =
+      "(-" + old_d12dx + "-" + inv_m13 + "*" + gdx + ")";
+  const std::string new_py =
+      "(-" + old_d12dy + "-" + inv_m13 + "*" + gdy + ")";
   return Map(std::string(kDirectLcVars) + "fun:" + new_wr + "," +
              new_wi + "," + new_zr + "," + new_zi + "," + new_h +
              "," + new_gx + "," + new_gy + "," + new_px + "," +
@@ -738,7 +809,8 @@ struct PhaseRunner {
   // set's clock a sum of exact machine steps.  Used inside the LC zone,
   // where the step cap must actually bind (ITimeMap overrides maxStep,
   // and target arithmetic compounds the time-interval width).
-  void direct_move(Set& set, double cap) {
+  template <class SetT>
+  void direct_move(SetT& set, double cap) {
     for (;;) {
       try {
         solver.setMaxStep(Ival(cap));
@@ -956,9 +1028,9 @@ DirectCorrelatedGraph project_direct_graph(
     const Ival& section_value,
     capd::poincare::CrossingDirection direction, int order,
     double tolerance, bool pair23_chart = false,
-    int expected_j_sign = 0) {
-  Map field = pair23_chart ? make_pair23_lc_field()
-                           : make_direct_lc_field();
+    int expected_j_sign = 0, bool algebraic_h = false) {
+  Map field = pair23_chart ? make_pair23_lc_field(algebraic_h)
+                           : make_direct_lc_field(algebraic_h);
   CoordinateSection section(12, section_coordinate, section_value);
   Solver interval_solver(field, order);
   interval_solver.setAbsoluteTolerance(tolerance);
@@ -982,8 +1054,8 @@ DirectCorrelatedGraph project_direct_graph(
   // strict sign of J=dI/dt throughout the leg.
   {
     Set audit_set = input.c0_set();
-    Map audit_field = pair23_chart ? make_pair23_lc_field()
-                                   : make_direct_lc_field();
+    Map audit_field = pair23_chart ? make_pair23_lc_field(algebraic_h)
+                                   : make_direct_lc_field(algebraic_h);
     PhaseRunner audit(audit_field, order, tolerance);
     const Family audit_family = make_family(input.u_range);
     bool launch_window = expected_j_sign == -2;
@@ -1031,6 +1103,12 @@ DirectCorrelatedGraph project_direct_graph(
           }
           positive_launch_window = false;
         }
+      } else if (expected_j_sign == 3) {
+        if (!(sc.potential.leftBound() >
+              (2 * audit_family.u0).rightBound())) {
+          throw std::runtime_error(
+              "direct correlated graph leg left the convex-I corridor");
+        }
       } else if (((expected_j_sign == -1 || expected_j_sign == -2) &&
                   !(sc.i_dot.rightBound() < 0)) ||
           (expected_j_sign > 0 && !(sc.i_dot.leftBound() > 0))) {
@@ -1060,7 +1138,116 @@ DirectCorrelatedGraph project_direct_graph(
   }
   output_anchor[section_coordinate] = section_value;
   output_tangent[section_coordinate] = Ival(0);
-  return {output_anchor, output_tangent, input.u_range, input.u_center};
+
+  return {output_anchor, output_tangent,
+          input.u_range, input.u_center};
+}
+
+Vector project_persistent_direct_set(
+    C1Set& interval_set, int section_coordinate,
+    const Ival& section_value,
+    capd::poincare::CrossingDirection direction, int order,
+    double tolerance, const Ival& u_range,
+    bool pair23_chart = false, int expected_j_sign = 0,
+    bool algebraic_h = false, bool restart_from_section = false) {
+  // Preserve a copy for a stepwise tube audit.  PoincareMap intentionally
+  // advances interval_set to just after the section, retaining its full
+  // C1 doubleton correlations for the next leg.
+  C1Set audit_set(interval_set);
+  Map field = pair23_chart ? make_pair23_lc_field(algebraic_h)
+                           : make_direct_lc_field(algebraic_h);
+  CoordinateSection section(12, section_coordinate, section_value);
+  Solver interval_solver(field, order);
+  interval_solver.setAbsoluteTolerance(tolerance);
+  interval_solver.setRelativeTolerance(tolerance);
+  PoincareMap interval_map(interval_solver, section, direction);
+  interval_map.setMaxReturnTime(50.0);
+  Matrix flow_derivative(12, 12);
+  Ival interval_return;
+  const Vector interval_image =
+      interval_map(interval_set, flow_derivative, interval_return);
+  if (!interval_image[section_coordinate].contains(section_value)) {
+    throw std::runtime_error(
+        "persistent direct set missed its Poincare section");
+  }
+
+  Map audit_field = pair23_chart ? make_pair23_lc_field(algebraic_h)
+                                 : make_direct_lc_field(algebraic_h);
+  PhaseRunner audit(audit_field, order, tolerance);
+  const Family audit_family = make_family(u_range);
+  bool launch_window = expected_j_sign == -2;
+  bool positive_launch_window = expected_j_sign == 2;
+  const Ival audit_target = interval_set.getCurrentTime();
+  for (int audit_steps = 0;; ++audit_steps) {
+    if (audit_steps > 200000) {
+      throw std::runtime_error(
+          "persistent direct set leg audit step limit");
+    }
+    const Vector before(audit_set);
+    const double w_abs = std::sqrt(std::max(
+        1e-12,
+        bound_double((before[0] * before[0] + before[1] * before[1])
+                         .leftBound())));
+    const double cap =
+        std::max(1.0 / 8000.0,
+                 std::min(w_abs / 24.0, 1.0 / 100.0));
+    audit.direct_move(audit_set, cap);
+    const Vector enclosure = audit_set.getLastEnclosure();
+    const DirectLcScalars sc =
+        pair23_chart ? evaluate_pair23_lc(enclosure, audit_family)
+                     : evaluate_direct_lc(enclosure, audit_family);
+    if (!(sc.selected_radius.leftBound() > 0) ||
+        !(sc.r12_squared.leftBound() > 0) ||
+        !(sc.r23_squared.leftBound() > 0)) {
+      throw std::runtime_error(
+          "persistent direct set leg lost collision separation");
+    }
+    if (launch_window) {
+      if (!(sc.potential.rightBound() <
+            (2 * audit_family.u0).leftBound())) {
+        if (!(sc.i_dot.rightBound() < 0)) {
+          throw std::runtime_error(
+              "persistent launch leg lost initial concavity/J sign");
+        }
+        launch_window = false;
+      }
+    } else if (positive_launch_window) {
+      if (!(sc.potential.leftBound() >
+            (2 * audit_family.u0).rightBound())) {
+        if (!(sc.i_dot.leftBound() > 0)) {
+          throw std::runtime_error(
+              "persistent minimum launch lost concavity/J sign");
+        }
+        positive_launch_window = false;
+      }
+    } else if (expected_j_sign == 3) {
+      if (!(sc.potential.leftBound() >
+            (2 * audit_family.u0).rightBound())) {
+        throw std::runtime_error(
+            "persistent direct set left the convex-I corridor");
+      }
+    } else if (((expected_j_sign == -1 || expected_j_sign == -2) &&
+                !(sc.i_dot.rightBound() < 0)) ||
+               (expected_j_sign > 0 && !(sc.i_dot.leftBound() > 0))) {
+      throw std::runtime_error(
+          "persistent direct set leg lost its prescribed J sign");
+    }
+    if (audit_set.getCurrentTime().leftBound() >=
+        audit_target.rightBound()) {
+      break;
+    }
+  }
+  if (restart_from_section) {
+    // Optional fail-safe reboxing.  PoincareMap leaves its working set just
+    // after the crossing; its returned section image is often much tighter.
+    Vector restart_image(interval_image);
+    restart_image[section_coordinate] = section_value;
+    if (algebraic_h) {
+      restart_image[4] = Ival(0);
+    }
+    interval_set = C1Set(restart_image);
+  }
+  return interval_image;
 }
 
 DirectCorrelatedGraph transform_pair13_to_pair23(
@@ -1073,10 +1260,21 @@ DirectCorrelatedGraph transform_pair13_to_pair23(
   return {output_anchor, output_tangent, input.u_range, input.u_center};
 }
 
+DirectCorrelatedGraph transform_pair23_to_pair13(
+    const DirectCorrelatedGraph& input) {
+  Map transformation = make_pair23_to_pair13_map();
+  const Vector domain(input.c0_set());
+  Vector output_anchor = transformation(input.anchor);
+  const Matrix derivative = transformation.derivative(domain);
+  Vector output_tangent = derivative * input.tangent;
+  return {output_anchor, output_tangent, input.u_range, input.u_center};
+}
+
 int run_direct_lc_prefix(const Ival& u_param, long p, long q,
                          long p2, long q2, double prefix_end,
                          int order, double tolerance,
-                         bool certify_first_maximum = false) {
+                         bool certify_first_maximum = false,
+                         bool certify_second_maximum = false) {
   const Family family = make_family(u_param);
   Map graph_field = make_direct_lc_initial_graph_field();
   Vector initial(12);
@@ -1097,7 +1295,7 @@ int run_direct_lc_prefix(const Ival& u_param, long p, long q,
   }
 
 
-  if (certify_first_maximum ||
+  if (certify_first_maximum || certify_second_maximum ||
       std::getenv("FABLE_PROBE_DIRECT_EVENTS") != nullptr) {
     DirectCorrelatedGraph event_graph = make_direct_launch_graph(u_param);
     const Ival checkpoint_times[8] = {
@@ -1263,8 +1461,390 @@ int run_direct_lc_prefix(const Ival& u_param, long p, long q,
               << "," << bound_double(maximum_image[8].rightBound())
               << "] hull=" << hull_width(maximum_image, 12) << "\n"
               << std::flush;
-    if (certify_first_maximum) {
+    if (certify_first_maximum && !certify_second_maximum) {
       std::cout << "PASS_TIED_FIRST_MAXIMUM_INTERVAL u=["
+                << p << "/" << q << "," << p2 << "/" << q2 << "]"
+                << " method=CAPD-6.1.0-MPFR"
+                << " capd_commit=731079217a9254ea2948d742df2b170895effe7f"
+                << "\n";
+      return 0;
+    }
+    if (certify_second_maximum) {
+      const Ival pair23_second_incoming_times[5] = {
+          Ival(7) / Ival(5), Ival(3) / Ival(2), Ival(8) / Ival(5),
+          Ival(17) / Ival(10), Ival(7) / Ival(4)};
+      bool first_second_incoming_checkpoint = true;
+      for (const Ival& checkpoint_time : pair23_second_incoming_times) {
+        event_graph = project_direct_graph(
+            event_graph, 9, checkpoint_time,
+            capd::poincare::MinusPlus, order, tolerance, true,
+            first_second_incoming_checkpoint ? -2 : -1);
+        first_second_incoming_checkpoint = false;
+        const Vector checkpoint_image(event_graph.c0_set());
+        const DirectLcScalars checkpoint_sc =
+            evaluate_pair23_lc(checkpoint_image, family);
+        if (!(checkpoint_sc.i_dot.rightBound() < 0) ||
+            !(checkpoint_sc.selected_radius.leftBound() > 0) ||
+            !(checkpoint_sc.r12_squared.leftBound() > 0) ||
+            !(checkpoint_sc.r23_squared.leftBound() > 0)) {
+          throw std::runtime_error(
+              "pair-23 second-incoming checkpoint lost its negative-J tube");
+        }
+        std::cout << "DIRECT_LC_EVENT_PROBE kind=second_incoming_pair23"
+                  << " tp=["
+                  << bound_double(checkpoint_image[9].leftBound()) << ","
+                  << bound_double(checkpoint_image[9].rightBound()) << "]"
+                  << " jd=["
+                  << bound_double(checkpoint_image[11].leftBound()) << ","
+                  << bound_double(checkpoint_image[11].rightBound()) << "]"
+                  << " hull=" << hull_width(checkpoint_image, 12) << "\n"
+                  << std::flush;
+      }
+
+      event_graph = transform_pair23_to_pair13(event_graph);
+      {
+        const Vector switched(event_graph.c0_set());
+        const DirectLcScalars switch_sc =
+            evaluate_direct_lc(switched, family);
+        if (!(switch_sc.selected_radius.leftBound() > 0) ||
+            !(switch_sc.r12_squared.leftBound() > 0) ||
+            !(switch_sc.r23_squared.leftBound() > 0) ||
+            !(switch_sc.i_dot.rightBound() < 0)) {
+          throw std::runtime_error(
+              "direct-LC pair-13 return switch lost its collision-free negative-J tube");
+        }
+        std::cout << "DIRECT_LC_EVENT_PROBE kind=pair13_return_switch tp=["
+                  << bound_double(switched[9].leftBound()) << ","
+                  << bound_double(switched[9].rightBound()) << "]"
+                  << " jd=[" << bound_double(switched[11].leftBound())
+                  << "," << bound_double(switched[11].rightBound()) << "]"
+                  << " hull=" << hull_width(switched, 12) << "\n"
+                  << std::flush;
+      }
+
+      // The pair-13 vector field below reconstructs the selected-pair
+      // Kepler energy h exactly from (w,z).  Its stored h coordinate is
+      // therefore a dummy.  Zeroing that row before constructing the
+      // persistent doubleton prevents the interval-valued chart transform
+      // from injecting an unused but strongly wrapping coordinate into the
+      // pair-13 propagation.
+      event_graph.anchor[4] = Ival(0);
+      event_graph.tangent[4] = Ival(0);
+      C1Set pair13_set(event_graph.c1_set());
+
+      const Ival pair13_second_incoming_times[3] = {
+          Ival(9) / Ival(5), Ival(37) / Ival(20), Ival(19) / Ival(10)};
+      for (const Ival& checkpoint_time : pair13_second_incoming_times) {
+        const Vector checkpoint_image = project_persistent_direct_set(
+            pair13_set, 9, checkpoint_time,
+            capd::poincare::MinusPlus, order, tolerance,
+            u_param, false, -1, true);
+        const DirectLcScalars checkpoint_sc =
+            evaluate_direct_lc(checkpoint_image, family);
+        if (!(checkpoint_sc.i_dot.rightBound() < 0) ||
+            !(checkpoint_sc.selected_radius.leftBound() > 0) ||
+            !(checkpoint_sc.r12_squared.leftBound() > 0) ||
+            !(checkpoint_sc.r23_squared.leftBound() > 0)) {
+          throw std::runtime_error(
+              "pair-13 second-incoming checkpoint lost its negative-J tube");
+        }
+        std::cout << "DIRECT_LC_EVENT_PROBE kind=second_incoming_pair13"
+                  << " tp=["
+                  << bound_double(checkpoint_image[9].leftBound()) << ","
+                  << bound_double(checkpoint_image[9].rightBound()) << "]"
+                  << " jd=["
+                  << bound_double(checkpoint_image[11].leftBound()) << ","
+                  << bound_double(checkpoint_image[11].rightBound()) << "]"
+                  << " hull=" << hull_width(checkpoint_image, 12) << "\n"
+                  << std::flush;
+      }
+
+      // Approach the square-root branch seam through short wr sections.
+      // Every normal speed is wr_sigma=zr<0, whereas a physical-time
+      // section loses transversality as tp_sigma=|w|^2 becomes small.
+      const Ival pair13_incoming_wr_sections[4] = {
+          Ival(3) / Ival(10), Ival(1) / Ival(5),
+          Ival(1) / Ival(10), Ival(0)};
+      int incoming_section_index = 0;
+      for (const Ival& wr_section : pair13_incoming_wr_sections) {
+        const Vector seam_image = project_persistent_direct_set(
+            pair13_set, 0, wr_section, capd::poincare::PlusMinus,
+            order, tolerance, u_param, false, -1, true);
+        const DirectLcScalars seam_sc =
+            evaluate_direct_lc(seam_image, family);
+        if (!(seam_sc.i_dot.rightBound() < 0) ||
+            !(seam_sc.selected_radius.leftBound() > 0) ||
+            !(seam_sc.r12_squared.leftBound() > 0) ||
+            !(seam_sc.r23_squared.leftBound() > 0)) {
+          throw std::runtime_error(
+              "pair-13 seam section lost its collision-free negative-J tube");
+        }
+        ++incoming_section_index;
+        std::cout << "DIRECT_LC_EVENT_PROBE kind=pair13_incoming_section"
+                  << " ordinal=" << incoming_section_index << " tp=["
+                  << bound_double(seam_image[9].leftBound()) << ","
+                  << bound_double(seam_image[9].rightBound()) << "]"
+                  << " wi=[" << bound_double(seam_image[1].leftBound())
+                  << "," << bound_double(seam_image[1].rightBound()) << "]"
+                  << " zr=[" << bound_double(seam_image[2].leftBound())
+                  << "," << bound_double(seam_image[2].rightBound()) << "]"
+                  << " jd=[" << bound_double(seam_image[11].leftBound())
+                  << "," << bound_double(seam_image[11].rightBound()) << "]"
+                  << " hull=" << hull_width(seam_image, 12) << "\n"
+                  << std::flush;
+      }
+
+      // Go directly to the next J=0 section.  A fixed physical-time
+      // checkpoint between the seam and the minimum is counterproductive:
+      // it divides by tp_sigma=|w|^2 immediately after the close passage.
+      // The J section itself is transverse because ddot(I)>0 there.
+      C1Set second_minimum_set(pair13_set);
+      const Vector second_minimum_image = project_persistent_direct_set(
+          second_minimum_set, 11, Ival(0), capd::poincare::MinusPlus,
+          order, tolerance, u_param, false, 0, true);
+      const DirectLcScalars second_minimum_sc =
+          evaluate_direct_lc(second_minimum_image, family);
+      if (!(second_minimum_sc.potential.leftBound() >
+            (2 * family.u0).rightBound())) {
+        throw std::runtime_error(
+            "direct-LC second minimum is not uniformly strict");
+      }
+      std::cout << "DIRECT_LC_EVENT_PROBE kind=second_minimum tp=["
+                << bound_double(second_minimum_image[9].leftBound()) << ","
+                << bound_double(second_minimum_image[9].rightBound()) << "]"
+                << " UoverU0=["
+                << bound_double(
+                       (second_minimum_sc.potential / family.u0).leftBound())
+                << ","
+                << bound_double(
+                       (second_minimum_sc.potential / family.u0).rightBound())
+                << "] hull=" << hull_width(second_minimum_image, 12) << "\n"
+                << std::flush;
+
+      // Leave the close pair through short, fast LC-coordinate sections.
+      // Their normal speed wr_sigma=zr stays order one.  Retaining four
+      // correlated section graphs avoids both the 1/|w|^2 physical-clock
+      // divisor and the wrapping produced by one long seam-to-exit map.
+      const Ival pair13_outgoing_wr_sections[4] = {
+          Ival(-1) / Ival(10), Ival(-1) / Ival(5),
+          Ival(-3) / Ival(10), Ival(-2) / Ival(5)};
+      int outgoing_section_index = 0;
+      for (const Ival& wr_section : pair13_outgoing_wr_sections) {
+        const Vector section_image = project_persistent_direct_set(
+            pair13_set, 0, wr_section, capd::poincare::PlusMinus,
+            order, tolerance, u_param, false, 3, true);
+        const DirectLcScalars section_sc =
+            evaluate_direct_lc(section_image, family);
+        if (!(section_image[2].rightBound() < 0) ||
+            !(section_sc.selected_radius.leftBound() > 0) ||
+            !(section_sc.r12_squared.leftBound() > 0) ||
+            !(section_sc.r23_squared.leftBound() > 0)) {
+          throw std::runtime_error(
+              "pair-13 outgoing LC section lost its collision-free convex-I tube");
+        }
+        ++outgoing_section_index;
+        if (outgoing_section_index == 4 &&
+            !(section_sc.i_dot.leftBound() > 0)) {
+          throw std::runtime_error(
+              "pair-13 final outgoing LC section lost positive J");
+        }
+        std::cout << "DIRECT_LC_EVENT_PROBE kind=pair13_outgoing_section"
+                  << " ordinal=" << outgoing_section_index
+                  << " tp=[" << bound_double(section_image[9].leftBound())
+                  << "," << bound_double(section_image[9].rightBound())
+                  << "] zr=[" << bound_double(section_image[2].leftBound())
+                  << "," << bound_double(section_image[2].rightBound())
+                  << "] jd=[" << bound_double(section_image[11].leftBound())
+                  << "," << bound_double(section_image[11].rightBound())
+                  << "] hull=" << hull_width(section_image, 12) << "\n"
+                  << std::flush;
+      }
+
+      const Ival pair13_far_outgoing_wr_sections[4] = {
+          Ival(-9) / Ival(20), Ival(-1) / Ival(2),
+          Ival(-11) / Ival(20), Ival(-3) / Ival(5)};
+      for (const Ival& wr_section : pair13_far_outgoing_wr_sections) {
+        const Vector section_image = project_persistent_direct_set(
+            pair13_set, 0, wr_section, capd::poincare::PlusMinus,
+            order, tolerance, u_param, false, 1, true);
+        const DirectLcScalars section_sc =
+            evaluate_direct_lc(section_image, family);
+        if (!(section_sc.i_dot.leftBound() > 0) ||
+            !(section_image[2].rightBound() < 0) ||
+            !(section_sc.selected_radius.leftBound() > 0) ||
+            !(section_sc.r12_squared.leftBound() > 0) ||
+            !(section_sc.r23_squared.leftBound() > 0)) {
+          throw std::runtime_error(
+              "pair-13 far-outgoing LC section lost its positive-J tube");
+        }
+        ++outgoing_section_index;
+        std::cout << "DIRECT_LC_EVENT_PROBE kind=pair13_outgoing_section"
+                  << " ordinal=" << outgoing_section_index
+                  << " tp=[" << bound_double(section_image[9].leftBound())
+                  << "," << bound_double(section_image[9].rightBound())
+                  << "] zr=[" << bound_double(section_image[2].leftBound())
+                  << "," << bound_double(section_image[2].rightBound())
+                  << "] jd=[" << bound_double(section_image[11].leftBound())
+                  << "," << bound_double(section_image[11].rightBound())
+                  << "] hull=" << hull_width(section_image, 12) << "\n"
+                  << std::flush;
+      }
+
+      // At the selected-pair outer turning point the radial LC component
+      // zr crosses from negative to positive.  This is a fast geometric
+      // section and leaves |w|^2 safely away from zero for the next
+      // physical-time checkpoints.
+      const Vector outer_turn_image = project_persistent_direct_set(
+          pair13_set, 2, Ival(0), capd::poincare::MinusPlus,
+          order, tolerance, u_param, false, 1, true);
+      {
+        const DirectLcScalars outer_turn_sc =
+            evaluate_direct_lc(outer_turn_image, family);
+        if (!(outer_turn_sc.i_dot.leftBound() > 0) ||
+            !(outer_turn_sc.selected_radius.leftBound() >
+              (Ival(1) / Ival(4)).rightBound()) ||
+            !(outer_turn_sc.r12_squared.leftBound() > 0) ||
+            !(outer_turn_sc.r23_squared.leftBound() > 0)) {
+          throw std::runtime_error(
+              "pair-13 outer-turn section lost its separated positive-J tube");
+        }
+        std::cout << "DIRECT_LC_EVENT_PROBE kind=pair13_outer_turn_section"
+                  << " tp=[" << bound_double(outer_turn_image[9].leftBound())
+                  << "," << bound_double(outer_turn_image[9].rightBound())
+                  << "] wr=[" << bound_double(outer_turn_image[0].leftBound())
+                  << "," << bound_double(outer_turn_image[0].rightBound())
+                  << "] wi=[" << bound_double(outer_turn_image[1].leftBound())
+                  << "," << bound_double(outer_turn_image[1].rightBound())
+                  << "] jd=[" << bound_double(outer_turn_image[11].leftBound())
+                  << "," << bound_double(outer_turn_image[11].rightBound())
+                  << "] hull=" << hull_width(outer_turn_image, 12) << "\n"
+                  << std::flush;
+      }
+
+      const Ival pair13_pre_scatter_times[2] = {
+          Ival(11) / Ival(5), Ival(23) / Ival(10)};
+      for (const Ival& checkpoint_time : pair13_pre_scatter_times) {
+        const Vector checkpoint_image = project_persistent_direct_set(
+            pair13_set, 9, checkpoint_time,
+            capd::poincare::MinusPlus, order, tolerance,
+            u_param, false, 1, true);
+        const DirectLcScalars checkpoint_sc =
+            evaluate_direct_lc(checkpoint_image, family);
+        if (!(checkpoint_sc.i_dot.leftBound() > 0) ||
+            !(checkpoint_sc.selected_radius.leftBound() > 0) ||
+            !(checkpoint_sc.r12_squared.leftBound() > 0) ||
+            !(checkpoint_sc.r23_squared.leftBound() > 0)) {
+          throw std::runtime_error(
+              "pair-13 second-outgoing checkpoint lost its positive-J tube");
+        }
+        std::cout << "DIRECT_LC_EVENT_PROBE kind=second_outgoing_pair13"
+                  << " tp=["
+                  << bound_double(checkpoint_image[9].leftBound()) << ","
+                  << bound_double(checkpoint_image[9].rightBound()) << "]"
+                  << " jd=["
+                  << bound_double(checkpoint_image[11].leftBound()) << ","
+                  << bound_double(checkpoint_image[11].rightBound()) << "]"
+                  << " hull=" << hull_width(checkpoint_image, 12) << "\n"
+                  << std::flush;
+      }
+
+      // The next selected-pair scattering rotates zr from positive to
+      // negative.  Recenter on that transverse LC-coordinate section before
+      // the physical clock again slows near the pair passage.
+      {
+        const Vector before_scatter(pair13_set);
+        if (!(before_scatter[2].leftBound() > 0)) {
+          throw std::runtime_error(
+              "pair-13 pre-scatter graph did not have positive zr");
+        }
+      }
+      const Vector scatter_image = project_persistent_direct_set(
+          pair13_set, 2, Ival(0), capd::poincare::PlusMinus,
+          order, tolerance, u_param, false, 1, true);
+      {
+        const DirectLcScalars scatter_sc =
+            evaluate_direct_lc(scatter_image, family);
+        if (!(scatter_sc.i_dot.leftBound() > 0) ||
+            !(scatter_sc.selected_radius.leftBound() > 0) ||
+            !(scatter_sc.r12_squared.leftBound() > 0) ||
+            !(scatter_sc.r23_squared.leftBound() > 0)) {
+          throw std::runtime_error(
+              "pair-13 second-scatter section lost its positive-J tube");
+        }
+        std::cout << "DIRECT_LC_EVENT_PROBE kind=pair13_second_scatter_section"
+                  << " tp=[" << bound_double(scatter_image[9].leftBound())
+                  << "," << bound_double(scatter_image[9].rightBound())
+                  << "] wr=[" << bound_double(scatter_image[0].leftBound())
+                  << "," << bound_double(scatter_image[0].rightBound())
+                  << "] wi=[" << bound_double(scatter_image[1].leftBound())
+                  << "," << bound_double(scatter_image[1].rightBound())
+                  << "] jd=[" << bound_double(scatter_image[11].leftBound())
+                  << "," << bound_double(scatter_image[11].rightBound())
+                  << "] hull=" << hull_width(scatter_image, 12) << "\n"
+                  << std::flush;
+      }
+
+      const Ival pair13_post_scatter_times[4] = {
+          Ival(12) / Ival(5), Ival(5) / Ival(2), Ival(13) / Ival(5),
+          Ival(53) / Ival(20)};
+      for (const Ival& checkpoint_time : pair13_post_scatter_times) {
+        const Vector checkpoint_image = project_persistent_direct_set(
+            pair13_set, 9, checkpoint_time,
+            capd::poincare::MinusPlus, order, tolerance,
+            u_param, false, 1, true);
+        const DirectLcScalars checkpoint_sc =
+            evaluate_direct_lc(checkpoint_image, family);
+        if (!(checkpoint_sc.i_dot.leftBound() > 0) ||
+            !(checkpoint_sc.selected_radius.leftBound() > 0) ||
+            !(checkpoint_sc.r12_squared.leftBound() > 0) ||
+            !(checkpoint_sc.r23_squared.leftBound() > 0)) {
+          throw std::runtime_error(
+              "pair-13 post-scatter checkpoint lost its positive-J tube");
+        }
+        std::cout << "DIRECT_LC_EVENT_PROBE kind=second_outgoing_pair13"
+                  << " tp=["
+                  << bound_double(checkpoint_image[9].leftBound()) << ","
+                  << bound_double(checkpoint_image[9].rightBound()) << "]"
+                  << " jd=["
+                  << bound_double(checkpoint_image[11].leftBound()) << ","
+                  << bound_double(checkpoint_image[11].rightBound()) << "]"
+                  << " hull=" << hull_width(checkpoint_image, 12) << "\n"
+                  << std::flush;
+      }
+
+      const Vector second_maximum_image = project_persistent_direct_set(
+          pair13_set, 11, Ival(0), capd::poincare::PlusMinus,
+          order, tolerance, u_param, false, 0, true);
+      const DirectLcScalars second_maximum_sc =
+          evaluate_direct_lc(second_maximum_image, family);
+      if (!(second_maximum_sc.potential.rightBound() <
+            (2 * family.u0).leftBound()) ||
+          !direct_lc_residual_excludes_brake(second_maximum_image)) {
+        throw std::runtime_error(
+            "direct-LC second maximum lacks strictness or brake separation");
+      }
+      std::cout << "DIRECT_LC_EVENT_PROBE kind=second_maximum tp=["
+                << bound_double(second_maximum_image[9].leftBound()) << ","
+                << bound_double(second_maximum_image[9].rightBound()) << "]"
+                << " UoverU0=["
+                << bound_double(
+                       (second_maximum_sc.potential / family.u0).leftBound())
+                << ","
+                << bound_double(
+                       (second_maximum_sc.potential / family.u0).rightBound())
+                << "] z=["
+                << bound_double(second_maximum_image[2].leftBound()) << ","
+                << bound_double(second_maximum_image[2].rightBound()) << "]+["
+                << bound_double(second_maximum_image[3].leftBound()) << ","
+                << bound_double(second_maximum_image[3].rightBound()) << "]i"
+                << " P=["
+                << bound_double(second_maximum_image[7].leftBound()) << ","
+                << bound_double(second_maximum_image[7].rightBound()) << "]x["
+                << bound_double(second_maximum_image[8].leftBound()) << ","
+                << bound_double(second_maximum_image[8].rightBound()) << "]"
+                << " hull=" << hull_width(second_maximum_image, 12) << "\n"
+                << std::flush;
+      std::cout << "PASS_TIED_SECOND_MAXIMUM_INTERVAL u=["
                 << p << "/" << q << "," << p2 << "/" << q2 << "]"
                 << " method=CAPD-6.1.0-MPFR"
                 << " capd_commit=731079217a9254ea2948d742df2b170895effe7f"
@@ -1346,8 +1926,11 @@ int run_direct_lc_prefix(const Ival& u_param, long p, long q,
 }  // namespace
 
 int main(int argc, char** argv) {
+  const bool second_maximum_mode =
+      argc > 1 && std::string(argv[1]) == "ilcmax2";
   const bool first_maximum_mode =
-      argc > 1 && std::string(argv[1]) == "ilcmax";
+      argc > 1 &&
+      (std::string(argv[1]) == "ilcmax" || second_maximum_mode);
   const bool direct_lc_mode =
       argc > 1 &&
       (std::string(argv[1]) == "ilcprefix" || first_maximum_mode);
@@ -1355,7 +1938,7 @@ int main(int argc, char** argv) {
       argc > 1 && (std::string(argv[1]) == "iprefix" || direct_lc_mode);
   if (prefix_mode && argc < 7) {
     std::cerr << "usage: burrau_lc_certificate_capd"
-                 " {iprefix|ilcprefix|ilcmax} P Q P2 Q2 TEND"
+                 " {iprefix|ilcprefix|ilcmax|ilcmax2} P Q P2 Q2 TEND"
                  " [PREC TOL ORDER]\n";
     return 2;
   }
@@ -1392,7 +1975,7 @@ int main(int argc, char** argv) {
     if (direct_lc_mode) {
       return run_direct_lc_prefix(
           u_param, p, q, p2, q2, prefix_end, order, tolerance,
-          first_maximum_mode);
+          first_maximum_mode, second_maximum_mode);
     }
     const int construction_rate = prefix_mode ? 20 : 400;
     const int construction_exponent = prefix_mode ? 10 : 380;
