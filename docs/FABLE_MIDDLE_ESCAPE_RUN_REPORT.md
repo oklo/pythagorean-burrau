@@ -101,11 +101,31 @@ Above $\approx0.2903$: body 1 falls back; more cycles needed.
 
 ## 9. Independent full interval certificate
 
-**Not attempted**, by design: the correlated propagation
-$[0,T]$ is the primary worker's active uncommitted work, and duplicating
-it would violate the noninterference intent.  Everything downstream of
-their box — the terminal theorem, the checker, the switch design, the
-wrapping budgets — is complete and independent.
+**COMPLETED for a nonempty real interval** (second phase of the run, at
+the user's direction): `PASS_MIDDLE_ESCAPE_ENDGAME` proves every real
+$u\in[0.29,\,0.29+10^{-11}]$ nonperiodic — full brake-exclusion covering
+from the tied launch through $t_\ast\in[4.30022,4.30024]$, through all
+four deep binary passages and the $t\approx3.44$–$3.48$ exchange
+scattering, terminating in the phase-robust escape certificate with
+margin $5.069$, independently cross-checked by the standalone interval
+checker.  Statement, proof structure, soundness notes, and the measured
+obstruction economics: `docs/FABLE_MIDDLE_INTERVAL_NONPERIODICITY.md`;
+driver `src/fable/verification/middle_escape_endgame_capd.cpp`
+(`run_endgame_c0`), log
+`data/fable/middle_escape_endgame_first_interval.log`.
+
+Architecture findings from the closing campaign (all measured):
+the C1 mean-value graph has a du-independent slack floor at deep
+passages and cannot reach the terminal leg; the correlated C0 tripleton
+with u as a state variable traverses everything, with selected-pair
+passages nearly free (LC sigma-time synchronizes the pericenter), and
+the exchange scattering as the sole width-limiting obstruction
+(transient sensitivity $10^6$–$10^8$ at fixed clock vs $\sim10^3$ at
+synchronized sections and $2\times10^4$ after escape).  Unselected-pair
+step caps are mandatory: without them, wide-but-exception-free
+enclosures of $1/r^3$ silently poison the set.  The full committed tile
+$[0.29,0.29002]$ remains open pending the primary's section-based
+reconditioning (or $\sim2000$ tiled runs of this driver).
 
 ## 10. Reusability on adjacent tiles
 
