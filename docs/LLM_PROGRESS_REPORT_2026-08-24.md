@@ -26,7 +26,7 @@ The full rational conjecture is **not proved**. The stronger assertion for
 every real tied parameter is also **not proved**. No rational counterexample
 and no real second-brake intersection have been found.
 
-A difficulty-weighted completion estimate is currently about **48%**, with
+A difficulty-weighted completion estimate is currently about **50%**, with
 rough uncertainty of plus or minus 15 percentage points. This measures
 progress toward the universal theorem, not the amount of code or manuscript
 already written.
@@ -96,8 +96,33 @@ throughout its complete pre-syzygy arc, with forced equality (eta=h) at
 the syzygy.  In particular no second brake occurs on or before that first
 syzygy.  Together with the terminal amplitude theorem, this closes the
 whole first arc locally.  It still does **not** prove nonperiodicity in a
-punctured endpoint neighborhood: the close base-pair encounter and every
-later post-syzygy return remain uncontrolled.
+punctured endpoint neighborhood because later post-encounter returns remain
+uncontrolled.
+
+The immediately following base-pair encounter is now locally classified as
+well.  In pair--12 Levi--Civita coordinates (q_2-q_1=w^2), a pinned
+(C^1) Poincare map proves at the exact endpoint binary
+
+\[
+ z_r<-4/5,\qquad r_{31}^2,r_{23}^2>1/500,\qquad
+ \chi:=\partial_v\operatorname{Im}w<-30.
+\]
+
+Thus the map ((\sigma,v)\mapsto(\operatorname{Re}w,
+\operatorname{Im}w)) has nonzero Jacobian at the collision.  The collision
+zero is isolated, and every sufficiently near one-sided tied member crosses
+the corresponding encounter as an ordinary collision-free near miss with
+
+\[
+ \min_{\rm enc} r_{12}(v)=\chi^2(1-v)^2+o((1-v)^2),\qquad \chi^2>900.
+\]
+
+The exact identity
+(\ell_{12}=2(w_rz_i-w_iz_r)) shows that (ell_{12}>0) there for
+(v<1), so this encounter has reversed its negative launch sign.  This is a
+rigorous local scattering theorem, not a continuation of the collisional
+endpoint.  The unresolved endpoint problem now starts on the outgoing LC
+section and concerns all later brakes or escape.
 
 ### Later exact update: the ordered-syzygy face
 

@@ -34,7 +34,9 @@ also prove that the real isosceles-right endpoint has no second brake and ends
 in finite collision.  Exact Bernstein inequalities and a validated $C^1$
 first-syzygy calculation additionally prove both pre-syzygy torque
 noncontact and the terminal amplitude condition throughout a one-sided
-near-isosceles neighborhood, though not the post-encounter dynamics. At the
+near-isosceles neighborhood.  A pair--12 Levi--Civita calculation then proves
+that the endpoint binary unfolds transversely into a quadratically small
+collision-free near miss, though not the later outgoing dynamics. At the
 opposite singular endpoint, a Levi--Civita
 argument proves that every sufficiently skinny member avoids the limiting
 heavy-pair collision on its first encounter, with explicit miss-distance and
@@ -2946,6 +2948,77 @@ The two near-isosceles theorems close the interior torque contact and the
 terminal first-syzygy amplitude condition on the complete first arc in a
 one-sided endpoint neighborhood.  They do not exclude a later brake after
 the unfolded close base-pair encounter.
+
+That encounter itself admits a regular transverse classification.  Let
+$g=q_2-q_1$, let $G=q_3-C_{12}$ be the complementary Jacobi coordinate, and
+set
+\[
+ g=w^2,\qquad {dt\over d\sigma}=|w|^2,\qquad z={dw\over d\sigma}.
+\]
+For $d_{31}=G+ng/(m+n)$ and $d_{23}=G-mg/(m+n)$, direct force reduction
+gives
+\[
+ \ddot g=-{(m+n)g\over|g|^3}
+ +{d_{23}\over|d_{23}|^3}-{d_{31}\over|d_{31}|^3},
+\]
+\[
+ \ddot G=-{m+n+1\over m+n}\left(
+ {m d_{31}\over|d_{31}|^3}+{n d_{23}\over|d_{23}|^3}\right).
+\]
+Writing $e=|\dot g|^2/2-(m+n)/|g|$ and
+$F=d_{23}/|d_{23}|^3-d_{31}/|d_{31}|^3$, the forced LC equations include
+\[
+ w'=z,\qquad z'={e\over2}w+{|w|^2\over2}\bar wF,qquad
+ G'=|w|^2P,qquad P'=|w|^2\ddot G,qquad t'=|w|^2.
+\]
+
+\begin{theorem}[Near-isosceles binary unfolding]
+There exists $v_1<1$ such that every tied member with $v_1<v<1$ traverses
+the encounter corresponding to the endpoint's base-pair collision as a
+classical collision-free near miss.  For a nonzero constant $\chi$,
+\[
+ \min_{\rm enc}r_{12}(v)=\chi^2(1-v)^2+o((1-v)^2),\qquad \chi^2>900.
+\]
+At the LC collision section its pair angular momentum has reversed its
+negative launch sign: $\ell_{12}>0$.
+\end{theorem}
+
+\begin{proof}
+At $v=1$ the LC launch state is
+\[
+ w=1,\quad z=0,\quad e=-\sqrt2,\quad G=i/2,\quad P=0,
+ \quad m=n=1/\sqrt2.
+\]
+The collision is $w_r=0$.  A pinned interval $C^1$ Poincare calculation
+proves at this section
+\[
+ z_r<-{4\over5},\qquad r_{31}^2,r_{23}^2>{1\over500},\qquad
+ \chi:=\partial_vw_i<-30.
+\]
+The tied launch tangent used in this calculation is exact:
+$G_{x,v}=1/(2\sqrt2)$ and $(m_v,n_v)=(-1/2,1/2)$, with every other LC
+launch derivative zero.  Cartesian force regression independently verifies
+the Jacobi and LC fields.
+
+On the symmetric orbit $w_i=z_i=0$.  Hence the Jacobian of
+$(\sigma,v)\mapsto(w_r,w_i)$ at the collision has determinant
+$z_r\chi\ne0$.  The inverse-function theorem isolates the collision zero,
+while the positive unselected separations and compact continuity exclude any
+other collision in the encounter block.  On the graph $w_r=0$,
+$w_i=\chi(v-1)+O((v-1)^2)$.  Since $z_i=0$ on the base orbit, the minimizer
+of $|w|^2=r_{12}$ shifts by only $O((v-1)^2)$ in regularized time, giving
+the stated asymptotic.  Finally
+\[
+ \ell_{12}=2(w_rz_i-w_iz_r),\qquad
+ \partial_v\ell_{12}(1)=-2\chi z_r<0.
+\]
+Thus $v-1<0$ implies $\ell_{12}>0$ at the section.
+\end{proof}
+
+This theorem concerns the nearby classical trajectories.  The endpoint
+$v=1$ still terminates at its binary collision; its LC continuation is used
+only as an analytic comparison orbit.  The next open endpoint problem starts
+on the outgoing section beyond this near miss.
 
 The remaining terminal inequality admits a useful exact coercive form.
 Restore $R=r_{12}$ and set

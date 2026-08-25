@@ -272,8 +272,9 @@ syzygy in a one-sided near-isosceles neighborhood.  A separate odd-variation
 certificate now proves $\eta<h$ on the complete preceding arc in that same
 existential neighborhood, with forced equality at the event.  The unresolved
 lemma is therefore a brake-history estimate over the remaining parameter
-range, followed by control of the endpoint neighborhood after its first
-syzygy and close base-pair encounter.
+range.  At the endpoint, the base-pair collision unfolding is now transverse
+and collision-free for nearby members; the remaining local obligation is
+control from its outgoing LC section through every later return.
 
 The terminal inequality now has an exact coercive formulation.  With
 $D=mn+mq^2+n(1-q)^2$, shape-time variables $\sigma=R_s/R$, $Q=q_s$, and
@@ -396,9 +397,12 @@ corner blow-up and $Z_J^{\rm syz}>1$ therefore close the terminal
 first-syzygy amplitude inequality on a one-sided near-isosceles neighborhood.
 The odd endpoint-variation certificate also closes the earlier interior
 no-contact estimate throughout the complete first arc in that neighborhood.
-The remaining endpoint obligation is a regularized transverse analysis of
-how the subsequent base collision unfolds when $A\ne B$, including whether
-any later second-brake branch can emerge.
+A pair--12 $C^1$ LC certificate now proves that the subsequent binary
+collision unfolds transversely, with
+$\min_{\rm enc}r_{12}=\chi^2(1-v)^2+o((1-v)^2)$ and $\chi^2>900$, so every nearby
+one-sided member traverses that encounter collision-free.  The remaining
+endpoint obligation starts on the outgoing LC section: exclude every later
+second-brake branch or prove a terminal escape/collision alternative.
 
 The full skinny matching obligation through a fixed incoming restricted
 section is now closed. PREPLUNGE_MATCHING.md controls the

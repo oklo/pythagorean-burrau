@@ -976,6 +976,37 @@ terminal amplitude obligations are locally closed.  Post-encounter
 recurrence remains open.  The complete certificate is in
 `ISOSCELES_SYZYGY_THRESHOLD.md`.
 
+The singular encounter immediately after that first syzygy also has a
+regular local normal form.  In the pair--12 Levi--Civita chart
+
+\[
+ q_2-q_1=w^2,\qquad {dt\over d\sigma}=|w|^2,
+\]
+
+the exact endpoint binary is the section $w_r=0$.  Exact Jacobi force
+reduction and the forced LC transformation are independently regressed from
+the Cartesian equations.  A pinned $C^1$ Poincare enclosure proves
+
+\[
+ z_r<-{4\over5},\qquad r_{31}^2,r_{23}^2>{1\over500},\qquad
+ \chi:=\partial_vw_i<-30
+\]
+
+at the endpoint section.  Since the symmetric orbit has $w_i=z_i=0$, the
+Jacobian of $(\sigma,v)\mapsto(w_r,w_i)$ is nonsingular.  The collision zero
+is therefore isolated, and every sufficiently near one-sided member crosses
+the corresponding encounter without collision.  More precisely,
+
+\[
+ \boxed{\min_{\rm enc}r_{12}(v)=\chi^2(1-v)^2+o((1-v)^2),\qquad\chi^2>900.}
+\]
+
+The exact identity $\ell_{12}=2(w_rz_i-w_iz_r)$ also gives
+$\partial_v\ell_{12}(1)=-2\chi z_r<0$, hence $\ell_{12}>0$ for $v<1$:
+the encounter reverses its negative launch sign.  This is a local classical
+near-miss theorem for positive asymmetry, not a continuation of the
+collisional endpoint.  Later outgoing dynamics remain open.
+
 The exact kinetic-energy decomposition identifies that history theorem more
 sharply.  Restore the syzygy scale $R=r_{12}$ and put
 

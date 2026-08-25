@@ -45,6 +45,7 @@ REPOSITORY_DIR=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 OUTPUT_BINARY=${TMPDIR:-/tmp}/isosceles_syzygy_capd
 VARIATION_BINARY=${TMPDIR:-/tmp}/isosceles_syzygy_variation_capd
 GAP_BINARY=${TMPDIR:-/tmp}/isosceles_pre_syzygy_gap_capd
+COLLISION_BINARY=${TMPDIR:-/tmp}/isosceles_base_collision_variation_capd
 
 # shellcheck disable=SC2086
 c++ "$REPOSITORY_DIR/src/verification/isosceles_syzygy_capd.cpp" \
@@ -60,3 +61,8 @@ c++ "$REPOSITORY_DIR/src/verification/isosceles_syzygy_variation_capd.cpp" \
 c++ "$REPOSITORY_DIR/src/verification/isosceles_pre_syzygy_gap_capd.cpp" \
   $CAPD_FLAGS -o "$GAP_BINARY"
 "$GAP_BINARY"
+
+# shellcheck disable=SC2086
+c++ "$REPOSITORY_DIR/src/verification/isosceles_base_collision_variation_capd.cpp" \
+  $CAPD_FLAGS -o "$COLLISION_BINARY"
+"$COLLISION_BINARY"

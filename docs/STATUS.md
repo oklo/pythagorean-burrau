@@ -27,8 +27,13 @@ simple terminal zero, while also proving the side-splitting and ordered-cone
 signs.  Analytic launch and event factorization therefore give $\eta<h$ and
 exclude a second brake throughout the complete first arc for every
 sufficiently near-isosceles member.  The remaining endpoint problem begins
-only after the first syzygy, at the close base-pair encounter and later
-post-encounter dynamics.
+after the first syzygy.  A new pair--12 Levi--Civita $C^1$ certificate now
+proves that the endpoint binary collision unfolds transversely into a
+collision-free near miss for every sufficiently near one-sided member, with
+$\min_{\rm enc}r_{12}=\chi^2(1-v)^2+o((1-v)^2)$ and $\chi^2>900$.  It also proves
+that $\ell_{12}$ has reversed its launch sign at the encounter.  The first
+unresolved endpoint object is therefore the outgoing post-encounter map and
+all later recurrence.
 Details and the replay are in `ISOSCELES_SYZYGY_THRESHOLD.md`.
 
 A new exact shape-cone calculation now proves that gravity points
@@ -319,9 +324,9 @@ classification is impossible. Fixed resonances and the full accumulating
 first-turn layer are now split at finite $B$. The remaining endpoint target is
 separatrix persistence and control after later turns.
 At the opposite isosceles endpoint, the first-syzygy symmetry-breaking
-tangent and terminal amplitude are now controlled.  The remaining endpoint
-work begins with the interior no-contact inequality and the regularized
-unfolding of the subsequent base collision.
+tangent, terminal amplitude, complete pre-syzygy noncontact, and transverse
+binary unfolding are now controlled.  The remaining endpoint work begins on
+the outgoing section after that collision-free near miss.
 
 The collapsed-pair reference clock is now exact through a nonsingular overlap
 section. Its phase sweeps monotonically at rate

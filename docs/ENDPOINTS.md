@@ -79,8 +79,58 @@ $z_v(1)>18$.  Consequently the continued first syzygy satisfies
 \]
 
 for every tied member in some one-sided near-isosceles neighborhood.  This
-closes the terminal first-syzygy amplitude obligation only; an earlier
-interior torque contact and the later collision unfolding remain open.  See
+closes the terminal first-syzygy amplitude obligation.  A separate odd-
+variation cover proves strict side ordering and $\eta<h$ on the complete
+preceding arc, excluding every brake through the first syzygy.
+
+The endpoint collision unfolding is now also locally classified.  Use the
+pair--12 Jacobi coordinate $g=q_2-q_1=w^2$, the complementary coordinate
+$G=q_3-C_{12}$, and Levi--Civita time
+
+\[
+ {dt\over d\sigma}=|w|^2.
+\]
+
+The exact endpoint binary is the section $\operatorname{Re}w=0$.  A pinned
+$C^1$ Poincare enclosure proves
+
+\[
+ z_r={d\,\operatorname{Re}w\over d\sigma}<-{4\over5},\qquad
+ r_{31}^2,r_{23}^2>{1\over500},
+\]
+
+and, for the tied parameter $v=u/(\sqrt2-1)$,
+
+\[
+ \boxed{\chi:={d\over dv}\operatorname{Im}w\bigg|_{v=1,
+ \operatorname{Re}w=0}<-30.}
+\]
+
+Thus the Jacobian of $(\sigma,v)\mapsto
+(\operatorname{Re}w,\operatorname{Im}w)$ is nonsingular at the endpoint
+collision.  The inverse-function theorem makes this the only collision zero
+in a product neighborhood.  Consequently every sufficiently near one-sided
+tied member crosses the complete corresponding encounter classically and
+collision-free.  Moreover
+
+\[
+ \min_{\rm enc} r_{12}(v)=\chi^2(1-v)^2+o((1-v)^2),
+\]
+
+so the near miss is quadratically small but strictly positive.  The pair
+angular momentum satisfies
+
+\[
+ \ell_{12}=2(w_rz_i-w_iz_r),\qquad
+ {d\ell_{12}\over dv}(1)=-2\chi z_r<0.
+\]
+
+Hence $\ell_{12}>0$ at the collision section for $v<1$ close to one: the
+close encounter has already reversed its negative launch sign.  This is a
+**PROVED BY COMPUTER-ASSISTED ARGUMENT** local scattering theorem, not a
+post-collision continuation of the endpoint's terminated classical orbit.
+It supplies a genuine classical continuation for nearby noncolliding
+members, but it does not yet control their later brakes or escape.  See
 `ISOSCELES_SYZYGY_THRESHOLD.md`.
 
 ## Skinny endpoint

@@ -5,8 +5,9 @@
 This note resolves the singular torque-threshold geometry at the
 isosceles-right corner and proves one-sided local theorems for the complete
 pre-syzygy arc and its terminal syzygy.  It does **not** prove nonperiodicity
-in a punctured endpoint neighborhood: the close base-pair encounter and all
-later post-syzygy dynamics remain open.
+in a punctured endpoint neighborhood: although the close base-pair encounter
+is now proved collision-free for nearby members, its outgoing dynamics and
+all later returns remain open.
 
 Write
 
@@ -355,6 +356,125 @@ interior torque-contact and terminal first-syzygy amplitude obligations in
 that neighborhood.  It does not exclude a later second brake after the close
 base-pair encounter that unfolds the endpoint collision.
 
+## Transverse unfolding of the base collision
+
+The next singularity can be treated without declaring a near encounter to be
+a collision.  Put
+
+\[
+ g=q_2-q_1=w^2,\qquad
+ G=q_3-{m q_1+n q_2\over m+n},\qquad
+ {dt\over d\sigma}=|w|^2,
+\]
+
+and write (z=dw/d\sigma).  If
+
+\[
+ d_{31}=G+{n\over m+n}g,\qquad
+ d_{23}=G-{m\over m+n}g,
+\]
+
+then the exact Jacobi equations are
+
+\[
+ \ddot g=-{(m+n)g\over|g|^3}
+ +{d_{23}\over|d_{23}|^3}-{d_{31}\over|d_{31}|^3},
+\]
+
+\[
+ \ddot G=-{m+n+1\over m+n}
+ \left({m d_{31}\over|d_{31}|^3}
+       +{n d_{23}\over|d_{23}|^3}\right).
+\]
+
+With (e=|\dot g|^2/2-(m+n)/|g|), the forced Levi--Civita equations used
+by the verifier are
+
+\[
+ w'=z,\qquad
+ z'={e\over2}w+{|w|^2\over2}\bar w F,qquad
+ G'=|w|^2P,\qquad P'=|w|^2\ddot G,qquad t'=|w|^2,
+\tag{16}
+\]
+
+where (F=d_{23}/|d_{23}|^3-d_{31}/|d_{31}|^3); the exact work equation
+for (e') is included in the source.  Symbolic tests reconstruct both
+Jacobi accelerations from Cartesian Newton forces, verify the tied launch
+tangent, and verify the LC angular-momentum identity below.
+
+At (v=1), the initial LC state is
+
+\[
+ w=1,quad z=0,quad e=-\sqrt2,quad G={i\over2},quad P=0,
+ \quad m=n={1\over\sqrt2}.
+\]
+
+The selected binary is the section (w_r=0).  The fourth pinned CAPD
+calculation encloses its regularized and physical times and proves
+
+\[
+ z_r<-{4\over5},\qquad r_{31}^2,r_{23}^2>{1\over500}.
+\tag{17}
+\]
+
+Thus this is a transverse binary rather than a triple collision.  The exact
+tied launch tangent has
+
+\[
+ G_{x,v}={1\over2\sqrt2},\qquad
+ (m_v,n_v)=(-1/2,1/2),
+\]
+
+with all other LC launch derivatives zero.  A (C^1) Poincare map to
+(w_r=0) proves the normal coefficient
+
+\[
+ \boxed{\chi=(w_i)_v<-30.}
+\tag{18}
+\]
+
+On the symmetric orbit (w_i=z_i=0).  Therefore the Jacobian of
+((\sigma,v)\mapsto(w_r,w_i)) at the collision has determinant
+(z_r\chi\ne0).  By the inverse-function theorem, the only zero (w=0)
+in a product neighborhood is the endpoint point (v=1).  Compact
+separation outside that local block and (17) give the following result.
+
+**Near-isosceles collision-unfolding theorem.** There is (v_1<1) such
+that every (v_1<v<1) traverses the encounter corresponding to the endpoint
+binary collision as an ordinary collision-free classical solution.  Its
+minimum pair separation over this encounter obeys
+
+\[
+ \boxed{\min_{\rm enc} r_{12}(v)=\chi^2(1-v)^2+o((1-v)^2),\qquad \chi^2>900.}
+\tag{19}
+\]
+
+Indeed, the event graph (w_r=0) has
+(w_i=\chi(v-1)+O((v-1)^2)).  Since (z_i=0) on the base orbit and
+(z_r\ne0), minimizing (|w|^2) changes the event time only by
+(O((v-1)^2)), proving (19).
+
+Finally, the selected pair angular momentum is exactly
+
+\[
+ \ell_{12}=2(w_rz_i-w_iz_r),
+\]
+
+so at the section
+
+\[
+ {d\ell_{12}\over dv}(1)=-2\chi z_r<0.
+\tag{20}
+\]
+
+For the physical one-sided family (v<1), equation (20) gives
+(ell_{12}>0), opposite to its negative launch sign.  Thus this first close
+encounter executes one of the torque reversals required by any later brake.
+The theorem is **PROVED BY COMPUTER-ASSISTED ARGUMENT**.  It regularizes the
+analysis, not the physical endpoint orbit: the (v=1) classical solution
+still terminates at collision.  The unresolved task begins on the outgoing
+collision-free section for (v<1).
+
 ## Reproduction
 
 ```bash
@@ -365,7 +485,9 @@ bash scripts/run_capd_isosceles_syzygy.sh \
   /private/tmp/pythagorean-capd/build-native
 PYTHONPATH=. .venv/bin/python \
   scripts/probe_isosceles_syzygy_variation.py
+PYTHONPATH=. .venv/bin/python \
+  scripts/probe_isosceles_base_collision.py
 ```
 
-The last command is an ordinary numerical regression only; the theorem uses
-the CAPD replay, not that decimal output.
+The last two commands are ordinary numerical regressions only; the theorems
+use the CAPD replay, not those decimal outputs.

@@ -1398,3 +1398,19 @@ it is not a remainder proof.
   Thus no second brake occurs on or before that first syzygy.  The result
   closes the previously open interior contact locally, but all post-syzygy
   recurrence remains open.
+- Rewrote the subsequent endpoint base collision in a pair--12 forced
+  Levi--Civita chart, with $q_2-q_1=w^2$ and $dt=|w|^2d\sigma$.  Exact
+  symbolic regressions reconstruct both Jacobi accelerations from Cartesian
+  Newton forces, verify the tied LC launch tangent, and recover
+  $\ell_{12}=2(w_rz_i-w_iz_r)$.  An ordinary central-difference probe found
+  $(w_i)_v\simeq-31.41826075$ at the endpoint collision section; this was
+  used only to select rational validation margins.
+- The pinned native-CAPD $C^1$ Poincare calculation then proved
+  $z_r<-4/5$, $r_{31}^2,r_{23}^2>1/500$, and
+  $\chi=(w_i)_v<-30$.  The inverse-function theorem isolates the collision
+  zero in $(\sigma,v)$, proving that every sufficiently near one-sided member
+  traverses the encounter collision-free with
+  $\min_{\rm enc}r_{12}=\chi^2(1-v)^2+o((1-v)^2)$ and $\chi^2>900$.  It also gives
+  $\partial_v\ell_{12}(1)=-2\chi z_r<0$, so $\ell_{12}>0$ for $v<1$ at the
+  section, opposite its launch sign.  This closes the local collision
+  unfolding but not the outgoing return dynamics.
