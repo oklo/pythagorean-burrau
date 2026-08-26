@@ -172,6 +172,7 @@ Allowed evidence labels are used verbatim.
 | A six-form PG2 update with componentwise boxed $E$ materially removes the middle-exchange defect | DISPROVED | At $t=3.45$ and the fourth minimum the defects remain $1.12393431\,10^{-6}$ and $4.43187466\,10^{-6}$, essentially the prior control; the representation tuple permits every $x+e$, $e\in E$, at $\delta=0$ |
 | Affine-generator PG2 update (Theorem AGR) | PROVED ANALYTICALLY | Rectangular generators retain $J_xG\Xi$ exactly up to interval midpoint spill; all Hessian terms are enclosed by the same six $T,Q,R$ forms, and no generator basis is inverted |
 | Affine-generator width-$10^{-12}$ end-to-end control | VALIDATED NUMERICAL RESULT | Every section/tube audit and the terminal escape test passed; the exchange remainder is 10--12 orders below the boxed control. The interval was already covered, and independent implementation audit remains open |
+| One-set affine-generator certificate candidate on $[0.29,0.2900001]$ | VALIDATED NUMERICAL RESULT | The pinned 160-bit/order-32 run completed all 85 expected graph images and independent swept-tube audits, with maximum hull $0.009198$ and terminal margin $3.4111$. A fail-closed log audit verifies the exact endpoints, itinerary, modes, terminal inequalities, and CAPD commit. Independent adversarial review of the new affine graph algebra is the sole promotion gate |
 
 ## Dimension count (guidance only)
 

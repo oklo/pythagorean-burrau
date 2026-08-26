@@ -225,3 +225,59 @@ theorem.  The control interval is already contained in the established Fable
 theorem, and an independent implementation audit remains open.  The first
 theorem-scale test is the single interval $[0.29,0.2900001]$, roughly ten
 times wider than the current certified union.
+
+## Theorem-scale replay
+
+The exact closed interval
+
+\[
+ \left[{29\over100},{2900001\over10000000}\right]
+ =[0.29,0.2900001]
+\]
+
+has now passed the complete pinned run at 160 bits, tolerance $10^{-24}$,
+and order 32.  This is one correlated enclosure of the continuum, not a
+finite point scan.  All 85 expected graph images, every independent C0
+inter-section tube audit, four strict minima, three strict maxima, all three
+chart-switch images, 21 post-switch sections, and the terminal
+escape-or-inner-collision test passed.
+
+The hard exchange bounds were
+
+\[
+ \operatorname{wid}X(3.45)<9.198\,10^{-3},\qquad
+ \operatorname{wid}R(3.45)<1.443\,10^{-7},
+\]
+
+and the fourth-minimum hull was below $1.938\,10^{-3}$.  At the terminal
+time $77/20$ the hull was below $1.462\,10^{-3}$ and the strict terminal
+margin was
+
+\[
+ \inf(-4-h-\Delta)>3.4111236203.
+\]
+
+The complete stdout artifact is
+`data/middle_affine_pg2_width_1e7_full.log`, with SHA-256
+`8c92d90cae1cc94139085aa775f045efb2c83aee84d2be6557495aac4a29a9c9`.
+The fail-closed audit
+
+```text
+python3 scripts/audit_affine_endgame_log.py \
+  data/middle_affine_pg2_width_1e7_full.log \
+  --expected-left 29/100 --expected-right 2900001/10000000
+```
+
+reports 85/85 itinerary rows, 852 terminal generators, maximum hull
+$0.009197584103206032$, maximum affine remainder
+$7.130267782501705\,10^{-7}$, and the terminal margin above.  It rejects
+wrong endpoints, disabled graph modes, missing or reordered legs, decreasing
+generator counts, any failure marker, and every non-strict terminal
+inequality.
+
+Status: **VALIDATED NUMERICAL RESULT / COMPUTER-ASSISTED THEOREM
+CANDIDATE**.  The execution and certificate-record obligations are closed.
+The only promotion gate is the independent adversarial source audit of the
+affine-generator inclusion semantics.  Until that audit is complete, the
+established theorem remains the previously reviewed interval
+$[0.29,0.2900000101]$.

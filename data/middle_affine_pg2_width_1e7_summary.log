@@ -1,0 +1,71 @@
+Affine-generator PG2 theorem-scale replay, 2026-08-26
+
+status:
+  VALIDATED NUMERICAL RESULT / COMPUTER-ASSISTED THEOREM CANDIDATE.
+  The complete pinned enclosure run and its independent fail-closed log audit
+  pass.  Promotion to PROVED BY COMPUTER-ASSISTED ARGUMENT remains conditional
+  on the independent adversarial audit of the new affine-generator graph
+  algebra requested in docs/AFFINE_REMAINDER_GRAPH.md.
+
+exact closed interval:
+  [29/100, 2900001/10000000] = [0.29, 0.2900001]
+
+reproduction command:
+  FABLE_ENDGAME_GRAPH=1 \
+  FABLE_ENDGAME_GRAPH_C2=1 \
+  FABLE_ENDGAME_GRAPH_PG2=1 \
+  FABLE_ENDGAME_GRAPH_AFFINE_REMAINDER=1 \
+  FABLE_ENDGAME_GRAPH_PAIR23_SYNC=1 \
+  sh scripts/fable_run_capd_middle_endgame.sh \
+  /private/tmp/pythagorean-capd /private/tmp/pythagorean-capd/build-mp \
+  29 100 2900001 10000000 160 1e-24 32
+
+CAPD source commit:
+  731079217a9254ea2948d742df2b170895effe7f
+
+full stdout artifact:
+  data/middle_affine_pg2_width_1e7_full.log
+  sha256 8c92d90cae1cc94139085aa775f045efb2c83aee84d2be6557495aac4a29a9c9
+
+fail-closed log audit:
+  python3 scripts/audit_affine_endgame_log.py \
+    data/middle_affine_pg2_width_1e7_full.log \
+    --expected-left 29/100 --expected-right 2900001/10000000
+
+  PASS_AFFINE_ENDGAME_LOG_AUDIT legs=85 generators=852 \
+    largest_hull=0.009197584103206032 \
+    largest_defect=7.130267782501705e-07 \
+    terminal_margin=3.4111236203266415
+
+Each selected row is:
+  label | total hull | T*delta | Q*delta^2 | affine remainder | generators
+
+t=2/5              | 1.3332203730968566e-06 | 1.3332202969087771e-06 | 1.4527334455073371e-13 | 9.6642692861828590e-18 | 15
+min2               | 1.1318424934602334e-05 | 1.1318233445903166e-05 | 1.7777649426915760e-10 | 1.3712204898626968e-11 | 353
+t=29/10            | 2.6598052739396528e-05 | 2.6597336760534931e-05 | 6.4855046910715906e-10 | 6.7428392490734691e-11 | 483
+max3               | 1.9404914651310402e-05 | 1.9404275754490130e-05 | 5.8541504214524749e-10 | 5.3481778123712109e-11 | 523
+t=17/5             | 1.0651382981573436e-04 | 1.0651023549878780e-04 | 4.2905454327820280e-09 | 3.9582765146399072e-10 | 593
+t=69/20            | 9.1975841032060322e-03 | 9.1973751962676192e-03 | 2.7822337183694104e-07 | 1.4428734661150025e-07 | 603
+min4               | 1.9373177987736267e-03 | 1.9348904801786409e-03 | 1.9407743207067793e-06 | 4.8654427427909493e-07 | 613
+switch13to23_formB | 1.2176811246509584e-03 | 1.2166690294562728e-03 | 1.2774931210817975e-06 | 3.8735634507995485e-07 | 632
+pair23_section_1   | 1.4404952479349189e-03 | 1.4396060360647117e-03 | 1.0013130957556315e-06 | 4.3893518742679009e-07 | 642
+pair23_section_7   | 1.4416722406134473e-03 | 1.4408704992075960e-03 | 1.3452128623189641e-06 | 4.5119224014932966e-07 | 702
+pair23_section_14  | 1.4645023873207279e-03 | 1.4637363945926073e-03 | 1.1931725620276229e-06 | 4.5424059977756150e-07 | 772
+pair23_section_21  | 1.4696913457085091e-03 | 1.4689346047545946e-03 | 1.1586567452579632e-06 | 4.5508281001602835e-07 | 842
+t=77/20            | 1.4610898952632809e-03 | 1.4603459094764549e-03 | 1.0937601497999021e-06 | 4.5223398447234635e-07 | 852
+
+terminal:
+  inf_d=0.87541291018246958
+  inf_rhodot=2.418678865359861
+  inf_Erho=0.20645295638066724
+  sup_h=-9.2733068667649885
+  sup_Delta=1.8621832464383485
+  inf_margin=3.4111236203266415
+
+PASS_MIDDLE_ESCAPE_ENDGAME u=[29/100,2900001/10000000] t_terminal=77/20 eta=4 method=CAPD-6.1.0-MPFR capd_commit=731079217a9254ea2948d742df2b170895effe7f
+
+All 85 required itinerary images occurred in the exact source order.  Every
+completed Poincare return implies that its independent C0 inter-section tube
+audit returned successfully; otherwise the driver throws before printing the
+leg row.  The run covers every close passage and every brake-exclusion window
+through the phase-robust escape-or-inner-collision terminal certificate.

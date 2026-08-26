@@ -2003,3 +2003,29 @@ it is not a remainder proof.
   it is a validated scaling result rather than a new theorem.  A full replay
   on $[0.29,0.2900001]$ is now running; success plus adversarial audit would
   enlarge the current gap-free real interval by nearly a factor ten.
+
+## 2026-08-26: theorem-scale affine-generator replay passes
+
+- One pinned correlated enclosure of the exact closed real interval
+  $[29/100,2900001/10000000]=[0.29,0.2900001]$ completed the full 85-image
+  itinerary at 160 bits, tolerance $10^{-24}$, and order 32.  All independent
+  C0 tube audits, collision separations, brake-exclusion windows, strict
+  extrema, chart switches, and the terminal escape-or-inner-collision test
+  passed.
+- At the formerly fatal $t=3.45$ exchange the complete hull was
+  $9.19758410\,10^{-3}$ and the affine remainder was only
+  $1.44287347\,10^{-7}$.  The fourth-minimum hull was
+  $1.93731780\,10^{-3}$.  Across the 21 final synchronized sections the hull
+  stayed near $1.44$--$1.50\,10^{-3}$ rather than accumulating wrapping.
+- The terminal hull was $1.46108990\,10^{-3}$, with
+  $\inf d=0.87541291$, $\inf\dot\rho=2.41867887$,
+  $\inf E_\rho=0.206452956$, and final margin $3.411123620>0$.
+- The complete 95-line output is
+  `data/middle_affine_pg2_width_1e7_full.log` (SHA-256
+  `8c92d90cae1cc94139085aa775f045efb2c83aee84d2be6557495aac4a29a9c9`).
+  A new fail-closed parser verified the exact endpoints, required modes,
+  complete ordered itinerary, monotone generator bookkeeping, strict maxima,
+  terminal inequalities, PASS record, and pinned CAPD commit.
+- Evidence level: **VALIDATED NUMERICAL RESULT / COMPUTER-ASSISTED THEOREM
+  CANDIDATE**.  The interval is not promoted in the proof ledger until an
+  independent adversarial audit accepts Theorem AGR and its implementation.

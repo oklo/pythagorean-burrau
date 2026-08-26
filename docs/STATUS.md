@@ -45,6 +45,19 @@ localizing the next improvement.  The full compact-middle interval and the
 universal conjecture remain open.  See
 `FABLE_MIDDLE_INTERVAL_NONPERIODICITY.md`.
 
+A new affine-generator PG2 representation has now removed that wrapping
+floor.  One pinned 160-bit/order-32 enclosure of the exact closed interval
+$[0.29,0.2900001]$ passed the complete 85-image brake-to-escape itinerary,
+all independent swept-tube audits, and the terminal certificate with margin
+$3.4111$.  A deterministic log auditor verifies the exact endpoints,
+required enclosure modes, complete ordered itinerary, and every terminal
+inequality.  This is currently a **VALIDATED NUMERICAL RESULT / COMPUTER-
+ASSISTED THEOREM CANDIDATE**, not yet an extension of the headline theorem:
+independent adversarial review of the new affine-generator inclusion algebra
+is the remaining promotion gate.  If accepted, it enlarges the certified
+real interval by a factor $1000/101\simeq9.90$ and lowers the explicit-family
+threshold from $k\ge99010$ to $k\ge10000$.
+
 The newest endpoint advance strengthens the terminal syzygy
 threshold to
 $1<Z_J^{\rm syz}<Z_2$ on the complete tied torque-compatible face, by a new
