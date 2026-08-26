@@ -1625,3 +1625,23 @@ it is not a remainder proof.
   The image hull was nevertheless $0.170031$, too broad for the remaining
   cycles.  The itinerary now inserts every intermediate $1/20$ level around
   each pericenter; the long jump is retired, not cited as a dynamical failure.
+- Reading the pinned CAPD Poincare implementation ruled out a hoped-for
+  native shortcut: the input tripleton is retained only at a state just after
+  the crossing, while the actual fiberwise section image is returned as an
+  interval vector.  An opt-in structured reconstruction was therefore added.
+  It maps both stored remainder arms through the validated Poincare derivative,
+  installs independently invertible point bases tangent to the coordinate
+  section, fixes the normal coordinates to zero exactly, and intersects each
+  arm with the direct section image.  The existing independent C0 tube audit
+  remains unchanged.
+- On the already certified width-$10^{-10}$ tile, this reconstruction was
+  decisively worse than the reviewed box reconstruction.  The first three
+  exchange-section hulls were $4.43192\times10^{-7}$,
+  $2.91617\times10^{-6}$, and $9.54454\times10^{-2}$; the run was stopped at
+  the third section.  For comparison, the established synchronized driver
+  completes this tile with maximum hull $3.00087\times10^{-5}$.  The failure
+  localizes the lost information more sharply: after the rank-one Poincare
+  projection, separately boxing coordinates in two tangent bases does not
+  preserve the useful *shared* one-parameter/remainder dependence.  The code
+  is retained behind `FABLE_ENDGAME_STRUCTURED_SECTION=1` as a reproducible
+  failed experiment; it supports no new dynamical claim.

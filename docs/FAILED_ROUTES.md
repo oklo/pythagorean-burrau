@@ -1043,3 +1043,32 @@ current terminal representation.  The smallest repair is a transverse
 pair--23 section after the Form-B switch, or a sharper correlated image of
 that switch; returning to the old fixed-clock exchange would discard the
 proved 46-fold sharpening and the successful width-$10^{-9}$ theorem.
+
+## Two tangent tripleton arms at every Poincare section
+
+**Status:** DISPROVED as a useful reconditioning architecture, already on a
+width-$10^{-10}$ control tile; no dynamical statement is disproved.
+
+CAPD's Poincare routine propagates a tripleton to just after the section but
+returns the fiberwise section image only as an interval vector.  A custom
+mean-value reconstruction attempted to retain more structure than the
+reviewed coordinate-box image.  It propagated both remainder arms $Br$ and
+$Qq$ through the rigorous Poincare derivative, converted each rank-eleven
+image into an invertible point basis by adjoining the exact section normal,
+fixed the corresponding normal coordinate to zero, and retained their
+intersection.  Every intervening trajectory tube was still audited
+independently.
+
+The construction passed the first two exchange sections on
+$[0.29,0.2900000001]$, but its hulls grew from
+$4.43192\times10^{-7}$ to $2.91617\times10^{-6}$ and then jumped to
+$9.54454\times10^{-2}$ at the third section.  The established box method
+completes the same tile with maximum hull $3.00087\times10^{-5}$.  The run
+was therefore interrupted before making an uneconomic post-switch attempt.
+The obstruction is not simply loss of the two ambient orientations: the
+rank-deficient event map requires a representation of shared nonlinear
+dependence along the one-dimensional tied family.  Two independently boxed
+tangent coordinate vectors discard that dependence even though their
+ambient intersection is rigorous.  A future repair needs a genuine
+parameterized section graph or higher-order model, not another linear
+tripleton basis change.

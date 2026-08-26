@@ -974,6 +974,140 @@ void guarded_direct_move(PhaseRunner& runner, Set& set, double cap) {
   }
 }
 
+struct SectionRemainderArm {
+  Matrix basis;
+  Matrix inverse;
+  Vector coordinates;
+
+  explicit SectionRemainderArm(int dimension)
+      : basis(dimension, dimension),
+        inverse(dimension, dimension),
+        coordinates(dimension) {}
+};
+
+// Put one mean-value remainder arm [DP] B r + slack into an invertible
+// point basis adapted to the coordinate section x_k=value.  The exact
+// Poincare image is tangent to that section, so one column of the midpoint
+// basis may be replaced by its normal e_k and the corresponding coordinate
+// fixed to zero.  We try every possible replacement column and retain the
+// narrowest rigorously invertible representation.
+SectionRemainderArm make_section_remainder_arm(
+    const Matrix& section_derivative, const Matrix& source_basis,
+    const Vector& source_coordinates, const Vector& common_slack,
+    const Vector& direct_image_remainder, int section_coordinate) {
+  const int dimension = source_coordinates.dimension();
+  const Matrix linear_arm = section_derivative * source_basis;
+  Vector physical_arm = linear_arm * source_coordinates + common_slack;
+  for (int i = 0; i < dimension; ++i) {
+    Ival sharpened;
+    if (!capd::intervals::intersection(
+            physical_arm[i], direct_image_remainder[i], sharpened)) {
+      throw std::runtime_error(
+          "empty structured section remainder intersection");
+    }
+    physical_arm[i] = sharpened;
+  }
+  // This is an exact property of the Poincare map, not a numerical
+  // narrowing: every returned point has the prescribed kth coordinate.
+  physical_arm[section_coordinate] = Ival(0);
+
+  bool found = false;
+  double best_width = 0;
+  SectionRemainderArm best(dimension);
+  for (int pivot = 0; pivot < dimension; ++pivot) {
+    Matrix basis(dimension, dimension);
+    for (int i = 0; i < dimension; ++i) {
+      for (int j = 0; j < dimension; ++j) {
+        basis[i][j] =
+            (Ival(linear_arm[i][j].leftBound()) +
+             Ival(linear_arm[i][j].rightBound())) /
+            Ival(2);
+      }
+    }
+    // Replace one column by the section normal.  The other columns retain
+    // the midpoint tangent geometry produced by this remainder arm.
+    for (int j = 0; j < dimension; ++j) {
+      basis[section_coordinate][j] = Ival(0);
+    }
+    for (int i = 0; i < dimension; ++i) {
+      basis[i][pivot] = Ival(0);
+    }
+    basis[section_coordinate][pivot] = Ival(1);
+
+    try {
+      const Matrix inverse =
+          capd::matrixAlgorithms::krawczykInverse(basis);
+      Vector coordinates = inverse * physical_arm;
+      // In this adapted basis the pivot coordinate equals the physical
+      // section-normal coordinate exactly.
+      coordinates[pivot] = Ival(0);
+      const Vector rebuilt = basis * coordinates;
+      bool contains_arm = true;
+      for (int i = 0; i < dimension; ++i) {
+        if (!subset(physical_arm[i], rebuilt[i])) {
+          contains_arm = false;
+          break;
+        }
+      }
+      if (!contains_arm) continue;
+      const double width = hull_width(rebuilt, dimension);
+      if (!found || width < best_width) {
+        found = true;
+        best_width = width;
+        best.basis = basis;
+        best.inverse = inverse;
+        best.coordinates = coordinates;
+      }
+    } catch (const std::exception&) {
+      // A bad replacement column can make the tangent minor singular.  A
+      // rank-(n-1) transverse Poincare derivative has another valid minor.
+    }
+  }
+  if (!found) {
+    throw std::runtime_error(
+        "no invertible tangent basis for structured section image");
+  }
+  return best;
+}
+
+// Rebuild a C0 tripleton for a Poincare image without collapsing its two
+// remainder representations.  CAPD 6.1.0's public constructor initializes
+// Q from B, so install the independently validated Q arm explicitly and
+// refresh m_currentSet before the next validated move.
+Set make_structured_section_set(
+    const Vector& new_x, const Matrix& new_c, const Vector& r0,
+    const Matrix& section_derivative, const Matrix& old_b,
+    const Vector& old_r, const Matrix& old_q_basis, const Vector& old_q,
+    const Vector& common_slack, const Vector& direct_image_remainder,
+    int section_coordinate) {
+  const int dimension = new_x.dimension();
+  const SectionRemainderArm b_arm = make_section_remainder_arm(
+      section_derivative, old_b, old_r, common_slack,
+      direct_image_remainder, section_coordinate);
+  const SectionRemainderArm q_arm = make_section_remainder_arm(
+      section_derivative, old_q_basis, old_q, common_slack,
+      direct_image_remainder, section_coordinate);
+
+  Set result(new_x, new_c, r0, b_arm.basis, b_arm.coordinates, Ival(0));
+  result.m_Q = q_arm.basis;
+  result.m_invQ = q_arm.inverse;
+  result.m_q = q_arm.coordinates;
+
+  const Vector b_part = result.get_B() * result.get_r();
+  const Vector q_part = result.m_Q * result.m_q;
+  Vector represented = new_x + new_c * r0;
+  for (int i = 0; i < dimension; ++i) {
+    Ival remainder;
+    if (!capd::intervals::intersection(b_part[i], q_part[i], remainder)) {
+      throw std::runtime_error(
+          "empty structured tripleton remainder intersection");
+    }
+    represented[i] += remainder;
+  }
+  result.m_currentSet = represented;
+  return result;
+}
+
 // Project one correlated C0 tripleton onto a transverse coordinate section
 // while independently auditing the complete common-sigma tube through the
 // latest validated return.  The Poincare image synchronizes the family; the
@@ -993,9 +1127,13 @@ Vector project_c0_section_with_audit(
   const Vector x = set.get_x();
   const Matrix c_matrix = set.get_C();
   const Vector r0 = set.get_r0();
+  const Matrix b_matrix = set.get_B();
+  const Vector b_coordinates = set.get_r();
+  const Matrix q_matrix = set.m_Q;
+  const Vector q_coordinates = set.m_q;
   const int dimension = x.dimension();
-  const Vector b_part = set.get_B() * set.get_r();
-  const Vector q_part = set.m_Q * set.m_q;
+  const Vector b_part = b_matrix * b_coordinates;
+  const Vector q_part = q_matrix * q_coordinates;
   Vector remainder(dimension);
   for (int i = 0; i < dimension; ++i) {
     if (!capd::intervals::intersection(b_part[i], q_part[i],
@@ -1089,7 +1227,17 @@ Vector project_c0_section_with_audit(
     }
     new_r[i] = sharpened;
   }
-  Set synchronized_set(new_x, dc_mid, r0, new_r, Ival(0));
+  Vector exact_image_remainder = image_remainder;
+  exact_image_remainder[section_coordinate] = Ival(0);
+  const bool structured_section =
+      std::getenv("FABLE_ENDGAME_STRUCTURED_SECTION") != nullptr;
+  Set synchronized_set = structured_section
+      ? make_structured_section_set(
+            new_x, dc_mid, r0, section_derivative, b_matrix,
+            b_coordinates, q_matrix, q_coordinates,
+            anchor_image - new_x + spill, exact_image_remainder,
+            section_coordinate)
+      : Set(new_x, dc_mid, r0, new_r, Ival(0));
 
   const Ival audit_target = Ival(return_time.rightBound());
   Map audit_field =
@@ -1745,13 +1893,16 @@ int main(int argc, char** argv) {
         std::getenv("FABLE_ENDGAME_STRUCTURED_SWITCH") != nullptr;
     const bool synchronize_pair23 =
         std::getenv("FABLE_ENDGAME_PAIR23_SYNC") != nullptr;
+    const bool structured_section =
+        std::getenv("FABLE_ENDGAME_STRUCTURED_SECTION") != nullptr;
     std::cout << "ENDGAME_PARAMS precision_bits=" << precision
               << " tolerance=" << tolerance << " order=" << order
               << " sync_exchange=" << (synchronize_exchange ? 1 : 0)
               << " sync_preswitch=" << (synchronize_preswitch ? 1 : 0)
               << " structured_form_b=" << (structured_form_b ? 1 : 0)
               << " sync_pair23=" << (synchronize_pair23 ? 1 : 0)
-              << " driver=middle_escape_endgame_capd/v12-dense-pair23-sync-2026-08-25"
+              << " structured_section=" << (structured_section ? 1 : 0)
+              << " driver=middle_escape_endgame_capd/v13-structured-section-2026-08-25"
               << "\n" << std::flush;
     const bool graph_mode =
         std::getenv("FABLE_ENDGAME_GRAPH") != nullptr;
