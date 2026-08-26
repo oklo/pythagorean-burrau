@@ -1017,8 +1017,15 @@ caps and independent whole-tube audits.  Its common-clock prefix now ends at
 $t=167/50$, uniformly before the first oriented section and far before the
 exchange spike; a strict graph check requires $w_r<-3/5$ there, and the
 Poincare validation remains responsible for proving the actual fiberwise
-crossings.  A complete pinned control must pass before this route can be used
-on the wider interval.
+crossings.  The first five sections and their tubes passed, but sections 4
+and 5 enlarged the width-$10^{-12}$ hull to $4.74\times10^{-6}$ and
+$1.11\times10^{-5}$, almost entirely additive defect.  Thus transverse timing
+alone does not discharge the economic obligation.  The next localized gate
+is the opt-in in-chart energy projection after sections 4--6.  The analytic
+fiberwise projection lemma already applies; the remaining obligation is a
+complete pinned replay proving that the projection actually reduces the
+section defect without losing any domain, brake-covering, or collision
+margin.
 
 Three independent adversarial passes audited the incoming-tail theorem. They
 found and forced repair of: a nonuniform constant-energy estimate; an invalid

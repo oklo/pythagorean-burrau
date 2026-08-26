@@ -382,6 +382,19 @@ double hull_width(const Vector& s, int n) {
   }
   return w;
 }
+int widest_component(const Vector& s, int n) {
+  int widest = 0;
+  double width = -1;
+  for (int i = 0; i < n; ++i) {
+    const double candidate =
+        bound_double(s[i].rightBound() - s[i].leftBound());
+    if (candidate > width) {
+      widest = i;
+      width = candidate;
+    }
+  }
+  return widest;
+}
 struct PhaseRunner {
   Solver solver;
   std::unique_ptr<TimeMap> tm;
@@ -985,6 +998,38 @@ Map make_pair13_to_pair23_map_form_b(bool fixed_energy_h = false) {
              new_py + ",tp,ww,jd;");
 }
 
+// In-chart projection onto the exact tied energy leaf in pair-{1,3}
+// variables.  Every genuine family fiber is fixed because H=-U0(ww);
+// spurious off-energy points in the graph enclosure may move.  Unlike a
+// velocity reconstruction, this formula has no selected-distance divisor.
+Map make_pair13_energy_projection() {
+  const std::string qden = "(1+ww^2)";
+  const std::string ma = "((1-ww^2)/" + qden + ")";
+  const std::string mb = "(2*ww/" + qden + ")";
+  const std::string inv_m13 = "(" + qden + "/2)";
+  const std::string gx = "(wr^2-wi^2)";
+  const std::string gy = "(2*wr*wi)";
+  const std::string d12x = "(cgx+" + inv_m13 + "*" + gx + ")";
+  const std::string d12y = "(cgy+" + inv_m13 + "*" + gy + ")";
+  const std::string d23x =
+      "(cgx+(" + inv_m13 + "-1)*" + gx + ")";
+  const std::string d23y =
+      "(cgy+(" + inv_m13 + "-1)*" + gy + ")";
+  const std::string r12 = "sqrt(" + d12x + "^2+" + d12y + "^2)";
+  const std::string r23 = "sqrt(" + d23x + "^2+" + d23y + "^2)";
+  const std::string total = "(" + ma + "+" + mb + "+1)";
+  const std::string mu13 = "(" + ma + "/(" + ma + "+1))";
+  const std::string mu_g13 = "(" + mb + "*(" + ma + "+1)/" + total + ")";
+  const std::string ab = "(" + ma + "*" + mb + ")";
+  const std::string u0 = "(" + ab + "+1/" + ab + ")";
+  const std::string projected_h =
+      "((-" + u0 + "-(" + mu_g13 + "/2)*(cpx^2+cpy^2)+" +
+      ab + "/" + r12 + "+" + mb + "/" + r23 + ")/" + mu13 + ")";
+  return Map(std::string(kDirectLcVars) +
+             "fun:wr,wi,zr,zi," + projected_h +
+             ",cgx,cgy,cpx,cpy,tp,ww,jd;");
+}
+
 DirectCorrelatedGraph transform_graph_c1(const DirectCorrelatedGraph& input,
                                          Map transformation) {
   const Vector domain(input.c0_set());
@@ -1242,8 +1287,14 @@ DirectCorrelatedGraph project_graph_c1(
   interval_solver.setAbsoluteTolerance(tolerance);
   interval_solver.setRelativeTolerance(tolerance);
   if (section_coordinate == 0) {
-    interval_solver.setMaxStep(pair23_chart ? Ival(1) / Ival(500)
-                                            : Ival(1) / Ival(2000));
+    const Ival strict_lower = -Ival(2) / Ival(5);
+    const Ival strict_upper = -Ival(3) / Ival(10);
+    const bool strict_exchange =
+        !pair23_chart &&
+        !(section_value.rightBound() < strict_lower.leftBound()) &&
+        !(section_value.leftBound() > strict_upper.rightBound());
+    interval_solver.setMaxStep(strict_exchange ? Ival(1) / Ival(2000)
+                                               : Ival(1) / Ival(500));
   }
   PoincareMap interval_map(interval_solver, section, direction);
   interval_map.setMaxReturnTime(50.0);
@@ -1265,8 +1316,14 @@ DirectCorrelatedGraph project_graph_c1(
   anchor_solver.setAbsoluteTolerance(tolerance);
   anchor_solver.setRelativeTolerance(tolerance);
   if (section_coordinate == 0) {
-    anchor_solver.setMaxStep(pair23_chart ? Ival(1) / Ival(500)
-                                          : Ival(1) / Ival(2000));
+    const Ival strict_lower = -Ival(2) / Ival(5);
+    const Ival strict_upper = -Ival(3) / Ival(10);
+    const bool strict_exchange =
+        !pair23_chart &&
+        !(section_value.rightBound() < strict_lower.leftBound()) &&
+        !(section_value.leftBound() > strict_upper.rightBound());
+    anchor_solver.setMaxStep(strict_exchange ? Ival(1) / Ival(2000)
+                                             : Ival(1) / Ival(500));
   }
   PoincareMap anchor_map(anchor_solver, anchor_section, direction);
   anchor_map.setMaxReturnTime(50.0);
@@ -1338,8 +1395,14 @@ DirectCorrelatedGraph project_graph_c2(
   directional_solver.setAbsoluteTolerance(tolerance);
   directional_solver.setRelativeTolerance(tolerance);
   if (section_coordinate == 0) {
-    directional_solver.setMaxStep(pair23_chart ? Ival(1) / Ival(500)
-                                                : Ival(1) / Ival(2000));
+    const Ival strict_lower = -Ival(2) / Ival(5);
+    const Ival strict_upper = -Ival(3) / Ival(10);
+    const bool strict_exchange =
+        !pair23_chart &&
+        !(section_value.rightBound() < strict_lower.leftBound()) &&
+        !(section_value.leftBound() > strict_upper.rightBound());
+    directional_solver.setMaxStep(strict_exchange ? Ival(1) / Ival(2000)
+                                                  : Ival(1) / Ival(500));
   }
   set_directional_c2_mask(directional_solver, 12, parameter_coordinate);
   C2PoincareMap directional_map(directional_solver, directional_section,
@@ -1367,8 +1430,14 @@ DirectCorrelatedGraph project_graph_c2(
   anchor_solver.setAbsoluteTolerance(tolerance);
   anchor_solver.setRelativeTolerance(tolerance);
   if (section_coordinate == 0) {
-    anchor_solver.setMaxStep(pair23_chart ? Ival(1) / Ival(500)
-                                          : Ival(1) / Ival(2000));
+    const Ival strict_lower = -Ival(2) / Ival(5);
+    const Ival strict_upper = -Ival(3) / Ival(10);
+    const bool strict_exchange =
+        !pair23_chart &&
+        !(section_value.rightBound() < strict_lower.leftBound()) &&
+        !(section_value.leftBound() > strict_upper.rightBound());
+    anchor_solver.setMaxStep(strict_exchange ? Ival(1) / Ival(2000)
+                                             : Ival(1) / Ival(500));
   }
   PoincareMap anchor_map(anchor_solver, anchor_section, direction);
   anchor_map.setMaxReturnTime(50.0);
@@ -1484,6 +1553,8 @@ void print_leg(const char* label, const DirectCorrelatedGraph& graph) {
             << " parameter_spread=" << hull_width(parameter_spread, 12)
             << " quadratic_spread=" << hull_width(quadratic_spread, 12)
             << " defect=" << hull_width(graph.defect, 12)
+            << " hull_component=" << widest_component(hull, 12)
+            << " defect_component=" << widest_component(graph.defect, 12)
             << "\n" << std::flush;
 }
 
@@ -2420,6 +2491,8 @@ int run_endgame(const Ival& u_param, long p, long q, long p2, long q2,
       std::getenv("FABLE_ENDGAME_GRAPH_FIXED_ENERGY_H") != nullptr;
   const bool graph_exchange_sync =
       std::getenv("FABLE_ENDGAME_GRAPH_EXCHANGE_SYNC") != nullptr;
+  const bool graph_exchange_energy_project =
+      std::getenv("FABLE_ENDGAME_GRAPH_EXCHANGE_ENERGY_PROJECT") != nullptr;
   DirectCorrelatedGraph graph = graph_c2
                                     ? make_quadratic_launch_graph(u_param)
                                     : make_direct_launch_graph(u_param);
@@ -2577,6 +2650,13 @@ int run_endgame(const Ival& u_param, long p, long q, long p2, long q2,
         throw std::runtime_error(label +
                                  ": lost orientation or separation");
       }
+      if (graph_exchange_energy_project && ordinal >= 4) {
+        const std::string projection_label =
+            "exchange_energy_projection_" + std::to_string(ordinal);
+        graph = transform_graph(graph, make_pair13_energy_projection());
+        check_switch_state(graph, family, false, false,
+                           projection_label.c_str());
+      }
     }
   } else if (graph_exchange_sandwich) {
     // The nearby pair-{2,3} encounter occurs at tp ~= 3.4515 while the
@@ -2716,6 +2796,12 @@ int main(int argc, char** argv) {
         std::getenv("FABLE_ENDGAME_GRAPH_FIXED_ENERGY_H") != nullptr;
     const bool graph_exchange_sync =
         std::getenv("FABLE_ENDGAME_GRAPH_EXCHANGE_SYNC") != nullptr;
+    const bool graph_exchange_energy_project =
+        std::getenv("FABLE_ENDGAME_GRAPH_EXCHANGE_ENERGY_PROJECT") != nullptr;
+    if (graph_exchange_energy_project && !graph_exchange_sync) {
+      throw std::runtime_error(
+          "graph exchange energy projection requires exchange synchronization");
+    }
     std::cout << "ENDGAME_PARAMS precision_bits=" << precision
               << " tolerance=" << tolerance << " order=" << order
               << " sync_exchange=" << (synchronize_exchange ? 1 : 0)
@@ -2732,7 +2818,9 @@ int main(int argc, char** argv) {
               << (graph_fixed_energy_h ? 1 : 0)
               << " graph_exchange_sync="
               << (graph_exchange_sync ? 1 : 0)
-              << " driver=middle_escape_endgame_capd/v21-exchange-sync-2026-08-26"
+              << " graph_exchange_energy_project="
+              << (graph_exchange_energy_project ? 1 : 0)
+              << " driver=middle_escape_endgame_capd/v22-exchange-energy-2026-08-26"
               << "\n" << std::flush;
     const bool graph_mode =
         std::getenv("FABLE_ENDGAME_GRAPH") != nullptr;

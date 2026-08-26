@@ -172,6 +172,36 @@ alter the Newtonian trajectory.  Starting the target LC field with the
 reconstructed `h` reproduces the same regularized equations on every genuine
 fiber.  Spurious projected points merely enlarge the auxiliary enclosure.
 
+### Same-chart corollary
+
+The lemma does not require a change of Jacobi tree.  On any collision-free
+pair--13 section define $R_{13,E}$ to leave
+$(w,z,G,P,t,u,J)$ fixed and replace only `h` by $h_{13,E}$.  In the direct
+chart,
+
+\[
+ g_{13}=w^2,\qquad
+ q_2-q_1=G+{g_{13}\over A+1},\qquad
+ q_2-q_3=G+\left({1\over A+1}-1\right)g_{13},
+\]
+
+so both required unselected radii are explicit and no division by
+$|g_{13}|$ occurs.  Every genuine tied fiber satisfies
+
+\[
+ R_{13,E}(x(u))=x(u).
+\]
+
+Therefore a rigorous C1 or C2 enclosure of $R_{13,E}(X)$ is a valid
+reconditioning of any ambient section graph $X$.  The same statement holds
+with labels 13 and 23 exchanged.  This is exactly the invariant-projection
+lemma with the ordinary map $F$ equal to the identity.
+
+**Status: PROVED ANALYTICALLY.**  The displayed distance reconstruction is
+the defining pair--13 Jacobi transformation.  The fixed-fiber conclusion is
+the energy identity above.  Exact rational tests independently reconstruct
+both distances and the velocity-defined pair energy.
+
 ## Domain and tube obligations
 
 For a computer-assisted use of the lemma, every following item remains
@@ -204,6 +234,17 @@ FABLE_ENDGAME_GRAPH_FIXED_ENERGY_H=1
 It affects only the experimental Form-B pair--13 to pair--23 switches and the
 experimental pair--23 to pair--13 return.  The established default itinerary
 continues to use velocity reconstruction.
+
+The same-chart experimental flag is
+
+```text
+FABLE_ENDGAME_GRAPH_EXCHANGE_ENERGY_PROJECT=1
+```
+
+It requires `FABLE_ENDGAME_GRAPH_EXCHANGE_SYNC=1` and applies $R_{13,E}$
+after exchange sections 4--6.  It does not alter the default route.  Each
+application is followed by the same full graph-domain, separation, and
+$J<0$ checks used at chart switches.
 
 Exact tests:
 

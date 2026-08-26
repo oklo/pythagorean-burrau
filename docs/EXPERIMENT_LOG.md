@@ -1872,9 +1872,7 @@ it is not a remainder proof.
 - The graph Poincare solvers now inherit the validated synchronizer's strict
   geometric-section step caps, and the independent tube audit dynamically
   caps physical time using the closest unselected pair.  The source compiles
-  against pinned CAPD and all 12 focused exact tests pass.  A width-$10^{-12}$
-  control replay is in progress; no enclosure improvement or widened theorem
-  is claimed until it completes.
+  against pinned CAPD and all focused exact tests pass.
 - The first control attempt launched the first Poincare map from $t=13/4$.
   It validated the complete prefix but was deliberately interrupted after
   measuring the cost of a regularized return of length about $14.5$.  Moving
@@ -1884,3 +1882,21 @@ it is not a remainder proof.
   unless every fiber reaches the oriented section.  The implementation also
   requires the complete entry graph to satisfy $w_r<-3/5$, ruling out an
   unintended later return branch before invoking the first map.
+- The theorem-eligible width-$10^{-12}$ section control validated the first
+  five oriented sections and every swept tube.  Sections 1--3 had hulls
+  $6.07\times10^{-9}$, $2.84\times10^{-8}$, and $1.35\times10^{-6}$.
+  Crossing the pair--23 encounter at section 4 enlarged the hull to
+  $4.74\times10^{-6}$, and section 5 enlarged it again to
+  $1.11\times10^{-5}$, almost entirely additive defect.  This is already
+  $2.5$ times the no-sync fourth-minimum hull before section 6 or `min4`, so
+  the run was deliberately stopped.  Geometric timing is sound but not by
+  itself economical; see `data/middle_c2_exchange_sync_partial.log`.
+- Added an opt-in in-chart fixed-energy projection after exchange sections
+  4--6.  It replaces only `h13` by the exact total-energy formula using the
+  two unselected radii, leaving every genuine tied fiber fixed and avoiding a
+  selected-distance divisor.  The same fiberwise invariant-projection lemma
+  already audited for chart switches proves containment.  A new exact test
+  checks the pair--13 distance conventions; 13 focused tests pass.  Component
+  diagnostics and relaxed $1/500$ caps away from the two hard sections make
+  the next comparison localized and reproducible.  Its CAPD replay remains
+  outstanding.

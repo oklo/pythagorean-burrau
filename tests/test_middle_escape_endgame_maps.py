@@ -243,6 +243,43 @@ def test_fixed_energy_h_reconstruction_on_exact_physical_states():
         ) == 0
 
 
+def test_pair13_in_chart_energy_projection_distances():
+    """The in-chart projection reconstructs exactly the two unselected radii."""
+    a = mass_A(U)
+    inv_m13 = 1 / (a + 1)
+    for positions, velocities in STATES:
+        g13, _, big_g13, p13 = pair13_chart_of(positions, velocities, U)
+        d12 = (
+            big_g13[0] + inv_m13 * g13[0],
+            big_g13[1] + inv_m13 * g13[1],
+        )
+        d23 = (
+            big_g13[0] + (inv_m13 - 1) * g13[0],
+            big_g13[1] + (inv_m13 - 1) * g13[1],
+        )
+        physical_d12 = (
+            positions[1][0] - positions[0][0],
+            positions[1][1] - positions[0][1],
+        )
+        physical_d23 = (
+            positions[1][0] - positions[2][0],
+            positions[1][1] - positions[2][1],
+        )
+        assert _pair_equal(d12, physical_d12)
+        assert _pair_equal(d23, physical_d23)
+
+        energy = physical_energy(positions, velocities, U)
+        projected_h = pair13_h_from_energy(
+            U, energy, p13, _norm(d12), _norm(d23)
+        )
+        h_velocity = (
+            sum(value**2 for value in pair13_chart_of(positions, velocities, U)[1])
+            / 2
+            - (a + 1) / _norm(g13)
+        )
+        assert sp.simplify(projected_h - h_velocity) == 0
+
+
 def test_tied_initial_state_has_prescribed_energy_leaf():
     """The normalized Pythagorean brake family has H=-U0(u) exactly."""
     a, b = mass_A(U), mass_B(U)

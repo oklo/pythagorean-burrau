@@ -1212,3 +1212,30 @@ switch could rescue width lost at the fixed-clock exchange.  It strengthens
 the economic case for a geometric exchange map: synchronize the family before
 the $t\simeq3.4515$ pair--23 passage, then retain the existing energy-projected
 switch and terminal chain.
+
+## Directional C2 exchange sections without invariant projection
+
+**Status:** DISPROVED as an enclosure improvement on the width-$10^{-12}$
+control.  The first five section maps and complete tubes are validated; no
+dynamical statement is disproved.
+
+The six-section itinerary removes the fixed-clock phase direction.  A strict
+entry check at $t=167/50$ proves every graph fiber is still before
+$w_r=-3/5$, after which oriented C2 maps reach the same section sequence used
+by the successful correlated-C0 theorem.  Sections 1--3 remain controlled,
+with hulls $6.07\times10^{-9}$, $2.84\times10^{-8}$, and
+$1.35\times10^{-6}$.  The hard section across the unselected pair--23
+pericenter has hull $4.74\times10^{-6}$ and section 5 has hull
+$1.11\times10^{-5}$.  In both, essentially the entire width is uncorrelated
+additive defect; the quadratic parameter contribution stays below
+$2.2\times10^{-16}$.
+
+The run was stopped while constructing section 6 because its section-5 hull
+was already $2.5$ times the original no-sync `min4` hull before the final
+pair--13 passage.  The compact validated record is
+`data/middle_c2_exchange_sync_partial.log`.  The false lemma is now precise:
+removing return-time sensitivity does not preserve the exact energy
+correlation when the ambient Poincare derivative transports a freely boxed
+defect.  The next repair is not another section.  It is the already-proved
+fixed-energy projection applied *in the same pair--13 chart* immediately
+after the hard section, before that defect is propagated again.
