@@ -1004,6 +1004,18 @@ whether invariant reconditioning at the final established Form-B switch alone
 reduces the terminal defect, and, if so, how far that improvement scales in
 parameter width before true section sensitivity dominates.
 
+That question is now answered.  Final-switch-only energy reconstruction
+reduces the width-$10^{-12}$ terminal hull by $11.5\%$, but on the proposed
+single interval $[0.29,0.2900001]$ the earlier fixed-clock exchange is already
+fatal: the graph hull grows from $1.20521\times10^{-3}$ at $t=3.4$ to
+$0.547819$ at $t=3.45$, and the next fourth-minimum map fails closed.  The
+localized obligation is therefore no longer invariant reconstruction.  It is
+to validate the directional C2 graph through a transverse exchange itinerary
+before this phase spike.  The opt-in route now uses the six pair--13 LC
+sections $w_r=-3/5,-1/2,-2/5,-3/10,-1/5,0$, with close-unselected-pair step
+caps and independent whole-tube audits.  A complete pinned control must pass
+before this route can be used on the wider interval.
+
 Three independent adversarial passes audited the incoming-tail theorem. They
 found and forced repair of: a nonuniform constant-energy estimate; an invalid
 partial-LC-block physical-time bound; unspecified oscillator “actions”; a
