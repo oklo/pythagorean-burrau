@@ -1030,6 +1030,55 @@ Map make_pair13_energy_projection() {
              ",cgx,cgy,cpx,cpy,tp,ww,jd;");
 }
 
+// In-chart projection onto the joint tied invariant manifold in pair-{1,3}
+// variables.  First remove the spurious total-angular-momentum component of
+// the complementary velocity while preserving G.P, then reconstruct h from
+// H=-U0(ww), and finally reconstruct jd=dI/dt.  Every genuine tied fiber is
+// fixed.  The only additional denominator is |G|^2, checked strictly before
+// this map is evaluated.
+Map make_pair13_joint_invariant_projection() {
+  const std::string qden = "(1+ww^2)";
+  const std::string ma = "((1-ww^2)/" + qden + ")";
+  const std::string mb = "(2*ww/" + qden + ")";
+  const std::string inv_m13 = "(" + qden + "/2)";
+  const std::string total = "(" + ma + "+" + mb + "+1)";
+  const std::string mu13 = "(" + ma + "/(" + ma + "+1))";
+  const std::string mu_g13 = "(" + mb + "*(" + ma + "+1)/" + total + ")";
+  const std::string spin = "(wr*zi-wi*zr)";
+  const std::string big_g2 = "(cgx^2+cgy^2)";
+  const std::string old_cross = "(cgx*cpy-cgy*cpx)";
+  const std::string target_cross =
+      "(-2*" + mu13 + "*" + spin + "/" + mu_g13 + ")";
+  const std::string correction =
+      "((" + target_cross + "-" + old_cross + ")/" + big_g2 + ")";
+  const std::string projected_px = "(cpx-cgy*" + correction + ")";
+  const std::string projected_py = "(cpy+cgx*" + correction + ")";
+
+  const std::string gx = "(wr^2-wi^2)";
+  const std::string gy = "(2*wr*wi)";
+  const std::string d12x = "(cgx+" + inv_m13 + "*" + gx + ")";
+  const std::string d12y = "(cgy+" + inv_m13 + "*" + gy + ")";
+  const std::string d23x =
+      "(cgx+(" + inv_m13 + "-1)*" + gx + ")";
+  const std::string d23y =
+      "(cgy+(" + inv_m13 + "-1)*" + gy + ")";
+  const std::string r12 = "sqrt(" + d12x + "^2+" + d12y + "^2)";
+  const std::string r23 = "sqrt(" + d23x + "^2+" + d23y + "^2)";
+  const std::string ab = "(" + ma + "*" + mb + ")";
+  const std::string u0 = "(" + ab + "+1/" + ab + ")";
+  const std::string projected_h =
+      "((-" + u0 + "-(" + mu_g13 + "/2)*(" + projected_px + "^2+" +
+      projected_py + "^2)+" + ab + "/" + r12 + "+" + mb + "/" +
+      r23 + ")/" + mu13 + ")";
+  const std::string projected_jd =
+      "(4*" + mu13 + "*(wr*zr+wi*zi)+2*" + mu_g13 + "*(cgx*" +
+      projected_px + "+cgy*" + projected_py + "))";
+  return Map(std::string(kDirectLcVars) +
+             "fun:wr,wi,zr,zi," + projected_h +
+             ",cgx,cgy," + projected_px + "," + projected_py +
+             ",tp,ww," + projected_jd + ";");
+}
+
 DirectCorrelatedGraph transform_graph_c1(const DirectCorrelatedGraph& input,
                                          Map transformation) {
   const Vector domain(input.c0_set());
@@ -2493,6 +2542,8 @@ int run_endgame(const Ival& u_param, long p, long q, long p2, long q2,
       std::getenv("FABLE_ENDGAME_GRAPH_EXCHANGE_SYNC") != nullptr;
   const bool graph_exchange_energy_project =
       std::getenv("FABLE_ENDGAME_GRAPH_EXCHANGE_ENERGY_PROJECT") != nullptr;
+  const bool graph_exchange_invariant_project =
+      std::getenv("FABLE_ENDGAME_GRAPH_EXCHANGE_INVARIANT_PROJECT") != nullptr;
   DirectCorrelatedGraph graph = graph_c2
                                     ? make_quadratic_launch_graph(u_param)
                                     : make_direct_launch_graph(u_param);
@@ -2650,10 +2701,26 @@ int run_endgame(const Ival& u_param, long p, long q, long p2, long q2,
         throw std::runtime_error(label +
                                  ": lost orientation or separation");
       }
-      if (graph_exchange_energy_project && ordinal >= 4) {
+      if ((graph_exchange_energy_project || graph_exchange_invariant_project) &&
+          ordinal >= 4) {
         const std::string projection_label =
-            "exchange_energy_projection_" + std::to_string(ordinal);
-        graph = transform_graph(graph, make_pair13_energy_projection());
+            std::string(graph_exchange_invariant_project
+                            ? "exchange_invariant_projection_"
+                            : "exchange_energy_projection_") +
+            std::to_string(ordinal);
+        if (graph_exchange_invariant_project) {
+          const Vector domain = graph_hull(graph);
+          const Ival complement_radius_squared =
+              domain[5] * domain[5] + domain[6] * domain[6];
+          if (!(complement_radius_squared.leftBound() > 0)) {
+            throw std::runtime_error(
+                projection_label + ": complement Jacobi vector may vanish");
+          }
+          graph = transform_graph(
+              graph, make_pair13_joint_invariant_projection());
+        } else {
+          graph = transform_graph(graph, make_pair13_energy_projection());
+        }
         check_switch_state(graph, family, false, false,
                            projection_label.c_str());
       }
@@ -2798,9 +2865,19 @@ int main(int argc, char** argv) {
         std::getenv("FABLE_ENDGAME_GRAPH_EXCHANGE_SYNC") != nullptr;
     const bool graph_exchange_energy_project =
         std::getenv("FABLE_ENDGAME_GRAPH_EXCHANGE_ENERGY_PROJECT") != nullptr;
+    const bool graph_exchange_invariant_project =
+        std::getenv("FABLE_ENDGAME_GRAPH_EXCHANGE_INVARIANT_PROJECT") != nullptr;
     if (graph_exchange_energy_project && !graph_exchange_sync) {
       throw std::runtime_error(
           "graph exchange energy projection requires exchange synchronization");
+    }
+    if (graph_exchange_invariant_project && !graph_exchange_sync) {
+      throw std::runtime_error(
+          "graph exchange invariant projection requires exchange synchronization");
+    }
+    if (graph_exchange_energy_project && graph_exchange_invariant_project) {
+      throw std::runtime_error(
+          "choose either energy-only or joint invariant exchange projection");
     }
     std::cout << "ENDGAME_PARAMS precision_bits=" << precision
               << " tolerance=" << tolerance << " order=" << order
@@ -2820,7 +2897,9 @@ int main(int argc, char** argv) {
               << (graph_exchange_sync ? 1 : 0)
               << " graph_exchange_energy_project="
               << (graph_exchange_energy_project ? 1 : 0)
-              << " driver=middle_escape_endgame_capd/v22-exchange-energy-2026-08-26"
+              << " graph_exchange_invariant_project="
+              << (graph_exchange_invariant_project ? 1 : 0)
+              << " driver=middle_escape_endgame_capd/v23-joint-invariant-2026-08-26"
               << "\n" << std::flush;
     const bool graph_mode =
         std::getenv("FABLE_ENDGAME_GRAPH") != nullptr;

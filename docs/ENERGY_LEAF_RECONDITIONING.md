@@ -318,6 +318,20 @@ after exchange sections 4--6.  It does not alter the default route.  Each
 application is followed by the same full graph-domain, separation, and
 $J<0$ checks used at chart switches.
 
+The stronger joint-invariant experimental flag is
+
+```text
+FABLE_ENDGAME_GRAPH_EXCHANGE_INVARIANT_PROJECT=1
+```
+
+It is mutually exclusive with the energy-only flag, requires exchange
+synchronization, and composes the zero-angular-momentum, fixed-energy, and
+`jd` reconstructions above after sections 4--6.  Before each C2 map
+evaluation the driver requires the complete graph enclosure to have
+$|G|^2>0$; afterward it repeats the ordinary chart-domain, three-separation,
+and $J<0$ checks.  This route is experimental until a complete pinned replay
+passes.
+
 Exact tests:
 
 ```sh
@@ -331,8 +345,9 @@ The first validated benchmark should combine
 FABLE_ENDGAME_GRAPH=1
 FABLE_ENDGAME_GRAPH_C2=1
 FABLE_ENDGAME_GRAPH_PAIR23_SYNC=1
-FABLE_ENDGAME_GRAPH_EXCHANGE_SANDWICH=1
 FABLE_ENDGAME_GRAPH_FIXED_ENERGY_H=1
+FABLE_ENDGAME_GRAPH_EXCHANGE_SYNC=1
+FABLE_ENDGAME_GRAPH_EXCHANGE_ENERGY_PROJECT=1
 ```
 
 on the already-proved width-$10^{-12}$ control.  A local hull reduction is an
