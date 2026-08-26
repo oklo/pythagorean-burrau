@@ -107,3 +107,48 @@ def test_pg2_six_directional_form_update_is_exact_for_quadratic_maps():
             + quad(row, q) * delta**4
         )
         assert sp.expand(exact - t_new * delta - q_new * delta**2 - remainder) == 0
+
+
+def test_affine_remainder_generator_keeps_the_linear_image_exact():
+    """Only quadratic terms spill when one remainder generator is retained."""
+    delta, xi = sp.symbols("delta xi")
+    t0, t1, q0, q1, g0, g1 = sp.symbols(
+        "t0 t1 q0 q1 g0 g1"
+    )
+    t = sp.Matrix([t0, t1])
+    q = sp.Matrix([q0, q1])
+    g = sp.Matrix([g0, g1])
+    jac = sp.Matrix([[2, -3], [5, 7]])
+    hess = [
+        (sp.Rational(2, 3), sp.Rational(-5, 7), sp.Rational(11, 13)),
+        (sp.Rational(-3, 8), sp.Rational(7, 9), sp.Rational(4, 5)),
+    ]
+
+    def quad(row, left, right=None):
+        h00, h01, h11 = hess[row]
+        if right is None:
+            return h00 * left[0] ** 2 + h01 * left[0] * left[1] + h11 * left[1] ** 2
+        return (
+            2 * h00 * left[0] * right[0]
+            + h01 * (left[0] * right[1] + left[1] * right[0])
+            + 2 * h11 * left[1] * right[1]
+        )
+
+    h = t * delta + q * delta**2 + g * xi
+    for row in range(2):
+        exact = sp.expand((jac * h)[row] + quad(row, h))
+        retained_generator = (jac * g)[row] * xi
+        t_new = (jac * t)[row] + quad(row, t, g) * xi
+        q_new = (jac * q)[row] + quad(row, t) + quad(row, q, g) * xi
+        nonlinear_remainder = (
+            quad(row, g) * xi**2
+            + quad(row, t, q) * delta**3
+            + quad(row, q) * delta**4
+        )
+        assert sp.expand(
+            exact
+            - retained_generator
+            - t_new * delta
+            - q_new * delta**2
+            - nonlinear_remainder
+        ) == 0

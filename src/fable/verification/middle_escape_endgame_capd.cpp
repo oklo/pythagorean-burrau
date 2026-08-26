@@ -71,6 +71,7 @@
 #include <memory>
 #include <stdexcept>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "capd/dynsys/DynSysMap.h"
@@ -596,17 +597,62 @@ struct DirectCorrelatedGraph {
   // remains bit-for-bit represented by the first five fields above.
   Vector quadratic;
   bool quadratic_mode = false;
+  // Optional rectangular affine remainder
+  //   sum_j remainder_generators[j] * xi_j + defect, xi_j in [-1,1].
+  // The generators are never inverted after a rank-deficient section map.
+  std::vector<Vector> remainder_generators;
+  bool affine_remainder_mode = false;
+
+  Vector generator_hull() const {
+    const int dimension = anchor.dimension();
+    Vector result(dimension);
+    const Ival unit(-1, 1);
+    for (const Vector& generator : remainder_generators) {
+      for (int row = 0; row < dimension; ++row) {
+        result[row] += generator[row] * unit;
+      }
+    }
+    return result;
+  }
+
+  Vector remainder_hull() const {
+    Vector result = defect;
+    if (affine_remainder_mode) result += generator_hull();
+    return result;
+  }
+
+  void lift_defect_to_generators() {
+    if (!affine_remainder_mode) return;
+    const int dimension = anchor.dimension();
+    for (int row = 0; row < dimension; ++row) {
+      if (!defect[row].contains(Ival(0))) {
+        throw std::runtime_error(
+            "affine remainder residual is not centered");
+      }
+      const capd::MpFloat left_radius = -defect[row].leftBound();
+      const capd::MpFloat right_radius = defect[row].rightBound();
+      const capd::MpFloat radius =
+          left_radius > right_radius ? left_radius : right_radius;
+      if (radius > capd::MpFloat(0.0)) {
+        Vector generator(dimension);
+        generator[row] = Ival(radius);
+        remainder_generators.push_back(generator);
+      }
+      defect[row] = Ival(0);
+    }
+  }
 
   Set c0_set() const {
     const int dimension = anchor.dimension();
     Vector x(dimension), r0(dimension), r(dimension);
     Matrix c(dimension, dimension), b(dimension, dimension);
+    const Vector full_remainder = remainder_hull();
     for (int row = 0; row < dimension; ++row) {
       const Ival center =
           (Ival(anchor[row].leftBound()) + Ival(anchor[row].rightBound())) /
           2;
       x[row] = center;
-      r[row] = defect[row] + (anchor[row] - center);
+      r[row] = full_remainder[row] + (anchor[row] - center);
       if (quadratic_mode) {
         r[row] += quadratic[row] *
                   square_interval(u_range - u_center);
@@ -627,12 +673,13 @@ struct DirectCorrelatedGraph {
     const int dimension = anchor.dimension();
     Vector x(dimension), r0(dimension), r(dimension);
     Matrix c(dimension, dimension), b(dimension, dimension);
+    const Vector full_remainder = remainder_hull();
     for (int row = 0; row < dimension; ++row) {
       const Ival center =
           (Ival(anchor[row].leftBound()) + Ival(anchor[row].rightBound())) /
           2;
       x[row] = center;
-      r[row] = defect[row] + (anchor[row] - center);
+      r[row] = full_remainder[row] + (anchor[row] - center);
       if (quadratic_mode) {
         r[row] += quadratic[row] *
                   square_interval(u_range - u_center);
@@ -655,10 +702,11 @@ struct DirectCorrelatedGraph {
     Matrix c(dimension, dimension), b(dimension, dimension);
     const Ival deviation = u_range - u_center;
     const Ival deviation_squared = square_interval(deviation);
+    const Vector full_remainder = remainder_hull();
     for (int row = 0; row < dimension; ++row) {
       const Ival center = anchor[row].mid();
       x[row] = center;
-      r[row] = defect[row] + (anchor[row] - center);
+      r[row] = full_remainder[row] + (anchor[row] - center);
       if (quadratic_mode) {
         r[row] += quadratic[row] * deviation_squared;
       }
@@ -691,9 +739,10 @@ struct DirectCorrelatedGraph {
     Matrix initial_derivative = Matrix::Identity(dimension);
     Hessian initial_quadratic(dimension, dimension);
     constexpr int parameter_coordinate = 10;
+    const Vector full_remainder = remainder_hull();
     for (int row = 0; row < dimension; ++row) {
       x[row] = anchor[row].mid();
-      r[row] = defect[row] + (anchor[row] - x[row]) +
+      r[row] = full_remainder[row] + (anchor[row] - x[row]) +
                quadratic[row] * deviation_squared;
       r[row] = capd::intervals::intervalHull(r[row], Ival(0));
       r0[row] = Ival(0);
@@ -735,9 +784,10 @@ struct DirectCorrelatedGraph {
     Matrix c(dimension, dimension), b(dimension, dimension);
     Matrix initial_derivative(dimension, dimension);
     Hessian initial_quadratic(dimension, dimension);
+    const Vector full_remainder = remainder_hull();
     for (int row = 0; row < dimension; ++row) {
       x[row] = anchor[row].mid();
-      r[row] = defect[row] + (anchor[row] - x[row]) +
+      r[row] = full_remainder[row] + (anchor[row] - x[row]) +
                quadratic[row] * deviation_squared;
       r[row] = capd::intervals::intervalHull(r[row], Ival(0));
       r0[row] = Ival(0);
@@ -749,7 +799,7 @@ struct DirectCorrelatedGraph {
       c[row][0] = tangent[row];
       initial_derivative[row][0] = tangent[row];
       initial_derivative[row][1] = quadratic[row];
-      initial_derivative[row][2] = defect[row];
+      initial_derivative[row][2] = full_remainder[row];
     }
     r0[0] = deviation;
     C2Set::C0BaseSet c0(x, c, r0, b, r);
@@ -1257,7 +1307,7 @@ DirectCorrelatedGraph transform_graph_c2(const DirectCorrelatedGraph& input,
   const Ival deviation = input.u_range - input.u_center;
   const Ival deviation_squared = square_interval(deviation);
   const Vector nonlinear_input =
-      input.quadratic * deviation_squared + input.defect;
+      input.quadratic * deviation_squared + input.remainder_hull();
   const Vector linear_input = input.tangent * deviation;
   const Vector raw_tangent = anchor_derivative * input.tangent;
   const Vector raw_quadratic =
@@ -1268,6 +1318,24 @@ DirectCorrelatedGraph transform_graph_c2(const DirectCorrelatedGraph& input,
       domain_quadratic, linear_input, nonlinear_input);
   const Vector nonlinear_defect =
       homogeneous_quadratic(domain_quadratic, nonlinear_input);
+
+  std::vector<Vector> output_generators;
+  Vector generator_spill(dimension), output_generator_hull(dimension);
+  if (input.affine_remainder_mode) {
+    const Ival unit(-1, 1);
+    output_generators.reserve(input.remainder_generators.size());
+    for (const Vector& generator : input.remainder_generators) {
+      const Vector raw_generator = anchor_derivative * generator;
+      Vector point_generator(dimension);
+      for (int row = 0; row < dimension; ++row) {
+        point_generator[row] = raw_generator[row].mid();
+        generator_spill[row] +=
+            (raw_generator[row] - point_generator[row]) * unit;
+        output_generator_hull[row] += point_generator[row] * unit;
+      }
+      output_generators.push_back(point_generator);
+    }
+  }
 
   Vector tangent_spill(dimension), quadratic_spill(dimension);
   Vector output_tangent =
@@ -1280,10 +1348,11 @@ DirectCorrelatedGraph transform_graph_c2(const DirectCorrelatedGraph& input,
     output_defect[i] = (anchor_image[i] - output_anchor[i]) +
                        mapped_defect[i] + tangent_spill[i] +
                        quadratic_spill[i] + cross_defect[i] +
-                       nonlinear_defect[i];
+                       nonlinear_defect[i] + generator_spill[i];
     const Ival direct_defect = direct_image[i] - output_anchor[i] -
                                output_tangent[i] * deviation -
-                               output_quadratic[i] * deviation_squared;
+                               output_quadratic[i] * deviation_squared -
+                               output_generator_hull[i];
     Ival sharpened;
     if (!capd::intervals::intersection(output_defect[i], direct_defect,
                                         sharpened)) {
@@ -1297,8 +1366,14 @@ DirectCorrelatedGraph transform_graph_c2(const DirectCorrelatedGraph& input,
   output_tangent[10] = Ival(1);
   output_quadratic[10] = Ival(0);
   output_defect[10] = Ival(0);
-  return {output_anchor, output_tangent, output_defect,
-          input.u_range, input.u_center, output_quadratic, true};
+  for (Vector& generator : output_generators) generator[10] = Ival(0);
+  DirectCorrelatedGraph output{
+      output_anchor, output_tangent, output_defect,
+      input.u_range, input.u_center, output_quadratic, true};
+  output.remainder_generators = std::move(output_generators);
+  output.affine_remainder_mode = input.affine_remainder_mode;
+  output.lift_defect_to_generators();
+  return output;
 }
 
 DirectCorrelatedGraph transform_graph(const DirectCorrelatedGraph& input,
@@ -1772,6 +1847,25 @@ DirectCorrelatedGraph project_graph_pg2(
       anchor_section_derivative * input.quadratic;
   const Vector linear_defect = anchor_section_derivative * input.defect;
 
+  std::vector<Vector> output_generators;
+  Vector generator_spill(dimension), output_generator_hull(dimension);
+  if (input.affine_remainder_mode) {
+    const Ival unit(-1, 1);
+    output_generators.reserve(input.remainder_generators.size());
+    for (const Vector& generator : input.remainder_generators) {
+      const Vector raw_generator =
+          anchor_section_derivative * generator;
+      Vector point_generator(dimension);
+      for (int row = 0; row < dimension; ++row) {
+        point_generator[row] = raw_generator[row].mid();
+        generator_spill[row] +=
+            (raw_generator[row] - point_generator[row]) * unit;
+        output_generator_hull[row] += point_generator[row] * unit;
+      }
+      output_generators.push_back(point_generator);
+    }
+  }
+
   Vector raw_tangent(dimension), raw_quadratic(dimension);
   Vector raw_defect(dimension), output_anchor(dimension);
   for (int row = 0; row < dimension; ++row) {
@@ -1791,7 +1885,7 @@ DirectCorrelatedGraph project_graph_pg2(
     raw_quadratic[row] = linear_quadratic[row] + q_tt + c_qe;
     raw_defect[row] = linear_defect[row] + q_ee +
                       c_tq * deviation_cubed +
-                      q_qq * deviation_fourth;
+                      q_qq * deviation_fourth + generator_spill[row];
     output_anchor[row] = anchor_image[row].mid();
   }
 
@@ -1808,7 +1902,8 @@ DirectCorrelatedGraph project_graph_pg2(
     const Ival direct_defect =
         direct_image[row] - output_anchor[row] -
         output_tangent[row] * deviation -
-        output_quadratic[row] * deviation_squared;
+        output_quadratic[row] * deviation_squared -
+        output_generator_hull[row];
     Ival sharpened;
     if (!capd::intervals::intersection(output_defect[row], direct_defect,
                                         sharpened)) {
@@ -1827,8 +1922,17 @@ DirectCorrelatedGraph project_graph_pg2(
   output_tangent[10] = Ival(1);
   output_quadratic[10] = Ival(0);
   output_defect[10] = Ival(0);
-  return {output_anchor, output_tangent, output_defect,
-          input.u_range, input.u_center, output_quadratic, true};
+  for (Vector& generator : output_generators) {
+    generator[section_coordinate] = Ival(0);
+    generator[10] = Ival(0);
+  }
+  DirectCorrelatedGraph output{
+      output_anchor, output_tangent, output_defect,
+      input.u_range, input.u_center, output_quadratic, true};
+  output.remainder_generators = std::move(output_generators);
+  output.affine_remainder_mode = input.affine_remainder_mode;
+  output.lift_defect_to_generators();
+  return output;
 }
 
 DirectCorrelatedGraph project_graph(
@@ -1855,9 +1959,10 @@ DirectCorrelatedGraph project_graph(
 Vector graph_hull(const DirectCorrelatedGraph& graph) {
   Vector hull(12);
   const Ival deviation = graph.u_range - graph.u_center;
+  const Vector remainder = graph.remainder_hull();
   for (int i = 0; i < 12; ++i) {
     hull[i] = graph.anchor[i] + graph.tangent[i] * deviation +
-              graph.defect[i];
+              remainder[i];
     if (graph.quadratic_mode) {
       hull[i] += graph.quadratic[i] * square_interval(deviation);
     }
@@ -1867,6 +1972,7 @@ Vector graph_hull(const DirectCorrelatedGraph& graph) {
 
 void print_leg(const char* label, const DirectCorrelatedGraph& graph) {
   const Vector hull = graph_hull(graph);
+  const Vector remainder = graph.remainder_hull();
   const Vector parameter_spread =
       graph.tangent * (graph.u_range - graph.u_center);
   Vector quadratic_spread(12);
@@ -1882,9 +1988,10 @@ void print_leg(const char* label, const DirectCorrelatedGraph& graph) {
             << hull_width(hull, 12)
             << " parameter_spread=" << hull_width(parameter_spread, 12)
             << " quadratic_spread=" << hull_width(quadratic_spread, 12)
-            << " defect=" << hull_width(graph.defect, 12)
+            << " defect=" << hull_width(remainder, 12)
+            << " generators=" << graph.remainder_generators.size()
             << " hull_component=" << widest_component(hull, 12)
-            << " defect_component=" << widest_component(graph.defect, 12)
+            << " defect_component=" << widest_component(remainder, 12)
             << "\n" << std::flush;
 }
 
@@ -2817,6 +2924,8 @@ int run_endgame(const Ival& u_param, long p, long q, long p2, long q2,
 
   const bool graph_c2 =
       std::getenv("FABLE_ENDGAME_GRAPH_C2") != nullptr;
+  const bool graph_affine_remainder =
+      std::getenv("FABLE_ENDGAME_GRAPH_AFFINE_REMAINDER") != nullptr;
   const bool graph_fixed_energy_h =
       std::getenv("FABLE_ENDGAME_GRAPH_FIXED_ENERGY_H") != nullptr;
   const bool graph_exchange_sync =
@@ -2830,6 +2939,10 @@ int run_endgame(const Ival& u_param, long p, long q, long p2, long q2,
   DirectCorrelatedGraph graph = graph_c2
                                     ? make_quadratic_launch_graph(u_param)
                                     : make_direct_launch_graph(u_param);
+  if (graph_affine_remainder) {
+    graph.affine_remainder_mode = true;
+    graph.lift_defect_to_generators();
+  }
   const auto MP = capd::poincare::MinusPlus;
   const auto PM = capd::poincare::PlusMinus;
 
@@ -3194,6 +3307,8 @@ int main(int argc, char** argv) {
         std::getenv("FABLE_ENDGAME_GRAPH_C2") != nullptr;
     const bool graph_pg2 =
         std::getenv("FABLE_ENDGAME_GRAPH_PG2") != nullptr;
+    const bool graph_affine_remainder =
+        std::getenv("FABLE_ENDGAME_GRAPH_AFFINE_REMAINDER") != nullptr;
     const bool graph_exchange_sandwich =
         std::getenv("FABLE_ENDGAME_GRAPH_EXCHANGE_SANDWICH") != nullptr;
     const bool graph_fixed_energy_h =
@@ -3208,6 +3323,10 @@ int main(int argc, char** argv) {
         std::getenv("FABLE_ENDGAME_GRAPH_EXCHANGE_VELOCITY_PROJECT") != nullptr;
     if (graph_pg2 && !graph_c2) {
       throw std::runtime_error("PG2 graph requires directional C2 mode");
+    }
+    if (graph_affine_remainder && (!graph_pg2 || !graph_c2)) {
+      throw std::runtime_error(
+          "affine remainder requires masked PG2 and directional C2 modes");
     }
     if (graph_exchange_energy_project && !graph_exchange_sync) {
       throw std::runtime_error(
@@ -3251,6 +3370,8 @@ int main(int argc, char** argv) {
               << " graph_tangent_split=" << (graph_tangent_split ? 1 : 0)
               << " graph_c2=" << (graph_c2 ? 1 : 0)
               << " graph_pg2=" << (graph_pg2 ? 1 : 0)
+              << " graph_affine_remainder="
+              << (graph_affine_remainder ? 1 : 0)
               << " graph_exchange_sandwich="
               << (graph_exchange_sandwich ? 1 : 0)
               << " graph_fixed_energy_h="
@@ -3263,7 +3384,7 @@ int main(int argc, char** argv) {
               << (graph_exchange_invariant_project ? 1 : 0)
               << " graph_exchange_velocity_project="
               << (graph_exchange_velocity_project ? 1 : 0)
-              << " driver=middle_escape_endgame_capd/v25-masked-pg2-2026-08-26"
+              << " driver=middle_escape_endgame_capd/v26-affine-remainder-2026-08-26"
               << "\n" << std::flush;
     const bool graph_mode =
         std::getenv("FABLE_ENDGAME_GRAPH") != nullptr;
