@@ -319,3 +319,20 @@ audit passes.  Interrupted and rejected artifacts are preserved as
 `.failed.log`; an already completed tile is skipped only after being audited
 again.  The driver stops at the first failure by default so that the interval
 can be classified or subdivided rather than silently leaving a gap.
+
+### First translated tile
+
+The next exact tile, $[0.290001,0.290002]$, also completed all 85 graph
+images and the terminal certificate.  Its fail-closed audit reports maximum
+hull $0.08993637831545587$, maximum affine remainder
+$0.016820495729436537$, and terminal margin $2.9754959297016152$.  In
+particular, translation by $10^{-6}$ did not worsen the hard-exchange hull;
+the final-section hull remained essentially stationary near $0.0248$.
+
+The complete artifact is
+`data/middle_affine_pg2_tile_290001_290002_full.log` (SHA-256
+`f2b75caae96fc1905f56c60a4c1b79445c3f4fbb870bb928ccb8a49d5dcf92d1`).
+The union with the first tile is therefore a gap-free candidate interval
+$[0.29,0.290002]$.  This is still subject to the same independent audit of
+Theorem AGR and its CAPD implementation; adjacent numerical success does not
+remove that logical gate or imply that all later translations will pass.

@@ -2048,3 +2048,32 @@ it is not a remainder proof.
   would cover $[0.29,0.29002]$.  This is an economic estimate only; translated
   tiles may have different event or enclosure margins and must be certified
   independently.
+
+## 2026-08-26: first translated width-$10^{-6}$ tile passes
+
+- The exact adjacent interval $[0.290001,0.290002]$ completed the pinned
+  85-image affine-generator itinerary, every independent swept-tube audit,
+  and the terminal escape certificate.  The executable returned zero, and
+  the separate fail-closed parser accepted the complete log.
+- Auditor summary: 85 graph images, 852 terminal generators, maximum hull
+  $0.08993637831545587$, maximum nonlinear defect
+  $0.016820495729436537$, and terminal margin
+  $2.9754959297016152$.  Across final sections 12--21, the hull stayed between
+  $0.02470$ and $0.02484$ and the defect near $0.0100$--$0.0102$, so the
+  enclosure did not exhibit secular wrapping growth.
+- Artifact: `data/middle_affine_pg2_tile_290001_290002_full.log`, SHA-256
+  `f2b75caae96fc1905f56c60a4c1b79445c3f4fbb870bb928ccb8a49d5dcf92d1`.
+  Reproduction/audit command:
+
+  ```text
+  python3 scripts/audit_affine_endgame_log.py \
+    data/middle_affine_pg2_tile_290001_290002_full.log \
+    --expected-left 290001/1000000 --expected-right 290002/1000000
+  ```
+
+- Together with the preceding one-set certificate, this is a gap-free
+  **COMPUTER-ASSISTED THEOREM CANDIDATE** on $[0.29,0.290002]$.  It remains a
+  **VALIDATED NUMERICAL RESULT**, not a promoted theorem, until the independent
+  affine-generator algebra/source audit is complete.  Conditional on that
+  gate, the explicit family $u_k=29/100+1/(1000k)$ would be covered for every
+  $k\ge500$.

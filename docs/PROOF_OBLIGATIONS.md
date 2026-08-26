@@ -1093,6 +1093,14 @@ gate, the next global obligation is a deterministic translated-tile campaign
 over $[0.290001,0.29002]$, with adaptive subdivision rather than any assumed
 uniform width.
 
+The first translated tile $[0.290001,0.290002]$ has now passed independently,
+with maximum hull $0.08994$, maximum defect $0.01682$, and terminal margin
+$2.9755$.  Its exact left endpoint is the preceding tile's exact right
+endpoint, so the candidate union has no gap.  The obligation is unchanged:
+the affine-generator audit must precede theorem promotion, and the remaining
+translated tiles through $0.29002$ must each pass (or be replaced by an exact
+gap-free subdivision) before the committed middle block is covered.
+
 Three independent adversarial passes audited the incoming-tail theorem. They
 found and forced repair of: a nonuniform constant-energy estimate; an invalid
 partial-LC-block physical-time bound; unspecified oscillator “actions”; a
