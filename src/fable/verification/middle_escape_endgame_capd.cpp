@@ -2993,6 +2993,18 @@ int main(int argc, char** argv) {
       throw std::runtime_error(
           "choose only one exchange invariant projection");
     }
+    // Parse the opt-in static map before the expensive validated prefix, so
+    // a formula typo fails immediately rather than at exchange section 4.
+    if (graph_exchange_energy_project) {
+      Map smoke = make_pair13_energy_projection();
+      smoke.setDegree(2);
+    } else if (graph_exchange_invariant_project) {
+      Map smoke = make_pair13_joint_invariant_projection();
+      smoke.setDegree(2);
+    } else if (graph_exchange_velocity_project) {
+      Map smoke = make_pair13_velocity_invariant_projection();
+      smoke.setDegree(2);
+    }
     std::cout << "ENDGAME_PARAMS precision_bits=" << precision
               << " tolerance=" << tolerance << " order=" << order
               << " sync_exchange=" << (synchronize_exchange ? 1 : 0)
