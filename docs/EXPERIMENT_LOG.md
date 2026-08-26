@@ -1863,7 +1863,8 @@ it is not a remainder proof.
   computational failure, not a theorem or evidence for a brake.  The compact
   record is `data/middle_c2_energy_h_width_1e7_failure_summary.log`.
 - Added an opt-in `FABLE_ENDGAME_GRAPH_EXCHANGE_SYNC=1` route.  It stops the
-  common-clock itinerary at $t=13/4$ and projects the directional C2 graph
+  common-clock itinerary at $t=167/50$, uniformly before the first section
+  near $t=3.34213$, and projects the directional C2 graph
   through the six already reconnoitered pair--13 LC sections
   $w_r=-3/5,-1/2,-2/5,-3/10,-1/5,0$, before returning to the established
   fourth-minimum, Form-B, pair--23-section, and terminal chain.  Each section
@@ -1874,3 +1875,10 @@ it is not a remainder proof.
   against pinned CAPD and all 12 focused exact tests pass.  A width-$10^{-12}$
   control replay is in progress; no enclosure improvement or widened theorem
   is claimed until it completes.
+- The first control attempt launched the first Poincare map from $t=13/4$.
+  It validated the complete prefix but was deliberately interrupted after
+  measuring the cost of a regularized return of length about $14.5$.  Moving
+  the common-clock prefix to $167/50$ is a cost-only reconditioning: ordinary
+  and prior interval timing put the first $w_r=-3/5$ crossing more than
+  $2\times10^{-3}$ later, while the Poincare solver itself still fails closed
+  unless every fiber reaches the oriented section.

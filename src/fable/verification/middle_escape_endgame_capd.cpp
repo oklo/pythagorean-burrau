@@ -2539,7 +2539,11 @@ int run_endgame(const Ival& u_param, long p, long q, long p2, long q2,
     for (const TimeLeg& leg : approach4_tail) run_time_leg(leg);
   }
   if (graph_exchange_sync) {
-    // The physical-clock family becomes almost tangent to the close pair--23
+    run_time_leg({167, 50, false, LegMode::kNegative});
+    // The first section occurs near tp=3.34213; the exact common-clock prefix
+    // tp=167/50 remains uniformly before it on the target family and avoids
+    // an otherwise needless long C2 integration in regularized time.  The
+    // physical-clock family becomes almost tangent to the close pair--23
     // encounter near tp ~= 3.4515.  Synchronizing instead on successive
     // pair--13 LC coordinate sections removes that phase direction while
     // retaining the pair--13 chart needed for its own encounter near
