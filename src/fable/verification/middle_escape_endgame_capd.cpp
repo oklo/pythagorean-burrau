@@ -1460,6 +1460,52 @@ void check_switch_state(const DirectCorrelatedGraph& graph,
   print_leg(label, graph);
 }
 
+// Explicitly certify the nonvanishing square-root component used by the
+// exchange sandwich.  These are twice the squared lift denominators:
+// Form B has 2*w_i^2=|g|-g_x, while Form A has
+// 2*w_r^2=|g|+g_x.  The chart maps would fail interval evaluation if a
+// denominator contained zero, but recording the strict margins makes the
+// branch-domain proof independent of that implementation side effect.
+void certify_pair13_to_pair23_form_b_lift(
+    const DirectCorrelatedGraph& graph, const Family& family,
+    const char* label) {
+  const Vector hull = graph_hull(graph);
+  const Ival old_gx = hull[0] * hull[0] - hull[1] * hull[1];
+  const Ival old_gy = Ival(2) * hull[0] * hull[1];
+  const Ival inv_m13 = Ival(1) / (family.a + Ival(1));
+  const Ival old_xx = hull[5] + inv_m13 * old_gx;
+  const Ival old_xy = hull[6] + inv_m13 * old_gy;
+  const Ival gx = old_gx - old_xx;
+  const Ival gy = old_gy - old_xy;
+  const Ival margin = sqrt(gx * gx + gy * gy) - gx;
+  if (!(margin.leftBound() > 0)) {
+    throw std::runtime_error(std::string(label) +
+                             ": Form-B lift margin is not positive");
+  }
+  std::cout << "ENDGAME_LIFT_MARGIN " << label << " inf_abs_g_minus_gx="
+            << bound_double(margin.leftBound()) << "\n" << std::flush;
+}
+
+void certify_pair23_to_pair13_form_a_lift(
+    const DirectCorrelatedGraph& graph, const Family& family,
+    const char* label) {
+  const Vector hull = graph_hull(graph);
+  const Ival old_gx = hull[0] * hull[0] - hull[1] * hull[1];
+  const Ival old_gy = Ival(2) * hull[0] * hull[1];
+  const Ival inv_m23 = Ival(1) / (family.b + Ival(1));
+  const Ival d13x = hull[5] + (inv_m23 - Ival(1)) * old_gx;
+  const Ival d13y = hull[6] + (inv_m23 - Ival(1)) * old_gy;
+  const Ival gx = -d13x;
+  const Ival gy = -d13y;
+  const Ival margin = sqrt(gx * gx + gy * gy) + gx;
+  if (!(margin.leftBound() > 0)) {
+    throw std::runtime_error(std::string(label) +
+                             ": Form-A lift margin is not positive");
+  }
+  std::cout << "ENDGAME_LIFT_MARGIN " << label << " inf_abs_g_plus_gx="
+            << bound_double(margin.leftBound()) << "\n" << std::flush;
+}
+
 // Phase-robust terminal escape check (docs/FABLE_MIDDLE_ESCAPE.md,
 // corollary in section 3a): binary {2,3}, escaper 1, eta = 4, using only
 // the transported h and the outer variables G, P from the graph hull.
@@ -2406,8 +2452,33 @@ int run_endgame(const Ival& u_param, long p, long q, long p2, long q2,
       {31, 10, false, LegMode::kPostMax}, {63, 20, false, LegMode::kNegative},
       {16, 5, false, LegMode::kNegative}, {13, 4, false, LegMode::kNegative},
       {33, 10, false, LegMode::kNegative},{67, 20, false, LegMode::kNegative},
-      {17, 5, false, LegMode::kNegative}, {69, 20, false, LegMode::kNegative}};
+      {17, 5, false, LegMode::kNegative}};
   for (const TimeLeg& leg : approach4) run_time_leg(leg);
+  const bool graph_exchange_sandwich =
+      std::getenv("FABLE_ENDGAME_GRAPH_EXCHANGE_SANDWICH") != nullptr;
+  if (graph_exchange_sandwich) {
+    // The nearby pair-{2,3} encounter occurs at tp ~= 3.4515 while the
+    // selected pair-{1,3} encounter follows at tp ~= 3.4695.  A short
+    // pair-{2,3} chart sandwich regularizes the first encounter without
+    // abandoning the pair-{1,3} chart needed for the second.  Ordinary
+    // reconnaissance selected these rational switch times, but both lifts,
+    // every intervening tube, and both noncollision margins are certified
+    // below by interval arithmetic.
+    run_time_leg({171, 50, false, LegMode::kNegative});
+    certify_pair13_to_pair23_form_b_lift(
+        graph, family, "exchange_switch13to23_formB");
+    graph = transform_graph(graph, make_pair13_to_pair23_map_form_b());
+    check_switch_state(graph, family, true, false,
+                       "exchange_switch13to23_formB");
+    run_time_leg({173, 50, true, LegMode::kNegative});
+    certify_pair23_to_pair13_form_a_lift(
+        graph, family, "exchange_switch23to13_formA");
+    graph = transform_graph(graph, make_pair23_to_pair13_map());
+    check_switch_state(graph, family, false, false,
+                       "exchange_switch23to13_formA");
+  } else {
+    run_time_leg({69, 20, false, LegMode::kNegative});
+  }
   run_event_leg(false, false, "min4");
   // The {2,3} binary's first pericenter is near tp = 3.5165, so the Form-B
   // switch must happen at tp = 7/2, between the selected {1,3} pericenter
@@ -2514,6 +2585,8 @@ int main(int argc, char** argv) {
         std::getenv("FABLE_ENDGAME_GRAPH_TANGENT_SPLIT") != nullptr;
     const bool graph_c2 =
         std::getenv("FABLE_ENDGAME_GRAPH_C2") != nullptr;
+    const bool graph_exchange_sandwich =
+        std::getenv("FABLE_ENDGAME_GRAPH_EXCHANGE_SANDWICH") != nullptr;
     std::cout << "ENDGAME_PARAMS precision_bits=" << precision
               << " tolerance=" << tolerance << " order=" << order
               << " sync_exchange=" << (synchronize_exchange ? 1 : 0)
@@ -2524,7 +2597,9 @@ int main(int argc, char** argv) {
               << " graph_pair23_sync=" << (graph_pair23_sync ? 1 : 0)
               << " graph_tangent_split=" << (graph_tangent_split ? 1 : 0)
               << " graph_c2=" << (graph_c2 ? 1 : 0)
-              << " driver=middle_escape_endgame_capd/v18-c2-parameter-graph-2026-08-25"
+              << " graph_exchange_sandwich="
+              << (graph_exchange_sandwich ? 1 : 0)
+              << " driver=middle_escape_endgame_capd/v19-exchange-sandwich-2026-08-26"
               << "\n" << std::flush;
     const bool graph_mode =
         std::getenv("FABLE_ENDGAME_GRAPH") != nullptr;

@@ -1,0 +1,30 @@
+Directional C2 exchange-sandwich diagnostic, 2026-08-26
+
+command:
+  FABLE_ENDGAME_GRAPH=1 FABLE_ENDGAME_GRAPH_C2=1 \
+  FABLE_ENDGAME_GRAPH_PAIR23_SYNC=1 \
+  FABLE_ENDGAME_GRAPH_EXCHANGE_SANDWICH=1 \
+  /private/tmp/fable_middle_exchange_test \
+  29 100 290000000001 1000000000000 160 1e-24 32
+
+CAPD source commit:
+  731079217a9254ea2948d742df2b170895effe7f
+
+Each row is:
+  label | total hull | T*delta | Q*delta^2 | additive defect
+
+t=17/5                       | 4.7338644858552002e-09 | 1.0651030348553804e-09 | 7.4945351246682563e-19 | 3.6687614503591470e-09
+t=171/50                     | 1.2112140230606756e-08 | 2.6737408472656761e-09 | 1.9246169186300225e-18 | 9.4383993814164642e-09
+exchange_switch13to23_formB | 9.5085384455327323e-08 | 5.8741532163664184e-10 | 2.6027308411106967e-18 | 9.4497969131087941e-08
+t=173/50                     | 4.2800006585454437e-07 | 1.4529236408319122e-09 | 7.8975947066294468e-18 | 4.2654714220581490e-07
+exchange_switch23to13_formA | 4.7849971040522674e-06 | 3.9376136348071558e-08 | 4.6265147918812710e-17 | 4.7456209676579314e-06
+min4                         | 7.0944977135520335e-06 | 1.9351859923892877e-08 | 3.4293643822313593e-17 | 7.0751458535938476e-06
+t=7/2                        | 1.4690947495806367e-05 | 1.0612543327931193e-08 | 3.3651488585576654e-17 | 1.4686739778072883e-05
+switch13to23_formB           | 1.0042024060590813e-04 | 1.2169364741593718e-08 | 6.0178298510482252e-17 | 1.0040807124110635e-04
+pair23_section_1             | 1.0528319985120323e-04 | 1.4399855370441500e-08 | 6.2617756416361673e-17 | 1.0526879999577017e-04
+
+The run was deliberately stopped after pair23_section_1.  Every reported leg
+and swept tube is a validated enclosure, but there is no terminal PASS and no
+new theorem.  The economic question was already decided: the pair-23 chart
+reduced the through-encounter hull, but the reverse static chart map enlarged
+the defect beyond the no-sandwich control.

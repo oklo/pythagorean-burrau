@@ -231,6 +231,42 @@ def probe_one(u: float, rtol: float = 1e-12, atol: float = 1e-14) -> dict:
             )
         )
 
+    # Fine diagnostics for a possible chart sandwich through the overlapping
+    # pair-{2,3} and pair-{1,3} exchange passages.  For a target separation
+    # g, Form A requires |g|+g_x>0 and Form B requires |g|-g_x>0; the values
+    # below measure the square-root lift denominators before interval proof.
+    exchange_sandwich = []
+    previous_exchange_w: complex | None = None
+    for t in np.arange(3.42, 3.491, 0.005):
+        state = solution.sol(t)
+        q, _ = split(state)
+        g23 = q[2] - q[1]
+        g13 = q[2] - q[0]
+        r23 = float(np.linalg.norm(g23))
+        r13 = float(np.linalg.norm(g13))
+        w23i = float(np.sqrt(max((r23 - float(g23[0])) / 2, 0.0)))
+        w23r = float(g23[1]) / (2 * w23i)
+        w23 = complex(w23r, w23i)
+        if (
+            previous_exchange_w is not None
+            and abs(w23 + previous_exchange_w) < abs(w23 - previous_exchange_w)
+        ):
+            w23 = -w23
+        previous_exchange_w = w23
+        exchange_sandwich.append(
+            (
+                float(t),
+                r23,
+                r13,
+                r23 + float(g23[0]),
+                r23 - float(g23[0]),
+                r13 + float(g13[0]),
+                r13 - float(g13[0]),
+                w23.real,
+                w23.imag,
+            )
+        )
+
     # 6. Form-B pair-{2,3} LC coordinates after the exchange.  This is
     # ordinary reconnaissance for choosing transverse geometric sections;
     # the validated driver must prove every crossing and cover its tube.
@@ -291,6 +327,7 @@ def probe_one(u: float, rtol: float = 1e-12, atol: float = 1e-14) -> dict:
         "margin_table": margin_table,
         "crossings": crossings,
         "switch": switch,
+        "exchange_sandwich": exchange_sandwich,
         "pair23_lc": pair23_lc,
         "pair23_wr_crossings": pair23_wr_crossings,
         "itinerary": itinerary,
@@ -346,6 +383,18 @@ def report(result: dict, verbose: bool) -> None:
                 f"  t={t:.3f} w=({w.real:+.6f},{w.imag:+.6f})"
                 f" z=({z.real:+.6f},{z.imag:+.6f})"
                 f" r_sigma={radius_sigma:+.6f}"
+            )
+        print("exchange chart-sandwich diagnostics:")
+        print(
+            "  t       r23       r13       23A       23B       13A"
+            "       13B      w23r      w23i"
+        )
+        for row in result["exchange_sandwich"]:
+            print(
+                f"  {row[0]:.3f}  {row[1]:.6f}  {row[2]:.6f}"
+                f"  {row[3]:.6f}  {row[4]:.6f}"
+                f"  {row[5]:.6f}  {row[6]:.6f}"
+                f"  {row[7]:+.6f}  {row[8]:+.6f}"
             )
         print("pair-{2,3} candidate wr crossings (ordinary linear interpolation):")
         for t, level, direction in result["pair23_wr_crossings"]:

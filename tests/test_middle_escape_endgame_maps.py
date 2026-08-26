@@ -139,6 +139,29 @@ def test_switch_13_to_23_rational_core():
         assert _pair_equal(got_p, p23)
 
 
+def test_exchange_sandwich_rational_round_trip():
+    """The proposed 13 -> 23 -> 13 sandwich is the identity physically.
+
+    This checks the rational frame changes independently of either
+    Levi--Civita square-root branch.  The symbolic lift tests below then show
+    that Form B on the outward switch and Form A on the return recover these
+    same relative vectors and velocities wherever their denominators are
+    nonzero.
+    """
+    for positions, velocities in STATES:
+        g13, g13dot, big_g13, p13 = pair13_chart_of(positions, velocities, U)
+        g23, g23dot, big_g23, p23 = switch_13_to_23_relative(
+            U, g13, g13dot, big_g13, p13
+        )
+        back_g13, back_g13dot, back_big_g13, back_p13 = (
+            switch_23_to_13_relative(U, g23, g23dot, big_g23, p23)
+        )
+        assert _pair_equal(back_g13, g13)
+        assert _pair_equal(back_g13dot, g13dot)
+        assert _pair_equal(back_big_g13, big_g13)
+        assert _pair_equal(back_p13, p13)
+
+
 def test_form_a_lift_identities_symbolic():
     """Form A: w^2 = g and 2 w z / |w|^2 = gdot, symbolically on |g|+g_x>0."""
     gx = sp.Symbol("gx", positive=True)  # sufficient for Form A validity

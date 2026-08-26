@@ -1783,3 +1783,34 @@ it is not a remainder proof.
   first target.  An opt-in short pair--23 chart sandwich is under validation,
   while an independent Fable prompt asks for the complementary smooth
   fixed-energy reconstruction of the chart-switch `h` coordinate.
+
+## 2026-08-26: exchange-chart sandwich localization
+
+- Added ordinary diagnostics for both square-root lift margins and the
+  continuous pair--23 LC root across $3.42\le t\le3.49$.  They identify the
+  Form-B departure at $t=171/50$ with ordinary margin about $0.2088$ and the
+  Form-A return at $t=173/50$ with margin about $0.1466$.  The continuous
+  pair--23 coordinate also crosses $w_i=-1/5$ just before the return, providing
+  a possible geometric section if fixed-time phase sensitivity later matters.
+- Implemented the sandwich behind
+  `FABLE_ENDGAME_GRAPH_EXCHANGE_SANDWICH=1`.  Exact rational tests show that
+  pair--13 to pair--23 to pair--13 is the identity on labelled physical
+  Jacobi data; the existing symbolic lift tests cover the Form-B and Form-A
+  sheets.  All ten focused tests pass, the CAPD driver compiles, and an
+  independent adversarial audit found no false analytic lemma.  It required a
+  complete terminal replay only if the itinerary were to be promoted.
+- The pinned 160-bit width-$10^{-12}$ diagnostic validated every leg through
+  the first post-exchange pair--23 section.  The selected pair--23 chart
+  improved the through-encounter hull to $4.2800\,10^{-7}$, but the reverse
+  static map immediately produced hull $4.7850\,10^{-6}$ and defect
+  $4.7456\,10^{-6}$.  The fourth minimum and later Form-B switch were worse
+  than the no-sandwich control by factors about $1.59$ and $1.24$.
+  Consequently the run was deliberately stopped and no terminal theorem is
+  claimed.  This is a localized failed route, not a failure of the C2 graph or
+  the chart identities.
+- The defect has now been localized to the reverse chart's loss of the exact
+  total-energy correlation.  The primary computational repair is a smooth
+  fixed-energy reconstruction of target `h`, with an explicit proof that
+  projecting off-leaf spurious box points cannot discard any genuine tied
+  fiber.  The pair--23 geometric section remains a secondary phase-sensitivity
+  repair, not the next primary experiment.

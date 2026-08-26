@@ -1137,3 +1137,44 @@ disproves only the assumption that a freely boxed higher-order defect will
 automatically remain economical through the double encounter.  The next
 test must reabsorb the defect into correlated parameter coefficients at a
 transverse event, or regularize both exchange pairs simultaneously.
+
+## A pair--23 chart sandwich without invariant reconditioning
+
+**Status:** DISPROVED as an enclosure improvement on the width-$10^{-12}$
+control.  The chart itinerary and every completed tube are rigorous; no
+dynamical statement is disproved.
+
+Ordinary reconnaissance found robust switch windows around the consecutive
+pair--23 and pair--13 passages.  The experimental route left the pair--13
+chart at physical time $171/50$ using the Form-B lift, propagated the
+pair--23 LC field through its close passage to $173/50$, and returned with the
+pair--13 Form-A lift before the fourth dilational minimum.  Exact rational
+round-trip tests prove that the two Jacobi frame changes preserve the same
+labelled physical state, and symbolic tests prove both LC lifts.  An
+independent adversarial audit accepted the maps, directional C2 transport,
+physical-time transversality $t_\sigma=|w|^2>0$, strict-$J<0$ covering, and
+collision checks.  The current opt-in code additionally records the strict
+branch margins $|g_{23}|-g_{23,x}>0$ and
+$|g_{13}|+g_{13,x}>0$.
+
+The first half worked: the pair--23 chart carried the graph through its close
+passage with hull $4.2800\times10^{-7}$ at $t=3.46$, versus
+$1.2160\times10^{-6}$ near $t=3.45$ in the no-sandwich control.  The reverse
+static chart transformation erased the gain.  Its hull was
+$4.7850\times10^{-6}$, of which $4.7456\times10^{-6}$ was additive defect;
+the next pair--13 minimum reached $7.0945\times10^{-6}$, compared with
+$4.4513\times10^{-6}$ in the original route.  By the later Form-B switch the
+hull was $1.0042\times10^{-4}$, already larger than the original
+$8.0706\times10^{-5}$.  The replay was stopped after the first terminal
+geometric section because a full terminal pass could not reverse this local
+economic comparison.  The partial validated log is
+`data/middle_c2_exchange_sandwich_partial.log`.
+
+The smallest failed lemma was therefore not chart validity but the assumption
+that regularizing the unselected pair alone would shrink the *composed* graph
+enclosure.  The reverse map reconstructs target-pair quantities from a box
+whose genuine fibers lie on the exact total-energy leaf.  The next repair is
+to reconstruct the target `h` coordinate from that invariant (and prove this
+fiberwise projection sound), then replay the same sandwich.  Merely moving the
+return to a nearby geometric section may reduce phase sensitivity but cannot
+by itself remove invariant-cancellation loss in the static map.
