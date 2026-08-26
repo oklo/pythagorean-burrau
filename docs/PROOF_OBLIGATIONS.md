@@ -96,9 +96,17 @@ shared endpoints, to the displayed upper endpoint.  Thus this smaller
 interval is a full nonperiodicity theorem.
 It does not reduce the global obligations below.  For the immediate widening
 program, a width-$10^{-8}$ tile already crosses all six exchange sections;
-the localized remaining obligation is a sharper pre-switch/Form-B image that
-controls the terminal escape chart.  A post-switch fixed-time section has
-already enlarged the hull and is not the active repair.
+an earlier Form-B switch and explicit defect graph now cross that chart on a
+width-$10^{-12}$ control, and pair--23 geometric sections remove the next
+fixed-clock phase spike.  The localized remaining obligation is sharper than
+the previous chart-image statement: repeated interval Poincare derivatives
+inflate the parameter tangent from a measured section sensitivity of order
+$10^3$ to a certified enclosure contribution near $0.90$ by the second
+post-exchange binary cycle.  Midpoint splitting merely moves this width into
+an uncorrelated defect box.  A validated C2/Taylor parameter graph (or an
+equivalent nonlinear correlated representation) must retain derivative
+variation along the tied curve through these cycles.  Fixed-time projection
+and additional linear tripleton bases have both been excluded as repairs.
 
 1. bound or classify the number of maximum branches before the terminal
    collision/escape alternative, uniformly on a parameter component;

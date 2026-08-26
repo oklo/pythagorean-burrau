@@ -251,7 +251,12 @@ def probe_one(u: float, rtol: float = 1e-12, atol: float = 1e-14) -> dict:
         radius_sigma = 2 * (np.conj(root) * z).real
         pair23_lc.append((t, root, z, radius_sigma))
 
-    dense_pair23_t = np.arange(3.48, 3.821, 0.0002)
+    # Continue through the first terminal-certificate window.  The validated
+    # graph driver uses these crossings only to choose candidate geometric
+    # sections; it proves every selected crossing and audits every tube.
+    dense_pair23_t = np.arange(
+        3.48, min(max(horizon + 0.1, 3.9), 4.5), 0.0002
+    )
     dense_pair23_w = np.empty(len(dense_pair23_t), dtype=complex)
     previous_w = None
     for index, t in enumerate(dense_pair23_t):

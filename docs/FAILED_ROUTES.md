@@ -1072,3 +1072,28 @@ tangent coordinate vectors discard that dependence even though their
 ambient intersection is rigorous.  A future repair needs a genuine
 parameterized section graph or higher-order model, not another linear
 tripleton basis change.
+
+## First-order defect graphs through repeated post-exchange sections
+
+**Status:** DISPROVED as a complete scalable representation at first order;
+the prefix and section tubes that passed remain rigorous enclosures, but no
+new nonperiodicity interval was certified.
+
+Separating a nominal center, interval tied-family tangent, and additive
+defect removed the old early $10^{-2}$ numerical floor when the precision was
+raised to 160 bits.  On a width-$10^{-12}$ control it crossed every encounter
+through the exchange with the defect still much smaller than the physical
+parameter spread.  Pair--23 geometric sections also removed the fixed-time
+phase spike at $t=4$.
+
+The second post-exchange binary cycle exposed the remaining first-order
+failure.  Successive section hulls grew from $0.00438$ to $0.04975$,
+$0.09046$, $0.18085$, $0.41815$, and $0.93588$.  At the last section roughly
+$0.90$ was the interval-tangent contribution, despite ordinary
+section-synchronized sensitivity of order $10^3$.  Replacing that tangent by
+its midpoint and spilling its width times $u-u_c$ into the defect preserved
+containment but not sharpness: it converted essentially the whole Form-B
+hull into an uncorrelated box.  Hence the obstruction is derivative
+variation along the tied curve, not merely the storage location of interval
+width.  The next representation must retain at least quadratic parameter
+dependence or an equivalent Taylor-model remainder.

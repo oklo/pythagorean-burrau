@@ -482,9 +482,39 @@ bool direct_lc_residual_excludes_brake(const Vector& enclosure) {
   return !contains_zero(enclosure[2]) || !contains_zero(enclosure[3]) ||
          !contains_zero(enclosure[7]) || !contains_zero(enclosure[8]);
 }
+
+// Replace an interval tangent by a point tangent and transfer the discarded
+// width times the complete parameter deviation into an additive defect.
+// This is an exact Lohner-style split:
+//   T_interval*delta subset T_mid*delta + tangent_spill.
+Vector split_graph_tangent(const Vector& raw_tangent,
+                           const Ival& deviation,
+                           Vector& tangent_spill) {
+  const int dimension = raw_tangent.dimension();
+  if (std::getenv("FABLE_ENDGAME_GRAPH_TANGENT_SPLIT") == nullptr) {
+    tangent_spill = Vector(dimension);
+    return raw_tangent;
+  }
+  Vector point_tangent(dimension);
+  tangent_spill = Vector(dimension);
+  for (int i = 0; i < dimension; ++i) {
+    point_tangent[i] =
+        (Ival(raw_tangent[i].leftBound()) +
+         Ival(raw_tangent[i].rightBound())) /
+        Ival(2);
+    tangent_spill[i] =
+        (raw_tangent[i] - point_tangent[i]) * deviation;
+  }
+  return point_tangent;
+}
+
 struct DirectCorrelatedGraph {
   Vector anchor;
   Vector tangent;
+  // Additive enclosure of the nonlinear/numerical graph defect.  Keeping it
+  // separate prevents a previous section's anchor uncertainty from being
+  // propagated as a fresh nonlinear state box at the next return.
+  Vector defect;
   Ival u_range;
   Ival u_center;
 
@@ -497,7 +527,8 @@ struct DirectCorrelatedGraph {
           (Ival(anchor[row].leftBound()) + Ival(anchor[row].rightBound())) /
           2;
       x[row] = center;
-      r[row] = anchor[row] - center;
+      r[row] = defect[row] + (anchor[row] - center);
+      r[row] = capd::intervals::intervalHull(r[row], Ival(0));
       r0[row] = Ival(0);
       for (int column = 0; column < dimension; ++column) {
         c[row][column] = Ival(row == column ? 1 : 0);
@@ -518,7 +549,8 @@ struct DirectCorrelatedGraph {
           (Ival(anchor[row].leftBound()) + Ival(anchor[row].rightBound())) /
           2;
       x[row] = center;
-      r[row] = anchor[row] - center;
+      r[row] = defect[row] + (anchor[row] - center);
+      r[row] = capd::intervals::intervalHull(r[row], Ival(0));
       r0[row] = Ival(0);
       for (int column = 0; column < dimension; ++column) {
         c[row][column] = Ival(row == column ? 1 : 0);
@@ -542,16 +574,33 @@ DirectCorrelatedGraph make_direct_launch_graph(const Ival& u_range) {
   center_input[10] = u_center;
   range_input[10] = u_range;
   Map launch_map = make_direct_lc_initial_graph_field();
-  Vector anchor = launch_map(center_input);
-  const Matrix launch_derivative = launch_map.derivative(range_input);
-  Vector tangent(12);
+  const Vector anchor_image = launch_map(center_input);
+  Vector anchor(12), defect(12);
   for (int row = 0; row < 12; ++row) {
-    tangent[row] = launch_derivative[row][10];
+    anchor[row] =
+        (Ival(anchor_image[row].leftBound()) +
+         Ival(anchor_image[row].rightBound())) /
+        Ival(2);
+    defect[row] = anchor_image[row] - anchor[row];
+  }
+  const Matrix launch_derivative = launch_map.derivative(range_input);
+  Vector raw_tangent(12);
+  for (int row = 0; row < 12; ++row) {
+    raw_tangent[row] = launch_derivative[row][10];
   }
   // The construction field freezes ww; the actual launch graph retains it.
   anchor[10] = u_center;
-  tangent[10] = Ival(1);
-  return {anchor, tangent, u_range, u_center};
+  defect[10] = Ival(0);
+  raw_tangent[10] = Ival(1);
+  Vector tangent_spill(12);
+  Vector tangent = split_graph_tangent(
+      raw_tangent, u_range - u_center, tangent_spill);
+  for (int row = 0; row < 12; ++row) {
+    defect[row] += tangent_spill[row];
+    defect[row] =
+        capd::intervals::intervalHull(defect[row], Ival(0));
+  }
+  return {anchor, tangent, defect, u_range, u_center};
 }
 // ---- New machinery (this file only; nothing above this line differs from
 // ---- the committed source except the header and typedef block). ----
@@ -658,10 +707,37 @@ Map make_pair13_to_pair23_map_form_b() {
 DirectCorrelatedGraph transform_graph(const DirectCorrelatedGraph& input,
                                       Map transformation) {
   const Vector domain(input.c0_set());
-  Vector output_anchor = transformation(input.anchor);
+  const Vector direct_image = transformation(domain);
+  const Vector anchor_image = transformation(input.anchor);
   const Matrix derivative = transformation.derivative(domain);
-  Vector output_tangent = derivative * input.tangent;
-  return {output_anchor, output_tangent, input.u_range, input.u_center};
+  const Ival deviation = input.u_range - input.u_center;
+  const int dimension = input.anchor.dimension();
+  const Vector raw_tangent = derivative * input.tangent;
+  Vector tangent_spill(dimension);
+  Vector output_tangent =
+      split_graph_tangent(raw_tangent, deviation, tangent_spill);
+  const Vector mapped_defect = derivative * input.defect;
+  Vector output_anchor(dimension), output_defect(dimension);
+  for (int i = 0; i < dimension; ++i) {
+    output_anchor[i] =
+        (Ival(anchor_image[i].leftBound()) +
+         Ival(anchor_image[i].rightBound())) /
+        Ival(2);
+    output_defect[i] =
+        (anchor_image[i] - output_anchor[i]) +
+        mapped_defect[i] + tangent_spill[i];
+    const Ival direct_defect =
+        direct_image[i] - output_anchor[i] - output_tangent[i] * deviation;
+    Ival sharpened;
+    if (!capd::intervals::intersection(
+            output_defect[i], direct_defect, sharpened)) {
+      throw std::runtime_error("empty transformed graph defect");
+    }
+    output_defect[i] =
+        capd::intervals::intervalHull(sharpened, Ival(0));
+  }
+  return {output_anchor, output_tangent, output_defect,
+          input.u_range, input.u_center};
 }
 
 // Per-leg J-sign / covering bookkeeping.
@@ -700,7 +776,7 @@ DirectCorrelatedGraph project_graph(
   const Matrix section_derivative =
       interval_map.computeDP(
           interval_image, flow_derivative, interval_return);
-  Vector output_tangent = section_derivative * input.tangent;
+  const Vector raw_tangent = section_derivative * input.tangent;
 
   // Complete common-clock tube audit past the latest return time.
   {
@@ -816,34 +892,69 @@ DirectCorrelatedGraph project_graph(
   anchor_map.setMaxReturnTime(50.0);
   Set anchor_set(input.anchor);
   Ival anchor_return;
-  Vector output_anchor = anchor_map(anchor_set, anchor_return);
+  const Vector anchor_image = anchor_map(anchor_set, anchor_return);
   if (!interval_image[section_coordinate].contains(section_value) ||
-      !output_anchor[section_coordinate].contains(section_value)) {
+      !anchor_image[section_coordinate].contains(section_value)) {
     throw std::runtime_error(std::string(leg_label) +
                              ": missed Poincare section");
   }
+  const int dimension = input.anchor.dimension();
+  const Ival deviation = input.u_range - input.u_center;
+  Vector tangent_spill(dimension);
+  Vector output_tangent =
+      split_graph_tangent(raw_tangent, deviation, tangent_spill);
+  const Vector mapped_defect = section_derivative * input.defect;
+  Vector output_anchor(dimension), output_defect(dimension);
+  for (int i = 0; i < dimension; ++i) {
+    output_anchor[i] =
+        (Ival(anchor_image[i].leftBound()) +
+         Ival(anchor_image[i].rightBound())) /
+        Ival(2);
+    output_defect[i] =
+        (anchor_image[i] - output_anchor[i]) + mapped_defect[i] +
+        tangent_spill[i];
+    const Ival direct_defect =
+        interval_image[i] - output_anchor[i] -
+        output_tangent[i] * deviation;
+    Ival sharpened;
+    if (!capd::intervals::intersection(
+            output_defect[i], direct_defect, sharpened)) {
+      throw std::runtime_error(std::string(leg_label) +
+                               ": empty graph-defect intersection");
+    }
+    output_defect[i] =
+        capd::intervals::intervalHull(sharpened, Ival(0));
+  }
   output_anchor[section_coordinate] = section_value;
   output_tangent[section_coordinate] = Ival(0);
-  return {output_anchor, output_tangent, input.u_range, input.u_center};
+  output_defect[section_coordinate] = Ival(0);
+  return {output_anchor, output_tangent, output_defect,
+          input.u_range, input.u_center};
 }
 
 Vector graph_hull(const DirectCorrelatedGraph& graph) {
   Vector hull(12);
   const Ival deviation = graph.u_range - graph.u_center;
   for (int i = 0; i < 12; ++i) {
-    hull[i] = graph.anchor[i] + graph.tangent[i] * deviation;
+    hull[i] = graph.anchor[i] + graph.tangent[i] * deviation +
+              graph.defect[i];
   }
   return hull;
 }
 
 void print_leg(const char* label, const DirectCorrelatedGraph& graph) {
   const Vector hull = graph_hull(graph);
+  const Vector parameter_spread =
+      graph.tangent * (graph.u_range - graph.u_center);
   std::cout << "ENDGAME_LEG " << label << " tp=["
             << bound_double(hull[9].leftBound()) << ","
             << bound_double(hull[9].rightBound()) << "] jd=["
             << bound_double(hull[11].leftBound()) << ","
             << bound_double(hull[11].rightBound()) << "] hull="
-            << hull_width(hull, 12) << "\n" << std::flush;
+            << hull_width(hull, 12)
+            << " parameter_spread=" << hull_width(parameter_spread, 12)
+            << " defect=" << hull_width(graph.defect, 12)
+            << "\n" << std::flush;
 }
 
 void certify_strict_maximum(const DirectCorrelatedGraph& graph,
@@ -1840,13 +1951,49 @@ int run_endgame(const Ival& u_param, long p, long q, long p2, long q2,
   for (const TimeLeg& leg : out4) run_time_leg(leg);
   graph = transform_graph(graph, make_pair13_to_pair23_map_form_b());
   check_switch_state(graph, family, true, true, "switch13to23_formB");
-  const TimeLeg escape_leg[] = {
-      {18, 5, true, LegMode::kPositive},  {37, 10, true, LegMode::kPositive},
-      {19, 5, true, LegMode::kPositive},  {39, 10, true, LegMode::kPositive},
-      {4, 1, true, LegMode::kPositive},   {41, 10, true, LegMode::kPositive},
-      {21, 5, true, LegMode::kPositive},  {43, 10, true, LegMode::kPositive},
-      {22, 5, true, LegMode::kPositive},  {9, 2, true, LegMode::kPositive}};
-  for (const TimeLeg& leg : escape_leg) run_time_leg(leg);
+  const bool graph_pair23_sync =
+      std::getenv("FABLE_ENDGAME_GRAPH_PAIR23_SYNC") != nullptr;
+  if (graph_pair23_sync) {
+    struct GraphSection {
+      Ival value;
+      capd::poincare::CrossingDirection direction;
+    };
+    // Ordinary branch reconnaissance supplies only this itinerary.  Each
+    // crossing below is proved by CAPD and every intervening tube is audited
+    // by project_graph.  The final +3/20 crossing occurs near t=3.8416,
+    // immediately before the fixed terminal time 77/20 where the ordinary
+    // phase-robust margin is already comfortably positive.
+    const GraphSection sections[] = {
+        {-Ival(3) / Ival(20), MP}, {-Ival(1) / Ival(10), MP},
+        {-Ival(1) / Ival(20), MP}, {Ival(0), MP},
+        {Ival(1) / Ival(20), MP},  {Ival(1) / Ival(10), MP},
+        {Ival(3) / Ival(20), MP},  {Ival(3) / Ival(20), PM},
+        {Ival(1) / Ival(10), PM},  {Ival(1) / Ival(20), PM},
+        {Ival(0), PM},             {-Ival(1) / Ival(20), PM},
+        {-Ival(1) / Ival(10), PM}, {-Ival(3) / Ival(20), PM},
+        {-Ival(3) / Ival(20), MP}, {-Ival(1) / Ival(10), MP},
+        {-Ival(1) / Ival(20), MP}, {Ival(0), MP},
+        {Ival(1) / Ival(20), MP},  {Ival(1) / Ival(10), MP},
+        {Ival(3) / Ival(20), MP}};
+    int ordinal = 0;
+    for (const GraphSection& section : sections) {
+      const std::string label =
+          "pair23_section_" + std::to_string(++ordinal);
+      graph = project_graph(graph, 0, section.value, section.direction,
+                            order, tolerance, true, LegMode::kPositive,
+                            label.c_str());
+      print_leg(label.c_str(), graph);
+    }
+    run_time_leg({77, 20, true, LegMode::kPositive});
+  } else {
+    const TimeLeg escape_leg[] = {
+        {18, 5, true, LegMode::kPositive},  {37, 10, true, LegMode::kPositive},
+        {19, 5, true, LegMode::kPositive},  {39, 10, true, LegMode::kPositive},
+        {4, 1, true, LegMode::kPositive},   {41, 10, true, LegMode::kPositive},
+        {21, 5, true, LegMode::kPositive},  {43, 10, true, LegMode::kPositive},
+        {22, 5, true, LegMode::kPositive},  {9, 2, true, LegMode::kPositive}};
+    for (const TimeLeg& leg : escape_leg) run_time_leg(leg);
+  }
 
   if (!terminal_phase_robust_check(graph)) {
     std::cout << "FAIL_MIDDLE_ESCAPE_ENDGAME u=[" << p << "/" << q << ","
@@ -1854,7 +2001,8 @@ int run_endgame(const Ival& u_param, long p, long q, long p2, long q2,
     return 1;
   }
   std::cout << "PASS_MIDDLE_ESCAPE_ENDGAME u=[" << p << "/" << q << ","
-            << p2 << "/" << q2 << "] t_terminal=9/2 eta=4"
+            << p2 << "/" << q2 << "] t_terminal="
+            << (graph_pair23_sync ? "77/20" : "9/2") << " eta=4"
             << " method=CAPD-6.1.0-MPFR"
             << " capd_commit=731079217a9254ea2948d742df2b170895effe7f\n";
   return 0;
@@ -1895,6 +2043,10 @@ int main(int argc, char** argv) {
         std::getenv("FABLE_ENDGAME_PAIR23_SYNC") != nullptr;
     const bool structured_section =
         std::getenv("FABLE_ENDGAME_STRUCTURED_SECTION") != nullptr;
+    const bool graph_pair23_sync =
+        std::getenv("FABLE_ENDGAME_GRAPH_PAIR23_SYNC") != nullptr;
+    const bool graph_tangent_split =
+        std::getenv("FABLE_ENDGAME_GRAPH_TANGENT_SPLIT") != nullptr;
     std::cout << "ENDGAME_PARAMS precision_bits=" << precision
               << " tolerance=" << tolerance << " order=" << order
               << " sync_exchange=" << (synchronize_exchange ? 1 : 0)
@@ -1902,7 +2054,9 @@ int main(int argc, char** argv) {
               << " structured_form_b=" << (structured_form_b ? 1 : 0)
               << " sync_pair23=" << (synchronize_pair23 ? 1 : 0)
               << " structured_section=" << (structured_section ? 1 : 0)
-              << " driver=middle_escape_endgame_capd/v13-structured-section-2026-08-25"
+              << " graph_pair23_sync=" << (graph_pair23_sync ? 1 : 0)
+              << " graph_tangent_split=" << (graph_tangent_split ? 1 : 0)
+              << " driver=middle_escape_endgame_capd/v17-defect-graph-controls-2026-08-25"
               << "\n" << std::flush;
     const bool graph_mode =
         std::getenv("FABLE_ENDGAME_GRAPH") != nullptr;

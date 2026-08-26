@@ -1645,3 +1645,60 @@ it is not a remainder proof.
   preserve the useful *shared* one-parameter/remainder dependence.  The code
   is retained behind `FABLE_ENDGAME_STRUCTURED_SECTION=1` as a reproducible
   failed experiment; it supports no new dynamical claim.
+
+## 2026-08-25: explicit defect graph and post-exchange geometric sections
+
+- Replaced the experimental C1 graph's interval anchor by the rigorous form
+  $X(u)\subset x+T(u-u_c)+E$, with a nominal point $x$, interval parameter
+  tangent $T$, and a separate centered defect $E$.  For every Poincare map,
+  the code uses the full-domain derivative enclosure to apply
+  $P(X)\subset P(x)+[DP]T(u-u_c)+[DP]E$, intersects the resulting defect with
+  the direct Poincare image, and continues to audit the complete trajectory
+  tube independently.  Exact section coordinates are imposed only after the
+  validated return.  This is experimental machinery pending an independent
+  soundness audit, not a promoted theorem.
+- On a width-$10^{-12}$ control tile, 80-bit precision, tolerance $10^{-14}$,
+  and order 24 delayed but did not remove the old numerical floor: the hull
+  was $1.22\times10^{-2}$ at $t=2.3$, $5.08\times10^{-2}$ at the second
+  maximum, and the next time-section map failed transversality after
+  $t=2.85$.  Increasing to 160 bits, tolerance $10^{-24}$, and order 32
+  changed the diagnosis completely.  At $t=0.4$ the defect was only
+  $1.15\times10^{-22}$; the graph crossed the $r_{23}\simeq4.4\times10^{-4}$
+  encounter, the previous $t=2.9$ failure with hull $1.01\times10^{-9}$,
+  and the exchange minimum near $t=3.4685524$.  At the Form-B switch the
+  hull was $1.95874\times10^{-3}$, including defect
+  $7.51123\times10^{-5}$.  Thus the former early floor was precision-driven,
+  not intrinsic to the separated-defect formula.
+- Fixed physical-time projection then exposed a different problem: hulls
+  stayed below $0.0118$ through $t=3.9$ but jumped to $2.11169$ at $t=4.0$;
+  $2.03071$ came from the parameter tangent and only $0.08098$ from the
+  defect.  Ordinary reconnaissance places a selected-binary phase turn in
+  this window, so this is fixed-clock phase sensitivity rather than a
+  numerical anchor floor.
+- Added a 21-section pair--23 Form-B itinerary from $w_r=-3/20$ just after
+  $t=3.5$ through the third $w_r=3/20$ outward crossing near $t=3.8416$.
+  Every CAPD return retains the complete independent tube audit.  The first
+  outbound half-cycle passed with hulls from $0.00205$ through $0.00438$,
+  eliminating the fixed-clock spike.  Across the next two half-cycles the
+  hulls nevertheless grew to $0.04975$, $0.09046$, $0.18085$, $0.41815$,
+  and finally $0.93588$.  At the final section, $0.89999$ came from the
+  interval tangent and $0.03589$ from the defect.  The run was stopped before
+  the terminal time section because its time enclosure already straddled
+  $77/20$.  No terminal certificate or new nonperiodicity theorem resulted.
+- Tested the exact Lohner split
+  $T\delta\subset\operatorname{mid}(T)\delta+
+  (T-\operatorname{mid}T)\delta$.  By the Form-B switch it changed the
+  decomposition from tangent/defect widths
+  $0.0018836/0.0000751$ to approximately
+  $1.22\times10^{-8}/0.00195865$, without reducing the total hull.  The first
+  two pair--23 sections likewise retained total hulls $0.002048$ and
+  $0.002092$ while almost all width lived in the defect box.  This replay was
+  stopped: a point tangent plus uncorrelated defect discards the same shared
+  parameter dependence in a different component.  The split remains
+  reproducible behind `FABLE_ENDGAME_GRAPH_TANGENT_SPLIT=1` but is inactive.
+- The active conclusion is now narrow and quantitative.  A scalable graph
+  must retain derivative variation as $u$-dependent curvature, for example
+  with a validated C2/Taylor form $x+T\delta+Q\delta^2+E$; neither repeated
+  interval tangents nor midpoint-plus-box splitting can do so.  The ordinary
+  probe now continues pair--23 branch tracking through the terminal window;
+  its decimal crossings remain design data only.
