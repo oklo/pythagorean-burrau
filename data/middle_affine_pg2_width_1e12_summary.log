@@ -1,0 +1,54 @@
+Affine-generator PG2 end-to-end control, 2026-08-26
+
+status:
+  VALIDATED NUMERICAL RESULT.  The exact interval is already contained in
+  the established Fable theorem, so this is an implementation/scaling
+  control and not a new nonperiodicity theorem.  Independent adversarial
+  review of the new affine representation remains required before it can
+  support a widened headline theorem.
+
+reproduction command:
+  FABLE_ENDGAME_GRAPH=1 \
+  FABLE_ENDGAME_GRAPH_C2=1 \
+  FABLE_ENDGAME_GRAPH_PG2=1 \
+  FABLE_ENDGAME_GRAPH_AFFINE_REMAINDER=1 \
+  FABLE_ENDGAME_GRAPH_PAIR23_SYNC=1 \
+  sh scripts/fable_run_capd_middle_endgame.sh \
+  /private/tmp/pythagorean-capd /private/tmp/pythagorean-capd/build-mp \
+  29 100 290000000001 1000000000000 160 1e-24 32
+
+CAPD source commit:
+  731079217a9254ea2948d742df2b170895effe7f
+
+Each selected row is:
+  label | total hull | T*delta | Q*delta^2 | affine remainder | generators
+
+t=2/5              | 1.3332205548806597e-11 | 1.3332205548728337e-11 | 1.4527324579646181e-23 | 1.2172230617169687e-22 | 15
+min2               | 1.1318301621731896e-10 | 1.1318301618709139e-10 | 1.7776072359214823e-20 | 1.2451507016371137e-20 | 353
+t=29/10            | 2.6599822611054070e-10 | 2.6599822602363975e-10 | 6.4870158382346438e-20 | 2.2030777046833129e-20 | 483
+max3               | 1.9404298513260085e-10 | 1.9404298505454191e-10 | 5.8539246705760163e-20 | 1.9519684330014902e-20 | 523
+t=17/5             | 1.0651030352999042e-09 | 1.0651030348553804e-09 | 4.2901804145174085e-19 | 1.3420567473293437e-19 | 593
+t=69/20            | 9.2048295538436547e-08 | 9.2048295518924746e-08 | 2.7857479901617732e-17 | 1.2904371258139651e-17 | 603
+min4               | 1.9351860119742095e-08 | 1.9351859923892877e-08 | 1.9409957570986493e-16 | 1.7496411622606158e-18 | 613
+switch13to23_formB | 1.2169364805101200e-08 | 1.2169364741593718e-08 | 1.2750675226272187e-16 | 1.1661547341519681e-18 | 632
+pair23_section_1  | 1.4399855416650464e-08 | 1.4399855370441500e-08 | 1.0010401055289813e-16 | 1.3200899661681656e-18 | 642
+pair23_section_7  | 1.4411211218966959e-08 | 1.4411211182711226e-08 | 1.3430761059364107e-16 | 1.3212740945165281e-18 | 702
+pair23_section_14 | 1.4640242490080687e-08 | 1.4640242457689378e-08 | 1.1911162433226413e-16 | 1.3423462751364447e-18 | 772
+pair23_section_21 | 1.4692303130239332e-08 | 1.4692303098853937e-08 | 1.1566126705991492e-16 | 1.3471319496815328e-18 | 842
+t=77/20            | 1.4606358651400444e-08 | 1.4606358621012085e-08 | 1.0917737108327294e-16 | 1.3394544773504101e-18 | 852
+
+terminal:
+  inf_d=0.87554390335074761
+  inf_rhodot=2.4193181002616733
+  inf_Erho=0.20840620718016264
+  sup_h=-9.2747674966682023
+  sup_Delta=1.852881365602606
+  inf_margin=3.4218861310655968
+
+PASS_MIDDLE_ESCAPE_ENDGAME u=[29/100,290000000001/1000000000000] t_terminal=77/20 eta=4 method=CAPD-6.1.0-MPFR capd_commit=731079217a9254ea2948d742df2b170895effe7f
+
+Every completed Poincare return, oriented section, chart-domain check, and
+independent swept-tube collision/brake audit passed.  Relative to the boxed
+PG2 control, the affine remainder is smaller by about 8.7e10 at t=69/20 and
+2.5e12 at min4.  The final hull is almost entirely the genuine parameter
+tangent and stays flat through all three post-switch binary cycles.

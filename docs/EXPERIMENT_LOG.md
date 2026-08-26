@@ -1975,3 +1975,31 @@ it is not a remainder proof.
   only that tuple can recover the actual hidden subgraph.  The active repair
   is now a structured remainder arm or intrinsic invariant-leaf atlas, not a
   higher-order formula on the same boxed $E$.
+
+## 2026-08-26: affine-generator remainder breakthrough
+
+- Replaced the boxed PG2 remainder by a rectangular affine-generator model
+  $G\Xi+E$.  Each generator's independent source coefficient is retained
+  through the point-anchor derivative; interval derivative width and true
+  quadratic terms spill into $E$, which is then lifted into new diagonal
+  generators.  No rank-deficient Poincare image is inverted.  The exact AGR
+  inclusion theorem and coordinate-section normalization are proved in
+  `docs/AFFINE_REMAINDER_GRAPH.md`; the corresponding quadratic-map
+  regression passes.
+- The exact width-$10^{-12}$ control passed end to end at 160 bits, tolerance
+  $10^{-24}$, and order 32.  Every section and independent swept-tube audit
+  passed.  The affine remainder fell from the boxed values
+  $1.12393\times10^{-6}$ at $t=3.45$ and
+  $4.43187\times10^{-6}$ at the fourth minimum to
+  $1.29044\times10^{-17}$ and $1.74964\times10^{-18}$.  The Form-B switch
+  hull fell from about $8.07\times10^{-5}$ to $1.21694\times10^{-8}$.
+- All 21 post-switch sections stayed at hull approximately
+  $1.44$--$1.48\times10^{-8}$, with affine remainder approximately
+  $1.35\times10^{-18}$.  At $t=77/20$ the terminal hull was
+  $1.46064\times10^{-8}$ and the escape margin was $3.4218861>0$.  The full
+  compact record is `data/middle_affine_pg2_width_1e12_summary.log`.
+- This is the first tested representation to remove the width-independent
+  middle-exchange floor.  Because the control interval is already covered,
+  it is a validated scaling result rather than a new theorem.  A full replay
+  on $[0.29,0.2900001]$ is now running; success plus adversarial audit would
+  enlarge the current gap-free real interval by nearly a factor ten.

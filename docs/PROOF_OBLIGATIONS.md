@@ -1070,6 +1070,17 @@ fiber across switch instants.  The minimal gates are: an exact structured-
 remainder update lemma, a polynomial/Poincare regression, and the same
 width-$10^{-12}$ exchange comparison before any wider campaign.
 
+The affine-generator construction discharges those three implementation
+gates without reviving the failed two-arm inversion.  Theorem AGR is exact,
+the polynomial regression passes, and the full width-$10^{-12}$ control
+reaches the terminal certificate with an exchange remainder 10--12 orders
+smaller than before.  The active obligations are now: (1) independent
+adversarial review of the generator coefficient semantics, Taylor grouping,
+section-row zeroing, direct-image intersection, and residual lifting; and
+(2) completion of the running single-interval certificate on
+$[0.29,0.2900001]$.  Only after both may that wider interval be promoted to
+**PROVED BY COMPUTER-ASSISTED ARGUMENT**.
+
 Three independent adversarial passes audited the incoming-tail theorem. They
 found and forced repair of: a nonuniform constant-energy estimate; an invalid
 partial-LC-block physical-time bound; unspecified oscillator “actions”; a

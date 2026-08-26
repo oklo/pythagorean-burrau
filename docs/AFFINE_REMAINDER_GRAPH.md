@@ -194,8 +194,8 @@ The exact interval
 [29/100,290000000001/10^{12}]
 \]
 
-is being replayed at 160 bits, tolerance $10^{-24}$, and order 32.  The
-completed exchange measurements are:
+was replayed end to end at 160 bits, tolerance $10^{-24}$, and order 32.  The
+exchange measurements are:
 
 | section | previous boxed $E$ | affine-generator remainder | reduction |
 |---|---:|---:|---:|
@@ -208,11 +208,20 @@ completed exchange measurements are:
 
 At $t=69/20$ the complete hull is $9.20483\,10^{-8}$ and at the fourth
 minimum it is $1.93519\,10^{-8}$; both are now almost entirely the genuine
-parameter tangent rather than wrapping.  All swept-tube collision and brake
-audits completed so far have passed.
+parameter tangent rather than wrapping.  All 21 post-switch sections stayed
+between $1.44\,10^{-8}$ and $1.48\,10^{-8}$, while the affine remainder stayed
+near $1.35\,10^{-18}$.
+
+The terminal section $t=77/20$ passed with hull
+$1.46064\,10^{-8}$, 852 generators, separation margin $0.8755439$, outward
+radial-speed margin $2.4193181$, radial-energy margin $0.2084062$, and
+post-tidal inner-energy margin $3.4218861$.  Every Poincare return, chart
+domain, oriented section, and independent swept-tube collision/brake audit
+passed.  The compact reproduction record is
+`data/middle_affine_pg2_width_1e12_summary.log`.
 
 Status of these measurements: **VALIDATED NUMERICAL RESULT**, not yet a new
 theorem.  The control interval is already contained in the established Fable
-theorem, and the terminal replay and independent implementation audit remain
-open.  The theorem-scale test will be a single interval substantially wider
-than the existing $10^{-8}$ union, attempted only after those gates close.
+theorem, and an independent implementation audit remains open.  The first
+theorem-scale test is the single interval $[0.29,0.2900001]$, roughly ten
+times wider than the current certified union.

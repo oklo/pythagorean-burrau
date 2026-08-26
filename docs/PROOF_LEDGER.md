@@ -170,6 +170,8 @@ Allowed evidence labels are used verbatim.
 | Six-form masked PG2 update for $X(\delta)\in x+T\delta+Q\delta^2+E$ | PROVED ANALYTICALLY | Taylor's theorem requires only $TT,TQ,TE,QQ,QE,EE$; diagonal CAPD Hessian entries are factorial-normalized and mixed entries need no extra factor two |
 | Pinned CAPD masked-PG2 implementation corresponds to the six-form update | PROVED BY COMPUTER-ASSISTED ARGUMENT | Pinned-source inspection, existing Poincare C2 semantics probe, exact polynomial regression, and fail-closed width-$10^{-12}$ propagation; CAPD requires all 12 C1 multiindices but only six C2 pairs |
 | A six-form PG2 update with componentwise boxed $E$ materially removes the middle-exchange defect | DISPROVED | At $t=3.45$ and the fourth minimum the defects remain $1.12393431\,10^{-6}$ and $4.43187466\,10^{-6}$, essentially the prior control; the representation tuple permits every $x+e$, $e\in E$, at $\delta=0$ |
+| Affine-generator PG2 update (Theorem AGR) | PROVED ANALYTICALLY | Rectangular generators retain $J_xG\Xi$ exactly up to interval midpoint spill; all Hessian terms are enclosed by the same six $T,Q,R$ forms, and no generator basis is inverted |
+| Affine-generator width-$10^{-12}$ end-to-end control | VALIDATED NUMERICAL RESULT | Every section/tube audit and the terminal escape test passed; the exchange remainder is 10--12 orders below the boxed control. The interval was already covered, and independent implementation audit remains open |
 
 ## Dimension count (guidance only)
 
