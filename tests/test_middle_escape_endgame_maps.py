@@ -111,6 +111,62 @@ def _pair_equal(lhs, rhs):
     return all(sp.together(x - y) == 0 for x, y in zip(lhs, rhs, strict=True))
 
 
+def _norm(pair):
+    return sp.sqrt(pair[0] ** 2 + pair[1] ** 2)
+
+
+def physical_energy(positions, velocities, u):
+    """Translation-reduced Newtonian energy of an exact physical state."""
+    a, b = mass_A(u), mass_B(u)
+    masses = (a, b, sp.Integer(1))
+    total = sum(masses)
+    vcm = tuple(
+        sum(m * velocity[k] for m, velocity in zip(masses, velocities, strict=True))
+        / total
+        for k in range(2)
+    )
+    kinetic = sum(
+        m
+        * sum((velocity[k] - vcm[k]) ** 2 for k in range(2))
+        / 2
+        for m, velocity in zip(masses, velocities, strict=True)
+    )
+    potential = sum(
+        masses[i]
+        * masses[j]
+        / _norm(
+            (
+                positions[j][0] - positions[i][0],
+                positions[j][1] - positions[i][1],
+            )
+        )
+        for i, j in ((0, 1), (0, 2), (1, 2))
+    )
+    return sp.simplify(kinetic - potential)
+
+
+def pair13_h_from_energy(u, total_energy, big_g_velocity, r12, r23):
+    """Smooth target h13 reconstructed from the exact total-energy leaf."""
+    a, b = mass_A(u), mass_B(u)
+    mu13 = a / (a + 1)
+    mu_g = b * (a + 1) / (a + b + 1)
+    outer_kinetic = mu_g * sum(value**2 for value in big_g_velocity) / 2
+    return sp.simplify(
+        (total_energy - outer_kinetic + a * b / r12 + b / r23) / mu13
+    )
+
+
+def pair23_h_from_energy(u, total_energy, big_g_velocity, r12, r13):
+    """Smooth target h23 reconstructed from the exact total-energy leaf."""
+    a, b = mass_A(u), mass_B(u)
+    mu23 = b / (b + 1)
+    mu_g = a * (b + 1) / (a + b + 1)
+    outer_kinetic = mu_g * sum(value**2 for value in big_g_velocity) / 2
+    return sp.simplify(
+        (total_energy - outer_kinetic + a * b / r12 + a / r13) / mu23
+    )
+
+
 def test_switch_23_to_13_rational_core():
     """The switch-back frame change reproduces the direct pair-{1,3} data."""
     for positions, velocities in STATES:
@@ -160,6 +216,44 @@ def test_exchange_sandwich_rational_round_trip():
         assert _pair_equal(back_g13dot, g13dot)
         assert _pair_equal(back_big_g13, big_g13)
         assert _pair_equal(back_p13, p13)
+
+
+def test_fixed_energy_h_reconstruction_on_exact_physical_states():
+    """Both invariant formulas equal the velocity-defined pair energies."""
+    a, b = mass_A(U), mass_B(U)
+    for positions, velocities in STATES:
+        energy = physical_energy(positions, velocities, U)
+        g13, g13dot, _, p13 = pair13_chart_of(positions, velocities, U)
+        g23, g23dot, _, p23 = pair23_chart_of(positions, velocities, U)
+        r12 = _norm(
+            (
+                positions[1][0] - positions[0][0],
+                positions[1][1] - positions[0][1],
+            )
+        )
+        r13 = _norm(g13)
+        r23 = _norm(g23)
+        h13_velocity = sum(value**2 for value in g13dot) / 2 - (a + 1) / r13
+        h23_velocity = sum(value**2 for value in g23dot) / 2 - (b + 1) / r23
+        assert sp.simplify(
+            pair13_h_from_energy(U, energy, p13, r12, r23) - h13_velocity
+        ) == 0
+        assert sp.simplify(
+            pair23_h_from_energy(U, energy, p23, r12, r13) - h23_velocity
+        ) == 0
+
+
+def test_tied_initial_state_has_prescribed_energy_leaf():
+    """The normalized Pythagorean brake family has H=-U0(u) exactly."""
+    a, b = mass_A(U), mass_B(U)
+    positions = (
+        (-R(1, 2), sp.Integer(0)),
+        (R(1, 2), sp.Integer(0)),
+        ((b**2 - a**2) / 2, a * b),
+    )
+    velocities = ((0, 0), (0, 0), (0, 0))
+    u0 = a * b + 1 / (a * b)
+    assert sp.simplify(physical_energy(positions, velocities, U) + u0) == 0
 
 
 def test_form_a_lift_identities_symbolic():

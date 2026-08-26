@@ -852,8 +852,10 @@ DirectCorrelatedGraph make_quadratic_launch_graph(const Ival& u_range) {
 // In the pair-{2,3} chart: g23 = w^2, d13 = q1 - q3 = G + (1/M23 - 1) g23,
 // d12 = q1 - q2 = G + g23/M23.  Then g13 = q3 - q1 = -d13,
 // G13 = (q2 - q1) - g13/M13 = -d12 - g13/M13, and velocities identically.
-Map make_pair23_to_pair13_map() {
+Map make_pair23_to_pair13_map(bool fixed_energy_h = false) {
   const std::string qden = "(1+ww^2)";
+  const std::string ma = "((1-ww^2)/" + qden + ")";
+  const std::string mb = "(2*ww/" + qden + ")";
   const std::string inv_m23 = "(" + qden + "/(1+ww)^2)";
   const std::string inv_m13 = "(" + qden + "/2)";
   const std::string m13 = "(2/" + qden + ")";
@@ -878,7 +880,7 @@ Map make_pair23_to_pair13_map() {
       "((" + new_wr + "*" + gdx + "+" + new_wi + "*" + gdy + ")/2)";
   const std::string new_zi =
       "((" + new_wr + "*" + gdy + "-" + new_wi + "*" + gdx + ")/2)";
-  const std::string new_h =
+  const std::string new_h_velocity =
       "((" + gdx + "^2+" + gdy + "^2)/2-" + m13 + "/" + abs_g + ")";
   // d12 = q1 - q2 in the pair-{2,3} chart; G13 = -d12 - g13/M13.
   const std::string d12x = "(cgx+" + inv_m23 + "*" + old_gx + ")";
@@ -889,6 +891,24 @@ Map make_pair23_to_pair13_map() {
   const std::string new_gy = "(-" + d12y + "-" + inv_m13 + "*" + gy + ")";
   const std::string new_px = "(-" + d12dx + "-" + inv_m13 + "*" + gdx + ")";
   const std::string new_py = "(-" + d12dy + "-" + inv_m13 + "*" + gdy + ")";
+  // On the exact tied energy leaf H=-U0, the target pair energy can be
+  // reconstructed without dividing by the target separation |g13|:
+  //   H = mu13*h13 + muG*|P13|^2/2 - AB/r12 - B/r23.
+  // Here r23=|w23^2|=|w23|^2=old_w2.  This map is intentionally allowed to
+  // project spurious off-leaf box points onto the correct energy leaf; every
+  // genuine Pythagorean fiber is unchanged.
+  const std::string total = "(" + ma + "+" + mb + "+1)";
+  const std::string mu13 = "(" + ma + "/(" + ma + "+1))";
+  const std::string mu_g13 = "(" + mb + "*(" + ma + "+1)/" + total + ")";
+  const std::string ab = "(" + ma + "*" + mb + ")";
+  const std::string u0 = "(" + ab + "+1/" + ab + ")";
+  const std::string r12 = "sqrt(" + d12x + "^2+" + d12y + "^2)";
+  const std::string new_h_energy =
+      "((-" + u0 + "-(" + mu_g13 + "/2)*(" + new_px + "^2+" +
+      new_py + "^2)+" + ab + "/" + r12 + "+" + mb + "/" +
+      old_w2 + ")/" + mu13 + ")";
+  const std::string& new_h =
+      fixed_energy_h ? new_h_energy : new_h_velocity;
   return Map(std::string(kDirectLcVars) + "fun:" + new_wr + "," +
              new_wi + "," + new_zr + "," + new_zi + "," + new_h +
              "," + new_gx + "," + new_gy + "," + new_px + "," +
@@ -898,8 +918,10 @@ Map make_pair23_to_pair13_map() {
 // The committed pair-{1,3} -> pair-{2,3} switch with the Form B square
 // root (w_i = sqrt((|g|-g_x)/2), w_r = g_y/(2 w_i)), valid on g23_x < 0.
 // Everything except the two lift lines is identical to the committed map.
-Map make_pair13_to_pair23_map_form_b() {
+Map make_pair13_to_pair23_map_form_b(bool fixed_energy_h = false) {
   const std::string qden = "(1+ww^2)";
+  const std::string ma = "((1-ww^2)/" + qden + ")";
+  const std::string mb = "(2*ww/" + qden + ")";
   const std::string inv_m13 = "(" + qden + "/2)";
   const std::string inv_m23 = "(" + qden + "/(1+ww)^2)";
   const std::string m23 = "((1+ww)^2/" + qden + ")";
@@ -930,7 +952,7 @@ Map make_pair13_to_pair23_map_form_b() {
       "((" + new_wr + "*" + gdx + "+" + new_wi + "*" + gdy + ")/2)";
   const std::string new_zi =
       "((" + new_wr + "*" + gdy + "-" + new_wi + "*" + gdx + ")/2)";
-  const std::string new_h =
+  const std::string new_h_velocity =
       "((" + gdx + "^2+" + gdy + "^2)/2-" + m23 + "/" + abs_g + ")";
   // d12=q1-q2=-X13=G23+g23/M23.
   const std::string new_gx =
@@ -941,6 +963,22 @@ Map make_pair13_to_pair23_map_form_b() {
       "(-" + old_xdx + "-" + inv_m23 + "*" + gdx + ")";
   const std::string new_py =
       "(-" + old_xdy + "-" + inv_m23 + "*" + gdy + ")";
+  // Fixed-energy reconstruction in the target pair-{2,3} chart:
+  //   H = mu23*h23 + muG*|P23|^2/2 - AB/r12 - A/r13.
+  // The unselected r13 equals old_w2 and r12=|X13|.  No target |g23|
+  // denominator occurs.
+  const std::string total = "(" + ma + "+" + mb + "+1)";
+  const std::string mu23 = "(" + mb + "/(" + mb + "+1))";
+  const std::string mu_g23 = "(" + ma + "*(" + mb + "+1)/" + total + ")";
+  const std::string ab = "(" + ma + "*" + mb + ")";
+  const std::string u0 = "(" + ab + "+1/" + ab + ")";
+  const std::string r12 = "sqrt(" + old_xx + "^2+" + old_xy + "^2)";
+  const std::string new_h_energy =
+      "((-" + u0 + "-(" + mu_g23 + "/2)*(" + new_px + "^2+" +
+      new_py + "^2)+" + ab + "/" + r12 + "+" + ma + "/" +
+      old_w2 + ")/" + mu23 + ")";
+  const std::string& new_h =
+      fixed_energy_h ? new_h_energy : new_h_velocity;
   return Map(std::string(kDirectLcVars) + "fun:" + new_wr + "," +
              new_wi + "," + new_zr + "," + new_zi + "," + new_h +
              "," + new_gx + "," + new_gy + "," + new_px + "," +
@@ -2347,6 +2385,8 @@ int run_endgame(const Ival& u_param, long p, long q, long p2, long q2,
 
   const bool graph_c2 =
       std::getenv("FABLE_ENDGAME_GRAPH_C2") != nullptr;
+  const bool graph_fixed_energy_h =
+      std::getenv("FABLE_ENDGAME_GRAPH_FIXED_ENERGY_H") != nullptr;
   DirectCorrelatedGraph graph = graph_c2
                                     ? make_quadratic_launch_graph(u_param)
                                     : make_direct_launch_graph(u_param);
@@ -2467,13 +2507,15 @@ int run_endgame(const Ival& u_param, long p, long q, long p2, long q2,
     run_time_leg({171, 50, false, LegMode::kNegative});
     certify_pair13_to_pair23_form_b_lift(
         graph, family, "exchange_switch13to23_formB");
-    graph = transform_graph(graph, make_pair13_to_pair23_map_form_b());
+    graph = transform_graph(
+        graph, make_pair13_to_pair23_map_form_b(graph_fixed_energy_h));
     check_switch_state(graph, family, true, false,
                        "exchange_switch13to23_formB");
     run_time_leg({173, 50, true, LegMode::kNegative});
     certify_pair23_to_pair13_form_a_lift(
         graph, family, "exchange_switch23to13_formA");
-    graph = transform_graph(graph, make_pair23_to_pair13_map());
+    graph = transform_graph(
+        graph, make_pair23_to_pair13_map(graph_fixed_energy_h));
     check_switch_state(graph, family, false, false,
                        "exchange_switch23to13_formA");
   } else {
@@ -2485,7 +2527,8 @@ int run_endgame(const Ival& u_param, long p, long q, long p2, long q2,
   // at 3.4695 and that first binary pericenter.
   const TimeLeg out4[] = {{7, 2, false, LegMode::kPostMin}};
   for (const TimeLeg& leg : out4) run_time_leg(leg);
-  graph = transform_graph(graph, make_pair13_to_pair23_map_form_b());
+  graph = transform_graph(
+      graph, make_pair13_to_pair23_map_form_b(graph_fixed_energy_h));
   check_switch_state(graph, family, true, true, "switch13to23_formB");
   const bool graph_pair23_sync =
       std::getenv("FABLE_ENDGAME_GRAPH_PAIR23_SYNC") != nullptr;
@@ -2587,6 +2630,8 @@ int main(int argc, char** argv) {
         std::getenv("FABLE_ENDGAME_GRAPH_C2") != nullptr;
     const bool graph_exchange_sandwich =
         std::getenv("FABLE_ENDGAME_GRAPH_EXCHANGE_SANDWICH") != nullptr;
+    const bool graph_fixed_energy_h =
+        std::getenv("FABLE_ENDGAME_GRAPH_FIXED_ENERGY_H") != nullptr;
     std::cout << "ENDGAME_PARAMS precision_bits=" << precision
               << " tolerance=" << tolerance << " order=" << order
               << " sync_exchange=" << (synchronize_exchange ? 1 : 0)
@@ -2599,7 +2644,9 @@ int main(int argc, char** argv) {
               << " graph_c2=" << (graph_c2 ? 1 : 0)
               << " graph_exchange_sandwich="
               << (graph_exchange_sandwich ? 1 : 0)
-              << " driver=middle_escape_endgame_capd/v19-exchange-sandwich-2026-08-26"
+              << " graph_fixed_energy_h="
+              << (graph_fixed_energy_h ? 1 : 0)
+              << " driver=middle_escape_endgame_capd/v20-fixed-energy-h-2026-08-26"
               << "\n" << std::flush;
     const bool graph_mode =
         std::getenv("FABLE_ENDGAME_GRAPH") != nullptr;
