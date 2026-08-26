@@ -1015,9 +1015,10 @@ before this phase spike.  The opt-in route now uses the six pair--13 LC
 sections $w_r=-3/5,-1/2,-2/5,-3/10,-1/5,0$, with close-unselected-pair step
 caps and independent whole-tube audits.  Its common-clock prefix now ends at
 $t=167/50$, uniformly before the first oriented section and far before the
-exchange spike; the Poincare validation remains responsible for proving the
-actual fiberwise crossings.  A complete pinned control must pass before this
-route can be used on the wider interval.
+exchange spike; a strict graph check requires $w_r<-3/5$ there, and the
+Poincare validation remains responsible for proving the actual fiberwise
+crossings.  A complete pinned control must pass before this route can be used
+on the wider interval.
 
 Three independent adversarial passes audited the incoming-tail theorem. They
 found and forced repair of: a nonuniform constant-energy estimate; an invalid

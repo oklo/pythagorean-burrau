@@ -1881,4 +1881,6 @@ it is not a remainder proof.
   the common-clock prefix to $167/50$ is a cost-only reconditioning: ordinary
   and prior interval timing put the first $w_r=-3/5$ crossing more than
   $2\times10^{-3}$ later, while the Poincare solver itself still fails closed
-  unless every fiber reaches the oriented section.
+  unless every fiber reaches the oriented section.  The implementation also
+  requires the complete entry graph to satisfy $w_r<-3/5$, ruling out an
+  unintended later return branch before invoking the first map.

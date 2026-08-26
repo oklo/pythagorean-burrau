@@ -2540,6 +2540,13 @@ int run_endgame(const Ival& u_param, long p, long q, long p2, long q2,
   }
   if (graph_exchange_sync) {
     run_time_leg({167, 50, false, LegMode::kNegative});
+    const Ival first_exchange_section = -Ival(3) / Ival(5);
+    const Vector exchange_entry = graph_hull(graph);
+    if (!(exchange_entry[0].rightBound() <
+          first_exchange_section.leftBound())) {
+      throw std::runtime_error(
+          "exchange synchronization did not start before first section");
+    }
     // The first section occurs near tp=3.34213; the exact common-clock prefix
     // tp=167/50 remains uniformly before it on the target family and avoids
     // an otherwise needless long C2 integration in regularized time.  The
@@ -2551,7 +2558,7 @@ int run_endgame(const Ival& u_param, long p, long q, long p2, long q2,
     // by the correlated-C0 driver; project_graph supplies the stronger
     // directional-C2 image and independently audits every intervening tube.
     const Ival exchange_wr_sections[] = {
-        -Ival(3) / Ival(5), -Ival(1) / Ival(2),
+        first_exchange_section, -Ival(1) / Ival(2),
         -Ival(2) / Ival(5), -Ival(3) / Ival(10),
         -Ival(1) / Ival(5), Ival(0)};
     int ordinal = 0;
