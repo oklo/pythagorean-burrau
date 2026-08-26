@@ -1,0 +1,33 @@
+MIDDLE C2 JOINT-INVARIANT PROJECTION — VALIDATED FAILURE SUMMARY
+Date: 2026-08-26
+Source commit: 498bae2
+Driver: middle_escape_endgame_capd/v23-joint-invariant-2026-08-26
+CAPD commit: 731079217a9254ea2948d742df2b170895effe7f
+Precision: 160 bits
+Tolerance: 1e-24
+Order: 32
+Exact parameter interval: [29/100,290000000001/1000000000000]
+
+Command:
+FABLE_ENDGAME_GRAPH=1 \
+FABLE_ENDGAME_GRAPH_C2=1 \
+FABLE_ENDGAME_GRAPH_PAIR23_SYNC=1 \
+FABLE_ENDGAME_GRAPH_FIXED_ENERGY_H=1 \
+FABLE_ENDGAME_GRAPH_EXCHANGE_SYNC=1 \
+FABLE_ENDGAME_GRAPH_EXCHANGE_INVARIANT_PROJECT=1 \
+/private/tmp/fable_middle_joint_invariant_test \
+29 100 290000000001 1000000000000 160 1e-24 32
+
+Decisive validated output:
+ENDGAME_LEG exchange_section_4 tp=[3.4577770192575086,3.4577770210278258] jd=[-0.47984825188191749,-0.47984817191074564] hull=4.7394532168551465e-06 parameter_spread=4.925023504668661e-08 quadratic_spread=1.865920405039452e-16 defect=4.6902029817562464e-06 hull_component=4 defect_component=4
+ENDGAME_LEG exchange_invariant_projection_4 tp=[3.4577770192575086,3.4577770210278258] jd=[-0.47984847246780105,-0.47984795132486208] hull=2.7592177211453332e-05 parameter_spread=4.925023504668661e-08 quadratic_spread=1.9995435359277017e-16 defect=2.7542926976397384e-05 hull_component=4 defect_component=4
+
+Classification:
+- Every prefix and swept tube through section 4 passed.
+- Projecting P onto L=0 before reconstructing h and jd did not repair the
+  conditioning. The h-coordinate remained dominant and the hull enlarged by
+  a factor 5.8229 relative to the unprojected section image.
+- The run was deliberately interrupted after the decisive local comparison.
+  It is not a terminal certificate and proves no new parameter interval.
+- The result isolates reconstruction of h, rather than failure to enforce
+  angular momentum or jd, as the harmful operation.

@@ -1265,3 +1265,12 @@ reconstructs energy and $j_d=\dot I$.  If that also enlarges the control, an
 invariant projection of ambient boxes is the wrong representation; the next
 route must retain the invariant manifold intrinsically or use a
 correlation-preserving chart atlas.
+
+The stronger joint projection did not rescue this representation.  It first
+removed the complementary velocity's angular component, then reconstructed
+`h` and $j_d$.  At the same section it enlarged the hull further to
+$2.75921772\times10^{-5}$, with `h` again dominant.  Thus enforcing $L=0$
+before energy does not cure the conditioning; the validated record is
+`data/middle_c2_exchange_joint_width_1e12_failure_summary.log`.  The remaining
+variant keeps `h` fixed and solves $L=0,H=-U_0$ for the two components of
+$P$ on a rigorously selected positive-radial branch.

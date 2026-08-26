@@ -1917,3 +1917,11 @@ it is not a remainder proof.
   Twelve exact map tests pass, the opt-in C2 source compiles against pinned
   CAPD, and the implementation checks $|G|^2>0$ before every use.  Its
   theorem-eligible control replay is the remaining experimental gate.
+- That first joint replay also failed economically: section 4 grew from
+  $4.73945322\times10^{-6}$ to $2.75921772\times10^{-5}$, with `h` still the
+  dominant coordinate.  It was stopped immediately; see
+  `data/middle_c2_exchange_joint_width_1e12_failure_summary.log`.  This
+  separates the bad operation from the useful identities: solving energy for
+  `h` is ill-conditioned even after angular projection.  The next compiled
+  variant instead leaves `h` fixed and reconstructs the two components of
+  $P$ from energy, angular momentum, and the strict sign $G\cdot P>0$.

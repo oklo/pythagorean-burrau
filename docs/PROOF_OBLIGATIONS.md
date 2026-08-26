@@ -1038,6 +1038,15 @@ obligation is no longer another ambient-box invariant projection: it is an
 intrinsic invariant-manifold graph representation or an exact-section atlas
 that never frees these correlations.
 
+The first joint control enlarged the same section hull further to
+$2.75922\times10^{-5}$, again in `h`, so projecting $P$ onto $L=0$ before
+solving for `h` does not discharge the gate.  The final ambient projection
+worth testing is algebraically different: retain `h`, and solve $L=0$ and
+$H=-U_0$ for $P$ using the strictly positive-radial square-root branch.  Its
+exact fixed-fiber identity, branch checks, CAPD map, and regressions are now
+in place.  Failure of that route would trigger the intrinsic-manifold/atlas
+obligation described above.
+
 Three independent adversarial passes audited the incoming-tail theorem. They
 found and forced repair of: a nonuniform constant-energy estimate; an invalid
 partial-LC-block physical-time bound; unspecified oscillator “actions”; a
