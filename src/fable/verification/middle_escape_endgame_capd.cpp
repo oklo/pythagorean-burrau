@@ -1373,15 +1373,22 @@ int run_endgame_c0(const Ival& u_param, long p, long q, long p2, long q2,
           capd::poincare::CrossingDirection direction;
         };
         const Pair23Section pair23_sections[] = {
+            {-Ival(1) / Ival(10), capd::poincare::MinusPlus},
+            {-Ival(1) / Ival(20), capd::poincare::MinusPlus},
             {Ival(0), capd::poincare::MinusPlus},
+            {Ival(1) / Ival(20), capd::poincare::MinusPlus},
             {Ival(1) / Ival(10), capd::poincare::MinusPlus},
             {Ival(3) / Ival(20), capd::poincare::MinusPlus},
             {Ival(1) / Ival(10), capd::poincare::PlusMinus},
+            {Ival(1) / Ival(20), capd::poincare::PlusMinus},
             {Ival(0), capd::poincare::PlusMinus},
+            {-Ival(1) / Ival(20), capd::poincare::PlusMinus},
             {-Ival(1) / Ival(10), capd::poincare::PlusMinus},
             {-Ival(3) / Ival(20), capd::poincare::PlusMinus},
             {-Ival(1) / Ival(10), capd::poincare::MinusPlus},
+            {-Ival(1) / Ival(20), capd::poincare::MinusPlus},
             {Ival(0), capd::poincare::MinusPlus},
+            {Ival(1) / Ival(20), capd::poincare::MinusPlus},
             {Ival(1) / Ival(10), capd::poincare::MinusPlus}};
         int ordinal = 0;
         for (const Pair23Section& section : pair23_sections) {
@@ -1744,7 +1751,7 @@ int main(int argc, char** argv) {
               << " sync_preswitch=" << (synchronize_preswitch ? 1 : 0)
               << " structured_form_b=" << (structured_form_b ? 1 : 0)
               << " sync_pair23=" << (synchronize_pair23 ? 1 : 0)
-              << " driver=middle_escape_endgame_capd/v11-pair23-sync-2026-08-25"
+              << " driver=middle_escape_endgame_capd/v12-dense-pair23-sync-2026-08-25"
               << "\n" << std::flush;
     const bool graph_mode =
         std::getenv("FABLE_ENDGAME_GRAPH") != nullptr;

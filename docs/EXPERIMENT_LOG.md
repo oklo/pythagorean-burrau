@@ -1619,3 +1619,9 @@ it is not a remainder proof.
   use $1/500$.  CAPD still validates every proposed step, while the independent
   C0 tube audit retains its stricter dynamic cap based on every pair
   separation.  This changes cost, not the covering argument.
+- With the faster cap, the first direct jump from the switch state to the
+  pair--23 section $w_r=0$ completed: CAPD enclosed a common return at
+  $t\in[3.5266426,3.5285416]$ and the independent audit covered 125 steps.
+  The image hull was nevertheless $0.170031$, too broad for the remaining
+  cycles.  The itinerary now inserts every intermediate $1/20$ level around
+  each pericenter; the long jump is retired, not cited as a dynamical failure.
