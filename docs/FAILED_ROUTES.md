@@ -1297,3 +1297,37 @@ the image is again enclosed by an ambient additive-defect box.  All three
 algebraic variants are retired.  The next route must propagate the
 one-parameter graph intrinsically, using the audited PG2 Taylor update or an
 equivalent correlation-preserving exact-section atlas.
+
+## Masked PG2 with a componentwise remainder box
+
+**Status:** DISPROVED as a material exchange-width improvement on the
+width-$10^{-12}$ control.  The six-form Taylor enclosure remains valid; no
+dynamical statement is disproved.
+
+The PG2 update was implemented with formal interval directions $T,Q,E$ and
+only the six Hessian pairs $TT,TQ,TE,QQ,QE,EE$.  Pinned-source inspection and
+an exact polynomial regression verify the Taylor-coefficient convention and
+the Poincare return-time correction.  CAPD requires all twelve first-order
+multiindices for its square C1 Lohner algebra, but masking the other 72
+second-order pairs makes the method practical.  An attempted three-column
+first-order mask failed closed with a matrix-dimension exception before its
+first flow step and contributed no enclosure.
+
+The repaired theorem-eligible replay propagated the exact interval
+$[0.29,0.290000000001]$ through the fourth minimum with every completed
+collision/brake tube audit passing.  Nevertheless the additive defects at
+$t=3.4$, $t=3.45$, and the fourth minimum were respectively
+$3.66876118\times10^{-9}$, $1.12393431\times10^{-6}$, and
+$4.43187466\times10^{-6}$--essentially unchanged from the original
+directional-C2 control.  See
+`data/middle_masked_pg2_width_1e12_failure_summary.log`.
+
+The false economic lemma was that explicit Hessian cross terms would recover
+the parameter correlation already discarded into $E$.  They cannot: $E$ is
+still a componentwise box, so a sound six-form update must propagate every
+vector in that box.  The exact obstruction is recorded in
+`docs/C2_PARAMETER_GRAPH.md`: from $(x,T,Q,E)$ alone, every value $x+e$ with
+$e\in E$ is admissible at $\delta=0$, hence no universally sound update can
+exclude its image.  The next route must keep the remainder in a structured
+doubleton/tripleton or an intrinsic invariant-leaf chart; adding derivative
+order to the same boxed remainder is retired.

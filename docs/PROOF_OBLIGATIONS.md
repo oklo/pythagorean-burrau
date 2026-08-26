@@ -1057,6 +1057,19 @@ derivative plus explicit Hessian cross terms) across the exchange and final
 escape atlas.  A wider theorem requires the same independent C0 tube audit
 and terminal certificate; PG2 tightness alone is not a dynamical conclusion.
 
+That PG2 benchmark is now closed negatively at the representation level.  A
+masked implementation carrying all twelve first derivatives but only the six
+$T,Q,E$ Hessian pairs is fast enough and has a proved Taylor update.  On the
+exact width-$10^{-12}$ control it reproduces the same exchange defect:
+$1.12393\times10^{-6}$ at $t=3.45$ and $4.43187\times10^{-6}$ at the fourth
+minimum.  The active obligation is no longer another Taylor order.  Replace
+the componentwise $E$ box by a correlation-bearing remainder--preferably the
+existing two-arm CAPD tripleton geometry transported through the Poincare
+section--and prove that the resulting graph still contains every parameter
+fiber across switch instants.  The minimal gates are: an exact structured-
+remainder update lemma, a polynomial/Poincare regression, and the same
+width-$10^{-12}$ exchange comparison before any wider campaign.
+
 Three independent adversarial passes audited the incoming-tail theorem. They
 found and forced repair of: a nonuniform constant-energy estimate; an invalid
 partial-LC-block physical-time bound; unspecified oscillator “actions”; a

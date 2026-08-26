@@ -1940,3 +1940,38 @@ it is not a remainder proof.
   whose thin-anchor derivative and explicit Hessian cross terms are designed
   to retain the one-dimensional family correlation through each Poincare
   return.
+
+## 2026-08-26: masked PG2 control and representation pivot
+
+- Implemented the PG2 Taylor update directly in the main endgame driver.
+  Its formal C2 columns are the interval vectors $T,Q,E$, and its mask keeps
+  only $TT,TQ,TE,QQ,QE,EE$ at second order.  CAPD's C2 Lohner algebra still
+  requires all twelve first-order multiindices: a first attempt retaining
+  only three failed closed with an internal $1\times1$ by $12\times12$
+  dimension exception before any flow image was accepted.  Keeping all first
+  derivatives and only the six Hessian pairs repaired the construction.
+- The exact six-form expansion is now a proved lemma in
+  `docs/C2_PARAMETER_GRAPH.md`; a new symbolic regression tests every term.
+  The repaired driver compiles against pinned CAPD and 29 focused exact tests
+  pass.
+- Ran the exact width-$10^{-12}$ control at 160 bits, tolerance $10^{-24}$,
+  order 32.  Every completed independent collision/brake tube audit passed
+  through the fourth minimum.  Masked propagation is materially faster than
+  the unmasked 78-pair PG2 prototype: the first return completed in about one
+  minute, whereas the full prototype had not completed it after several
+  minutes.
+- Width economics did not improve.  Additive $E$ was
+  $3.66876118\times10^{-9}$ at $t=3.4$,
+  $1.12393431\times10^{-6}$ at $t=3.45$, and
+  $4.43187466\times10^{-6}$ at the fourth minimum, essentially the original
+  directional-C2 values.  The run was stopped there because the local
+  comparison was decisive and the interval is already inside the published
+  Fable theorem.  Full data are in
+  `data/middle_masked_pg2_width_1e12_failure_summary.log`.
+- This separates runtime from representation.  PG2 economically retains the
+  $T,Q$ jet, but its interval $E$ column faithfully propagates every point of
+  an already decorrelated ambient box.  The exact information obstruction is
+  that $(x,T,Q,E)$ permits all $x+e$, $e\in E$, at $\delta=0$; no update using
+  only that tuple can recover the actual hidden subgraph.  The active repair
+  is now a structured remainder arm or intrinsic invariant-leaf atlas, not a
+  higher-order formula on the same boxed $E$.

@@ -375,3 +375,167 @@ Passing this gate is an engineering result, not yet a wider nonperiodicity
 theorem.  A theorem is obtained only when the complete interval reaches the
 existing phase-robust escape certificate with all covering obligations
 closed.
+
+## Masked PG2 update and the boxed-remainder obstruction
+
+The first implementation of the quadratic graph transported the one-variable
+jet of $x+T\delta+Q\delta^2$ and propagated $E$ with a domain-wide first
+derivative.  A complementary formulation exposes exactly six second-order
+forms and no ambient coordinate Hessian is mathematically needed.
+
+### Theorem MP2 (six-form Taylor enclosure)
+
+Let $F:H\to\mathbb R^n$ be $C^2$ on a convex set $H$, let
+$D=[-d,d]$, and suppose
+
+\[
+ X(\delta)\in x+T\delta+Q\delta^2+E\subset H
+ \qquad(\delta\in D).
+\]
+
+Here $T,Q,E$ may be interval vectors.  Let $J_x$ enclose $DF(x)$ and,
+over all $z\in H$, let
+
+\[
+ q_{TT}=\tfrac12D^2F(z)[T,T],\quad
+ c_{TQ}=D^2F(z)[T,Q],\quad
+ c_{TE}=D^2F(z)[T,E],
+\]
+
+\[
+ q_{QQ}=\tfrac12D^2F(z)[Q,Q],\quad
+ c_{QE}=D^2F(z)[Q,E],\quad
+ q_{EE}=\tfrac12D^2F(z)[E,E]
+\]
+
+be interval enclosures.  If $\widehat {F(x)}$ encloses the anchor image, set
+
+\[
+ \begin{aligned}
+ T'&=J_xT+c_{TE},\\
+ Q'&=J_xQ+q_{TT}+c_{QE},\\
+ E'&=(\widehat {F(x)}-x')+J_xE+q_{EE}
+      +c_{TQ}D^3+q_{QQ}D^4,
+ \end{aligned}
+\]
+
+where $x'$ is any point in $\widehat {F(x)}$.  Then
+
+\[
+ F(X(\delta))\in x'+T'\delta+Q'\delta^2+E'
+ \qquad(\delta\in D).
+\]
+
+**Proof.**  Fix a represented fiber and write
+$h=T\delta+Q\delta^2+e$, $e\in E$.  Componentwise Taylor's theorem on the
+segment from $x$ to $x+h$ gives
+
+\[
+ F(x+h)=F(x)+DF(x)h+\tfrac12D^2F(\xi)[h,h]
+\]
+
+for suitable componentwise points $\xi\in H$.  Expanding the quadratic form
+gives
+
+\[
+ \begin{aligned}
+ \tfrac12D^2F[h,h]
+ ={}&q_{TT}\delta^2+c_{TQ}\delta^3+c_{TE}\delta
+       +q_{QQ}\delta^4+c_{QE}\delta^2+q_{EE}.
+ \end{aligned}
+\]
+
+Interval evaluation over $z\in H$, $T,Q$, and every $e\in E$ contains the
+componentwise choices of $\xi$ and $e$.  Grouping the constant, linear, and
+quadratic powers of $\delta$, and enclosing $\delta^3,\delta^4$ by $D^3,D^4$,
+proves the inclusion. $\square$
+
+Status: **PROVED ANALYTICALLY**.  The exact scalar polynomial regression is
+`test_pg2_six_directional_form_update_is_exact_for_quadratic_maps`.
+
+There is no extra factor two in the implemented mixed entries.  CAPD's
+`Hessian` stores $D_{ii}^2F/2$ on a diagonal and $D_{ij}^2F$ for $i<j$.
+Thus a formal C2 frame with columns $T,Q,E$ returns $q_{TT}$ in entry $(0,0)$
+and $c_{TE}$ in entry $(0,2)$ directly.
+
+### Correspondence with pinned CAPD
+
+The implementation is opt-in through
+`FABLE_ENDGAME_GRAPH_PG2=1`.  Its C0 part contains the complete graph hull.
+Its initial C1 matrix has columns $0,1,2$ equal to the interval vectors
+$T,Q,E$ and all other columns zero; the initial C2 tensor is zero.  An
+interval $E$ column is sound: the C1 constructor splits every interval matrix
+entry into midpoint plus centered remainder, so its represented matrix set
+contains a column equal to every $e\in E$.  C2 propagation then encloses the
+variational chain rule for every such initial matrix and every point in the
+independent C0 domain.
+
+This statement was checked against pinned CAPD commit
+`731079217a9254ea2948d742df2b170895effe7f`:
+
+- `C2DoubletonSet.hpp:185--213` installs the supplied C0, C1, and C2 parts;
+- `C2DoubletonSet.hpp:233--267` composes the current C1 matrix and C2 tensor
+  with the interval Jacobian and Hessian of every validated flow step;
+- `SectionDerivativesEnclosure.h:113--123` hulls both derivatives over the
+  complete section-touching window;
+- `AbstractSection.hpp:83--129` applies the first- and second-return-time
+  correction entrywise, so selected formal directions remain selected after
+  the Poincare map;
+- `DagIndexer.h:285--301,423--436` states and implements derivative masks,
+  automatically adding dependencies and zeroing unrequested coefficients.
+
+CAPD's C2 Lohner implementation nevertheless requires a square C1 algebra.
+A mask containing only the first three first-order multiindices failed closed
+before its first step with a $1\times1$ by $12\times12$ dimension exception.
+The repaired mask retains all twelve first-order multiindices and only the six
+second-order pairs $TT,TQ,TE,QQ,QE,EE$.  No physical enclosure was accepted
+from the failed run.
+
+Status of the source-to-formula correspondence:
+**PROVED BY COMPUTER-ASSISTED ARGUMENT**, by pinned-source inspection, the
+existing analytic Poincare C2 semantics probe, the exact polynomial test, a
+successful compile, and fail-closed interval propagation.  An independent
+adversarial implementation review remains desirable before this route could
+support a new headline theorem.
+
+### Decisive control result
+
+The exact interval
+
+\[
+ [29/100,290000000001/10^{12}]
+\]
+
+was propagated at 160 bits, tolerance $10^{-24}$, and order 32 through the
+fourth-minimum section.  Every completed independent swept-tube collision and
+brake audit passed.  At the difficult exchange the results were
+
+| section | total hull | $T D$ | $Q D^2$ | $E$ |
+|---|---:|---:|---:|---:|
+| $t=17/5$ | $4.73386\,10^{-9}$ | $1.06510\,10^{-9}$ | $4.29\,10^{-19}$ | $3.66876\,10^{-9}$ |
+| $t=69/20$ | $1.21598\,10^{-6}$ | $9.20483\,10^{-8}$ | $2.79\,10^{-17}$ | $1.12393\,10^{-6}$ |
+| fourth minimum | $4.45123\,10^{-6}$ | $1.93519\,10^{-8}$ | $1.94\,10^{-16}$ | $4.43187\,10^{-6}$ |
+
+These values are essentially the same as the earlier directional-C2 control.
+The run was stopped after this decisive comparison; it proves no new
+nonperiodicity interval.  The compact record is
+`data/middle_masked_pg2_width_1e12_failure_summary.log`.
+
+Masked PG2 therefore solves the full-Hessian *runtime* problem, but not the
+exchange-width problem.  It retains the one-dimensional $T,Q$ jet while $E$
+remains a componentwise ambient box.  Once correlation has entered $E$, the
+six interval forms must cover every vector in that box, and the close
+encounter amplifies precisely that missing correlation.
+
+This limitation is information-theoretic.  From the tuple $(x,T,Q,E)$ alone,
+at $\delta=0$ every map $X_e$ with $X_e(0)=x+e$, $e\in E$, is consistent with
+the representation.  Any update asserted sound for all represented graphs
+must therefore contain $F(x+E)$ at that fiber.  No higher derivative formula
+can reconstruct which subset of $E$ belongs to the actual parameterized
+orbit.  The next useful object must refine the representation itself: a
+structured doubleton/tripleton remainder, a second local parameter inside the
+remainder with a proved dependence relation, or an intrinsic invariant-leaf
+chart.
+
+Status of that representation obstruction: **PROVED ANALYTICALLY**.  Status
+of the observed exchange economics: **VALIDATED NUMERICAL RESULT**.

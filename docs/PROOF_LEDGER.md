@@ -167,6 +167,9 @@ Allowed evidence labels are used verbatim.
 | Every fixed restricted resonance intercept has infinitely many explicit-family reference phases within $O(B_n^{1/6})$ | PROVED BY COMPUTER-ASSISTED ARGUMENT | Dyadic Erdos--Turan discrepancy is analytic; unconditional availability of the resonance intercept imports validated transversality; yields only scaled finite-time near-brakes, never exact brakes |
 | Finite-$B$ separatrix has phase displacement $\sigma_*(B)=2B/\kappa+o(B)$ | CONJECTURAL | Gauge-fixed $\kappa\ne0$ and incoming-state matching are proved; finite-$B$ separatrix persistence and the claimed first displacement coefficient remain |
 | Segment virial and initial-vector force-projection identities | PROVED ANALYTICALLY | Necessary for a hypothetical collision-free second brake; no contradiction yet |
+| Six-form masked PG2 update for $X(\delta)\in x+T\delta+Q\delta^2+E$ | PROVED ANALYTICALLY | Taylor's theorem requires only $TT,TQ,TE,QQ,QE,EE$; diagonal CAPD Hessian entries are factorial-normalized and mixed entries need no extra factor two |
+| Pinned CAPD masked-PG2 implementation corresponds to the six-form update | PROVED BY COMPUTER-ASSISTED ARGUMENT | Pinned-source inspection, existing Poincare C2 semantics probe, exact polynomial regression, and fail-closed width-$10^{-12}$ propagation; CAPD requires all 12 C1 multiindices but only six C2 pairs |
+| A six-form PG2 update with componentwise boxed $E$ materially removes the middle-exchange defect | DISPROVED | At $t=3.45$ and the fourth minimum the defects remain $1.12393431\,10^{-6}$ and $4.43187466\,10^{-6}$, essentially the prior control; the representation tuple permits every $x+e$, $e\in E$, at $\delta=0$ |
 
 ## Dimension count (guidance only)
 
