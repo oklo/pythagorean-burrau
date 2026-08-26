@@ -1027,6 +1027,17 @@ complete pinned replay proving that the projection actually reduces the
 section defect without losing any domain, brake-covering, or collision
 margin.
 
+That energy-only replay answered the question negatively.  At section 4 the
+hull was $4.73945\times10^{-6}$; energy reconstruction enlarged it to
+$2.25401\times10^{-5}$ because uncertainty in the other energy terms was
+returned to `h`.  The remaining localized experiment is the stronger joint
+projection onto $L=0$, $H=-U_0$, and the defining identity $j_d=\dot I$.
+Its fixed-fiber lemma and exact formulas are proved and the opt-in C2 code is
+compiled and tested.  If its complete control also enlarges the defect, the
+obligation is no longer another ambient-box invariant projection: it is an
+intrinsic invariant-manifold graph representation or an exact-section atlas
+that never frees these correlations.
+
 Three independent adversarial passes audited the incoming-tail theorem. They
 found and forced repair of: a nonuniform constant-energy estimate; an invalid
 partial-LC-block physical-time bound; unspecified oscillator “actions”; a

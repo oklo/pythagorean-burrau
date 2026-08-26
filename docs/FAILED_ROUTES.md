@@ -1239,3 +1239,29 @@ correlation when the ambient Poincare derivative transports a freely boxed
 defect.  The next repair is not another section.  It is the already-proved
 fixed-energy projection applied *in the same pair--13 chart* immediately
 after the hard section, before that defect is propagated again.
+
+## Same-chart energy projection after the hard exchange section
+
+**Status:** DISPROVED as an enclosure improvement on the width-$10^{-12}$
+control.  The projection lemma remains proved; no dynamical statement is
+disproved.
+
+The pinned replay reached pair--13 section 4 with hull
+$4.73945322\times10^{-6}$, of which $4.69020298\times10^{-6}$ was additive
+defect in `h`.  Applying the exact same-chart energy reconstruction increased
+the hull to $2.25401247\times10^{-5}$ and the `h` defect to
+$2.24908744\times10^{-5}$, a factor $4.7569$ enlargement.  All earlier
+section and swept-tube collision/brake audits passed.  The run was stopped at
+this first decisive comparison; see
+`data/middle_c2_exchange_energy_width_1e12_failure_summary.log`.
+
+The false lemma was that solving the conserved-energy identity for `h` would
+necessarily remove the `h` wrapping.  Although every genuine fiber is fixed,
+the formula also reads the already boxed complementary velocity and two
+unselected distances.  Their interval uncertainty is amplified and returned
+to `h`.  The strictly stronger remaining experiment first projects the
+complementary velocity onto $L=0$ while preserving $G\cdot P$, then
+reconstructs energy and $j_d=\dot I$.  If that also enlarges the control, an
+invariant projection of ambient boxes is the wrong representation; the next
+route must retain the invariant manifold intrinsically or use a
+correlation-preserving chart atlas.

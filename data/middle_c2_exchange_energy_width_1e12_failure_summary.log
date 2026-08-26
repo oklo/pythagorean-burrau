@@ -1,0 +1,40 @@
+MIDDLE C2 SAME-CHART ENERGY-PROJECTION CONTROL — VALIDATED FAILURE SUMMARY
+Date: 2026-08-26
+Source commit: d31a1f0
+Driver: middle_escape_endgame_capd/v22-exchange-energy-2026-08-26
+CAPD commit: 731079217a9254ea2948d742df2b170895effe7f
+Precision: 160 bits
+Tolerance: 1e-24
+Order: 32
+Exact parameter interval: [29/100,290000000001/1000000000000]
+
+Command:
+FABLE_ENDGAME_GRAPH=1 \
+FABLE_ENDGAME_GRAPH_C2=1 \
+FABLE_ENDGAME_GRAPH_PAIR23_SYNC=1 \
+FABLE_ENDGAME_GRAPH_FIXED_ENERGY_H=1 \
+FABLE_ENDGAME_GRAPH_EXCHANGE_SYNC=1 \
+FABLE_ENDGAME_GRAPH_EXCHANGE_ENERGY_PROJECT=1 \
+/private/tmp/fable_middle_exchange_energy_project_test \
+29 100 290000000001 1000000000000 160 1e-24 32
+
+Selected validated output:
+ENDGAME_LEG t=167/50 tp=[3.3400000000000003,3.3400000000000003] jd=[-1.2498801422949659,-1.2498801408515765] hull=1.9848034043344622e-09 parameter_spread=6.3967972868084663e-10 quadratic_spread=3.6976309191514199e-19 defect=1.3451236752838523e-09 hull_component=7 defect_component=7
+ENDGAME_LEG exchange_section_1 tp=[3.3421317960283758,3.3421317965181454] jd=[-1.2546826026374354,-1.2546826002415923] hull=6.0693204719193507e-09 parameter_spread=9.4017943615809444e-10 quadratic_spread=5.0702103217203363e-19 defect=5.1291410352542353e-09 hull_component=7 defect_component=7
+ENDGAME_LEG exchange_section_2 tp=[3.4156767052802359,3.4156767060713067] jd=[-1.2486918576695742,-1.2486918517941508] hull=2.8445111621492882e-08 parameter_spread=3.1140816272795999e-09 quadratic_spread=2.0820323811066258e-18 defect=2.5331029992131249e-08 hull_component=4 defect_component=4
+ENDGAME_LEG exchange_section_3 tp=[3.4470868662839518,3.4470868673496371] jd=[-0.88603557799601385,-0.88603555720588656] hull=1.345383214086413e-06 parameter_spread=7.4624254277833969e-08 quadratic_spread=1.1140878285433782e-16 defect=1.2707589596971702e-06 hull_component=4 defect_component=4
+ENDGAME_LEG exchange_section_4 tp=[3.4577770192575086,3.4577770210278258] jd=[-0.47984825188191749,-0.47984817191074564] hull=4.7394532168551465e-06 parameter_spread=4.925023504668661e-08 quadratic_spread=1.865920405039452e-16 defect=4.6902029817562464e-06 hull_component=4 defect_component=4
+ENDGAME_LEG exchange_energy_projection_4 tp=[3.4577770192575086,3.4577770210278258] jd=[-0.47984825188191749,-0.47984817191074564] hull=2.2540124662371745e-05 parameter_spread=4.925023504668661e-08 quadratic_spread=1.865920405039452e-16 defect=2.2490874427274665e-05 hull_component=4 defect_component=4
+
+Classification:
+- Every prefix and inter-section tube through exchange section 4 passed its
+  collision, brake, orientation, transversality, and J-sign audit.
+- The exact fiberwise energy projection is mathematically sound, but its C2
+  image enlarged the dominant h-coordinate enclosure by a factor
+  2.2540124662371745e-05 / 4.7394532168551465e-06 = 4.756876... .
+- The run was deliberately interrupted immediately after this decisive
+  economic failure. It is not a terminal certificate and proves no new
+  nonperiodicity interval.
+- Smallest false lemma: reconstructing h from the total-energy identity on
+  the freely boxed section graph need not shrink h; interval uncertainty in
+  the other positions and velocities is amplified by the reconstruction.

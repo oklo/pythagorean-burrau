@@ -1900,3 +1900,20 @@ it is not a remainder proof.
   diagnostics and relaxed $1/500$ caps away from the two hard sections make
   the next comparison localized and reproducible.  Its CAPD replay remains
   outstanding.
+
+## 2026-08-26: same-chart projection result and joint-invariant repair
+
+- The pinned width-$10^{-12}$ control reached exchange section 4 with hull
+  $4.73945322\times10^{-6}$ and additive `h` defect
+  $4.69020298\times10^{-6}$.  The exact energy-only projection enlarged the
+  hull to $2.25401247\times10^{-5}$, again in `h`.  Because this is a factor
+  $4.7569$ local loss before sections 5--6 or `min4`, the run was deliberately
+  stopped.  The exact projection lemma is sound; the failed assumption was
+  economic.  The compact record is
+  `data/middle_c2_exchange_energy_width_1e12_failure_summary.log`.
+- Derived a coordinate-free zero-angular-momentum projection
+  $P^*=P+(K-G\times P)JG/|G|^2$ that preserves $G\cdot P$, followed by exact
+  energy and $j_d=\dot I$ reconstruction.  Every genuine tied fiber is fixed.
+  Twelve exact map tests pass, the opt-in C2 source compiles against pinned
+  CAPD, and the implementation checks $|G|^2>0$ before every use.  Its
+  theorem-eligible control replay is the remaining experimental gate.
