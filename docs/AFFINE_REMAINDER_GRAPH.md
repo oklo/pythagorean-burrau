@@ -301,3 +301,21 @@ changes the campaign economics materially: if comparable translated tiles
 work across $[0.29,0.29002]$, about twenty width-$10^{-6}$ certificates would
 cover the committed block.  Uniform translatability has not been assumed or
 proved; each tile must pass independently or be subdivided.
+
+The resumable campaign driver is
+
+```text
+python3 scripts/run_affine_middle_campaign.py \
+  --binary /private/tmp/fable_middle_affine_final \
+  --output-dir /private/tmp/affine_middle_campaign \
+  --first-index 1 --last-index 19
+```
+
+With the default base numerator and denominator, tile $j$ is exactly
+$[(290000+j)/10^6,(290001+j)/10^6]$.  Thus adjacent files share the same
+rational endpoint by construction.  A log is renamed from `.partial` to its
+final name only after the executable returns zero and the complete 85-row
+audit passes.  Interrupted and rejected artifacts are preserved as
+`.failed.log`; an already completed tile is skipped only after being audited
+again.  The driver stops at the first failure by default so that the interval
+can be classified or subdivided rather than silently leaving a gap.
