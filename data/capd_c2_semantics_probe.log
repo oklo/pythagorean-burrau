@@ -1,0 +1,26 @@
+CAPD C2 semantics regression
+Date: 2026-08-26
+CAPD source: /private/tmp/pythagorean-capd
+CAPD build: /private/tmp/pythagorean-capd/build-mp
+CAPD commit: 731079217a9254ea2948d742df2b170895effe7f
+Precision: 160 bits
+
+Command:
+
+  sh scripts/run_capd_c2_semantics_probe.sh \
+    /private/tmp/pythagorean-capd \
+    /private/tmp/pythagorean-capd/build-mp 160
+
+Output:
+
+  PASS_CAPD_C2_SEMANTICS precision_bits=160 capd_commit=731079217a9254ea2948d742df2b170895effe7f
+
+The executable checks three independent facts:
+
+1. A static polynomial map verifies the factorial-normalized diagonal and
+   mixed quadratic-coefficient convention.
+2. The exactly solvable map x'=1, y'=y with section x=1 verifies every
+   entry of DP and D2P, including curvature created by the return time.
+3. A nonlinear formal initial jet verifies custom C1/C2 composition and a
+   validated mask retaining all first derivatives plus one quadratic
+   direction.

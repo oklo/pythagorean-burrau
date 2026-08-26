@@ -1097,3 +1097,43 @@ hull into an uncorrelated box.  Hence the obstruction is derivative
 variation along the tied curve, not merely the storage location of interval
 width.  The next representation must retain at least quadratic parameter
 dependence or an equivalent Taylor-model remainder.
+
+## Full ambient C2 Hessian propagation
+
+**Status:** DISPROVED as an economically usable implementation; the abstract
+full-Hessian enclosure lemma remains valid.
+
+The direct implementation propagated all quadratic coefficients of the
+12-dimensional Poincare flow, a tensor with 936 stored components before
+set-representation overhead.  At 160 bits, tolerance $10^{-24}$, and order
+32, it did not complete even the first $t=2/5$ section after several minutes.
+This was not a solver failure or loss of transversality; it was stopped after
+measuring cost.
+
+The useful part was salvaged.  The exact conserved coordinate `ww=u` supplies
+a formal parameter direction with an explicit determinant-one frame.  A
+CAPD mask retaining all first derivatives and only the $(10,10)$ quadratic
+coefficient reproduces exact analytic composition and completes the full
+width-$10^{-12}$ itinerary.  Thus future C2 work should use the directional
+architecture in `docs/C2_PARAMETER_GRAPH.md`, not restore the ambient Hessian.
+
+## Directional C2 with an uncorrelated additive remainder
+
+**Status:** successful end to end on the width-$10^{-12}$ control, but not yet
+proved scalable; the localized remainder architecture is under repair.
+
+The directional parameter jet removes the earlier interval-tangent blow-up:
+at the final geometric section the tangent contribution is
+$1.47\times10^{-8}$ instead of approximately $0.90$.  It also reduces the
+Form-B hull by a factor about 24.  The remaining box is almost entirely the
+additive graph defect.  During the overlapping pair--23/pair--13 encounter
+near $t=3.45$, that defect is mean-value transported from
+$3.67\times10^{-9}$ to $1.12\times10^{-6}$ and reaches $0.0437$ at the
+terminal time.  The terminal theorem still passes with margin $2.78859$.
+
+This does not disprove quadratic parameter graphs: the stored quadratic
+spread remains tiny, and the complete control certificate succeeds.  It
+disproves only the assumption that a freely boxed higher-order defect will
+automatically remain economical through the double encounter.  The next
+test must reabsorb the defect into correlated parameter coefficients at a
+transverse event, or regularize both exchange pairs simultaneously.

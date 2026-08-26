@@ -71,6 +71,7 @@
 #include <memory>
 #include <stdexcept>
 #include <string>
+#include <vector>
 
 #include "capd/dynsys/DynSysMap.h"
 #include "capd/mpcapdlib.h"
@@ -85,11 +86,70 @@ typedef capd::MpIVector Vector;
 typedef capd::MpIMatrix Matrix;
 typedef capd::MpC0TripletonSet Set;
 typedef capd::MpC1Rect2Set C1Set;
+typedef capd::MpC2Rect2Set C2Set;
+typedef capd::MpIHessian Hessian;
+typedef capd::MpIC2OdeSolver C2Solver;
 typedef capd::MpICoordinateSection CoordinateSection;
 typedef capd::MpIPoincareMap PoincareMap;
+typedef capd::MpIC2PoincareMap C2PoincareMap;
 
 double bound_double(const capd::MpFloat& x) { return toDouble(x); }
 double to_double(const Ival& x) { return bound_double(x.rightBound()); }
+
+Ival square_interval(const Ival& value) {
+  return capd::intervals::sqr(value);
+}
+
+// CAPD Hessian objects store factorial-normalized homogeneous Taylor
+// coefficients: H(i,j,j)=D_jj/2 and H(i,j,k)=D_jk for j<k.  Consequently
+// this is Q_H(v)=D^2[v,v]/2, with each unordered pair evaluated once.
+Vector homogeneous_quadratic(const Hessian& coefficients,
+                             const Vector& vector) {
+  const int domain = vector.dimension();
+  const int image = coefficients.imageDimension();
+  Vector result(image);
+  for (int i = 0; i < image; ++i) {
+    for (int j = 0; j < domain; ++j) {
+      result[i] += coefficients(i, j, j) * square_interval(vector[j]);
+      for (int k = j + 1; k < domain; ++k) {
+        result[i] += coefficients(i, j, k) * vector[j] * vector[k];
+      }
+    }
+  }
+  return result;
+}
+
+// Polarization C_H(v,w)=Q_H(v+w)-Q_H(v)-Q_H(w)=D^2[v,w].
+Vector polarized_quadratic(const Hessian& coefficients,
+                           const Vector& left, const Vector& right) {
+  const int domain = left.dimension();
+  const int image = coefficients.imageDimension();
+  Vector result(image);
+  for (int i = 0; i < image; ++i) {
+    for (int j = 0; j < domain; ++j) {
+      result[i] += Ival(2) * coefficients(i, j, j) * left[j] * right[j];
+      for (int k = j + 1; k < domain; ++k) {
+        result[i] += coefficients(i, j, k) *
+                     (left[j] * right[k] + right[j] * left[k]);
+      }
+    }
+  }
+  return result;
+}
+
+// Select point interval coefficients and move the discarded interval width,
+// multiplied by the complete monomial range, into an additive spill.
+Vector midpoint_coefficients(const Vector& raw, const Ival& monomial,
+                             Vector& spill) {
+  const int dimension = raw.dimension();
+  Vector point(dimension);
+  spill = Vector(dimension);
+  for (int i = 0; i < dimension; ++i) {
+    point[i] = raw[i].mid();
+    spill[i] = (raw[i] - point[i]) * monomial;
+  }
+  return point;
+}
 
 struct Family {
   Ival a;
@@ -517,6 +577,12 @@ struct DirectCorrelatedGraph {
   Vector defect;
   Ival u_range;
   Ival u_center;
+  // Optional second-order coefficient in
+  //   X(delta) subset anchor + tangent*delta + quadratic*delta^2 + defect.
+  // It is active only when quadratic_mode is true, so the committed C1 path
+  // remains bit-for-bit represented by the first five fields above.
+  Vector quadratic;
+  bool quadratic_mode = false;
 
   Set c0_set() const {
     const int dimension = anchor.dimension();
@@ -528,6 +594,10 @@ struct DirectCorrelatedGraph {
           2;
       x[row] = center;
       r[row] = defect[row] + (anchor[row] - center);
+      if (quadratic_mode) {
+        r[row] += quadratic[row] *
+                  square_interval(u_range - u_center);
+      }
       r[row] = capd::intervals::intervalHull(r[row], Ival(0));
       r0[row] = Ival(0);
       for (int column = 0; column < dimension; ++column) {
@@ -550,6 +620,10 @@ struct DirectCorrelatedGraph {
           2;
       x[row] = center;
       r[row] = defect[row] + (anchor[row] - center);
+      if (quadratic_mode) {
+        r[row] += quadratic[row] *
+                  square_interval(u_range - u_center);
+      }
       r[row] = capd::intervals::intervalHull(r[row], Ival(0));
       r0[row] = Ival(0);
       for (int column = 0; column < dimension; ++column) {
@@ -561,7 +635,121 @@ struct DirectCorrelatedGraph {
     r0[0] = u_range - u_center;
     return C1Set(x, c, r0, b, r, Ival(0));
   }
+
+  C2Set c2_set() const {
+    const int dimension = anchor.dimension();
+    Vector x(dimension), r0(dimension), r(dimension);
+    Matrix c(dimension, dimension), b(dimension, dimension);
+    const Ival deviation = u_range - u_center;
+    const Ival deviation_squared = square_interval(deviation);
+    for (int row = 0; row < dimension; ++row) {
+      const Ival center = anchor[row].mid();
+      x[row] = center;
+      r[row] = defect[row] + (anchor[row] - center);
+      if (quadratic_mode) {
+        r[row] += quadratic[row] * deviation_squared;
+      }
+      r[row] = capd::intervals::intervalHull(r[row], Ival(0));
+      r0[row] = Ival(0);
+      for (int column = 0; column < dimension; ++column) {
+        c[row][column] = Ival(row == column ? 1 : 0);
+        b[row][column] = Ival(row == column ? 1 : 0);
+      }
+      c[row][0] = tangent[row];
+    }
+    r0[0] = deviation;
+    return C2Set(x, c, r0, b, r, Ival(0));
+  }
+
+  // C2 set carrying only the formal one-parameter jet of the point
+  // polynomial gamma(delta)=anchor+tangent*delta+quadratic*delta^2.
+  // The C0 part contains the complete graph including the additive defect;
+  // the custom C1/C2 initial data describe gamma.  The solver mask used by
+  // project_graph_c2 retains all first derivatives and only Hessian (10,10).
+  C2Set directional_c2_set() const {
+    if (!quadratic_mode) {
+      throw std::runtime_error("directional C2 set requested for C1 graph");
+    }
+    const int dimension = anchor.dimension();
+    const Ival deviation = u_range - u_center;
+    const Ival deviation_squared = square_interval(deviation);
+    Vector x(dimension), r0(dimension), r(dimension);
+    Matrix c(dimension, dimension), b(dimension, dimension);
+    Matrix initial_derivative = Matrix::Identity(dimension);
+    Hessian initial_quadratic(dimension, dimension);
+    constexpr int parameter_coordinate = 10;
+    for (int row = 0; row < dimension; ++row) {
+      x[row] = anchor[row].mid();
+      r[row] = defect[row] + (anchor[row] - x[row]) +
+               quadratic[row] * deviation_squared;
+      r[row] = capd::intervals::intervalHull(r[row], Ival(0));
+      r0[row] = Ival(0);
+      for (int column = 0; column < dimension; ++column) {
+        c[row][column] = Ival(row == column ? 1 : 0);
+        b[row][column] = Ival(row == column ? 1 : 0);
+      }
+      c[row][0] = tangent[row];
+      initial_derivative[row][parameter_coordinate] =
+          tangent[row] + Ival(2) * quadratic[row] * deviation;
+      initial_quadratic(row, parameter_coordinate,
+                        parameter_coordinate) = quadratic[row];
+    }
+    r0[0] = deviation;
+    C2Set::C0BaseSet c0(x, c, r0, b, r);
+    C2Set::C1BaseSet c1(initial_derivative);
+    return C2Set(c0, c1, initial_quadratic, Ival(0));
+  }
+
+  // The directional C2 set replaces column 10 of the identity by
+  // gamma'(delta).  Because the transported parameter coordinate is exactly
+  // gamma'_10=1, the frame and its inverse are explicit rank-one matrices.
+  Matrix directional_frame() const {
+    const int dimension = anchor.dimension();
+    constexpr int parameter_coordinate = 10;
+    const Ival deviation = u_range - u_center;
+    Matrix frame = Matrix::Identity(dimension);
+    for (int row = 0; row < dimension; ++row) {
+      frame[row][parameter_coordinate] =
+          tangent[row] + Ival(2) * quadratic[row] * deviation;
+    }
+    return frame;
+  }
+
+  Matrix directional_frame_inverse() const {
+    const int dimension = anchor.dimension();
+    constexpr int parameter_coordinate = 10;
+    const Matrix frame = directional_frame();
+    if (!(frame[parameter_coordinate][parameter_coordinate].leftBound() ==
+              Ival(1).leftBound()) ||
+        !(frame[parameter_coordinate][parameter_coordinate].rightBound() ==
+              Ival(1).rightBound())) {
+      throw std::runtime_error("parameter-jet pivot is not exactly one");
+    }
+    Matrix inverse = Matrix::Identity(dimension);
+    for (int row = 0; row < dimension; ++row) {
+      if (row != parameter_coordinate) {
+        inverse[row][parameter_coordinate] = -frame[row][parameter_coordinate];
+      }
+    }
+    return inverse;
+  }
 };
+
+void set_directional_c2_mask(C2Solver& solver, int dimension,
+                             int parameter_coordinate) {
+  using Multiindex = capd::vectalg::Multiindex;
+  std::vector<Multiindex> mask;
+  mask.reserve(dimension + 1);
+  for (int column = 0; column < dimension; ++column) {
+    Multiindex first(dimension);
+    first[column] = 1;
+    mask.push_back(first);
+  }
+  Multiindex curvature(dimension);
+  curvature[parameter_coordinate] = 2;
+  mask.push_back(curvature);
+  solver.setMask(mask.begin(), mask.end());
+}
 
 DirectCorrelatedGraph make_direct_launch_graph(const Ival& u_range) {
   const Ival u_center =
@@ -601,6 +789,61 @@ DirectCorrelatedGraph make_direct_launch_graph(const Ival& u_range) {
         capd::intervals::intervalHull(defect[row], Ival(0));
   }
   return {anchor, tangent, defect, u_range, u_center};
+}
+
+DirectCorrelatedGraph make_quadratic_launch_graph(const Ival& u_range) {
+  const Ival u_center = u_range.mid();
+  const Ival deviation = u_range - u_center;
+  const Ival deviation_squared = square_interval(deviation);
+  Vector center_input(12), range_input(12);
+  for (int i = 0; i < 12; ++i) {
+    center_input[i] = Ival(0);
+    range_input[i] = Ival(0);
+  }
+  center_input[10] = u_center;
+  range_input[10] = u_range;
+  Map launch_map = make_direct_lc_initial_graph_field();
+  launch_map.setDegree(2);
+  Matrix anchor_derivative(12, 12), range_derivative(12, 12);
+  Hessian anchor_quadratic(12, 12), range_quadratic(12, 12);
+  const Vector anchor_image =
+      launch_map(center_input, anchor_derivative, anchor_quadratic);
+  const Vector direct_image =
+      launch_map(range_input, range_derivative, range_quadratic);
+
+  Vector anchor(12), raw_tangent(12), raw_quadratic(12), defect(12);
+  for (int row = 0; row < 12; ++row) {
+    anchor[row] = anchor_image[row].mid();
+    raw_tangent[row] = anchor_derivative[row][10];
+    raw_quadratic[row] = range_quadratic(row, 10, 10);
+  }
+  // The construction field freezes ww; the actual launch graph retains it
+  // as the exact affine parameter coordinate.
+  anchor[10] = u_center;
+  raw_tangent[10] = Ival(1);
+  raw_quadratic[10] = Ival(0);
+
+  Vector tangent_spill(12), quadratic_spill(12);
+  const Vector tangent =
+      midpoint_coefficients(raw_tangent, deviation, tangent_spill);
+  const Vector quadratic = midpoint_coefficients(
+      raw_quadratic, deviation_squared, quadratic_spill);
+  for (int row = 0; row < 12; ++row) {
+    defect[row] = (anchor_image[row] - anchor[row]) + tangent_spill[row] +
+                  quadratic_spill[row];
+    const Ival direct_defect = direct_image[row] - anchor[row] -
+                               tangent[row] * deviation -
+                               quadratic[row] * deviation_squared;
+    Ival sharpened;
+    if (!capd::intervals::intersection(defect[row], direct_defect,
+                                        sharpened)) {
+      throw std::runtime_error("empty quadratic launch defect");
+    }
+    defect[row] = capd::intervals::intervalHull(sharpened, Ival(0));
+  }
+  anchor[10] = u_center;
+  defect[10] = Ival(0);
+  return {anchor, tangent, defect, u_range, u_center, quadratic, true};
 }
 // ---- New machinery (this file only; nothing above this line differs from
 // ---- the committed source except the header and typedef block). ----
@@ -704,8 +947,8 @@ Map make_pair13_to_pair23_map_form_b() {
              new_py + ",tp,ww,jd;");
 }
 
-DirectCorrelatedGraph transform_graph(const DirectCorrelatedGraph& input,
-                                      Map transformation) {
+DirectCorrelatedGraph transform_graph_c1(const DirectCorrelatedGraph& input,
+                                         Map transformation) {
   const Vector domain(input.c0_set());
   const Vector direct_image = transformation(domain);
   const Vector anchor_image = transformation(input.anchor);
@@ -736,8 +979,81 @@ DirectCorrelatedGraph transform_graph(const DirectCorrelatedGraph& input,
     output_defect[i] =
         capd::intervals::intervalHull(sharpened, Ival(0));
   }
+  // Every chart map copies the conserved parameter coordinate ww exactly.
+  output_anchor[10] = input.u_center;
+  output_tangent[10] = Ival(1);
+  output_defect[10] = Ival(0);
   return {output_anchor, output_tangent, output_defect,
           input.u_range, input.u_center};
+}
+
+DirectCorrelatedGraph transform_graph_c2(const DirectCorrelatedGraph& input,
+                                         Map transformation) {
+  if (!input.quadratic_mode) {
+    throw std::runtime_error("C2 transform received a C1 graph");
+  }
+  transformation.setDegree(2);
+  const Vector domain(input.c0_set());
+  Matrix domain_derivative(12, 12), anchor_derivative(12, 12);
+  Hessian domain_quadratic(12, 12), anchor_quadratic(12, 12);
+  const Vector direct_image =
+      transformation(domain, domain_derivative, domain_quadratic);
+  const Vector anchor_image =
+      transformation(input.anchor, anchor_derivative, anchor_quadratic);
+
+  const int dimension = input.anchor.dimension();
+  const Ival deviation = input.u_range - input.u_center;
+  const Ival deviation_squared = square_interval(deviation);
+  const Vector nonlinear_input =
+      input.quadratic * deviation_squared + input.defect;
+  const Vector linear_input = input.tangent * deviation;
+  const Vector raw_tangent = anchor_derivative * input.tangent;
+  const Vector raw_quadratic =
+      anchor_derivative * input.quadratic +
+      homogeneous_quadratic(domain_quadratic, input.tangent);
+  const Vector mapped_defect = anchor_derivative * input.defect;
+  const Vector cross_defect = polarized_quadratic(
+      domain_quadratic, linear_input, nonlinear_input);
+  const Vector nonlinear_defect =
+      homogeneous_quadratic(domain_quadratic, nonlinear_input);
+
+  Vector tangent_spill(dimension), quadratic_spill(dimension);
+  Vector output_tangent =
+      midpoint_coefficients(raw_tangent, deviation, tangent_spill);
+  Vector output_quadratic = midpoint_coefficients(
+      raw_quadratic, deviation_squared, quadratic_spill);
+  Vector output_anchor(dimension), output_defect(dimension);
+  for (int i = 0; i < dimension; ++i) {
+    output_anchor[i] = anchor_image[i].mid();
+    output_defect[i] = (anchor_image[i] - output_anchor[i]) +
+                       mapped_defect[i] + tangent_spill[i] +
+                       quadratic_spill[i] + cross_defect[i] +
+                       nonlinear_defect[i];
+    const Ival direct_defect = direct_image[i] - output_anchor[i] -
+                               output_tangent[i] * deviation -
+                               output_quadratic[i] * deviation_squared;
+    Ival sharpened;
+    if (!capd::intervals::intersection(output_defect[i], direct_defect,
+                                        sharpened)) {
+      throw std::runtime_error("empty transformed C2 graph defect");
+    }
+    output_defect[i] =
+        capd::intervals::intervalHull(sharpened, Ival(0));
+  }
+  // Every chart map copies the conserved parameter coordinate ww exactly.
+  output_anchor[10] = input.u_center;
+  output_tangent[10] = Ival(1);
+  output_quadratic[10] = Ival(0);
+  output_defect[10] = Ival(0);
+  return {output_anchor, output_tangent, output_defect,
+          input.u_range, input.u_center, output_quadratic, true};
+}
+
+DirectCorrelatedGraph transform_graph(const DirectCorrelatedGraph& input,
+                                      Map transformation) {
+  return input.quadratic_mode
+             ? transform_graph_c2(input, transformation)
+             : transform_graph_c1(input, transformation);
 }
 
 // Per-leg J-sign / covering bookkeeping.
@@ -750,11 +1066,117 @@ enum class LegMode {
   kCross,     // event-crossing leg: no J sign requirement.
 };
 
+// Complete common-clock tube audit past the latest fiber return.  It is
+// deliberately independent of the C1/C2 correlated graph algebra: the C0
+// set proves domain containment, collision separation, and Theorem C's
+// brake-exclusion covering on every accepted step.
+void audit_graph_leg(const DirectCorrelatedGraph& input,
+                     const Ival& interval_return, int order,
+                     double tolerance, bool pair23_chart, LegMode mode,
+                     const char* leg_label) {
+  Set audit_set = input.c0_set();
+  Map audit_field = pair23_chart ? make_pair23_lc_field()
+                                 : make_direct_lc_field();
+  PhaseRunner audit(audit_field, order, tolerance);
+  const Family audit_family = make_family(input.u_range);
+  const Ival two_u0 = 2 * audit_family.u0;
+  bool in_post_max_window = mode == LegMode::kPostMax;
+  bool in_post_min_window = mode == LegMode::kPostMin;
+  const Ival audit_target = Ival(interval_return.rightBound());
+  for (int audit_steps = 0;; ++audit_steps) {
+    if (audit_steps > 200000) {
+      throw std::runtime_error(std::string(leg_label) +
+                               ": audit step limit");
+    }
+    const Vector before(audit_set);
+    const double w_abs = std::sqrt(std::max(
+        1e-12,
+        bound_double((before[0] * before[0] + before[1] * before[1])
+                         .leftBound())));
+    const double cap =
+        std::max(1.0 / 8000.0, std::min(w_abs / 24.0, 1.0 / 100.0));
+    audit.direct_move(audit_set, cap);
+    const Vector enclosure = audit_set.getLastEnclosure();
+    const DirectLcScalars sc =
+        pair23_chart ? evaluate_pair23_lc(enclosure, audit_family)
+                     : evaluate_direct_lc(enclosure, audit_family);
+    if (!(sc.selected_radius.leftBound() > 0) ||
+        !(sc.r12_squared.leftBound() > 0) ||
+        !(sc.r23_squared.leftBound() > 0)) {
+      throw std::runtime_error(std::string(leg_label) +
+                               ": lost collision separation");
+    }
+    bool covered = false;
+    if (in_post_max_window &&
+        sc.potential.rightBound() < two_u0.leftBound()) {
+      covered = true;
+    } else {
+      if (in_post_max_window) {
+        if (!(sc.i_dot.rightBound() < 0)) {
+          throw std::runtime_error(
+              std::string(leg_label) +
+              ": post-maximum window exit lost J<0");
+        }
+        in_post_max_window = false;
+      }
+      covered = !contains_zero(sc.i_dot) || sc.kinetic.leftBound() > 0 ||
+                sc.potential.leftBound() > audit_family.u0.rightBound() ||
+                direct_lc_residual_excludes_brake(enclosure);
+    }
+    if (!covered) {
+      throw std::runtime_error(std::string(leg_label) +
+                               ": uncovered brake-exclusion step");
+    }
+    switch (mode) {
+      case LegMode::kNegative:
+        if (!(sc.i_dot.rightBound() < 0)) {
+          throw std::runtime_error(std::string(leg_label) +
+                                   ": lost prescribed J<0");
+        }
+        break;
+      case LegMode::kPositive:
+        if (!(sc.i_dot.leftBound() > 0)) {
+          throw std::runtime_error(std::string(leg_label) +
+                                   ": lost prescribed J>0");
+        }
+        break;
+      case LegMode::kPostMin:
+        if (in_post_min_window) {
+          if (!(sc.potential.leftBound() > two_u0.rightBound())) {
+            if (!(sc.i_dot.leftBound() > 0)) {
+              throw std::runtime_error(
+                  std::string(leg_label) +
+                  ": post-minimum window exit lost J>0");
+            }
+            in_post_min_window = false;
+          }
+        } else if (!(sc.i_dot.leftBound() > 0)) {
+          throw std::runtime_error(
+              std::string(leg_label) +
+              ": lost prescribed J>0 after window");
+        }
+        break;
+      case LegMode::kPostMax:
+        if (!in_post_max_window && !(sc.i_dot.rightBound() < 0)) {
+          throw std::runtime_error(
+              std::string(leg_label) + ": lost J<0 after post-maximum window");
+        }
+        break;
+      case LegMode::kCross:
+        break;
+    }
+    if (audit_set.getCurrentTime().leftBound() >=
+        audit_target.rightBound()) {
+      break;
+    }
+  }
+}
+
 // C1 Poincare projection of the correlated graph with the strengthened
 // covering audit.  Identical in structure to the committed
 // project_direct_graph; the audit adds the Theorem C brake-exclusion
 // disjunction on every accepted step.
-DirectCorrelatedGraph project_graph(
+DirectCorrelatedGraph project_graph_c1(
     const DirectCorrelatedGraph& input, int section_coordinate,
     const Ival& section_value,
     capd::poincare::CrossingDirection direction, int order,
@@ -778,111 +1200,8 @@ DirectCorrelatedGraph project_graph(
           interval_image, flow_derivative, interval_return);
   const Vector raw_tangent = section_derivative * input.tangent;
 
-  // Complete common-clock tube audit past the latest return time.
-  {
-    Set audit_set = input.c0_set();
-    Map audit_field = pair23_chart ? make_pair23_lc_field()
-                                   : make_direct_lc_field();
-    PhaseRunner audit(audit_field, order, tolerance);
-    const Family audit_family = make_family(input.u_range);
-    const Ival two_u0 = 2 * audit_family.u0;
-    bool in_post_max_window = mode == LegMode::kPostMax;
-    bool in_post_min_window = mode == LegMode::kPostMin;
-    const Ival audit_target = Ival(interval_return.rightBound());
-    for (int audit_steps = 0;; ++audit_steps) {
-      if (audit_steps > 200000) {
-        throw std::runtime_error(std::string(leg_label) +
-                                 ": audit step limit");
-      }
-      const Vector before(audit_set);
-      const double w_abs = std::sqrt(std::max(
-          1e-12,
-          bound_double((before[0] * before[0] + before[1] * before[1])
-                           .leftBound())));
-      const double cap =
-          std::max(1.0 / 8000.0,
-                   std::min(w_abs / 24.0, 1.0 / 100.0));
-      audit.direct_move(audit_set, cap);
-      const Vector enclosure = audit_set.getLastEnclosure();
-      const DirectLcScalars sc =
-          pair23_chart ? evaluate_pair23_lc(enclosure, audit_family)
-                       : evaluate_direct_lc(enclosure, audit_family);
-      if (!(sc.selected_radius.leftBound() > 0) ||
-          !(sc.r12_squared.leftBound() > 0) ||
-          !(sc.r23_squared.leftBound() > 0)) {
-        throw std::runtime_error(std::string(leg_label) +
-                                 ": lost collision separation");
-      }
-      // Covering.  In the post-maximum window U < 2U0 forces ddot I < 0,
-      // so J decreases strictly from its exact zero on the entry section:
-      // J < 0 after entry and no brake can occur inside the window.
-      bool covered = false;
-      if (in_post_max_window &&
-          sc.potential.rightBound() < two_u0.leftBound()) {
-        covered = true;
-      } else {
-        if (in_post_max_window) {
-          // Window ends; from here J < 0 must be verified directly.
-          if (!(sc.i_dot.rightBound() < 0)) {
-            throw std::runtime_error(std::string(leg_label) +
-                                     ": post-maximum window exit lost J<0");
-          }
-          in_post_max_window = false;
-        }
-        covered = !contains_zero(sc.i_dot) ||
-                  sc.kinetic.leftBound() > 0 ||
-                  sc.potential.leftBound() >
-                      audit_family.u0.rightBound() ||
-                  direct_lc_residual_excludes_brake(enclosure);
-      }
-      if (!covered) {
-        throw std::runtime_error(std::string(leg_label) +
-                                 ": uncovered brake-exclusion step");
-      }
-      // J-sign bookkeeping.
-      switch (mode) {
-        case LegMode::kNegative:
-          if (!(sc.i_dot.rightBound() < 0)) {
-            throw std::runtime_error(std::string(leg_label) +
-                                     ": lost prescribed J<0");
-          }
-          break;
-        case LegMode::kPositive:
-          if (!(sc.i_dot.leftBound() > 0)) {
-            throw std::runtime_error(std::string(leg_label) +
-                                     ": lost prescribed J>0");
-          }
-          break;
-        case LegMode::kPostMin:
-          if (in_post_min_window) {
-            if (!(sc.potential.leftBound() > two_u0.rightBound())) {
-              if (!(sc.i_dot.leftBound() > 0)) {
-                throw std::runtime_error(
-                    std::string(leg_label) +
-                    ": post-minimum window exit lost J>0");
-              }
-              in_post_min_window = false;
-            }
-          } else if (!(sc.i_dot.leftBound() > 0)) {
-            throw std::runtime_error(std::string(leg_label) +
-                                     ": lost prescribed J>0 after window");
-          }
-          break;
-        case LegMode::kPostMax:
-          if (!in_post_max_window && !(sc.i_dot.rightBound() < 0)) {
-            throw std::runtime_error(std::string(leg_label) +
-                                     ": lost J<0 after post-maximum window");
-          }
-          break;
-        case LegMode::kCross:
-          break;
-      }
-      if (audit_set.getCurrentTime().leftBound() >=
-          audit_target.rightBound()) {
-        break;
-      }
-    }
-  }
+  audit_graph_leg(input, interval_return, order, tolerance, pair23_chart,
+                  mode, leg_label);
 
   CoordinateSection anchor_section(12, section_coordinate, section_value);
   Solver anchor_solver(field, order);
@@ -932,12 +1251,148 @@ DirectCorrelatedGraph project_graph(
           input.u_range, input.u_center};
 }
 
+DirectCorrelatedGraph project_graph_c2(
+    const DirectCorrelatedGraph& input, int section_coordinate,
+    const Ival& section_value,
+    capd::poincare::CrossingDirection direction, int order,
+    double tolerance, bool pair23_chart, LegMode mode,
+    const char* leg_label) {
+  if (!input.quadratic_mode) {
+    throw std::runtime_error("C2 projection received a C1 graph");
+  }
+  Map field = pair23_chart ? make_pair23_lc_field()
+                           : make_direct_lc_field();
+
+  // Propagate the formal one-variable jet of
+  // gamma(delta)=x+T*delta+Q*delta^2.  The mask keeps the complete first
+  // derivative matrix and only the quadratic coefficient in formal direction
+  // 10, the exact conserved u coordinate.  Its initial C1 frame is the
+  // identity with column 10 replaced by gamma'(delta).  Therefore the same
+  // pass also encloses DP after multiplication by an explicit frame inverse;
+  // no duplicate full-C1 integration is needed.
+  constexpr int parameter_coordinate = 10;
+  CoordinateSection directional_section(12, section_coordinate,
+                                         section_value);
+  C2Solver directional_solver(field, order);
+  directional_solver.setAbsoluteTolerance(tolerance);
+  directional_solver.setRelativeTolerance(tolerance);
+  set_directional_c2_mask(directional_solver, 12, parameter_coordinate);
+  C2PoincareMap directional_map(directional_solver, directional_section,
+                                direction);
+  directional_map.setMaxReturnTime(50.0);
+  C2Set directional_set = input.directional_c2_set();
+  Matrix directional_flow_derivative(12, 12);
+  Matrix directional_section_derivative(12, 12);
+  Hessian directional_flow_quadratic(12, 12);
+  Hessian directional_section_quadratic(12, 12);
+  Ival directional_return;
+  const Vector directional_image = directional_map(
+      directional_set, directional_flow_derivative,
+      directional_flow_quadratic, directional_return);
+  directional_map.computeDP(
+      directional_image, directional_flow_derivative,
+      directional_flow_quadratic, directional_section_derivative,
+      directional_section_quadratic, directional_return);
+
+  audit_graph_leg(input, directional_return, order, tolerance, pair23_chart,
+                  mode, leg_label);
+
+  CoordinateSection anchor_section(12, section_coordinate, section_value);
+  Solver anchor_solver(field, order);
+  anchor_solver.setAbsoluteTolerance(tolerance);
+  anchor_solver.setRelativeTolerance(tolerance);
+  PoincareMap anchor_map(anchor_solver, anchor_section, direction);
+  anchor_map.setMaxReturnTime(50.0);
+  C1Set anchor_set(input.anchor);
+  Matrix anchor_flow_derivative(12, 12);
+  Ival anchor_return;
+  const Vector anchor_image =
+      anchor_map(anchor_set, anchor_flow_derivative, anchor_return);
+  const Matrix anchor_section_derivative =
+      anchor_map.computeDP(anchor_image, anchor_flow_derivative,
+                           anchor_return);
+  if (!directional_image[section_coordinate].contains(section_value) ||
+      !anchor_image[section_coordinate].contains(section_value)) {
+    throw std::runtime_error(std::string(leg_label) +
+                             ": missed C2 Poincare section");
+  }
+
+  const int dimension = input.anchor.dimension();
+  const Ival deviation = input.u_range - input.u_center;
+  const Ival deviation_squared = square_interval(deviation);
+  const Vector raw_tangent = anchor_section_derivative * input.tangent;
+  Vector raw_quadratic(dimension);
+  for (int row = 0; row < dimension; ++row) {
+    raw_quadratic[row] = directional_section_quadratic(
+        row, parameter_coordinate, parameter_coordinate);
+  }
+  const Matrix domain_section_derivative =
+      directional_section_derivative * input.directional_frame_inverse();
+  const Vector mapped_defect = domain_section_derivative * input.defect;
+
+  Vector tangent_spill(dimension), quadratic_spill(dimension);
+  Vector output_tangent =
+      midpoint_coefficients(raw_tangent, deviation, tangent_spill);
+  Vector output_quadratic = midpoint_coefficients(
+      raw_quadratic, deviation_squared, quadratic_spill);
+  Vector output_anchor(dimension), output_defect(dimension);
+  for (int i = 0; i < dimension; ++i) {
+    output_anchor[i] = anchor_image[i].mid();
+    output_defect[i] = (anchor_image[i] - output_anchor[i]) +
+                       mapped_defect[i] + tangent_spill[i] +
+                       quadratic_spill[i];
+    const Ival direct_defect = directional_image[i] - output_anchor[i] -
+                               output_tangent[i] * deviation -
+                               output_quadratic[i] * deviation_squared;
+    Ival sharpened;
+    if (!capd::intervals::intersection(output_defect[i], direct_defect,
+                                        sharpened)) {
+      throw std::runtime_error(std::string(leg_label) +
+                               ": empty C2 graph-defect intersection");
+    }
+    output_defect[i] =
+        capd::intervals::intervalHull(sharpened, Ival(0));
+  }
+  // Exact coordinate-section normalization after all return-time derivatives
+  // have been incorporated by computeDP.
+  output_anchor[section_coordinate] = section_value;
+  output_tangent[section_coordinate] = Ival(0);
+  output_quadratic[section_coordinate] = Ival(0);
+  output_defect[section_coordinate] = Ival(0);
+  // The LC flow has ww'=0 and every section is independent of ww, so this
+  // coordinate is the exact parameter pivot throughout the itinerary.
+  output_anchor[10] = input.u_center;
+  output_tangent[10] = Ival(1);
+  output_quadratic[10] = Ival(0);
+  output_defect[10] = Ival(0);
+  return {output_anchor, output_tangent, output_defect,
+          input.u_range, input.u_center, output_quadratic, true};
+}
+
+DirectCorrelatedGraph project_graph(
+    const DirectCorrelatedGraph& input, int section_coordinate,
+    const Ival& section_value,
+    capd::poincare::CrossingDirection direction, int order,
+    double tolerance, bool pair23_chart, LegMode mode,
+    const char* leg_label) {
+  return input.quadratic_mode
+             ? project_graph_c2(input, section_coordinate, section_value,
+                                direction, order, tolerance, pair23_chart,
+                                mode, leg_label)
+             : project_graph_c1(input, section_coordinate, section_value,
+                                direction, order, tolerance, pair23_chart,
+                                mode, leg_label);
+}
+
 Vector graph_hull(const DirectCorrelatedGraph& graph) {
   Vector hull(12);
   const Ival deviation = graph.u_range - graph.u_center;
   for (int i = 0; i < 12; ++i) {
     hull[i] = graph.anchor[i] + graph.tangent[i] * deviation +
               graph.defect[i];
+    if (graph.quadratic_mode) {
+      hull[i] += graph.quadratic[i] * square_interval(deviation);
+    }
   }
   return hull;
 }
@@ -946,6 +1401,11 @@ void print_leg(const char* label, const DirectCorrelatedGraph& graph) {
   const Vector hull = graph_hull(graph);
   const Vector parameter_spread =
       graph.tangent * (graph.u_range - graph.u_center);
+  Vector quadratic_spread(12);
+  if (graph.quadratic_mode) {
+    quadratic_spread = graph.quadratic *
+                       square_interval(graph.u_range - graph.u_center);
+  }
   std::cout << "ENDGAME_LEG " << label << " tp=["
             << bound_double(hull[9].leftBound()) << ","
             << bound_double(hull[9].rightBound()) << "] jd=["
@@ -953,6 +1413,7 @@ void print_leg(const char* label, const DirectCorrelatedGraph& graph) {
             << bound_double(hull[11].rightBound()) << "] hull="
             << hull_width(hull, 12)
             << " parameter_spread=" << hull_width(parameter_spread, 12)
+            << " quadratic_spread=" << hull_width(quadratic_spread, 12)
             << " defect=" << hull_width(graph.defect, 12)
             << "\n" << std::flush;
 }
@@ -1838,7 +2299,11 @@ int run_endgame(const Ival& u_param, long p, long q, long p2, long q2,
   const Family family = make_family(u_param);
   std::cout << std::setprecision(17);
 
-  DirectCorrelatedGraph graph = make_direct_launch_graph(u_param);
+  const bool graph_c2 =
+      std::getenv("FABLE_ENDGAME_GRAPH_C2") != nullptr;
+  DirectCorrelatedGraph graph = graph_c2
+                                    ? make_quadratic_launch_graph(u_param)
+                                    : make_direct_launch_graph(u_param);
   const auto MP = capd::poincare::MinusPlus;
   const auto PM = capd::poincare::PlusMinus;
 
@@ -2047,6 +2512,8 @@ int main(int argc, char** argv) {
         std::getenv("FABLE_ENDGAME_GRAPH_PAIR23_SYNC") != nullptr;
     const bool graph_tangent_split =
         std::getenv("FABLE_ENDGAME_GRAPH_TANGENT_SPLIT") != nullptr;
+    const bool graph_c2 =
+        std::getenv("FABLE_ENDGAME_GRAPH_C2") != nullptr;
     std::cout << "ENDGAME_PARAMS precision_bits=" << precision
               << " tolerance=" << tolerance << " order=" << order
               << " sync_exchange=" << (synchronize_exchange ? 1 : 0)
@@ -2056,7 +2523,8 @@ int main(int argc, char** argv) {
               << " structured_section=" << (structured_section ? 1 : 0)
               << " graph_pair23_sync=" << (graph_pair23_sync ? 1 : 0)
               << " graph_tangent_split=" << (graph_tangent_split ? 1 : 0)
-              << " driver=middle_escape_endgame_capd/v17-defect-graph-controls-2026-08-25"
+              << " graph_c2=" << (graph_c2 ? 1 : 0)
+              << " driver=middle_escape_endgame_capd/v18-c2-parameter-graph-2026-08-25"
               << "\n" << std::flush;
     const bool graph_mode =
         std::getenv("FABLE_ENDGAME_GRAPH") != nullptr;

@@ -1702,3 +1702,66 @@ it is not a remainder proof.
   interval tangents nor midpoint-plus-box splitting can do so.  The ordinary
   probe now continues pair--23 branch tracking through the terminal window;
   its decimal crossings remain design data only.
+
+## 2026-08-26: directional C2 parameter graph
+
+- Audited CAPD 6.1.0 at pinned commit
+  `731079217a9254ea2948d742df2b170895effe7f`.  Its `Hessian` algebra stores
+  factorial-normalized quadratic Taylor coefficients: diagonal entries are
+  one half of the ordinary second derivative, while mixed entries are the
+  full mixed derivative.  The C2 Poincare `computeDP` formulas include both
+  first and second derivatives of the fiber-dependent return time.
+- Added a deterministic 160-bit analytic probe.  A static polynomial checks
+  all diagonal/mixed conventions; the exactly solvable flow
+  $x'=1,y'=y$ to the section $x=1$ checks every Poincare derivative; and a
+  nonlinear formal initial jet checks custom C1/C2 composition.  The pinned
+  replay prints `PASS_CAPD_C2_SEMANTICS` and is archived in
+  `data/capd_c2_semantics_probe.log`.
+- A full $12\times12\times12$ C2 flow was sound but uneconomic: it did not
+  finish even the first $t=2/5$ section in several minutes.  CAPD's validated
+  C2 doubleton accepts a sparse Hessian mask only if every first derivative is
+  retained.  The working mask therefore keeps the 12 first multiindices and
+  only the quadratic multiindex in formal direction 10.
+- Direction 10 is not an arbitrary coordinate choice: it is the exact
+  conserved state coordinate `ww=u`.  The formal C1 frame replaces column 10
+  of the identity by $\gamma'(\delta)$ and has determinant one.  Its inverse
+  is an explicit rank-one matrix, so the same masked C2 pass supplies both the
+  directional curvature and a complete $DP$ enclosure for mean-value defect
+  transport.  `docs/C2_PARAMETER_GRAPH.md` proves the enclosure lemma and
+  frame identity.
+- The first complete control run used
+  $u\in[0.29,0.290000000001]$, 160 bits, tolerance $10^{-24}$, order 32, and
+  all 21 post-exchange pair--23 sections.  It passed every collision/brake
+  tube audit and every fiber-dependent event.  Selected checkpoints were:
+
+  | checkpoint | total hull | $T\delta$ | $Q\delta^2$ | defect |
+  |---|---:|---:|---:|---:|
+  | $t=0.4$ | $1.3332\,10^{-11}$ | $1.3332\,10^{-11}$ | $1.8863\,10^{-23}$ | $1.2172\,10^{-22}$ |
+  | second minimum | $1.1320\,10^{-10}$ | $1.1318\,10^{-10}$ | $3.8213\,10^{-20}$ | $1.7202\,10^{-14}$ |
+  | $t=2.9$ | $2.9684\,10^{-10}$ | $2.6600\,10^{-10}$ | $2.0327\,10^{-19}$ | $3.0840\,10^{-11}$ |
+  | fourth minimum | $4.4513\,10^{-6}$ | $1.9352\,10^{-8}$ | $2.0118\,10^{-16}$ | $4.4320\,10^{-6}$ |
+  | Form-B switch | $8.0706\,10^{-5}$ | $1.2169\,10^{-8}$ | $1.3340\,10^{-16}$ | $8.0694\,10^{-5}$ |
+  | section 14 | $1.8718\,10^{-3}$ | $1.4640\,10^{-8}$ | $1.2808\,10^{-16}$ | $1.8718\,10^{-3}$ |
+  | section 21 | $1.9440\,10^{-2}$ | $1.4692\,10^{-8}$ | $1.2450\,10^{-16}$ | $1.9440\,10^{-2}$ |
+  | $t=77/20$ | $4.3683\,10^{-2}$ | $1.4606\,10^{-8}$ | $1.1579\,10^{-16}$ | $4.3683\,10^{-2}$ |
+
+- The terminal phase-robust escape test passed with separation margin
+  $0.869282$, outward radial speed $2.39037$, outer radial energy $0.119202$,
+  and post-tidal inner-energy margin $2.78859$.  Thus the experimental C2
+  chain is end-to-end sound on the control interval, subject to independent
+  audit.  This interval was already contained in the wider committed Fable
+  theorem, so it does not enlarge the proved nonperiodicity set.
+- The comparison is diagnostically positive but economically incomplete.
+  The old first-order graph had hull $1.0136\,10^{-9}$ at $t=2.9$ and
+  $1.9587\,10^{-3}$ at the Form-B switch; the directional C2 values are
+  smaller by factors about $3.4$ and $24.3$.  At the final section the old
+  tangent contribution was about $0.90$, whereas the new tangent contribution
+  is only $1.47\,10^{-8}$.  Curvature therefore fixes the tangent pathology.
+  But the new final hull is almost entirely additive defect.  The overlapping
+  pair--23/pair--13 encounter near $t=3.45$ amplifies this defect from
+  $3.67\,10^{-9}$ to $1.12\,10^{-6}$ before the fourth minimum.  The next
+  repair is defect reabsorption or a simultaneous-exchange chart, not another
+  tangent split.
+- A width-$10^{-11}$ scaling replay is in progress.  Until it completes, no
+  scalable-width claim is made and the C2 driver remains opt-in behind
+  `FABLE_ENDGAME_GRAPH_C2=1`.

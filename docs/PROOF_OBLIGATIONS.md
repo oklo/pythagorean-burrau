@@ -98,15 +98,33 @@ It does not reduce the global obligations below.  For the immediate widening
 program, a width-$10^{-8}$ tile already crosses all six exchange sections;
 an earlier Form-B switch and explicit defect graph now cross that chart on a
 width-$10^{-12}$ control, and pair--23 geometric sections remove the next
-fixed-clock phase spike.  The localized remaining obligation is sharper than
-the previous chart-image statement: repeated interval Poincare derivatives
-inflate the parameter tangent from a measured section sensitivity of order
-$10^3$ to a certified enclosure contribution near $0.90$ by the second
-post-exchange binary cycle.  Midpoint splitting merely moves this width into
-an uncorrelated defect box.  A validated C2/Taylor parameter graph (or an
-equivalent nonlinear correlated representation) must retain derivative
-variation along the tied curve through these cycles.  Fixed-time projection
-and additional linear tripleton bases have both been excluded as repairs.
+fixed-clock phase spike.  A validated directional C2 graph has now closed the
+old tangent obligation on the width-$10^{-12}$ control: it completes the
+whole itinerary and terminal escape test, and its last-section tangent width
+is $1.47\times10^{-8}$ rather than $0.90$.  The Form-B hull improves from
+$1.9587\times10^{-3}$ to $8.0706\times10^{-5}$.  This control lies inside an
+already-proved interval, so the result validates machinery but adds no new
+nonperiodicity parameter.
+
+The immediate widening obligation has moved again.  At the overlapping
+pair--23/pair--13 exchange near $t=3.45$, the additive defect grows from
+$3.67\times10^{-9}$ to $1.12\times10^{-6}$ and thereafter dominates every
+section hull, reaching $0.0437$ at the terminal time.  The true quadratic
+spread there is only $1.16\times10^{-16}$.  Thus second order retains the tied
+parameter jet but the mean-value box for higher-order/numerical defect loses
+the exchange correlation.  A scalable certificate now requires one of:
+
+1. a rigorous reabsorption of the additive defect into a new parameter
+   polynomial at or immediately before the fourth minimum;
+2. a simultaneous-exchange regularized chart that controls both close pairs;
+3. a higher-order Taylor model whose remainder remains correlated through the
+   double passage; or
+4. a proved width-scaling estimate showing that modest subdivision closes the
+   defect economically.
+
+Fixed-time projection, additional linear tripleton bases, and first-order
+tangent splitting have all been excluded as repairs.  The width-$10^{-11}$
+C2 scaling replay is pending.
 
 1. bound or classify the number of maximum branches before the terminal
    collision/escape alternative, uniformly on a parameter component;
