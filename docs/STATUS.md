@@ -47,16 +47,20 @@ universal conjecture remain open.  See
 
 A new affine-generator PG2 representation has now removed that wrapping
 floor.  One pinned 160-bit/order-32 enclosure of the exact closed interval
-$[0.29,0.2900001]$ passed the complete 85-image brake-to-escape itinerary,
+$[0.29,0.290001]$ passed the complete 85-image brake-to-escape itinerary,
 all independent swept-tube audits, and the terminal certificate with margin
-$3.4111$.  A deterministic log auditor verifies the exact endpoints,
+$3.0331$.  A deterministic log auditor verifies the exact endpoints,
 required enclosure modes, complete ordered itinerary, and every terminal
 inequality.  This is currently a **VALIDATED NUMERICAL RESULT / COMPUTER-
 ASSISTED THEOREM CANDIDATE**, not yet an extension of the headline theorem:
 independent adversarial review of the new affine-generator inclusion algebra
 is the remaining promotion gate.  If accepted, it enlarges the certified
-real interval by a factor $1000/101\simeq9.90$ and lowers the explicit-family
-threshold from $k\ge99010$ to $k\ge10000$.
+real interval by a factor $10000/101\simeq99.01$ and lowers the explicit-family
+threshold from $k\ge99010$ to $k\ge1000$.  At this width the nonlinear
+remainder becomes substantial at the fourth minimum but stays bounded across
+all 21 terminal sections.  Comparable translated tiles could cover the
+committed $[0.29,0.29002]$ block in about twenty runs, but no uniform tile
+width is assumed.
 
 The newest endpoint advance strengthens the terminal syzygy
 threshold to

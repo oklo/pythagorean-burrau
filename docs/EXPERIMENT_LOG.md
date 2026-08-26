@@ -2029,3 +2029,22 @@ it is not a remainder proof.
 - Evidence level: **VALIDATED NUMERICAL RESULT / COMPUTER-ASSISTED THEOREM
   CANDIDATE**.  The interval is not promoted in the proof ledger until an
   independent adversarial audit accepts Theorem AGR and its implementation.
+
+## 2026-08-26: width-$10^{-6}$ affine certificate also passes
+
+- The exact closed interval $[0.29,0.290001]$ completed the same pinned
+  85-image itinerary and terminal certificate.  The fail-closed log audit
+  passed with maximum hull $0.0914730$, maximum remainder $0.0191578$, and
+  terminal margin $3.03310615$.
+- The true nonlinear threshold is now visible.  At $t=3.45$ the remainder was
+  $1.73\,10^{-4}$, but after the fourth minimum it grew to $0.01307$ and at
+  $t=3.5$ to $0.01916$.  It then remained bounded: all final section hulls
+  stayed near $0.025$--$0.0264$ rather than growing every cycle.
+- The artifact is `data/middle_affine_pg2_width_1e6_full.log`, SHA-256
+  `c8944f75b495cbb9890c206e54c8710a6f600a8c0122498c3d0d68a59a84947d`.
+  Evidence level remains **VALIDATED NUMERICAL RESULT / COMPUTER-ASSISTED
+  THEOREM CANDIDATE**, pending the same independent algebra audit.
+- Conditional campaign implication: twenty comparable width-$10^{-6}$ tiles
+  would cover $[0.29,0.29002]$.  This is an economic estimate only; translated
+  tiles may have different event or enclosure margins and must be certified
+  independently.

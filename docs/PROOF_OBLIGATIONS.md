@@ -1084,6 +1084,15 @@ intersection, residual lifting, and CAPD custom-direction interface.  Only
 after that review may the wider interval be labelled **PROVED BY
 COMPUTER-ASSISTED ARGUMENT**.
 
+A second one-set run has now pushed the same candidate theorem to
+$[0.29,0.290001]$, with terminal margin $3.0331$.  The residual is no longer
+perturbatively small after the fourth minimum, but remains bounded through
+the final section atlas.  This does not add a new analytic obligation; it
+strengthens the payoff of the same pending affine-algebra audit.  After that
+gate, the next global obligation is a deterministic translated-tile campaign
+over $[0.290001,0.29002]$, with adaptive subdivision rather than any assumed
+uniform width.
+
 Three independent adversarial passes audited the incoming-tail theorem. They
 found and forced repair of: a nonuniform constant-energy estimate; an invalid
 partial-LC-block physical-time bound; unspecified oscillator “actions”; a

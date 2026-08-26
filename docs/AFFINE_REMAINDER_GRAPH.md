@@ -281,3 +281,23 @@ The only promotion gate is the independent adversarial source audit of the
 affine-generator inclusion semantics.  Until that audit is complete, the
 established theorem remains the previously reviewed interval
 $[0.29,0.2900000101]$.
+
+### Second widening: width $10^{-6}$
+
+The exact interval $[0.29,0.290001]$ also completed the same 85-image
+certificate.  This is 100 times the trial width above and about 99 times the
+currently reviewed theorem width.  The hard-exchange hull was $0.0914731$.
+The residual was still only $1.73\,10^{-4}$ at $t=3.45$, but nonlinear
+amplification at the fourth minimum raised it to $0.01307$ and then
+$0.01916$ at $t=3.5$.  Crucially, it did not grow secularly: all 21 final
+section hulls stayed below $0.0264$, and the terminal margin remained
+$3.033106146>0$.
+
+The full output is `data/middle_affine_pg2_width_1e6_full.log` (SHA-256
+`c8944f75b495cbb9890c206e54c8710a6f600a8c0122498c3d0d68a59a84947d`),
+and the same fail-closed auditor reports 85/85 itinerary rows.  This remains
+a theorem candidate under the same independent-audit gate.  It nevertheless
+changes the campaign economics materially: if comparable translated tiles
+work across $[0.29,0.29002]$, about twenty width-$10^{-6}$ certificates would
+cover the committed block.  Uniform translatability has not been assumed or
+proved; each tile must pass independently or be subdivided.

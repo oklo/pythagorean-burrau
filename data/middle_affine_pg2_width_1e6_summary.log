@@ -1,0 +1,67 @@
+Affine-generator PG2 width-1e-6 theorem candidate, 2026-08-26
+
+status:
+  VALIDATED NUMERICAL RESULT / COMPUTER-ASSISTED THEOREM CANDIDATE.
+  The complete pinned enclosure and fail-closed log audit pass.  Promotion to
+  PROVED BY COMPUTER-ASSISTED ARGUMENT remains conditional on independent
+  adversarial audit of the affine-generator graph algebra.
+
+exact closed interval:
+  [29/100, 290001/1000000] = [0.29, 0.290001]
+
+reproduction command:
+  FABLE_ENDGAME_GRAPH=1 \
+  FABLE_ENDGAME_GRAPH_C2=1 \
+  FABLE_ENDGAME_GRAPH_PG2=1 \
+  FABLE_ENDGAME_GRAPH_AFFINE_REMAINDER=1 \
+  FABLE_ENDGAME_GRAPH_PAIR23_SYNC=1 \
+  sh scripts/fable_run_capd_middle_endgame.sh \
+  /private/tmp/pythagorean-capd /private/tmp/pythagorean-capd/build-mp \
+  29 100 290001 1000000 160 1e-24 32
+
+CAPD source commit:
+  731079217a9254ea2948d742df2b170895effe7f
+
+full stdout artifact:
+  data/middle_affine_pg2_width_1e6_full.log
+  sha256 c8944f75b495cbb9890c206e54c8710a6f600a8c0122498c3d0d68a59a84947d
+
+fail-closed log audit:
+  python3 scripts/audit_affine_endgame_log.py \
+    data/middle_affine_pg2_width_1e6_full.log \
+    --expected-left 29/100 --expected-right 290001/1000000
+
+  PASS_AFFINE_ENDGAME_LOG_AUDIT legs=85 generators=852 \
+    largest_hull=0.09147304432010225 \
+    largest_defect=0.019157834144188996 \
+    terminal_margin=3.0331061463722992
+
+Selected exchange and terminal rows:
+  label | total hull | T*delta | Q*delta^2 | affine remainder | generators
+
+t=17/5             | 1.0657711028666309e-03 | 1.0650959401174113e-03 | 4.2939126778886375e-07 | 4.2583684277500686e-07 | 593
+t=69/20            | 9.1473044320102254e-02 | 9.1297626456020450e-02 | 2.8281765409558402e-05 | 1.7301264692588014e-04 | 603
+min4               | 3.2580938251202028e-02 | 1.9322339505165150e-02 | 1.8860734070896536e-04 | 1.3069991405327915e-02 | 613
+t=7/2              | 2.3804460034576581e-02 | 1.0569271322476224e-02 | 4.2752421861143644e-04 | 1.9157834144188996e-02 | 623
+switch13to23_formB | 2.2133777493329350e-02 | 1.2142669619896523e-02 | 1.2919809196220978e-04 | 9.9053723874445651e-03 | 632
+pair23_section_1   | 2.5218884919930410e-02 | 1.4362076329637444e-02 | 1.1158166555014387e-04 | 1.0810251551219043e-02 | 642
+pair23_section_7   | 2.5947715441394185e-02 | 1.4386155268914680e-02 | 1.4344010916724208e-04 | 1.1523927031133850e-02 | 702
+pair23_section_14  | 2.6272859997842027e-02 | 1.4611487851482835e-02 | 1.2928546865823975e-04 | 1.1628249053082297e-02 | 772
+pair23_section_21  | 2.6368754324877522e-02 | 1.4662769246458663e-02 | 1.2720865742630946e-04 | 1.1674021612641654e-02 | 842
+t=77/20            | 2.6250853337697892e-02 | 1.4577425159654721e-02 | 1.1975778790075755e-04 | 1.5252204010972527e-02 | 852
+
+terminal:
+  inf_d=0.87201409454079348
+  inf_rhodot=2.3985516692016549
+  inf_Erho=0.1473763900773658
+  sup_h=-9.2543615741907423
+  sup_Delta=2.221255427818444
+  inf_margin=3.0331061463722992
+
+PASS_MIDDLE_ESCAPE_ENDGAME u=[29/100,290001/1000000] t_terminal=77/20 eta=4 method=CAPD-6.1.0-MPFR capd_commit=731079217a9254ea2948d742df2b170895effe7f
+
+The nonlinear remainder ceases to be perturbatively tiny at the fourth
+minimum, but it remains bounded through the complete final binary cycle.
+Thus width 1e-6 is certificate-capable at the left edge of the committed
+middle tile; this run does not prove that the same width works uniformly at
+all translated tiles.
