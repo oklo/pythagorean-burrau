@@ -36,7 +36,10 @@ the full per-tile logs have been imported and independently endpoint-audited.
 Thus every real parameter in the wider interval is nonperiodic.  Since it contains
 infinitely many rational Euclid parameters, this is an infinite primitive
 Pythagorean subfamily theorem; the endpoint $u=29/100$ corresponds to
-$(9159,5800,10841)$.  A one-set width-$10^{-8}$ stress test rigorously crossed all
+$(9159,5800,10841)$.  Explicitly, every $k\ge99010$ gives the covered
+primitive triple
+$(915900k^2-580k-1,580000k^2+2000k,1084100k^2+580k+1)$.
+A one-set width-$10^{-8}$ stress test rigorously crossed all
 six exchange sections but failed from wrapping in the final escape chart,
 localizing the next improvement.  The full compact-middle interval and the
 universal conjecture remain open.  See
