@@ -1079,6 +1079,57 @@ Map make_pair13_joint_invariant_projection() {
              ",tp,ww," + projected_jd + ";");
 }
 
+// Better-conditioned alternative: keep the evolved pair energy h and solve
+// H=-U0 together with L=0 for the two components of P.  On the exchange
+// branch G.P is strictly positive, selecting the positive radial square root.
+// This avoids feeding boxed unselected-potential uncertainty back into h.
+Map make_pair13_velocity_invariant_projection() {
+  const std::string qden = "(1+ww^2)";
+  const std::string ma = "((1-ww^2)/" + qden + ")";
+  const std::string mb = "(2*ww/" + qden + ")";
+  const std::string inv_m13 = "(" + qden + "/2)";
+  const std::string total = "(" + ma + "+" + mb + "+1)";
+  const std::string mu13 = "(" + ma + "/(" + ma + "+1))";
+  const std::string mu_g13 = "(" + mb + "*(" + ma + "+1)/" + total + ")";
+  const std::string gx = "(wr^2-wi^2)";
+  const std::string gy = "(2*wr*wi)";
+  const std::string d12x = "(cgx+" + inv_m13 + "*" + gx + ")";
+  const std::string d12y = "(cgy+" + inv_m13 + "*" + gy + ")";
+  const std::string d23x =
+      "(cgx+(" + inv_m13 + "-1)*" + gx + ")";
+  const std::string d23y =
+      "(cgy+(" + inv_m13 + "-1)*" + gy + ")";
+  const std::string r12 = "sqrt(" + d12x + "^2+" + d12y + "^2)";
+  const std::string r23 = "sqrt(" + d23x + "^2+" + d23y + "^2)";
+  const std::string ab = "(" + ma + "*" + mb + ")";
+  const std::string u0 = "(" + ab + "+1/" + ab + ")";
+  const std::string speed_squared =
+      "((2/" + mu_g13 + ")*(-" + u0 + "-" + mu13 + "*hh+" + ab +
+      "/" + r12 + "+" + mb + "/" + r23 + "))";
+  const std::string spin = "(wr*zi-wi*zr)";
+  const std::string big_g2 = "(cgx^2+cgy^2)";
+  const std::string target_cross =
+      "(-2*" + mu13 + "*" + spin + "/" + mu_g13 + ")";
+  const std::string radial_radicand =
+      "(" + speed_squared + "*" + big_g2 + "-" + target_cross + "^2)";
+  const std::string radial_coefficient =
+      "(sqrt(" + radial_radicand + ")/" + big_g2 + ")";
+  const std::string transverse_coefficient =
+      "(" + target_cross + "/" + big_g2 + ")";
+  const std::string projected_px =
+      "(" + radial_coefficient + "*cgx-" + transverse_coefficient +
+      "*cgy)";
+  const std::string projected_py =
+      "(" + radial_coefficient + "*cgy+" + transverse_coefficient +
+      "*cgx)";
+  const std::string projected_jd =
+      "(4*" + mu13 + "*(wr*zr+wi*zi)+2*" + mu_g13 + "*(cgx*" +
+      projected_px + "+cgy*" + projected_py + "))";
+  return Map(std::string(kDirectLcVars) +
+             "fun:wr,wi,zr,zi,hh,cgx,cgy," + projected_px + "," +
+             projected_py + ",tp,ww," + projected_jd + ";");
+}
+
 DirectCorrelatedGraph transform_graph_c1(const DirectCorrelatedGraph& input,
                                          Map transformation) {
   const Vector domain(input.c0_set());
@@ -2544,6 +2595,8 @@ int run_endgame(const Ival& u_param, long p, long q, long p2, long q2,
       std::getenv("FABLE_ENDGAME_GRAPH_EXCHANGE_ENERGY_PROJECT") != nullptr;
   const bool graph_exchange_invariant_project =
       std::getenv("FABLE_ENDGAME_GRAPH_EXCHANGE_INVARIANT_PROJECT") != nullptr;
+  const bool graph_exchange_velocity_project =
+      std::getenv("FABLE_ENDGAME_GRAPH_EXCHANGE_VELOCITY_PROJECT") != nullptr;
   DirectCorrelatedGraph graph = graph_c2
                                     ? make_quadratic_launch_graph(u_param)
                                     : make_direct_launch_graph(u_param);
@@ -2701,14 +2754,18 @@ int run_endgame(const Ival& u_param, long p, long q, long p2, long q2,
         throw std::runtime_error(label +
                                  ": lost orientation or separation");
       }
-      if ((graph_exchange_energy_project || graph_exchange_invariant_project) &&
+      if ((graph_exchange_energy_project || graph_exchange_invariant_project ||
+           graph_exchange_velocity_project) &&
           ordinal >= 4) {
         const std::string projection_label =
-            std::string(graph_exchange_invariant_project
-                            ? "exchange_invariant_projection_"
-                            : "exchange_energy_projection_") +
+            std::string(graph_exchange_velocity_project
+                            ? "exchange_velocity_projection_"
+                            : graph_exchange_invariant_project
+                                  ? "exchange_invariant_projection_"
+                                  : "exchange_energy_projection_") +
             std::to_string(ordinal);
-        if (graph_exchange_invariant_project) {
+        if (graph_exchange_invariant_project ||
+            graph_exchange_velocity_project) {
           const Vector domain = graph_hull(graph);
           const Ival complement_radius_squared =
               square_interval(domain[5]) + square_interval(domain[6]);
@@ -2722,8 +2779,50 @@ int run_endgame(const Ival& u_param, long p, long q, long p2, long q2,
                     << ","
                     << bound_double(complement_radius_squared.rightBound())
                     << "]\n" << std::flush;
-          graph = transform_graph(
-              graph, make_pair13_joint_invariant_projection());
+          if (graph_exchange_velocity_project) {
+            const DirectLcScalars sc = evaluate_direct_lc(domain, family);
+            const Ival mu13 = family.a / (family.a + Ival(1));
+            const Ival mu_g13 =
+                family.b * (family.a + Ival(1)) / family.total;
+            const Ival desired_speed_squared =
+                Ival(2) / mu_g13 *
+                (-family.u0 - mu13 * domain[4] +
+                 family.a * family.b / sqrt(sc.r12_squared) +
+                 family.b / sqrt(sc.r23_squared));
+            const Ival spin = domain[0] * domain[3] -
+                              domain[1] * domain[2];
+            const Ival target_cross =
+                -Ival(2) * mu13 / mu_g13 * spin;
+            const Ival radial_radicand =
+                desired_speed_squared * complement_radius_squared -
+                square_interval(target_cross);
+            const Ival radial_product =
+                domain[5] * domain[7] + domain[6] * domain[8];
+            if (!(desired_speed_squared.leftBound() > 0) ||
+                !(radial_radicand.leftBound() > 0) ||
+                !(radial_product.leftBound() > 0)) {
+              throw std::runtime_error(
+                  projection_label +
+                  ": energy/angular velocity branch is not strict");
+            }
+            std::cout << "ENDGAME_VELOCITY_DOMAIN " << projection_label
+                      << " speed2=["
+                      << bound_double(desired_speed_squared.leftBound())
+                      << ","
+                      << bound_double(desired_speed_squared.rightBound())
+                      << "] radicand=["
+                      << bound_double(radial_radicand.leftBound()) << ","
+                      << bound_double(radial_radicand.rightBound())
+                      << "] GdotP=["
+                      << bound_double(radial_product.leftBound()) << ","
+                      << bound_double(radial_product.rightBound()) << "]\n"
+                      << std::flush;
+            graph = transform_graph(
+                graph, make_pair13_velocity_invariant_projection());
+          } else {
+            graph = transform_graph(
+                graph, make_pair13_joint_invariant_projection());
+          }
         } else {
           graph = transform_graph(graph, make_pair13_energy_projection());
         }
@@ -2873,6 +2972,8 @@ int main(int argc, char** argv) {
         std::getenv("FABLE_ENDGAME_GRAPH_EXCHANGE_ENERGY_PROJECT") != nullptr;
     const bool graph_exchange_invariant_project =
         std::getenv("FABLE_ENDGAME_GRAPH_EXCHANGE_INVARIANT_PROJECT") != nullptr;
+    const bool graph_exchange_velocity_project =
+        std::getenv("FABLE_ENDGAME_GRAPH_EXCHANGE_VELOCITY_PROJECT") != nullptr;
     if (graph_exchange_energy_project && !graph_exchange_sync) {
       throw std::runtime_error(
           "graph exchange energy projection requires exchange synchronization");
@@ -2881,9 +2982,16 @@ int main(int argc, char** argv) {
       throw std::runtime_error(
           "graph exchange invariant projection requires exchange synchronization");
     }
-    if (graph_exchange_energy_project && graph_exchange_invariant_project) {
+    if (graph_exchange_velocity_project && !graph_exchange_sync) {
       throw std::runtime_error(
-          "choose either energy-only or joint invariant exchange projection");
+          "graph exchange velocity projection requires exchange synchronization");
+    }
+    if ((graph_exchange_energy_project ? 1 : 0) +
+            (graph_exchange_invariant_project ? 1 : 0) +
+            (graph_exchange_velocity_project ? 1 : 0) >
+        1) {
+      throw std::runtime_error(
+          "choose only one exchange invariant projection");
     }
     std::cout << "ENDGAME_PARAMS precision_bits=" << precision
               << " tolerance=" << tolerance << " order=" << order
@@ -2905,7 +3013,9 @@ int main(int argc, char** argv) {
               << (graph_exchange_energy_project ? 1 : 0)
               << " graph_exchange_invariant_project="
               << (graph_exchange_invariant_project ? 1 : 0)
-              << " driver=middle_escape_endgame_capd/v23-joint-invariant-2026-08-26"
+              << " graph_exchange_velocity_project="
+              << (graph_exchange_velocity_project ? 1 : 0)
+              << " driver=middle_escape_endgame_capd/v24-velocity-invariant-2026-08-26"
               << "\n" << std::flush;
     const bool graph_mode =
         std::getenv("FABLE_ENDGAME_GRAPH") != nullptr;

@@ -367,6 +367,71 @@ def test_pair13_idot_reconstruction_is_unchanged_by_angular_projection():
     assert sp.simplify(projected_idot - direct_idot) == 0
 
 
+def test_pair13_energy_angular_projection_can_solve_for_velocity():
+    """The positive-radial branch reconstructs P while leaving h unchanged."""
+    a, b = mass_A(U), mass_B(U)
+    mu13 = a / (a + 1)
+    mu_g = b * (a + 1) / (a + b + 1)
+    wr, wi, zr, zi = R(-2, 3), R(1, 4), R(5, 7), R(-3, 8)
+    big_g = (R(3, 5), R(4, 5))
+    big_g2 = _dot(big_g, big_g)
+    j_big_g = (-big_g[1], big_g[0])
+    target_cross = -2 * mu13 * (wr * zi - wi * zr) / mu_g
+    radial_coefficient = R(7, 3)
+    p = tuple(
+        radial_coefficient * big_g[k]
+        + target_cross * j_big_g[k] / big_g2
+        for k in range(2)
+    )
+    assert sp.simplify(_dot(big_g, p) - radial_coefficient * big_g2) == 0
+    assert _dot(big_g, p) > 0
+
+    g = (wr**2 - wi**2, 2 * wr * wi)
+    inv_m13 = 1 / (a + 1)
+    d12 = (
+        big_g[0] + inv_m13 * g[0],
+        big_g[1] + inv_m13 * g[1],
+    )
+    d23 = (
+        big_g[0] + (inv_m13 - 1) * g[0],
+        big_g[1] + (inv_m13 - 1) * g[1],
+    )
+    u0 = a * b + 1 / (a * b)
+    h = sp.simplify(
+        (-u0 - mu_g * _dot(p, p) / 2 + a * b / _norm(d12) + b / _norm(d23))
+        / mu13
+    )
+    desired_speed_squared = sp.simplify(
+        2
+        / mu_g
+        * (-u0 - mu13 * h + a * b / _norm(d12) + b / _norm(d23))
+    )
+    radicand = sp.simplify(
+        desired_speed_squared * big_g2 - target_cross**2
+    )
+    assert sp.simplify(radicand - radial_coefficient**2 * big_g2**2) == 0
+    reconstructed_radial = sp.sqrt(radicand) / big_g2
+    projected_p = tuple(
+        reconstructed_radial * big_g[k]
+        + target_cross * j_big_g[k] / big_g2
+        for k in range(2)
+    )
+    assert _pair_equal(projected_p, p)
+    assert sp.simplify(_cross(big_g, projected_p) - target_cross) == 0
+    assert sp.simplify(_dot(projected_p, projected_p) - desired_speed_squared) == 0
+
+    reconstructed_jd = (
+        4 * mu13 * (wr * zr + wi * zi)
+        + 2 * mu_g * _dot(big_g, projected_p)
+    )
+    gdot = (
+        2 * (wr * zr - wi * zi) / (wr**2 + wi**2),
+        2 * (wr * zi + wi * zr) / (wr**2 + wi**2),
+    )
+    direct_jd = 2 * mu13 * _dot(g, gdot) + 2 * mu_g * _dot(big_g, p)
+    assert sp.simplify(reconstructed_jd - direct_jd) == 0
+
+
 def test_tied_initial_state_has_prescribed_energy_leaf():
     """The normalized Pythagorean brake family has H=-U0(u) exactly."""
     a, b = mass_A(U), mass_B(U)

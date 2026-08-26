@@ -274,6 +274,56 @@ The joint map has not yet been benchmarked or used in a certificate.  A
 computer-assisted use must certify $|G|^2>0$, evaluate its complete C2 image,
 and retain every tube, separation, brake, and transversality audit below.
 
+### Energy--angular reconstruction of the complementary velocity
+
+The energy-only section experiment shows that solving the energy identity
+for `h` can be badly conditioned once the unselected distances have acquired
+ambient-box defect.  There is an alternative that leaves the evolved `h`
+coordinate unchanged and solves the two invariant equations for $P$.
+
+Define the required complementary speed and transverse moment by
+
+\[
+ S^2={2\over\mu_G}
+ \left(-U_0-\mu_{13}h+{AB\over r_{12}}+{B\over r_{23}}\right),
+ \qquad
+ K=-{2\mu_{13}\over\mu_G}\operatorname{Im}(\overline w z).
+\]
+
+Writing $P=\alpha G+\beta JG$, the equations $H=-U_0$ and $L=0$ give
+
+\[
+ \beta={K\over|G|^2},\qquad
+ \alpha^2={S^2|G|^2-K^2\over|G|^4}.
+\]
+
+On any graph domain with the strict branch conditions
+
+\[
+ |G|^2>0,\qquad S^2|G|^2-K^2>0,\qquad G\cdot P>0,
+\]
+
+the exact fiber-fixing projection is therefore
+
+\[
+ \boxed{
+ P^*={\sqrt{S^2|G|^2-K^2}\over|G|^2},G
+      +{K\over|G|^2},JG.}
+\]
+
+It is followed by the exact `jd` reconstruction above, but leaves `h`
+unchanged.  Every genuine positive-radial tied fiber is fixed: energy gives
+$S^2=|P|^2$, angular momentum gives $G\times P=K$, and the sign of
+$G\cdot P$ selects the displayed square root.  Conversely the projected
+point satisfies both invariant equations pointwise.
+
+**Status: EXACT SYMBOLIC IDENTITY.**  An exact radical regression constructs
+a positive-radial $L=0$, $H=-U_0$ state and proves that the map fixes $P$,
+its norm and cross product have the prescribed values, and reconstructed
+`jd` equals $\dot I$.  The opt-in C2 implementation checks all three strict
+branch margins before evaluation.  It has not yet supplied a validated flow
+certificate.
+
 ## Domain and tube obligations
 
 For a computer-assisted use of the lemma, every following item remains
@@ -331,6 +381,16 @@ evaluation the driver requires the complete graph enclosure to have
 $|G|^2>0$; afterward it repeats the ordinary chart-domain, three-separation,
 and $J<0$ checks.  This route is experimental until a complete pinned replay
 passes.
+
+The alternative that keeps `h` and reconstructs $P$ is selected by
+
+```text
+FABLE_ENDGAME_GRAPH_EXCHANGE_VELOCITY_PROJECT=1
+```
+
+It is mutually exclusive with both preceding same-chart flags and records
+strict interval margins for $S^2$, $S^2|G|^2-K^2$, and $G\cdot P$ before
+each use.
 
 Exact tests:
 
