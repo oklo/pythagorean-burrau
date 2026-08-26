@@ -1814,3 +1814,32 @@ it is not a remainder proof.
   projecting off-leaf spurious box points cannot discard any genuine tied
   fiber.  The pair--23 geometric section remains a secondary phase-sensitivity
   repair, not the next primary experiment.
+
+## 2026-08-26: fixed-energy LC reconditioning
+
+- Derived the exact Jacobi identity
+  $H=\mu h+\mu_G|P|^2/2-V_{\rm cross}$ and the smooth target-pair formulas
+  in `docs/ENERGY_LEAF_RECONDITIONING.md`.  The accompanying fiberwise
+  projection lemma proves that applying this map to an ambient graph box is
+  rigorous even though it moves spurious off-energy points: every genuine
+  tied fiber has $H=-U_0(u)$ and is unchanged.  Eight exact symbolic map and
+  energy tests pass.  An independent adversarial audit rederived every
+  reduced mass, distance, sign, and code convention and returned `ACCEPT`.
+- On the width-$10^{-12}$ sandwich control, energy reconstruction reduced the
+  first Form-B switch hull from $9.5085\,10^{-8}$ to $7.0917\,10^{-8}$ and
+  the reverse Form-A switch from $4.7850\,10^{-6}$ to
+  $2.3987\,10^{-6}$.  The complete pinned replay passed with explicit lift
+  margins $0.2088278$ and $0.1466141$ and terminal escape margin $2.74103$.
+  Thus the invariant projection is not merely formally sound; it gives a
+  material local enclosure improvement.
+- The combined itinerary is still not the economical winner.  Its fourth
+  minimum hull was $4.6259\,10^{-6}$, slightly above the original
+  $4.4513\,10^{-6}$, and later pair--23 cycles amplified the extra reverse-map
+  defect.  The final hull was $0.0457664$, versus $0.0436833$ without the
+  sandwich.  This is about $4.8\%$ worse despite the smaller switches.  The
+  complete record is `data/middle_c2_energy_h_sandwich_summary.log`.
+- A final-switch-only replay is in progress: it retains the original
+  no-sandwich prefix and applies fixed-energy reconditioning only at the
+  established Form-B transition at $t=7/2$.  This isolates the local gain
+  without paying for the reverse-map box.  No scalable-width claim is made
+  until that replay completes.

@@ -992,6 +992,18 @@ reconstruction of the selected-pair `h` coordinate encloses every genuine
 energy-leaf fiber despite the graph box's off-leaf spurious points.  Either
 repair must retain the independent whole-tube brake/collision audit.
 
+The fixed-energy reconditioning lemma now discharges the analytic part of the
+second alternative.  Exact Jacobi decomposition proves both target `h`
+formulas, and a fiberwise projection argument proves that off-energy spurious
+box points may be moved without losing any genuine tied orbit.  An independent
+audit accepted the proof and implementation, and the complete width-$10^{-12}$
+energy-reconditioned sandwich passed.  Its terminal enclosure was slightly
+worse than the no-sandwich control, so it does not discharge the economic
+coverage obligation.  The remaining computational question is narrower:
+whether invariant reconditioning at the final established Form-B switch alone
+reduces the terminal defect, and, if so, how far that improvement scales in
+parameter width before true section sensitivity dominates.
+
 Three independent adversarial passes audited the incoming-tail theorem. They
 found and forced repair of: a nonuniform constant-energy estimate; an invalid
 partial-LC-block physical-time bound; unspecified oscillator “actions”; a

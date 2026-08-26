@@ -1,0 +1,49 @@
+Directional C2 energy-reconditioned sandwich, complete control replay
+2026-08-26
+
+command:
+  FABLE_ENDGAME_GRAPH=1 FABLE_ENDGAME_GRAPH_C2=1 \
+  FABLE_ENDGAME_GRAPH_PAIR23_SYNC=1 \
+  FABLE_ENDGAME_GRAPH_EXCHANGE_SANDWICH=1 \
+  FABLE_ENDGAME_GRAPH_FIXED_ENERGY_H=1 \
+  /private/tmp/fable_middle_energy_h_test \
+  29 100 290000000001 1000000000000 160 1e-24 32
+
+source commit represented by binary:
+  d66ab40
+CAPD commit:
+  731079217a9254ea2948d742df2b170895effe7f
+
+Each row is:
+  label | total hull | T*delta | Q*delta^2 | additive defect
+
+t=17/5                       | 4.7338644858552002e-09 | 1.0651030348553804e-09 | 7.4945351246682563e-19 | 3.6687614503591470e-09
+t=171/50                     | 1.2112140230606756e-08 | 2.6737408472656761e-09 | 1.9246169186300225e-18 | 9.4383993814164642e-09
+exchange_switch13to23_formB | 7.0917304046892356e-08 | 5.8741532163664184e-10 | 6.6412486842805275e-19 | 7.0329888724591594e-08
+t=173/50                     | 4.1542424127017453e-07 | 1.4529236408319122e-09 | 6.8888515529525650e-18 | 4.1397131762245376e-07
+exchange_switch23to13_formA | 2.3986583326933795e-06 | 3.9376136348071558e-08 | 6.0474446601882525e-17 | 2.3592821962848337e-06
+min4                         | 4.6258673271396959e-06 | 1.9351859923892877e-08 | 4.7252929618072327e-17 | 4.6065154671685504e-06
+t=7/2                        | 1.2007021021222449e-05 | 1.0612543327931193e-08 | 4.1471998487285452e-17 | 1.2002813303481143e-05
+switch13to23_formB           | 7.1461084138554047e-05 | 1.2169364741593718e-08 | 7.6137622346542826e-17 | 7.1448914773736318e-05
+pair23_section_14            | 1.9626976029000795e-03 | 1.4640242457689378e-08 | 7.9050030210721208e-17 | 1.9626959008488525e-03
+pair23_section_21            | 2.0309864628105856e-02 | 1.4692303098853937e-08 | 7.9159039792519229e-17 | 2.0309861734532517e-02
+t=77/20                      | 4.5766400958722211e-02 | 1.4606358621012085e-08 | 7.8058657951768229e-17 | 4.5766390318108870e-02
+
+branch margins:
+  inf(|g23|-g23_x) at 13->23 Form B = 0.20882785722712277
+  inf(|g13|+g13_x) at 23->13 Form A = 0.14661416257938459
+
+terminal margins:
+  inf_d=0.86898166760594053
+  inf_rhodot=2.3889748147634826
+  inf_Erho=0.11493006423501365
+  inf_margin=2.7410325789919376
+
+PASS_MIDDLE_ESCAPE_ENDGAME u=[29/100,290000000001/1000000000000]
+
+Interpretation:
+  The fixed-energy map rigorously improves both static switch images.  The
+  extra sandwich defect is nevertheless amplified by later pair-23 cycles,
+  leaving the final hull about 4.8 percent larger than the no-sandwich C2
+  control.  This is a complete validation of the invariant reconditioning,
+  not a new interval theorem; the interval was already certified.
