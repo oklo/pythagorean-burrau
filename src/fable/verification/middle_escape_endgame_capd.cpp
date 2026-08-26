@@ -2711,11 +2711,17 @@ int run_endgame(const Ival& u_param, long p, long q, long p2, long q2,
         if (graph_exchange_invariant_project) {
           const Vector domain = graph_hull(graph);
           const Ival complement_radius_squared =
-              domain[5] * domain[5] + domain[6] * domain[6];
+              square_interval(domain[5]) + square_interval(domain[6]);
           if (!(complement_radius_squared.leftBound() > 0)) {
             throw std::runtime_error(
                 projection_label + ": complement Jacobi vector may vanish");
           }
+          std::cout << "ENDGAME_INVARIANT_DOMAIN " << projection_label
+                    << " G2=["
+                    << bound_double(complement_radius_squared.leftBound())
+                    << ","
+                    << bound_double(complement_radius_squared.rightBound())
+                    << "]\n" << std::flush;
           graph = transform_graph(
               graph, make_pair13_joint_invariant_projection());
         } else {
