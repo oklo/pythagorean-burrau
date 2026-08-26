@@ -49,3 +49,15 @@ def test_leg_swap_is_involution_and_swaps_masses(u: Fraction) -> None:
     swapped_a, swapped_b, _ = normalized_masses(v)
     assert (swapped_a, swapped_b) == (b, a)
 
+
+@pytest.mark.parametrize("k", [99010, 100000, 1234567])
+def test_explicit_middle_interval_primitive_family(k: int) -> None:
+    """The certified middle interval contains an explicit infinite family."""
+    u = Fraction(290 * k + 1, 1000 * k)
+    assert u == Fraction(29, 100) + Fraction(1, 1000 * k)
+    assert Fraction(29, 100) < u <= Fraction(2900000101, 10000000000)
+    assert primitive_triple(u) == PrimitiveTriple(
+        915900 * k * k - 580 * k - 1,
+        580000 * k * k + 2000 * k,
+        1084100 * k * k + 580 * k + 1,
+    )

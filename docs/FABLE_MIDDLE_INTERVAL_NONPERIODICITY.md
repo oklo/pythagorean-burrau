@@ -48,6 +48,29 @@ In particular, the interval contains infinitely many rational Euclid
 parameters and therefore proves the conjecture for infinitely many distinct
 primitive Pythagorean triples.  Its left endpoint $u=29/100$ gives the
 explicit primitive triple $(9159,5800,10841)$ in the displayed leg order.
+An explicit infinite subfamily, avoiding any appeal beyond elementary Euclid
+arithmetic, is obtained for every integer $k\ge99010$ from
+
+\[
+ u_k={290k+1\over1000k}={29\over100}+{1\over1000k}.
+\]
+
+Indeed $\gcd(290k+1,1000k)=1$: a common divisor with $k$ divides $1$, while
+$290k+1$ is coprime to both $2$ and $5$.  The numerator is odd and the
+denominator is even, so Euclid's construction is primitive and gives
+
+\[
+ \boxed{
+ \begin{aligned}
+ a_k&=915900k^2-580k-1,\\
+ b_k&=580000k^2+2000k,\\
+ c_k&=1084100k^2+580k+1.
+ \end{aligned}}
+\]
+
+The threshold follows exactly from
+$1/(1000k)\le101/10^{10}$.  Thus every displayed triple is covered by the
+real-interval theorem.
 
 ## Proof structure
 

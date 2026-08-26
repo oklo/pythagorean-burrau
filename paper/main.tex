@@ -332,6 +332,20 @@ Consequently the Pythagorean--Burrau conjecture holds for infinitely many
 primitive triples in this interval, including
 $(9159,5800,10841)$ at $u=29/100$.
 \end{theorem}
+
+More explicitly, for every integer $k\ge99010$ set
+\[
+ u_k={290k+1\over1000k}={29\over100}+{1\over1000k}.
+\]
+The numerator and denominator are coprime and of opposite parity, and the
+interval inequality is equivalent to $1/(1000k)\le101/10^{10}$.  The theorem
+therefore proves nonperiodicity for the primitive triples
+\[
+ \left(915900k^2-580k-1,
+       580000k^2+2000k,
+       1084100k^2+580k+1\right),
+ \qquad k\ge99010.
+\]
 \begin{proof}
 A pinned MPFR/CAPD propagation embeds the exact launch curve on
 $[0.29,0.290000001]$ in one correlated tripleton with $u$ frozen as a state
