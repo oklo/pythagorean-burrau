@@ -202,6 +202,78 @@ the defining pair--13 Jacobi transformation.  The fixed-fiber conclusion is
 the energy identity above.  Exact rational tests independently reconstruct
 both distances and the velocity-defined pair energy.
 
+## Joint angular-momentum and dilatational reconditioning
+
+The energy leaf is not the only exact constraint available in the direct
+pair--13 chart.  Put
+
+\[
+ \mu_{13}={A\over A+1},\qquad
+ \mu_G={B(A+1)\over A+B+1},\qquad
+ g=q_3-q_1=w^2,
+\]
+
+and let $G=q_2-C_{13}$ and $P=\dot G$.  The translation-reduced angular
+momentum is
+
+\[
+ L=2\mu_{13}\operatorname{Im}(\overline w z)+\mu_G,G\mathbin\times P.
+\]
+
+For $G\ne0$, define
+
+\[
+ K=-{2\mu_{13}\over\mu_G}\operatorname{Im}(\overline w z),\qquad
+ JG=(-G_y,G_x),
+\]
+
+and
+
+\[
+ \boxed{
+ P^*=P+{K-G\mathbin\times P\over |G|^2},JG.}
+\]
+
+Then $G\times P^*=K$ and $G\cdot P^*=G\cdot P$.  Thus $P^*$ lies on the
+zero-angular-momentum leaf, while every point already on that leaf is fixed.
+The coordinate-free formula avoids choosing between $G_x$ and $G_y$; its
+only domain obligation is a strict lower bound for $|G|^2$.
+
+There is also an exact reconstruction of the auxiliary dilatational
+coordinate.  Since
+
+\[
+ I=\mu_{13}|g|^2+\mu_G|G|^2,
+ \qquad
+ g\cdot\dot g=2\operatorname{Re}(\overline w z),
+\]
+
+one has
+
+\[
+ \boxed{
+ j_d=\dot I=
+ 4\mu_{13}\operatorname{Re}(\overline w z)+2\mu_G G\cdot P.}
+\]
+
+Consequently the composition
+
+1. $P\mapsto P^*$;
+2. reconstruction of `h` from $H=-U_0(u)$ using $P^*$;
+3. reconstruction of `jd` from the last display,
+
+fixes every genuine tied fiber and maps spurious enclosure points onto all
+three exact identities.  The fiberwise invariant-projection lemma therefore
+applies to the composition and to repeated uses of it.  No square root or
+selected-pair distance divisor is introduced.
+
+**Status: EXACT SYMBOLIC IDENTITY.**  Independent exact tests verify the two
+Levi--Civita factors, enforcement and fixed-point behavior of the angular
+projection, preservation of $G\cdot P$, and the $\dot I$ reconstruction.
+The joint map has not yet been benchmarked or used in a certificate.  A
+computer-assisted use must certify $|G|^2>0$, evaluate its complete C2 image,
+and retain every tube, separation, brake, and transversality audit below.
+
 ## Domain and tube obligations
 
 For a computer-assisted use of the lemma, every following item remains

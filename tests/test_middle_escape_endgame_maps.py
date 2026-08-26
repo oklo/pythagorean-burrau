@@ -167,6 +167,14 @@ def pair23_h_from_energy(u, total_energy, big_g_velocity, r12, r13):
     )
 
 
+def _dot(lhs, rhs):
+    return sum(x * y for x, y in zip(lhs, rhs, strict=True))
+
+
+def _cross(lhs, rhs):
+    return lhs[0] * rhs[1] - lhs[1] * rhs[0]
+
+
 def test_switch_23_to_13_rational_core():
     """The switch-back frame change reproduces the direct pair-{1,3} data."""
     for positions, velocities in STATES:
@@ -278,6 +286,85 @@ def test_pair13_in_chart_energy_projection_distances():
             - (a + 1) / _norm(g13)
         )
         assert sp.simplify(projected_h - h_velocity) == 0
+
+
+def test_pair13_lc_angular_momentum_and_idot_identities_symbolic():
+    """The LC angular-momentum and dI/dt factors include the correct 2."""
+    wr, wi, zr, zi = sp.symbols("wr wi zr zi", real=True)
+    radius = wr**2 + wi**2
+    g = (wr**2 - wi**2, 2 * wr * wi)
+    gdot = (
+        2 * (wr * zr - wi * zi) / radius,
+        2 * (wr * zi + wi * zr) / radius,
+    )
+    assert sp.cancel(_cross(g, gdot) - 2 * (wr * zi - wi * zr)) == 0
+    assert sp.cancel(_dot(g, gdot) - 2 * (wr * zr + wi * zi)) == 0
+
+
+def test_pair13_zero_angular_momentum_projection_exactly_fixes_leaf():
+    """The coordinate-free P projection enforces L=0 and fixes L=0 points."""
+    a, b = mass_A(U), mass_B(U)
+    mu13 = a / (a + 1)
+    mu_g = b * (a + 1) / (a + b + 1)
+    samples = [
+        (R(-3, 5), R(2, 7), R(4, 9), R(-5, 8),
+         (R(7, 6), R(-2, 5)), (R(3, 11), R(-8, 13))),
+        (R(5, 4), R(-1, 3), R(-7, 10), R(6, 11),
+         (R(-4, 7), R(9, 5)), (R(-2, 9), R(5, 12))),
+    ]
+    for wr, wi, zr, zi, big_g, p in samples:
+        spin = wr * zi - wi * zr
+        target_cross = -2 * mu13 * spin / mu_g
+        radius = _dot(big_g, big_g)
+        j_big_g = (-big_g[1], big_g[0])
+        correction = (target_cross - _cross(big_g, p)) / radius
+        projected_p = tuple(
+            p[k] + correction * j_big_g[k] for k in range(2)
+        )
+        assert sp.simplify(_cross(big_g, projected_p) - target_cross) == 0
+        assert sp.simplify(_dot(big_g, projected_p) - _dot(big_g, p)) == 0
+        assert sp.simplify(
+            2 * mu13 * spin + mu_g * _cross(big_g, projected_p)
+        ) == 0
+
+        radial_rate = R(17, 19)
+        leaf_p = tuple(
+            (radial_rate * big_g[k] + target_cross * j_big_g[k]) / radius
+            for k in range(2)
+        )
+        leaf_correction = (target_cross - _cross(big_g, leaf_p)) / radius
+        fixed_p = tuple(
+            leaf_p[k] + leaf_correction * j_big_g[k] for k in range(2)
+        )
+        assert _pair_equal(fixed_p, leaf_p)
+
+
+def test_pair13_idot_reconstruction_is_unchanged_by_angular_projection():
+    """Reconstructed jd is dI/dt and uses only the preserved radial P part."""
+    a, b = mass_A(U), mass_B(U)
+    mu13 = a / (a + 1)
+    mu_g = b * (a + 1) / (a + b + 1)
+    wr, wi, zr, zi = R(-3, 5), R(2, 7), R(4, 9), R(-5, 8)
+    big_g, p = (R(7, 6), R(-2, 5)), (R(3, 11), R(-8, 13))
+    spin = wr * zi - wi * zr
+    target_cross = -2 * mu13 * spin / mu_g
+    radius = _dot(big_g, big_g)
+    j_big_g = (-big_g[1], big_g[0])
+    correction = (target_cross - _cross(big_g, p)) / radius
+    projected_p = tuple(p[k] + correction * j_big_g[k] for k in range(2))
+
+    g = (wr**2 - wi**2, 2 * wr * wi)
+    w2 = wr**2 + wi**2
+    gdot = (
+        2 * (wr * zr - wi * zi) / w2,
+        2 * (wr * zi + wi * zr) / w2,
+    )
+    direct_idot = 2 * mu13 * _dot(g, gdot) + 2 * mu_g * _dot(big_g, p)
+    projected_idot = (
+        4 * mu13 * (wr * zr + wi * zi)
+        + 2 * mu_g * _dot(big_g, projected_p)
+    )
+    assert sp.simplify(projected_idot - direct_idot) == 0
 
 
 def test_tied_initial_state_has_prescribed_energy_leaf():
