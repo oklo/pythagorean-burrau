@@ -1,0 +1,42 @@
+Directional C2 final-switch-only energy reconditioning, complete control
+2026-08-26
+
+command:
+  FABLE_ENDGAME_GRAPH=1 FABLE_ENDGAME_GRAPH_C2=1 \
+  FABLE_ENDGAME_GRAPH_PAIR23_SYNC=1 \
+  FABLE_ENDGAME_GRAPH_FIXED_ENERGY_H=1 \
+  /private/tmp/fable_middle_energy_h_test \
+  29 100 290000000001 1000000000000 160 1e-24 32
+
+source commit represented by binary:
+  d66ab40
+CAPD commit:
+  731079217a9254ea2948d742df2b170895effe7f
+
+Each row is:
+  label | total hull | T*delta | Q*delta^2 | additive defect
+
+t=17/5              | 4.7338644858552002e-09 | 1.0651030348553804e-09 | 7.4945351246682563e-19 | 3.6687614503591470e-09
+t=69/20             | 1.2159840552577836e-06 | 9.2048295518924746e-08 | 4.4798053075634590e-17 | 1.1239357597028482e-06
+min4                | 4.4513110900687141e-06 | 1.9351859923892877e-08 | 2.0117741464635185e-16 | 4.4319592299436441e-06
+t=7/2               | 9.5682805646955917e-06 | 1.0612543327931193e-08 | 3.3039681113491854e-16 | 9.5640728466653609e-06
+switch13to23_formB  | 5.9638472963883329e-05 | 1.2169364741593718e-08 | 4.5254786219888165e-16 | 5.9626303598689186e-05
+pair23_section_1    | 6.3251330329549367e-05 | 1.4399855370441500e-08 | 4.3818987210022669e-16 | 6.3236930473740729e-05
+pair23_section_14   | 1.6811773697841550e-03 | 1.4640242457689378e-08 | 4.3368035307013804e-16 | 1.6811756677329356e-03
+pair23_section_21   | 1.7346690509320657e-02 | 1.4692303098853937e-08 | 4.3275610004831316e-16 | 1.7346687615747314e-02
+t=77/20             | 3.8660425907315832e-02 | 1.4606358621012085e-08 | 4.2911106849504803e-16 | 3.8660415266702358e-02
+
+terminal margins:
+  inf_d=0.86999548625616119
+  inf_rhodot=2.3936434582763142
+  inf_Erho=0.12928564722617694
+  inf_margin=2.8914927990311101
+
+PASS_MIDDLE_ESCAPE_ENDGAME u=[29/100,290000000001/1000000000000]
+
+Interpretation:
+  Relative to the no-energy C2 control, the final Form-B switch hull falls
+  from 8.0706e-5 to 5.9638e-5 and the terminal hull from 4.3683e-2 to
+  3.8660e-2.  This is the best tested itinerary.  The interval itself was
+  already certified, so the replay is a validated machinery improvement,
+  not a new theorem.

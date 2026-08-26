@@ -1838,8 +1838,18 @@ it is not a remainder proof.
   defect.  The final hull was $0.0457664$, versus $0.0436833$ without the
   sandwich.  This is about $4.8\%$ worse despite the smaller switches.  The
   complete record is `data/middle_c2_energy_h_sandwich_summary.log`.
-- A final-switch-only replay is in progress: it retains the original
-  no-sandwich prefix and applies fixed-energy reconditioning only at the
-  established Form-B transition at $t=7/2$.  This isolates the local gain
-  without paying for the reverse-map box.  No scalable-width claim is made
-  until that replay completes.
+- The final-switch-only replay completed and is the best tested itinerary.  It
+  retains the original no-sandwich prefix and applies fixed-energy
+  reconditioning only at the established Form-B transition at $t=7/2$.  The
+  switch hull fell from $8.0706\,10^{-5}$ to $5.9638\,10^{-5}$, section 14
+  from $1.8718\,10^{-3}$ to $1.6812\,10^{-3}$, section 21 from
+  $1.9440\,10^{-2}$ to $1.7347\,10^{-2}$, and the terminal hull from
+  $0.0436841$ to $0.0386604$.  The terminal escape margin improved from
+  $2.78859$ to $2.89149$.  The full compact record is
+  `data/middle_c2_energy_h_final_only_width_1e12_summary.log`.
+- This $11.5\%$ terminal reduction confirms that invariant reconditioning is
+  useful when it replaces an existing chart transformation, while the extra
+  sandwich remains uneconomic.  A width-$10^{-7}$ replay is now running.  Its
+  interval $[0.29,0.2900001]$ strictly contains the current certified Fable
+  interval, so a complete PASS would be a new gap-free nonperiodicity theorem
+  rather than a control benchmark.
