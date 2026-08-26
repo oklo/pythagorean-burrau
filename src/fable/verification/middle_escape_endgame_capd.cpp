@@ -1127,12 +1127,27 @@ void audit_graph_leg(const DirectCorrelatedGraph& input,
                                ": audit step limit");
     }
     const Vector before(audit_set);
+    const DirectLcScalars pre =
+        pair23_chart ? evaluate_pair23_lc(before, audit_family)
+                     : evaluate_direct_lc(before, audit_family);
+    if (!(pre.selected_radius.leftBound() > 0) ||
+        !(pre.r12_squared.leftBound() > 0) ||
+        !(pre.r23_squared.leftBound() > 0)) {
+      throw std::runtime_error(std::string(leg_label) +
+                               ": lost pre-step collision separation");
+    }
     const double w_abs = std::sqrt(std::max(
+        1e-12, bound_double(pre.selected_radius.leftBound())));
+    const double unselected = std::sqrt(std::max(
         1e-12,
-        bound_double((before[0] * before[0] + before[1] * before[1])
-                         .leftBound())));
-    const double cap =
-        std::max(1.0 / 8000.0, std::min(w_abs / 24.0, 1.0 / 100.0));
+        std::min(bound_double(pre.r12_squared.leftBound()),
+                 bound_double(pre.r23_squared.leftBound()))));
+    const double w2_lower = std::max(1e-12, w_abs * w_abs);
+    const double unselected_cap =
+        unselected * std::sqrt(unselected) / (40.0 * w2_lower);
+    const double cap = std::max(
+        1.0 / 20000.0,
+        std::min(std::min(w_abs / 24.0, unselected_cap), 1.0 / 100.0));
     audit.direct_move(audit_set, cap);
     const Vector enclosure = audit_set.getLastEnclosure();
     const DirectLcScalars sc =
@@ -1226,6 +1241,10 @@ DirectCorrelatedGraph project_graph_c1(
   Solver interval_solver(field, order);
   interval_solver.setAbsoluteTolerance(tolerance);
   interval_solver.setRelativeTolerance(tolerance);
+  if (section_coordinate == 0) {
+    interval_solver.setMaxStep(pair23_chart ? Ival(1) / Ival(500)
+                                            : Ival(1) / Ival(2000));
+  }
   PoincareMap interval_map(interval_solver, section, direction);
   interval_map.setMaxReturnTime(50.0);
   C1Set interval_set = input.c1_set();
@@ -1245,6 +1264,10 @@ DirectCorrelatedGraph project_graph_c1(
   Solver anchor_solver(field, order);
   anchor_solver.setAbsoluteTolerance(tolerance);
   anchor_solver.setRelativeTolerance(tolerance);
+  if (section_coordinate == 0) {
+    anchor_solver.setMaxStep(pair23_chart ? Ival(1) / Ival(500)
+                                          : Ival(1) / Ival(2000));
+  }
   PoincareMap anchor_map(anchor_solver, anchor_section, direction);
   anchor_map.setMaxReturnTime(50.0);
   Set anchor_set(input.anchor);
@@ -1314,6 +1337,10 @@ DirectCorrelatedGraph project_graph_c2(
   C2Solver directional_solver(field, order);
   directional_solver.setAbsoluteTolerance(tolerance);
   directional_solver.setRelativeTolerance(tolerance);
+  if (section_coordinate == 0) {
+    directional_solver.setMaxStep(pair23_chart ? Ival(1) / Ival(500)
+                                                : Ival(1) / Ival(2000));
+  }
   set_directional_c2_mask(directional_solver, 12, parameter_coordinate);
   C2PoincareMap directional_map(directional_solver, directional_section,
                                 direction);
@@ -1339,6 +1366,10 @@ DirectCorrelatedGraph project_graph_c2(
   Solver anchor_solver(field, order);
   anchor_solver.setAbsoluteTolerance(tolerance);
   anchor_solver.setRelativeTolerance(tolerance);
+  if (section_coordinate == 0) {
+    anchor_solver.setMaxStep(pair23_chart ? Ival(1) / Ival(500)
+                                          : Ival(1) / Ival(2000));
+  }
   PoincareMap anchor_map(anchor_solver, anchor_section, direction);
   anchor_map.setMaxReturnTime(50.0);
   C1Set anchor_set(input.anchor);
@@ -2387,6 +2418,8 @@ int run_endgame(const Ival& u_param, long p, long q, long p2, long q2,
       std::getenv("FABLE_ENDGAME_GRAPH_C2") != nullptr;
   const bool graph_fixed_energy_h =
       std::getenv("FABLE_ENDGAME_GRAPH_FIXED_ENERGY_H") != nullptr;
+  const bool graph_exchange_sync =
+      std::getenv("FABLE_ENDGAME_GRAPH_EXCHANGE_SYNC") != nullptr;
   DirectCorrelatedGraph graph = graph_c2
                                     ? make_quadratic_launch_graph(u_param)
                                     : make_direct_launch_graph(u_param);
@@ -2488,15 +2521,53 @@ int run_endgame(const Ival& u_param, long p, long q, long p2, long q2,
       {59, 20, false, LegMode::kPostMin}, {3, 1, false, LegMode::kPositive}};
   for (const TimeLeg& leg : out3) run_time_leg(leg);
   run_event_leg(true, false, "max3");
-  const TimeLeg approach4[] = {
+  const TimeLeg approach4_prefix[] = {
       {31, 10, false, LegMode::kPostMax}, {63, 20, false, LegMode::kNegative},
-      {16, 5, false, LegMode::kNegative}, {13, 4, false, LegMode::kNegative},
-      {33, 10, false, LegMode::kNegative},{67, 20, false, LegMode::kNegative},
-      {17, 5, false, LegMode::kNegative}};
-  for (const TimeLeg& leg : approach4) run_time_leg(leg);
+      {16, 5, false, LegMode::kNegative}, {13, 4, false, LegMode::kNegative}};
+  for (const TimeLeg& leg : approach4_prefix) run_time_leg(leg);
   const bool graph_exchange_sandwich =
       std::getenv("FABLE_ENDGAME_GRAPH_EXCHANGE_SANDWICH") != nullptr;
-  if (graph_exchange_sandwich) {
+  if (graph_exchange_sync && graph_exchange_sandwich) {
+    throw std::runtime_error(
+        "choose either graph exchange synchronization or chart sandwich");
+  }
+  if (!graph_exchange_sync) {
+    const TimeLeg approach4_tail[] = {
+        {33, 10, false, LegMode::kNegative},
+        {67, 20, false, LegMode::kNegative},
+        {17, 5, false, LegMode::kNegative}};
+    for (const TimeLeg& leg : approach4_tail) run_time_leg(leg);
+  }
+  if (graph_exchange_sync) {
+    // The physical-clock family becomes almost tangent to the close pair--23
+    // encounter near tp ~= 3.4515.  Synchronizing instead on successive
+    // pair--13 LC coordinate sections removes that phase direction while
+    // retaining the pair--13 chart needed for its own encounter near
+    // tp ~= 3.4695.  This is the same gap-free itinerary already validated
+    // by the correlated-C0 driver; project_graph supplies the stronger
+    // directional-C2 image and independently audits every intervening tube.
+    const Ival exchange_wr_sections[] = {
+        -Ival(3) / Ival(5), -Ival(1) / Ival(2),
+        -Ival(2) / Ival(5), -Ival(3) / Ival(10),
+        -Ival(1) / Ival(5), Ival(0)};
+    int ordinal = 0;
+    for (const Ival& wr_section : exchange_wr_sections) {
+      const std::string label =
+          "exchange_section_" + std::to_string(++ordinal);
+      graph = project_graph(graph, 0, wr_section, MP, order, tolerance,
+                            false, LegMode::kNegative, label.c_str());
+      print_leg(label.c_str(), graph);
+      const Vector image = graph_hull(graph);
+      const DirectLcScalars sc = evaluate_direct_lc(image, family);
+      if (!(image[2].leftBound() > 0) ||
+          !(sc.selected_radius.leftBound() > 0) ||
+          !(sc.r12_squared.leftBound() > 0) ||
+          !(sc.r23_squared.leftBound() > 0)) {
+        throw std::runtime_error(label +
+                                 ": lost orientation or separation");
+      }
+    }
+  } else if (graph_exchange_sandwich) {
     // The nearby pair-{2,3} encounter occurs at tp ~= 3.4515 while the
     // selected pair-{1,3} encounter follows at tp ~= 3.4695.  A short
     // pair-{2,3} chart sandwich regularizes the first encounter without
@@ -2632,6 +2703,8 @@ int main(int argc, char** argv) {
         std::getenv("FABLE_ENDGAME_GRAPH_EXCHANGE_SANDWICH") != nullptr;
     const bool graph_fixed_energy_h =
         std::getenv("FABLE_ENDGAME_GRAPH_FIXED_ENERGY_H") != nullptr;
+    const bool graph_exchange_sync =
+        std::getenv("FABLE_ENDGAME_GRAPH_EXCHANGE_SYNC") != nullptr;
     std::cout << "ENDGAME_PARAMS precision_bits=" << precision
               << " tolerance=" << tolerance << " order=" << order
               << " sync_exchange=" << (synchronize_exchange ? 1 : 0)
@@ -2646,7 +2719,9 @@ int main(int argc, char** argv) {
               << (graph_exchange_sandwich ? 1 : 0)
               << " graph_fixed_energy_h="
               << (graph_fixed_energy_h ? 1 : 0)
-              << " driver=middle_escape_endgame_capd/v20-fixed-energy-h-2026-08-26"
+              << " graph_exchange_sync="
+              << (graph_exchange_sync ? 1 : 0)
+              << " driver=middle_escape_endgame_capd/v21-exchange-sync-2026-08-26"
               << "\n" << std::flush;
     const bool graph_mode =
         std::getenv("FABLE_ENDGAME_GRAPH") != nullptr;

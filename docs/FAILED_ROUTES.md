@@ -1178,3 +1178,37 @@ to reconstruct the target `h` coordinate from that invariant (and prove this
 fiberwise projection sound), then replay the same sandwich.  Merely moving the
 return to a nearby geometric section may reduce phase sensitivity but cannot
 by itself remove invariant-cancellation loss in the static map.
+
+## Width-$10^{-7}$ fixed-clock exchange with final-switch energy projection
+
+**Status:** DISPROVED as a route to the proposed wider interval.  The
+validated prefix remains useful; no dynamical statement is disproved.
+
+The best width-$10^{-12}$ itinerary retained the pair--13 chart through the
+double exchange and used fixed-energy `h` reconstruction only at the
+established Form-B switch at $t=7/2$.  Replaying that route on the single
+closed interval
+
+\[
+ [0.29,0.2900001]
+\]
+
+validated the complete tied family through $t=3.4$.  The graph hull there was
+$1.20521\times10^{-3}$, with retained parameter spread
+$1.06510\times10^{-4}$ and additive defect $1.09869\times10^{-3}$.  The next
+fixed-clock image at $t=3.45$ jumped to $0.547819$: $0.538621$ was already
+uncorrelated defect, whereas the directional quadratic contribution remained
+only $4.84\times10^{-7}$.
+
+The fourth-minimum Poincare calculation then failed closed with CAPD's
+minimal-step exception.  Its attempted domain had selected-energy velocity
+width of order $10^4$ and outer-velocity widths of order $10^2$.  Thus the
+first failed leg is exactly `t=3.45 -> min4`; no claim is made beyond the
+validated $t=3.45$ endpoint.  The compact record is
+`data/middle_c2_energy_h_width_1e7_failure_summary.log`.
+
+This rules out the hope that energy reconstruction at the *later* Form-B
+switch could rescue width lost at the fixed-clock exchange.  It strengthens
+the economic case for a geometric exchange map: synchronize the family before
+the $t\simeq3.4515$ pair--23 passage, then retain the existing energy-projected
+switch and terminal chain.

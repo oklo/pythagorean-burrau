@@ -1849,7 +1849,28 @@ it is not a remainder proof.
   `data/middle_c2_energy_h_final_only_width_1e12_summary.log`.
 - This $11.5\%$ terminal reduction confirms that invariant reconditioning is
   useful when it replaces an existing chart transformation, while the extra
-  sandwich remains uneconomic.  A width-$10^{-7}$ replay is now running.  Its
-  interval $[0.29,0.2900001]$ strictly contains the current certified Fable
-  interval, so a complete PASS would be a new gap-free nonperiodicity theorem
-  rather than a control benchmark.
+  sandwich remains uneconomic.
+
+## 2026-08-26: width-$10^{-7}$ fixed-clock failure and exchange synchronization
+
+- The proposed theorem-scale replay on the single closed interval
+  $[0.29,0.2900001]$ validated every prefix tube through $t=3.45$ but did not
+  reach the fourth minimum.  From $t=3.4$ to $3.45$, the hull increased from
+  $1.20521\times10^{-3}$ to $0.547819$ and the additive defect from
+  $1.09869\times10^{-3}$ to $0.538621$; the directional quadratic spread was
+  still only $4.84\times10^{-7}$.  CAPD then failed closed at the `min4`
+  Poincare leg with its minimum-step exception.  This is a localized
+  computational failure, not a theorem or evidence for a brake.  The compact
+  record is `data/middle_c2_energy_h_width_1e7_failure_summary.log`.
+- Added an opt-in `FABLE_ENDGAME_GRAPH_EXCHANGE_SYNC=1` route.  It stops the
+  common-clock itinerary at $t=13/4$ and projects the directional C2 graph
+  through the six already reconnoitered pair--13 LC sections
+  $w_r=-3/5,-1/2,-2/5,-3/10,-1/5,0$, before returning to the established
+  fourth-minimum, Form-B, pair--23-section, and terminal chain.  Each section
+  retains the independent complete-tube collision/brake audit.
+- The graph Poincare solvers now inherit the validated synchronizer's strict
+  geometric-section step caps, and the independent tube audit dynamically
+  caps physical time using the closest unselected pair.  The source compiles
+  against pinned CAPD and all 12 focused exact tests pass.  A width-$10^{-12}$
+  control replay is in progress; no enclosure improvement or widened theorem
+  is claimed until it completes.
