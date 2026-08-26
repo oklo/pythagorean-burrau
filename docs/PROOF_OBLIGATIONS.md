@@ -980,6 +980,18 @@ the tangent contraction, and required three repairs now included in the proof:
 exact time-map factorization, the explicit Lipschitz estimate, and the
 three-component phase-gauge subtraction.
 
+The directional C2 parameter graph has now passed the complete brake-to-escape
+chain at both widths $10^{-12}$ and $10^{-11}$.  The second replay proves that
+the retained tangent scales correctly by a factor of ten while the dominant
+post-exchange additive defect is nearly width independent.  This validates the
+local C2 scaling diagnosis but does not extend the already-certified Fable
+interval.  Before using the graph for economical wider coverage, discharge
+one of the following localized obligations: certify the opt-in pair--23 chart
+sandwich across the $t\simeq3.4515$ encounter, or prove that a fixed-energy
+reconstruction of the selected-pair `h` coordinate encloses every genuine
+energy-leaf fiber despite the graph box's off-leaf spurious points.  Either
+repair must retain the independent whole-tube brake/collision audit.
+
 Three independent adversarial passes audited the incoming-tail theorem. They
 found and forced repair of: a nonuniform constant-energy estimate; an invalid
 partial-LC-block physical-time bound; unspecified oscillator “actions”; a

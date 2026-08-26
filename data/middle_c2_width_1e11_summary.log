@@ -1,0 +1,42 @@
+Directional C2 parameter-graph scaling replay, 2026-08-26
+
+command:
+  FABLE_ENDGAME_GRAPH=1 FABLE_ENDGAME_GRAPH_C2=1 \
+  FABLE_ENDGAME_GRAPH_PAIR23_SYNC=1 \
+  sh scripts/fable_run_capd_middle_endgame.sh \
+  /private/tmp/pythagorean-capd /private/tmp/pythagorean-capd/build-mp \
+  29 100 29000000001 100000000000 160 1e-24 32
+
+CAPD commit:
+  731079217a9254ea2948d742df2b170895effe7f
+
+Each row is:
+  label | total hull | T*delta | Q*delta^2 | additive defect
+
+t=2/5              | 1.3332205548583263e-10 | 1.3332205548496166e-10 | 1.8862978435901159e-21 | 1.2172231571761131e-22
+min2               | 1.1318473674557312e-09 | 1.1318301612573490e-09 | 3.8212675670669869e-18 | 1.7202377114764608e-14
+t=29/10            | 2.6908222709550416e-09 | 2.6599822378619013e-09 | 2.0327293223360909e-17 | 3.0840012765847148e-11
+max3               | 2.0901302645941789e-09 | 1.9404298503406827e-09 | 1.1449703862579401e-17 | 1.9426028558606471e-10
+t=17/5             | 1.4319794571857639e-08 | 1.0651030347944874e-08 | 7.4945352412742531e-17 | 3.6687641598455443e-09
+t=69/20            | 2.0444223532660915e-06 | 9.2048288815190338e-07 | 4.4798049929814925e-15 | 1.1239394615131063e-06
+min4               | 4.6255529369711756e-06 | 1.9351859657898132e-07 | 2.0117741001673243e-14 | 4.4320343202744531e-06
+switch13to23_formB | 8.0816932679355765e-05 | 1.2169364500841404e-07 | 1.3339686490682514e-14 | 8.0695239027191526e-05
+pair23_section_14  | 1.8718859484047994e-03 | 1.4640242198590033e-07 | 1.2807565764439685e-14 | 1.8718689278930255e-03
+pair23_section_21  | 1.9440805099964868e-02 | 1.4692302832679740e-07 | 1.2450051918441558e-14 | 1.9440776164231552e-02
+t=77/20            | 4.3684094613784669e-02 | 1.4606358359989692e-07 | 1.1578522219404248e-14 | 4.3683988207652374e-02
+
+terminal margins:
+  inf_d=0.86928233737505278
+  inf_rhodot=2.3903655577009362
+  inf_Erho=0.11920073996585494
+  inf_margin=2.7885770387064817
+
+PASS_MIDDLE_ESCAPE_ENDGAME u=[29/100,29000000001/100000000000]
+
+Interpretation:
+  This closed interval is already contained in the wider Fable theorem, so
+  the replay is a scalability/control result, not a new nonperiodicity
+  theorem.  Relative to the width-1e-12 control, the retained parameter
+  spread scales by approximately ten while the exchange-generated additive
+  floor is essentially unchanged.  The exchange floor, not C2 parameter
+  curvature, is the active width source.

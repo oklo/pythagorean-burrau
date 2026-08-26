@@ -1762,6 +1762,24 @@ it is not a remainder proof.
   $3.67\,10^{-9}$ to $1.12\,10^{-6}$ before the fourth minimum.  The next
   repair is defect reabsorption or a simultaneous-exchange chart, not another
   tangent split.
-- A width-$10^{-11}$ scaling replay is in progress.  Until it completes, no
-  scalable-width claim is made and the C2 driver remains opt-in behind
-  `FABLE_ENDGAME_GRAPH_C2=1`.
+- The width-$10^{-11}$ scaling replay completed successfully on
+  $[0.29,0.29000000001]$ with the same 160-bit/order-32 settings and the full
+  terminal audit.  At $t=0.4$, $t=2.9$, and $t=3.4$, the retained parameter
+  spreads were respectively $1.3332\,10^{-10}$, $2.6600\,10^{-9}$, and
+  $1.0651\,10^{-8}$--essentially ten times the width-$10^{-12}$ control.
+  The corresponding additive defects were $1.22\,10^{-22}$,
+  $3.0840\,10^{-11}$, and $3.6688\,10^{-9}$, essentially unchanged from the
+  control.  At $t=3.45$ the parameter spread was $9.2048\,10^{-7}$ but the
+  width-independent exchange defect was still $1.12394\,10^{-6}$.  The final
+  hull was $0.0436841$, and the terminal margins remained positive:
+  separation $0.8692823$, radial speed $2.3903656$, radial energy $0.1192007$,
+  and post-tidal inner margin $2.7885770$.  The compact replay record is
+  `data/middle_c2_width_1e11_summary.log`.
+- This is a genuine scaling result for the graph machinery but not a new
+  nonperiodicity interval: the closed control interval is already contained
+  in Fable's wider theorem.  It localizes the current numerical obstruction
+  more sharply.  C2 curvature scales correctly through the chain; the nearly
+  width-independent defect injected by the overlapping exchange is now the
+  first target.  An opt-in short pair--23 chart sandwich is under validation,
+  while an independent Fable prompt asks for the complementary smooth
+  fixed-energy reconstruction of the chart-switch `h` coordinate.
