@@ -1047,6 +1047,16 @@ exact fixed-fiber identity, branch checks, CAPD map, and regressions are now
 in place.  Failure of that route would trigger the intrinsic-manifold/atlas
 obligation described above.
 
+The velocity reconstruction has now failed economically despite strict
+branch margins.  Its section-4 image was $7.03178\times10^{-6}$; by section 5
+the pre-reset hull was $1.27946\times10^{-5}$ and the second reset gave
+$1.91255\times10^{-5}$, all worse than the unprojected control.  Thus the
+ambient-projection decision tree is closed.  The active obligation is to
+benchmark the audited PG2 one-parameter Poincare graph (thin-anchor
+derivative plus explicit Hessian cross terms) across the exchange and final
+escape atlas.  A wider theorem requires the same independent C0 tube audit
+and terminal certificate; PG2 tightness alone is not a dynamical conclusion.
+
 Three independent adversarial passes audited the incoming-tail theorem. They
 found and forced repair of: a nonuniform constant-energy estimate; an invalid
 partial-LC-block physical-time bound; unspecified oscillator “actions”; a

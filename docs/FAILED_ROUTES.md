@@ -1274,3 +1274,26 @@ before energy does not cure the conditioning; the validated record is
 `data/middle_c2_exchange_joint_width_1e12_failure_summary.log`.  The remaining
 variant keeps `h` fixed and solves $L=0,H=-U_0$ for the two components of
 $P$ on a rigorously selected positive-radial branch.
+
+That final ambient projection also failed its economic control, for a more
+informative reason.  At section 4 it rigorously certified
+
+\[
+ |G|^2>0.00940955,\quad S^2>17.80255,\quad
+ S^2|G|^2-K^2>0.102758,\quad G\cdot P>0.320559,
+\]
+
+so the square-root branch was uniform and far from degeneracy.  The static
+map left `h` fixed but enlarged the hull from $4.73945\times10^{-6}$ to
+$7.03178\times10^{-6}$ in $P_y$.  The next section reached
+$1.27946\times10^{-5}$, already worse than the unprojected
+$1.10937\times10^{-5}$ control, and its second reset enlarged the hull to
+$1.91255\times10^{-5}$.  See
+`data/middle_c2_exchange_velocity_width_1e12_failure_summary.log`.
+
+The smallest false lemma is now representation-level: a pointwise
+fiber-fixing map does not preserve its nonlinear invariant correlation after
+the image is again enclosed by an ambient additive-defect box.  All three
+algebraic variants are retired.  The next route must propagate the
+one-parameter graph intrinsically, using the audited PG2 Taylor update or an
+equivalent correlation-preserving exact-section atlas.

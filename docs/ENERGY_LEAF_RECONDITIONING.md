@@ -231,7 +231,7 @@ and
 
 \[
  \boxed{
- P^*=P+{K-G\mathbin\times P\over |G|^2},JG.}
+ P^*=P+{K-G\mathbin\times P\over |G|^2}\,JG.}
 \]
 
 Then $G\times P^*=K$ and $G\cdot P^*=G\cdot P$.  Thus $P^*$ lies on the
@@ -307,8 +307,8 @@ the exact fiber-fixing projection is therefore
 
 \[
  \boxed{
- P^*={\sqrt{S^2|G|^2-K^2}\over|G|^2},G
-      +{K\over|G|^2},JG.}
+ P^*={\sqrt{S^2|G|^2-K^2}\over|G|^2}\,G
+      +{K\over|G|^2}\,JG.}
 \]
 
 It is followed by the exact `jd` reconstruction above, but leaves `h`
@@ -321,8 +321,10 @@ point satisfies both invariant equations pointwise.
 a positive-radial $L=0$, $H=-U_0$ state and proves that the map fixes $P$,
 its norm and cross product have the prescribed values, and reconstructed
 `jd` equals $\dot I$.  The opt-in C2 implementation checks all three strict
-branch margins before evaluation.  It has not yet supplied a validated flow
-certificate.
+branch margins before evaluation.  A validated width-$10^{-12}$ control
+certified comfortable margins at sections 4--5 but showed that ambient
+reboxing makes the propagated enclosure worse.  It has supplied no terminal
+flow certificate.
 
 ## Domain and tube obligations
 
@@ -392,6 +394,17 @@ It is mutually exclusive with both preceding same-chart flags and records
 strict interval margins for $S^2$, $S^2|G|^2-K^2$, and $G\cdot P$ before
 each use.
 
+The three same-chart projection flags are retained for reproduction, but all
+are inactive research routes.  Their compact validated failure records are:
+
+- `data/middle_c2_exchange_energy_width_1e12_failure_summary.log`;
+- `data/middle_c2_exchange_joint_width_1e12_failure_summary.log`;
+- `data/middle_c2_exchange_velocity_width_1e12_failure_summary.log`.
+
+Their shared obstruction is loss of nonlinear invariant correlation when a
+static image is flattened into an ambient additive-defect graph.  The next
+representation must carry the one-parameter graph intrinsically.
+
 Exact tests:
 
 ```sh
@@ -399,7 +412,7 @@ Exact tests:
   tests/test_middle_escape_endgame_maps.py
 ```
 
-The first validated benchmark should combine
+The energy-only control can be reproduced with
 
 ```text
 FABLE_ENDGAME_GRAPH=1

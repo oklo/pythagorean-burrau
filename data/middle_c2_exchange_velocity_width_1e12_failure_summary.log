@@ -1,0 +1,46 @@
+MIDDLE C2 ENERGY-ANGULAR VELOCITY RECONSTRUCTION — VALIDATED FAILURE SUMMARY
+Date: 2026-08-26
+Source commit: e73d9ef
+Driver: middle_escape_endgame_capd/v24-velocity-invariant-2026-08-26
+CAPD commit: 731079217a9254ea2948d742df2b170895effe7f
+Precision: 160 bits
+Tolerance: 1e-24
+Order: 32
+Exact parameter interval: [29/100,290000000001/1000000000000]
+
+Command:
+FABLE_ENDGAME_GRAPH=1 \
+FABLE_ENDGAME_GRAPH_C2=1 \
+FABLE_ENDGAME_GRAPH_PAIR23_SYNC=1 \
+FABLE_ENDGAME_GRAPH_FIXED_ENERGY_H=1 \
+FABLE_ENDGAME_GRAPH_EXCHANGE_SYNC=1 \
+FABLE_ENDGAME_GRAPH_EXCHANGE_VELOCITY_PROJECT=1 \
+/private/tmp/fable_middle_velocity_invariant_test \
+29 100 290000000001 1000000000000 160 1e-24 32
+
+Decisive validated output:
+ENDGAME_LEG exchange_section_4 tp=[3.4577770192575086,3.4577770210278258] jd=[-0.47984825188191749,-0.47984817191074564] hull=4.7394532168551465e-06 parameter_spread=4.925023504668661e-08 quadratic_spread=1.865920405039452e-16 defect=4.6902029817562464e-06 hull_component=4 defect_component=4
+ENDGAME_INVARIANT_DOMAIN exchange_velocity_projection_4 G2=[0.0094095587530034046,0.0094095636688035986]
+ENDGAME_VELOCITY_DOMAIN exchange_velocity_projection_4 speed2=[17.80255098637608,17.802591747131022] radicand=[0.10275833894542633,0.10275895638067119] GdotP=[0.32055965843731971,0.32056013586948201]
+ENDGAME_LEG exchange_velocity_projection_4 tp=[3.4577770192575086,3.4577770210278258] jd=[-0.47984843657952342,-0.47984798721319072] hull=7.0317774904106979e-06 parameter_spread=4.925023504668661e-08 quadratic_spread=1.8780389003833127e-16 defect=7.0277588765199658e-06 hull_component=8 defect_component=8
+ENDGAME_LEG exchange_section_5 tp=[3.4642385287228552,3.4642385322124776] jd=[-0.26465536379677007,-0.26465477828926054] hull=1.2794559340335001e-05 parameter_spread=2.3112053080268378e-08 quadratic_spread=2.0938014270126525e-16 defect=1.2771447287045352e-05 hull_component=4 defect_component=4
+ENDGAME_INVARIANT_DOMAIN exchange_velocity_projection_5 G2=[0.012494334901217759,0.012494355292871509]
+ENDGAME_VELOCITY_DOMAIN exchange_velocity_projection_5 speed2=[8.1414243279373206,8.1414979039994986] radicand=[0.029983547281537029,0.029984838911815692] GdotP=[0.173158689359657,0.1731601989275679]
+ENDGAME_LEG exchange_velocity_projection_5 tp=[3.4642385287228552,3.4642385322124776] jd=[-0.26465614279433419,-0.26465399929276634] hull=1.91255197043679e-05 parameter_spread=2.3112053080268378e-08 quadratic_spread=2.0938014270126525e-16 defect=1.9122064507810061e-05 hull_component=8 defect_component=8
+
+Classification:
+- Every prefix and inter-section tube through section 5 passed its collision,
+  brake, orientation, transversality, and J-sign audits.
+- The positive-radial branch is uniform with large strict margins at both
+  uses. Thus branch ambiguity or a near-zero square-root radicand is not the
+  failure.
+- Keeping h fixed avoids the earlier h amplification, but the projected Py
+  defect enlarged section 4 by 48.4%. Propagation to section 5 was already
+  15.4% worse than the no-projection control, and the second projection made
+  the hull 72.4% worse than the no-projection section-5 value.
+- The run was deliberately interrupted after this decisive comparison. It is
+  not a terminal certificate and proves no new parameter interval.
+- Smallest false lemma: a pointwise invariant-fixing static map does not
+  retain the nonlinear H/L correlation after its image is re-enclosed as an
+  ambient additive-defect graph. The next representation must preserve the
+  one-parameter graph intrinsically through the Poincare map.

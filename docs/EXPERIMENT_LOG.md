@@ -1925,3 +1925,18 @@ it is not a remainder proof.
   `h` is ill-conditioned even after angular projection.  The next compiled
   variant instead leaves `h` fixed and reconstructs the two components of
   $P$ from energy, angular momentum, and the strict sign $G\cdot P>0$.
+- The velocity reconstruction certified all of its branch margins uniformly:
+  at section 4 the radicand exceeded $0.102758$ and $G\cdot P>0.320559$; at
+  section 5 they exceeded $0.0299835$ and $0.173158$.  Nevertheless its hulls
+  were $7.03178\times10^{-6}$ after section 4,
+  $1.27946\times10^{-5}$ before the next reset, and
+  $1.91255\times10^{-5}$ afterward.  The no-projection section-5 control was
+  $1.10937\times10^{-5}$.  The run was stopped; the full record is
+  `data/middle_c2_exchange_velocity_width_1e12_failure_summary.log`.
+- This exhausts the three natural ambient invariant projections.  The exact
+  identities remain reusable, but their nonlinear correlations are lost when
+  each static image is flattened into a new additive-defect graph.  The next
+  computational object is the independently audited PG2 parameter graph,
+  whose thin-anchor derivative and explicit Hessian cross terms are designed
+  to retain the one-dimensional family correlation through each Poincare
+  return.
