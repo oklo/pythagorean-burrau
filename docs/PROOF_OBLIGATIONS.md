@@ -296,6 +296,39 @@ therefore a brake-reachable amplitude theorem on the explicit set
 $\{\eta=h,S<0\}$, rather than unrestricted domination of the full curvature
 throughout the cone.
 
+There is now a smaller history formulation of this obligation.  Put
+$d=h-k$, $e=\eta-k$, and $w=h-\eta$.  Exact reduction gives
+
+\[
+ e_s+(\lambda+c)e=cd,
+ \qquad
+ w_s+(\lambda+c)w=q,
+ \qquad q=d_s+\lambda d,
+\]
+
+with $\lambda,c>0$.  If the normalized forcing
+
+\[
+ E=W\delta q=Z(d_xX+d_yY)+m\delta^2(y^{-3}-1)d
+\]
+
+has at most one sign change, from positive to negative, before the terminal
+syzygy where $w=0$, the integrating-factor equation proves $w>0$ throughout
+the interior.  This **one-switch property on brake-reachable trajectories**
+is the smallest current analytic obligation.
+
+It cannot be replaced by any of the following pointwise ambient lemmas:
+$E\ge0$ on the full arc; one-way inward crossing of $E=0$ under energy,
+torque signs, contraction, and decreasing area/inertia; or invariance of the
+buffered contact function $h-\eta+y(1-ZS/P)$.  The first fails on ordinary
+integrations, while the latter two have exact rational energy-compatible
+counterexamples.  A first contraction-threshold repair also has both
+boundary orientations in bounded ordinary probes.  Thus the missing proof
+must derive a quantitative contraction/amplitude restriction by integrating
+from the initial brake, or validate the one-switch statement uniformly over
+the reachable family; adding more static sign hypotheses is not presently a
+credible route.
+
 This amplitude theorem cannot be reduced to only one of the two thresholds:
 exact rational examples realize both $Z_J<Z_2$ and $Z_J>Z_2$.  A common
 history estimate must therefore imply the appropriate bound against

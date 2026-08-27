@@ -3,6 +3,9 @@
 Date: 2026-08-26
 
 The complete run summary is `RUN_REPORT_2026-08-23.md`.
+The current stopping-point handoff is
+`STOPPING_POINT_HANDOFF_2026-08-26.md`; the concise restart record is
+`PERSISTENT_RESEARCH_MEMORY.md`.
 
 Outcome so far: **major partial theorem (Levels D and E), but unresolved full
 conjecture**. The main rational conjecture and strong real conjecture remain
@@ -145,6 +148,20 @@ $\varepsilon$-velocity ray has decreasing $r_{31}$, increasing
 $r_{23}-r_{31}$, and $\dot I<0$ while $\mathcal L=O(\varepsilon^2)$.  Thus
 even all natural strict terminal signs do not supply the bound; quantitative
 brake-history coercivity is required.
+The torque history has now been reduced one step further.  For
+$d=h-k$, $e=\eta-k$, and $w=h-\eta$, exact shape-time dynamics give
+$e_s+(\lambda+c)e=cd$ and
+$w_s+(\lambda+c)w=d_s+\lambda d$, with $\lambda,c>0$.  Consequently a
+single positive-to-negative sign switch of $q=d_s+\lambda d$ before the
+terminal equality $w=0$ is sufficient to prove $w>0$ everywhere earlier.
+This conditional one-switch lemma is proved analytically.  It is not yet a
+global theorem for the tied family.  Exact rational energy-compatible
+ambient states now disprove both pointwise one-way crossing of the surface
+$q=0$ and a natural buffered torque-contact barrier, even after imposing
+contraction, launch torque signs, and decreasing area (and, for the first
+witness, decreasing inertia).  Thus the live route is a genuinely
+brake-history-derived contraction/amplitude estimate or a uniform reachable
+one-switch certificate; the static invariant-cone variants are retired.
 Exact tensor-Bernstein arithmetic also proves
 the gravitational contribution to $(\log k)''$ is strictly negative on the
 entire ordered right/obtuse cone, and the full launch curvature is negative

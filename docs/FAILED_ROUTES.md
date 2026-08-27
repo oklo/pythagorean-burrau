@@ -1,5 +1,70 @@
 # Failed or blocked routes
 
+## Nonnegative lag-envelope forcing
+
+**Status:** DISPROVED as a global sufficient condition; the forced-lag
+identity and the weaker one-switch lemma remain valid.
+
+For $d=h-k$, $e=\eta-k$, and $w=h-\eta$, exact reduction gives
+
+\[
+ w_s+(\lambda+c)w=q,
+ \qquad q=d_s+\lambda d,
+ \qquad \lambda,c>0.
+\]
+
+The condition $q\ge0$ would immediately prevent contact, but ordinary
+high-accuracy integrations at $u=1/4,1/3,19/50,2/5$ show its normalized
+numerator $E=W\delta q$ crossing from positive to negative before the first
+syzygy.  This is not a numerical disproof of the conjecture; it only falsifies
+the overly strong envelope.  The surviving theorem target is that $E$ has at
+most one positive-to-negative switch on the reachable arc.
+
+## Pointwise one-way lag-envelope surface
+
+**Status:** DISPROVED by an exact ambient witness; reachability is not claimed.
+
+At
+\[
+ u={2\over5},\quad(x,y)=\left({1957\over2000},{323\over2000}\right),
+ \quad\eta={3\over80},\quad\gamma=-{1\over100},
+\]
+the shape is strictly ordered and obtuse, $k<\eta<h$, the scale, area, and
+total inertia are decreasing, the pair torques have the launch signs, and a
+positive common scale puts the state exactly on the Burrau energy surface.
+Nevertheless $E=0$ and $W\delta E_s>0$.  Therefore these static hypotheses
+do not make the envelope surface one-way.  Any proof of the one-switch
+property must use the path from the initial brake.
+
+## Buffered torque-contact barrier
+
+**Status:** DISPROVED by an exact ambient witness; reachability is not claimed.
+
+The reciprocal threshold $C=S/P=1/Z_J$ suggested
+$b=h-\eta+y(1-ZC)$, whose positivity at a torque contact implies the sharp
+safe-amplitude condition.  The exact tied state
+\[
+ u={207\over500},\quad(x,y)=\left({229\over320},{131\over320}\right),
+ \quad\eta=k+{3\over4}(h-k),\quad\gamma=-{1\over1000}
+\]
+has all natural ordered-obtuse, torque-sign, contraction, and energy
+compatibility properties, but $b=0$ and $W\delta b_s<0$.  The buffer is not a
+pointwise invariant.
+
+## First normalized-contraction threshold repair
+
+**Status:** FALSIFIED by ORDINARY NUMERICAL EVIDENCE as a pointwise energy
+barrier; no exact dynamical theorem is disproved.
+
+On $E=0$ the crossing rate is affine in
+$\gamma=(\log R)_s\delta/W$, so an explicit threshold $\Gamma(x,y,\eta)$
+separates inward from outward crossings.  The exact evolution of
+$\gamma-\Gamma$ is affine in $Z$.  Bounded probes of the full ordered-obtuse
+history cube find both orientations at the zero-amplitude and sharp-energy
+edges, including away from $D=0$.  Hence energy plus pointwise contraction
+dynamics does not furnish a global invariant by this first threshold.  A
+history-integrated bound remains possible.
+
 ## Fixed-time synchronization after the middle exchange
 
 **Status:** DISPROVED as an enclosure-reconditioning route; no dynamical

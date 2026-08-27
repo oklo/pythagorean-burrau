@@ -2077,3 +2077,40 @@ it is not a remainder proof.
   affine-generator algebra/source audit is complete.  Conditional on that
   gate, the explicit family $u_k=29/100+1/(1000k)$ would be covered for every
   $k\ge500$.
+
+## 2026-08-26: forced-lag and history-barrier probes
+
+- Exact symbolic elimination produced
+  $e_s+(\lambda+c)e=c(h-k)$ and the Volterra representation for
+  $e=\eta-k$.  The complementary gap $w=h-\eta$ satisfies
+  $w_s+(\lambda+c)w=q$, with rational sign numerator
+  $E=W\delta q$.  Symbolic chain-rule and independent kinetic-Gram
+  regressions pass.
+- A bounded ordinary first-syzygy probe at
+  $u=1/4,1/3,19/50,2/5$ found one sign block $(+,-)$ for $E$.  The observed
+  margins $\Gamma-\gamma$ at the first switch were approximately
+  $1.52,1.97,3.12,3.82$.  At $u=1/5$ the probe reported a final extra positive
+  block extremely near a degenerate encounter; this is treated as ordinary
+  numerical evidence only and prevents any numerical universality claim.
+- Exact rational search produced an energy-compatible outward point on
+  $E=0$ at
+  $(u,x,y,\eta,\gamma)=(2/5,1957/2000,323/2000,3/80,-1/100)$, with
+  $W\delta E_s=1.35064007\ldots>0$.  It is strictly ordered/obtuse,
+  contracting, has decreasing area and inertia, and preserves the launch
+  torque signs.  This is an exact ambient obstruction, not a reachable orbit.
+- The buffered barrier $b=h-\eta+y(1-ZS/P)$ has an exact energy-compatible
+  outward witness at $u=207/500$, $(x,y)=(229/320,131/320)$,
+  $\eta=k+3(h-k)/4$, and $\gamma=-1/1000$; there $b=0$ but
+  $W\delta b_s=-6.0909585\ldots<0$.  Again, reachability is not claimed.
+- Bounded probes of the exact normalized-contraction threshold found both
+  boundary orientations, including samples with $D<-1/2$.  The pointwise
+  contraction-barrier repair is retired; the surviving target is an
+  integrated brake-history bound or a reachable one-switch certificate.
+- Reproduction commands (ordinary probes, not proof certificates):
+
+  ```text
+  PYTHONPATH=. uv run python scripts/probe_torque_ordering.py
+  PYTHONPATH=. uv run python scripts/probe_history_buffer.py
+  PYTHONPATH=. uv run python scripts/probe_history_envelope_switch.py
+  PYTHONPATH=. uv run python scripts/probe_contraction_barrier.py
+  ```

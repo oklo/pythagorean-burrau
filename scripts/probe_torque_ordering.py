@@ -10,12 +10,17 @@ import argparse
 from fractions import Fraction
 
 import numpy as np
+import sympy as sp
 from scipy.integrate import solve_ivp
 
 from src.dynamics.cartesian import (
     initial_state_real,
     mutual_distances,
     right_hand_side,
+)
+from src.symbolic.mutual_distances import (
+    envelope_switch_energy_separation,
+    ordered_history_lag_reduction,
 )
 
 
@@ -58,9 +63,29 @@ first_syzygy.direction = -1
 def instantaneous_torque_rate_ratio(distances: np.ndarray) -> float:
     """Return k=(r23^-3-r12^-3)/(r31^-3-r12^-3)."""
     r12, r23, r31 = distances
+    return float((r23**-3 - r12**-3) / (r31**-3 - r12**-3))
+
+
+def pair_angular_momentum(state: np.ndarray, first: int, second: int) -> float:
+    positions = state[:6].reshape(3, 2)
+    velocities = state[6:].reshape(3, 2)
+    relative_position = positions[second] - positions[first]
+    relative_velocity = velocities[second] - velocities[first]
     return float(
-        (r23**-3 - r12**-3) / (r31**-3 - r12**-3)
+        relative_position[0] * relative_velocity[1] - relative_position[1] * relative_velocity[0]
     )
+
+
+def sign_blocks(values: np.ndarray) -> tuple[int, ...]:
+    """Return robust consecutive signs, discarding roundoff-scale values."""
+    finite = values[np.isfinite(values)]
+    if not finite.size:
+        return ()
+    tolerance = max(1e-12, 1e-9 * float(np.max(np.abs(finite))))
+    signs = np.sign(finite[np.abs(finite) > tolerance]).astype(int)
+    if not signs.size:
+        return ()
+    return tuple(signs[np.r_[True, signs[1:] != signs[:-1]]])
 
 
 def parse_args() -> argparse.Namespace:
@@ -81,6 +106,15 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = parse_args()
+    lag, lag_variables = ordered_history_lag_reduction()
+    envelope_function = sp.lambdify(lag_variables, lag["envelope_margin"], "numpy", cse=True)
+    separation, separation_variables = envelope_switch_energy_separation()
+    gamma_threshold_function = sp.lambdify(
+        separation_variables,
+        separation["gamma_zero"],
+        "numpy",
+        cse=True,
+    )
     parameters = args.u or [
         Fraction(1, 10),
         Fraction(1, 5),
@@ -106,10 +140,7 @@ def main() -> None:
             max_step=args.max_step,
         )
         if not solution.success or not solution.t_events[0].size:
-            print(
-                f"u={parameter} status=FAILED_OR_NO_SYZYGY "
-                f"integrated_t={solution.t[-1]:.16g}"
-            )
+            print(f"u={parameter} status=FAILED_OR_NO_SYZYGY integrated_t={solution.t[-1]:.16g}")
             continue
         syzygy_time = float(solution.t_events[0][0])
         times = np.linspace(0.0, syzygy_time, args.samples)
@@ -122,10 +153,70 @@ def main() -> None:
         area_accelerations = np.array(
             [twice_area_second_derivative(state, masses) for state in states]
         )
-        torque_rate_ratios = np.array(
-            [instantaneous_torque_rate_ratio(row) for row in distances]
-        )
+        torque_rate_ratios = np.array([instantaneous_torque_rate_ratio(row) for row in distances])
         torque_rate_increments = np.diff(torque_rate_ratios)
+        envelope_margins = np.full(times.shape, np.nan)
+        history_ratios = np.full(times.shape, np.nan)
+        contraction_ratios = np.full(times.shape, np.nan)
+        for index, (state, row) in enumerate(zip(states, distances, strict=True)):
+            r12, r23, r31 = row
+            ell_23 = pair_angular_momentum(state, 1, 2)
+            if abs(ell_23) < 1e-13:
+                continue
+            ell_31 = pair_angular_momentum(state, 2, 0)
+            history_ratio = (masses[0] / masses[1]) * (-ell_31 / ell_23)
+            area_ratio = twice_area(state) / r12**2
+            amplitude = ell_23 / np.sqrt(r12)
+            positions = state[:6].reshape(3, 2)
+            velocities = state[6:].reshape(3, 2)
+            relative_12 = positions[1] - positions[0]
+            velocity_12 = velocities[1] - velocities[0]
+            radial_rate = float(np.dot(relative_12, velocity_12) / r12)
+            scale_rate = radial_rate * np.sqrt(r12)
+            history_ratios[index] = history_ratio
+            contraction_ratios[index] = scale_rate * area_ratio / amplitude
+            envelope_margins[index] = float(
+                envelope_function(
+                    masses[0],
+                    masses[1],
+                    r23 / r12,
+                    r31 / r12,
+                    history_ratio,
+                    area_ratio,
+                    amplitude,
+                    amplitude**2,
+                )
+            )
+        envelope_blocks = sign_blocks(envelope_margins)
+        finite_envelope = envelope_margins[np.isfinite(envelope_margins)]
+        switch_margin = np.nan
+        for index in range(1, len(envelope_margins)):
+            left = envelope_margins[index - 1]
+            right = envelope_margins[index]
+            if not np.isfinite(left + right) or not left > 0 >= right:
+                continue
+            fraction = left / (left - right)
+            crossing_distances = distances[index - 1] + fraction * (
+                distances[index] - distances[index - 1]
+            )
+            crossing_eta = history_ratios[index - 1] + fraction * (
+                history_ratios[index] - history_ratios[index - 1]
+            )
+            crossing_gamma = contraction_ratios[index - 1] + fraction * (
+                contraction_ratios[index] - contraction_ratios[index - 1]
+            )
+            crossing_r12, crossing_r23, crossing_r31 = crossing_distances
+            gamma_threshold = float(
+                gamma_threshold_function(
+                    masses[0],
+                    masses[1],
+                    crossing_r23 / crossing_r12,
+                    crossing_r31 / crossing_r12,
+                    crossing_eta,
+                )
+            )
+            switch_margin = gamma_threshold - crossing_gamma
+            break
         print(
             f"u={parameter} status=ORDINARY_NUMERICAL_EVIDENCE "
             f"first_syzygy={syzygy_time:.16g} "
@@ -135,6 +226,10 @@ def main() -> None:
             f"min_second_gap_increment={np.min(second_increments):.3e} "
             f"max_torque_rate_ratio_increment="
             f"{np.max(torque_rate_increments):.3e} "
+            f"envelope_sign_blocks={envelope_blocks} "
+            f"envelope_range=[{np.min(finite_envelope):.8g},"
+            f"{np.max(finite_envelope):.8g}] "
+            f"envelope_switch_gamma_margin={switch_margin:.8g} "
             f"area_second_range=[{np.min(area_accelerations):.8g},"
             f"{np.max(area_accelerations):.8g}]"
         )
