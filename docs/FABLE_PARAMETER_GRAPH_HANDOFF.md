@@ -27,28 +27,27 @@ Benchmark logs are archived under `data/fable/parameter_graph/`.
    $1800\times$ tighter at identical width and settings.  The
    differences that matter: a thin anchor re-centered at every section,
    the image-intersection sharpening, and per-leg audit tubes.
-3. **The second-order graph (PG2) is derived, proved, implemented — and
-   is NOT what unlocks wider tiles.**  At $10^{-12}$ its quadratic term
-   is $10^{-22}$; the first-order defect is already only $\sim1\%$ of
-   the tangent at every ladder section.  The graph representation is
-   effectively *optimal*: the hull equals the genuine parameter spread
-   to five decimal places everywhere measured.
-4. **The scaling limit is physical, and it is measured.**  Two distinct
-   mechanisms bound the tile width:
-   * the fixed-clock exchange crossing ($t\in[3.4,3.5]$): genuine
-     $|dX/du|$ spikes to $\sim10^{7}$–$10^{8}$; widths $\ge10^{-9}$ die
-     there with pristine defects ($10^{-12}$–$10^{-9}$) — no
-     representation, first- or second-order, can cross it at fixed
-     clock;
-   * post-escape binary cycling: the section-synchronized sensitivity
-     grows $\sim\times7$ per binary cycle along the $w_r$ ladder
-     (measured $4.4\times10^{-6}\to1.03\times10^{-3}$ per $10^{-12}$
-     over three cycles, i.e. $|dX/du|\sim10^{9}$ by the last section) —
-     **every binary cycle you retain before firing the terminal
-     certificate costs $\sim\times7$ in affordable width.**  Fire it as
-     early as possible; the phase-robust certificate needs only
-     $(h,G,P)$ and per-fiber times, so no fixed-time section and no
-     extra cycles are ever needed (audit item 10).
+3. **The second-order graph (PG2) is derived, proved, implemented —
+   and it IS the unlock in the $10^{-11}$–$10^{-8}$ range.**  The
+   benchmark falsified my own initial reading: PG1's tangent is itself
+   $\sim100\times$ wrapping-inflated through the exchange (the
+   window-hulled $[DP]$ both inflates $|T|$ and smears $w,z$-sensitivity
+   into the $h,G,P$ rows), and PG2's thin-anchor derivative removes
+   both effects.  Measured: $51\times$ tighter at the Form-B switch and
+   $60\times$ tighter at the ladder end at $10^{-12}$; the true
+   exchange sensitivity is $4\times10^{4}$ (not $10^{6}$–$10^{8}$);
+   PG2 at $10^{-10}$ crosses the exchange cleanly where PG1 at
+   $10^{-9}$ dies.
+4. **The corrected, wrapping-free scaling limits** (per the PG2 data):
+   exchange crossing $\sim2.5\times10^{-7}$; ladder-end $w,z$ hull
+   $\sim1.6\times10^{-8}$; true per-binary-cycle sensitivity growth
+   $\sim\times5$–$7$ — **every binary cycle you retain before firing
+   the terminal certificate still costs that factor in width**, so fire
+   it at the first post-switch section; the phase-robust certificate
+   needs only $(h,G,P)$ and per-fiber times, never a fixed-time section
+   (audit item 10).  Expected PG2 capacity on this itinerary:
+   $\sim10^{-8}$ tiles; with geometric exchange sections,
+   $10^{-6}$–$10^{-5}$.
 5. **The quantitative unlock is geometric sections THROUGH the
    exchange.**  Measured section-synchronized sensitivities at the
    pair-{1,3} sections adjacent to the deep passages stay
@@ -76,14 +75,34 @@ $t_p=77/20$.  All runs 160-bit MPFR, tolerance $10^{-24}$, Taylor order
 | $10^{-10}$ | PG1 | FAIL mid-ladder | crossed the exchange; died at the wr9 return with wr8 hull $1.02$ (def $1.0\times10^{-6}$), "possible nontransversal return" | **interval derivative wrapping** compounding per section ($\times700$ beyond linear-in-width scaling), presenting as **section nontransversality** once the hull is order one |
 | $10^{-9}$ | PG1 | FAIL in the exchange core ($69/20\to7/2$) | $t=69/20$: hull $0.134$, def $1.3\times10^{-9}$ | **physical parameter spread** (defect 8 orders below hull) |
 | $10^{-8}$ | PG1 | FAIL entering the exchange ($17/5\to69/20$) | $t=17/5$: hull $0.071$, def $7.0\times10^{-12}$ | **physical parameter spread** (defect 10 orders below hull) |
-| $10^{-12}$ | PG2 | running (identical to PG1 to 4 digits through S2; $Q\sim10^{-22}$) | | |
-| $10^{-11}$, $10^{-10}$ | PG2 | running — the decisive tests: PG2's thin-anchor $DP(x)$ removes exactly the row-mixing that killed PG1 at $10^{-11}$, and $10^{-10}$ probes whether it also survives the ladder after squeaking the exchange | | |
+| $10^{-12}$ | PG2 | **PASS** (both terminals) | switch: hull $8.2\times10^{-8}$ ($51\times$ tighter than PG1); wr21 hull $1.7\times10^{-5}$ ($60\times$ tighter); terminal geo margin 3.153, fixed 3.422 | — |
+| $10^{-10}$ | PG2 | **crossed the exchange**; ladder in progress at wrap-up (wr1 hull $2.7\times10^{-4}$, defect $4.7\times10^{-8}$) | switch: hull $2.6\times10^{-4}$, defect $4.5\times10^{-8}$ (defect unchanged from the $10^{-12}$ run — pure numerics) | outcome in `data/fable/parameter_graph/pg2_w1e10.log` when complete |
+| $10^{-11}$, $10^{-9}$, $10^{-8}$ | PG2 | not completed in this run (the first attempts were killed by machine memory pressure at $t=3.45$, $t=3.45$, $t=2$, $t=2$ respectively — run C2 jobs one or two at a time on this host) | | |
 
-Two distinct ceilings emerge: a **representation ceiling** (PG1's
-$[DP]$-width row-mixing, binding at $10^{-11}$–$10^{-10}$, and exactly
-what PG2 is built to remove) below a **physical ceiling** (the
-fixed-clock exchange crossing, binding at $\sim2\times10^{-10}$ and
-indifferent to representation order).
+**The PG2 comparison rewrites the ceiling analysis.**  PG1's tangent is
+itself wrapping-inflated: at the Form-B switch the PG2 (thin-anchor)
+tangent is $3.8\times10^{-8}$ per $10^{-12}$, i.e. the TRUE fixed-time
+exchange sensitivity is $|dX/du|\approx4\times10^{4}$ — PG1's
+$4\times10^{6}$ was $\sim100\times$ window-hull wrapping, and the
+$10^{6}$–$10^{8}$ "transient spike" measured by earlier architectures
+was largely representational.  Likewise at the ladder end the true
+sensitivity is $6.3\times10^{6}$ (not $10^{9}$).  Corrected ceilings for
+PG2:
+
+* exchange crossing: width $\sim0.01/4\times10^{4}\approx2.5\times10^{-7}$
+  (confirmed in the right direction: $10^{-10}$ crossed cleanly);
+* ladder end ($w,z$ hull $\lesssim0.1$): width
+  $\sim1.6\times10^{-8}$;
+* terminal $E_\rho$ margin at the early ($t\approx3.85$) certificate:
+  set by the (much smaller) $h,G,P$-row sensitivities; not yet the
+  binder at $10^{-10}$.
+
+So the measured second-order dividend is $50$–$100\times$ in width at
+the exchange, with the honest expectation that **PG2 alone reaches
+$\sim10^{-8}$ tiles on this itinerary**, and geometric exchange
+sections push beyond that.  PG1's two ceilings (row-mixing at
+$10^{-11}$, wrap-compounding at $10^{-10}$) are representational and
+absent in PG2.
 
 Ladder sensitivity profile at $10^{-12}$ (PG1; per-section max hull /
 defect):
@@ -106,15 +125,17 @@ narrative above is stable under them.)
 The audit proves PG2's structural advantage: the $\delta$-linear term
 propagates through the *thin anchor derivative* instead of the
 window-hulled $[DP]$, so derivative-enclosure width multiplies only the
-quadratic and defect terms.  Measured at $10^{-12}$ the first-order
-update is already anchored tightly enough that this advantage is
-invisible (defect $\sim1\%$ of tangent, $Q\sim10^{-22}$).  PG2 becomes
-relevant exactly when (a) tiles are wide enough that
-$\operatorname{width}([DP])\cdot|T|\,r$ rivals the genuine spread —
-i.e. after the exchange is crossed with geometric sections at widths
-$\ge10^{-7}$ — or (b) legs are long (few sections), where the crossing
-window inflates $[DP]$.  The implementation is ready for that regime;
-its C2 legs cost roughly an order of magnitude more CPU than C1 legs.
+quadratic and defect terms.  The benchmark shows this is decisive much
+earlier than the $10^{-12}$ hull comparison suggests: through the deep
+passages and the exchange, the window-hulled $[DP]$ inflates PG1's
+tangent by $\sim100\times$ even when the defect looks pristine — the
+inflation hides inside $T$, where it masquerades as "physical spread"
+and simultaneously leaks $w,z$-sensitivity into the $h,G,P$ rows that
+the terminal certificate needs.  PG2's per-leg costs are roughly an
+order of magnitude more CPU (C2 variational data), and roughly a
+gigabyte-scale working set per run at 160-bit — do not run more than
+two concurrently on a 38 GB host.  Use PG1 for cheap reconnaissance and
+PG2 for every certificate-grade leg through or after a deep encounter.
 
 ## 4. Implementation notes (what a port needs)
 
@@ -198,13 +219,23 @@ c++ -O2 -DFABLE_MP -Wno-deprecated-literal-operator \
 
 ## 8. Adversarial verdict
 
-The corrected graph is sound and, on the evidence, *representation-
-optimal*: through the entire benchmark its hull tracks the true
-parameter spread with $\sim1\%$ defect overhead, at widths spanning
-$10^{-12}$–$10^{-8}$.  First-order graphs "cannot scale" only in the
-sense that nothing can scale past genuine spread at a fixed clock; the
-exchange crossing and the per-cycle $\times7$ growth are properties of
-the flow, not of the representation.  The width the program can support
-is set by section geometry, and the measured numbers say geometric
-exchange sections buy three to four orders of magnitude.  PG2 is
-proved, implemented, and waiting for the regime where it matters.
+The corrected first-order graph is **sound** (audit, Theorems PG1/PG2
+with hypotheses H1–H7) and, at $10^{-12}$, passes the full benchmark
+with margin to spare.  But it **cannot scale**: its tangent update
+multiplies by the window-hulled $[DP]$ every leg, and the benchmark
+shows this contaminates the tangent by $\sim100\times$ through the
+exchange and kills the certificate chain by $10^{-11}$ (row-mixing into
+the terminal margins) and $10^{-10}$ (wrap-compounded nontransversality)
+— a precise, measured, mechanism-level proof of the first-order scaling
+limit the task asked for.  The sound C2 replacement (PG2) is derived,
+proved, implemented, and measured: $51$–$60\times$ tighter at
+$10^{-12}$, a clean exchange crossing at $10^{-10}$, defect pinned at
+numerics-level ($4.5\times10^{-8}$) independent of width, and corrected
+wrapping-free sensitivities that place its capacity near $10^{-8}$ on
+this itinerary — with geometric exchange sections projected to extend
+it to $10^{-6}$–$10^{-5}$.  Quantitative evidence status: soundness
+claims `PROVED ANALYTICALLY` / `PROVED BY COMPUTER-ASSISTED ARGUMENT`
+(source inspection) per the audit; every number in §2
+`VALIDATED NUMERICAL RESULT` (they are outward-rounded outputs of
+rigorous runs, though the *comparisons* between runs are observations,
+not theorems); capacity projections `CONJECTURAL`.
