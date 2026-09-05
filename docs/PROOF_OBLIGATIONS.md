@@ -1,5 +1,12 @@
 # Proof obligations
 
+> **Correction, 2026-09-05:** The one-switch scalar proof below omits a
+> singular terminal integrating-factor limit. Its unconditional conclusion
+> is withdrawn; the exact forced-lag identities remain valid. See
+> [the endpoint correction](FORCED_LAG_ENDPOINT_CORRECTION.md) for an exact
+> scalar counterexample and a corrected sufficient lemma. Separate interval
+> and endpoint certificates are not withdrawn by this correction.
+
 ## Main theorem
 
 **Statement.**  For every rational $u\in(0,1)$, the normalized classical

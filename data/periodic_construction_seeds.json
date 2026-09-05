@@ -1,0 +1,46 @@
+[
+  {
+    "number": 1,
+    "parameters": [
+      0.208640333239194,
+      0.451015354909439,
+      1.3379700089682,
+      0.536940691118115,
+      0.839991650111768
+    ],
+    "source": "burrau/data/f30_all_mass_side_continuations.json"
+  },
+  {
+    "number": 2,
+    "parameters": [
+      0.26771975983456,
+      0.426628756230577,
+      1.41333000451887,
+      0.485763528493199,
+      0.878297059817055
+    ],
+    "source": "burrau/data/f30_all_mass_side_continuations.json"
+  },
+  {
+    "number": 30,
+    "parameters": [
+      0.144521107176353,
+      0.476902138394551,
+      6.2892336747859,
+      0.594811644849376,
+      0.801774972920162
+    ],
+    "source": "burrau/data/f30_all_mass_side_continuations.json"
+  },
+  {
+    "number": 5,
+    "parameters": [
+      0.28881431272932573,
+      0.42518367740968593,
+      1.5440762499030647,
+      0.4747426187348482,
+      0.896107794576002
+    ],
+    "source": "burrau/data/homotopy2_f05.json"
+  }
+]

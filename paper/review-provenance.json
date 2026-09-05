@@ -1,0 +1,20 @@
+{
+  "review_date": "2026-09-05",
+  "original_source_sha256": "00745445d2b7daaeb69046ff85bde835eb270afa52b3b3d2e9ace8612c41f54e",
+  "original_pdf_sha256": "a0424e642d34f10cf928e3d6234539a9c66d4aff6028b04c3bde95c10fe5dd59",
+  "original_source_text_matches_head_after_newline_normalization": true,
+  "fan_snapshot_sha256": "85233149f61800f494e41fef645955901fba043da269426d29391276123a509a",
+  "fan_snapshot_modified_by_review": false,
+  "fan_note": "Snapshot copied during review; the adjacent burrau project regenerated its source PNG later in this session. This paper retains its inspected snapshot.",
+  "fan_source_later_sha256": "abd75f4e533b18cebe4f1de0747a8c9b39831c533cd2fb1e0115ef35c27abe70",
+  "original_pdf_pages": 35,
+  "main_pdf_pages": 22,
+  "technical_companion_pages": 50,
+  "tests_passed": 101,
+  "validated_middle_campaign": {
+    "tiles": 100,
+    "capd_commit": "731079217a9254ea2948d742df2b170895effe7f",
+    "summary_sha256": "57a28304c505e1fd30cf3fb1afbcbe811b6df69974266d00a17a0d358672fb4d",
+    "archive_sha256": "61317af93e44ebe48825599f8cf6523dc13246190907b8b91fb1e2f22dee6b27"
+  }
+}

@@ -1,0 +1,165 @@
+\section{Torque history and the remaining analytic obstruction}\label{sec:torque}
+
+The finite-cover strategy can prove particular intervals, but an analytic
+constraint on all reachable trajectories would reach further. Pair torques
+provide such a candidate constraint because they remember the entire
+motion since release. The identities in this section are exact; their
+proposed global sign consequence remains unproved.
+
+\subsection{What a second brake must cancel}
+
+Let $d_{ij}=q_j-q_i$, $r_{ij}=|d_{ij}|$, and
+$\Delta_2=(q_2-q_1)\times(q_3-q_1)$ be twice the signed area. Define the
+specific pair angular momenta $\ell_{ij}=d_{ij}\times\dot d_{ij}$, using
+the cyclic pairs $12,23,31$. Direct differentiation gives
+\begin{equation}\label{eq:torques}
+\begin{aligned}
+ \dot\ell_{12}&=m_3\Delta_2(r_{23}^{-3}-r_{31}^{-3}),\\
+ \dot\ell_{23}&=m_1\Delta_2(r_{31}^{-3}-r_{12}^{-3}),\\
+ \dot\ell_{31}&=m_2\Delta_2(r_{12}^{-3}-r_{23}^{-3}).
+\end{aligned}
+\end{equation}
+Their derivatives have signs $(-,+,-)$ at launch in the strict fundamental
+interval. Since every $\ell_{ij}$ vanishes at a brake, each right-hand
+side must integrate to zero before a second brake. Its initial strict
+sign must therefore be reversed somewhere. Before the first syzygy, this
+requires reversals of all three initial side comparisons, at possibly
+different times. It does not prove that those reversals cannot occur.
+
+Integrating Lagrange--Jacobi between two brakes also gives
+\[
+ \int_0^\tau U\,dt=2U_0\tau,\qquad
+ \int_0^\tau K\,dt=U_0\tau.
+\]
+These useful necessary conditions are not pointwise monotonicity laws.
+The time-dependent torque signs and the change of area orientation at
+syzygies are precisely what a global argument must control.
+
+\subsection{Reduce the memory to a weighted average}
+
+On a positive-area ordered arc $r_{12}>r_{23}>r_{31}$, put
+$R=r_{12}$, $x=r_{23}/R$, $y=r_{31}/R$, and define
+\[
+ F=\Delta_2(r_{31}^{-3}-R^{-3})>0,\qquad
+ G=\Delta_2(r_{23}^{-3}-R^{-3})>0,\qquad
+ k={G\over F}={y^3(1-x^3)\over x^3(1-y^3)}.
+\]
+Integrating the torques from release gives
+\begin{equation}\label{eq:history}
+ \eta={\int_0^tG\,d\tau\over\int_0^tF\,d\tau}
+ ={m_1\over m_2}{-\ell_{31}\over\ell_{23}},\qquad
+ \dot\eta={F\over\int_0^tF\,d\tau}(k-\eta).
+\end{equation}
+Thus $\eta$ is a weighted average of the preceding values of $k$.
+If $k$ strictly decreases, then $k(t)<\eta(t)<k(0)$. What remains is
+to prove the required decrease for states actually reached from the brake.
+
+Use shape time $ds=dt/R^{3/2}$ and write
+$W=\ell_{23}/\sqrt R$, $\delta=\Delta_2/R^2$. Eliminating the two
+shape velocities gives the rational identity
+\begin{equation}\label{eq:threshold}
+ (\log k)_s={W\over\delta}\mathcal A(u,x,y)(\eta-h(u,x,y)),
+ \qquad \mathcal A>0,\quad h>k.
+\end{equation}
+Here $h$ is the torque threshold, unrelated to the binary energy called
+$h$ in the middle-interval certificate. Explicit polynomials defining
+$h$ and $\mathcal A$, and their exact Bernstein sign checks, are given in
+the technical companion. Their role is to replace a velocity-sign problem
+by the scalar condition $\eta<h$. This condition is established on the
+first arc near the equal-leg endpoint, but not on the entire fundamental
+interval.
+
+\subsection{A corrected conditional sign-change argument}
+
+Define the gap, lag, and threshold distance
+\[
+ d=h-k>0,\qquad e=\eta-k,\qquad w=h-\eta=d-e,
+\]
+and the positive coefficients
+\[
+ \lambda={m_1\delta(y^{-3}-1)\over W},\qquad
+ c={kW\mathcal A\over\delta}.
+\]
+Equations~\eqref{eq:history}--\eqref{eq:threshold} give
+\begin{equation}\label{eq:lag}
+ e_s+(\lambda+c)e=cd,\qquad
+ w_s+(\lambda+c)w=q,\qquad q=d_s+\lambda d.
+\end{equation}
+The notation $q$ here denotes a scalar forcing, not a body position.
+For $s$ strictly before syzygy, the launch condition has the improper
+integral representation
+\[
+ e(s)=\lim_{\varepsilon\downarrow0}\int_\varepsilon^s c(\tau)d(\tau)
+ \exp\!\left[-\int_\tau^s(\lambda+c)\,d\xi\right]d\tau.
+\]
+At launch $W$ has a simple zero, $\lambda\sim1/s$, and $e(0)=0$ after
+analytic extension, so the homogeneous launch contribution tends to zero.
+One must not define the integrating factor by integrating from zero.
+For a fixed interior reference point $s_0>0$, the legitimate definition is
+\[
+ M(s)=\exp\!\int_{s_0}^s(\lambda+c)\,d\xi,
+ \qquad (Mw)_s=Mq.
+\]
+
+There is a second endpoint issue. At the first ordered syzygy $s=S$,
+collinear momentum constraints force $w(S)=0$. But $\delta\to0$ there,
+and $c=kW\mathcal A/\delta$ can diverge. It does not follow that $Mw$
+tends to zero. An earlier draft used exactly this unjustified implication
+in a proposed one-sign-change proof.
+
+\begin{lemma}[Sufficient sign-change criterion with terminal control]
+Assume $w>0$ near launch, $q$ is positive up to one interior sign change
+and negative thereafter, and
+\begin{equation}\label{eq:terminal-weighted}
+ \liminf_{s\uparrow S} M(s)w(s)\ge0.
+\end{equation}
+Then $w>0$ throughout $0<s<S$.
+\end{lemma}
+\begin{proof}
+Start at any sufficiently small positive time where $w>0$. Since $M>0$,
+the product $Mw$ increases until the switch and then strictly decreases.
+If it reached zero before $S$, its terminal lower limit would be negative,
+contrary to~\eqref{eq:terminal-weighted}.
+\end{proof}
+
+The missing hypothesis cannot be omitted from this scalar argument.
+On $0<s<1$ take
+\[
+ a={1\over s}+{1\over1-s},\qquad
+ w=(1-s)(1+s-3s^2),\qquad
+ q=(1-s)\left({1\over s}+2-9s\right).
+\]
+Then $w_s+aw=q$, $w(0)=1$, and $w(1)=0$. The forcing changes from positive
+to negative exactly once, at $(1+\sqrt{10})/9$, yet $w$ becomes negative
+after $(1+\sqrt{13})/6$. Up to a positive constant,
+$M=s/(1-s)$ and $Mw\to-1$.
+This example refutes the previously stated scalar inference. It does not
+construct a three-body trajectory, and it does not refute the Pythagorean
+conjecture. A valid global use of the lag equation needs a reachable
+terminal bound such as~\eqref{eq:terminal-weighted}, or another argument
+that controls the sign without that implication.
+
+\subsection{Why present shape and energy are insufficient}
+
+A stronger route would impose the desired torque or distance-order barrier
+on every state with the correct energy and angular momentum. Exact ambient
+counterexamples rule out this shortcut. One is particularly transparent.
+For masses $(m,n,1)=(4/5,3/5,1)$, consider an ordered collinear state with
+\[
+ (r_{12},r_{23},r_{31})=(1,697/700,3/700),\qquad
+ \eta=419/32759,\qquad
+ \ell_{23}^2={476958362267\over2867548600}.
+\]
+Choose zero radial velocities and the transverse velocities fixed by these
+angular momenta and $P=L=0$. Exact arithmetic gives $H=-U_0$, pair angular-momentum
+signs $(-,+,-)$, and first-crossing area orientation
+$\dot\Delta_2/\ell_{23}=-292607/131036<0$, but
+\[
+ (r_{23}-r_{31})''=-{96354167469624287\over1827657180810}<0.
+\]
+This state is not asserted reachable from the tied initial brake. It shows
+that energy, collinear geometry, crossing direction, and pair angular-momentum signs do
+not suffice to control the second distance gap. The main analytic target
+is therefore a bound on \emph{reachable histories}. Further static
+witnesses and the exact amplitude inequalities are retained in the
+technical companion, rather than repeated here.

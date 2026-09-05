@@ -1,5 +1,27 @@
 # Status
 
+> **Correction, 2026-09-05:** The one-switch scalar proof below omits a
+> singular terminal integrating-factor limit. Its unconditional conclusion
+> is withdrawn; the exact forced-lag identities remain valid. See
+> [the endpoint correction](FORCED_LAG_ENDPOINT_CORRECTION.md) for an exact
+> scalar counterexample and a corrected sufficient lemma. Separate interval
+> and endpoint certificates are not withdrawn by this correction.
+
+Manuscript revision, 2026-09-05: `paper/main.pdf` is now the 22-page
+readable main argument, with a 50-page technical companion. See
+[the review report](MANUSCRIPT_REVIEW_2026-09-05.md) for the corrections,
+original-source history, and validation scope.
+
+Construction update, 2026-09-05: **no counterexample found**. The new
+pair-adaptive LC variational campaign refines F1/F2/F5/F30, completes the
+previously stalled F3/F4 mass-side homotopies, and finds all six numerical
+shooting matrices full rank with nonzero right defects. Local searches on
+the exact tied-right I-maximum branches produce no brake candidate. These
+are ordinary numerical results, not a new nonperiodicity theorem. The
+symmetry/itinerary audit and reproducible results are in
+`PERIODIC_CONSTRUCTION_REPORT_2026-09-05.md` and
+`PERIODIC_SYMMETRY_AUDIT.md`.
+
 Date: 2026-08-26
 
 The complete run summary is `RUN_REPORT_2026-08-23.md`.

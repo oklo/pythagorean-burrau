@@ -1,0 +1,83 @@
+\section{What remains to prove}\label{sec:outlook}
+
+The stronger real-parameter conjecture would follow by excluding every
+positive zero of the brake residual for all $0<u\le\sqrt2-1$. On a
+regular strict-maximum branch, the implicit-function theorem gives an
+event time $t_k(u)$, and the remaining condition is
+\[
+ \zeta(u,t_k(u))\ne0.
+\]
+An argument restricted to regular branches must also account for their
+creation and termination, degenerate events, collisions, escape, and
+possible unbounded encounter counts. At a Jacobi degeneracy the Hopf
+residual replaces the complex chart. None of these obligations follows
+from counting equations and parameters.
+
+The partial results address different parts of that task:
+\begin{itemize}
+\item The middle-interval certificate covers every time up to a terminal
+escape condition, but only on its stated narrow parameter interval.
+\item The near-isosceles argument proves a whole punctured neighborhood,
+but currently gives no explicit cutoff.
+\item The thin-triangle argument gives open escape windows and an explicit
+positive-density subfamily, while leaving returning phases to classify.
+\item The torque-history identities reduce part of the first-arc problem
+to scalar quantities; a global reachable bound, including the singular
+terminal behavior, is still missing.
+\end{itemize}
+If a real periodic point is found instead, the integer conjecture requires
+an additional exact arithmetic step. A real zero need not have rational
+$u$. Conversely, a countable dense set of rational parameters cannot be
+dismissed by a generic dimension count, a measure-zero claim, or a finite
+scan. The next decisive advance must either supply a global exclusion
+mechanism or isolate a genuinely Pythagorean periodic orbit with the
+necessary exact and collision-free certification.
+
+\appendix
+\section{Proof dependencies and reproducibility}\label{sec:reproduction}
+
+The expanded analytic calculations and certificate arguments are in the
+technical companion, \path{technical-details.pdf}. This research draft
+includes computer-assisted results. The repository notes below identify
+verifier sources, assumptions, pinned dependencies, and archived outputs.
+The September 2026 manuscript review checks the logical assembly and runs
+selected exact regressions; it is not a fresh independent replay of every
+interval certificate. Ordinary shooting data are not promoted to interval
+theorems by appearing in the same document.
+
+\begin{center}
+\small
+\begin{tabularx}{\linewidth}{@{}p{.27\linewidth}X@{}}
+\toprule
+Result or ingredient & Repository proof/certificate entry point\\
+\midrule
+Second-brake and maximum reduction &
+\path{docs/FABLE_EVENT_REDUCTION.md}\\[3pt]
+Terminal escape & \path{docs/ESCAPE_CRITERIA.md};
+\path{docs/FABLE_MIDDLE_ESCAPE.md}\\[3pt]
+First maximum, $[.29,.29002]$ &
+\path{docs/MIDDLE_FIRST_MAXIMUM_INTERVAL.md}\\[3pt]
+All-time middle interval &
+\path{docs/FABLE_MIDDLE_INTERVAL_NONPERIODICITY.md}\\[3pt]
+Near-equal-leg interval &
+\path{docs/ISOSCELES_SYZYGY_THRESHOLD.md};
+\path{docs/ENDPOINTS.md}\\[3pt]
+First thin-triangle miss & \path{docs/SKINNY_REGULARIZATION.md}\\[3pt]
+Incoming-state matching & \path{docs/INCOMING_TAIL.md}\\[3pt]
+Explicit positive-density family & \path{docs/EXPLICIT_SKINNY_FAMILY.md}\\[3pt]
+Torque identities and correction & \path{docs/EXACT_REDUCTIONS.md};
+\path{docs/FORCED_LAG_ENDPOINT_CORRECTION.md}\\[3pt]
+Counterexample search &
+\path{docs/PERIODIC_CONSTRUCTION_REPORT_2026-09-05.md}\\[3pt]
+Review and historical sources &
+\path{docs/MANUSCRIPT_REVIEW_2026-09-05.md};
+\path{docs/PYTHAGOREAN_HISTORY_SOURCES.md}\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+The original fan image is reproduced without changing its pixels; its
+metadata are archived in \path{paper/figures/fan-provenance.json}.
+The script \path{paper/make_figures.py} generates the two new vector
+figures from the exact parameterization and the campaign data. Build instructions and the preserved pre-review
+source and PDF are described in \texttt{paper/README.md}.

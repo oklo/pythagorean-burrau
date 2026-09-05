@@ -1,5 +1,12 @@
 # Exact reductions and initial identities
 
+> **Correction, 2026-09-05:** The one-switch scalar proof below omits a
+> singular terminal integrating-factor limit. Its unconditional conclusion
+> is withdrawn; the exact forced-lag identities remain valid. See
+> [the endpoint correction](FORCED_LAG_ENDPOINT_CORRECTION.md) for an exact
+> scalar counterexample and a corrected sufficient lemma. Separate interval
+> and endpoint certificates are not withdrawn by this correction.
+
 All formulas below use (I=\sum_i m_i|q_i-q_{CM}|^2) and positive potential
 magnitude (U=\sum_{i<j}m_im_j/r_{ij}), so Hamiltonian energy is (H=K-U).
 The symbolic regression is `scripts/derive_exact_identities.py`.

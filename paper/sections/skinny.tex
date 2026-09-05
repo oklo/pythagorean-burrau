@@ -1,0 +1,172 @@
+\section{Thin triangles: close misses and escape windows}\label{sec:skinny}
+
+At the thin end of the family, the small mass $B=\epsilon$ is far from a
+tight pair of masses $A=\sqrt{1-\epsilon^2}$ and 1, initially separated by
+$\epsilon$. Two clocks then coexist: the inner pair moves on a time scale
+$\epsilon^{3/2}$, while the outer body returns on a time scale of order
+one. A single outer excursion contains an unbounded number of binary
+cycles as $\epsilon\to0$. This is why excluding one early encounter does
+not settle all sufficiently thin triangles.
+
+\subsection{The first encounter does not collide}
+
+For $X=q_3-q_1$, put $X=\epsilon x$ and
+$t=\epsilon^{3/2}\tau/\sqrt{A+1}$, and rotate so that $x(0)=1$.
+The leading motion is radial Kepler fall. In Levi--Civita coordinates
+$x=z^2$, $d\tau=|z|^2ds$, its solution is
+$z_0(s)=\cos(s/\sqrt2)$, with collision at $s_c=\pi/\sqrt2$.
+The true parameter-dependent equations are analytic at this comparison
+collision. Their first transverse variation appears only at order five:
+\[
+ v_{ss}+\tfrac12v=-\tfrac38\cos^5(s/\sqrt2),\qquad
+ v(0)=v_s(0)=0,\qquad v(s_c)=-{15\pi\over128}.
+\]
+Consequently the physical first encounter misses collision by
+\begin{equation}\label{eq:skinny-miss}
+ r_{13,\min}={225\pi^2\over16384}\epsilon^{11}(1+O(\epsilon)).
+\end{equation}
+The proof uses the simple zero of $\operatorname{Re}z_0$ and the nonzero
+fifth-order imaginary displacement; away from that zero compact continuity
+keeps all pairs separated. Squaring the regularized displacement and
+restoring the factor $\epsilon$ gives the eleventh power. The symbolic
+coefficient calculation is recorded in the technical companion and
+\texttt{SKINNY\_REGULARIZATION.md}.
+
+The first passage is not an escape certificate. Its outer radial escape
+margin is $-2+O(\epsilon)$, while the pair remains tightly bound. The
+subsequent return must be analyzed.
+
+\subsection{Match the binary clock to the returning body}
+
+Write $M=A+1$, $N=M+\epsilon$, and
+$\rho_0^2=2A^2/M$. Replacing the inner pair by its combined point mass
+provides an explicit reference phase:
+\begin{equation}\label{eq:clock}
+ \Phi_{\rm ref}(\epsilon)
+ ={\pi\over\epsilon^{3/2}}\sqrt{M\over N}\,\rho_0^{3/2}
+ =\pi\epsilon^{-3/2}-{\pi\over4}\epsilon^{-1/2}
+   -{15\pi\over32}\epsilon^{1/2}+O(\epsilon^{3/2}).
+\end{equation}
+This is a reference clock, not an equality with the phase of the interacting
+system. The essential matching result compares \emph{states}, rather than
+just an informal count of binary revolutions.
+
+\begin{theorem}[Incoming-state matching]
+On a fixed sufficiently large scaled incoming section $\Sigma_K^-$, let
+$\Gamma_K^-(\chi)$ denote the incoming parabolic state of the equal-heavy-mass
+restricted problem, parameterized by its asymptotic mean-anomaly intercept
+$\chi$. As $\epsilon\to0$, either a classical collision ends the exact tied
+orbit before it reaches the section, or its full regularized section state
+$S_\epsilon(K)$ satisfies
+\[
+ \operatorname{dist}\bigl(S_\epsilon(K),
+ \Gamma_K^-(\Phi_{\rm ref}(\epsilon))\bigr)=o(1).
+\]
+\end{theorem}
+\begin{proof}[Argument and technical dependency]
+Stop the outer infall at physical radius $\rho=\epsilon^\alpha$ with
+$0<\alpha<1/6$. Cancellation of the outer dipole gives a monopole-force
+remainder $O(\epsilon^2\rho^{-4})$. Inner-energy control, variation of the
+regularized oscillator, and comparison of its physical clock then give
+an incoming intercept error $O(\epsilon^{1/2-3\alpha})=o(1)$.
+The remaining unbounded incoming tail has integrable quadrupole remainder
+$O(Y^{-4})$ in scaled radius $Y$. Integrating its energy, angular-momentum,
+and phase equations transports the full state to the fixed section.
+The intercept includes the finite quadrupole correction from infinity;
+using the raw monopole phase at the finite section would omit that term.
+The weighted tail bounds and uniform parameter estimates needed in this
+step are given in the technical companion's incoming-tail matching proof
+and \texttt{INCOMING\_TAIL.md}.
+\end{proof}
+
+The corresponding restricted motion has a reversible parabolic separatrix.
+Its incoming and outgoing parabolic curves meet transversely. This claim
+requires pinning the phase: a whole-line variation without fixing the time
+translation has a decaying gauge mode and gives no transversality test.
+The finite certificate instead bounds the required Jacobi field on one
+regularized binary contraction. For its normalized terminal derivative
+$p$ it proves
+\[
+ p(\pi/2)>1/125\qquad\hbox{uniformly for }14/5\le v\le4.
+\]
+Here $v$ is a restricted launch-speed variable, unrelated to the
+near-isosceles parameter of Section~\ref{sec:iso}. A parabolic stable-manifold
+argument then converts this strict sign into transverse intersection.
+The technical companion gives the compactified map and checks the
+hypotheses of the degenerate stable-manifold result~\cite{McGehee1973}.
+The transversality supplies open escape-intercept arcs, as well as a
+returning side that remains to be classified globally.
+
+\subsection{Transfer open escape arcs back to integer triangles}
+
+Fix a compact subarc $J$ strictly inside a restricted escape window.
+Incoming-state matching and continuous dependence carry sufficiently
+small exact tied members with $\Phi_{\rm ref}(\epsilon)\bmod2\pi\in J$
+to a finite outgoing section. There the binary specific energy and outer
+speed have the forms
+\[
+ e=-C/\epsilon+o(\epsilon^{-1}),\qquad
+ \dot\rho=s\epsilon^{-1/2}+o(\epsilon^{-1/2}),\qquad C,s>0,
+\]
+with strict margins uniform on the compact arc. At a sufficiently distant
+scaled section, Lemma~\ref{lem:escape} applies. An earlier classical
+collision already excludes periodicity; every other member escapes or
+subsequently collides. This proves all-time exclusion on these windows,
+not just on the first excursion.
+
+\begin{theorem}[Infinitely many thin-triangle intervals]
+There are infinitely many open intervals of real $u$ accumulating at zero
+on which the exact tied solution is nonperiodic. Each contains rational
+parameters and therefore primitive integer Pythagorean triples.
+\end{theorem}
+\begin{proof}
+Equation~\eqref{eq:clock} gives
+$\Phi_{\rm ref}'(\epsilon)\sim-(3\pi/2)\epsilon^{-5/2}$.
+The preimages of the interior of $J$ therefore include infinitely many
+disjoint intervals accumulating at zero. The uniform transfer above applies
+to every sufficiently small one. Finally $B(u)$ is a homeomorphism near
+zero and rational $u$ are dense. Different parameters in the fundamental
+interval give different primitive triples after scaling.
+\end{proof}
+
+\begin{theorem}[A positive-density explicit family]
+For a set of positive lower natural density of integers $n\ge1$, the
+primitive triple
+\[
+ (a_n,b_n,c_n)=(4n^2-1,4n,4n^2+1)
+\]
+has a nonperiodic Pythagorean--Burrau solution.
+\end{theorem}
+\begin{proof}
+Here $u_n=1/(2n)$ and $B_n=4n/(4n^2+1)$. The exact reference clock gives
+\[
+ F(x):={\Phi_{\rm ref}(B_x)\over2\pi}
+ ={(2x-1)^{3/2}(2x+1)(4x^2+1)^{3/4}\over32x^{5/2}},
+\]
+with
+\[
+ F''(x)={3\over8}x^{-1/2}+{1\over32}x^{-3/2}+O(x^{-5/2}).
+\]
+The differentiated remainder follows from analyticity in $1/x$ after
+factoring out $x^{3/2}$. For each nonzero integer $h$, van der Corput's
+second-derivative estimate bounds the Weyl sum on $N<n\le2N$ by
+$O_h(N^{3/4})$. Dyadic summation and Weyl's criterion give equidistribution
+of $F(n)$ modulo one. Thus the compact arc $J$ selects indices of density
+$|J|/(2\pi)>0$, and the escape transfer proves nonperiodicity for every
+sufficiently large selected index. Since $\gcd(4n,4n^2-1)=1$, the triples
+are primitive. This density concerns the displayed family of indices,
+not the set of all primitive Pythagorean triples ordered by hypotenuse.
+\end{proof}
+
+\subsection{Why the remaining phases are harder}
+
+At boundaries of the restricted escape windows, returning orbits can pass
+near binary or triple collision. The detailed analysis in the companion
+constructs transverse planar collision boundaries and local finite-mass
+collision-or-escape regions. These are useful pieces of the eventual
+classification, but enumerating several boundaries does not enumerate all
+possible encounter sequences. Likewise, infinitely many real collision
+parameters do not imply that even one of them is rational, and a collision
+would in any case terminate the classical trajectory rather than supply a
+counterexample. The main unresolved thin-triangle problem is a uniform
+classification of the remaining returning components.

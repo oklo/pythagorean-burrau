@@ -1,0 +1,35 @@
+{
+  "inspected_on": "2026-09-05",
+  "sources": [
+    {
+      "filename": "burrau1913.pdf",
+      "url": "https://adsabs.harvard.edu/pdf/1913AN....195..113B",
+      "sha256": "6c08121e424648793378cccf683220cc4c437113c6233d228e0b0d4fbcc67243"
+    },
+    {
+      "filename": "szebehely1967.ps",
+      "url": "https://www.ucolick.org/~laugh/oxide/projects/szebehely1.ps",
+      "sha256": "a29788810fc97701b6c0b70e6a37752274f28fde81e26e6b85e9a0b8d75ea4ed"
+    },
+    {
+      "filename": "szebehely2.ps",
+      "url": "https://www.ucolick.org/~laugh/oxide/projects/szebehely2.ps",
+      "sha256": "e2ab1b67cca9c80e1793b748255177570654d6155101b4ca5c9edca08509a673"
+    },
+    {
+      "filename": "stromgren1919.pdf",
+      "url": "https://articles.adsabs.harvard.edu/pdf/1919MNRAS..80...12S",
+      "sha256": "0913f44278e01ab4a8ab336e996fd73cdbc44ea426bb7497bb7569d71d526f97"
+    },
+    {
+      "filename": "zumkley1941.pdf",
+      "url": "https://articles.adsabs.harvard.edu/pdf/1941AN....272...66Z",
+      "sha256": "d873a08a9616b37853a99408ae5f19f37b49bedc5287960a59fbaf1eda7e7d31"
+    },
+    {
+      "filename": "liliao.pdf",
+      "url": "https://sjliao.sjtu.edu.cn/__local/B/0D/48/5F829F37A0DCC8FAD972B6E698C_A0F02F89_1137C5.pdf?e=.pdf",
+      "sha256": "acf222bcac70fe846b5430a1d49c5880df0be457f920801bfd77b6a3b7f5ef27"
+    }
+  ]
+}

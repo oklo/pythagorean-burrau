@@ -1,0 +1,131 @@
+\section{The equal-leg endpoint and its neighbors}\label{sec:iso}
+
+\begin{theorem}
+At $u=\sqrt2-1$, the classical solution has no positive second brake and
+reaches a binary or triple collision in finite time.
+\end{theorem}
+\begin{proof}
+Here $m_1=m_2=m=1/\sqrt2$ and reflection symmetry persists.  Write the base
+bodies as $(-x,y_b),(x,y_b)$ and the apex as $(0,y_a)$, with
+$h=y_a-y_b$.  Then
+\[
+\ddot x=-\frac{m}{4x^2}-\frac{x}{(x^2+h^2)^{3/2}}<0.
+\]
+Starting with $x_0=1/2$ and $\dot x(0)=0$ gives $\dot x<0$, excluding a
+second brake.  While $x>0$, one has
+$\ddot x\leq-m/(4x_0^2)$, whence
+\[
+x(t)\leq x_0-\frac{m}{8x_0^2}t^2.
+\]
+Thus collision occurs no later than $\sqrt{8x_0^3/m}=2^{1/4}$.
+\end{proof}
+
+The endpoint is irrational, so this theorem does not settle an integer case.
+Its perturbation is singular because the collision unfolds into a close
+ordinary encounter when reflection symmetry is broken.
+
+
+The endpoint itself has an exact collision and irrational parameter.
+Neither fact settles nearby rational triangles. Continuity in ordinary
+coordinates cannot carry a solution through a collision. The appropriate
+comparison uses the regularized endpoint trajectory while keeping the
+nearby physical trajectories classical.
+
+Put $v=u/(\sqrt2-1)$, $(m,n)=(A,B)$, $g=q_2-q_1=w^2$, and
+$G=q_3-C_{12}$. With $dt=|w|^2d\sigma$, write $z=w_\sigma$, $P=\dot G$,
+and $e=|\dot g|^2/2-(m+n)/|g|$. The selected pair collision is $w=0$;
+this is regular in the comparison equations, but it still terminates the
+classical trajectory at $v=1$.
+
+\subsection{What makes the punctured-neighborhood argument work}
+
+There are three distinct ingredients, each needed for all-time exclusion.
+On the initial arc, exact torque inequalities and a validated first-syzygy
+map prove that nearby tied trajectories have no second brake. The word
+\emph{syzygy} means that the three bodies are collinear. The normal launch
+tangent is fixed by the mass--shape relation; it is not a freely chosen
+perturbation.
+
+At the first endpoint collision, an oriented $C^1$ Poincar\'e calculation
+gives $z_r<-4/5$ and $\partial_v w_i<-30$. Thus the map
+$(\sigma,v)\mapsto(w_r,w_i)$ has nonsingular derivative there. The nearby
+members miss that collision, with
+\[
+ \min r_{12}=\chi^2(1-v)^2+o((1-v)^2),\qquad \chi^2>900.
+\]
+Their pair angular momentum changes sign across the encounter. Thus a
+launch torque-sign argument cannot be extended indiscriminately through
+later close passages.
+
+The third ingredient continues through all four comparison collisions
+needed to reach an escape section. The detailed tangent equations,
+first-syzygy inequalities, and certificate constructions are retained in
+the technical companion; the following proof states how their strict
+bounds fit together.
+
+\begin{theorem}[Punctured near-isosceles nonperiodicity]
+There exists $v_*<1$ such that every real tied member with
+$v_*<v<1$ is nonperiodic.  It is collision-free and has no labelled brake
+through a fixed LC section; thereafter it either ends in a classical binary
+collision or has body 3 escape.  Consequently the same conclusion holds for
+infinitely many primitive Pythagorean triples.
+\end{theorem}
+
+\begin{proof}
+The exact LC energy constraint is
+\[
+ 2|z|^2-(m+n)-e|w|^2=0.
+\]
+On the symmetric endpoint orbit it gives $2|z|^2=\sqrt2$ whenever $w=0$,
+so every selected collision is transverse.  Pinned oriented $C^1$ Poincare
+maps enclose four such zeros before $\sigma=7$ and put the fifth strictly
+after $7$.  At each of the first four zeros, the tied normal derivative
+$(w_i)_v$ is bounded away from zero.  Thus every Jacobian
+\[
+ {\partial(w_r,w_i)\over\partial(\sigma,v)}
+\]
+is nonsingular.  The inverse-function theorem isolates all four zeros, while
+a 7000-step $C^0$ cover proves
+\[
+ r_{31}^2,r_{23}^2>{1\over500}
+ \qquad(0\leq\sigma\leq7).
+\]
+Compactness outside the four collision boxes now gives a punctured
+neighborhood in which every nearby tied orbit is collision-free through
+$\sigma=7$.
+
+At an ordinary point of this LC chart,
+\[
+ \dot g={2z\over\bar w},\qquad \dot G=P.
+\]
+Hence, after center-of-mass reduction, a labelled brake is equivalent to
+$z=P=0$.  The polynomial residual
+$\mathcal R_{\rm LC}=|z|^2+|P|^2$ remains regular at comparison collisions.
+At the $\sigma=1/2$ interface the cover gives $G_y>1/10$, so the unique first
+syzygy lies later.  Every complete interval tube from that overlapping
+pre-syzygy interface to
+$\sigma=7$ satisfies $\mathcal R_{\rm LC}>2$.  Compact continuity transfers
+this inequality to the nearby classical orbits; the initial-arc result described above covers the initial segment.
+
+At $\sigma=7$, take $\eta=4$ in the terminal binary--escaper theorem.  The
+same interval cover proves, with $M=m+n=\sqrt2$, $R=M/4$ and
+$s=|G|-R$,
+\[
+ s>1,\qquad \dot\rho>2,\qquad
+ \delta={\dot\rho^2\over2}-{M+1\over s}>{1\over20},
+\]
+and
+\[
+ -4-e-{\sqrt{2MR}\over\sqrt{2\delta}\,s^2}>2.
+\]
+All inequalities are strict and therefore persist in a tied neighborhood.
+The terminal theorem says that each future trajectory either suffers an
+inner classical collision or escapes with uniformly positive outward radial
+speed.  Neither possibility permits a later brake.  Rational Euclid
+parameters are dense in the resulting open $u$ interval, giving infinitely
+many primitive triples.
+\end{proof}
+
+The cutoff $v_*$ is existential. No numerical width is claimed for this
+endpoint neighborhood. An effective bound would identify a corresponding
+explicit range of integer triangles.
