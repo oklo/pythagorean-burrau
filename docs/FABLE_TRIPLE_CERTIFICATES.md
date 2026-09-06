@@ -1,6 +1,6 @@
 # Point certificates for named primitive triples
 
-Each entry below records a completed run of the parametric verifier
+The five accepted entries below record completed runs of the parametric verifier
 `src/fable/verification/tied_event_certificate_capd.cpp` in `certify`
 mode.  By Theorems A--C of `FABLE_EVENT_REDUCTION.md` (soundness needs
 only the trivial direction of the reduction plus the checkpoint terminal
@@ -12,13 +12,15 @@ any positive collision-free time, and hence is not a labelled periodic
 orbit.  The Pythagorean--Burrau conjecture holds for the corresponding
 primitive triple, in both leg orderings (leg-swap symmetry).*
 
-All runs use the pinned CAPD 6.1.0 multiprecision build
+The multiprecision runs use the pinned CAPD 6.1.0 build
 (commit `731079217a9254ea2948d742df2b170895effe7f`,
 `-DCAPD_INTERVAL_TYPE=NATIVE -DCAPD_ENABLE_MULTIPRECISION=ON`), exact
 rational initial data $X=(1,0)$, $Y=(AB(B-A)/(A+B),\,AB)$, zero
 velocities, exact rational field coefficients, `MpC0TripletonSet`, and an
 initial phase proving $U<2U_0$ through the first accepted step ending
-past $t_1$.
+past $t_1$. The `81/200` entry uses native intervals, as specified below.
+These are existing recorded proof statuses, not fresh integrations performed
+by the September 6 consolidation. Failed and recovered runs are separate.
 
 Replay command template:
 
@@ -72,7 +74,7 @@ $u=7/17$ and $u=103/250$ fail at $t\approx0.511$ with step-cap collapse
 inside an exceptionally deep close approach — they bracket an apparent
 collision parameter between $0.41$ and $0.4125$; higher precision or an
 LC chart would be needed.  $u=1/5,1/6,1/7,1/4$ are deep-encounter cases
-(see `FABLE_FAILED_ROUTES.md`); $u=1/4$ may be retried at high precision.
+(see `../archive/history/campaigns/FABLE_FAILED_ROUTES.md`).
 Measured deepest-encounter depths (high-precision Taylor, ordinary) and
 final direct-integration outcomes: $u=5/18$ ($2.2\times10^{-4}$, failed
 at $10^{-75}$), $u=5/16$ ($2.1\times10^{-4}$, failed at $10^{-75}$),
@@ -86,16 +88,19 @@ integration pays tens to $\sim$100, so a parametric-$u$ port of
 `burrau_lc_certificate_capd.cpp` unlocks the entire list, including the
 named small triples $u=1/4,1/5,1/6,1/7$.
 
-### u = 1/3 — triple (4, 3, 5)   [RUN IN PROGRESS]
+### Recovered, not promoted: u = 1/3 and u = 5/14
 
-The classical Burrau problem; see `FABLE_BURRAU_THEOREM.md`.  768 bits,
-tolerance $10^{-80}$, order 60, terminal check from $t=11.5$.
+The retired global branch contains `PASS_BURRAU_LC` for the classical
+3–4–5 problem and `PASS_TIED_EVENT` for `(171,140,221)`. See the
+[provenance and soundness assessment](FABLE_BURRAU_THEOREM.md).
+Neither is added to the five accepted entries by recovering a log alone.
 
-### Queued
+### Historical queue, not an active job list
 
-$u=1/6$ (35,12,37), $u=1/5$ (5,12,13), $u=1/7$ (7,24,25),
-$u=1/4$ (15,8,17) — sequential chain, settings in
-`FABLE_EXPERIMENT_LOG.md`.
+The old campaign queued $u=1/6,1/5,1/7,1/4$; its settings and failed
+attempts are retained in `../archive/history/campaigns/FABLE_EXPERIMENT_LOG.md`.
+There is no live sequential chain to resume automatically. Any new point
+run should serve an explicit obligation in [the research plan](RESEARCH_PLAN.md).
 
 ## Failure semantics
 

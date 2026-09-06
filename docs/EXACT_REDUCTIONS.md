@@ -829,23 +829,36 @@ removes all radicals from the forcing sign:
 At $\eta=h$, this is exactly $E=ZS-P$, so the contact condition
 $Z<Z_J=P/S$ in the dangerous region $S<0$ is the same as $E>0$.
 
-This yields a conditional global statement that retains the trajectory
-history rather than replacing it by an ambient phase-space inequality.
+This yields a conditional statement on one arc, with a necessary additional
+endpoint hypothesis. It is not an all-time exclusion theorem.
 
-**One-switch lemma (PROVED ANALYTICALLY).**  Suppose an ordered,
-collision-free arc begins with $w>0$, terminates at its first syzygy with
-$w=0$, and $q$ changes sign at most once, strictly from positive to negative.
-Then $w>0$ at every interior point of the arc.  Indeed, for
-$M(s)=\exp\int_0^s(\lambda+c)$,
+**Corrected one-switch lemma (PROVED ANALYTICALLY, conditional).** Suppose
+$w>0$ near launch on an ordered, collision-free arc $(0,S)$, and $q$ is
+strictly positive before an interior switch and strictly negative afterward.
+Fix $s_0\in(0,S)$ and set
 
 \[
- (Mw)_s=Mq.
+ M(s)=\exp\!\left(\int_{s_0}^s(\lambda+c)(\xi)\,d\xi\right).
 \]
 
-Thus $Mw$ first increases and then decreases strictly to its prescribed
-terminal value zero, and cannot vanish earlier.  The remaining dynamical
-obligation is therefore to prove this one-switch property on the
-brake-reachable family, not throughout ambient phase space.
+If, in addition,
+
+\[
+ \liminf_{s\uparrow S}M(s)w(s)\ge0,
+\]
+
+then $w>0$ throughout the arc. Indeed, $(Mw)_s=Mq$: the positive weighted
+quantity first increases and then strictly decreases toward a nonnegative
+limit, so it cannot vanish in the interior.
+
+The lower integration limit cannot be launch, where $\lambda\sim1/s$.
+At the terminal syzygy the factor can also diverge, and $w(S)=0$ does not
+imply a zero weighted limit. The exact scalar counterexample
+$a=1/s+1/(1-s)$, $w=(1-s)(1+s-3s^2)$ in
+[the endpoint correction](FORCED_LAG_ENDPOINT_CORRECTION.md) disproves
+that inference. Both the forcing control and the weighted terminal bound
+remain obligations on the brake-reachable family. Even proving them on
+its first ordered arc would leave later itineraries to control.
 
 The tempting stronger envelope $q\ge0$ is false on ordinary tied
 trajectories: for representative middle parameters $E$ becomes negative

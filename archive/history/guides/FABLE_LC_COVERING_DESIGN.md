@@ -1,0 +1,181 @@
+# Design: LC-regularized covering certificates
+
+Status: DESIGN ONLY — nothing here is implemented or proved.  This is
+the blueprint for removing the deep-encounter digit tax that currently
+limits the point-certificate factory (measured: $\sim38$ digits through
+the $r\approx8.3\times10^{-5}$ encounter of $u=1/3$; total budgets
+$\gtrsim160$ digits for the full Burrau run; $u\le1/5$ unreachable).
+
+## Architecture
+
+Work in the 8-dimensional unweighted Jacobi system used by the Fable
+verifiers.  Far from encounters, integrate the physical field as now.
+When the smallest pair separation enters a threshold $r<\rho_{\rm in}$
+with the third body separated ($\ge\rho_{\rm far}$), switch to a
+Levi--Civita chart for that pair, integrate through the encounter, and
+switch back at $r>\rho_{\rm out}$ ($\rho_{\rm out}<\rho_{\rm in}$ on
+entry/exit to preclude chattering; thresholds fixed rationals).
+
+The LC chart for the close pair with relative coordinate $q$ (one of
+$X$, $d_1=Y+\alpha X$, $d_2=Y-\beta X$):
+
+- $q=w^2$ (complex square), $dt=|w|^2\,d\sigma$;
+- companion center-of-pair coordinate chosen as in the checkpoint's
+  finite-mass reduction ($Q=R+\frac{B}{1+B}q$-style) so the second
+  equation carries no singular force — the exact cancellation identities
+  are already proved in `FINITE_MASS_PLANAR_COLLISION_PERSISTENCE.md`
+  and only need the tied-family mass constants substituted;
+- the pair's LC energy constraint provides an online consistency check
+  (not a proof ingredient).
+
+Chart transitions use the checkpoint's *unit-time construction flow*
+idiom (`FAILED_ROUTES.md`, independent-box entry): keep old and new
+coordinates in ONE doubleton/tripleton and flow the nonlinear change of
+variables as an auxiliary vector field over unit time, so affine error
+correlations survive the transition.  Never convert boxes componentwise.
+
+## Covering conditions inside the chart
+
+The event scalars are polynomial in the chart after multiplying by
+$|w|^2>0$: with $t_\sigma=|w|^2$,
+$\dot I\cdot|w|^2$, $K\cdot|w|^4$-type clearings keep all three
+conditions polynomial; a brake in physical variables forces the cleared
+scalars to vanish, so per-step covering remains sound verbatim.  (Best:
+verify the conditions on the physical reconstruction $q=w^2$,
+$\dot q=2\bar w w_\sigma/|w|^2$ — rational in chart variables away from
+$w=0$; $w=0$ cannot occur on a certified segment because Theorem A puts
+brakes at $r_{ij}\ge m_im_j/U_0$, so inside the chart the $K>0$/
+$\dot I\ne0$ margins are enormous and cheap.)
+
+Actually the decisive simplification: **inside the chart zone the
+brake-candidate conditions are automatically satisfied** — by Theorem A
+every brake has all separations $\ge m_im_j/U_0$, and the chart zone has
+$r<\rho_{\rm in}\ll\min m_im_j/U_0$ if $\rho_{\rm in}$ is chosen below
+the uniform brake separation bound.  So inside the chart NO covering
+checks are needed at all; the chart's only job is transporting the set
+rigorously.  Choose e.g. $\rho_{\rm in}=\tfrac12\min_{ij}m_im_j/(2U_0)$
+(also below the $I$-max separation bound so no event checks are skipped:
+events with $\dot I=0,\ \ddot I<0$ cannot occur in the zone either; and
+$\dot I\ne0$ need not hold there — minima are excluded by the $K\ge U_0$
+argument only at $\dot I=0$ points, which are fine because $U>2U_0$
+throughout the zone makes $K=U-U_0>U_0>0$: even simpler, the $K>0$
+condition holds on the whole zone with uniform margin $U_0$).
+
+So the correct statement: on any step whose enclosure lies inside
+$\{U>{3\over2}U_0\}$ (say), $K=U-U_0>{1\over2}U_0>0$ excludes brakes
+with a parameter-uniform margin — no scalar evaluation beyond the zone
+membership is needed, in any coordinates.
+
+## Expected gains
+
+The encounter's wrapping tax comes from thousands of tiny steps of a
+near-singular field; in LC variables the flow through the encounter is
+analytic with $O(1)$ coefficients, a handful of steps, and no domain
+throws.  Expected budget for full Burrau: $\sim45$ digits pre/post
+encounter losses only, i.e. tolerance $10^{-60}$ at 256--320 bits,
+runtime well under an hour; $u=1/4,1/5,1/6,1/7$ (the named small
+triples) become reachable the same way, using their $B^{11}$-deep first
+encounters inside the chart where they are regular.
+
+## Soundness obligations for the implementation
+
+1. Exact algebra of the chart change and its inverse (regression-test
+   symbolically as in `tests/fable/`).
+2. Transition sections at rigorously verified $r$-values with
+   transversality of the flow to the section (checked by enclosure of
+   $dr/dt\ne0$ or by fixed-time transitions instead of section hits —
+   fixed-time is simpler and sound: switch at the end of an accepted
+   step whose enclosure lies inside the zone annulus).
+3. Zone membership enclosures ($U>{3\over2}U_0$ etc.) evaluated on the
+   step enclosure in whichever chart is active.
+4. The classical-solution identification: LC segments must certify
+   $|w|>0$ throughout (no collision), so the physical solution exists
+   and matches the chart flow; a collision inside the chart would
+   appear as $0\in|w|^2$ enclosure and must abort with FAIL (it would
+   anyway be a classical termination, but the certificate should not
+   silently regularize through it).
+
+## Implementation recipe (subsequently implemented and under audit)
+
+State (18-dim, one set): physical $(X,Y,\dot X,\dot Y)$ plus chart block
+$(w,z,h,G,P,t_{\rm phys})$ for the close pair $\{1,3\}$ (relative vector
+$g=d_1=Y+\alpha X$, complement $G=(\beta+m_1\alpha/M_{13})X-(m_3/M_{13})Y$,
+both linear with rational coefficients; inverse linear too).
+
+- **LC-zone field** (in $\sigma$): $w_\sigma=z$,
+  $z_\sigma=\tfrac h2 w+\tfrac{|w|^2}2\bar wF_{\rm ext}$,
+  $h_\sigma=2\operatorname{Re}(wz\overline{F_{\rm ext}})$ [checkpoint
+  EXACT SYMBOLIC IDENTITY with pair mass $M_{13}=m_1+m_3$, constraint
+  $2|z|^2-M_{13}-h|w|^2=0$, $h=$ pair specific energy],
+  $G_\sigma=|w|^2P$, $P_\sigma=|w|^2\ddot G(w^2,G)$,
+  $t_\sigma=|w|^2$; forces regular via
+  $q_2-q_1=G+(m_3/M_{13})w^2$, $q_2-q_3=G-(m_1/M_{13})w^2$.
+- **Entry construction** (unit-time flow, checkpoint idiom: each new
+  variable's rate is its full target expression of the frozen physical
+  variables, so time-1 writes it exactly): half-angle lift
+  $w_r=\sqrt{(|g|+g_x)/2}$, $w_i=\pm\sqrt{(|g|-g_x)/2}$ with the sign
+  taken from a verified enclosure of $\operatorname{sign}(g_y)$ (two
+  compiled variants; FAIL if undetermined), $z=\bar w\dot g/2$,
+  $h=|\dot g|^2/2-M_{13}/|g|$.
+- **Exit construction**: physical variables are stale nonzero, so the
+  exact-write trick needs the damped form
+  $\dot v=c\,(T-v)+\delta$ with $c\ge200$ and $\delta$ an interval
+  parameter bounding $|v(0)-T|e^{-c}$ (rigorous Minkowski inflation via
+  the flow); the inflation is $\sim10^{-84}$ and negligible against
+  working tolerances but must be included for soundness.
+- **Zone bookkeeping**: enter when the accepted-step enclosure has
+  $|g|^2<\rho_{\rm in}^2$, exit when $|g|^2>\rho_{\rm out}^2$ with
+  $\rho_{\rm in}<\rho_{\rm out}$ chosen below the brake separation bound
+  $m_1m_3/(2U_0)$; inside the zone no event checks are needed
+  ($U>m_1m_3/\rho_{\rm out}\gg U_0$ from positions alone) — only
+  $0\notin|w|^2$ (no collision) and regularity of the other two
+  separations.
+- Analogous chart blocks for pairs $\{1,2\}$ and $\{2,3\}$ if their
+  encounters ever reach comparable depth (for $u=1/3$ the $t\approx3.166$
+  encounter is pair $\{1,3\}$: $r_{13}$ dips to $8.3\times10^{-5}$ while
+  $r_{12},r_{23}\approx0.54$).
+
+## 2026-08-24 main-worktree audit of the damped writes
+
+The implementation is now present in
+`src/fable/verification/burrau_lc_certificate_capd.cpp`. An independent
+main-worktree audit made the informal exit inflation into a runtime proof
+obligation. For one scalar coordinate, with frozen target $T$,
+
+\[
+ y'=c(T-y)+f,
+\]
+
+the endpoint after duration $\tau$ equals $T$ for
+
+\[
+ f_*={ce^{-c\tau}(T-y_0)\over1-e^{-c\tau}}.
+\]
+
+Thus a symmetric forcing interval $[-\varepsilon,\varepsilon]$ contains an
+exact graph overwrite whenever
+
+\[
+ |T-y_0|\le
+ {\varepsilon(1-e^{-c\tau_-})\over ce^{-c\tau_-}},
+\]
+
+where $\tau_->0$ is the rigorous lower construction duration. An adversarial
+audit caught that CAPD can declare a target reached when the current-time
+interval merely overlaps it; the nominal target difference was therefore not
+a valid lower duration. The verifier now runs the construction, computes
+\[
+ \tau_-=(t_{\rm end})_{\rm left}-(t_{\rm start})_{\rm right},
+\]
+requires it to be positive, and applies the coordinatewise audit to the
+saved initial construction state. The scalar identity has an exact SymPy
+regression in `tests/fable/test_event_reduction.py`.
+
+A fresh 256-bit, tolerance-$10^{-40}$, order-50 post-repair smoke replay
+passed four stale-block
+entry/exit cycles through physical time $3.1670113440$, including the deep
+$t\simeq3.166$ encounter. The deep LC passage exited after 140 capped
+$\sigma$-steps; every swept enclosure had $|w|^2>0$, and the reconstructed
+physical hull width was below $4.98\times10^{-5}$. The replay was deliberately
+stopped after this audit target. This is a **VALIDATED NUMERICAL RESULT** for
+the finite chart chain, not a $3{:}4{:}5$ nonperiodicity theorem.

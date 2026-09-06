@@ -74,10 +74,11 @@ terminal inference. They are not withdrawn by this correction.
 
 ## Affected records
 
-This correction supersedes the one-switch lemma in `EXACT_REDUCTIONS.md`,
-the conditional theorem in `STOPPING_POINT_HANDOFF_2026-08-26.md`, and
-unqualified summaries in `PERSISTENT_RESEARCH_MEMORY.md`,
-`PROOF_OBLIGATIONS.md`, `FAILED_ROUTES.md`, and `STATUS.md`. Those records
-now carry a prominent correction notice. The current main paper and
+This correction supersedes the original one-switch lemma in
+`EXACT_REDUCTIONS.md` and the conditional theorem in the
+[archived August handoff](../archive/history/campaigns/STOPPING_POINT_HANDOFF_2026-08-26.md).
+On September 6 the active reduction, ledger, obligations, status, and memory
+were reconciled with the corrected lemma; superseded summaries remain only
+as explicitly historical records. The current main paper and
 technical companion contain the corrected statement and scalar example.
 The old paper is retained only under `paper/archive/` as a historical copy.

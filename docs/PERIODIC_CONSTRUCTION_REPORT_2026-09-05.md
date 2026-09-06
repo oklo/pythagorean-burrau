@@ -4,7 +4,9 @@
 rank-deficient tied root, or connected tied-periodic curve was established.
 The integer and strong real conjectures remain unresolved.
 
-The campaign followed `ASTRA_PERIODIC_TRIPLE_HANDOFF.md`: it refined the four
+The campaign followed the
+[archived construction brief](../archive/history/campaigns/ASTRA_PERIODIC_TRIPLE_HANDOFF.md):
+it refined the four
 principal seeds, computed propagated variational Jacobians, completed the two
 stalled mass-side homotopies, and tested nearby branches with the right and
 mass-side constraints imposed at launch. This is construction work, not an

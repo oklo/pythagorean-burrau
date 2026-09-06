@@ -1,5 +1,11 @@
 # Supporting Burrau notes preserved September 6, 2026
 
+Historical index from the earlier selected-copy archive. During the later
+project consolidation all eleven selected files were verified byte-identical
+to [originals now in the legacy archive](../legacy-burrau/).
+The redundant copies were removed. Read `../README.md` for the current layout;
+the remainder below describes the earlier preservation pass.
+
 These are unchanged snapshots from the unversioned sibling `burrau` directory,
 selected because they supplied the arithmetic examples and F30 illustration
 used in the September 6 manuscript revision. Their original relative directory

@@ -1,7 +1,8 @@
 # Global brake-event reduction
 
 This note proves the exact event-reduction theorems of the Fable route
-(`FABLE_ROUTE_DECISION.md`).  Everything is stated for the normalized tied
+([historical route decision](../archive/history/campaigns/FABLE_ROUTE_DECISION.md)).
+Everything is stated for the normalized tied
 family of `CONJECTURE.md`: masses $(A,B,1)$, energy $H=-U_0$ with
 $U_0=AB+(AB)^{-1}$, zero linear and angular momentum, and the maximal
 collision-free classical solution issued from the tied right triangle.

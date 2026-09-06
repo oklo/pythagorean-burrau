@@ -9,6 +9,33 @@
 
 Last updated: 2026-09-06
 
+## Canonical project after consolidation
+
+Work only from `pythagorean-burrau`, mapped to the private GitHub repository
+`oklo/pythagorean-burrau`. The working paper is the primary interim product;
+the objective is a proof of the conjecture or an exact counterexample.
+Read `HANDOFF.md` and `RESEARCH_PLAN.md`, not the retired agent queues.
+
+The former unversioned `burrau` is now `archive/legacy-burrau`. Two clean
+Fable worktrees were retired after their histories were pushed as tags
+`archive/fable-global-2026-09-06` and `archive/fable-middle-2026-09-06`.
+Missing point logs and parameter-graph records are in `archive/branch-snapshots`.
+Eighteen superseded campaign notes and the original versions of rewritten
+guides are preserved under `archive/history`. Do not recreate sibling projects.
+
+The recovered 3–4–5 LC PASS is **not promoted**: its source lacks the main
+verifier's explicit damped-write duration gate, and the recorded post-repair
+smoke test is not a complete terminal replay. The recovered `5/14` direct-event
+log separately awaits provenance review. See `FABLE_BURRAU_THEOREM.md`.
+The reduction body, ledger, and active guides now consistently require the
+forced-lag weighted terminal hypothesis, not just an unweighted zero.
+
+Use `make check` for Python regressions and stored-evidence/layout audits;
+`make paper-check` builds in scratch without replacing the reviewed PDF.
+These do not replay every CAPD certificate. No website deployment was made
+as part of the project reorganization. Details and verification limits are
+in `PROJECT_REVIEW_2026-09-06.md`.
+
 ## State in one paragraph
 
 The Pythagorean--Burrau nonperiodicity conjecture is **unresolved**, as is the
@@ -92,7 +119,7 @@ rational candidate.
   Principal technical-companion arguments have been folded into this paper;
   `paper/technical-details.tex/pdf` remains the roughly 50-page research archive.
   The old 22-page main draft and intermediate 29/30-page versions are superseded.
-  Read `HANDOFF_MANUSCRIPT_2026-09-06.md` for the current restart prompt and
+  Read `HANDOFF.md` for the current restart prompt and
   `MANUSCRIPT_REVIEW_2026-09-05.md` before relying on older theorem summaries.
 - The review corrected the forced-lag endpoint gap, the launch-window logic in
   the finite-cover argument, escape-criterion ordering, and several stale or
@@ -109,7 +136,8 @@ rational candidate.
   `paper/archive/oklo-interim-report-2026-09-05.pdf`.
   See `OKLO_PUBLICATION_2026-09-06.md` for provenance and safe deployment steps.
 - The latest five-row blog visualization is
-  `/Users/greglaughlin/Projects/burrau/plots/oklo_pythagorean_fan_trajectory_progression.png`;
+  `archive/legacy-burrau/plots/oklo_pythagorean_fan_trajectory_progression.png`
+  (relative to the repository root);
   its generator and audit JSON are adjacent under `scripts/` and `data/`.
   It is an ordinary numerical illustration, not a certificate. The manuscript
   deliberately retains its separately inspected earlier snapshot and records
@@ -121,8 +149,9 @@ rational candidate.
   caption. Its plotting residual is 2.6e-11, distinct from the campaign's
   separately refined root. The redundant defect plot is archived; Table 1
   retains all six defects. Supporting notes and the F30 plotting script from
-  the unversioned `../burrau` directory are preserved in
-  `paper/archive/burrau-2026-09-06/`.
+  the former unversioned Burrau directory are preserved in
+  `archive/legacy-burrau/`. The earlier selected copies were verified
+  byte-identical and deduplicated during consolidation.
 
 ## Editorial preferences to preserve
 
@@ -152,6 +181,11 @@ rational candidate.
 
 ## Verification and preservation
 
+- The later project reorganization passed the full **251-test** suite,
+  all 100 stored middle-cover tile checks, 52 legacy inventory records and
+  eighteen recovered branch-file hash checks. Its scratch Tectonic build
+  is 31 pages and leaves the reviewed PDF checksum unchanged. It made no
+  new CAPD flow integrations and no change to the published manuscript.
 - The consolidation pass had 190 selected existing tests passing and a
   successful independent audit of all 100 archived middle-cover tiles.
 - The September 6 rationality/F30 revision had 22 targeted tests passing,
@@ -167,7 +201,7 @@ rational candidate.
 
 ## Restart order
 
-1. Read `HANDOFF_MANUSCRIPT_2026-09-06.md`, then
+1. Read `HANDOFF.md` and `RESEARCH_PLAN.md`, then
    `MANUSCRIPT_REVIEW_2026-09-05.md` and `FORCED_LAG_ENDPOINT_CORRECTION.md`.
 2. Read `STATUS.md`, `PROOF_OBLIGATIONS.md`, and
    `PERIODIC_CONSTRUCTION_REPORT_2026-09-05.md`; use the August handoff only
@@ -183,11 +217,9 @@ rational candidate.
 6. Do not make affine-tile widening the primary attack. Local width does not
    bridge the unresolved global parameter continuum.
 
-## Historical planning estimate
+## No percentage-of-proof metric
 
-The earlier research-planning estimate of progress toward a full resolution
-was about **25%**, with a subjective range of **15--35%**. It was not a
-calibrated probability or a fraction of lemmas completed; it discounted the
-missing global argument. Earlier estimates near 58% were retracted. This
-historical planning estimate is different from the September 6 manuscript's
-subjective **10% probability of an integer counterexample existing**.
+Do not revive the older planning percentages as a measure of progress.
+The remaining all-time obstruction is qualitative and unresolved. The
+manuscript's subjective **10% probability of an integer counterexample
+existing** answers a different, explicitly user-requested question.

@@ -1,8 +1,10 @@
 # Fable proof ledger
 
 Evidence labels are used verbatim as in `PROOF_LEDGER.md`.  This ledger
-covers only results produced in the Fable parallel run; checkpoint results
-remain in the main ledger.
+covers results produced in the historical Fable run; the current project-wide
+authority is [the main ledger](PROOF_LEDGER.md). No old in-flight or queued
+job description is a current task. Recovered point-run claims are assessed
+separately in [the 3–4–5 record](FABLE_BURRAU_THEOREM.md).
 
 | Claim | Status | Dependencies and scope |
 |---|---|---|
@@ -18,4 +20,4 @@ remain in the main ledger.
 | $u=1/3$ orbit: 13 positive-time $I$-maxima before terminal certificate fires at $t\approx12.25$, minimal event margins $K\ge0.0187$, $\lvert\mathcal B\rvert\ge0.41$ | ORDINARY NUMERICAL EVIDENCE | DOP853, max relative energy drift $4\times10^{-9}$; target profile for the validated certificate |
 | Near-brake at $u\approx0.342$, $t\approx17.62$ | DISPROVED as reliable data | Two ordinary integrations (rtol $10^{-12}$ vs $10^{-13}$) give incompatible states at that time (near-stop vs hierarchical escape with speeds $\gtrsim1.5$); late-time double-precision event scans carry $O(1)$ state noise; the rigorous MP atlas at $u=171/500$ is the arbiter |
 | Conjecture holds for primitive triples $(21,20,29)$, $(72,65,97)$, $(5311,5280,7489)$, $(8319,8200,11681)$, $(33439,32400,46561)$ (both leg orderings each) | PROVED BY COMPUTER-ASSISTED ARGUMENT | Event-covering certificates + checkpoint escape certificate; pinned CAPD MP/native runs archived in `data/fable/`; see `FABLE_TRIPLE_CERTIFICATES.md` |
-| $u=171/500$ has no event with $K<0.13$ and no events after $t\approx13.4$; the reported near-brake does not exist | ORDINARY NUMERICAL EVIDENCE | Cross-validated 50/60-digit (25 events each) high-precision Taylor integrations; 90-digit in flight; rigorous version would need $\sim$250 digits |
+| The sampled $u=171/500$ run has no event with $K<0.13$ before its numerical terminal escape check; the earlier near-brake is not reproduced | ORDINARY NUMERICAL EVIDENCE | Cross-validated 50/60-digit (25 events each) Taylor integrations. This is not an all-time interval certificate, and no 90-digit job is currently in flight. |

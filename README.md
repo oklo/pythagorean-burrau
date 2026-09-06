@@ -1,137 +1,74 @@
-# Pythagorean--Burrau nonperiodicity project
+# The Pythagorean Three-Body Conjecture
 
-This repository is a proof-oriented investigation of whether a Newtonian
-three-body free-fall initial condition can be a collision-free labelled
-periodic orbit when the masses and opposite side lengths are the same
-Pythagorean triple.
+**Prove the conjecture or construct an exact counterexample.** Every experiment,
+lemma, and computational tool should address that decision. The conjecture
+remains open; nearby periodic orbits and additional small exclusion intervals
+are partial information, not its resolution.
 
-The governing statement and conventions are in `docs/CONJECTURE.md`.  Claims
-are assigned evidence levels in `docs/PROOF_LEDGER.md`; open logical gaps are
-tracked separately in `docs/PROOF_OBLIGATIONS.md`.  Numerical experiments are
-not promoted to universal conclusions.
+The primary interim product is the [working paper](paper/main.pdf),
+*The Pythagorean Three-Body Conjecture* (September 6, 2026; 31 pages).
+Its [LaTeX source](paper/main.tex) includes the principal technical arguments,
+the historical introduction, and the counterexample search. Richard Montgomery
+is the intended technical reader; the opening also welcomes a lay audience.
 
-The current manuscript is [The Pythagorean Three-Body Conjecture](paper/main.pdf)
-(September 6, 2026; 31 pages). For the editorial/publication state and restart
-instructions, read the [handoff prompt](docs/HANDOFF_MANUSCRIPT_2026-09-06.md)
-and [persistent research memory](docs/PERSISTENT_RESEARCH_MEMORY.md).
-The same PDF is linked from the live Oklo post “Add Astra.”
+This is the **single working directory and single repository** for the project:
+`pythagorean-burrau`, mapped to the private
+[oklo/pythagorean-burrau](https://github.com/oklo/pythagorean-burrau) repository.
+The former `burrau` assets and two agent worktrees have been consolidated or
+retired. Do not recreate separate agent-specific project directories.
 
-Current strongest result: the full rational and strong real conjectures remain
-open, but infinitely many open skinny Euclid-parameter intervals are proved
-nonperiodic. Consequently infinitely many distinct primitive Pythagorean
-triples satisfy the conjecture. More explicitly, the primitive family
-$(4n^2-1,4n,4n^2+1)$ contains a positive-lower-density set of proved
-nonperiodic members. See `docs/EXPLICIT_SKINNY_FAMILY.md` and
-`docs/STATUS.md`.
+## Start here
 
-At the singular triple-collision endpoint, the remaining finite-mass
-boundary layer has now been reduced analytically to one projective parameter
-in a universal planar restricted problem. An exact Hill barrier excludes a
-brake throughout the near-triple tube, and the planar limit has a strict
-shape Lyapunov function plus a factorized signed torque. These are structural
-reductions, not a resolution of the later re-expanded dynamics.
+- [Current status](docs/STATUS.md): what is established, numerical, and open.
+- [Research plan](docs/RESEARCH_PLAN.md): the two active lines of attack and
+  the deliverables that would justify further work.
+- [Exact problem](docs/CONJECTURE.md) and [proof obligations](docs/PROOF_OBLIGATIONS.md).
+- [Proof ledger](docs/PROOF_LEDGER.md): claims linked to their supporting records.
+- [Failed routes](docs/FAILED_ROUTES.md): mistakes and barriers not to rediscover.
+- [Project review](docs/PROJECT_REVIEW_2026-09-06.md) and
+  [handoff](docs/HANDOFF.md): consolidation findings and restart instructions.
 
-## Reproduce the exact checks
+No progress percentage measures distance to a proof. The paper's explicitly
+subjective 10% assessment concerns the *existence of a counterexample*, not
+research completion or a successful finite search.
 
-```bash
+## Working layout
+
+```text
+paper/      Working manuscript, figures, and earlier manuscript versions
+docs/       Current research guides and detailed proof/certificate notes
+src/        Exact reductions, numerical dynamics, and validated verifiers
+scripts/    Reproduction, bounded searches, and audits
+tests/      Algebra, dynamics, chart, and audit regressions
+data/       Attributed seeds, numerical records, and certificate outputs
+archive/    Superseded campaigns, legacy assets, and consolidation provenance
+```
+
+The [archive index](archive/README.md) explains what was retired and how to
+recover it. Archived reports and PASS logs do not override the current ledger.
+Keep certificate inputs and exact counterexamples to failed lemmas; discard
+regenerable caches, duplicate environments, and redundant copies.
+
+## Build and verify
+
+Python 3.13 and the pinned environment are specified by `pyproject.toml` and
+`uv.lock`. Tectonic builds the paper; the CAPD toolchain is only needed for
+explicitly requested interval replays.
+
+```sh
 uv sync --all-groups
-uv run pytest
-uv run python -m scripts.derive_exact_identities
-uv run python -m scripts.derive_taylor_jet
-uv run python -m scripts.derive_skinny_regularization
-uv run python -m scripts.derive_skinny_matching
-uv run python -m scripts.derive_restricted_scattering
-uv run python -m scripts.derive_finite_plunge
-uv run python -m scripts.probe_restricted_transversality --cutoffs 10 20 40
-uv run python -m scripts.probe_restricted_turn_map \
-  --resonances 2:0.3:0.5 3:0.2:0.3 7:0.12:0.15 \
-  --phase-span 30000 --max-step 0.04
+make check        # full Python tests and repository/certificate audits
+make paper        # rebuild the working PDF
+make help         # available targets and evidence limits
 ```
 
-The rigorous finite restricted-transversality and transverse-scattering
-certificates additionally use
-CAPD 6.1.0 pinned at commit
-`731079217a9254ea2948d742df2b170895effe7f`. After building CAPD with
-`-DCAPD_INTERVAL_TYPE=NATIVE`, run:
+The full Python suite does not rerun all CAPD integrations or prove every
+analytic estimate. The archived middle-cover auditor checks all 100 stored
+tiles and exact shared endpoints; it is not a new flow integration. Detailed
+replay commands remain in the proof notes and [paper guide](paper/README.md).
+CAPD is pinned to 6.1.0, commit
+`731079217a9254ea2948d742df2b170895effe7f`.
 
-```bash
-sh scripts/run_capd_restricted_transversality.sh \
-  /path/to/CAPD /path/to/CAPD/build-native
-bash scripts/run_capd_restricted_transverse_scattering.sh \
-  /path/to/CAPD /path/to/CAPD/build-native
-bash scripts/run_capd_planar_light_collision_shape.sh \
-  /path/to/CAPD /path/to/CAPD/build-native
-bash scripts/run_capd_planar_light_collision_newton.sh \
-  /path/to/CAPD /path/to/CAPD/build-native
-bash scripts/run_capd_planar_light_collision_newton.sh \
-  /path/to/CAPD /path/to/CAPD/build-native --second-root
-bash scripts/run_capd_planar_light_collision_newton.sh \
-  /path/to/CAPD /path/to/CAPD/build-native --second-escape
-bash scripts/run_capd_planar_light_collision_newton.sh \
-  /path/to/CAPD /path/to/CAPD/build-native --second-escape-wide
-bash scripts/run_capd_planar_light_collision_newton.sh \
-  /path/to/CAPD /path/to/CAPD/build-native --third-root
-bash scripts/run_capd_planar_light_collision_newton.sh \
-  /path/to/CAPD /path/to/CAPD/build-native --fourth-root
-bash scripts/run_capd_planar_light_collision_newton.sh \
-  /path/to/CAPD /path/to/CAPD/build-native --fourth-fifth-entry
-bash scripts/run_capd_planar_light_collision_newton.sh \
-  /path/to/CAPD /path/to/CAPD/build-native --fourth-fifth-outgoing
-bash scripts/run_capd_planar_light_collision_newton.sh \
-  /path/to/CAPD /path/to/CAPD/build-native \
-  --fourth-common-clock-escape-cover
-```
-
-Full derivation and trusted-computing-base details are in
-`docs/COMPUTER_ASSISTED_TRANSVERSALITY.md` and
-`docs/COMPUTER_ASSISTED_TRANSVERSE_SCATTERING.md`. The planar collision-shape
-wrapper validates only the finite stable-tail-to-LC propagation stage; its
-scope and the now-closed historical interval-Newton obligation are recorded in
-`docs/COMPUTER_ASSISTED_PLANAR_LIGHT_COLLISION_STAGE.md`. The correlated
-doubleton wrapper proves a unique transverse collision root in the planar
-limiting family and now validates its regularized continuation to the escape
-cone; see `docs/COMPUTER_ASSISTED_PLANAR_LIGHT_COLLISION_ROOT.md` and
-`docs/COMPUTER_ASSISTED_PLANAR_COLLISION_ESCAPE.md`.
-The same correlated verifier uses a second LC chart to certify a distinct
-transverse collision with the opposite primary; see
-`docs/COMPUTER_ASSISTED_PLANAR_SECOND_COLLISION_ROOT.md`.
-Its regularized outgoing branch has an exact third, positive-primary LC chart
-recorded in `docs/SECOND_COLLISION_OUTGOING.md`.  The corresponding interval
-collision-or-escape enclosure and finite-mass transfer are proved in
-`docs/COMPUTER_ASSISTED_PLANAR_SECOND_COLLISION_ESCAPE.md`.
-The 195-tile certificate covers the contiguous interval
-`[1.2640099161, 1.2640126461]`.
-Immediately below it, two further pinned interval-Newton certificates prove
-distinct, classically reached positive- and negative-primary collision roots;
-their parameter projections are separated by more than
-`1.2058e-11`.  See
-`docs/COMPUTER_ASSISTED_PLANAR_THIRD_FOURTH_COLLISION_ROOTS.md`.
-The fourth-root box is continued, with the classical collision alternative,
-to a uniform fifth positive-primary LC chart in
-`docs/COMPUTER_ASSISTED_PLANAR_FOURTH_TO_FIFTH_ENTRY.md`.
-Keeping one correlated doubleton through the nonlinear chart chain carries
-the full box through that close passage to a transverse outgoing fifth-LC
-section; see
-`docs/COMPUTER_ASSISTED_PLANAR_FOURTH_TO_FIFTH_OUTGOING.md`.  The exact
-quintic tail sharpening used there is proved in
-`docs/PLANAR_STABLE_QUINTIC_ENCLOSURE.md`.
-The overlapping fifth--sixth passages now have one exact polynomial elliptic
-regularization, derived in `docs/PLANAR_TWO_CENTRE_REGULARIZATION.md`.
-The fourth boundary is carried through that chart to the escape cone in
-`docs/COMPUTER_ASSISTED_PLANAR_FOURTH_COLLISION_PHASE.md`.  A fixed-clock
-mean-value construction then validates the adjacent 131-tile continuum
-`[1.264009099014, 1.264009099457]`; see
-`docs/COMPUTER_ASSISTED_PLANAR_FOURTH_COMMON_CLOCK_COVER.md`.
-The exact positive-light-mass reduction and the resulting persistence theorem
-for that collision boundary are in
-`docs/FINITE_MASS_PLANAR_COLLISION_PERSISTENCE.md`.  The differentiated
-two-mode inclination theorem and normalized finite-mass collision graph are
-in `docs/DIFFERENTIATED_JOINT_INCLINATION.md`.  Combining that graph with
-the exact skinny phase winding proves infinitely many exact real tied
-collision parameters; see `docs/REAL_COLLISION_SAMPLING.md`.
-The certified limiting collision has also been continued rigorously through
-its collision--ejection branch and the subsequent heavy-binary LC passage.
-It enters a strict escape cone.  A separate hierarchical-energy lemma absorbs
-all future positive-light-mass tidal work, proving a local finite-mass
-collision-or-escape cusp; see
-`docs/COMPUTER_ASSISTED_PLANAR_COLLISION_ESCAPE.md`.
+The [Oklo publication record](docs/OKLO_PUBLICATION_2026-09-06.md) identifies
+the reviewed PDF linked from “Add Astra,” its checksum, and the prior-version
+backup. Rebuilding locally does not authorize or perform a website deployment.

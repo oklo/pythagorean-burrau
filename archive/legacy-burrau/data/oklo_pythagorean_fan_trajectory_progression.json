@@ -1,0 +1,885 @@
+{
+  "status": "ORDINARY_NUMERICAL_EVIDENCE",
+  "output": "/Users/greglaughlin/Projects/burrau/plots/oklo_pythagorean_fan_trajectory_progression.png",
+  "end_time": 8.0,
+  "display_end_time": 4.0,
+  "uniform_physical_time_samples": 8001,
+  "display_physical_time_samples_per_body": 16001,
+  "display_speed_reference": 0.9559073381630985,
+  "uniform_annotation_font_size_points": 7.845899936129442,
+  "opacity_mapping": "alpha = 0.00250 + 0.0200/(1+(speed/reference)^1.70), evaluated independently for every labelled body at uniform physical times; adaptive integration nodes never enter the rendered cadence",
+  "trajectory_window": {
+    "xlim": [
+      -0.65,
+      0.88
+    ],
+    "ylim": [
+      -0.55,
+      0.55
+    ],
+    "scale_policy": "identical physical scale in every row; outgoing trajectories are clipped"
+  },
+  "radial_coordinate": "common affine scale in log10(c)",
+  "angular_coordinate": "the full 0-to-45-degree fundamental wedge and then each current theta interval are expanded to one display radian; the next child interval is shown at its exact fractional position and width",
+  "log10_c_scale": [
+    0,
+    8
+  ],
+  "rows": [
+    {
+      "u_lower": "0",
+      "u_upper": "4142135623730950488016887242096980785696718753769/10000000000000000000000000000000000000000000000000",
+      "delta_u": "4142135623730950488016887242096980785696718753769/10000000000000000000000000000000000000000000000000",
+      "child_u_lower": "29/100",
+      "child_u_upper": "3/10",
+      "child_delta_u": "1/100",
+      "physical_opening_radians": 0.7853981633974483,
+      "physical_opening_degrees": 45.0,
+      "display_opening_radians": 1.0,
+      "display_child_lower_angle": 0.21876262292366888,
+      "display_child_upper_angle": 0.2421886326219388,
+      "display_child_opening_radians": 0.023426009698269912,
+      "fan_count": 400,
+      "trajectory_count": 10,
+      "first_fan_hypotenuse": 5,
+      "last_fan_hypotenuse": 2521,
+      "handoff_hypotenuse": 107689,
+      "lowest_plotted_triple": [
+        3,
+        4,
+        5
+      ],
+      "highest_plotted_triple": [
+        57960,
+        90761,
+        107689
+      ],
+      "trajectories": [
+        {
+          "triple": [
+            3,
+            4,
+            5
+          ],
+          "u": "1/3",
+          "u_decimal": 0.3333333333333333,
+          "parity_divisor": 2,
+          "minimum_sampled_separation": 8.283155529447287e-05,
+          "integration_reached_t8": true,
+          "integration_terminal_time": 8.0,
+          "integration_message": "cached"
+        },
+        {
+          "triple": [
+            5,
+            12,
+            13
+          ],
+          "u": "1/5",
+          "u_decimal": 0.2,
+          "parity_divisor": 2,
+          "minimum_sampled_separation": 5.5624873385124584e-06,
+          "integration_reached_t8": true,
+          "integration_terminal_time": 8.0,
+          "integration_message": "cached"
+        },
+        {
+          "triple": [
+            8,
+            15,
+            17
+          ],
+          "u": "1/4",
+          "u_decimal": 0.25,
+          "parity_divisor": 1,
+          "minimum_sampled_separation": 6.669158048718293e-05,
+          "integration_reached_t8": true,
+          "integration_terminal_time": 8.0,
+          "integration_message": "cached"
+        },
+        {
+          "triple": [
+            7,
+            24,
+            25
+          ],
+          "u": "1/7",
+          "u_decimal": 0.14285714285714285,
+          "parity_divisor": 2,
+          "minimum_sampled_separation": 1.3709186483610972e-07,
+          "integration_reached_t8": true,
+          "integration_terminal_time": 8.0,
+          "integration_message": "cached"
+        },
+        {
+          "triple": [
+            20,
+            21,
+            29
+          ],
+          "u": "2/5",
+          "u_decimal": 0.4,
+          "parity_divisor": 1,
+          "minimum_sampled_separation": 0.02866535559387364,
+          "integration_reached_t8": true,
+          "integration_terminal_time": 8.0,
+          "integration_message": "cached"
+        },
+        {
+          "triple": [
+            12,
+            35,
+            37
+          ],
+          "u": "1/6",
+          "u_decimal": 0.16666666666666666,
+          "parity_divisor": 1,
+          "minimum_sampled_separation": 7.455803024363865e-07,
+          "integration_reached_t8": true,
+          "integration_terminal_time": 8.0,
+          "integration_message": "cached"
+        },
+        {
+          "triple": [
+            9,
+            40,
+            41
+          ],
+          "u": "1/9",
+          "u_decimal": 0.1111111111111111,
+          "parity_divisor": 2,
+          "minimum_sampled_separation": 8.692950484189592e-09,
+          "integration_reached_t8": true,
+          "integration_terminal_time": 8.0,
+          "integration_message": "cached"
+        },
+        {
+          "triple": [
+            28,
+            45,
+            53
+          ],
+          "u": "2/7",
+          "u_decimal": 0.2857142857142857,
+          "parity_divisor": 1,
+          "minimum_sampled_separation": 7.977830998350509e-05,
+          "integration_reached_t8": true,
+          "integration_terminal_time": 8.0,
+          "integration_message": "cached"
+        },
+        {
+          "triple": [
+            11,
+            60,
+            61
+          ],
+          "u": "1/11",
+          "u_decimal": 0.09090909090909091,
+          "parity_divisor": 2,
+          "minimum_sampled_separation": 1.4415451376456528e-09,
+          "integration_reached_t8": false,
+          "integration_terminal_time": 0.06037979128423016,
+          "integration_message": "Required step size is less than spacing between numbers."
+        },
+        {
+          "triple": [
+            16,
+            63,
+            65
+          ],
+          "u": "1/8",
+          "u_decimal": 0.125,
+          "parity_divisor": 1,
+          "minimum_sampled_separation": 3.1685951409320305e-08,
+          "integration_reached_t8": true,
+          "integration_terminal_time": 8.0,
+          "integration_message": "The solver successfully reached the end of the integration interval."
+        }
+      ]
+    },
+    {
+      "u_lower": "29/100",
+      "u_upper": "3/10",
+      "delta_u": "1/100",
+      "child_u_lower": "29/100",
+      "child_u_upper": "732905694150420948329997233861081796334298887848313/2500000000000000000000000000000000000000000000000000",
+      "child_delta_u": "7905694150420948329997233861081796334298887848313/2500000000000000000000000000000000000000000000000000",
+      "physical_opening_radians": 0.01839874499275196,
+      "physical_opening_degrees": 1.0541704364221436,
+      "display_opening_radians": 1.0,
+      "display_child_lower_angle": -0.5,
+      "display_child_upper_angle": -0.18318626691152295,
+      "display_child_opening_radians": 0.31681373308847705,
+      "fan_count": 400,
+      "trajectory_count": 10,
+      "first_fan_hypotenuse": 109,
+      "last_fan_hypotenuse": 107689,
+      "handoff_hypotenuse": 337933,
+      "lowest_plotted_triple": [
+        60,
+        91,
+        109
+      ],
+      "highest_plotted_triple": [
+        181908,
+        284795,
+        337933
+      ],
+      "trajectories": [
+        {
+          "triple": [
+            60,
+            91,
+            109
+          ],
+          "u": "3/10",
+          "u_decimal": 0.3,
+          "parity_divisor": 1,
+          "minimum_sampled_separation": 0.0005405279027112327,
+          "integration_reached_t8": true,
+          "integration_terminal_time": 8.0,
+          "integration_message": "cached"
+        },
+        {
+          "triple": [
+            85,
+            132,
+            157
+          ],
+          "u": "5/17",
+          "u_decimal": 0.29411764705882354,
+          "parity_divisor": 2,
+          "minimum_sampled_separation": 0.0003630895087334533,
+          "integration_reached_t8": true,
+          "integration_terminal_time": 8.0,
+          "integration_message": "cached"
+        },
+        {
+          "triple": [
+            279,
+            440,
+            521
+          ],
+          "u": "9/31",
+          "u_decimal": 0.2903225806451613,
+          "parity_divisor": 2,
+          "minimum_sampled_separation": 0.0003680556330879256,
+          "integration_reached_t8": true,
+          "integration_terminal_time": 8.0,
+          "integration_message": "cached"
+        },
+        {
+          "triple": [
+            336,
+            527,
+            625
+          ],
+          "u": "7/24",
+          "u_decimal": 0.2916666666666667,
+          "parity_divisor": 1,
+          "minimum_sampled_separation": 0.00010192039980803097,
+          "integration_reached_t8": true,
+          "integration_terminal_time": 8.0,
+          "integration_message": "cached"
+        },
+        {
+          "triple": [
+            407,
+            624,
+            745
+          ],
+          "u": "11/37",
+          "u_decimal": 0.2972972972972973,
+          "parity_divisor": 2,
+          "minimum_sampled_separation": 0.0003170189080432296,
+          "integration_reached_t8": true,
+          "integration_terminal_time": 8.0,
+          "integration_message": "cached"
+        },
+        {
+          "triple": [
+            432,
+            665,
+            793
+          ],
+          "u": "8/27",
+          "u_decimal": 0.2962962962962963,
+          "parity_divisor": 1,
+          "minimum_sampled_separation": 1.9022229753790068e-05,
+          "integration_reached_t8": true,
+          "integration_terminal_time": 8.0,
+          "integration_message": "cached"
+        },
+        {
+          "triple": [
+            969,
+            1480,
+            1769
+          ],
+          "u": "17/57",
+          "u_decimal": 0.2982456140350877,
+          "parity_divisor": 2,
+          "minimum_sampled_separation": 0.0005048257539304004,
+          "integration_reached_t8": true,
+          "integration_terminal_time": 8.0,
+          "integration_message": "cached"
+        },
+        {
+          "triple": [
+            984,
+            1537,
+            1825
+          ],
+          "u": "12/41",
+          "u_decimal": 0.2926829268292683,
+          "parity_divisor": 1,
+          "minimum_sampled_separation": 1.425347995377041e-05,
+          "integration_reached_t8": true,
+          "integration_terminal_time": 8.0,
+          "integration_message": "cached"
+        },
+        {
+          "triple": [
+            1144,
+            1767,
+            2105
+          ],
+          "u": "13/44",
+          "u_decimal": 0.29545454545454547,
+          "parity_divisor": 1,
+          "minimum_sampled_separation": 3.108663283545547e-05,
+          "integration_reached_t8": true,
+          "integration_terminal_time": 8.0,
+          "integration_message": "cached"
+        },
+        {
+          "triple": [
+            1235,
+            1932,
+            2293
+          ],
+          "u": "19/65",
+          "u_decimal": 0.2923076923076923,
+          "parity_divisor": 2,
+          "minimum_sampled_separation": 2.8702987398289272e-06,
+          "integration_reached_t8": true,
+          "integration_terminal_time": 8.0,
+          "integration_message": "cached"
+        }
+      ]
+    },
+    {
+      "u_lower": "29/100",
+      "u_upper": "732905694150420948329997233861081796334298887848313/2500000000000000000000000000000000000000000000000000",
+      "delta_u": "7905694150420948329997233861081796334298887848313/2500000000000000000000000000000000000000000000000000",
+      "child_u_lower": "29/100",
+      "child_u_upper": "291/1000",
+      "child_delta_u": "1/1000",
+      "physical_opening_radians": 0.005828975085296673,
+      "physical_opening_degrees": 0.33397567127440836,
+      "display_opening_radians": 1.0,
+      "display_child_lower_angle": -0.5,
+      "display_child_upper_angle": -0.18358856557809344,
+      "display_child_opening_radians": 0.31641143442190656,
+      "fan_count": 400,
+      "trajectory_count": 10,
+      "first_fan_hypotenuse": 521,
+      "last_fan_hypotenuse": 337933,
+      "handoff_hypotenuse": 1064225,
+      "lowest_plotted_triple": [
+        279,
+        440,
+        521
+      ],
+      "highest_plotted_triple": [
+        570207,
+        898576,
+        1064225
+      ],
+      "trajectories": [
+        {
+          "triple": [
+            279,
+            440,
+            521
+          ],
+          "u": "9/31",
+          "u_decimal": 0.2903225806451613,
+          "parity_divisor": 2,
+          "minimum_sampled_separation": 0.0003680556330879256,
+          "integration_reached_t8": true,
+          "integration_terminal_time": 8.0,
+          "integration_message": "cached"
+        },
+        {
+          "triple": [
+            336,
+            527,
+            625
+          ],
+          "u": "7/24",
+          "u_decimal": 0.2916666666666667,
+          "parity_divisor": 1,
+          "minimum_sampled_separation": 0.00010192039980803097,
+          "integration_reached_t8": true,
+          "integration_terminal_time": 8.0,
+          "integration_message": "cached"
+        },
+        {
+          "triple": [
+            984,
+            1537,
+            1825
+          ],
+          "u": "12/41",
+          "u_decimal": 0.2926829268292683,
+          "parity_divisor": 1,
+          "minimum_sampled_separation": 1.425347995377041e-05,
+          "integration_reached_t8": true,
+          "integration_terminal_time": 8.0,
+          "integration_message": "cached"
+        },
+        {
+          "triple": [
+            1235,
+            1932,
+            2293
+          ],
+          "u": "19/65",
+          "u_decimal": 0.2923076923076923,
+          "parity_divisor": 2,
+          "minimum_sampled_separation": 2.8702987398289272e-06,
+          "integration_reached_t8": true,
+          "integration_terminal_time": 8.0,
+          "integration_message": "cached"
+        },
+        {
+          "triple": [
+            1760,
+            2769,
+            3281
+          ],
+          "u": "16/55",
+          "u_decimal": 0.2909090909090909,
+          "parity_divisor": 1,
+          "minimum_sampled_separation": 0.00034676285907150737,
+          "integration_reached_t8": true,
+          "integration_terminal_time": 8.0,
+          "integration_message": "cached"
+        },
+        {
+          "triple": [
+            1817,
+            2856,
+            3385
+          ],
+          "u": "23/79",
+          "u_decimal": 0.2911392405063291,
+          "parity_divisor": 2,
+          "minimum_sampled_separation": 0.00026210702063582153,
+          "integration_reached_t8": true,
+          "integration_terminal_time": 8.0,
+          "integration_message": "cached"
+        },
+        {
+          "triple": [
+            1972,
+            3075,
+            3653
+          ],
+          "u": "17/58",
+          "u_decimal": 0.29310344827586204,
+          "parity_divisor": 1,
+          "minimum_sampled_separation": 0.00010865749962822462,
+          "integration_reached_t8": true,
+          "integration_terminal_time": 8.0,
+          "integration_message": "cached"
+        },
+        {
+          "triple": [
+            2871,
+            4480,
+            5321
+          ],
+          "u": "29/99",
+          "u_decimal": 0.29292929292929293,
+          "parity_divisor": 2,
+          "minimum_sampled_separation": 5.7846542052201954e-05,
+          "integration_reached_t8": true,
+          "integration_terminal_time": 8.0,
+          "integration_message": "cached"
+        },
+        {
+          "triple": [
+            3729,
+            5840,
+            6929
+          ],
+          "u": "33/113",
+          "u_decimal": 0.2920353982300885,
+          "parity_divisor": 2,
+          "minimum_sampled_separation": 2.9197760371144566e-05,
+          "integration_reached_t8": true,
+          "integration_terminal_time": 8.0,
+          "integration_message": "cached"
+        },
+        {
+          "triple": [
+            4300,
+            6771,
+            8021
+          ],
+          "u": "25/86",
+          "u_decimal": 0.29069767441860467,
+          "parity_divisor": 1,
+          "minimum_sampled_separation": 0.0003736356517294511,
+          "integration_reached_t8": true,
+          "integration_terminal_time": 8.0,
+          "integration_message": "cached"
+        }
+      ]
+    },
+    {
+      "u_lower": "29/100",
+      "u_upper": "291/1000",
+      "delta_u": "1/1000",
+      "child_u_lower": "29/100",
+      "child_u_upper": "7257905694150420948329997233861081796334298887848313/25000000000000000000000000000000000000000000000000000",
+      "child_delta_u": "7905694150420948329997233861081796334298887848313/25000000000000000000000000000000000000000000000000000",
+      "physical_opening_radians": 0.0018443543679482755,
+      "physical_opening_degrees": 0.10567372120995469,
+      "display_opening_radians": 1.0,
+      "display_child_lower_angle": -0.5,
+      "display_child_upper_angle": -0.18371431661145815,
+      "display_child_opening_radians": 0.31628568338854185,
+      "fan_count": 400,
+      "trajectory_count": 10,
+      "first_fan_hypotenuse": 521,
+      "last_fan_hypotenuse": 1064225,
+      "handoff_hypotenuse": 3324065,
+      "lowest_plotted_triple": [
+        279,
+        440,
+        521
+      ],
+      "highest_plotted_triple": [
+        1779016,
+        2807937,
+        3324065
+      ],
+      "trajectories": [
+        {
+          "triple": [
+            279,
+            440,
+            521
+          ],
+          "u": "9/31",
+          "u_decimal": 0.2903225806451613,
+          "parity_divisor": 2,
+          "minimum_sampled_separation": 0.0003680556330879256,
+          "integration_reached_t8": true,
+          "integration_terminal_time": 8.0,
+          "integration_message": "cached"
+        },
+        {
+          "triple": [
+            1760,
+            2769,
+            3281
+          ],
+          "u": "16/55",
+          "u_decimal": 0.2909090909090909,
+          "parity_divisor": 1,
+          "minimum_sampled_separation": 0.00034676285907150737,
+          "integration_reached_t8": true,
+          "integration_terminal_time": 8.0,
+          "integration_message": "cached"
+        },
+        {
+          "triple": [
+            4300,
+            6771,
+            8021
+          ],
+          "u": "25/86",
+          "u_decimal": 0.29069767441860467,
+          "parity_divisor": 1,
+          "minimum_sampled_separation": 0.0003736356517294511,
+          "integration_reached_t8": true,
+          "integration_terminal_time": 8.0,
+          "integration_message": "cached"
+        },
+        {
+          "triple": [
+            5781,
+            9100,
+            10781
+          ],
+          "u": "41/141",
+          "u_decimal": 0.2907801418439716,
+          "parity_divisor": 2,
+          "minimum_sampled_separation": 4.191941949861336e-05,
+          "integration_reached_t8": true,
+          "integration_terminal_time": 8.0,
+          "integration_message": "cached"
+        },
+        {
+          "triple": [
+            5800,
+            9159,
+            10841
+          ],
+          "u": "29/100",
+          "u_decimal": 0.29,
+          "parity_divisor": 1,
+          "minimum_sampled_separation": 0.00036360144454482984,
+          "integration_reached_t8": true,
+          "integration_terminal_time": 8.0,
+          "integration_message": "cached"
+        },
+        {
+          "triple": [
+            7956,
+            12533,
+            14845
+          ],
+          "u": "34/117",
+          "u_decimal": 0.2905982905982906,
+          "parity_divisor": 1,
+          "minimum_sampled_separation": 4.161281107449891e-05,
+          "integration_reached_t8": true,
+          "integration_terminal_time": 8.0,
+          "integration_message": "cached"
+        },
+        {
+          "triple": [
+            9956,
+            15717,
+            18605
+          ],
+          "u": "38/131",
+          "u_decimal": 0.2900763358778626,
+          "parity_divisor": 1,
+          "minimum_sampled_separation": 0.00036443466673099074,
+          "integration_reached_t8": true,
+          "integration_terminal_time": 8.0,
+          "integration_message": "cached"
+        },
+        {
+          "triple": [
+            11977,
+            18864,
+            22345
+          ],
+          "u": "59/203",
+          "u_decimal": 0.29064039408866993,
+          "parity_divisor": 2,
+          "minimum_sampled_separation": 0.0003727783870131168,
+          "integration_reached_t8": true,
+          "integration_terminal_time": 8.0,
+          "integration_message": "cached"
+        },
+        {
+          "triple": [
+            12728,
+            20055,
+            23753
+          ],
+          "u": "43/148",
+          "u_decimal": 0.2905405405405405,
+          "parity_divisor": 1,
+          "minimum_sampled_separation": 0.00037128861971691304,
+          "integration_reached_t8": true,
+          "integration_terminal_time": 8.0,
+          "integration_message": "cached"
+        },
+        {
+          "triple": [
+            15228,
+            24035,
+            28453
+          ],
+          "u": "47/162",
+          "u_decimal": 0.29012345679012347,
+          "parity_divisor": 1,
+          "minimum_sampled_separation": 0.00036512504629123506,
+          "integration_reached_t8": true,
+          "integration_terminal_time": 8.0,
+          "integration_message": "cached"
+        }
+      ]
+    },
+    {
+      "u_lower": "29/100",
+      "u_upper": "7257905694150420948329997233861081796334298887848313/25000000000000000000000000000000000000000000000000000",
+      "delta_u": "7905694150420948329997233861081796334298887848313/25000000000000000000000000000000000000000000000000000",
+      "child_u_lower": "29/100",
+      "child_u_upper": "2901/10000",
+      "child_delta_u": "1/10000",
+      "physical_opening_radians": 0.0005833428816771624,
+      "physical_opening_degrees": 0.03342308512910077,
+      "display_opening_radians": 1.0,
+      "display_child_lower_angle": -0.5,
+      "display_child_upper_angle": -0.1837539352891881,
+      "display_child_opening_radians": 0.3162460647108119,
+      "fan_count": 400,
+      "trajectory_count": 10,
+      "first_fan_hypotenuse": 10841,
+      "last_fan_hypotenuse": 3324065,
+      "handoff_hypotenuse": 10739041,
+      "lowest_plotted_triple": [
+        5800,
+        9159,
+        10841
+      ],
+      "highest_plotted_triple": [
+        5746241,
+        9072360,
+        10739041
+      ],
+      "trajectories": [
+        {
+          "triple": [
+            5800,
+            9159,
+            10841
+          ],
+          "u": "29/100",
+          "u_decimal": 0.29,
+          "parity_divisor": 1,
+          "minimum_sampled_separation": 0.00036360144454482984,
+          "integration_reached_t8": true,
+          "integration_terminal_time": 8.0,
+          "integration_message": "cached"
+        },
+        {
+          "triple": [
+            9956,
+            15717,
+            18605
+          ],
+          "u": "38/131",
+          "u_decimal": 0.2900763358778626,
+          "parity_divisor": 1,
+          "minimum_sampled_separation": 0.00036443466673099074,
+          "integration_reached_t8": true,
+          "integration_terminal_time": 8.0,
+          "integration_message": "cached"
+        },
+        {
+          "triple": [
+            15228,
+            24035,
+            28453
+          ],
+          "u": "47/162",
+          "u_decimal": 0.29012345679012347,
+          "parity_divisor": 1,
+          "minimum_sampled_separation": 0.00036512504629123506,
+          "integration_reached_t8": true,
+          "integration_terminal_time": 8.0,
+          "integration_message": "cached"
+        },
+        {
+          "triple": [
+            15477,
+            24436,
+            28925
+          ],
+          "u": "67/231",
+          "u_decimal": 0.29004329004329005,
+          "parity_divisor": 2,
+          "minimum_sampled_separation": 0.0003639512631877645,
+          "integration_reached_t8": true,
+          "integration_terminal_time": 8.0,
+          "integration_message": "cached"
+        },
+        {
+          "triple": [
+            21616,
+            34113,
+            40385
+          ],
+          "u": "56/193",
+          "u_decimal": 0.29015544041450775,
+          "parity_divisor": 1,
+          "minimum_sampled_separation": 0.00036559427580507215,
+          "integration_reached_t8": true,
+          "integration_terminal_time": 8.0,
+          "integration_message": "cached"
+        },
+        {
+          "triple": [
+            24905,
+            39312,
+            46537
+          ],
+          "u": "85/293",
+          "u_decimal": 0.2901023890784983,
+          "parity_divisor": 2,
+          "minimum_sampled_separation": 0.00036481616911932197,
+          "integration_reached_t8": true,
+          "integration_terminal_time": 8.0,
+          "integration_message": "cached"
+        },
+        {
+          "triple": [
+            29120,
+            45951,
+            54401
+          ],
+          "u": "65/224",
+          "u_decimal": 0.29017857142857145,
+          "parity_divisor": 1,
+          "minimum_sampled_separation": 0.000365934051500722,
+          "integration_reached_t8": true,
+          "integration_terminal_time": 8.0,
+          "integration_message": "cached"
+        },
+        {
+          "triple": [
+            36565,
+            57708,
+            68317
+          ],
+          "u": "103/355",
+          "u_decimal": 0.29014084507042254,
+          "parity_divisor": 2,
+          "minimum_sampled_separation": 0.0003653799795931246,
+          "integration_reached_t8": true,
+          "integration_terminal_time": 8.0,
+          "integration_message": "cached"
+        },
+        {
+          "triple": [
+            37740,
+            59549,
+            70501
+          ],
+          "u": "74/255",
+          "u_decimal": 0.2901960784313726,
+          "parity_divisor": 1,
+          "minimum_sampled_separation": 0.00036619135713124827,
+          "integration_reached_t8": true,
+          "integration_terminal_time": 8.0,
+          "integration_message": "cached"
+        },
+        {
+          "triple": [
+            47476,
+            74907,
+            88685
+          ],
+          "u": "83/286",
+          "u_decimal": 0.2902097902097902,
+          "parity_divisor": 1,
+          "minimum_sampled_separation": 0.0003663930094841611,
+          "integration_reached_t8": true,
+          "integration_terminal_time": 8.0,
+          "integration_message": "cached"
+        }
+      ]
+    }
+  ]
+}

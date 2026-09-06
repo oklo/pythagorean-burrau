@@ -1,0 +1,87 @@
+{
+  "number": 5,
+  "lambda_reached": 1.0,
+  "parameters": [
+    0.28881431272932573,
+    0.42518367740968593,
+    1.5440762499030647,
+    0.4747426187348482,
+    0.896107794576002
+  ],
+  "final_residual": [
+    1.8174737725846574e-07,
+    1.4160822087210863e-07,
+    -3.631272894925144e-07,
+    -4.101718964477641e-13,
+    -1.337041588556076e-12
+  ],
+  "final_residual_inf": 3.631272894925144e-07,
+  "history": [
+    {
+      "lambda": 0.0,
+      "step": 0.0,
+      "accepted": true,
+      "root_success": true,
+      "residual_inf": 2.53286380389375e-07
+    },
+    {
+      "lambda": 0.1,
+      "step": 0.1,
+      "accepted": true,
+      "root_success": true,
+      "residual_inf": 1.6871809594253635e-07
+    },
+    {
+      "lambda": 0.23500000000000001,
+      "step": 0.135,
+      "accepted": true,
+      "root_success": true,
+      "residual_inf": 1.0765441437964696e-07
+    },
+    {
+      "lambda": 0.385,
+      "step": 0.15,
+      "accepted": true,
+      "root_success": true,
+      "residual_inf": 1.543883382917164e-07
+    },
+    {
+      "lambda": 0.535,
+      "step": 0.15,
+      "accepted": true,
+      "root_success": true,
+      "residual_inf": 1.392910333371362e-07
+    },
+    {
+      "lambda": 0.685,
+      "step": 0.15,
+      "accepted": true,
+      "root_success": true,
+      "residual_inf": 2.465036253910154e-07
+    },
+    {
+      "lambda": 0.8350000000000001,
+      "step": 0.15,
+      "accepted": true,
+      "root_success": true,
+      "residual_inf": 2.8887992865730178e-08
+    },
+    {
+      "lambda": 0.9850000000000001,
+      "step": 0.15,
+      "accepted": true,
+      "root_success": true,
+      "residual_inf": 4.888288917733586e-08
+    },
+    {
+      "lambda": 1.0,
+      "step": 0.15,
+      "accepted": true,
+      "root_success": true,
+      "residual_inf": 3.631272894925144e-07
+    }
+  ],
+  "mass_pythagorean_defect": 0.028389733543087603,
+  "minimum_sampled_separation": 0.0005609774151577564,
+  "maximum_relative_energy_error": 6.012982445380557e-08
+}

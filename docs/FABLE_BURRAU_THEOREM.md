@@ -1,84 +1,67 @@
-# Nonperiodicity of the 3:4:5 Pythagorean Burrau problem
+# Classical 3–4–5 point: recovered certificate, audit pending
 
-**Status: PENDING VALIDATION — this document becomes a theorem record only
-when the multiprecision certificate run recorded below has completed with
-final marker `PASS_BURRAU_EVENT`.  Until then every claim here is
-conditional on that run.**
+Reviewed September 6, 2026. **COMPUTER-ASSISTED THEOREM CANDIDATE**, not a
+new theorem established by this consolidation. There is no run currently
+in progress. The old pending direct-event draft is retained in
+`../archive/history/guides/FABLE_BURRAU_THEOREM.md`.
 
-## Statement
+## What was recovered
 
-**Theorem (conditional on the certificate).**  Let $u=1/3$, i.e. the
-normalized Burrau free-fall problem with masses $(4/5,3/5,1)$ started at
-rest from the tied right triangle of `CONJECTURE.md` — equivalently, after
-the exact mass--length scaling, the classical Burrau $3{:}4{:}5$ problem
-with each mass equal to its opposite side length.  Then the maximal
-classical collision-free solution has no positive time at which all three
-labelled velocities vanish.  Consequently this solution is not a labelled
-periodic orbit, and the Pythagorean--Burrau conjecture holds for the
-primitive triple $\{3,4,5\}$ (in both leg orderings, by the exact
-leg-swap symmetry $u\mapsto(1-u)/(1+u)$ identifying $u=1/3$ with
-$u=1/2$).
+The retired global worktree contains a completed LC run for exact `u=1/3`,
+equivalent by leg exchange to `u=1/2` and the classical 3–4–5 problem.
+Its full history is preserved at tag `archive/fable-global-2026-09-06`
+(commit `b306392598a7cdcb75c0a02bae95a1878ae0595c`). Selected records are
+available without checking out that tag:
 
-## Proof structure
+- [Original claim and settings](../archive/branch-snapshots/global/docs/FABLE_BURRAU_THEOREM.md).
+- [Completed log](../archive/branch-snapshots/global/data/fable/certificate_burrau_1_3.log).
+- [Contemporaneous LC source](../archive/branch-snapshots/global/src/fable/verification/burrau_lc_certificate_capd.cpp)
+  and [launcher](../archive/branch-snapshots/global/scripts/fable_run_capd_burrau_lc.sh).
 
-1. **Reduction** (`FABLE_EVENT_REDUCTION.md`, PROVED ANALYTICALLY).  A
-   second labelled brake at a collision-free $\tau>0$ forces
-   $\dot I(\tau)=0$, $K(\tau)=0$, and $\mathcal B(\tau)=0$
-   simultaneously; moreover no classical brake can occur after a time at
-   which the terminal binary--escaper certificate of
-   `ESCAPE_CRITERIA.md` holds.
+The log ends with `PASS_BURRAU_LC`: 5,992 steps, 167 event steps, reported
+minimum event kinetic margin `0.015393650608031001`, and terminal escape
+margin `0.90661749434155592` at physical time `12.132142197026601`.
+These are reported outputs, not independently re-established bounds here.
+The branch described 640-bit arithmetic, order 150, and tolerance `1e-150`.
 
-2. **Initial window** (Theorem C initial phase).  Interval integration
-   proves $U<2U_0$ on every accepted-step enclosure until the first step
-   ending after $t=1/4$; by $\ddot I=2U-4U_0$ and $\dot I(0)=0$ this
-   yields $\dot I<0$ on the whole phase, so it contains no brake.
+## Why the PASS is not enough
 
-3. **Covering** (computer-assisted).  From the end of the initial phase
-   to the terminal time, every accepted-step solution enclosure satisfies
-   at least one of: $0\notin\dot I$, $\inf K>0$, or some Hopf-residual
-   component excludes $0$.  Each condition excludes a brake on that step
-   (trivial direction of the reduction).  The integration itself proves
-   the solution exists and is collision-free on the covered range (the
-   vector field's interval evaluation would fail otherwise, and the
-   verifier's chart expressions require positive separations).
+The main verifier has additional chart machinery and explicit checks for
+the damped graph overwrites. The [construction audit](FABLE_LC_COVERING_DESIGN.md)
+identified a soundness issue: a nominal target duration is not necessarily
+a rigorous lower integration duration when interval time bounds overlap
+the target. The implemented gate uses the actual elapsed lower bound.
+The recovered branch source does not include that gate.
 
-4. **Terminal certificate** (computer-assisted instance of the checkpoint
-   theorem).  At the terminal step the state box satisfies the strict
-   inequalities of the binary--escaper theorem with binary $\{3,1\}$
-   (masses $1$ and $4/5$), escaper body 2 (mass $3/5$), $\eta=4$.  Its
-   conclusion excludes every later classical brake on both dichotomy
-   branches (escape, or a later inner binary collision, which also ends
-   the classical solution).
+This difference does not prove the old orbit claim false, or even show that
+this particular run violates the sufficient inequality. It does prevent
+using the historical PASS alone to establish the missing audit condition.
+The existing post-repair record covers only a finite four-cycle smoke
+test through time approximately `3.167`, not the entire escape certificate.
 
-## Certificate provenance
+## Promotion gate
 
-- Verifier: `src/fable/verification/burrau_event_certificate_capd.cpp`
-  compiled with `-DFABLE_MP` against pinned CAPD 6.1.0
-  (`731079217a9254ea2948d742df2b170895effe7f`) built with
-  `-DCAPD_INTERVAL_TYPE=NATIVE -DCAPD_ENABLE_MULTIPRECISION=ON`;
-  MPFR/GMP from the host toolchain.
-- Arithmetic: MPFR intervals at 768 bits; Taylor order 60; step-control
-  tolerances $10^{-80}$; `MpC0TripletonSet` representation.
-- Initial data: exact rationals $X=(1,0)$, $Y=(-12/175,12/25)$, zero
-  velocities; masses $(4/5,3/5,1)$; all field coefficients exact
-  rationals.
-- Replay:
-  ```bash
-  FABLE_MP=1 CAPD_VERBOSE=1 bash scripts/fable_run_capd_burrau_event.sh \
-    /private/tmp/fable-capd /private/tmp/fable-capd/build-mp 768 1e-80 60
-  ```
-- Run record: to be completed with the final `PASS_BURRAU_EVENT` output
-  (event-step count, minimal event kinetic lower bound, final box, and
-  escape margin) when the run finishes.
+1. Identify the exact source, parameters, arithmetic mode, CAPD pin, and
+   chart variants used by the recovered run. Compare the full dependency
+   chain with the main verifier, not just its PASS marker.
+2. Audit every chart change: exact algebra, damping inflation and actual
+   duration, positive physical clock, positive pair separations, and no
+   gap in the swept flow cover. Binary collision is not silently continued.
+3. Replay the entire point certificate with the audited source, through the
+   terminal escape-or-collision criterion. Save the command, source hashes,
+   dependency version, output, and explicit theorem domain.
+4. Only then update the main ledger and paper together.
 
-## Scope notes
+If these obligations are discharged, the [event reduction](FABLE_EVENT_REDUCTION.md)
+and [terminal theorem](ESCAPE_CRITERIA.md) yield no second classical brake
+and hence nonperiodicity for this exact primitive triple. This remains a
+single point result, not a proof on its neighborhood or the full family.
 
-- This is a single-parameter (point) certificate.  It says nothing about
-  neighboring real parameters; parameter transfer at late times is
-  obstructed by exponential sensitivity (see `FABLE_TO_MAIN.md`).
-- The historical numerical literature (Szebehely--Peters 1967; Yoshida's
-  escape-criterion application) asserted escape for this orbit on ordinary
-  numerical grounds; the present certificate is, to our knowledge, the
-  first rigorous nonperiodicity proof for the exact Burrau initial
-  condition, and the first proved instance of the Pythagorean--Burrau
-  conjecture at a named primitive triple.
+## Other recovered point log
+
+The same tag contains a `PASS_TIED_EVENT p=5 q=14` record for the primitive
+triple `(171,140,221)`, now at
+`../archive/branch-snapshots/global/data/fable/certificate_5_14.log`.
+This is a direct-event run, not the LC run discussed above. Its provenance
+and source correspondence have not been audited in this consolidation;
+it is preserved as a candidate, not added to the five accepted point records.

@@ -1,0 +1,91 @@
+{
+  "number": 4,
+  "lambda_reached": 0.00625,
+  "parameters": [
+    0.30597337309336753,
+    0.2478804250106056,
+    1.1900448904095533,
+    0.601805143743158,
+    0.7997263888385385
+  ],
+  "final_residual": [
+    1.9971291236354602e-07,
+    1.7813726301756707e-07,
+    -3.0159177528615825e-07,
+    -0.2870178551621163,
+    0.04350417467237877
+  ],
+  "final_residual_inf": 0.2870178551621163,
+  "history": [
+    {
+      "lambda": 0.0,
+      "step": 0.0,
+      "accepted": true,
+      "root_success": true,
+      "residual_inf": 2.1480578233042616e-08
+    },
+    {
+      "lambda": 0.1,
+      "step": 0.1,
+      "accepted": false,
+      "root_success": false,
+      "residual_inf": 0.028493529776021716
+    },
+    {
+      "lambda": 0.05,
+      "step": 0.05,
+      "accepted": false,
+      "root_success": false,
+      "residual_inf": 0.014246764888010858
+    },
+    {
+      "lambda": 0.025,
+      "step": 0.025,
+      "accepted": false,
+      "root_success": false,
+      "residual_inf": 0.007123382444005429
+    },
+    {
+      "lambda": 0.0125,
+      "step": 0.0125,
+      "accepted": false,
+      "root_success": false,
+      "residual_inf": 0.0035616912220027145
+    },
+    {
+      "lambda": 0.00625,
+      "step": 0.00625,
+      "accepted": true,
+      "root_success": true,
+      "residual_inf": 3.0159177528615825e-07
+    },
+    {
+      "lambda": 0.014687500000000001,
+      "step": 0.0084375,
+      "accepted": false,
+      "root_success": false,
+      "residual_inf": 0.002436944053263228
+    },
+    {
+      "lambda": 0.01046875,
+      "step": 0.00421875,
+      "accepted": false,
+      "root_success": false,
+      "residual_inf": 0.0012184720266316018
+    },
+    {
+      "lambda": 0.008359375,
+      "step": 0.002109375,
+      "accepted": false,
+      "root_success": false,
+      "residual_inf": 0.0006092360133157886
+    },
+    {
+      "lambda": 0.0073046875,
+      "step": 0.0010546875,
+      "accepted": false,
+      "root_success": false,
+      "residual_inf": 0.00030461800665788235
+    }
+  ]
+}

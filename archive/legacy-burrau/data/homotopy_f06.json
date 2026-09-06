@@ -1,0 +1,77 @@
+{
+  "number": 6,
+  "lambda_reached": 0.0,
+  "parameters": [
+    0.32264842817818007,
+    0.1813774027860902,
+    0.9811885462572578,
+    0.5999999997663386,
+    0.8000000001377643
+  ],
+  "final_residual": [
+    1.0774823341982764e-06,
+    1.8920179245867203e-06,
+    -1.0758716736328526e-06,
+    -0.3463243362329642,
+    0.04240619560479908
+  ],
+  "final_residual_inf": 0.3463243362329642,
+  "history": [
+    {
+      "lambda": 0.0,
+      "step": 0.0,
+      "accepted": true,
+      "root_success": true,
+      "residual_inf": 1.8920179245867203e-06
+    },
+    {
+      "lambda": 0.1,
+      "step": 0.1,
+      "accepted": false,
+      "root_success": false,
+      "residual_inf": 0.03463243383359171
+    },
+    {
+      "lambda": 0.05,
+      "step": 0.05,
+      "accepted": false,
+      "root_success": false,
+      "residual_inf": 0.017316217033626565
+    },
+    {
+      "lambda": 0.025,
+      "step": 0.025,
+      "accepted": false,
+      "root_success": false,
+      "residual_inf": 0.008658108633643994
+    },
+    {
+      "lambda": 0.0125,
+      "step": 0.0125,
+      "accepted": false,
+      "root_success": false,
+      "residual_inf": 0.004329054433652709
+    },
+    {
+      "lambda": 0.00625,
+      "step": 0.00625,
+      "accepted": false,
+      "root_success": false,
+      "residual_inf": 0.0021645273336570662
+    },
+    {
+      "lambda": 0.003125,
+      "step": 0.003125,
+      "accepted": false,
+      "root_success": false,
+      "residual_inf": 0.001082263783659245
+    },
+    {
+      "lambda": 0.0015625,
+      "step": 0.0015625,
+      "accepted": false,
+      "root_success": false,
+      "residual_inf": 0.0005411320086603342
+    }
+  ]
+}

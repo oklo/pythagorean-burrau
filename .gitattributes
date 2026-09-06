@@ -1,0 +1,4 @@
+# Immutable, hash-audited originals retain their historical line endings and
+# whitespace. Do not normalize a certificate log or imported CSV for style.
+archive/legacy-burrau/** -text -whitespace
+archive/branch-snapshots/** -text -whitespace
