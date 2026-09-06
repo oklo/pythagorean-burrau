@@ -28,7 +28,8 @@ COLORS = ["#c64c40", "#42855b", "#345f9c"]
 
 
 def geometry():
-    fig, (ax, arc) = plt.subplots(1, 2, figsize=(9, 3.5), layout="constrained")
+    fig, (ax, arc) = plt.subplots(1, 2, figsize=(9, 3.5))
+    fig.subplots_adjust(left=0.02, right=0.98, bottom=0.16, top=0.85, wspace=0.24)
     pts = np.array([[-0.5, 0], [0.5, 0], [-0.14, 0.48]])
     ax.plot(*pts[[0, 1, 2, 0]].T, color="#8c8c8c", lw=1.5)
     for p, color in zip(pts, COLORS, strict=False):
@@ -43,9 +44,10 @@ def geometry():
     e2 = (pts[1] - pts[2]) / 0.8
     corner = np.array([pts[2] + 0.055 * e1, pts[2] + 0.055 * (e1 + e2), pts[2] + 0.055 * e2])
     ax.plot(*corner.T, color="#555555", lw=1)
-    ax.set(xlim=(-0.77, 0.77), ylim=(-0.16, 0.69), aspect="equal")
+    # Top anchors keep the titles aligned despite the different data aspect ratios.
+    ax.set(xlim=(-0.77, 0.77), ylim=(-0.16, 0.69), aspect="equal", anchor="N")
     ax.axis("off")
-    ax.set_title("A. Release all three bodies from rest", loc="left", fontsize=11)
+    ax.set_title("A. Release all three bodies from rest", loc="left", fontsize=11, pad=12)
     th = np.linspace(0, np.pi / 2, 300)
     arc.plot(np.cos(th), np.sin(th), color="#b8bdc3", lw=2)
     th = np.linspace(0, np.pi / 4, 200)
@@ -55,23 +57,44 @@ def geometry():
     arc.annotate(
         r"$u=1/3$",
         (0.8, 0.6),
-        xytext=(0.92, 0.68),
-        arrowprops={"arrowstyle": "-", "color": "#777777"},
+        xytext=(0.92, 0.66),
+        arrowprops={
+            "arrowstyle": "-|>",
+            "color": "#777777",
+            "lw": 0.8,
+            "mutation_scale": 9,
+            "shrinkA": 3,
+            "shrinkB": 4,
+        },
         fontsize=9,
     )
     arc.annotate(
         r"$u=\sqrt{2}-1$",
         (2**-0.5, 2**-0.5),
-        xytext=(0.27, 0.88),
-        arrowprops={"arrowstyle": "-", "color": "#777777"},
+        xytext=(0.08, 0.73),
+        ha="left",
+        va="center",
+        arrowprops={
+            "arrowstyle": "-|>",
+            "color": "#777777",
+            "lw": 0.8,
+            "mutation_scale": 9,
+            "shrinkA": 4,
+            "shrinkB": 4,
+        },
         fontsize=9,
     )
     arc.text(0.95, 0.075, r"$u\to0$", ha="right", fontsize=9)
     arc.text(0.08, 0.37, "Every rational $u$\ngives an integer triple.", fontsize=9)
     arc.set(
-        xlim=(0, 1.16), ylim=(-0.035, 1.05), aspect="equal", xlabel=r"$A=m_1$", ylabel=r"$B=m_2$"
+        xlim=(0, 1.16),
+        ylim=(-0.035, 1.05),
+        aspect="equal",
+        anchor="N",
+        xlabel=r"$A=m_1$",
+        ylabel=r"$B=m_2$",
     )
-    arc.set_title("B. One parameter ties masses to shape", loc="left", fontsize=11)
+    arc.set_title("B. One parameter ties masses to shape", loc="left", fontsize=11, pad=12)
     fig.savefig(PAPER / "figures/initial-geometry.pdf")
     plt.close(fig)
 

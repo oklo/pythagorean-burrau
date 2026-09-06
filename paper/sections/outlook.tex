@@ -1,4 +1,4 @@
-\section{What remains to prove}\label{sec:outlook}
+\section{The remaining global problem}\label{sec:outlook}
 
 The stronger real-parameter conjecture would follow by excluding every
 positive zero of the brake residual for all $0<u\le\sqrt2-1$. On a
@@ -13,41 +13,41 @@ possible unbounded encounter counts. At a Jacobi degeneracy the Hopf
 residual replaces the complex chart. None of these obligations follows
 from counting equations and parameters.
 
-The partial results address different parts of that task:
-\begin{itemize}
-\item The middle-interval certificate covers every time up to a terminal
-escape condition, but only on its stated narrow parameter interval.
-\item The near-isosceles argument proves a whole punctured neighborhood,
-but currently gives no explicit cutoff.
-\item The thin-triangle argument gives open escape windows and an explicit
-positive-density subfamily, while leaving returning phases to classify.
-\item The torque-history identities reduce part of the first-arc problem
-to scalar quantities; a global reachable bound, including the singular
-terminal behavior, is still missing.
-\end{itemize}
+The all-time results cover a narrow middle interval, an existential
+near-isosceles neighborhood, and infinitely many thin-triangle windows.
+First-turn exclusion and the planar collision neighborhoods further
+restrict the returning region, but do not control every later encounter.
+The torque equations isolate a possible analytic route through a bound
+on histories reached from the initial brake; the singular terminal
+estimate remains open. In the Jacobi--Maupertuis formulation, a second
+brake would be a geodesic chord between points of the degenerate boundary
+of $2(U-U_0)ds_m^2$, where $ds_m^2=\sum_i m_i|dq_i|^2$ in the
+center-of-mass frame. No convexity or variational obstruction for the
+tied curve is yet known.
 If a real periodic point is found instead, the integer conjecture requires
 an additional exact arithmetic step. A real zero need not have rational
 $u$. Conversely, a countable dense set of rational parameters cannot be
 dismissed by a generic dimension count, a measure-zero claim, or a finite
-scan. The next decisive advance must either supply a global exclusion
-mechanism or isolate a genuinely Pythagorean periodic orbit with the
-necessary exact and collision-free certification.
+scan. The unresolved arithmetic question concerns exact intersections
+with the rational parameter curve.
 
 \appendix
 \section{Proof dependencies and reproducibility}\label{sec:reproduction}
 
-The expanded analytic calculations and certificate arguments are in the
-technical companion, \path{technical-details.pdf}. This research draft
-includes computer-assisted results. The repository notes below identify
-verifier sources, assumptions, pinned dependencies, and archived outputs.
-The September 2026 manuscript review checks the logical assembly and runs
-selected exact regressions; it is not a fresh independent replay of every
-interval certificate. Ordinary shooting data are not promoted to interval
-theorems by appearing in the same document.
+This manuscript incorporates the principal reductions, endpoint arguments,
+and local collision results from the earlier technical companion.
+The repository notes below supply complete polynomial certificates,
+verifier sources, assumptions, and archived outputs. The CAPD certificates
+use version 6.1.0 at commit
+\texttt{731079217a9254ea2948d742df2b170895effe7f}, with outward-rounded
+binary64 or MPFR arithmetic as specified in each record. The manuscript
+review checks the proof assembly and exact algebra and audits the archived
+middle-interval cover; it does not independently rerun every interval
+integration. The former companion remains an expanded research archive.
 
 \begin{center}
 \small
-\begin{tabularx}{\linewidth}{@{}p{.27\linewidth}X@{}}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{.27\linewidth}>{\raggedright\arraybackslash}X@{}}
 \toprule
 Result or ingredient & Repository proof/certificate entry point\\
 \midrule
@@ -64,20 +64,36 @@ Near-equal-leg interval &
 \path{docs/ENDPOINTS.md}\\[3pt]
 First thin-triangle miss & \path{docs/SKINNY_REGULARIZATION.md}\\[3pt]
 Incoming-state matching & \path{docs/INCOMING_TAIL.md}\\[3pt]
+Parabolic transversality and scattering &
+\path{docs/COMPUTER_ASSISTED_TRANSVERSALITY.md};
+\path{docs/COMPUTER_ASSISTED_TRANSVERSE_SCATTERING.md}\\[3pt]
 Explicit positive-density family & \path{docs/EXPLICIT_SKINNY_FAMILY.md}\\[3pt]
+First turns and returning trajectories &
+\path{docs/OUTGOING_ANGULAR_MOMENTUM.md};
+\path{docs/SECOND_ENCOUNTER_MAP.md}\\[3pt]
+Triple endpoint and joint scaling &
+\path{docs/TRIPLE_ENDPOINT_SELECTION.md};
+\path{docs/FINITE_B_TRIPLE_JOINT_BLOWUP.md}\\[3pt]
+Planar collision certificates &
+\path{docs/COMPUTER_ASSISTED_PLANAR_LIGHT_COLLISION_ROOT.md};
+\path{docs/COMPUTER_ASSISTED_PLANAR_THIRD_FOURTH_COLLISION_ROOTS.md}\\[3pt]
+Finite-mass transfer and real collisions &
+\path{docs/DIFFERENTIATED_JOINT_INCLINATION.md};
+\path{docs/REAL_COLLISION_SAMPLING.md}\\[3pt]
 Torque identities and correction & \path{docs/EXACT_REDUCTIONS.md};
 \path{docs/FORCED_LAG_ENDPOINT_CORRECTION.md}\\[3pt]
 Counterexample search &
 \path{docs/PERIODIC_CONSTRUCTION_REPORT_2026-09-05.md}\\[3pt]
-Review and historical sources &
-\path{docs/MANUSCRIPT_REVIEW_2026-09-05.md};
-\path{docs/PYTHAGOREAN_HISTORY_SOURCES.md}\\
+Historical sources & \path{docs/PYTHAGOREAN_HISTORY_SOURCES.md}\\
 \bottomrule
 \end{tabularx}
 \end{center}
 
 The original fan image is reproduced without changing its pixels; its
 metadata are archived in \path{paper/figures/fan-provenance.json}.
-The script \path{paper/make_figures.py} generates the two new vector
-figures from the exact parameterization and the campaign data. Build instructions and the preserved pre-review
-source and PDF are described in \texttt{paper/README.md}.
+The script \path{paper/make_figures.py} generates the geometry figure and
+the archived defect plot from the exact parameterization and campaign data.
+The $F_{30}$ trajectory image is also reproduced unchanged; its separate
+plotting audit is \path{paper/figures/f30-plot-audit.txt}.
+Build instructions, figure provenance, and the preserved pre-review source
+and PDF are described in \texttt{paper/README.md}.

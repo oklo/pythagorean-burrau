@@ -10,6 +10,12 @@ are assigned evidence levels in `docs/PROOF_LEDGER.md`; open logical gaps are
 tracked separately in `docs/PROOF_OBLIGATIONS.md`.  Numerical experiments are
 not promoted to universal conclusions.
 
+The current manuscript is [The Pythagorean Three-Body Conjecture](paper/main.pdf)
+(September 6, 2026; 31 pages). For the editorial/publication state and restart
+instructions, read the [handoff prompt](docs/HANDOFF_MANUSCRIPT_2026-09-06.md)
+and [persistent research memory](docs/PERSISTENT_RESEARCH_MEMORY.md).
+The same PDF is linked from the live Oklo post “Add Astra.”
+
 Current strongest result: the full rational and strong real conjectures remain
 open, but infinitely many open skinny Euclid-parameter intervals are proved
 nonperiodic. Consequently infinitely many distinct primitive Pythagorean

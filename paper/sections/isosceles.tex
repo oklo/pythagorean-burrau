@@ -20,16 +20,9 @@ x(t)\leq x_0-\frac{m}{8x_0^2}t^2.
 Thus collision occurs no later than $\sqrt{8x_0^3/m}=2^{1/4}$.
 \end{proof}
 
-The endpoint is irrational, so this theorem does not settle an integer case.
-Its perturbation is singular because the collision unfolds into a close
-ordinary encounter when reflection symmetry is broken.
-
-
-The endpoint itself has an exact collision and irrational parameter.
-Neither fact settles nearby rational triangles. Continuity in ordinary
-coordinates cannot carry a solution through a collision. The appropriate
-comparison uses the regularized endpoint trajectory while keeping the
-nearby physical trajectories classical.
+To study nearby rational parameters, we use the Levi--Civita continuation
+of the symmetric orbit as a comparison solution. A collision of a nearby
+physical trajectory still terminates its classical motion.
 
 Put $v=u/(\sqrt2-1)$, $(m,n)=(A,B)$, $g=q_2-q_1=w^2$, and
 $G=q_3-C_{12}$. With $dt=|w|^2d\sigma$, write $z=w_\sigma$, $P=\dot G$,
@@ -37,14 +30,52 @@ and $e=|\dot g|^2/2-(m+n)/|g|$. The selected pair collision is $w=0$;
 this is regular in the comparison equations, but it still terminates the
 classical trajectory at $v=1$.
 
-\subsection{What makes the punctured-neighborhood argument work}
+For $d_{31}=G+ng/(m+n)$, $d_{23}=G-mg/(m+n)$, and
+$F=d_{23}/|d_{23}|^3-d_{31}/|d_{31}|^3$, the regular equations are
+\[
+\begin{aligned}
+ w_\sigma&=z,&
+ z_\sigma&={e\over2}w+{|w|^2\bar w\over2}F,&
+ e_\sigma&=2\operatorname{Re}(wz\bar F),\\
+ G_\sigma&=|w|^2P,&
+ P_\sigma&=-|w|^2{m+n+1\over m+n}
+ \left({m d_{31}\over|d_{31}|^3}+{n d_{23}\over|d_{23}|^3}\right).
+\end{aligned}
+\]
+They preserve $2|z|^2-(m+n)-e|w|^2=0$ and are analytic at $w=0$
+when the other two separations are positive. At $v=1$ the launch is
+$(w,z,e,G,P)=(1,0,-\sqrt2,i/2,0)$; its only nonzero parameter
+derivatives are
+$m_v=-1/2$, $n_v=1/2$, and $G_{x,v}=1/(2\sqrt2)$.
 
-There are three distinct ingredients, each needed for all-time exclusion.
-On the initial arc, exact torque inequalities and a validated first-syzygy
-map prove that nearby tied trajectories have no second brake. The word
-\emph{syzygy} means that the three bodies are collinear. The normal launch
-tangent is fixed by the mass--shape relation; it is not a freely chosen
-perturbation.
+\subsection{The initial arc and collision unfolding}
+
+The first syzygy, or collinear configuration, is reached without a brake
+for all tied parameters sufficiently near $v=1$. The relevant variational
+argument also establishes the torque inequality used in
+Section~\ref{sec:torque}. Write
+$F_0(v,t)=\eta(v,t)-h(v,t)$ for the history-threshold difference defined
+there, and let $\tau(v)$ be the first syzygy time. On the symmetric orbit,
+$F_0(1,t)=0$. Differentiation of the Newtonian equations and the exact
+tied launch gives an analytic function $g(t)=\partial_vF_0(1,t)$ with
+\[
+ g(0)={32+8\sqrt2\over7}>0.
+\]
+A validated orbit-and-tangent cover proves $g>6$ up to $t=10^{-3}$,
+$g>4$ on $[10^{-3},0.43]$, and $g_t<-6$ from $0.43$ through the
+unique transverse syzygy. The collinear identity for the torque threshold
+gives $F_0(v,\tau(v))=0$, hence $g(\tau(1))=0$. Analytic division yields
+\[
+ F_0(v,t)=(v-1)(t-\tau(v))F_2(v,t),\qquad
+ F_2(1,\tau(1))=g_t(\tau(1))<0.
+\]
+This factorization controls the terminal part of the arc, while compact
+continuity controls its interior. Thus $F_0<0$ for $v<1$ sufficiently
+close to one and $0<t<\tau(v)$. The same tangent cover proves
+$r_{12}>r_{23}>r_{31}$ there. A pair angular momentum then remains
+nonzero through syzygy, excluding a brake. The launch division and
+orbit-and-tangent equations are checked by exact symbolic regression;
+the full interval inputs are indexed in Appendix~\ref{sec:reproduction}.
 
 At the first endpoint collision, an oriented $C^1$ Poincar\'e calculation
 gives $z_r<-4/5$ and $\partial_v w_i<-30$. Thus the map
@@ -53,15 +84,16 @@ members miss that collision, with
 \[
  \min r_{12}=\chi^2(1-v)^2+o((1-v)^2),\qquad \chi^2>900.
 \]
-Their pair angular momentum changes sign across the encounter. Thus a
-launch torque-sign argument cannot be extended indiscriminately through
-later close passages.
+At the section $w_r=0$,
+$\ell_{12}=-2w_i z_r>0$ for $v<1$ sufficiently close to one, whereas
+its launch sign is negative. Thus the launch sign has already reversed
+by this section; it cannot be assumed to persist through later encounters.
 
-The third ingredient continues through all four comparison collisions
-needed to reach an escape section. The detailed tangent equations,
-first-syzygy inequalities, and certificate constructions are retained in
-the technical companion; the following proof states how their strict
-bounds fit together.
+\subsection{Continuation to a terminal escape section}
+
+Four comparison collisions must be controlled before the escape criterion
+applies. Their regularized transversality and the nonzero brake residual
+give a single punctured neighborhood on which the entire argument holds.
 
 \begin{theorem}[Punctured near-isosceles nonperiodicity]
 There exists $v_*<1$ such that every real tied member with
@@ -107,7 +139,7 @@ pre-syzygy interface to
 $\sigma=7$ satisfies $\mathcal R_{\rm LC}>2$.  Compact continuity transfers
 this inequality to the nearby classical orbits; the initial-arc result described above covers the initial segment.
 
-At $\sigma=7$, take $\eta=4$ in the terminal binary--escaper theorem.  The
+At $\sigma=7$, take $\eta=4$ in Lemma~\ref{lem:escape}. The
 same interval cover proves, with $M=m+n=\sqrt2$, $R=M/4$ and
 $s=|G|-R$,
 \[
@@ -119,7 +151,7 @@ and
  -4-e-{\sqrt{2MR}\over\sqrt{2\delta}\,s^2}>2.
 \]
 All inequalities are strict and therefore persist in a tied neighborhood.
-The terminal theorem says that each future trajectory either suffers an
+The lemma says that each future trajectory either suffers an
 inner classical collision or escapes with uniformly positive outward radial
 speed.  Neither possibility permits a later brake.  Rational Euclid
 parameters are dense in the resulting open $u$ interval, giving infinitely

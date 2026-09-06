@@ -1,80 +1,67 @@
-\section{A triangle released from rest}\label{sec:intro}
+\section{A simple plan}\label{sec:intro}
 
-Place three small, perfectly concentrated masses at the corners of a right
-triangle. Give the triangle sides of length 3, 4, and 5, and give the bodies
-masses 3, 4, and 5, placing each body opposite the side with its own number.
-Let go of all three at once. There is no initial push, no friction, and no
-force except their mutual Newtonian gravity. What happens?
+Place point masses 3, 4, and 5 at the vertices of a right triangle with
+sides 3, 4, and 5, each mass opposite the side of the same length, and
+release them from rest under Newtonian gravity. The simple relation between
+mass and geometry suggests an orderly motion. The bodies undergo
+a succession of close encounters, repeatedly changing which pair is
+closest before one body escapes and the other two remain bound.
 
-At first the bodies fall toward one another. Later they can exchange
-partners, pass extremely close, or fling one another far away. A particularly
-appealing possibility is that they eventually come back to their starting
-positions, stop together, and repeat the same dance forever. This paper
-asks whether that can happen for \emph{any} integer right triangle when
-its masses and opposite sides are tied together in this way. The conjecture
-is that it cannot. We have substantial partial results, but no proof of the
-universal claim and no counterexample.
+The possibility of periodic motion motivated the original experiment more
+than a century ago. Although numerical integration resolved the fate of
+the $3$--$4$--$5$ triangle, the corresponding question for other integer
+right triangles remains open. Periodic free-fall orbits are known, and
+some lie close to the prescribed mass--side relation. The conjecture
+investigated here is that none satisfies that relation for an integer
+right triangle. The interest lies in this exact restriction: it links a
+familiar arithmetic family to a dynamical condition that depends on the
+entire subsequent motion.
 
 \subsection{From Meissel's question to computer experiments}
 
-The starting point is a conversation, rather than a known published
-conjecture. In his 1913 paper, Carl Burrau recalled speaking in 1893 with
-the Kiel mathematician Ernst Meissel, who believed that the $3$--$4$--$5$
-initial conditions would produce periodic motion. Burrau also wanted to
-test variable-step numerical integration on a demanding example. His
-original account credits Sigurd Kristensen with a substantial part of the
-calculation~\cite{Burrau1913}. The attractive integers made the experiment
-easy to describe; they did not make its motion easy to calculate.
+In his 1913 paper, Carl Burrau recalled an 1893 conversation with the
+Kiel mathematician Ernst Meissel, who expected the $3$--$4$--$5$ initial
+conditions to produce periodic motion. Burrau also used the problem to
+test variable-step numerical integration. His account credits Sigurd
+Kristensen with a substantial part of the calculation, which ended at
+$t=3.35$, too early to determine the eventual outcome~\cite{Burrau1913,SP1967}.
 
-The decisive revival preceded the famous 1967 publications. Szebehely's
-own account records calculations in 1966 by Standish at Yale, Spinelli
-with Lecar and Szebehely at NASA's Institute for Space Studies, and Stanek
-under Stiefel at ETH Z\"urich. It says that Szebehely suggested the revival,
-but does not say how he first encountered Burrau's paper. We have found no
-primary-source statement identifying a person or occasion that brought it
-to his attention~\cite{Szebehely1967}.
-
-Nor should the intervening years be described as a complete halt in work
-on three bodies of comparable masses. Szebehely discusses Str\"omgren's
-periodic-orbit work, Zumkley's 1941 integration, and Garcia's 1966 extension
-of Zumkley's example~\cite{Szebehely1967}. Zumkley explicitly cites Burrau on the first page of his paper, but
-uses three unit masses and a slide rule~\cite{Zumkley1941}. Str\"omgren's
-1919 paper likewise studies a different periodic-orbit construction~\cite{Stromgren1919}.
-These are related problems, not evidence that the exact $3$--$4$--$5$ trajectory was continuously
-recomputed. The sources examined here do not establish a continuation of
-that exact calculation between Burrau's work and the documented 1966
-revival. This distinction is more defensible than a claim of fifty-four
-years of complete silence.
+Related work continued in the intervening decades. Str\"omgren studied
+periodic solutions for three comparable masses in 1919; Zumkley cited
+Burrau in a 1941 paper describing a slide-rule integration with three
+unit masses~\cite{Stromgren1919,Zumkley1941}. Szebehely later discussed
+these studies and Garcia's 1966 extension of Zumkley's calculation.
+At Szebehely's suggestion, the original Pythagorean problem was taken up
+in 1966 by Standish at Yale, Spinelli with Lecar and Szebehely at NASA's
+Institute for Space Studies, and Stanek under Stiefel at ETH
+Z\"urich~\cite{Szebehely1967}. The sources reviewed here do not identify
+how Szebehely first encountered Burrau's work or establish an intervening
+extension of the exact $3$--$4$--$5$ integration.
 
 Szebehely and C.~Frederick Peters followed the original motion far enough
 to identify its eventual behavior: the two heavier bodies, of masses 4
-and 5, form a binary, while the mass-3 body escapes. Their paper explains
-that Burrau had stopped at $t=3.35$, before this outcome was apparent.
-Their numerical resolution refuted Meissel's expectation for that particular
-triangle~\cite{SP1967}. It did not settle every integer right triangle.
+and 5, form a binary, while the mass-3 body escapes. Their 1967 numerical
+solution contradicted Meissel's expectation for this
+triangle~\cite{SP1967}.
 In a separate paper that year, they found a nearby periodic solution with
 a binary collision and perturbed initial distances~\cite{SPPeriodic}.
 That example is outside the collision-free question considered here.
 
-\subsection{The modern question is more specific than free fall}
+\subsection{Periodic free fall and the Pythagorean restriction}
 
 Starting from rest does not itself rule out periodic motion. Standish's
 collisionless periodic example appeared in 1970~\cite{Standish1970}.
 Kiyotaka Tanikawa, Hiroaki Umehara, and Hiroshi Abe developed systematic
 searches for binary- and triple-collision orbits in 1995; Tanikawa's 2000
 continuation studied the structure of this free-fall initial-condition
-space~\cite{TUA,Tanikawa2000}. Their work makes collisions part of the
-organization of the problem, rather than merely numerical inconveniences.
+space~\cite{TUA,Tanikawa2000}.
 Moeckel, Montgomery, and Venturelli subsequently developed the rigorous
 passage from a configuration at rest to the first collinear configuration,
 and constructed periodic collision orbits in the isosceles
 problem~\cite{MMV}. Montgomery's \emph{Dropping Bodies} gives a modern
 account of periodic free-fall motion and its reversal symmetry~\cite{Montgomery}.
-None of these statements identifies the all-integer nonperiodicity claim
-of this paper as a conjecture due to Tanikawa or Montgomery.
 
-Recent computations make the distinction still more important. Li and
-Liao's 2019 catalogue reports 316 periodic free-fall solutions, including
+Li and Liao's 2019 catalogue reports 316 periodic free-fall solutions, including
 313 new examples, for several mass ratios~\cite{LiLiao}.
 Hristov, Hristova, Dmitra\v sinovi\'c, and Tanikawa's 2024 equal-mass search
 reports 12,409 distinct solutions below its specified scale-invariant
@@ -88,9 +75,8 @@ Rantala, Pihajoki, Mannerkoski, Johansson, and Naab use it to test their
 2020 regularized integrator~\cite{Rantala}. Chitan, Myll\"ari, and Haque
 revisited Pythagorean black-hole triples in 2022, and Chitan, Myll\"ari,
 and Valtonen studied spin effects in 2025~\cite{Chitan2022,Chitan2025}.
-Those relativistic extensions address encounters, escape, and mergers under
-modified equations. They demonstrate continued interest in the experiment,
-while leaving the exact Newtonian conjecture here open.
+Those relativistic extensions study encounters, escape, and mergers under
+equations different from the Newtonian system considered here.
 
 \subsection{One number specifies the experiment}
 
@@ -102,34 +88,21 @@ hypotenuse and work with a longest side and largest mass equal to one.
 Write the two other side lengths, and their corresponding masses, as
 $A$ and $B$. The right-angle condition becomes $A^2+B^2=1$.
 
-A convenient way to describe every such triangle is to slide a single
-parameter $u$ through the interval $(0,1)$:
+The standard rational parameterization gives
 \begin{equation}\label{eq:parameter}
  A=\frac{1-u^2}{1+u^2},\qquad B=\frac{2u}{1+u^2}.
 \end{equation}
-Geometrically, if $(A,B)=(\cos\theta,\sin\theta)$, then
-$u=\tan(\theta/2)$. No trigonometry is required to use the rational
-formulas. If $u=p/q$ is a fraction in lowest terms, multiplying through
-by $q^2+p^2$ gives Euclid's integer triple
-\[
- (q^2-p^2,\ 2pq,\ q^2+p^2).
-\]
-Divide the triple by two when both $p$ and $q$ are odd. Conversely, every
-primitive integer right triangle arises this way, allowing exchange of its
-two legs. ``Primitive'' means that the three integers have no common
-factor. For example, $u=1/2$ gives $(3,4,5)$, and $u=1/3$ gives $(4,3,5)$
-after reduction. These are the same experiment with the first two labels
-exchanged.
-
-To avoid counting it twice, we use
+Rational $u$ give precisely the integer right triangles up to common scale;
+Section~\ref{sec:exact} records the correspondence with Euclid's formula.
+For example, $u=1/2$ gives $(3,4,5)$, while $u=1/3$ gives $(4,3,5)$.
+Exchanging the legs only relabels the experiment, so we restrict to
 \[
  0<u\le u_{\rm iso}:=\sqrt2-1,\qquad A\ge B.
 \]
 Near zero the triangle is very thin; at the other endpoint its two legs are
 equal. That equal-leg endpoint has irrational $u$, so it belongs to the
 continuous family used in the proof, but not to the integer conjecture.
-Changing $u$ changes the masses \emph{and} the shape together. It does not
-mean moving one body while keeping three arbitrary masses fixed.
+Changing $u$ changes the masses and the initial shape together.
 
 \begin{figure}[tb]
 \centering
@@ -143,55 +116,6 @@ $u$, rather than arbitrary points selected numerically on the arc, produces
 the integer triples.}
 \label{fig:geometry}
 \end{figure}
-
-\subsection{What would count as a counterexample?}
-
-A repeating picture is not enough. Each labelled body must return to its
-own position with its own velocity in the same fixed coordinate frame,
-without any collision along the way. A return after rotating the picture,
-swapping bodies, or mathematically continuing through a collision does not
-meet this definition. A numerical near-return, however precise, is a
-candidate to investigate rather than an exact periodic orbit.
-
-There is a useful simplification. Newton's equations work equally well
-backward in time. If a collision-free trajectory that starts at rest ever
-stops \emph{all three bodies simultaneously} a second time, it must retrace
-its entire path and return to the beginning. Conversely, every periodic
-trajectory starting at rest has such a second stop. Mathematicians call a
-simultaneous stop a \emph{brake}. The conjecture can therefore be phrased
-as: \emph{no integer Pythagorean experiment has a second brake before its
-first collision}. Section~\ref{sec:search} describes our direct attempts
-to find one.
-
-\subsection{What the proof attempt achieves}
-
-The difficulty is to control every future encounter for infinitely many
-triangles. Figure~\ref{fig:fan} shows how nearby rational parameters can
-produce visibly similar motion over a finite time, while close approaches
-make numerical errors and small changes of parameter matter. A dense plot
-is not a proof that a whole interval has been covered.
-
-Three kinds of progress are established by the arguments and certificates
-assembled here. First, an exact reduction identifies the only moments at
-which a second brake is possible: strict maxima of the system's moment of
-inertia, a measure of its overall spread. At such a maximum the changing
-triangle still has to stop changing shape. Second, validated integration
-and a forward escape estimate exclude every second brake on the explicit
-real interval $[0.29,0.2900000101]$. Third, endpoint arguments give a
-punctured neighborhood of the equal-leg triangle and infinitely many open
-intervals accumulating at the thin-triangle end. On the explicit family
-$(4n^2-1,4n,4n^2+1)$, the latter arguments cover a set of indices of positive
-lower density: a positive fraction in the limiting lower-density sense,
-not necessarily every large index.
-
-These results leave much of the parameter interval unclassified. The
-near-equal-leg cutoff is existential, and the thin-triangle result covers
-escape windows rather than all phases. We also develop torque-history
-identities that could help control the remaining region. The scalar
-sign-change shortcut proposed in an earlier draft needs an additional
-endpoint bound; Section~\ref{sec:torque} explains the correction. The
-paper's outcome is a set of rigorous reductions and partial exclusions,
-with the remaining global obligation stated explicitly.
 
 \begin{figure}[p]
 \centering
@@ -223,3 +147,103 @@ certified interval. This ordinary numerical illustration conveys the
 search geometry, not validated parameter coverage.}
 \label{fig:fan}
 \end{figure}
+
+\subsection{Brakes, periodicity, and current progress}
+
+Periodicity means that every labelled body returns to its initial position
+and velocity in a fixed inertial frame, without an intervening collision.
+Time reversal gives a useful characterization. If all three bodies stop
+simultaneously a second time, the trajectory retraces its path and returns
+to the initial state. Conversely, a periodic solution released from rest
+must have such a second stop, called a \emph{brake}. Thus the conjecture
+amounts to excluding a second brake before the first collision.
+Section~\ref{sec:search} describes our attempts to construct one.
+
+A second brake can occur only at a strict local maximum of the moment of
+inertia, which measures the system's size about its center of mass. This
+reduces the search to particular events, but arbitrarily many close
+encounters may precede a possible return. Figure~\ref{fig:fan} illustrates
+the finite-time motion for nearby rational parameters and the progressively
+finer sampling needed to examine it.
+
+Validated integration, followed by an escape estimate controlling all
+later times, excludes second brakes for every real
+$u\in[0.29,0.2900000101]$. Separate arguments prove nonperiodicity in a
+punctured neighborhood of the equal-leg endpoint and on infinitely many
+open intervals accumulating at the thin-triangle endpoint. The latter
+contain a positive-lower-density set of members of the primitive family
+$(4n^2-1,4n,4n^2+1)$, with density measured by the index $n$.
+
+The near-equal-leg cutoff is still existential, and the thin-triangle
+argument leaves returning trajectories unclassified. Much of the remaining
+parameter interval is also open. We derive torque-history identities as a
+possible means of extending these results; their proposed sign argument
+requires a terminal estimate that has not been proved
+(Section~\ref{sec:torque}). Neither a universal proof nor an exact
+counterexample is presently known.
+
+\subsection{Why measure zero does not settle the question}
+
+Let $\mathcal P$ be the set of real parameters in our fundamental interval
+whose collision-free trajectories are periodic. The integer conjecture is
+the exact assertion
+\[
+ \mathcal P\cap\mathbb Q=\varnothing,
+\]
+not an assertion about the length, or Lebesgue measure, of $\mathcal P$.
+Even a proof that $\mathcal P$ has measure zero would leave its intersection
+with $\mathbb Q$ completely undetermined. Choosing a real number from a
+continuous probability distribution almost surely misses the rationals;
+that experiment does not model solving an exact dynamical equation.
+
+The distinction persists within analytic, time-reversible Hamiltonian
+brake systems. Consider
+\[
+ H_u=\tfrac12(p_x^2+x^2+p_y^2+u^2y^2),\qquad
+ x(0)=y(0)=1,\quad p_x(0)=p_y(0)=0.
+\]
+Here $x(t)=\cos t$ and $y(t)=\cos(ut)$. A second brake requires
+$t=n\pi$ and $ut=m\pi$, with positive integers $m,n$, and therefore
+\[
+ \text{a second brake exists}\quad\Longleftrightarrow\quad
+ u=m/n\in\mathbb Q.
+\]
+Almost every parameter is nonperiodic, yet \emph{every rational parameter
+is periodic}. Nor would isolation suffice: the brake family
+$x(t)=\cos t$, $y(t)=(u-1/3)\cos(\sqrt2\,t)$ has exactly one periodic
+parameter, the rational number $1/3$.
+These are not gravitational counterexamples. They show that analyticity,
+reversal symmetry, measure zero, and even isolated periodic parameters
+cannot by themselves supply the missing arithmetic obstruction.
+
+There is a serious heuristic in favor of the conjecture: after removing
+translations and rotations, a simultaneous stop imposes three independent
+velocity conditions, while the prescribed family supplies only $u$ and
+the stopping time. A transverse brake map would therefore have no zeros.
+But transversality for this particular gravitational family is precisely
+what is not known; a dimension count cannot assume it. Likewise, assigning
+a continuous random distribution to any isolated roots would exclude
+rational roots almost surely, but no such distribution is supplied by
+the dynamics.
+
+The evidence for taking counterexamples seriously is more specific than
+this logical possibility. Section~\ref{sec:search} gives six numerical
+second-brake candidates satisfying the mass--side rule. One has an initial
+triangle almost indistinguishable from $3$--$4$--$5$, with its largest angle
+only $0.202^\circ$ above a right angle. These are selected near misses, not
+random trials, and none meets the right-angle equation. They nevertheless
+show that periodic free fall and mass--side matching coexist numerically
+very close to the target. The unresolved long encounter sequences leave
+room for an exceptional exact match; neither the nearby orbits nor the
+measure argument assigns a probability to that possibility.
+
+\paragraph{A subjective assessment (GPT-6 Astra, September 6, 2026).}
+My best estimate is about a \emph{10\% chance} that at least one integer
+Pythagorean triangle produces an exactly periodic, collision-free motion.
+I favor the conjecture because an exact right angle and rational parameter
+must still accompany the second stop, with no known mechanism forcing
+them. I would nevertheless give a search a real chance: the nearby
+periodic candidates are substantial, and the longer encounter patterns
+are far from classified. This is a rough judgment about whether an example
+exists somewhere in the entire family, not a measured frequency or a
+prediction that a finite search will find one---roughly one chance in ten.

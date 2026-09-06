@@ -1,0 +1,122 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage[hidelinks]{hyperref}
+
+\definecolor{deepblue}{RGB}{28,63,110}
+
+\title{Dense Irrational Periodicity with a Single Rational Exception}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+There is an analytic Hamiltonian brake system in which a dense but
+measure-zero set of irrational parameters is periodic, exactly one rational
+parameter is periodic, and every other rational parameter is nonperiodic.
+
+For \(0<u<1\), consider
+\[
+  H_u
+  =\frac12\bigl(p_x^2+x^2\bigr)
+   +\frac12\left(p_y^2+\Omega(u)^2y^2\right),
+\]
+where
+\[
+  \Omega(u)=2+u^2+\sqrt2\,u\left(u-\frac12\right).
+\]
+Start every orbit from the same brake state,
+\[
+  x(0)=y(0)=1,
+  \qquad
+  p_x(0)=p_y(0)=0.
+\]
+The resulting motion is
+\[
+  x(t)=\cos t,
+  \qquad
+  y(t)=\cos\!\bigl(\Omega(u)t\bigr).
+\]
+The full orbit is periodic---equivalently, it reaches a second brake---exactly
+when
+\[
+  \Omega(u)\in\mathbb Q.
+\]
+
+\section*{Almost no rational parameters work}
+
+Suppose \(u\in\mathbb Q\).  Then \(2+u^2\) is rational, whereas
+\[
+  \sqrt2\,u\left(u-\frac12\right)
+\]
+is irrational unless its rational coefficient vanishes.  Therefore
+\[
+  \Omega(u)\in\mathbb Q
+  \quad\Longleftrightarrow\quad
+  u\left(u-\frac12\right)=0.
+\]
+Since \(0<u<1\), the only rational periodic parameter is
+\[
+  \boxed{u=\frac12}.
+\]
+At that parameter,
+\[
+  \Omega\left(\frac12\right)=\frac94,
+\]
+so the orbit is genuinely periodic.  Every other rational parameter in the
+interval produces quasiperiodic motion.
+
+\section*{Nevertheless, irrational periodic parameters are dense}
+
+Set
+\[
+  u_*=1-\frac1{\sqrt2}
+      \approx0.292893218.
+\]
+This parameter is irrational, but direct substitution gives
+\[
+  \Omega(u_*)=2.
+\]
+It therefore generates the elementary \(1{:}2\) periodic orbit
+\[
+  x(t)=\cos t,
+  \qquad
+  y(t)=\cos(2t).
+\]
+Notably, this explicit irrational periodic parameter lies close to the
+\(u\approx0.29\) region considered in the Pythagorean--Burrau investigation.
+
+The complete periodic set is
+\[
+  \mathcal P=\Omega^{-1}(\mathbb Q).
+\]
+Because \(\Omega\) is nonconstant and continuous, the image of every open
+parameter interval contains an interval and hence a rational number.  Thus
+\(\mathcal P\) is dense in \((0,1)\).  On the other hand, every rational
+frequency has at most two preimages under the quadratic function \(\Omega\).
+Consequently, \(\mathcal P\) is countable and has Lebesgue measure zero.
+
+Removing its sole rational member leaves
+\[
+  \mathcal P\setminus\left\{\frac12\right\},
+\]
+a dense, countable, measure-zero set consisting entirely of irrational periodic
+parameters.
+
+\begin{center}
+  \color{deepblue}
+  \fbox{\parbox{0.86\textwidth}{\centering
+  Periodic irrational parameters are dense but measure zero; exactly one
+  rational parameter is periodic; every other rational parameter is
+  nonperiodic.}}
+\end{center}
+
+The example is deliberately engineered, but it shows exactly why measure,
+density, and a generic dimension count cannot determine which rational
+parameters lie on a periodic locus.  An exact structural or arithmetic bridge
+is indispensable in the Pythagorean--Burrau problem.
+
+\end{document}

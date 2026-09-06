@@ -1,0 +1,104 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage[hidelinks]{hyperref}
+
+\definecolor{deepblue}{RGB}{28,63,110}
+
+\title{A Measure-Zero Periodic Set Containing Every Rational Parameter}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+Here is a particularly sharp warning against cardinality and measure arguments.
+It is a genuine analytic, time-reversible Hamiltonian brake system---the same
+broad dynamical language as the Burrau problem.
+
+For \(0<u<1\), consider the two-degree-of-freedom Hamiltonian
+\[
+  H_u(x,y,p_x,p_y)
+  =\frac12\bigl(p_x^2+x^2\bigr)
+   +\frac12\bigl(p_y^2+u^2y^2\bigr),
+\]
+and begin at the brake point
+\[
+  x(0)=y(0)=1,
+  \qquad
+  p_x(0)=p_y(0)=0.
+\]
+Hamilton's equations give
+\[
+  x(t)=\cos t,
+  \qquad
+  y(t)=\cos(ut),
+\]
+and
+\[
+  p_x(t)=-\sin t,
+  \qquad
+  p_y(t)=-u\sin(ut).
+\]
+
+\section*{The second-brake condition}
+
+A second brake occurs precisely when both momenta vanish.  Thus there must be
+positive integers \(m,n\) for which
+\[
+  t=n\pi,
+  \qquad
+  ut=m\pi.
+\]
+Eliminating \(t\) gives
+\[
+  u=\frac{m}{n}\in\mathbb{Q}.
+\]
+Conversely, if \(u=m/n\), then \(t=n\pi\) is a second-brake time.  Time
+reversal about that brake point produces a periodic orbit.  Hence
+\[
+  \boxed{
+    \text{a second brake exists exactly when }u\in\mathbb{Q}
+  }
+\]
+and therefore
+\[
+  \boxed{
+    \text{every rational parameter is periodic, while every irrational
+    parameter is nonperiodic.}
+  }
+\]
+
+\section*{Why this is surprising}
+
+The periodic-parameter set \(\mathbb{Q}\cap(0,1)\)
+\begin{itemize}
+  \item is countable;
+  \item has Lebesgue measure zero;
+  \item contains no interval;
+  \item is surrounded arbitrarily closely by nonperiodic parameters;
+  \item nevertheless contains every rational parameter, including every
+        rational Euclid parameter used to generate a Pythagorean triple.
+\end{itemize}
+
+For irrational \(u\), the trajectory winds densely on its invariant
+two-torus.  For rational \(u\), the two frequencies are commensurable and the
+trajectory closes.
+
+\begin{center}
+  \color{deepblue}
+  \fbox{\parbox{0.86\textwidth}{\centering
+  In this analytic Hamiltonian brake problem, almost every parameter is
+  nonperiodic, yet every single rational parameter is periodic.}}
+\end{center}
+
+Thus neither ``periodic parameters have measure zero'' nor ``almost every
+parameter is nonperiodic'' can settle the Pythagorean--Burrau conjecture.  If
+the Burrau brake map behaved like this elementary oscillator family, the
+conjecture would be maximally false even though its periodic parameters still
+formed a measure-zero set.  An exact structural or arithmetic obstruction is
+therefore indispensable.
+
+\end{document}

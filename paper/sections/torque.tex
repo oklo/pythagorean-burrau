@@ -1,12 +1,12 @@
 \section{Torque history and the remaining analytic obstruction}\label{sec:torque}
 
-The finite-cover strategy can prove particular intervals, but an analytic
-constraint on all reachable trajectories would reach further. Pair torques
-provide such a candidate constraint because they remember the entire
-motion since release. The identities in this section are exact; their
-proposed global sign consequence remains unproved.
+An analytic restriction on trajectories released from the tied brake curve
+could extend the interval results. Integrating the pair torques gives
+necessary cancellation conditions for a second brake and a scalar equation
+for the accumulated torque ratio. The proposed global sign consequence
+remains unproved.
 
-\subsection{What a second brake must cancel}
+\subsection{Integral constraints}
 
 Let $d_{ij}=q_j-q_i$, $r_{ij}=|d_{ij}|$, and
 $\Delta_2=(q_2-q_1)\times(q_3-q_1)$ be twice the signed area. Define the
@@ -31,13 +31,18 @@ Integrating Lagrange--Jacobi between two brakes also gives
  \int_0^\tau U\,dt=2U_0\tau,\qquad
  \int_0^\tau K\,dt=U_0\tau.
 \]
-These useful necessary conditions are not pointwise monotonicity laws.
-The time-dependent torque signs and the change of area orientation at
-syzygies are precisely what a global argument must control.
+Integrating the labelled accelerations against the fixed launch positions
+also gives
+\[
+ \int_0^\tau\sum_{i<j}m_im_j
+ {d_{ij}(0)\cdot d_{ij}(t)\over r_{ij}(t)^3}\,dt=0.
+\]
+The integrand is initially positive; its later sign is not controlled.
 
-\subsection{Reduce the memory to a weighted average}
+\subsection{The torque ratio and its threshold}
 
-On a positive-area ordered arc $r_{12}>r_{23}>r_{31}$, put
+On the arc from launch to the first loss of positive area or strict ordering
+$r_{12}>r_{23}>r_{31}$, put
 $R=r_{12}$, $x=r_{23}/R$, $y=r_{31}/R$, and define
 \[
  F=\Delta_2(r_{31}^{-3}-R^{-3})>0,\qquad
@@ -51,8 +56,8 @@ Integrating the torques from release gives
  \dot\eta={F\over\int_0^tF\,d\tau}(k-\eta).
 \end{equation}
 Thus $\eta$ is a weighted average of the preceding values of $k$.
-If $k$ strictly decreases, then $k(t)<\eta(t)<k(0)$. What remains is
-to prove the required decrease for states actually reached from the brake.
+Strict decrease of $k$ would imply $k(t)<\eta(t)<k(0)$; establishing that
+decrease along the tied trajectories is the remaining problem.
 
 Use shape time $ds=dt/R^{3/2}$ and write
 $W=\ell_{23}/\sqrt R$, $\delta=\Delta_2/R^2$. Eliminating the two
@@ -61,13 +66,25 @@ shape velocities gives the rational identity
  (\log k)_s={W\over\delta}\mathcal A(u,x,y)(\eta-h(u,x,y)),
  \qquad \mathcal A>0,\quad h>k.
 \end{equation}
-Here $h$ is the torque threshold, unrelated to the binary energy called
-$h$ in the middle-interval certificate. Explicit polynomials defining
-$h$ and $\mathcal A$, and their exact Bernstein sign checks, are given in
-the technical companion. Their role is to replace a velocity-sign problem
-by the scalar condition $\eta<h$. This condition is established on the
-first arc near the equal-leg endpoint, but not on the entire fundamental
-interval.
+For an explicit definition, put $m=m_1$, $n=m_2$, and
+\[
+\begin{aligned}
+ \mathsf B={}&n(-x^5-x^3y^2+x^3+x^2+2y^5-y^2-1)\\
+ &+x^3y^2(x^2-y^2+1)+y^5(-x^2+y^2+1)-2y^2,\\
+ \mathsf N={}&m(2x^5-x^2y^3-x^2-y^5+y^3+y^2-1)\\
+ &+x^5(x^2-y^2+1)+x^2y^3(-x^2+y^2+1)-2x^2,\\
+ h={}&{y^2\mathsf N\over x^2\mathsf B},\qquad
+ \mathcal A={-3\mathsf B\over
+ 2my^2(x-1)(y-1)(x^2+x+1)(y^2+y+1)}.
+\end{aligned}
+\]
+Here $h$ denotes the torque threshold. The ordered-triangle substitution
+$x=1-ab/2$, $y=1-a+ab/2$, $u=(\sqrt2-1)v$, with $0<a,b,v<1$,
+maps the domain to a cube. After clearing denominators with known sign,
+exact tensor-Bernstein coefficients prove $\mathcal A>0$ and $h-k>0$.
+Thus~\eqref{eq:threshold} reduces the desired monotonicity to
+$\eta<h$. Section~\ref{sec:iso} proves this inequality on the first
+arc near the equal-leg endpoint.
 
 \subsection{A corrected conditional sign-change argument}
 
@@ -83,9 +100,8 @@ and the positive coefficients
 Equations~\eqref{eq:history}--\eqref{eq:threshold} give
 \begin{equation}\label{eq:lag}
  e_s+(\lambda+c)e=cd,\qquad
- w_s+(\lambda+c)w=q,\qquad q=d_s+\lambda d.
+ w_s+(\lambda+c)w=f,\qquad f=d_s+\lambda d.
 \end{equation}
-The notation $q$ here denotes a scalar forcing, not a body position.
 For $s$ strictly before syzygy, the launch condition has the improper
 integral representation
 \[
@@ -94,21 +110,19 @@ integral representation
 \]
 At launch $W$ has a simple zero, $\lambda\sim1/s$, and $e(0)=0$ after
 analytic extension, so the homogeneous launch contribution tends to zero.
-One must not define the integrating factor by integrating from zero.
-For a fixed interior reference point $s_0>0$, the legitimate definition is
+For a fixed interior reference point $s_0>0$, define the integrating factor
 \[
  M(s)=\exp\!\int_{s_0}^s(\lambda+c)\,d\xi,
- \qquad (Mw)_s=Mq.
+ \qquad (Mw)_s=Mf.
 \]
 
-There is a second endpoint issue. At the first ordered syzygy $s=S$,
-collinear momentum constraints force $w(S)=0$. But $\delta\to0$ there,
-and $c=kW\mathcal A/\delta$ can diverge. It does not follow that $Mw$
-tends to zero. An earlier draft used exactly this unjustified implication
-in a proposed one-sign-change proof.
+At the first transverse ordered syzygy $s=S$, collinear momentum
+constraints force $w(S)=0$, while $\delta\to0$ and
+$c=kW\mathcal A/\delta$ can diverge. The endpoint equality therefore
+does not imply $Mw\to0$, as assumed in an earlier draft.
 
 \begin{lemma}[Sufficient sign-change criterion with terminal control]
-Assume $w>0$ near launch, $q$ is positive up to one interior sign change
+Assume $w>0$ near launch, $f$ is positive up to one interior sign change
 and negative thereafter, and
 \begin{equation}\label{eq:terminal-weighted}
  \liminf_{s\uparrow S} M(s)w(s)\ge0.
@@ -127,23 +141,55 @@ On $0<s<1$ take
 \[
  a={1\over s}+{1\over1-s},\qquad
  w=(1-s)(1+s-3s^2),\qquad
- q=(1-s)\left({1\over s}+2-9s\right).
+ f=(1-s)\left({1\over s}+2-9s\right).
 \]
-Then $w_s+aw=q$, $w(0)=1$, and $w(1)=0$. The forcing changes from positive
+Then $w_s+aw=f$, $w(0)=1$, and $w(1)=0$. The forcing changes from positive
 to negative exactly once, at $(1+\sqrt{10})/9$, yet $w$ becomes negative
 after $(1+\sqrt{13})/6$. Up to a positive constant,
 $M=s/(1-s)$ and $Mw\to-1$.
-This example refutes the previously stated scalar inference. It does not
-construct a three-body trajectory, and it does not refute the Pythagorean
-conjecture. A valid global use of the lag equation needs a reachable
-terminal bound such as~\eqref{eq:terminal-weighted}, or another argument
-that controls the sign without that implication.
+This scalar counterexample shows why terminal control is necessary.
+It makes no claim about a Newtonian trajectory.
 
-\subsection{Why present shape and energy are insufficient}
+\subsection{Amplitude bounds and the terminal face}
 
-A stronger route would impose the desired torque or distance-order barrier
-on every state with the correct energy and angular momentum. Exact ambient
-counterexamples rule out this shortcut. One is particularly transparent.
+The two centrifugal contributions to the side-gap accelerations, after
+multiplication by $R^2$, are
+\[
+ Z\bigl((1-\eta)^2/m^2-x^{-3}\bigr),\qquad
+ Z\bigl(x^{-3}-n^2\eta^2/(m^2y^3)\bigr),\qquad Z=W^2.
+\]
+Thus shape and the two history variables $(Z,\eta)$ determine both terms.
+At a contact $\eta=h$, put $X_c=\delta x_s/W$,
+$Y_c=\delta y_s/W$,
+$S_c=h_xX_c+h_yY_c$, and
+$P_c=m\delta^2(y^{-3}-1)(k-h)<0$. Direct differentiation gives
+\[
+ W\delta(\eta-h)_s=P_c-ZS_c.
+\]
+Contacts with $S_c\ge0$ point into $\eta<h$. On $S_c<0$, the
+sufficient amplitude bound is $Z<Z_J:=P_c/S_c$.
+
+At an ordered syzygy with body 3 between bodies 1 and 2, write
+$y=q$, $x=1-q$. The launch angular-momentum signs require
+$0<q<n/(m+n)$, and the collinear momentum constraints give
+\[
+ h=\eta_{\rm col}={q(m+1-q)\over(1-q)(n+q)}.
+\]
+Canceling the common area-squared factor in $P_c/S_c$ defines the
+terminal threshold $Z_J^{\rm syz}$. Exact Bernstein certificates prove
+$1<Z_J^{\rm syz}<Z_2$, where
+$Z_2=R^2(\mathfrak g_{23}-\mathfrak g_{31})/
+[n^2\eta_{\rm col}^2/(m^2q^3)-(1-q)^{-3}]$ is the amplitude at which
+the second-gap acceleration vanishes, and
+$\mathfrak g_{ij}=\ddot r_{ij}-\ell_{ij}^2/r_{ij}^3$.
+The denominator is positive on this face. At the equal-leg endpoint the
+first-syzygy certificate gives $Z_*<1$; its tied tangent satisfies
+$\partial_v[q(m+n)/n]>18$. These bounds put nearby $v<1$ members
+strictly inside the torque-compatible face with $Z<1$.
+For the full family, neither interior noncontact nor the terminal
+amplitude bound is proved.
+
+Energy and angular momentum alone do not imply the required bounds.
 For masses $(m,n,1)=(4/5,3/5,1)$, consider an ordered collinear state with
 \[
  (r_{12},r_{23},r_{31})=(1,697/700,3/700),\qquad
@@ -160,6 +206,4 @@ $\dot\Delta_2/\ell_{23}=-292607/131036<0$, but
 This state is not asserted reachable from the tied initial brake. It shows
 that energy, collinear geometry, crossing direction, and pair angular-momentum signs do
 not suffice to control the second distance gap. The main analytic target
-is therefore a bound on \emph{reachable histories}. Further static
-witnesses and the exact amplitude inequalities are retained in the
-technical companion, rather than repeated here.
+is therefore a bound on \emph{reachable histories}.

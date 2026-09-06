@@ -1,0 +1,274 @@
+\section{Returning trajectories and collision boundaries}\label{sec:returns}
+
+The escape windows leave an infinite family of returning trajectories.
+Two further results restrict their possible brakes: a uniform angular-momentum
+estimate at the first outer turn, and a local analysis of passages near
+triple collision. Throughout this section, a collision of a positive-mass
+trajectory ends its classical solution. Continuation through collision is
+used only in the auxiliary regularized equations.
+
+\subsection{The first outer turn}
+
+On the returning side of the restricted separatrix, the first-turn time
+$T(\phi)$ tends to infinity as $\phi\to0$. Since the binary mean anomaly
+is $\phi+4\theta$, continuity supplies phases $\phi_n\to0$ with
+$\phi_n+4T(\phi_n)=2\pi n$. At these phases the outer turn coincides
+with a binary apocenter. Radial Kepler comparison gives
+\[
+ T_n={\pi n\over2}+o(1),\qquad Z_{{\rm t},n}=(2n)^{2/3}(1+o(1)).
+\]
+These are brakes of the regularized massless problem, so zeroth-order
+convergence alone cannot exclude brakes of the full system.
+
+The first transverse variation supplies the obstruction. On the centered
+parabolic orbit of Section~\ref{sec:restricted}, let $p_-$ solve
+\[
+ p_-''={r^2-2z^2\over d^5}p_-,\qquad
+ p_--z=O(|z|^{-1})\quad(\theta\to-\infty),\qquad
+ d^2=z^2+r^2/4,
+\]
+where primes denote $\theta$ derivatives. Its Wronskian with $z$ satisfies
+\[
+ (zp_-'-z'p_-)'={3r^2zp_-\over2d^5},\qquad
+ \mathcal W_\infty=\lim_{\theta\to\infty}(zp_-'-z'p_-).
+\]
+An outgoing solution $k_+$, normalized by $k_+/z\to1$ and
+$zk_+'-z'k_+\to0$, gives by time reversal
+$\mathcal W_\infty=2k_+(0)k_+'(0)$. Analytic Volterra bounds attach
+this solution at finite radius: for $z\ge K\ge1$,
+\[
+ 1\le{k_+\over z}\le Q_K={1\over1-1/(7K^2)},\qquad
+ -{Q_K\over\sqrt{7/2}\,K^{3/2}}\le zk_+'-z'k_+\le0.
+\]
+Interval propagation of these bounds gives
+\[
+ k_+(0)>7/20,\qquad k_+'(0)>3/5,
+ \qquad 11/25<\mathcal W_\infty<9/20.
+\]
+
+\begin{theorem}[Uniform first-turn exclusion]\label{thm:first-turn}
+For exact tied trajectories with $B\to0$ whose restricted intercepts
+approach the centered parabolic phase from the returning side, either a
+prior classical collision occurs or, at the first outer turn,
+\[
+ {Y\times\dot Y\over B^{3/2}}\longrightarrow
+ {\mathcal W_\infty\over2}>{21\over100}.
+\]
+The convergence is uniform in turn height. Hence no second brake occurs
+at these first turns. On return to a large fixed scaled radius $K$, the
+quotient differs from $\mathcal W_\infty/2$ by
+$O(K^{-3/2})+o(1)$ as $B\to0$.
+\end{theorem}
+\begin{proof}
+Set $\Lambda_B=(Z\times Z')/B$, $M=A+1$, and $N=M+B$.
+The exact torque factorization is
+\[
+ \Lambda_B'=-{NA\over BM^2}(Z\times R)
+ \bigl(|Z+R/M|^{-3}-|Z-AR/M|^{-3}\bigr).
+\]
+The squared denominators differ by
+$2Z\cdot R+B^2|R|^2/M^2$. First-order incoming matching and the
+divided LC normal equations retain $|Z\cdot R|\le CB|Z|$ on the
+outgoing tail. A simultaneous binary-energy bootstrap keeps the LC
+oscillator bounded. Writing $y=|Z|$, radial comparison gives
+$-C/y^2\le y''\le-c/y^2$ and
+$\int y^{-3}\,d\theta\le CK^{-3/2}$ from $y=K$ to any first turn.
+This estimate includes the neighborhood where $y'=0$ and is uniform in
+turn height. It bounds the change in $\Lambda_B$ by $CK^{-3/2}$.
+At fixed $K$, the divided transverse matching gives
+$\Lambda_B\to(zp_-'-z'p_-)/2$. Letting $K\to\infty$ proves the
+claim. The same radial and torque estimates hold on the returning leg.
+\end{proof}
+
+For each fixed late restricted resonance, the transverse velocity is
+also nonzero at small positive mass, but its coefficient tends to zero
+as the resonance index increases. The angular-momentum estimate above
+provides the uniform exclusion. It leaves the next central encounter
+uncontrolled. At its centered parabolic endpoint, the asymptotic
+coefficient $\gamma=\lim p_-/z$ satisfies
+$-1/100<\gamma<-1/250$, and the outgoing Wronskian after the second encounter is
+$-2\gamma\mathcal W_\infty>21/6250$; the interior returning phases
+still require classification.
+
+\subsection{The triple-collision endpoint and its joint scaling}
+
+Another boundary of the returning region approaches equilateral triple
+collision. The longitudinal and transverse unstable exponents in
+logarithmic size are
+\[
+ \mu={1+\sqrt{19}\over4},\qquad
+ \tau={1+\sqrt7\over4},\qquad 1<p:=\mu/\tau<2.
+\]
+Let $H_B,T_B$ be the corresponding normalized unstable amplitudes after
+subtracting the local collision-stable graph. The odd transverse
+coefficient satisfies $T_B/B\to\Theta_*\ne0$. Define
+\[
+ \rho_T=|T_B|^{1/\tau},\qquad
+ \kappa_B={H_B\over|T_B|^p}.
+\]
+Scaling size by $\rho_T$ and time by $\rho_T^{3/2}$ produces a planar
+massless limit indexed by $\kappa=\lim\kappa_B$. Its vector equations
+are~\eqref{eq:restricted}, now with a zero-energy radial binary.
+The longitudinal scaling gives the rectilinear exits when
+$\kappa_B\to\pm\infty$.
+
+The nonzero coefficient $\Theta_*$ is fixed by a certified transverse
+intersection of the incoming parabolic curve with the collision-stable
+curve. The latter has a unique connection in its normalized amplitude
+bracket $[-0.24696,-0.24694]$. Along the terminal binary infall, the
+canonical transverse collision modes have powers
+$r^{\beta_\pm}$, $\beta_\pm=(3\pm\sqrt7)/4$, and Wronskian
+$-\sqrt7$. An interval bound $W(J,P_+)<-1/2$ for the returned field
+$J$ therefore proves its slow coefficient
+$A_-=W(J,P_+)/(-\sqrt7)>0$. A second finite certificate, attached to
+analytic incoming bounds, proves that the universal slow mode has positive
+first-turn transfer $K_->0$. These signs exclude a brake near the second
+turn on the selected local restricted branch.
+
+For a finite light mass this conclusion needs a scale condition. If
+$\varepsilon=(\pi-\phi)/4$ is the restricted center-to-collision time
+gap and $\omega_0(B)\to0$ is the fixed-section state-matching error,
+the transfer holds when
+\[
+ \omega_0(B)+B=o(\varepsilon^{(1+\sqrt{19})/6}).
+\]
+The transverse displacement relative to the inner size is then
+$B\varepsilon^{-(1+\sqrt7)/6}=o(1)$. The complementary layer is
+described by the planar $\kappa$ family. It cannot contain a brake
+\emph{during} a sufficiently small near-triple passage: energy at a
+brake requires the exact inequality
+\[
+ |R|>{A\over BU_0}
+ ={1-B^2\over1+B^2-B^4}=1-2B^2+O(B^4).
+\]
+Possible brakes after re-expansion remain the issue.
+
+\subsection{Planar collision boundaries and escape neighborhoods}
+
+On a radial half of the limiting binary, set
+$R=9^{1/3}t^{2/3}e_x$, $Z=9^{1/3}t^{2/3}w$, and $\zeta=\log t$.
+Then
+\[
+ w_{\zeta\zeta}+\tfrac13w_\zeta=\nabla W(w),\qquad
+ W(w)=\tfrac19\bigl(|w|^2+|w+e_x/2|^{-1}+|w-e_x/2|^{-1}\bigr).
+\]
+The shape energy obeys
+$\mathcal E_\zeta=-|w_\zeta|^2/3$, where
+$\mathcal E=|w_\zeta|^2/2-W$. For $d_\pm=|w\pm e_x/2|$,
+\[
+ 9W=\sum_\pm(d_\pm^2/2+d_\pm^{-1})-1/4\ge11/4,
+\]
+with equality only at the equilateral shapes. A nonconstant orbit tending
+to an equilateral shape has $\mathcal E>-11/36$ at finite times and
+therefore cannot have zero shape velocity there.
+
+Normalize the lower-equilateral stable family by
+$w=(0,-\sqrt3/2)+P(a,b)$, where $P(a,b)=(a,b)+O_2$,
+$a=-e^{-2\tau\zeta/3}$, and $b=\kappa e^{-2\mu\zeta/3}$.
+These choices fix the scale and the meaning of $\kappa$ in the numerical
+enclosures. Substitution in the shape equation determines its quartic
+jet $P_4$ recursively. An exact homological inverse bound $30/17$ and a
+contraction factor below $1/10$ give
+$\|P-P_4\|_{1/200,1/2500}<1/125000000$ in the weighted coefficient
+$\ell^1$ norm. Restriction to smaller polydiscs bounds both the state and
+its $\kappa$ derivative. Higher jets improve the later collision enclosures.
+
+In a selected light--primary chart $q=u^2$, $dt=|u|^2d\sigma$,
+the equation $q_{tt}=-\Phi(q)+F(q,t)$ becomes
+\[
+ u_\sigma=v,\qquad
+ v_\sigma=(h/2)u+(|u|^2\bar u/2)F,\qquad
+ h_\sigma=2\operatorname{Re}(uv\bar F),
+\]
+with $2|v|^2-1-h|u|^2=0$. The other primary must remain separated.
+The square collision map $(\kappa,\sigma)\mapsto(\Re u,\Im u)$
+is tested by interval Newton. Four local roots have been enclosed:
+\begin{center}
+\small
+\begin{tabular}{cll}
+\toprule
+Encounter chart & Primary & Enclosure for $\kappa$\\
+\midrule
+1 & positive & $[1.2679351752,1.2679351759]$\\
+2 & negative & $[1.2640119191,1.2640119311]$\\
+3 & positive & $[1.2640090993171269,1.2640090999643190]$\\
+4 & negative & $[1.26400909893331527,1.26400909893331813]$\\
+\bottomrule
+\end{tabular}
+\end{center}
+Uniqueness is local to the parameter-time boxes in the certificates.
+Earlier collisions are excluded for each listed root. At the first root,
+$D_c=\det(\partial_\kappa u,v)\in(-3.52212,-3.38401)$; projection
+onto $v^\perp$ gives
+\[
+ r_{\min,\rm local}=2D_c^2(\kappa-\kappa_c)^2
+ +O(|\kappa-\kappa_c|^3).
+\]
+For positive mass, a colliding-pair center coordinate cancels the singular
+force from the complementary equation. This gives a common analytic LC
+chart, with $|v|^2=(1+B)/2$ at the first selected collision. Differentiated
+inclination through the logarithmic saddle dwell then supplies a local
+collision graph $\kappa_c(B,T,S,\Xi)$, where $S$ is the stable entrance
+coordinate and $\Xi$ collects the remaining energy and clock deviations;
+$\widehat\Xi$ denotes their Newtonian-scaled values.
+The graph converges to the limiting root when
+\[
+ B|\log|T||+B+|T|^{2-p}+e^{-cL_T}+\|\widehat\Xi\|\to0,
+ \qquad L_T=-\tau^{-1}\log|T|.
+\]
+The differentiated contraction uses a fixed weight
+$\mu/2<\omega<\tau$; thus the quadratic Green denominator
+$2\omega-\mu$ stays positive. This is the step that justifies derivative
+convergence through the increasingly long saddle passage.
+
+Finite regularized chart chains classify neighborhoods of the first,
+second, and fourth roots as collision or escape. For example, ten adjacent
+interval propagations cover
+$[1.2679251755,1.2679451755]$ around the first root. They reach an
+outgoing section with the strict margin
+\[
+ \dot\rho_0-{2\over(3/2)(\rho_0-r_0)}
+ -\sqrt{4/r_0+2/100}-{3\over2}>0.65.
+\]
+This is Lemma~\ref{lem:hierarchical} with
+$\varepsilon=1/100$, $c=3/2$, and limiting inner energy zero.
+The scaled tidal allowance is $O(B)$, so the strict margin transfers to
+sufficiently small compatible positive-mass states. The second-root
+limiting box $[1.2640099161,1.2640126461]$ has the same local
+finite-mass conclusion. The fourth-root chain requires simultaneous
+two-centre regularization to resolve subsequent close passages; its
+finite-mass-form escape margin exceeds $10.39$. A separate 131-tile
+limiting cover proves collision or escape on
+$[1.264009099014,1.264009099457]$; that explicit interval is a result
+for the massless family. None of these local results classifies every
+component of the $\kappa$ family.
+
+\subsection{Exact collisions on the tied curve}
+
+\begin{theorem}[Real collision parameters]
+Infinitely many distinct real tied parameters $B_j\downarrow0$ have a
+finite-time classical collision.
+\end{theorem}
+\begin{proof}
+Each sufficiently late winding of the reference phase gives a disjoint
+parameter bracket crossing the two sides of the certified triple endpoint.
+An earlier collision anywhere in a bracket already supplies the assertion.
+Otherwise, incoming matching transfers opposite signs of $H_B$ to its
+endpoints. Within that bracket choose a segment from $H_B=0$ to
+$H_B=B^{p/2}$ on which $0\le H_B\le B^{p/2}$. Local uniqueness of the
+restricted intersection localizes this shrinking segment at the endpoint,
+uniformly giving $T_B/B\to\Theta_*\ne0$ and the collision-graph
+hypotheses. The continuous function
+\[
+ G(B)=H_B-|T_B|^p\kappa_c(B,T_B,S_B,\Xi_B)
+\]
+is negative at the first endpoint and positive at the second, since
+$|T_B|^p=O(B^p)=o(B^{p/2})$. A zero is an exact light--heavy collision.
+The disjoint brackets accumulate at zero.
+\end{proof}
+The roots are not known to be rational. On a bracket without an earlier
+collision, the same normalized coordinate $H_B/|T_B|^p$ traverses the
+first collision-or-escape interval. Its interior preimage supplies an
+additional nonempty open tied window of nonperiodicity. Classification
+of all remaining returning components, including their later turns,
+is still open.

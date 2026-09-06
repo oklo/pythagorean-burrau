@@ -7,4 +7,6 @@ __pycache__/
 data/cache/
 outputs/
 paper/*.pdf
+!paper/main.pdf
+!paper/technical-details.pdf
 paper/*.log

@@ -10,10 +10,13 @@ The side opposite each mass has the same length as that mass.  We work with $G=1
 \[
  \ddot q_i=\sum_{j\ne i}m_j{q_j-q_i\over|q_j-q_i|^3}.
 \]
-The conjecture asserts that no maximal classical solution has a
-collision-free labelled period.
-Returns modulo rotation or label exchange and regularized continuation after
-collision are excluded.
+\begin{conjecture}[Pythagorean--Burrau nonperiodicity]
+For every positive integer triple $a^2+b^2=c^2$, the solution with these
+initial data has no collision-free labelled period.
+\end{conjecture}
+A labelled period is an exact return in the fixed inertial frame. The
+maximal classical solution ends at its first collision; regularized
+continuation through that collision is a different notion of solution.
 
 \subsection{Scaling and the rational parameter curve}
 
@@ -48,6 +51,32 @@ After normalizing $c=1$, masses and positions are
 (A,B,1),\qquad q_1=(-1/2,0),\quad q_2=(1/2,0),\quad
 q_3=((B^2-A^2)/2,AB).
 \]
+We call this one-parameter family \emph{tied}, since its masses and initial
+opposite sides vary together. The stronger real conjecture makes the same
+nonperiodicity assertion for every $0<u\le\sqrt2-1$.
+
+\subsection{Initial geometry}
+
+The initial center of mass is the incenter: both have barycentric weights
+equal to the opposite side lengths. The identity
+$I=(\sum m_i)^{-1}\sum_{i<j}m_im_jr_{ij}^2$ gives, directly,
+\[
+ I_0=abc,\qquad U_0={ab\over c}+{ac\over b}+{bc\over a}.
+\]
+In the normalized problem,
+\[
+ I_0=AB,\qquad U_0=AB+(AB)^{-1},\qquad H=-U_0.
+\]
+Here $I$ is the moment of inertia about the center of mass and $U$ is the
+positive potential magnitude. The right angle is not preserved: for
+$D=r_{12}^2-r_{23}^2-r_{31}^2$,
+\[
+ D(0)=\dot D(0)=0,\qquad
+ \ddot D(0)=2\bigl[(AB)^{-1}-AB(A+B)\bigr]>0.
+\]
+Thus the angle opposite $r_{12}$ initially becomes obtuse. This local sign
+does not define an invariant region; numerical integration at $u=1/3$
+finds later changes of sign of $D$.
 
 \subsection{Second brakes and a residual valid at collinearity}
 
@@ -84,8 +113,30 @@ Away from triple collision, $Dh$ has rank three and kernel equal to the common
 rotation direction.  Since total linear and angular momentum vanish,
 $\Bcal=0$ is equivalent to vanishing of every labelled inertial velocity.
 Unlike three mutual-distance derivatives, this remains true at syzygy.
+Indeed, a velocity in $\ker Dh$ has the form
+$(\dot X,\dot Y)=\omega(iX,iY)$, whose angular momentum is $\omega I$;
+$L=0$ and $I>0$ force $\omega=0$.
 
-\section{From an infinite trajectory to a finite certificate}\label{sec:events}
+For an explicit configuration-space reduction, rotate with $X$ and write
+$X=(R,0)$, $Y=(C,D)$. Eliminating the common rotation at $L=0$ gives
+\[
+ K_{\rm red}={\mu_1\dot R^2+\mu_2(\dot C^2+\dot D^2)\over2}
+ -{\mu_2^2(C\dot D-D\dot C)^2\over
+ 2[\mu_1R^2+\mu_2(C^2+D^2)]}.
+\]
+Here the dots on $C,D$ differentiate coordinates in the moving frame.
+Substitution of
+$\dot\theta=-\mu_2(C\dot D-D\dot C)/I$ into the inertial kinetic
+energy proves the formula. With $m_{12}=m_1+m_2$, the potential is
+\[
+ U={m_1m_2\over R}
+ +{m_1m_3\over\sqrt{(C+m_2R/m_{12})^2+D^2}}
+ +{m_2m_3\over\sqrt{(C-m_1R/m_{12})^2+D^2}}.
+\]
+The tied brake curve is
+$R=1$, $C=AB(B-A)/(A+B)$, $D=AB$, with zero reduced velocity.
+
+\section{Finite certificates for nonperiodicity}\label{sec:events}
 
 Let
 \[
@@ -120,9 +171,13 @@ $\zeta=2\mu_1\overline X\dot X=-2\mu_2\overline Y\dot Y$; decomposing each
 Jacobi velocity into radial and angular parts proves both formulas.  Thus a
 maximum event is a brake exactly when its shape velocity vanishes, and the
 origin-avoidance problem can equivalently be written as the scalar strict
-inequality $K=U-U_0>0$.  Because this scalar is nonnegative and has an
-even-order zero at a transverse brake, this reformulation does not create a
-sign-change argument by itself.
+inequality $K=U-U_0>0$. At a brake time $\tau$, time reversal gives
+\[
+ K(\tau+s)={s^2\over2}\sum_i m_i|\ddot q_i(\tau)|^2+O(s^4).
+\]
+The coefficient is positive, since $\ddot I(\tau)=-2U_0<0$ rules out
+vanishing of all accelerations. A brake is consequently a quadratic zero
+of $K$ in time, which cannot be detected by a sign change of $K$.
 
 There is also a brake residual intrinsic to any binary Levi--Civita chart.
 For a selected pair write $g=q_j-q_i=w^2$, $dt=|w|^2d\sigma$, and
@@ -192,12 +247,12 @@ for
 (21,20,29),\ (5311,5280,7489),\ (8319,8200,11681),
 \ (33439,32400,46561),\ (72,65,97)
 \]
-in both leg orderings.  These are five point theorems, not a parameter-cover
-argument.
+in both leg orderings. The parameter-cover results below require additional
+control of how the enclosed trajectories depend on $u$.
 
 \begin{lemma}[Terminal escape certificate]\label{lem:escape}
 For a prospective binary of total mass $M$ and an outer body of mass $m_c$,
-let $r,\rho$ be the inner and outer Jacobi radii and
+let $x,y$ be the inner and outer Jacobi vectors, $r=|x|$, $\rho=|y|$, and
 $e=|\dot x|^2/2-M/r$. Choose $\eta>0$, set $R=M/\eta$ and
 $s_0=\rho_0-R$, and suppose
 \[
@@ -219,14 +274,50 @@ $\|D(v/|v|^3)\|\le2/|v|^3$ gives
 \[
 |\dot e|\le\frac{2m_cr|\dot x|}{(\rho-r)^3}.
 \]
-Meanwhile
+The outer Jacobi acceleration obeys
+$|\ddot y|\le(M+m_c)/(\rho-r)^2$, so
+$\ddot\rho\ge-(M+m_c)/(\rho-R)^2$. Therefore
 \[
 J=\frac12\dot\rho^2-\frac{M+m_c}{\rho-R}
 \]
-is nondecreasing while $\dot\rho>0$. Hence
+is nondecreasing while $\dot\rho>0$. Its initial value $\delta>0$
+prevents $\dot\rho$ from reaching zero. Hence
 $\rho\ge\rho_0+\sqrt{2\delta}(t-t_0)$, and the total future tidal increase of
 $e$ is at most the allowance in the hypothesis. Its strict margin closes the
-bootstrap.
+bootstrap. The positive gap $\rho-r$ excludes an outer collision; only an
+inner binary collision can terminate the resulting escape trajectory.
+\end{proof}
+
+The near-triple-collision scaling below has limiting inner energy zero,
+so it requires an escape criterion that permits an expanding inner pair.
+
+\begin{lemma}[Escape with a possibly expanding inner pair]\label{lem:hierarchical}
+Use the same Jacobi variables, let $w_0=\rho_0-r_0>0$, and choose
+$\varepsilon,c>0$. Put
+\[
+ v_b=\sqrt{2M/r_0+2\varepsilon},\qquad
+ \mathcal T=\int_0^\infty
+ {\sqrt{2M(r_0+v_bt)+2\varepsilon(r_0+v_bt)^2}
+  \over(w_0+ct)^3}\,dt.
+\]
+If
+\[
+ \dot\rho_0-{M+m_c\over cw_0}>v_b+c,\qquad
+ e_0+2m_c\mathcal T<\varepsilon,
+\]
+then, until a possible inner collision,
+$r(t)\le r_0+v_bt$, $\dot\rho(t)>v_b+c$, and
+$\rho(t)-r(t)\ge w_0+ct$. In particular there is no later brake.
+\end{lemma}
+\begin{proof}
+Assume $e<\varepsilon$ and $\rho-r\ge w_0+ct$ on a bootstrap interval.
+At a first outward crossing of $r_0+v_bt$, the energy inequality gives
+$\dot r\le|\dot x|<v_b$, excluding that crossing. Integration of
+$\ddot\rho\ge-(M+m_c)/(w_0+ct)^2$ then gives
+$\dot\rho>v_b+c$ and preserves the gap. Finally
+$r|\dot x|\le\sqrt{2Mr+2\varepsilon r^2}$ bounds the total tidal
+increase of $e$ by $2m_c\mathcal T$. The integral converges, and the
+strict energy margin closes the bootstrap.
 \end{proof}
 
 \begin{theorem}[Validated middle first-maximum interval]
@@ -260,9 +351,8 @@ has
  P_x\in[-0.0561842,-0.00917817].
 \]
 A labelled brake forces $z=P=0$, so either strict component excludes it.
-The exact chart identities are symbolically regressed.  Two abutting tiles
-cover the stated interval and the archived independent replay reproduces the left-tile
-terminal PASS enclosure.  The source, logs, and pinned dependency hash are indexed in
+Two abutting tiles cover the stated interval. The exact chart identities,
+logs, and an independent left-tile replay are indexed in
 Appendix~\ref{sec:reproduction}.
 \end{proof}
 
@@ -334,36 +424,29 @@ d&>1.8655,\qquad \dot\rho>2.0484,\qquad E_\rho>0.8223,\\
 h&<-9.2745,\qquad -4-h-\Delta>5.0690 .
 \end{split}
 \]
-These are the strict hypotheses of the phase-robust binary--escaper theorem
+These are the strict hypotheses of Lemma~\ref{lem:escape}
 with binary $\{2,3\}$, escaper body 1, and $\eta=4$.  Hence after $t_*$ the
 inner pair either collides classically, ending the maximal classical
 solution, or body 1 escapes permanently; neither alternative permits a later
-brake.  The second-brake lemma proves nonperiodicity.  A separately compiled
-interval checker verifies the terminal inequalities on an outward-widened
-copy of the printed box.  The source, dependency hash, and per-section tube audits are recorded
-in the repository certificate note (Appendix~\ref{sec:reproduction}).
-An archived second end-to-end run at 96-bit MPFR precision, tolerance $10^{-16}$, and
-Taylor order 26 reproduces all six section audits, 3344 main-flow steps, and
-the terminal margin.
+brake. The second-brake lemma proves nonperiodicity. A separate interval
+checker verifies the terminal inequalities on an outward-widened box;
+an independent MPFR replay reproduces the section audits and escape margin.
 
 The remaining extension is the union of 100 independently certified,
 adjacent closed tiles of exact width $10^{-10}$, beginning at
 $0.2900000001$ and ending at $0.2900000101$.  Every requested interval is
 identical to its PASS interval, every consecutive pair shares its exact
-rational endpoint, and all 100 full logs are archived.  The hardened base
-tile and the synchronized one-set theorem overlap this campaign, so their
-union is the complete closed interval stated above, with no topological or
-rounding gap.
+rational endpoint, and all 100 full logs are archived. The campaign overlaps
+the initial tile, and their union is exactly the stated closed interval.
 \end{proof}
 
 This continuum theorem covers a width of $1.01\times10^{-8}$. Larger
 parameter covers remain a separate validation problem; experimental wider
 propagations are not included in its conclusion.
 
-For each fixed $u$ the separation bound is positive, and it is uniform on
-every compact parameter interval bounded away from $u=0$.  It degenerates in
-the skinny limit and is not a parameter-uniform Euclidean separation theorem
-on the whole open interval.
+At a possible brake, the bound $r_{ij}\ge m_im_j/U_0$ is uniform on every
+compact parameter interval bounded away from $u=0$. It gives no lower
+bound on separations between brake events and degenerates as $u\to0$.
 
 On any regular strict-maximum branch, the implicit-function theorem locally
 gives $t=t_k(u)$.  The unresolved condition becomes the planar
@@ -376,9 +459,8 @@ collision and escape endpoints, degenerate events, and the possible number
 of branches.  The nominal dimension count alone supplies none of these
 facts.
 
-Ordinary signed-event diagnostics rule out a simpler global shortcut.  On
-the single (u=1/3) trajectory, maximum-event values of (zeta) occupy all
-four quadrants, and three early values have the origin in their convex hull.
-Thus no fixed real linear projection of $\zeta$ can be sign-definite over
-all maximum events.  A successful obstruction must instead use branch-wise
-order or winding, a nonlinear barrier, or a state-dependent projection.
+Numerical diagnostics at $u=1/3$ place maximum-event values of $\zeta$ in
+all four quadrants, with the origin in the convex hull of three early
+values. These data argue against a fixed real linear projection with one
+strict sign at every maximum. Branch-dependent order or a nonlinear
+constraint remains a possible approach.

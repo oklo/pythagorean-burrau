@@ -7,7 +7,7 @@
 > scalar counterexample and a corrected sufficient lemma. Separate interval
 > and endpoint certificates are not withdrawn by this correction.
 
-Last updated: 2026-09-05
+Last updated: 2026-09-06
 
 ## State in one paragraph
 
@@ -86,9 +86,14 @@ rational candidate.
 
 ## Manuscript, figure, and public handoff
 
-- `paper/main.pdf` is the reviewed 22-page main argument; the technical
-  companion is about 50 pages. Read `MANUSCRIPT_REVIEW_2026-09-05.md` before
-  relying on older theorem summaries.
+- The authoritative paper is `paper/main.tex`, its `paper/sections/` inputs,
+  and `paper/main.pdf`: **The Pythagorean Three-Body Conjecture**, September 6,
+  2026, **31 pages including references**, at 11-point type and one-inch margins.
+  Principal technical-companion arguments have been folded into this paper;
+  `paper/technical-details.tex/pdf` remains the roughly 50-page research archive.
+  The old 22-page main draft and intermediate 29/30-page versions are superseded.
+  Read `HANDOFF_MANUSCRIPT_2026-09-06.md` for the current restart prompt and
+  `MANUSCRIPT_REVIEW_2026-09-05.md` before relying on older theorem summaries.
 - The review corrected the forced-lag endpoint gap, the launch-window logic in
   the finite-cover argument, escape-criterion ordering, and several stale or
   overbroad claims. The interval and endpoint certificates themselves were not
@@ -96,17 +101,74 @@ rational candidate.
 - The live Oklo post `https://oklo.org/2026/09/05/add-astra/` links the words
   “is here” to the deployed manuscript PDF at
   `https://oklo.org/wp-content/uploads/2026/09/pythagorean-burrau-interim-report.pdf`.
+  On September 6 that file was replaced, without changing the post, by the
+  latest 31-page PDF. The public download, local manuscript, and staged upload
+  all had SHA-256
+  `d2b50b0152d37ee0f65c3aebb39dbd771d19439187783ad5cd9e9062868c9f79`.
+  The old 22-page public PDF is preserved in
+  `paper/archive/oklo-interim-report-2026-09-05.pdf`.
+  See `OKLO_PUBLICATION_2026-09-06.md` for provenance and safe deployment steps.
 - The latest five-row blog visualization is
   `/Users/greglaughlin/Projects/burrau/plots/oklo_pythagorean_fan_trajectory_progression.png`;
   its generator and audit JSON are adjacent under `scripts/` and `data/`.
   It is an ordinary numerical illustration, not a certificate. The manuscript
   deliberately retains its separately inspected earlier snapshot and records
   both hashes in `paper/review-provenance.json`.
+- Figure 1's isosceles label is inside the arc with an endpoint arrow; both
+  panel titles are aligned. Figure 3 is the continued F30 trajectory, not an
+  exact Pythagorean solution. Its image is copied unchanged and its return half
+  is constructed by reversing the first half, explicitly disclosed in the
+  caption. Its plotting residual is 2.6e-11, distinct from the campaign's
+  separately refined root. The redundant defect plot is archived; Table 1
+  retains all six defects. Supporting notes and the F30 plotting script from
+  the unversioned `../burrau` directory are preserved in
+  `paper/archive/burrau-2026-09-06/`.
+
+## Editorial preferences to preserve
+
+- Richard Montgomery is the technical reader, but the historical/physical
+  introduction must retain genuine interest for an informed lay audience.
+  Do not erase that opening or reintroduce "dance," conversational Q&A prose,
+  or generic LLM-style framing.
+- Exact title: **The Pythagorean Three-Body Conjecture**. Section 1 is
+  **A simple plan**. There is no "working research draft" author line.
+- The abstract is 144 whitespace-delimited words. Its first two sentences
+  were explicitly approved; preserve them unless asked otherwise. Following
+  them are the certified interval, brake criterion, thin-family result,
+  first-turn exclusion, numerical status, and the unresolved global conjecture.
+- The Shaquille O'Neal epigraph remains below the abstract, left-aligned to
+  the abstract's margin with an added baseline of vertical space; the black
+  attribution links to the supplied BrainyQuote source.
+- The initial under-30-page target was explicitly relaxed on September 6.
+  Do not compress the technical explanation merely to force 29 pages.
+- Section 1.5 distinguishes `P intersect Q = empty` from measure zero.
+  Its analytic reversible oscillator example has periodic parameters exactly
+  Q; its second example has the isolated rational periodic parameter 1/3.
+  These are logical counterexamples to the inference, not gravitational ones.
+- The final introductory paragraph gives a **subjective 10% probability that
+  at least one integer Pythagorean counterexample exists**. The user explicitly
+  requested the attribution **GPT-6 Astra**. This is not a calculated probability,
+  a claim about successful finite search, or evidence that the conjecture is false.
+
+## Verification and preservation
+
+- The consolidation pass had 190 selected existing tests passing and a
+  successful independent audit of all 100 archived middle-cover tiles.
+- The September 6 rationality/F30 revision had 22 targeted tests passing,
+  exact oscillator-identity checks, recalculated F30 geometry, and visual PDF
+  inspection. No fresh CAPD integrations or interval root proof were performed.
+- Keep the reviewed compiled main PDF in Git, together with its LaTeX inputs,
+  figures, companion archive, and publication record. Rebuilding may change the
+  PDF hash through metadata alone; compare the actual deployed bytes when publishing.
+- `../oklo-org` has no configured GitHub remote and has unrelated dirty theme,
+  application, and audio work. Do not stage or deploy that work as part of a
+  manuscript update. This research repository is private and has the configured
+  `oklo/pythagorean-burrau` GitHub remote.
 
 ## Restart order
 
-1. Read `MANUSCRIPT_REVIEW_2026-09-05.md` and
-   `FORCED_LAG_ENDPOINT_CORRECTION.md` first.
+1. Read `HANDOFF_MANUSCRIPT_2026-09-06.md`, then
+   `MANUSCRIPT_REVIEW_2026-09-05.md` and `FORCED_LAG_ENDPOINT_CORRECTION.md`.
 2. Read `STATUS.md`, `PROOF_OBLIGATIONS.md`, and
    `PERIODIC_CONSTRUCTION_REPORT_2026-09-05.md`; use the August handoff only
    with its superseding correction notice.
@@ -121,9 +183,11 @@ rational candidate.
 6. Do not make affine-tile widening the primary attack. Local width does not
    bridge the unresolved global parameter continuum.
 
-## Honest completion estimate
+## Historical planning estimate
 
-The last calibrated estimate toward a full resolution was about **25%**, with
-a credible range of **15--35%**.  This is not a fraction of lemmas completed;
-it discounts heavily for the still-missing global bridge across the middle
-parameter range.  Earlier estimates near 58% were retracted as too optimistic.
+The earlier research-planning estimate of progress toward a full resolution
+was about **25%**, with a subjective range of **15--35%**. It was not a
+calibrated probability or a fraction of lemmas completed; it discounted the
+missing global argument. Earlier estimates near 58% were retracted. This
+historical planning estimate is different from the September 6 manuscript's
+subjective **10% probability of an integer counterexample existing**.

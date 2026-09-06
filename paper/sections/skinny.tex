@@ -1,14 +1,14 @@
-\section{Thin triangles: close misses and escape windows}\label{sec:skinny}
+\section{Thin triangles and escape windows}\label{sec:skinny}
 
 At the thin end of the family, the small mass $B=\epsilon$ is far from a
 tight pair of masses $A=\sqrt{1-\epsilon^2}$ and 1, initially separated by
 $\epsilon$. Two clocks then coexist: the inner pair moves on a time scale
 $\epsilon^{3/2}$, while the outer body returns on a time scale of order
 one. A single outer excursion contains an unbounded number of binary
-cycles as $\epsilon\to0$. This is why excluding one early encounter does
-not settle all sufficiently thin triangles.
+cycles as $\epsilon\to0$. Exclusion of one early encounter therefore
+leaves an increasing number of later passages to control.
 
-\subsection{The first encounter does not collide}
+\subsection{The first close encounter}
 
 For $X=q_3-q_1$, put $X=\epsilon x$ and
 $t=\epsilon^{3/2}\tau/\sqrt{A+1}$, and rotate so that $x(0)=1$.
@@ -29,14 +29,56 @@ The proof uses the simple zero of $\operatorname{Re}z_0$ and the nonzero
 fifth-order imaginary displacement; away from that zero compact continuity
 keeps all pairs separated. Squaring the regularized displacement and
 restoring the factor $\epsilon$ gives the eleventh power. The symbolic
-coefficient calculation is recorded in the technical companion and
-\texttt{SKINNY\_REGULARIZATION.md}.
+coefficient is also obtained directly from the oscillator Green function:
+with $a=s/\sqrt2$,
+\[
+ v(s_c)=-{3\over4}\int_0^{\pi/2}\cos^6 a\,da
+ =-{15\pi\over128}.
+\]
+The same calculation gives the specific pair angular momentum
+$\ell_{13}=-(15\pi/64)\epsilon^{11/2}+O(\epsilon^{13/2})$.
 
 The first passage is not an escape certificate. Its outer radial escape
 margin is $-2+O(\epsilon)$, while the pair remains tightly bound. The
 subsequent return must be analyzed.
 
-\subsection{Match the binary clock to the returning body}
+\subsection{The restricted problem at the outer plunge}\label{sec:restricted}
+
+Let $X=q_3-q_1$ and $Y=q_2-(Aq_1+q_3)/(A+1)$. Near the outer
+plunge, set $X=\epsilon R$, $Y=\epsilon Z$, and
+$t=t_*+\epsilon^{3/2}\theta$. With $\Phi(v)=v/|v|^3$, the limiting
+equations are
+\begin{equation}\label{eq:restricted}
+ R_{\theta\theta}=-2\Phi(R),\qquad
+ Z_{\theta\theta}=-\Phi(Z+R/2)-\Phi(Z-R/2).
+\end{equation}
+The two heavy masses have become equal, and the light particle no longer
+affects their motion. On the invariant symmetric subspace,
+$R=(r,0)$, $Z=(0,z)$, and
+\[
+ r=\cos^2\psi,\qquad d\theta=r\,d\psi,\qquad
+ z_{\theta\theta}=-{2z\over(z^2+r^2/4)^{3/2}}.
+\]
+Here the binary has apocenter one and is continued through its collisions
+in Levi--Civita coordinates. All limiting arguments through these
+collisions require the light particle to remain separated.
+
+Release the light particle from $z=0$ at binary apocenter with speed $v$.
+Small positive speeds turn, whereas sufficiently large speeds escape.
+The boundary of the turning set contains a parabolic orbit, tending to
+infinity with zero speed; reflection and time reversal extend it to a
+parabolic-to-parabolic orbit. For $z>0$, $z_{\theta\theta}<0$ prevents a
+bounded nonturning boundary orbit. Openness of finite turning and
+positive-speed escape excludes both alternatives at the boundary.
+The speed $v_*$ satisfies $\sqrt8<v_*<4$; interval integration with the
+analytic tail bound
+\[
+ 0\le H_K(\infty)-H_K(z)\le{1\over4z^3},\qquad
+ H_K={z_\theta^2\over2}-{2\over z},
+\]
+refines this to $2.9051113<v_*<2.9051116$.
+
+\subsection{Matching the binary clock and the full incoming state}
 
 Write $M=A+1$, $N=M+\epsilon$, and
 $\rho_0^2=2A^2/M$. Replacing the inner pair by its combined point mass
@@ -47,9 +89,9 @@ provides an explicit reference phase:
  =\pi\epsilon^{-3/2}-{\pi\over4}\epsilon^{-1/2}
    -{15\pi\over32}\epsilon^{1/2}+O(\epsilon^{3/2}).
 \end{equation}
-This is a reference clock, not an equality with the phase of the interacting
-system. The essential matching result compares \emph{states}, rather than
-just an informal count of binary revolutions.
+The reference clock approximates the asymptotic phase intercept of the
+interacting system. To transfer an escape window, one needs convergence
+of the full incoming state as well as its phase.
 
 \begin{theorem}[Incoming-state matching]
 On a fixed sufficiently large scaled incoming section $\Sigma_K^-$, let
@@ -63,43 +105,98 @@ $S_\epsilon(K)$ satisfies
  \Gamma_K^-(\Phi_{\rm ref}(\epsilon))\bigr)=o(1).
 \]
 \end{theorem}
-\begin{proof}[Argument and technical dependency]
+\begin{proof}
 Stop the outer infall at physical radius $\rho=\epsilon^\alpha$ with
 $0<\alpha<1/6$. Cancellation of the outer dipole gives a monopole-force
 remainder $O(\epsilon^2\rho^{-4})$. Inner-energy control, variation of the
 regularized oscillator, and comparison of its physical clock then give
 an incoming intercept error $O(\epsilon^{1/2-3\alpha})=o(1)$.
-The remaining unbounded incoming tail has integrable quadrupole remainder
-$O(Y^{-4})$ in scaled radius $Y$. Integrating its energy, angular-momentum,
-and phase equations transports the full state to the fixed section.
-The intercept includes the finite quadrupole correction from infinity;
-using the raw monopole phase at the finite section would omit that term.
-The weighted tail bounds and uniform parameter estimates needed in this
-step are given in the technical companion's incoming-tail matching proof
-and \texttt{INCOMING\_TAIL.md}.
+On the remaining tail, write $y=|Z|$, $y_e=\epsilon^{\alpha-1}$,
+$\mathcal H_N=|Z_\theta|^2/2-N/y$, and
+$\mathcal L=Z\times Z_\theta$. The dipole cancellation and a simultaneous
+energy and angular-momentum bootstrap give, uniformly for $K\le y\le y_e$,
+\[
+ |\mathcal H_N-E_{\rm ref,\epsilon}|\le Cy^{-3},\qquad
+ |\mathcal L|\le Cy^{-3/2},\qquad -y_\theta\asymp y^{-1/2},
+\]
+where $E_{\rm ref,\epsilon}=-N\epsilon/\rho_0$ is the scaled monopole
+energy. Binary control through every close passage uses the oscillator
+invariants
+\[
+ \mathcal J=(E+1,L_b,K_b),\quad
+ L_b=z_xp_y-z_yp_x,\quad K_b=p_xp_y-(E/2)z_xz_y,
+\]
+with $p=z_s$. On the radial Kepler circle the normal Jacobian
+$\det\partial(L_b,K_b)/\partial(z_y,p_y)=-1/2$ stays nonzero, including
+at binary collision. The forced equations give
+$|\mathcal J_s|\le C\epsilon y^{-3}$; summing complete LC blocks and
+bounding the two incomplete end blocks gives a clock error
+$O(\epsilon^{1-3\alpha/2})+O(\epsilon|\log\epsilon|)=o(1)$.
+
+Retain the finite-$\epsilon$ monopole flight-time subtraction until $y$
+is fixed. Its phase error is at most $Cy^{-1/2}+o(1)$, which includes
+the finite quadrupole correction from infinity. Compactness in LC
+variables gives a limiting restricted tail. Its transverse displacement
+has the inherited bound $O(y^{-1})$, whereas the homogeneous transverse
+modes grow as $y$ and $y^{1/2}$. Thus the limit is rectilinear. Taking
+$\epsilon\to0$ at fixed $y$ and then $y\to\infty$ identifies the
+intercept as $\Phi_{\rm ref}(\epsilon)$ in the limiting sense.
+Uniqueness of the incoming parabolic graph gives the stated full-state
+convergence. The uniform tail estimates and their LC block bounds are
+recorded in \path{docs/INCOMING_TAIL.md}.
 \end{proof}
 
-The corresponding restricted motion has a reversible parabolic separatrix.
-Its incoming and outgoing parabolic curves meet transversely. This claim
-requires pinning the phase: a whole-line variation without fixing the time
-translation has a decaying gauge mode and gives no transversality test.
-The finite certificate instead bounds the required Jacobi field on one
-regularized binary contraction. For its normalized terminal derivative
-$p$ it proves
+\subsection{Transversality and the escape arcs}
+
+At $z=0$, let $V_u(\phi)$ and $V_s(\phi)$ be the positive crossing
+speeds on the incoming and outgoing parabolic curves, with $\phi=0$ at
+binary apocenter. Reversibility gives $V_s(\phi)=V_u(-\phi)$.
+The transversality condition is $V_u'(0)\ne0$. Fixing the phase is
+essential: the time-translation Jacobi field decays at parabolic infinity
+and is not removed merely by prescribing zero limiting data.
+
+For the longitudinal Jacobi field $h$, put $q=h/v$, $w=z_\theta$,
+$p=q_\theta$, and $d^2=z^2+r^2/4$. The finite regular system is
+\[
+ z_\psi=rw,\quad w_\psi=-{2rz\over d^3},\quad
+ q_\psi=rp,\quad p_\psi=r{4z^2-r^2/2\over d^5}q,
+ \qquad(z,w,q,p)(0)=(0,v,1,0).
+\]
+An order-20 interval Taylor calculation on 256 overlapping speed slabs
+proves
 \[
  p(\pi/2)>1/125\qquad\hbox{uniformly for }14/5\le v\le4.
 \]
-Here $v$ is a restricted launch-speed variable, unrelated to the
-near-isosceles parameter of Section~\ref{sec:iso}. A parabolic stable-manifold
-argument then converts this strict sign into transverse intersection.
-The technical companion gives the compactified map and checks the
-hypotheses of the degenerate stable-manifold result~\cite{McGehee1973}.
-The transversality supplies open escape-intercept arcs, as well as a
-returning side that remains to be classified globally.
+Here $v$ denotes launch speed, not the near-isosceles parameter.
+Force comparison gives $h>0$ through this first contraction and a positive
+Jacobi coefficient thereafter. Thus the certified derivative forces
+$h(\theta)$ to grow at least linearly.
 
-\subsection{Transfer open escape arcs back to integer triangles}
+To relate this growth to transversality, compactify infinity by $z=2/x^2$.
+The exact field is analytic at $x=0$, and its time-$\pi$ map in binary
+eccentric anomaly, after $X=x$, $Y=w-\sqrt2x$, is
+\[
+ X_1=X-{\pi\over8}X^3(Y+\sqrt2X)+O_7,\qquad
+ Y_1=Y+{\pi\sqrt2\over8}X^3Y+O_7.
+\]
+The degree-four terms contract the positive $X$ axis and expand its normal
+direction; $O_7$ denotes analytic terms of total degree at least seven.
+McGehee's degenerate stable-manifold theorem gives a parabolic
+graph $Y=\varphi(X)$ with $\varphi'(X)\to0$~\cite{McGehee1973}.
+Along it, $X_n^{-3}\asymp n$ and every tangent tends to zero.
+If the parabolic curves were tangent at $\phi=0$, reversibility would
+make both slopes vanish. The difference of the time-shift tangent and
+the parabolic tangent with fixed phase would then be the field $h$ above.
+But $\delta X_n=-X_n^3h(\theta_n)/4$ would stay bounded away from zero,
+contradicting tangent contraction. This proves transversality.
 
-Fix a compact subarc $J$ strictly inside a restricted escape window.
+Consequently $V_u-V_s$ changes sign linearly at zero. The parabolic graph
+separates an open hyperbolic-escape side from an open finite-turn side.
+This is the source of the escape-intercept arcs used below.
+
+\subsection{Transfer to integer triangles}
+
+Fix a compact subarc $J$ of positive length strictly inside a restricted escape window.
 Incoming-state matching and continuous dependence carry sufficiently
 small exact tied members with $\Phi_{\rm ref}(\epsilon)\bmod2\pi\in J$
 to a finite outgoing section. There the binary specific energy and outer
@@ -158,15 +255,6 @@ are primitive. This density concerns the displayed family of indices,
 not the set of all primitive Pythagorean triples ordered by hypotenuse.
 \end{proof}
 
-\subsection{Why the remaining phases are harder}
-
-At boundaries of the restricted escape windows, returning orbits can pass
-near binary or triple collision. The detailed analysis in the companion
-constructs transverse planar collision boundaries and local finite-mass
-collision-or-escape regions. These are useful pieces of the eventual
-classification, but enumerating several boundaries does not enumerate all
-possible encounter sequences. Likewise, infinitely many real collision
-parameters do not imply that even one of them is rational, and a collision
-would in any case terminate the classical trajectory rather than supply a
-counterexample. The main unresolved thin-triangle problem is a uniform
-classification of the remaining returning components.
+The returning side requires additional control through successive central
+encounters. The next section gives the available first-turn exclusion,
+the near-triple-collision reduction, and the local collision classifications.

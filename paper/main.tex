@@ -9,36 +9,47 @@
 \newtheorem{conjecture}[theorem]{Conjecture}
 \newcommand{\R}{\mathbb R}
 \newcommand{\Bcal}{\mathcal B}
-\title{Can a Pythagorean Triangle Repeat Its Gravitational Dance?\\
-\large Exact Reductions and Partial Results toward the\\
-Pythagorean--Burrau Nonperiodicity Conjecture}
-\author{Working research draft}
-\date{September 5, 2026}
+\title{The Pythagorean Three-Body Conjecture}
+\author{}
+\date{September 6, 2026}
 \begin{document}
 \maketitle
 \begin{abstract}
-Release three Newtonian point masses from rest at the vertices of an integer
-right triangle, with each mass equal to the length of its opposite side.
-Must the resulting motion fail to be collision-free and periodic? We review
-the historical experiment, report direct counterexample searches, and develop
-partial results toward this conjecture. Exact scaling reduces the integer
-family to a rational curve. Time reversal reduces periodicity to a second
-simultaneous stop; the Lagrange--Jacobi identity restricts such a stop to a
-strict maximum of the moment of inertia. Validated flow covers and a terminal
-escape estimate exclude periodicity on a closed interval near $u=0.29$.
-Separate endpoint arguments give a punctured near-isosceles interval and
-infinitely many thin-triangle escape windows, including a positive-density
-subset of an explicit primitive family. Numerical continuation finds nearby
-periodic candidates in a larger mass--side family, none satisfying the
-right-angle equation. The universal conjecture remains open. We identify a
-missing terminal bound in an earlier torque-history argument and retain the
-resulting conditional reduction with that hypothesis explicit.
+We study collision-free periodicity of Newtonian free-fall solutions whose
+masses equal the opposite sides of an integer right triangle. We review the
+problem's history, reduce periodicity to a second brake, and establish
+nonperiodicity on an explicit real-parameter interval, a punctured
+near-isosceles neighborhood, and infinitely many thin-triangle windows.
+In Euclid's rational parameter $u$, validated flow enclosures and a terminal
+escape estimate prove nonperiodicity for every
+$u\in[0.29,0.2900000101]$. The Lagrange--Jacobi identity confines second
+brakes to strict maxima of the moment of inertia, where the remaining
+condition is vanishing shape velocity. Near the thin endpoint, matching to
+a restricted parabolic scattering problem and equidistribution of the
+binary phase give a set of positive lower density of nonperiodic members
+of $(4n^2-1,4n,4n^2+1)$. A uniform angular-momentum estimate also excludes
+first-turn brakes in the accumulating parabolic layer. Numerical
+continuation produces nearby periodic candidates with nonzero Pythagorean
+defects. The universal conjecture remains open.
 \end{abstract}
+\vspace{\baselineskip}
+{\small
+\begin{quote}
+\raggedright\itshape
+There is no answer to the Pythagorean theorem. Well, there is an answer,
+but by the time you figure it out, I got 40 points, 10 rebounds and then
+we're planning for the parade.
+\par\smallskip
+\normalfont\raggedleft
+{\hypersetup{urlcolor=black}---\,\href{https://www.brainyquote.com/quotes/shaquille_oneal_461213}{Shaquille O'Neal}}
+\end{quote}
+}
 \input{sections/introduction}
 \input{sections/counterexamples}
 \input{sections/reductions}
 \input{sections/isosceles}
 \input{sections/skinny}
+\input{sections/returns}
 \input{sections/torque}
 \input{sections/outlook}
 \input{references}

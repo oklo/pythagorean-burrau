@@ -1,0 +1,90 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{microtype}
+\usepackage[hidelinks]{hyperref}
+
+\title{Why a Measure-Zero Periodic Set Can Contain Rational Parameters}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+Two elementary dynamical examples show why proving that periodic parameters are
+rare, measure zero, or isolated does not by itself exclude rational parameters.
+
+\section*{1. A measure-zero periodic set containing every rational}
+
+Consider two uncoupled oscillators whose solution is
+\[
+  x(t)=\cos t,
+  \qquad
+  y(t)=\cos(ut),
+  \qquad 0<u<1.
+\]
+The complete labelled state returns precisely when the two frequencies are
+commensurable.  Equivalently,
+\[
+  u\in\mathbb{Q}.
+\]
+Thus the set of periodic parameters is
+\[
+  \mathbb{Q}\cap(0,1).
+\]
+This set is countable and has Lebesgue measure zero, yet it contains every
+rational parameter in the interval.  It is also dense.  Consequently, a theorem
+saying only that periodic parameters have measure zero would say nothing about
+whether the Pythagorean parameters are periodic.
+
+\section*{2. An isolated periodic parameter that is rational}
+
+Consider
+\[
+  \ddot{x}+x=0,
+  \qquad
+  \ddot{y}+2y=0,
+\]
+with parameter-dependent initial conditions
+\[
+  x(0)=1,
+  \quad \dot{x}(0)=0,
+  \qquad
+  y(0)=u-\frac13,
+  \quad \dot{y}(0)=0.
+\]
+The resulting solution is
+\[
+  x(t)=\cos t,
+  \qquad
+  y(t)=\left(u-\frac13\right)\cos(\sqrt{2}\,t).
+\]
+For \(u\ne 1/3\), both incommensurable frequencies \(1\) and \(\sqrt{2}\) are
+present, so the full orbit is quasiperiodic and never returns exactly.  At
+\[
+  u=\frac13,
+\]
+the second oscillator has zero amplitude, leaving the periodic motion
+\(x(t)=\cos t\).  Hence the periodic-parameter set is exactly
+\[
+  \left\{\frac13\right\},
+\]
+an isolated, measure-zero set consisting of a rational number.
+
+\section*{Relevance to the Pythagorean--Burrau conjecture}
+
+Showing that intersections with the periodic-brake locus are isolated would be
+substantial geometric progress, but it would not finish the conjecture.  One
+would still need an exact bridge excluding rational intersection parameters---for
+example,
+\[
+  \mathcal{B}(u,t)=0 \implies u\notin\mathbb{Q},
+\]
+or the stronger real statement
+\[
+  \mathcal{B}(u,t)\ne0
+  \qquad
+  \text{for every real }u\in(0,1)\text{ and every admissible }t>0.
+\]
+
+\end{document}

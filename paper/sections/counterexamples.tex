@@ -1,12 +1,14 @@
 \section{Attempts to construct a counterexample}\label{sec:search}
 
-The search starts from an adversarial question: can a known periodic
-free-fall orbit be adjusted until it lies exactly on the Pythagorean
-curve? This is more directed than waiting for a long trajectory to nearly
-return. It also tests whether the apparent scarcity of second brakes is
-merely an artifact of sampling.
+The most suggestive near miss is a numerical periodic orbit whose launch
+triangle differs visibly little from $3$--$4$--$5$
+(Figure~\ref{fig:f30}). Its masses equal its opposite initial sides to
+shooting accuracy, but its largest angle is about $90.202^\circ$.
+Understanding both this proximity and the remaining defect is essential:
+periodicity must survive imposing the exact right angle, and an integer
+counterexample must then have rational Euclid parameter.
 
-\subsection{Impose the geometric constraints in stages}
+\subsection{Mass--side matching and the right-angle defect}
 
 Normalize $m_3=r_{12}=1$. In the larger family where each mass equals its
 opposite side, a valid nondegenerate triangle has
@@ -16,8 +18,8 @@ opposite side, a valid nondegenerate triangle has
  x={m_2^2-m_1^2\over2},\quad
  y=\sqrt{m_2^2-(x+1/2)^2}>0.
 \end{equation}
-There are now two adjustable mass ratios. Periodic candidates in this
-larger family need not be right triangles. Their remaining defect is
+The two mass ratios can vary independently. The remaining right-angle
+defect is
 \begin{equation}\label{eq:defect}
  D=m_1^2+m_2^2-1.
 \end{equation}
@@ -29,14 +31,14 @@ Our September 2026 campaign starts from six entries of Li and Liao's
 unequal-mass catalogue~\cite{LiLiao}. In the numerical construction we solve
 three independent second-brake equations together with two mass--side
 matching equations, varying the two initial-position coordinates, two
-mass ratios, and a regularized flight time. Levi--Civita coordinates
+mass ratios, and a regularized flight time. Levi--Civita (LC) coordinates
 replace the selected pair separation by a complex square and slow the
 clock near close approaches. An atlas of pair choices avoids relying on
 one coordinate chart for every encounter. Analytic variational equations
 supply the shooting derivatives; pseudo-arclength continuation recovers
 seeds for which direct correction stalls.
 
-\begin{table}[tb]
+\begin{table}[htbp]
 \centering
 \small
 \begin{tabular}{lrrrr}
@@ -60,18 +62,64 @@ to established connected branches of solutions.}
 \label{tab:candidates}
 \end{table}
 
+\subsection{The near-3--4--5 orbit}
+
+In the catalogue's leg ordering, the exact normalized $3$--$4$--$5$ data
+are $(m_1,m_2,m_3)=(0.6,0.8,1)$ and $q_3=(0.14,0.48)$, with the other
+vertices as in~\eqref{eq:general-tied}. Li and Liao's $F_{30}$ entry has
+these exact masses but $q_3\simeq(0.1446319096,0.4773197126)$
+\cite{LiLiao}. Its proximity is partly a selection effect: the catalogue
+already samples the $3$--$4$--$5$ mass ratio, and this entry starts near
+the required triangle. Varying the two mass ratios to impose mass--side
+matching gives the continued candidate
+\begin{equation}\label{eq:f30-candidate}
+ \begin{split}
+ (m_1,m_2)&\simeq(0.594811646571,\;0.801774973318),\\
+ q_3&\simeq(0.144521106471,\;0.476902140016),\qquad
+ \tau\simeq6.289233824.
+ \end{split}
+\end{equation}
+Here $\tau$ is the second-brake time; an exact root would have period
+$2\tau\simeq12.578467648$. The leg masses change from $0.6$ and $0.8$
+by about $-0.865\%$ and $+0.222\%$. The angle $\gamma$ opposite the unit
+side satisfies
+\[
+ \cos\gamma=\frac{D}{2m_1m_2},\qquad
+ D\simeq-0.003355997265,\qquad \gamma\simeq90.2015966^\circ.
+\]
+After an optimal labelled similarity fit, the initial triangle's RMS
+vertex distance from $3$--$4$--$5$ is only $0.00223745$, relative to the
+unit longest side. The figure makes that geometric proximity apparent.
+
 \begin{figure}[tb]
 \centering
-\includegraphics[width=.9\linewidth]{figures/counterexample-defects.pdf}
-\caption{The six numerical candidates of Table~\ref{tab:candidates} and
-exact right-triangle constraint. The left panel places them relative to
-$m_1^2+m_2^2=1$; the right displays each signed defect directly. Opposite
-signs at unrelated candidates are not an intermediate-value bracket.
-No connecting solution branch is established by these points.}
-\label{fig:defects}
+\includegraphics[width=.67\linewidth]{figures/f30-mass-side-periodic-candidate.png}
+\caption{The continued $F_{30}$ numerical periodic candidate near
+$3$--$4$--$5$. Red, green, and blue trace masses $m_1,m_2,1$ in the
+center-of-mass frame. The solid dark triangle is the launch configuration;
+the dashed gold triangle is the exact labelled $3$--$4$--$5$ shape after
+least-squares translation, rotation, and common scaling (no reflection).
+Points are sampled uniformly in physical time. The plotted return half
+is constructed by reversing the first brake-to-brake segment; visual
+closure is not an independent periodicity test. This global-LC plotting
+replay has a maximum shooting residual of $2.6\times10^{-11}$; the campaign
+checks below use a separately refined root. Neither is an interval
+existence proof, and the nonzero right-angle defect rules out a counterexample.}
+\label{fig:f30}
 \end{figure}
 
-\subsection{What the numerical checks establish}
+The small defect is not a remaining free adjustment. The three brake
+conditions and two mass--side equations use all five shooting variables.
+The numerical Jacobian is nonsingular, suggesting local isolation rather
+than a tunable family; existence and isolation still require validation.
+Imposing $D=0$ is a sixth equation.
+Projecting the displayed masses onto the unit circle changes the initial
+value problem and does not preserve its second brake. Moreover, finite
+decimal approximations establish neither rationality nor irrationality
+of an underlying exact root. A counterexample requires a mechanism that
+meets both constraints, not further digits of this near miss.
+
+\subsection{Numerical validation and its limits}
 
 The corrected shooting residuals are at most about $1.2\times10^{-12}$.
 Reintegration with an implicit Radau method, comparison with DOP853, and
@@ -79,8 +127,7 @@ backward reversal reproduce the candidate states to roughly
 $2\times10^{-12}$. The corresponding five-equation Jacobians have
 ordinary smallest singular values between approximately $0.199$ and
 $0.870$ in the recorded physical-parameter convention. Their numerical
-nonsingularity suggests isolated solutions of the five matching equations,
-rather than freely adjustable families that automatically cross $D=0$.
+nonsingularity suggests isolated solutions of the five matching equations.
 It does not prove existence or isolation: those conclusions require a
 validated implicit-function calculation.
 
@@ -89,9 +136,9 @@ $5.0\times10^{-4}$. These values explain the use of regularization and
 also limit the evidence: sampling alone does not certify positive
 separation for every intervening time. Reconstructed energy is especially
 sensitive to cancellation near the deepest passages; the campaign's worst
-sampled physical energy error is about $2.5\times10^{-7}$. Small shooting
-residuals must not be presented as equally small error bounds for every
-physical observable.
+sampled physical energy error is about $2.5\times10^{-7}$. The shooting
+residuals consequently give no comparable error bound on the reconstructed
+energy.
 
 We separately impose the exact right-triangle parameterization and look
 for small kinetic energy at local maxima of the moment of inertia. Four
@@ -104,16 +151,17 @@ there is no candidate on which rational reconstruction would be warranted.
 Machine-readable results and exact replay commands accompany the campaign
 report listed in Appendix~\ref{sec:reproduction}.
 
-\subsection{Two tempting continuation arguments that do not suffice}
+\subsection{Continuation, rank, and syzygy itineraries}
 
-The defects of $F_1$ and $F_2$ have opposite signs. This would be useful if
-we had a connected collision-free periodic branch joining them, on which
-$D$ varied continuously. We do not. Their labelled half-orbit syzygy
-sequences are different, and at zero angular momentum a noncollinear
-collision-free orbit crosses every syzygy transversely. Consequently those
-finite sequences cannot change on a connected finite-flight-time brake
-family without an excluded event or endpoint. Opposite defects alone are
-not a bracket.
+The opposite defects of $F_1$ and $F_2$ would bracket a zero on a connected
+collision-free periodic branch joining them. No such branch is established.
+Their labelled half-orbit syzygy sequences differ. At zero angular
+momentum, every syzygy reached from a noncollinear initial state is
+transverse: a tangency would force both Jacobi velocities to lie on the
+collinear axis, and uniqueness would make the entire orbit collinear.
+Thus a finite syzygy itinerary is locally constant on a family of
+noncollinear brake endpoints with finite flight time and positive
+separation. Changing the itinerary requires leaving this domain.
 
 Nor does a rank deficiency automatically construct the missing branch.
 For five smooth equations in five unknowns, a rank-four Jacobian leaves
@@ -125,7 +173,6 @@ these brake loops: a full brake orbit retraces its path and its loop in
 collision-free shape space is null-homotopic. The ordered, labelled
 syzygy sequence is the useful finite-itinerary information here.
 
-The search has therefore produced well-tested near misses and sharper
-requirements for a counterexample. It has not supplied a probability of
-nonexistence, a numerical proof of the conjecture, or an obstruction to
-unsearched long-period families.
+The six corrected candidates all have nonzero Pythagorean defects.
+Their existence provides useful information about nearby periodic motion;
+the searches leave other itineraries and longer periods open.

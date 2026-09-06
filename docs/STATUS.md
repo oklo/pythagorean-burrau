@@ -7,10 +7,23 @@
 > scalar counterexample and a corrected sufficient lemma. Separate interval
 > and endpoint certificates are not withdrawn by this correction.
 
-Manuscript revision, 2026-09-05: `paper/main.pdf` is now the 22-page
-readable main argument, with a 50-page technical companion. See
-[the review report](MANUSCRIPT_REVIEW_2026-09-05.md) for the corrections,
-original-source history, and validation scope.
+Manuscript/publication update, 2026-09-06: `paper/main.pdf` is now 31 pages,
+including references, titled *The Pythagorean Three-Body Conjecture*. The
+principal technical-companion arguments are incorporated and the accessible
+historical introduction retained. The introduction now includes an explicit
+Hamiltonian rebuttal to the measure-zero inference and a clearly subjective
+10% estimate of the existence of an integer counterexample, attributed to
+GPT-6 Astra at the user's request. Section 2 explains and illustrates the
+continued F30 near miss, without treating it as an exact counterexample.
+The latest PDF is live at the unchanged link in Oklo's “Add Astra” post;
+its public download was verified byte-for-byte. The earlier 50-page companion
+remains a research archive. Read the current
+[handoff](HANDOFF_MANUSCRIPT_2026-09-06.md) and
+[publication record](OKLO_PUBLICATION_2026-09-06.md). See
+[the editorial review](MANUSCRIPT_EDITING_PASS_2026-09-05.md) for this pass and
+[the original review report](MANUSCRIPT_REVIEW_2026-09-05.md) for the earlier
+mathematical corrections and source audit. No new nonperiodicity theorem is
+claimed by the editorial consolidation.
 
 Construction update, 2026-09-05: **no counterexample found**. The new
 pair-adaptive LC variational campaign refines F1/F2/F5/F30, completes the
