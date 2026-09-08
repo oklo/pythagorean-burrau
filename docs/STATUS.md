@@ -18,10 +18,13 @@ The [working paper](../paper/main.pdf) is the primary interim product.
 | Lagrange–Jacobi reduction | Every brake is a strict inertia maximum. Separation bounds apply at brakes, not all intervening encounters. |
 | First-maximum certificate | Every real `u` in `[0.29,0.29002]`; excludes only the first positive maximum as a brake. |
 | All-time middle exclusion | Every real `u` in `[0.29,0.2900000101]`; finite validated cover plus a terminal collision-or-escape argument. |
+| All-time prompt-ejection window (2026-09-07) | Every real `u` in `[0.3916,0.4094]` and, by leg exchange, in `[0.419044,0.437195]`: 25,900 audited tiles ([record](ISO_WINDOW_INTERVAL.md)). About 3.9% of all primitive triples by hypotenuse, including (20,21,29). |
+| Point certificates (2026-09-07) | (7,24,25), (9,40,41), (36,77,85) in double precision; the classical (3,4,5) and (12,35,37) in multiprecision; see [small triples](SMALL_TRIPLE_CERTIFICATES.md). |
 | Near-isosceles exclusion | An existential punctured one-sided real neighborhood; no effective cutoff is asserted. |
 | Thin-triangle windows | Infinitely many open windows and a positive-lower-density subset of `(4n²−1,4n,4n²+1)`, measured by `n`. |
 | Returning-region results | Uniform first-turn exclusion and local collision/escape structure; not classification of every later return. |
 | Exact collision sampling | Infinitely many *real* collision parameters, not known rational. |
+| Reversal structure of second brakes (2026-09-07) | No brake at or before the first syzygy for every real `u` (all masses); any later brake is a stutter at the `z`-extremum of its arc and a fixed point of `R∘P` on the syzygy section. Necessary conditions, not an all-time exclusion. |
 
 See the [proof ledger](PROOF_LEDGER.md) for source records and dependencies.
 “Established” here means the manuscript's recorded proof status, not that this
@@ -46,6 +49,18 @@ organizational review independently replayed every certificate.
   replay. See [the recovered-record assessment](FABLE_BURRAU_THEOREM.md).
 
 ## The principal mathematical gap
+
+**Update 2026-09-07.** The first arc is closed: Theorem A of
+[the reversal structure](SYZYGY_REVERSAL_STRUCTURE.md) excludes a second brake
+at or before the first syzygy for every real parameter, so the forced-lag
+terminal bound is no longer needed for that purpose. The global gap is
+unchanged in substance and sharper in form: exclude brakes on stutter arcs
+(fixed points of `R∘P` on the syzygy section) for all later arcs. A global
+scan (`scripts/landscape/`) shows the family's closest approaches to a second
+brake all lie on stutter arcs, the closest at `u≈0.2003099995`, `t≈7.91`,
+with minimal kinetic energy `7e-9 U0` (then `8e-9` at `u≈0.2556321826`); the corresponding mass–side periodic
+orbits (`data/mass_side_periodic_atlas.json`) have right-angle defects down
+to `−3.3e-6`, all nonzero.
 
 No current argument excludes every later brake across the full remaining
 parameter family. The old scalar inference from one forcing sign change and

@@ -18,6 +18,25 @@ do not overwrite unrelated work or start a long campaign from an old queue.
 
 ## Do not lose these distinctions
 
+- **2026-09-07 additions.** (i) No second brake at or before the first
+  syzygy is now a theorem for every real `u` and all masses (time reversal
+  plus Montgomery's syzygy theorem); later brakes are stutters at the
+  `z`-extremum of their arc and fixed points of `R∘P` on the syzygy section
+  (`SYZYGY_REVERSAL_STRUCTURE.md`, `paper/sections/reversal.tex`).
+  (ii) A global double-precision landscape scan and a mass–side periodic
+  atlas (`scripts/landscape/`, `data/mass_side_periodic_atlas.json`)
+  are ORDINARY NUMERICAL EVIDENCE; the smallest right-angle defect found is
+  `−3.3e-6`, nonzero. (iii) The prompt-ejection window `[0.3916, 0.4094]`
+  has a validated tile certificate (`src/fable/verification/iso_window_lc_capd.cpp`,
+  `scripts/run_iso_window_campaign.py`, `docs/ISO_WINDOW_INTERVAL.md`);
+  the campaign completed 2026-09-07: 25,900 gap-free PASS tiles, audited and
+  cross-replayed, so the window theorem is PROVED BY COMPUTER-ASSISTED
+  ARGUMENT (records in `data/fable/iso_window/`). Point certificates for
+  (7,24,25), (9,40,41), (36,77,85) are in `data/fable/point_certs/`
+  (`SMALL_TRIPLE_CERTIFICATES.md`); multiprecision runs for u=1/6, 3/13, 1/3
+  were in progress at handoff and count only if their logs end in PASS. The reviewed PDF sent to Richard Montgomery is archived
+  as `paper/archive/main-2026-09-06-sent-to-montgomery.pdf`.
+
 - Both integer and stronger real conjectures remain open. No exact tied-right
   periodic candidate is known. F30 has a nonzero right-angle defect.
 - The accepted all-time middle interval is `[0.29,0.2900000101]`.

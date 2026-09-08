@@ -1,3 +1,11 @@
+> **Update 2026-09-07.** A fresh, independent point certificate for `u=1/3`
+> (the classical 3–4–5 problem) now exists: `src/fable/verification/window_lc_capd.cpp`
+> in the multiprecision build (330 bits, Taylor order 60, tolerance 1e-70,
+> single pair-{1,3} Levi–Civita chart), log `data/fable/point_certs/u_1_3_mp330.log`,
+> escape margin 0.104 at physical time 12.078. See `SMALL_TRIPLE_CERTIFICATES.md`.
+> The recovered 2026-08-25 log below remains a historical record; the new
+> certificate does not depend on it.
+
 # Classical 3–4–5 point: recovered certificate, audit pending
 
 Reviewed September 6, 2026. **COMPUTER-ASSISTED THEOREM CANDIDATE**, not a

@@ -38,6 +38,16 @@ needs a termination/compactness argument appropriate to its remaining domain.
 
 ### P1a. If pursuing torque history
 
+**Update 2026-09-07.** The first-arc conclusion (no brake before the first
+syzygy) is now a theorem for every real `u` and every mass triple, by time
+reversal about a putative second brake and Montgomery's infinitely-many-
+syzygies theorem; see [the reversal structure](SYZYGY_REVERSAL_STRUCTURE.md).
+The forced-lag route is therefore no longer needed for P1a's stated goal;
+its identities remain available for later arcs. The remaining obligation is
+the bridge to all later arcs, now in the sharper form: exclude fixed points of
+the involution `R∘P` on the syzygy section along the tied syzygy curves, i.e.
+exclude brakes on stutter arcs.
+
 On the first strict ordered positive-area arc, use the exact equation
 `w_s + (lambda+c) w = q`, with `w=h-eta`. The corrected sufficient lemma
 requires suitable forcing control **and**

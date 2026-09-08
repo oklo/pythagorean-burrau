@@ -11,6 +11,11 @@ primary interim product: keep its claims synchronized with the ledger.
 **Decision to reach:** can the existing reductions control every later brake,
 not just the first ordered arc, first inertia maximum, or first thin turn?
 
+**2026-09-07:** the first arc (brake to first syzygy) is now excluded for
+every real `u` by Theorem A of [the reversal structure](SYZYGY_REVERSAL_STRUCTURE.md);
+later brakes are stutters and fixed points of `R∘P` on the syzygy section
+(Theorems B–D). The forced-lag first-arc lemma is superseded for that goal.
+
 Two concrete possibilities deserve mathematical work:
 
 - Derive a restriction on brake-generated history that survives the singular

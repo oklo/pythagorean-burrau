@@ -247,8 +247,22 @@ for
 (21,20,29),\ (5311,5280,7489),\ (8319,8200,11681),
 \ (33439,32400,46561),\ (72,65,97)
 \]
-in both leg orderings. The parameter-cover results below require additional
-control of how the enclosed trajectories depend on $u$.
+in both leg orderings. The general multi-chart Levi--Civita certificate of
+Theorem~\ref{thm:window} below, run on a single exact rational, further
+proves the conjecture for
+\[
+ (7,24,25),\ (9,40,41),\ (36,77,85),
+\]
+whose light body is ejected after a single regularized passage of the heavy
+pair at separations down to $5\times10^{-9}$, and, in its multiprecision
+form (330 and 200 bits), for the classical $3$--$4$--$5$ problem itself, by
+a fresh single-chart certificate through the $8\times10^{-5}$ passage to the
+escape at $t\simeq12.08$, and for $(12,35,37)$, through a temporary
+$\{2,3\}$ binary of seventy revolutions and an exchange
+(\path{docs/SMALL_TRIPLE_CERTIFICATES.md}; each native log is replayed at a
+second Taylor order and tolerance). The
+parameter-cover results below require additional control of how the
+enclosed trajectories depend on $u$.
 
 \begin{lemma}[Terminal escape certificate]\label{lem:escape}
 For a prospective binary of total mass $M$ and an outer body of mass $m_c$,
@@ -440,7 +454,72 @@ rational endpoint, and all 100 full logs are archived. The campaign overlaps
 the initial tile, and their union is exactly the stated closed interval.
 \end{proof}
 
-This continuum theorem covers a width of $1.01\times10^{-8}$. Larger
+This continuum theorem covers a width of $1.01\times10^{-8}$.
+
+\begin{theorem}[Validated prompt-ejection window]\label{thm:window}
+For every real
+\[
+ \frac{3916}{10000}\le u\le\frac{4094}{10000},
+\]
+and hence, after leg exchange, for every real $u\in[0.419044\ldots,0.437195\ldots]$,
+the tied maximal classical solution has no second labelled brake at any
+collision-free time and is not a classical periodic solution.
+\end{theorem}
+
+\begin{corollary}[A positive proportion of all triples]
+The Pythagorean--Burrau conjecture holds for every primitive triple whose
+Euclid parameter $b/(a+c)$, in either leg ordering, lies in the two intervals
+of Theorem~\ref{thm:window}; these form a set of asymptotic density about
+$3.9\%$ among all primitive Pythagorean triples ordered by hypotenuse, and
+contain $(20,21,29)$.
+\end{corollary}
+\begin{proof}[Proof of the corollary]
+Primitive triples with hypotenuse at most $N$ correspond to coprime
+opposite-parity lattice points $(p,q)$ with $q>p>0$ and $p^2+q^2\le N$, and
+$u=p/q$. Lattice points with these multiplicative constraints are
+asymptotically equidistributed in angle within the quarter disc, so the
+density of the two intervals is their angular measure
+$(\arctan0.4094-\arctan0.3916)+(\arctan0.437195-\arctan0.419044)\simeq0.0307$
+divided by $\pi/4$, about $3.906\%$; a direct count gives $12{,}433$ of the
+$318{,}320$ primitive triples with hypotenuse at most $2\times10^6$.
+\end{proof}
+
+\begin{proof}[Proof of the theorem]
+On this window the tied motion is a triple close approach in which pair
+$\{1,3\}$ passes at separation $0.02$--$0.05$ near $t\simeq0.47$, pair
+$\{2,3\}$ passes at $0.017$--$0.05$ near $t\simeq0.53$, and body 2 is then
+ejected leaving $\{1,3\}$ bound. The certificate integrates each closed
+rational tile as one correlated tripleton with $u$ frozen as an exact affine
+state coordinate, first in the pair-$\{1,3\}$ Levi--Civita chart of
+Section~\ref{sec:events}, then, after an exact algebraic chart switch at
+physical time $0.5025$ (or $0.505$ above $u=0.406$), in the pair-$\{2,3\}$
+chart through its passage, and after a second switch at $0.575$ again in
+the pair-$\{1,3\}$ chart. Regularized time synchronizes each passage across
+the tile; a fixed-clock representation fails through the same passages for
+tiles wider than about $10^{-8}$.
+
+Every accepted step verifies positive separations on its enclosure and,
+after the launch window on which $U<2U_0$ holds, the brake-exclusion
+disjunction of Corollary~\ref{cor:cover} in the form $K>0$, $\dot I\ne0$,
+or $(z,P)\ne0$ in the current chart. The run ends at the first regularized
+step at which the phase-robust form of Lemma~\ref{lem:escape}, with binary
+$\{1,3\}$, escaper body 2, transported inner energy $h$, and the outer
+variables only, holds on the entire hull with rigorous margin above $0.05$
+for some $\eta\in\{1,\dots,8\}$; this is simultaneous for all fibers and
+excludes every later classical brake. Tiles have width $10^{-6}$ on
+$[0.3916,0.4085]$ and $10^{-7}$ on $[0.4085,0.4094]$, with a failing tile
+bisected; consecutive tiles share exact rational endpoints. All
+\WINDOWTILES{} tiles passed with minimum margin \WINDOWMARGIN{}; the logs,
+the campaign driver, and an independent log auditor that also replays a
+random sample of tiles at a different Taylor order and tolerance are indexed
+in Appendix~\ref{sec:reproduction} (\path{docs/ISO_WINDOW_INTERVAL.md}).
+\end{proof}
+
+This window is about $1.8\times10^6$ times wider than the middle interval
+above. Its boundaries are dynamical: below $u\simeq0.3914$ body 2 is no
+longer promptly unbound, and above $u\simeq0.40945$ a chaotic sliver
+begins.
+ Larger
 parameter covers remain a separate validation problem; experimental wider
 propagations are not included in its conclusion.
 

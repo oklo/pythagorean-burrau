@@ -53,6 +53,17 @@ singular tied shooting root.
 
 ## Current analytic frontier
 
+> **Update 2026-09-07.** The first-arc goal below is closed unconditionally:
+> a second brake at or before the first syzygy would make the reflected
+> periodic orbit syzygy-free, contradicting Montgomery's infinitely-many-
+> syzygies theorem (`SYZYGY_REVERSAL_STRUCTURE.md`). Any later brake is a
+> stutter (equal adjacent syzygy letters), sits at the unique `z`-extremum
+> of its inter-syzygy arc, and is a fixed point of the involution `R∘P` on
+> the syzygy section. The forced-lag identities remain valid but are no
+> longer the route to the first arc. The same session produced the
+> prompt-ejection window certificate near `u=0.40` (`ISO_WINDOW_INTERVAL.md`)
+> and the mass–side periodic atlas (`data/mass_side_periodic_atlas.json`).
+
 On a strict ordered positive-area arc, put
 
 \[

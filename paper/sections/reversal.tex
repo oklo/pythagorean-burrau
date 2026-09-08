@@ -1,0 +1,112 @@
+\section{Syzygies, reversal, and where a second brake can occur}\label{sec:reversal}
+
+Time reversal about a second brake, combined with Montgomery's theorems on
+syzygies, restricts where a second brake can lie. A syzygy is a collinear
+instant. Every syzygy of a zero-angular-momentum orbit launched from a
+noncollinear rest configuration is transverse, and every brake of such an
+orbit is noncollinear (Section~\ref{sec:search}); so syzygies are isolated.
+
+\begin{theorem}[Montgomery~\cite{Montgomery2002}]
+Every bounded, collision-free, zero-angular-momentum solution of the planar
+three-body problem, with any positive masses, has infinitely many syzygies.
+Moreover the normalized signed area
+\[
+ z=\frac{4\sqrt3\,\Delta}{r_{12}^2+r_{23}^2+r_{31}^2},
+ \qquad \Delta=\tfrac12(q_2-q_1)\times(q_3-q_1),
+\]
+satisfies $\frac{d}{dt}(f\dot z)=-qz$ along every zero-angular-momentum
+solution away from triple collision, with $f>0$ and $q\ge0$, where $q$
+vanishes only on the Lagrange homothetic solutions.
+\end{theorem}
+
+Suppose the tied orbit brakes again at $\tau>0$ after a collision-free
+segment. Uniqueness and reversal give $q(\tau+s)=q(\tau-s)$ and
+$q(2\tau+s)=q(s)$: the orbit is $2\tau$-periodic, bounded, and
+collision-free for all time. Let $0<s_1<\dots<s_n<\tau$ be its syzygies
+before $\tau$. Reflection sends them to the syzygies $2\tau-s_k$ of
+$(\tau,2\tau)$, with $q(2\tau-s_k)=q(s_k)$ and
+$\dot q(2\tau-s_k)=-\dot q(s_k)$.
+
+\begin{theorem}[No brake before the first syzygy]\label{thm:first-syzygy}
+For every real $u$, and for every noncollinear brake initial condition with
+any positive masses, there is no second brake at or before the first
+positive syzygy time.
+\end{theorem}
+\begin{proof}
+A brake is noncollinear, so a brake at or before the first syzygy occurs
+strictly before it, with $n=0$. By reflection the periodic orbit has no
+syzygy in $(\tau,2\tau)$ either, nor at $0$, $\tau$, $2\tau$. It is bounded,
+collision-free, and has zero angular momentum, yet has no syzygy at all,
+contradicting Montgomery's theorem.
+\end{proof}
+
+This settles unconditionally the first-arc objective of the torque-history
+route of Section~\ref{sec:torque}; the corrected conditional lemma and its
+terminal hypothesis are not needed for that purpose.
+
+\begin{theorem}[A second brake is a stutter]\label{thm:stutter}
+If the orbit brakes at $\tau$ with $n\ge1$ earlier syzygies, the two
+syzygies adjacent to $\tau$, at $s_n$ and $2\tau-s_n$, have the same
+collinear configuration and opposite velocities; in particular the same
+middle body. The syzygy sequence of the period is the double palindrome
+$(\sigma_1\cdots\sigma_n)(\sigma_n\cdots\sigma_1)$ repeated, so the forward
+sequence contains a repeated adjacent letter (a \emph{stutter}, in the
+terminology of~\cite{MMV}) at every brake.
+\end{theorem}
+
+Hence an inter-syzygy arc whose two syzygies have different middle bodies
+contains no brake, without any further estimate. This is the converse of
+the observation in~\cite{MMV} that brake orbits run backwards produce an
+open set of stuttering orbits.
+
+\begin{theorem}[Position within the arc]\label{thm:zmax}
+Between consecutive syzygies $z$ has exactly one critical point, a strict
+extremum. A second brake lies at that extremum of its stutter arc, and $I$
+has a strict maximum there.
+\end{theorem}
+\begin{proof}
+Where $z>0$, $f\dot z$ is nonincreasing, so $\dot z$ changes sign at most
+once, and $\dot z\equiv0$ on an interval would force $qz=0$, that is a
+Lagrange homothetic motion. All velocities vanish at a brake, so
+$\dot z(\tau)=0$; the inertia statement is Lagrange--Jacobi.
+\end{proof}
+
+\begin{theorem}[Brakes as fixed points on the syzygy section]\label{thm:involution}
+Let $\Sigma$ be the transverse syzygy states, $P$ the next-syzygy map on its
+domain in $\Sigma$, and $R(q,v)=(q,-v)$. Then $RPR=P^{-1}$, so $RP$ is an
+involution, and the inter-syzygy arc starting at $\sigma\in\Sigma$ contains a
+brake if and only if $RP(\sigma)=\sigma$.
+\end{theorem}
+\begin{proof}
+Reversibility gives $RPR=P^{-1}$. If $P(\sigma)=R\sigma$ on an arc of
+duration $T$, then $q(T)=q(0)$ and $v(T)=-v(0)$; uniqueness applied to
+$t\mapsto q(T-t)$ gives $q(T/2+s)=q(T/2-s)$, hence $v(T/2)=0$. The converse
+is Theorem~\ref{thm:stutter}.
+\end{proof}
+
+The fixed set of $RP$ is exactly the set of syzygy states of brake-to-syzygy
+arcs run backwards, that is, the image of the syzygy map of~\cite{MMV}
+together with its velocities. For the tied family the second-brake question
+becomes an intersection problem between the one-parameter curves
+$u\mapsto\sigma_k(u)$ of $k$th syzygy states and this two-dimensional fixed
+set inside the four-dimensional reduced section. The codimension count is
+unchanged, but the brake-reachable states are now an explicit geometric
+object, and Conjecture~1 of~\cite{MMV} (that $\dot I<0$ from a brake through
+its first syzygy) would add that $I$ is strictly monotone on each half of a
+brake's stutter arc.
+
+These statements are consistent with the global numerical picture of the
+tied family. In a scan of about $170{,}000$ parameters on $[0.10,0.4142]$
+with steps down to $10^{-6}$, every inter-syzygy arc had exactly one
+$z$-extremum, the first inertia minimum never preceded the first syzygy,
+about half of the escaping trajectories had no stutter before the escape
+lemma of Section~\ref{sec:events} applied, and all of the forty closest
+approaches of the family to a second brake occurred on stutter arcs, as
+Theorem~\ref{thm:stutter} predicts by continuity. The closest approaches found,
+after refinement to about $10^{-13}$ in $u$, are at $u\simeq0.2003099995$,
+$t\simeq7.91$, and $u\simeq0.2556321826$, $t\simeq4.79$, where the kinetic
+energy at its local minimum is only $7\times10^{-9}\,U_0$ and
+$8\times10^{-9}\,U_0$ respectively (residual velocities of order
+$2\times10^{-4}$); neither is a zero, and neither lies near a rational of
+small denominator beyond chance level. Section~\ref{sec:search}
+uses these near misses as seeds.

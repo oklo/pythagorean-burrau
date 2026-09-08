@@ -151,6 +151,53 @@ there is no candidate on which rational reconstruction would be warranted.
 Machine-readable results and exact replay commands accompany the campaign
 report listed in Appendix~\ref{sec:reproduction}.
 
+
+\subsection{A systematic atlas of near misses}
+
+The global scan of Section~\ref{sec:reversal} locates, for each stutter
+arc of the tied family, the local minimum over $u$ of the minimal kinetic
+energy on that arc. Each such near miss is the shadow of a periodic brake
+orbit of the larger mass--side family nearby, and Newton continuation in
+$(m_1,m_2,\tau)$ on the complete Hopf residual recovers it. Seventeen
+distinct periodic orbits were obtained with residual below $10^{-6}$, most
+below $10^{-9}$; Table~\ref{tab:atlas} lists the closest to the Pythagorean
+circle. Their defects are all nonzero. The smallest,
+$D\simeq-3.3\times10^{-6}$, corresponds to a largest angle of
+$90.0002^\circ$; it is a thousand times closer to a right angle than
+$F_{30}$, and has a half period of $27.9$ with $221$ syzygies. The
+distribution of these minima, roughly one per stutter arc and decreasing in
+size only slowly with the number of arcs examined, is what the generic
+codimension-two heuristic predicts: the tied curve passes ever closer to
+periodic points as longer itineraries are included, without any indication
+of an exact crossing. These are ordinary numerical results
+(\path{data/mass_side_periodic_atlas.json}).
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabular}{rrrrr}
+\toprule
+$m_1$ & $m_2$ & Half period & $D$ & $\gamma-90^\circ$\\
+\midrule
+.8027060912 & .5963720697 & 27.8852 & $-3.29\times10^{-6}$ & $-0.00020^\circ$\\
+.8773164381 & .4798992402 & 4.7914 & $-1.26\times10^{-5}$ & $-0.00086^\circ$\\
+.7740520242 & .6331099219 & 7.7406 & $-1.53\times10^{-5}$ & $-0.00089^\circ$\\
+.8814436238 & .4722718402 & 7.1563 & $-1.65\times10^{-5}$ & $-0.00113^\circ$\\
+.8419706850 & .5394895948 & 6.6851 & $-3.63\times10^{-5}$ & $-0.00229^\circ$\\
+.7946037376 & .6070894201 & 9.0685 & $-4.73\times10^{-5}$ & $-0.00281^\circ$\\
+.7946943401 & .6070540791 & 10.7231 & $+5.38\times10^{-5}$ & $+0.00319^\circ$\\
+.8159034471 & .5782736775 & 8.9566 & $+9.89\times10^{-5}$ & $+0.00600^\circ$\\
+\bottomrule
+\end{tabular}
+\caption{Periodic brake orbits of the mass--side family found by
+continuation from the tied family's near misses, ordered by right-angle
+defect. Masses are $(m_1,m_2,1)$ with initial sides equal to the opposite
+masses; $\gamma$ is the angle opposite the unit side. Double-precision
+shooting, residual below $10^{-7}$; none is interval-validated and none is
+a counterexample.}
+\label{tab:atlas}
+\end{table}
+
 \subsection{Continuation, rank, and syzygy itineraries}
 
 The opposite defects of $F_1$ and $F_2$ would bracket a zero on a connected
