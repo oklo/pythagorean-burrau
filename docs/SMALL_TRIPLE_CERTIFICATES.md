@@ -23,9 +23,9 @@ mean-value construction.
 | (7,24,25) | 1/7 | `13@0` | native, order 14, tol 1e-12 | PASS, margin 0.640, tp≈2.853, min r13 1.2e-7, min unselected 0.012 | order 20 / 1e-15: PASS (0.249) |
 | (36,77,85) | 2/9 | `13@0` | native, order 14, tol 1e-12 | PASS, margin 0.281, tp≈0.741, min r13 1.7e-5, min unselected 0.041 | order 20 / 1e-15: PASS (0.255); MP 120 bits: PASS (0.160) |
 | (9,40,41) | 1/9 | `13@0` | native, order 14, tol 1e-12 | PASS, margin 1.466, tp≈0.784, min r13 4.9e-9, min unselected 0.035 | order 20 / 1e-15: PASS (0.464) |
-| (12,35,37) | 1/6 | `13@0,23@0.58,13@5.68` | MP 200 bits, order 40, tol 1e-40 | PASS, margin 0.080, tp≈5.824, 13,402 steps, min r13 7.1e-7, min unselected 0.0081, max hull 2.2e-5 (`u_1_6_mp200.log`) | MP 240 bits / order 44 / 1e-44: pending |
+| (12,35,37) | 1/6 | `13@0,23@0.58,13@5.68` | MP 200 bits, order 40, tol 1e-40 | PASS, margin 0.080, tp≈5.824, 13,402 steps, min r13 7.1e-7, min unselected 0.0081, max hull 2.2e-5 (`u_1_6_mp200.log`) | MP 240 bits / order 44 / 1e-44: PASS (0.075) |
 | (39,80,89) | 3/13 | `13@0,23@0.55,13@0.676,12@1.5,…` | MP 200 bits, order 40, tol 1e-40 | not yet: two attempts reached the final triple close approach at t≈8.45–8.48 (all pairs within 0.025) with hull 2e-7 and failed there; a double-precision midpoint floor in the first MP port has since been removed and a rerun with a finer chart itinerary is queued | — |
-| (3,4,5) | 1/3 | `13@0` | MP 330 bits, order 60, tol 1e-70 | PASS, margin 0.104, tp≈12.078, 7,976 steps, min r13 8.0e-5, min unselected 0.014, max hull 7.9e-6 (`u_1_3_mp330.log`); this is a fresh certificate independent of the unpromoted 2026-08-25 log | MP 300 bits / order 50 / 1e-60: pending |
+| (3,4,5) | 1/3 | `13@0` | MP 330 bits, order 60, tol 1e-70 | PASS, margin 0.104, tp≈12.078, 7,976 steps, min r13 8.0e-5, min unselected 0.014, max hull 7.9e-6 (`u_1_3_mp330.log`); this is a fresh certificate independent of the unpromoted 2026-08-25 log | MP 300 bits / order 50 / 1e-60: PASS (0.056) |
 | (5,12,13) | 1/5 | `13@0` (unselected passages down to 0.010) | MP, not yet run | pending | — |
 | (8,15,17) | 1/4 | multi-switch (long {2,3} phase with pericentres 0.003) | not yet attempted | open | — |
 | (20,21,29) | 2/5 | inside the window `[0.3916,0.4094]` | see `ISO_WINDOW_INTERVAL.md` | covered by the window theorem (campaign complete, audited) | — |
