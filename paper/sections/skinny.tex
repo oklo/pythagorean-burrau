@@ -38,6 +38,41 @@ with $a=s/\sqrt2$,
 The same calculation gives the specific pair angular momentum
 $\ell_{13}=-(15\pi/64)\epsilon^{11/2}+O(\epsilon^{13/2})$.
 
+\begin{remark}[The right angle is what makes the exponent eleven]
+\label{rem:right-angle-thin}
+The eleventh power is a consequence of the Pythagorean condition itself,
+not a generic feature of thin triangles. Let $X=q_3-q_1$ be the tight pair,
+$C$ its center of mass, $G=q_2-C$, $\rho=|G|$, and
+$a=m_1/(m_1+m_3)$. Only the third body exerts a torque, and expanding its
+two attractions about $C$ gives
+\[
+ \dot\ell_{13}=X\times\ddot X
+ =3m_2\,\frac{(X\times G)(X\cdot G)}{\rho^5}
+ \Bigl(1+O(|X|/\rho)\Bigr).
+\]
+The right angle of the initial triangle lies at the vertex $q_3$ opposite
+the hypotenuse $r_{12}$, that is $X\cdot(q_2-q_3)=0$ exactly. Since
+$q_2-q_3=G-aX$, this says
+\[
+ X\cdot G=a|X|^2=\tfrac12\epsilon^2+O(\epsilon^3),
+\]
+one order smaller than the value $O(\epsilon)$ produced by a generic apex
+angle. With $m_2=\epsilon$ and $X\times G=\epsilon+O(\epsilon^2)$ the torque
+is therefore $O(\epsilon^4)$ rather than $O(\epsilon^3)$, and over the first
+plunge, of duration $O(\epsilon^{3/2})$, it accumulates to
+$\ell_{13}=O(\epsilon^{11/2})$ rather than $O(\epsilon^{9/2})$. For a
+nearly radial Kepler arc the pericenter distance is
+$r_{\min}=\ell_{13}^2/\bigl(2(m_1+m_3)\bigr)(1+o(1))$, which returns
+\eqref{eq:skinny-miss}: indeed $(15\pi/64)^2/4=225\pi^2/16384$.
+A thin triangle whose apex angle is not a right angle misses instead by
+order $\epsilon^9$. Ordinary numerical integration confirms both laws: for
+the tied family $r_{\min}/\epsilon^{11}$ falls from $0.161$ at
+$\epsilon=0.26$ to $0.144$ at $\epsilon=0.16$, against the predicted
+$0.1355$, while for the fixed non-right triangle with $m_1=9/10$ the same
+quotient grows from $1.6$ to $7.7$ and it is $r_{\min}/\epsilon^9$ that
+stays near $0.2$.
+\end{remark}
+
 The first passage is not an escape certificate. Its outer radial escape
 margin is $-2+O(\epsilon)$, while the pair remains tightly bound. The
 subsequent return must be analyzed.
