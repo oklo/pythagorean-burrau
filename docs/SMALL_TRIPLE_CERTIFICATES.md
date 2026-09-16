@@ -34,8 +34,8 @@ mean-value construction.
 | (285,68,293) | 2/17 | `13@0` | MP 256 bits, order 36, tol 1e-34 | PASS, margin 2.058, tp≈1.116, 2,523 steps, min selected 1.1e-8 (`u_2_17_mp256.log`) | MP 200 / order 30 / 1e-28: PASS (1.611) |
 | (357,76,365) | 2/19 | `13@0` | MP 256 bits, order 36, tol 1e-34 | PASS, margin 0.068, 4,064 steps, min selected 2.1e-9 (`u_2_19_mp256.log`) | MP 200 / order 30 / 1e-28: PASS (0.068) |
 | (437,84,445) | 2/21 | `13@0` | MP 256 bits, order 36, tol 1e-34 | PASS, margin 0.528, 3,017 steps, min selected 4.1e-10 (`u_2_21_mp256.log`) | MP 200 / order 30 / 1e-28: PASS (1.293) |
-| (5,12,13) | 1/5 | `13@0` (unselected passages down to 0.010) | MP, not yet run | pending | — |
-| (8,15,17) | 1/4 | multi-switch (long {2,3} phase with pericentres 0.003) | not yet attempted | open | — |
+| (5,12,13) | 1/5 | `13@0,auto` (43 automatic switches) | MP 400 bits, order 44, tol 1e-42 | PASS, margin 0.085, tp≈10.93, 9,140 steps, min selected 5.4e-6, min unselected 0.057, hull at machine zero throughout (`u_1_5_mp400_auto.log`); a single chart fails here, losing an unselected separation | MP 320 / order 36 / 1e-34: pending |
+| (8,15,17) | 1/4 | `13@0,auto` (41 automatic switches) | MP 400 bits, order 44, tol 1e-42 | PASS, margin 0.089, tp≈19.52, 14170 steps, min selected 6.4e-05, min unselected 0.066 (`u_1_4_mp400_auto.log`); a single chart fails here | MP 320 / order 36 / 1e-34: pending |
 | (20,21,29) | 2/5 | inside the window `[0.3916,0.4094]` | see `ISO_WINDOW_INTERVAL.md` | covered by the window theorem (campaign complete, audited) | — |
 | (65,72,97) | 5/13 | already in the ledger | `FABLE_TRIPLE_CERTIFICATES.md` | PASS (earlier programme) | — |
 

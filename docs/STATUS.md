@@ -19,7 +19,7 @@ The [working paper](../paper/main.pdf) is the primary interim product.
 | First-maximum certificate | Every real `u` in `[0.29,0.29002]`; excludes only the first positive maximum as a brake. |
 | All-time middle exclusion | Every real `u` in `[0.29,0.2900000101]`; finite validated cover plus a terminal collision-or-escape argument. |
 | All-time prompt-ejection window (2026-09-07) | Every real `u` in `[0.3916,0.4094]` and, by leg exchange, in `[0.419044,0.437195]`: 25,900 audited tiles ([record](ISO_WINDOW_INTERVAL.md)). About 3.9% of all primitive triples by hypotenuse, including (20,21,29). |
-| Point certificates (2026-09-07) | (7,24,25), (9,40,41), (36,77,85) in double precision; the classical (3,4,5), (12,35,37), (39,80,89) and eight thin triples down to u=1/14 in multiprecision; see [small triples](SMALL_TRIPLE_CERTIFICATES.md). |
+| Point certificates (2026-09-07) | (7,24,25), (9,40,41), (36,77,85) in double precision; the classical (3,4,5), (5,12,13), (8,15,17), (12,35,37), (39,80,89) and eight thin triples down to u=1/14 in multiprecision; every primitive triple with hypotenuse below 90 except (28,45,53), (11,60,61), (16,63,65), (33,56,65), (48,55,73), (13,84,85); see [small triples](SMALL_TRIPLE_CERTIFICATES.md). |
 | Near-isosceles exclusion | An existential punctured one-sided real neighborhood; no effective cutoff is asserted. |
 | Thin-triangle windows | Infinitely many open windows and a positive-lower-density subset of `(4n²−1,4n,4n²+1)`, measured by `n`. |
 | Returning-region results | Uniform first-turn exclusion and local collision/escape structure; not classification of every later return. |
