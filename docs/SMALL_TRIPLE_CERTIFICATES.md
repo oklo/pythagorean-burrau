@@ -83,3 +83,24 @@ the pair separation, with the absolute floor only guarding against an
 infinite step-halving loop. Certificates issued before the fix remain valid:
 the change alters only which steps are taken, not the audits, and the
 previously passing tiles and points were re-checked after it.
+
+## Automatic chart following (2026-09-15)
+
+`window_lc_capd.cpp` accepts the token `auto` at the end of an itinerary,
+for example `13@0,auto`. The driver then adopts whichever pair is closest
+whenever that pair is nearer than four fifths of the selected separation,
+with a forty-step hysteresis, applying the same exact algebraic change of
+chart through the committed mean-value construction. Scheduled switches from
+the itinerary and automatic ones can be mixed.
+
+This is what long interplays need: a hand-built itinerary has to name every
+exchange in advance, and a single chart fails as soon as an unselected pair
+comes close. Checks: the point certificate at `u=2/9` gives margin `0.2815`
+with one chart and `0.2706` with two automatic switches, and the window tile
+at `u=0.4` reproduces its margin `0.0762` exactly under the refactored loop,
+so the change costs almost nothing in sharpness.
+
+The terminal escape check is now evaluated in whichever chart is current,
+at every step after the launch window, rather than only on the last leg of
+an itinerary. Any passing check is a complete certificate on its own, so
+this only lets a run finish earlier.

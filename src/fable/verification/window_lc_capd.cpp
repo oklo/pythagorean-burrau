@@ -15,6 +15,8 @@
 //
 // Usage: window_lc_capd P Q P2 Q2 ITINERARY [ORDER TOL TP_MAX MIN_MARGIN [PRECISION_BITS (MP build)]]
 //   ITINERARY = "13@0,23@0.5025,13@0.575"  (chart@switch physical time; first
+//   entry is the launch chart).  Append ",auto" to follow the closest pair
+//   automatically, which is what long interplays need.
 //   entry is the launch chart; last chart's complement is the escaper).
 //   P/Q == P2/Q2 gives a point certificate for that exact rational.
 // Output ends with PASS_WINDOW_LC or FAIL ...
@@ -345,17 +347,25 @@ void target_pair_vector(const Vector& hull, const Chart& c, const Chart& d, cons
 
 struct Leg { int chart; double tp; };
 
-std::vector<Leg> parse_itinerary(const std::string& s) {
+std::vector<Leg> parse_itinerary(const std::string& s, bool* auto_mode) {
   std::vector<Leg> legs;
+  *auto_mode = false;
   std::stringstream ss(s);
   std::string item;
   while (std::getline(ss, item, ',')) {
+    if (item == "auto") { *auto_mode = true; continue; }
     const size_t at = item.find('@');
-    if (at == std::string::npos) throw std::runtime_error("itinerary entry needs chart@tp");
+    if (at == std::string::npos) throw std::runtime_error("itinerary entry needs chart@tp or the token auto");
     legs.push_back({std::atoi(item.substr(0, at).c_str()), std::atof(item.substr(at + 1).c_str())});
   }
   if (legs.empty() || legs[0].tp != 0) throw std::runtime_error("itinerary must start with chart@0");
   return legs;
+}
+
+// Global chart code for the unordered pair of bodies (x, y), 0-based.
+int code_of_pair(int x, int y) {
+  const int lo = std::min(x, y) + 1, hi = std::max(x, y) + 1;
+  return 10 * lo + hi;
 }
 
 int run(long p, long q, long p2, long q2, const std::string& itin, int order, double tol, double tp_max, double min_margin) {
@@ -365,100 +375,131 @@ int run(long p, long q, long p2, long q2, const std::string& itin, int order, do
   if (!(UB(a) <= LB(b)) && !(p == p2 && q == q2)) throw std::runtime_error("inverted tile");
   const Ival u_range(std::min(LB(a), LB(b)), std::max(UB(a), UB(b)));
   const Masses ms = masses_of(u_range);
-  const std::vector<Leg> legs = parse_itinerary(itin);
+  bool auto_mode = false;
+  const std::vector<Leg> legs = parse_itinerary(itin, &auto_mode);
   std::cout << "TILE u in [" << LB(u_range) << "," << UB(u_range) << "] width=" << (UB(u_range) - LB(u_range)) << " itinerary=" << itin << "\n";
   Chart chart = chart_of(legs[0].chart);
   Set set = make_launch_set(chart, u_range);
   {
     const Vector hull(set);
     if (!(LB(hull[10]) <= LB(u_range) && UB(hull[10]) >= UB(u_range))) throw std::runtime_error("launch set does not contain the tile");
-    std::cout << "LAUNCH chart=" << code_of(chart) << " hull width=" << hull_width(hull) << "\n";
+    std::cout << "LAUNCH chart=" << code_of(chart) << " hull width=" << hull_width(hull) << (auto_mode ? "  (auto chart following)" : "") << "\n";
   }
   const Ival two_u0 = 2 * (ms.m[0] * ms.m[1] + 1 / (ms.m[0] * ms.m[1]));
   bool launch_phase = true;
-  long steps = 0, retries = 0;
+  long steps = 0, retries = 0, switches = 0, last_switch_step = 0;
   double max_hull = 0, min_sel = 1e300, min_unsel = 1e300, min_K = 1e300, tp_launch_end = 0;
   const bool verbose = std::getenv("ISO_VERBOSE") != nullptr;
-  for (size_t leg = 0; leg < legs.size(); ++leg) {
-    if (leg > 0) {
-      const Chart target = chart_of(legs[leg].chart);
+  size_t next_leg = 1;
+
+  std::unique_ptr<Map> field(new Map(make_field(chart)));
+  std::unique_ptr<Solver> solver(new Solver(*field, order));
+  solver->setAbsoluteTolerance(tol);
+  solver->setRelativeTolerance(tol);
+
+  // Exact algebraic change of selected pair, applied to the correlated set by
+  // the committed mean-value construction.  The physical time coordinate is
+  // carried through unchanged, so the audits continue without a gap.
+  auto switch_to = [&](const Chart& target, const char* why) {
+    const Vector hull(set);
+    Ival gx, gy;
+    target_pair_vector(hull, chart, target, ms, gx, gy);
+    const Ival abs_g = sqrt(gx * gx + gy * gy);
+    const bool form_b = LB((abs_g - gx) / 2) > LB((abs_g + gx) / 2);
+    Map transformation = make_switch(chart, target, form_b);
+    set = mean_value_switch(set, transformation);
+    chart = target;
+    const Vector switched(set);
+    const Scalars sc = evaluate(switched, chart, ms);
+    if (!(LB(sc.sel) > 0) || !(LB(sc.rki2) > 0) || !(LB(sc.rkj2) > 0)) throw std::runtime_error("switch lost separation");
+    solver.reset();
+    field.reset(new Map(make_field(chart)));
+    solver.reset(new Solver(*field, order));
+    solver->setAbsoluteTolerance(tol);
+    solver->setRelativeTolerance(tol);
+    ++switches;
+    last_switch_step = steps;
+    std::cout << "SWITCH to " << code_of(chart) << " form=" << (form_b ? "B" : "A") << " (" << why << ") tp=["
+              << LB(switched[9]) << "," << UB(switched[9]) << "] hull=" << hull_width(switched) << "\n" << std::flush;
+  };
+
+  for (;;) {
+    // scheduled chart change from the itinerary
+    if (next_leg < legs.size()) {
       const Vector hull(set);
-      Ival gx, gy;
-      target_pair_vector(hull, chart, target, ms, gx, gy);
-      const Ival abs_g = sqrt(gx * gx + gy * gy);
-      const bool form_b = LB((abs_g - gx) / 2) > LB((abs_g + gx) / 2);
-      Map transformation = make_switch(chart, target, form_b);
-      set = mean_value_switch(set, transformation);
-      chart = target;
-      const Vector switched(set);
-      const Scalars sc = evaluate(switched, chart, ms);
-      if (!(LB(sc.sel) > 0) || !(LB(sc.rki2) > 0) || !(LB(sc.rkj2) > 0)) throw std::runtime_error("switch lost separation");
-      std::cout << "SWITCH to " << code_of(chart) << " form=" << (form_b ? "B" : "A") << " tp=[" << LB(switched[9]) << "," << UB(switched[9]) << "] hull=" << hull_width(switched) << "\n";
+      if (LB(hull[9]) >= legs[next_leg].tp) { switch_to(chart_of(legs[next_leg].chart), "scheduled"); ++next_leg; }
     }
-    Map field = make_field(chart);
-    Solver solver(field, order);
-    solver.setAbsoluteTolerance(tol);
-    solver.setRelativeTolerance(tol);
-    const bool last_leg = (leg + 1 == legs.size());
-    const double next_tp = last_leg ? 1e300 : legs[leg + 1].tp;
+    const Vector before(set);
+    const Scalars pre = evaluate(before, chart, ms);
+    if (!(LB(pre.sel) > 0) || !(LB(pre.rki2) > 0) || !(LB(pre.rkj2) > 0)) throw std::runtime_error("lost pre-step separation");
+    const double w_abs = std::sqrt(std::max(1e-12, LB(pre.sel)));
+    const double unsel = std::sqrt(std::max(1e-12, std::min(LB(pre.rki2), LB(pre.rkj2))));
+    const double w2_lower = std::max(1e-12, LB(pre.sel));
+    const double unsel_cap = unsel * std::sqrt(unsel) / (40.0 * w2_lower);
+    // Step cap in regularized time.  Near a selected-pair pericenter of
+    // depth d the rough enclosure of |w|^2 over one step of length h varies
+    // by about |z|^2 h^2 ~ h^2, so h must stay well below |w_min| = sqrt(d)
+    // or the enclosure of the selected radius straddles zero and the run
+    // aborts even though the passage is regular.  The |w|/24 term supplies
+    // exactly that scaling; the absolute floor only guards against an
+    // infinite step-halving loop.
+    double cap = std::min(std::min(w_abs / 24.0, unsel_cap), 1.0 / 100.0);
+    if (cap < 1e-13) cap = 1e-13;
     for (;;) {
-      const Vector before(set);
-      const Scalars pre = evaluate(before, chart, ms);
-      if (!(LB(pre.sel) > 0) || !(LB(pre.rki2) > 0) || !(LB(pre.rkj2) > 0)) throw std::runtime_error("lost pre-step separation");
-      const double w_abs = std::sqrt(std::max(1e-12, LB(pre.sel)));
-      const double unsel = std::sqrt(std::max(1e-12, std::min(LB(pre.rki2), LB(pre.rkj2))));
-      const double w2_lower = std::max(1e-12, LB(pre.sel));
-      const double unsel_cap = unsel * std::sqrt(unsel) / (40.0 * w2_lower);
-      // Step cap in regularized time.  Near a selected-pair pericenter of
-      // depth d the rough enclosure of |w|^2 over one step of length h
-      // varies by about |z|^2 h^2 ~ h^2, so h must stay well below
-      // |w_min| = sqrt(d) or the enclosure of the selected radius straddles
-      // zero and the run aborts even though the passage is regular.  The
-      // |w|/24 term supplies exactly that scaling; the absolute floor is
-      // only a guard against an infinite step-halving loop.
-      double cap = std::min(std::min(w_abs / 24.0, unsel_cap), 1.0 / 100.0);
-      if (cap < 1e-13) cap = 1e-13;
-      for (;;) {
-        Set backup(set);
-        try { solver.setMaxStep(Ival(cap)); set.move(solver); break; }
-        catch (const std::exception&) { set = backup; if (++retries > 200000 || cap < 1e-14) throw; cap /= 2; }
-      }
-      ++steps;
-      const Vector enc = set.getLastEnclosure();
-      const Scalars sc = evaluate(enc, chart, ms);
-      if (!(LB(sc.sel) > 0) || !(LB(sc.rki2) > 0) || !(LB(sc.rkj2) > 0)) throw std::runtime_error("possible collision at step " + std::to_string(steps));
-      min_sel = std::min(min_sel, LB(sc.sel));
-      min_unsel = std::min(min_unsel, std::sqrt(std::min(LB(sc.rki2), LB(sc.rkj2))));
-      const bool concave = UB(sc.U) < LB(two_u0);
-      const bool obstructed = LB(sc.K) > 0 || !contains_zero(sc.idot) || residual_excludes_brake(enc);
-      bool failed = false;
-      if (launch_phase) {
-        if (!concave) { launch_phase = false; tp_launch_end = LB(enc[9]); if (!obstructed) failed = true; }
-      } else if (!obstructed) failed = true;
-      const Vector hull(set);
-      max_hull = std::max(max_hull, hull_width(hull));
-      if (!launch_phase) min_K = std::min(min_K, LB(sc.K));
-      if (verbose && (steps % 100 == 0 || failed)) {
-        std::cout << "STEP " << steps << " chart=" << code_of(chart) << " tp=[" << LB(hull[9]) << "," << UB(hull[9]) << "] hull=" << hull_width(hull)
-                  << " K=[" << LB(sc.K) << "," << UB(sc.K) << "] sel=" << LB(sc.sel) << " unsel=" << std::sqrt(std::min(LB(sc.rki2), LB(sc.rkj2))) << " cap=" << cap << "\n";
-      }
-      if (failed) throw std::runtime_error("brake obstruction lost at step " + std::to_string(steps) + " tp=" + std::to_string(LB(hull[9])));
-      if (!last_leg && LB(hull[9]) >= next_tp) break;
-      if (last_leg && !launch_phase) {
-        double eta = 0, det[5] = {0, 0, 0, 0, 0};
-        const double margin = terminal_margin(hull, chart, ms, &eta, det);
-        if (margin > min_margin) {
-          std::cout << "STEPS " << steps << " retries=" << retries << " launch_window_end_tp=" << tp_launch_end << " min_selected=" << min_sel
-                    << " min_unselected=" << min_unsel << " min_K_after_launch=" << min_K << " max_hull_width=" << max_hull << "\n";
-          std::cout << "TERMINAL chart=" << code_of(chart) << " escaper=" << (chart.k + 1) << " tp=[" << LB(hull[9]) << "," << UB(hull[9]) << "] eta=" << eta
-                    << " s0>" << det[0] << " rhodot>" << det[1] << " delta>" << det[2] << " h<" << det[3] << " allowance<" << det[4] << " margin=" << margin << "\n";
-          std::cout << "PASS_WINDOW_LC [" << p << "/" << q << "," << p2 << "/" << q2 << "] itinerary=" << itin << " escaper=" << (chart.k + 1) << " margin=" << margin << "\n";
-          return 0;
-        }
-      }
-      if (LB(hull[9]) > tp_max) throw std::runtime_error("terminal check never passed before tp_max");
-      if (steps > 600000) throw std::runtime_error("step limit");
+      Set backup(set);
+      try { solver->setMaxStep(Ival(cap)); set.move(*solver); break; }
+      catch (const std::exception&) { set = backup; if (++retries > 200000 || cap < 1e-14) throw; cap /= 2; }
     }
+    ++steps;
+    const Vector enc = set.getLastEnclosure();
+    const Scalars sc = evaluate(enc, chart, ms);
+    if (!(LB(sc.sel) > 0) || !(LB(sc.rki2) > 0) || !(LB(sc.rkj2) > 0)) throw std::runtime_error("possible collision at step " + std::to_string(steps));
+    min_sel = std::min(min_sel, LB(sc.sel));
+    min_unsel = std::min(min_unsel, std::sqrt(std::min(LB(sc.rki2), LB(sc.rkj2))));
+    const bool concave = UB(sc.U) < LB(two_u0);
+    const bool obstructed = LB(sc.K) > 0 || !contains_zero(sc.idot) || residual_excludes_brake(enc);
+    bool failed = false;
+    if (launch_phase) {
+      if (!concave) { launch_phase = false; tp_launch_end = LB(enc[9]); if (!obstructed) failed = true; }
+    } else if (!obstructed) failed = true;
+    const Vector hull(set);
+    max_hull = std::max(max_hull, hull_width(hull));
+    if (!launch_phase) min_K = std::min(min_K, LB(sc.K));
+    if (verbose && (steps % 100 == 0 || failed)) {
+      std::cout << "STEP " << steps << " chart=" << code_of(chart) << " tp=[" << LB(hull[9]) << "," << UB(hull[9]) << "] hull=" << hull_width(hull)
+                << " K=[" << LB(sc.K) << "," << UB(sc.K) << "] sel=" << LB(sc.sel) << " unsel=" << std::sqrt(std::min(LB(sc.rki2), LB(sc.rkj2))) << " cap=" << cap << "\n";
+    }
+    if (failed) throw std::runtime_error("brake obstruction lost at step " + std::to_string(steps) + " tp=" + std::to_string(LB(hull[9])));
+
+    // terminal escape check in the current chart: binary = selected pair,
+    // escaper = its complement.  Any passing check is a complete certificate.
+    if (!launch_phase) {
+      double eta = 0, det[5] = {0, 0, 0, 0, 0};
+      const double margin = terminal_margin(hull, chart, ms, &eta, det);
+      if (margin > min_margin) {
+        std::cout << "STEPS " << steps << " retries=" << retries << " switches=" << switches << " launch_window_end_tp=" << tp_launch_end
+                  << " min_selected=" << min_sel << " min_unselected=" << min_unsel << " min_K_after_launch=" << min_K << " max_hull_width=" << max_hull << "\n";
+        std::cout << "TERMINAL chart=" << code_of(chart) << " escaper=" << (chart.k + 1) << " tp=[" << LB(hull[9]) << "," << UB(hull[9]) << "] eta=" << eta
+                  << " s0>" << det[0] << " rhodot>" << det[1] << " delta>" << det[2] << " h<" << det[3] << " allowance<" << det[4] << " margin=" << margin << "\n";
+        std::cout << "PASS_WINDOW_LC [" << p << "/" << q << "," << p2 << "/" << q2 << "] itinerary=" << itin << " escaper=" << (chart.k + 1) << " margin=" << margin << "\n";
+        return 0;
+      }
+    }
+
+    // automatic chart following: adopt whichever pair is closest, with
+    // hysteresis so the selected pair is not exchanged back and forth.
+    if (auto_mode && steps - last_switch_step > 40) {
+      const double d_sel = LB(sc.sel);
+      const double d_ki = std::sqrt(LB(sc.rki2)), d_kj = std::sqrt(LB(sc.rkj2));
+      const double d_other = std::min(d_ki, d_kj);
+      if (d_other < 0.8 * d_sel) {
+        const int x = (d_ki <= d_kj) ? chart.i : chart.j;
+        switch_to(chart_of(code_of_pair(x, chart.k)), "closest pair");
+      }
+    }
+
+    if (LB(hull[9]) > tp_max) throw std::runtime_error("terminal check never passed before tp_max");
+    if (steps > 600000) throw std::runtime_error("step limit");
   }
   throw std::runtime_error("unreachable");
 }
