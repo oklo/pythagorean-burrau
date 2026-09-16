@@ -26,6 +26,9 @@ mean-value construction.
 | (12,35,37) | 1/6 | `13@0,23@0.58,13@5.68` | MP 200 bits, order 40, tol 1e-40 | PASS, margin 0.080, tp≈5.824, 13,402 steps, min r13 7.1e-7, min unselected 0.0081, max hull 2.2e-5 (`u_1_6_mp200.log`) | MP 240 bits / order 44 / 1e-44: PASS (0.075) |
 | (39,80,89) | 3/13 | `13@0,23@0.55,13@0.676,12@1.5,13@8.442,12@8.448,23@8.453` | MP 200 bits, order 40, tol 1e-40 | PASS, margin 0.283, tp≈8.519, 10,379 steps, min selected 2.6e-5, min unselected 0.015, max hull 1.3e-6 (`u_3_13_mp200.log`); body 1 escapes, {2,3} bound; two earlier attempts failed at the final triple approach before the driver's double-precision midpoint floor was removed | MP 240 bits / order 44 / 1e-44: PASS (0.158) |
 | (3,4,5) | 1/3 | `13@0` | MP 330 bits, order 60, tol 1e-70 | PASS, margin 0.104, tp≈12.078, 7,976 steps, min r13 8.0e-5, min unselected 0.014, max hull 7.9e-6 (`u_1_3_mp330.log`); this is a fresh certificate independent of the unpromoted 2026-08-25 log | MP 300 bits / order 50 / 1e-60: PASS (0.056) |
+| (285,68,293) | 2/17 | `13@0` | MP 256 bits, order 36, tol 1e-34 | PASS, margin 2.058, tp≈1.116, 2,523 steps, min selected 1.1e-8 (`u_2_17_mp256.log`) | MP 200 / order 30 / 1e-28: pending |
+| (357,76,365) | 2/19 | `13@0` | MP 256 bits, order 36, tol 1e-34 | PASS, margin 0.068, 4,064 steps, min selected 2.1e-9 (`u_2_19_mp256.log`) | MP 200 / order 30 / 1e-28: pending |
+| (437,84,445) | 2/21 | `13@0` | MP 256 bits, order 36, tol 1e-34 | PASS, margin 0.528, 3,017 steps, min selected 4.1e-10 (`u_2_21_mp256.log`) | MP 200 / order 30 / 1e-28: pending |
 | (5,12,13) | 1/5 | `13@0` (unselected passages down to 0.010) | MP, not yet run | pending | — |
 | (8,15,17) | 1/4 | multi-switch (long {2,3} phase with pericentres 0.003) | not yet attempted | open | — |
 | (20,21,29) | 2/5 | inside the window `[0.3916,0.4094]` | see `ISO_WINDOW_INTERVAL.md` | covered by the window theorem (campaign complete, audited) | — |
@@ -53,3 +56,25 @@ enclosure of a point certificate grows roughly as `tolerance × 5×10^9` over
 two time units of a tight eccentric temporary binary, so order 20 with
 tolerance `1e-15` is the useful native setting, and longer interplays need
 the MP build; tolerance `1e-16` is below the native floor and behaves worse.
+
+## Thin triples (2026-09-15)
+
+Prompted by Richard Montgomery's suggestion that triples with one side much
+smaller than the other two should be easy to dispose of. They are indeed
+tractable for point certificates, for a structural reason: the deep first
+encounter belongs to the *selected* pair and is therefore regular in the
+Levi-Civita chart, however deep it is (`THIN_LIMIT_RIGHT_ANGLE.md` shows it
+has depth `0.1355 B^11`). What such certificates do **not** give is a
+uniform theorem covering all thin triples; see Section 4 of that note.
+
+One driver limitation was found and fixed while running these. The step cap
+in regularized time had a fixed floor of `1/20000`. Near a selected-pair
+pericenter of depth `d` the rough enclosure of the selected radius over one
+step of length `h` varies by about `h^2`, so a floor above `sqrt(d)` makes
+that enclosure straddle zero and aborts the run even though the passage is
+regular. Observed directly at `u=1/12` (`d=3.5e-10`, reported enclosure
+`[-2.1e-10, 2.3e-9]`, matching `h^2` for `h=5e-5`). The cap now scales with
+the pair separation, with the absolute floor only guarding against an
+infinite step-halving loop. Certificates issued before the fix remain valid:
+the change alters only which steps are taken, not the audits, and the
+previously passing tiles and points were re-checked after it.

@@ -105,3 +105,39 @@ returning orbits of the restricted problem (rectilinear equal-mass binary
 plus massless particle), excluding simultaneous vanishing of the particle
 velocity and the binary velocity at every later turn. That is the same
 obstruction as in the general case, in its cleanest available form.
+
+## 5. A tested idea that does not close the thin end
+
+Since a brake forces every pair angular momentum to vanish, and since zero
+total angular momentum ties them together by
+`mu1 l13 + mu2 (Y x Ydot) = 0`, it is enough to keep `l13` away from zero at
+the outer turns, which are the only times the outer body is at rest. Two
+scales compete. The central encounter leaves `l13` of order `eps^{5/2}`
+(this is the uniform first-turn estimate, restated for the pair: the turn
+value of `Y x Ydot` is of order `eps^{3/2}`), while between encounters the
+tidal torque `3 m2 (X x G)(X . G)/rho^5` drifts `l13` by order `eps^3` over
+an excursion. For small `eps` the kick beats the drift, which would exclude
+a brake at every turn.
+
+The idea fails at accessible parameters because the coefficient in front of
+`eps^{5/2}` is not uniformly of order one. Direct integration of the first
+outer turn (`scripts/landscape/thinturn.c`) gives
+
+| `u` | `eps` | `l13 / eps^{5/2}` at the first turn | `(Y x Ydot)/eps^{3/2}` |
+| --- | --- | --- | --- |
+| 1/8 | 0.2462 | −0.074 | +0.041 |
+| 2/13 | 0.3006 | −0.0068 | +0.0038 |
+
+The value `W_inf/2 > 0.21` proved in the paper is the limit along the
+*centered parabolic phase*; at a generic returning phase the turn value is
+one to two orders smaller. With a coefficient `c ~ 10^{-2}`, the kick
+`c eps^{5/2}` exceeds the drift `eps^3` only once `eps^{1/2} << c`, that is
+for `eps` below about `10^{-4}`, far thinner than any accessible triple.
+The separation of the two scales is therefore available only inside the
+asymptotic regime the paper already exploits, and this route adds nothing
+outside it.
+
+The same probe records a practical fact for anyone building thin-end
+certificates: after the first central encounter the pair labels generally
+change, so a fixed `{1,3}` chart stops describing the tight pair and a
+chart itinerary must follow the exchange.

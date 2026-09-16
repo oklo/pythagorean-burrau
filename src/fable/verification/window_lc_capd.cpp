@@ -409,7 +409,15 @@ int run(long p, long q, long p2, long q2, const std::string& itin, int order, do
       const double unsel = std::sqrt(std::max(1e-12, std::min(LB(pre.rki2), LB(pre.rkj2))));
       const double w2_lower = std::max(1e-12, LB(pre.sel));
       const double unsel_cap = unsel * std::sqrt(unsel) / (40.0 * w2_lower);
-      double cap = std::max(1.0 / 20000.0, std::min(std::min(w_abs / 24.0, unsel_cap), 1.0 / 100.0));
+      // Step cap in regularized time.  Near a selected-pair pericenter of
+      // depth d the rough enclosure of |w|^2 over one step of length h
+      // varies by about |z|^2 h^2 ~ h^2, so h must stay well below
+      // |w_min| = sqrt(d) or the enclosure of the selected radius straddles
+      // zero and the run aborts even though the passage is regular.  The
+      // |w|/24 term supplies exactly that scaling; the absolute floor is
+      // only a guard against an infinite step-halving loop.
+      double cap = std::min(std::min(w_abs / 24.0, unsel_cap), 1.0 / 100.0);
+      if (cap < 1e-13) cap = 1e-13;
       for (;;) {
         Set backup(set);
         try { solver.setMaxStep(Ival(cap)); set.move(solver); break; }
