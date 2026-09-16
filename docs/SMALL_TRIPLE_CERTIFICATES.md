@@ -26,10 +26,10 @@ mean-value construction.
 | (12,35,37) | 1/6 | `13@0,23@0.58,13@5.68` | MP 200 bits, order 40, tol 1e-40 | PASS, margin 0.080, tp≈5.824, 13,402 steps, min r13 7.1e-7, min unselected 0.0081, max hull 2.2e-5 (`u_1_6_mp200.log`) | MP 240 bits / order 44 / 1e-44: PASS (0.075) |
 | (39,80,89) | 3/13 | `13@0,23@0.55,13@0.676,12@1.5,13@8.442,12@8.448,23@8.453` | MP 200 bits, order 40, tol 1e-40 | PASS, margin 0.283, tp≈8.519, 10,379 steps, min selected 2.6e-5, min unselected 0.015, max hull 1.3e-6 (`u_3_13_mp200.log`); body 1 escapes, {2,3} bound; two earlier attempts failed at the final triple approach before the driver's double-precision midpoint floor was removed | MP 240 bits / order 44 / 1e-44: PASS (0.158) |
 | (3,4,5) | 1/3 | `13@0` | MP 330 bits, order 60, tol 1e-70 | PASS, margin 0.104, tp≈12.078, 7,976 steps, min r13 8.0e-5, min unselected 0.014, max hull 7.9e-6 (`u_1_3_mp330.log`); this is a fresh certificate independent of the unpromoted 2026-08-25 log | MP 300 bits / order 50 / 1e-60: PASS (0.056) |
-| (195,28,197) | 1/14 | `13@0` | MP 320 bits, order 40, tol 1e-38 | PASS, margin 0.152 (`u_1_14_mp320.log`); required the step-cap fix below | pending |
-| (143,24,145) | 1/12 | `13@0` | MP 320 bits, order 40, tol 1e-38 | PASS, margin 0.936 (`u_1_12_mp320.log`); required the step-cap fix below | pending |
-| (621,100,629) | 2/25 | `13@0` | MP 320 bits, order 40, tol 1e-38 | PASS, margin 0.971 (`u_2_25_mp320.log`); required the step-cap fix below | pending |
-| (525,92,533) | 2/23 | `13@0` | MP 320 bits, order 40, tol 1e-38 | PASS, margin 1.809 (`u_2_23_mp320.log`); required the step-cap fix below | pending |
+| (195,28,197) | 1/14 | `13@0` | MP 320 bits, order 40, tol 1e-38 | PASS, margin 0.152 (`u_1_14_mp320.log`); required the step-cap fix below | MP 256 / order 32 / 1e-30: PASS (1.038) |
+| (143,24,145) | 1/12 | `13@0` | MP 320 bits, order 40, tol 1e-38 | PASS, margin 0.936 (`u_1_12_mp320.log`); required the step-cap fix below | MP 256 / order 32 / 1e-30: PASS (0.458) |
+| (621,100,629) | 2/25 | `13@0` | MP 320 bits, order 40, tol 1e-38 | PASS, margin 0.971 (`u_2_25_mp320.log`); required the step-cap fix below | MP 256 / order 32 / 1e-30: PASS (0.655) |
+| (525,92,533) | 2/23 | `13@0` | MP 320 bits, order 40, tol 1e-38 | PASS, margin 1.809 (`u_2_23_mp320.log`); required the step-cap fix below | MP 256 / order 32 / 1e-30: PASS (0.258) |
 | (99,20,101) | 1/10 | `13@0` | MP 256 bits, order 36, tol 1e-34 | PASS, margin 13.411, 4,684 steps, min selected 1.1e-9, min unselected 0.0045 (`u_1_10_mp256.log`) | MP 200 / order 30 / 1e-28: PASS (2.272) |
 | (285,68,293) | 2/17 | `13@0` | MP 256 bits, order 36, tol 1e-34 | PASS, margin 2.058, tp≈1.116, 2,523 steps, min selected 1.1e-8 (`u_2_17_mp256.log`) | MP 200 / order 30 / 1e-28: PASS (1.611) |
 | (357,76,365) | 2/19 | `13@0` | MP 256 bits, order 36, tol 1e-34 | PASS, margin 0.068, 4,064 steps, min selected 2.1e-9 (`u_2_19_mp256.log`) | MP 200 / order 30 / 1e-28: PASS (0.068) |
