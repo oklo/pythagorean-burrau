@@ -80,7 +80,13 @@ gives a generic apex angle.
 
 The Pythagorean quotient converges to the predicted `0.1355`; the generic
 quotient against `ε¹¹` grows without bound, while against `ε⁹` it stays near
-`0.2`. The same law is visible directly in the tied family: predicted
+`0.2`. Local log-log slopes make the two exponents explicit. For the
+Pythagorean family the measured slope over consecutive pairs is `11.31`,
+`11.20`, `11.15`, settling on eleven. For the generic triangle it is `7.45`,
+`7.65`, `8.03`, `8.63`, rising toward nine; the approach is slower because
+the relative correction there is `O(ε)` against a leading term two orders
+larger, so the asymptotic regime sets in later. Both are consistent with the
+torque argument of Section 2 and inconsistent with the other exponent. The same law is visible directly in the tied family: predicted
 `0.1355 B¹¹` against observed first-passage minima, e.g. `u=2/21`
 (`1.47e-9` vs `1.6e-9`), `u=1/10` (`2.49e-9` vs `2.7e-9`), `u=2/17`
 (`1.43e-8` vs `1.6e-8`), `u=1/6` (`5.66e-7` vs `7.5e-7`).
